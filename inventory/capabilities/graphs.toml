@@ -13,7 +13,7 @@ algorithms = [{ family = "Finite incidence and adjacency representation", source
 depends_on = []
 sage = ["sage.graphs.graph:Graph", "sage.graphs.digraph:DiGraph", "sage.graphs.generic_graph:GenericGraph.add_vertex", "sage.graphs.generic_graph:GenericGraph.add_edge", "sage.graphs.generic_graph:GenericGraph.add_edges", "sage.graphs.generic_graph:GenericGraph.vertices", "sage.graphs.generic_graph:GenericGraph.edges"]
 catalogue = []
-tests = ["The edge incidences and labels queried from a constructed graph equal its input edge multiset", "Relabeling vertices by a bijection preserves adjacency, degrees, loops, and edge multiplicity"]
+tests = ["Sage doctests: sage.graphs.graph:Graph, sage.graphs.digraph:DiGraph, and sage.graphs.generic_graph:GenericGraph.edges; compare labeled edge multisets, including loops and parallel edges."]
 reuse = { status = "adaptable", components = ["mathlib.graph.simple-graph-basic", "hex.HexGraph.graphs"], evidence = "Mathlib SimpleGraph and Hex.Graph cover finite simple undirected graphs. Sage Graph and DiGraph admit loops, parallel edges, and labels, so these Lean types cover only a proper subdomain." }
 backends = []
 references = []
@@ -29,7 +29,7 @@ algorithms = [{ family = "Breadth-first or depth-first traversal", sources = ["s
 depends_on = ["graphs.finite-construction"]
 sage = ["sage.graphs.connectivity:connected_components", "sage.graphs.connectivity:number_of_connected_components", "sage.graphs.connectivity:connected_components_subgraphs", "sage.graphs.connectivity:connected_component_containing_vertex", "sage.graphs.connectivity:connected_components_sizes"]
 catalogue = []
-tests = ["Every vertex occurs in exactly one block; vertices in one block have a path between them", "No edge joins vertices in distinct blocks of an undirected graph"]
+tests = ["Sage doctests: sage.graphs.connectivity:connected_components and connected_components_subgraphs; compare partitions as sets of vertex sets, independent of block order."]
 reuse = { status = "adaptable", components = ["mathlib.graph.connectivity", "hex.HexGraph.graphs"], evidence = "Mathlib decides finite SimpleGraph reachability by walk enumeration; Hex supplies the finite simple graph data structure. No surveyed component supplies the full Sage graph-domain partition producer." }
 backends = []
 references = []
@@ -45,7 +45,7 @@ algorithms = [{ family = "BFS for unit weights, Dijkstra for nonnegative weights
 depends_on = ["graphs.finite-construction"]
 sage = ["sage.graphs.generic_graph:GenericGraph.shortest_path", "sage.graphs.generic_graph:GenericGraph.shortest_path_length", "sage.graphs.generic_graph:GenericGraph.shortest_paths", "sage.graphs.generic_graph:GenericGraph.shortest_path_lengths", "sage.graphs.generic_graph:GenericGraph.shortest_path_all_pairs"]
 catalogue = []
-tests = ["Every returned walk has the reported weight and each consecutive pair is an edge", "With nonnegative weights, its weight equals the minimum over all simple u-to-v paths; unreachable vertices return no-path", "A negative cycle reachable from u but unable to reach v does not change the finite u-to-v minimum", "A negative cycle reachable from u that can reach v makes u-to-v walk weights unbounded below"]
+tests = ["Sage doctests: sage.graphs.generic_graph:GenericGraph.shortest_path and shortest_path_length; compare minimum cost and verify the returned edges, since tied shortest routes may differ.", "Supplement for the destination-specific contract: compare a graph with a negative cycle reachable from u that cannot reach v against one where that cycle can reach v; Sage's Bellman-Ford negative-cycle error alone does not distinguish the cases."]
 reuse = { status = "adaptable", components = ["graphlib4-classic-graph-algorithms", "hex.future.graph-shortest-path"], evidence = "The graph-library-for-lean4 survey identifies executable Dijkstra on an older toolchain, without correctness proof; Hex lists shortest path as future work. Neither surveys a signed-weight, destination-relevant negative-cycle producer. Sage's Bellman-Ford documentation says it raises on a negative cycle; its reported behavior does not prove the destination-specific contract." }
 backends = ["boost", "networkx"]
 references = []
@@ -61,7 +61,7 @@ algorithms = [{ family = "Kruskal, Prim, Boruvka, or filter-Kruskal", sources = 
 depends_on = ["graphs.finite-construction", "graphs.connected-components"]
 sage = ["sage.graphs.generic_graph:GenericGraph.min_spanning_tree"]
 catalogue = []
-tests = ["For a connected graph with n vertices, the result has n-1 edges and a path between every pair of vertices", "For each result edge e, every edge crossing the cut formed by removing e has weight at least that of e"]
+tests = ["Sage doctests: sage.graphs.generic_graph:GenericGraph.min_spanning_tree; compare total weight, spanning component structure, and original edge identities rather than the edge list order.", "Supplement for exact weights: compare against exhaustive spanning trees on small rational-weight graphs, because Sage's float-convertible weight requirement cannot establish exact ordering in general."]
 reuse = { status = "adaptable", components = ["graphlib4-classic-graph-algorithms", "hex.future.graph-spanning-tree"], evidence = "graph-library-for-lean4 supplies a Kruskal implementation on Lean v4.12.0; Hex lists spanning trees as future work. Sage's min_spanning_tree requires weights convertible to float, so its result alone does not establish exact ordering for arbitrary weights." }
 backends = ["boost", "networkx"]
 references = ["OSS2009"]
@@ -77,7 +77,7 @@ algorithms = [{ family = "Canonical labeling by individualization and refinement
 depends_on = ["graphs.finite-construction"]
 sage = ["sage.graphs.generic_graph:GenericGraph.is_isomorphic"]
 catalogue = []
-tests = ["A returned bijection preserves and reflects every edge incidence and selected label", "Canonical forms agree exactly for isomorphic finite simple graphs; a graph and a relabeling of it are isomorphic"]
+tests = ["Sage doctests: sage.graphs.generic_graph:GenericGraph.is_isomorphic with certificate=True; compare the boolean and check the returned bijection against selected labels, orientation, and multiplicities rather than comparing map order."]
 reuse = { status = "adaptable", components = ["hex.HexGraphIso.dense-canon", "hex.HexGraphIso.sparse-canon", "isograph-canonical-labelling"], evidence = "HexGraphIso and IsoGraph provide executable canonical labeling of finite simple undirected graphs. Sage's method also handles directed graphs and multigraphs; these extensions need representation and algorithm evidence before a reusable classification for the full domain." }
 backends = ["bliss"]
 references = []
