@@ -1,0 +1,23 @@
+# Manual section `polynomial_rings` (Polynomials).
+
+domain = "polynomials"
+
+[[capability]]
+id = "polynomials.univariate-arithmetic"
+title = "Arithmetic of univariate polynomials over a commutative ring"
+statement = "Given a commutative ring R with computable arithmetic, the ring R[x]: sum, product, degree, leading coefficient, evaluation, and division with remainder by a polynomial with invertible leading coefficient."
+domain = "Commutative rings with computable arithmetic and a decidable zero test."
+contract = "R[x] x R[x] -> R[x] for + and *; R[x] x R[x] -> R[x] x R[x] for division by a divisor with unit leading coefficient, with deg r < deg g."
+exactness = "exact"
+algorithms = [
+  { family = "Schoolbook, Karatsuba and FFT multiplication; Newton division", sources = ["[GG2013] chapters 8 and 9"] },
+]
+depends_on = []
+sage = ["sage.rings.polynomial.polynomial_element:Polynomial"]
+tests = [
+  "f = q g + r with deg r < deg g on run-time inputs over Z, Q and Z/n",
+  "Evaluation is a ring homomorphism: (f g)(a) = f(a) g(a) and (f + g)(a) = f(a) + g(a)",
+]
+reuse = { status = "reusable", components = ["hex.HexPoly.dense-poly", "hex.HexPoly.arith-mul-eval", "hex.HexPoly.div-mod"], evidence = "Hex has dense univariate polynomials over a coefficient type with ring instances: sum, product, Horner evaluation and division with remainder. Mathlib's `Polynomial` is not executable." }
+backends = ["flint", "ntl"]
+references = ["GG2013"]

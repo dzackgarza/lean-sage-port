@@ -1,0 +1,26 @@
+# Lattices and quadratic forms.
+
+domain = "lattices"
+
+[[capability]]
+id = "lattices.lll-reduction"
+title = "LLL reduction of a lattice basis"
+statement = "Given a basis of a lattice in Z^n, or a positive definite integral Gram matrix, and parameters 1/4 < delta <= 1 and 1/2 <= eta < sqrt(delta), return a (delta, eta)-reduced basis of the same lattice, with the unimodular transformation."
+domain = "Integral lattices given by a basis or a positive definite Gram matrix; generating sets with dependencies."
+contract = "Mat(m x n, Z) -> Mat(m x n, Z) x GL_m(Z). The output spans the same lattice, is size-reduced, and satisfies the Lovasz condition. Its first vector b_1 satisfies |b_1| <= (delta - eta^2)^(-(m-1)/2) lambda_1."
+exactness = "exact"
+exactness_notes = "Implementations that use floating-point Gram-Schmidt coefficients return an exact basis whose reducedness holds for the stated parameters only when the floating-point precision is sufficient or the result is checked exactly."
+algorithms = [
+  { family = "LLL with exact integer arithmetic", sources = ["[LLL1982]", "[Coh1993] section 2.6"] },
+  { family = "Floating-point LLL (L2)", sources = ["[NS2009]"] },
+]
+depends_on = ["integers.arithmetic", "rationals.arithmetic"]
+sage = ["sage.matrix.matrix_integer_dense:Matrix_integer_dense.LLL"]
+tests = [
+  "The output and the input generate the same lattice: each basis is an integer combination of the other",
+  "The size-reduction and Lovasz inequalities, checked in exact rational arithmetic",
+  "The determinant of the Gram matrix is unchanged",
+]
+reuse = { status = "reusable", components = ["hex.HexLLL.lll-native", "hex.HexLLL.reducedness-checker", "hex.HexLLL.lll-reduced-spec"], evidence = "Hex has a fraction-free exact integer LLL with eta = 1/2, a reducedness predicate and exact decision procedures for it." }
+backends = ["fplll", "pari", "ntl"]
+references = ["LLL1982", "Coh1993", "NS2009"]

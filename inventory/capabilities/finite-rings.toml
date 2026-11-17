@@ -1,0 +1,23 @@
+# Manual section `finite_rings` (Finite Rings).
+
+domain = "finite-rings"
+
+[[capability]]
+id = "modular.multiplicative-order"
+title = "Multiplicative order of a unit modulo an integer"
+statement = "Given n >= 1 and a coprime to n, return the least e >= 1 with a^e = 1 mod n."
+domain = "Units of Z/n; more generally an element of a finite group with a known multiple of its order."
+contract = "(Z/n)^* -> Z_{>0}. The result divides lambda(n)."
+exactness = "exact"
+algorithms = [
+  { family = "Removal of prime factors from a multiple of the order", sources = ["[Coh1993] section 1.4.1"] },
+]
+depends_on = ["integers.factorization", "integers.modular-power", "integers.multiplicative-functions"]
+sage = ["sage.rings.finite_rings.integer_mod:IntegerMod_abstract.multiplicative_order"]
+tests = [
+  "a^e = 1 mod n and a^(e/q) != 1 mod n for each prime q dividing e",
+  "The order divides phi(n); for a primitive root it equals phi(n)",
+]
+reuse = { status = "adaptable", components = ["hex.HexIntFactor.multiplicative-order", "mathlib.zmod.units"], evidence = "Hex has multiplicative-order certificates from a checked factorization; the theory library proves agreement with Mathlib's `orderOf` in (ZMod n)ˣ." }
+backends = ["pari"]
+references = ["Coh1993"]

@@ -166,7 +166,7 @@ class Reuse(Strict):
 class Capability(Strict):
     """One mathematical capability: an intrinsic operation or construction, not a Sage method name."""
 
-    id: str = Field(pattern=r"^[a-z0-9]+(\.[a-z0-9-]+)+$")
+    id: str = Field(pattern=r"^[a-z0-9-]+(\.[a-z0-9-]+)+$")
     title: str
     statement: str
     """The operation or construction, stated mathematically."""

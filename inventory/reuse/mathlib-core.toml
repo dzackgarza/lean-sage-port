@@ -1,0 +1,2963 @@
+# Executability audit of CAS-relevant mathematics in Lean core, Std, Batteries and Mathlib.
+#
+# Version basis. The records describe Lean v4.36.0 (commit 611c117bfaf7b7ae1cfcf246ce6fba31e8f509e9)
+# and Mathlib master 6d97e8ad9c32c778e7000ffda543a29488155467 with the Batteries and Plausible revisions
+# that Mathlib master resolves (see the [[source]] records). Every declaration name and path was
+# checked against those trees: names through the .ilean declaration indexes of the prebuilt master
+# packages and the v4.36.0 toolchain, and by text search of the source for structure fields, class
+# fields and syntax declarations, which the .ilean indexes do not list.
+#
+# Two kinds of evidence. (1) Master: read from source, not run. Computability on master was
+# classified from the source text: `noncomputable` modifiers and sections, `@[extern]`,
+# `@[implemented_by]`, `@[csimp]`, and Decidable instances. Nothing was compiled or evaluated on the
+# master trees. (2) v4.33.0: run. The `#eval`, `decide` and `norm_num` results and the times in
+# `performance` were measured earlier on Lean v4.33.0 with Mathlib db584cd6d46c92f209a44c0f1c829460d327499d
+# (Batteries 4488d40d070b9700d4d5a6aa342f0d40c31b2a2d, Plausible b7eb3304aeae834b12dda98993a37f6a41f6f0bb).
+# That run used the Lean binary directly with LEAN_PATH set to the prebuilt package build directories.
+# A scratch `#audit` command reported `Lean.isNoncomputable` and whether compiled IR exists
+# (`Lean.IR.findEnvDecl`). `#eval` ran Mathlib code in the IR interpreter; core `Nat`/`Int`
+# arithmetic called native GMP code. Profiler times: "<50 ms" means below the 50 ms profiler
+# threshold. In that package directory only 78 of 191 Batteries modules were built, so Batteries
+# data structures and the Mathlib modules that import them were read from source only.
+# Each evidence field ends with a "Master check" sentence that says whether the declaration text
+# that the run depended on is unchanged on master. The run results were not repeated on master.
+# File:line citations in evidence and notes point into the master trees.
+#
+# executable: "ran" = run on v4.33.0 and source unchanged in the respects that decide computability on
+# master; "defined-computable" = computable definitions on master, not run; "noncomputable" = the
+# master source marks the operation noncomputable; "not-present" = no implementation in these trees.
+
+[[source]]
+name = "lean-core"
+url = "https://github.com/leanprover/lean4"
+revision = "611c117bfaf7b7ae1cfcf246ce6fba31e8f509e9"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.36.0"
+surveyed = "2026-11-17"
+notes = "Read from ~/.elan/toolchains/leanprover--lean4---v4.36.0/src/lean; commit from `lean --version`. The toolchain ships no kernel C++ source."
+
+[[source]]
+name = "std"
+url = "https://github.com/leanprover/lean4"
+revision = "611c117bfaf7b7ae1cfcf246ce6fba31e8f509e9"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.36.0"
+surveyed = "2026-11-17"
+notes = "Std ships in the Lean toolchain; same tree as lean-core."
+
+[[source]]
+name = "batteries"
+url = "https://github.com/leanprover-community/batteries"
+revision = "b4b25a3886a16daacaf6615c2eea7170a6e8f458"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.36.0"
+surveyed = "2026-11-17"
+notes = "The revision that Mathlib master resolves; read from the mathlib-master package directory."
+
+[[source]]
+name = "mathlib"
+url = "https://github.com/leanprover-community/mathlib4"
+revision = "6d97e8ad9c32c778e7000ffda543a29488155467"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.36.0"
+surveyed = "2026-11-17"
+notes = "master, commit date 2026-11-17; read from the mathlib-master package directory with its prebuilt .ilean files."
+
+[[source]]
+name = "plausible"
+url = "https://github.com/leanprover-community/plausible"
+revision = "054b228ce0ac61d767c6e71ba73a24728f191b72"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.36.0"
+surveyed = "2026-11-17"
+notes = "The revision that Mathlib master resolves."
+
+# ---------------------------------------------------------------------------------------------
+# 1. Integers and naturals
+# ---------------------------------------------------------------------------------------------
+
+[[component]]
+id = "lean-core.int.bignum-arithmetic"
+source = "lean-core"
+capability = "Arbitrary-precision integer and natural-number arithmetic (add, mul, div, mod, pow, shifts, bitwise)"
+domain = "Nat, Int"
+declarations = ["Nat.add", "Nat.sub", "Nat.mul", "Nat.div", "Nat.mod", "Nat.pow", "Nat.gcd", "Nat.log2", "Nat.land", "Nat.lor", "Nat.xor", "Nat.shiftLeft", "Nat.shiftRight", "Nat.testBit", "Int.add", "Int.sub", "Int.neg", "Int.mul", "Int.ediv", "Int.emod", "Int.tdiv", "Int.tmod", "Int.decEq"]
+paths = ["src/Init/Prelude.lean", "src/Init/Data/Nat/Basic.lean", "src/Init/Data/Nat/Gcd.lean", "src/Init/Data/Nat/Log2.lean", "src/Init/Data/Nat/Bitwise/Basic.lean", "src/Init/Data/Int/Basic.lean", "src/Init/Data/Int/DivMod/Basic.lean"]
+kind = "data-structure"
+executable = "ran"
+performance = "measured: 60x60-digit product <50 ms; 3^2000000 (about 950000 digits) then Nat.log2 77 ms; 2^(2^22) mod p <50 ms; 10000! with decimal conversion 362 ms"
+status = "reusable"
+evidence = "#eval a60*b60 printed the 120-digit product; #eval Nat.log2 (3^2000000) = 3169925; #eval (2^(2^22)) % 1000000007 = 125918023. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Nat.add, Nat.sub, Nat.mul, Nat.div, Nat.pow, Nat.gcd, Nat.log2, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, Nat.testBit, Int.add, Int.sub, Int.neg, Int.mul, Int.ediv, Int.emod, Int.tdiv, Int.tmod, Int.decEq. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Nat.mod. v4.36.0 source has @[extern] runtime implementations lean_nat_add, sub, mul, div, mod, pow, gcd, log2, land, lor, lxor, shiftl, shiftr, dec_eq, dec_lt, dec_le and lean_int_add, sub, neg, mul, ediv, emod, div (tdiv), mod (tmod), dec_eq, dec_lt, dec_le. The run results above are from v4.33.0 and were not repeated on master."
+notes = "GMP-backed runtime (extern implementations). The kernel also has GMP acceleration for Nat literals, so `decide` on large Nat equalities is cheap."
+
+[[component]]
+id = "lean-core.int.digits-repr"
+source = "lean-core"
+capability = "Decimal and base-b digit conversion of natural numbers and integers (repr, toDigits)"
+domain = "Nat, Int"
+declarations = ["Nat.repr", "Nat.reprFast", "Nat.toDigits", "Int.repr"]
+paths = ["src/Init/Data/Repr.lean", "src/Init/Data/Int/Repr.lean"]
+kind = "executable-algorithm"
+executable = "defined-computable"
+performance = "not measured on v4.36.0; on v4.33.0 10000! with decimal conversion took 362 ms (see lean-core.int.bignum-arithmetic)"
+status = "reusable"
+evidence = "Read from v4.36.0 source, not run: Nat.repr is `@[implemented_by reprFast]` (Init/Data/Repr.lean:246-247) over String.ofList (toDigits 10 n); Nat.reprFast uses a table for n < 128, USize.repr (@[extern \"lean_string_of_usize\"]) below USize.size, and toDigits 10 above (Repr.lean:238-241). Nat.toDigits (Repr.lean:217) converts to any base."
+notes = "Mathlib's Nat.digits and Nat.ofDigits (component mathlib.int.digits) give the little-endian digit list with theorems."
+
+[[component]]
+id = "lean-core.int.kernel-nat-literals"
+source = "lean-core"
+capability = "Kernel evaluation of closed Nat arithmetic and gcd during proof checking"
+domain = "Nat literals in `decide` / `rfl` proofs"
+declarations = ["Nat.gcd", "Nat.mul", "Nat.pow", "Nat.mod"]
+paths = ["src/Init/Prelude.lean", "src/Init/Data/Nat/Gcd.lean"]
+kind = "decision-procedure"
+executable = "ran"
+performance = "measured: `decide` on Nat.gcd (2^200-1) (2^120-1) = 2^40-1 and on a 23x20-digit product, each <50 ms"
+status = "reusable"
+evidence = "`example : Nat.gcd (2^200 - 1) (2^120 - 1) = 2^40 - 1 := by decide` checked; a deliberately false product claim was refuted by `decide`. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Nat.gcd, Nat.mul, Nat.pow. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Nat.mod. The kernel GMP acceleration was observed on v4.33.0 only: the v4.36.0 toolchain ships no kernel C++ source (src/lean/kernel is empty), so it was not read on v4.36.0. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Certificate checking with large integers is cheap in the kernel. Structural recursion over large Nat (e.g. trial division) is not: it hits kernel deep-recursion limits."
+
+[[component]]
+id = "lean-core.int.gcd-lcm"
+source = "lean-core"
+capability = "gcd and lcm of natural numbers and integers"
+domain = "Nat, Int"
+declarations = ["Nat.gcd", "Nat.lcm", "Int.gcd", "Int.lcm"]
+paths = ["src/Init/Data/Nat/Gcd.lean", "src/Init/Data/Nat/Lcm.lean", "src/Init/Data/Int/Gcd.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: gcd of 120-digit and 61-digit numbers <50 ms"
+status = "reusable"
+evidence = "#eval Nat.gcd (a60*b60) (a60*7) = 864197523086419752308641975230864197523086419752308641975230. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. On v4.36.0 Nat.gcd carries @[extern \"lean_nat_gcd\"] (Init/Data/Nat/Gcd.lean:34); Nat.lcm, Int.gcd and Int.lcm are plain definitions through Nat.gcd and Int.natAbs (Init/Data/Int/Gcd.lean:43, :443). The run results above are from v4.33.0 and were not repeated on master."
+notes = "Nat.gcd has a GMP-backed extern implementation."
+
+[[component]]
+id = "mathlib.int.xgcd"
+source = "mathlib"
+capability = "Extended Euclidean algorithm (Bezout coefficients)"
+domain = "Nat inputs, Int coefficients"
+declarations = ["Nat.xgcd", "Nat.gcdA", "Nat.gcdB", "Int.gcdA", "Int.gcdB"]
+paths = ["Mathlib/Data/Int/GCD.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: Bezout coefficients of two 60-digit integers <50 ms"
+status = "reusable"
+evidence = "#eval Nat.xgcd 240 46 = (-9, 47); #eval (Int.gcdA a60 b60, Int.gcdB a60 b60) returned 59-digit coefficients. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Structural Lean code, not GMP mpz_gcdext; adequate for CAS use."
+
+[[component]]
+id = "lean-core.int.isqrt"
+source = "lean-core"
+capability = "Integer square root"
+domain = "Nat; Int.sqrt in Mathlib"
+declarations = ["Nat.sqrt", "Int.sqrt"]
+paths = ["src/Init/Data/Nat/Sqrt/Basic.lean", "Mathlib/Data/Int/Sqrt.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: Nat.sqrt of a 120-digit square plus 5 <50 ms"
+status = "reusable"
+evidence = "#eval Nat.sqrt (a60*a60+5) = a60; #eval Int.sqrt 1000000000000 = 1000000. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Nat.sqrt now lives in core. norm_num extension Mathlib.Tactic.NormNum.NatSqrt proves values."
+
+[[component]]
+id = "lean-core.int.modpow"
+source = "lean-core"
+capability = "Modular exponentiation"
+domain = "Nat, ZMod n"
+declarations = ["Nat.powMod", "Nat.pow", "Nat.mod", "NPow.npow"]
+paths = ["src/Init/Data/Nat/PowMod.lean", "src/Init/Prelude.lean", "Mathlib/Algebra/Group/Monoid.lean", "Mathlib/Data/ZMod/Defs.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: (3 : ZMod 1000000007)^(10^18) <50 ms; (3 : ZMod (2^127-1))^(2^127-2) <50 ms"
+status = "reusable"
+evidence = "#eval (3 : ZMod 1000000007) ^ (10^18) = 246336683; #eval (3 : ZMod bigP) ^ (bigP - 1) = 1. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Nat.pow. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Nat.mod. Read on master only: Nat.powMod. Located in master source by text search: NPow.npow at Mathlib/Algebra/Group/Monoid.lean:365 (class NPow; Monoid extends NPow at :388). v4.36.0 adds Nat.powMod with @[extern \"lean_nat_powmod\"] (Init/Data/Nat/PowMod.lean:37-38); it is absent from v4.33.0 and was not run. Monoid.npow is now the field NPow.npow, which Monoid extends. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Core Nat.powMod (v4.36.0) is a native modular power. ZMod n power uses repeated squaring through NPow.npow and was fast on v4.33.0. Elaboration of literal `2^521` in types is blocked by `exponentiation.threshold` (default 256) unless raised."
+
+[[component]]
+id = "mathlib.int.norm-num-powmod"
+source = "mathlib"
+capability = "Proof-producing evaluation of a^b mod m"
+domain = "Nat literals"
+declarations = ["Mathlib.Meta.NormNum.evalNatPowMod"]
+paths = ["Mathlib/Tactic/NormNum/PowMod.lean"]
+kind = "decision-procedure"
+executable = "defined-computable"
+performance = "not measured"
+status = "reusable"
+evidence = "norm_num extension file present; module imported in t1 tests without error. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Produces kernel-checkable certificates; useful for certified modular arithmetic."
+
+[[component]]
+id = "mathlib.int.primality-decidable"
+source = "mathlib"
+capability = "Primality test by trial division (compiled decision procedure)"
+domain = "Nat"
+declarations = ["Nat.Prime", "Nat.decidablePrime", "Nat.decidablePrime'", "Nat.decidablePrime_csimp"]
+paths = ["Mathlib/Data/Nat/Prime/Defs.lean"]
+kind = "decision-procedure"
+executable = "ran"
+performance = "measured: decide (Nat.Prime 999999999989) by #eval 103 ms; 10-digit primes <50 ms"
+status = "adaptable"
+evidence = "#eval decide (Nat.Prime 999999999989) = true; @[csimp] replaces decidablePrime by decidablePrime' (minFac based) for compiled code. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Nat.decidablePrime, Nat.decidablePrime', Nat.decidablePrime_csimp. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Nat.Prime. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Trial division to sqrt(n): fine to about 10^14, useless for cryptographic sizes. A CAS needs Miller-Rabin / BPSW plus ECPP or Pratt certificates."
+
+[[component]]
+id = "mathlib.int.primality-kernel-decide"
+source = "mathlib"
+capability = "Kernel proof of primality by `decide`"
+domain = "Nat literals"
+declarations = ["Nat.decidablePrime"]
+paths = ["Mathlib/Data/Nat/Prime/Defs.lean"]
+kind = "decision-procedure"
+executable = "ran"
+performance = "measured: `decide` on Nat.Prime 1009 fails (maximum recursion depth); `decide +kernel` on Nat.Prime 10007 fails (kernel deep recursion)"
+status = "formalized-not-executable"
+evidence = "t1b/t1c: errors 'maximum recursion depth has been reached' and '(kernel) deep recursion detected'. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Kernel reduction of the Decidable instance is not a usable primality prover beyond 3-digit inputs."
+
+[[component]]
+id = "mathlib.int.norm-num-prime"
+source = "mathlib"
+capability = "Proof-producing primality and compositeness by norm_num (minFac certificate)"
+domain = "Nat literals"
+declarations = ["Mathlib.Meta.NormNum.evalNatPrime", "Mathlib.Meta.NormNum.deriveNotPrime"]
+paths = ["Mathlib/Tactic/NormNum/Prime.lean"]
+kind = "decision-procedure"
+executable = "ran"
+performance = "measured: Nat.Prime 1000003 and 99999989 succeed (about 0.4 s norm_num + kernel); Nat.Prime 9999999967 and 999999999989 fail with kernel deep recursion after 6.8 s norm_num and 35 s pre-definition processing"
+status = "adaptable"
+evidence = "t1b line 43 and t1c line 13: '(kernel) deep recursion detected'; 8-digit case checked. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Mathlib.Meta.NormNum.deriveNotPrime. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Mathlib.Meta.NormNum.evalNatPrime. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Proof size is O(sqrt p). Compositeness is cheap (one factor). A CAS-grade prover needs Pratt or ECPP certificates checked in the kernel."
+
+[[component]]
+id = "mathlib.int.pratt-certificates"
+source = "mathlib"
+capability = "Pratt / Lucas primality certificates"
+domain = "Nat"
+declarations = ["lucas_primality", "reverse_lucas_primality", "lucas_primality_iff"]
+paths = ["Mathlib/NumberTheory/LucasPrimality.lean"]
+kind = "theorem"
+executable = "not-present"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "LucasPrimality.lean contains only the theorems; grep -ril pratt Mathlib finds this file only; no tactic or certificate checker. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: reverse_lucas_primality, lucas_primality_iff. Text changed since v4.33.0, noncomputable modifier and section status unchanged: lucas_primality."
+notes = "The theorem is the soundness basis for a certificate checker; the checker, certificate format and generator are missing. Hex supplies an executable implementation: hex.HexPrimality.pocklington-certificates, hex.HexECPP.certificate-checker."
+
+[[component]]
+id = "mathlib.int.lucas-lehmer"
+source = "mathlib"
+capability = "Lucas-Lehmer test for Mersenne numbers, with norm_num extension"
+domain = "p : Nat, 2^p - 1"
+declarations = ["LucasLehmer.lucasLehmerResidue", "LucasLehmer.sMod", "LucasLehmer.LucasLehmerTest", "lucas_lehmer_sufficiency", "LucasLehmer.norm_num_ext.sModNatTR"]
+paths = ["Mathlib/NumberTheory/LucasLehmer.lean"]
+kind = "decision-procedure"
+executable = "ran"
+performance = "measured: #eval lucasLehmerResidue 4423 = 0 in 92 ms; proof (mersenne 521).Prime fast; proof (mersenne 4423).Prime 168 s kernel type checking"
+status = "reusable"
+evidence = "t1c #eval results; t8b: `example : (mersenne 4423).Prime := lucas_lehmer_sufficiency _ (by norm_num) (by norm_num)` checked with 'type checking took 168s'. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: LucasLehmer.lucasLehmerResidue, LucasLehmer.sMod, LucasLehmer.LucasLehmerTest, lucas_lehmer_sufficiency. Text changed since v4.33.0, noncomputable modifier and section status unchanged: LucasLehmer.norm_num_ext.sModNatTR. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Only for Mersenne numbers. Requires `set_option exponentiation.threshold` above p."
+
+[[component]]
+id = "mathlib.int.minfac"
+source = "mathlib"
+capability = "Smallest prime factor by trial division"
+domain = "Nat"
+declarations = ["Nat.minFac", "Nat.minFacAux"]
+paths = ["Mathlib/Data/Nat/Prime/Defs.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: minFac (999983*1000003) 74 ms"
+status = "adaptable"
+evidence = "#eval Nat.minFac (999983*1000003) = 999983. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Nat.minFacAux. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Nat.minFac. The run results above are from v4.33.0 and were not repeated on master."
+notes = "O(sqrt n) trial division."
+
+[[component]]
+id = "mathlib.int.factorization"
+source = "mathlib"
+capability = "Integer factorization into primes (list, finsupp and prime-set forms)"
+domain = "Nat"
+declarations = ["Nat.primeFactorsList", "Nat.factorization", "Nat.primeFactors"]
+paths = ["Mathlib/Data/Nat/Factors.lean", "Mathlib/Data/Nat/Factorization/Defs.lean", "Mathlib/Data/Nat/PrimeFin.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: 600851475143 <50 ms; 999983*1000003 99 ms; 2^64+1 = 274177 * 67280421310721 in 763 ms"
+status = "adaptable"
+evidence = "#eval Nat.primeFactorsList (2^64+1) = [274177, 67280421310721]; #eval Nat.factorization 360 2 = 3; #eval (Nat.primeFactors 360).val = {2, 3, 5}. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Nat.primeFactorsList, Nat.factorization, Nat.primeFactors. Changed on master: Nat.factorization n is now Multiset.toFinsupp n.primeFactorsList (Factorization/Defs.lean:48); Multiset.toFinsupp is a computable def (Data/Finsupp/Multiset.lean:131), so the factorization stays computable. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Repeated minFac (trial division). Needs Pollard rho, ECM, QS/NFS for CAS-scale inputs; the factorization as Finsupp is computable (unusual)."
+
+[[component]]
+id = "mathlib.int.jacobi-legendre"
+source = "mathlib"
+capability = "Jacobi and Legendre symbols"
+domain = "Int a, Nat b (odd for Jacobi); prime p for Legendre"
+declarations = ["jacobiSym", "legendreSym", "Tactic.NormNum.evalJacobiSym"]
+paths = ["Mathlib/NumberTheory/LegendreSymbol/JacobiSymbol.lean", "Mathlib/NumberTheory/LegendreSymbol/Basic.lean", "Mathlib/Tactic/NormNum/LegendreSymbol.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: jacobiSym of 60-digit arguments <50 ms"
+status = "adaptable"
+evidence = "#eval jacobiSym 1001 9907 = -1; norm_num proved jacobiSym 1001 9907 = -1. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "jacobiSym is defined through primeFactorsList of the modulus, so evaluation cost is factoring cost; a CAS needs the reciprocity-based binary algorithm. The norm_num extension uses reciprocity and is fast."
+
+[[component]]
+id = "mathlib.int.crt"
+source = "mathlib"
+capability = "Chinese remainder theorem solution"
+domain = "coprime moduli n, m : Nat"
+declarations = ["Nat.chineseRemainder", "Nat.chineseRemainderOfList", "ZMod.chineseRemainder"]
+paths = ["Mathlib/Data/Nat/ChineseRemainder.lean", "Mathlib/Data/Nat/ModEq.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: two-moduli CRT <50 ms"
+status = "reusable"
+evidence = "#eval (Nat.chineseRemainder (m := 5) (n := 7) _ 3 4).val = 24. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Nat.chineseRemainderOfList. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Nat.chineseRemainder, ZMod.chineseRemainder. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Requires a coprimality proof argument; a CAS wrapper should discharge it by `decide`/gcd check."
+
+[[component]]
+id = "mathlib.int.divisors"
+source = "mathlib"
+capability = "Divisor set, proper divisors, sum of divisors"
+domain = "Nat"
+declarations = ["Nat.divisors", "Nat.properDivisors", "ArithmeticFunction.sigma"]
+paths = ["Mathlib/NumberTheory/Divisors.lean", "Mathlib/NumberTheory/ArithmeticFunction/Misc.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: divisors 720720 198 ms; divisors 10^8 27.9 s"
+status = "adaptable"
+evidence = "#eval (Nat.divisors 720720).card = 240; #eval (Nat.divisors 100000000).card = 81. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Nat.divisors, Nat.properDivisors, ArithmeticFunction.sigma. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Defined as a filter over range (n+1): linear in n. A CAS needs divisors from the factorization."
+
+[[component]]
+id = "mathlib.int.totient"
+source = "mathlib"
+capability = "Euler totient"
+domain = "Nat"
+declarations = ["Nat.totient"]
+paths = ["Mathlib/Data/Nat/Totient.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: totient 10^6 277 ms"
+status = "adaptable"
+evidence = "#eval Nat.totient 1000000 = 400000. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Nat.totient. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Defined as count of coprimes in range n: linear in n. Product formula over factorization is needed at scale."
+
+[[component]]
+id = "mathlib.int.moebius"
+source = "mathlib"
+capability = "Moebius function and arithmetic functions"
+domain = "Nat"
+declarations = ["ArithmeticFunction.moebius", "ArithmeticFunction.cardFactors", "ArithmeticFunction"]
+paths = ["Mathlib/NumberTheory/ArithmeticFunction/Moebius.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: moebius 30 and moebius 1000001 <50 ms"
+status = "reusable"
+evidence = "#eval ArithmeticFunction.moebius 30 = -1; moebius 1000001 = 1. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: ArithmeticFunction. Text changed since v4.33.0, noncomputable modifier and section status unchanged: ArithmeticFunction.moebius, ArithmeticFunction.cardFactors. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Through factorization; inherits trial-division cost."
+
+[[component]]
+id = "mathlib.int.digits"
+source = "mathlib"
+capability = "Base-b digit expansion"
+domain = "Nat, base b"
+declarations = ["Nat.digits", "Nat.ofDigits"]
+paths = ["Mathlib/Data/Nat/Digits/Defs.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: 60 decimal digits <50 ms"
+status = "reusable"
+evidence = "#eval (Nat.digits 10 a60).length = 60. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Quadratic for huge inputs; core Nat.toDigits / toString are faster for output."
+
+[[component]]
+id = "mathlib.int.binomial"
+source = "mathlib"
+capability = "Binomial coefficients"
+domain = "Nat"
+declarations = ["Nat.choose", "Nat.multinomial"]
+paths = ["Mathlib/Data/Nat/Choose/Basic.lean", "Mathlib/Data/Nat/Choose/Multinomial.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: choose 1000 500 <50 ms"
+status = "reusable"
+evidence = "#eval Nat.choose 30 15 = 155117520; Nat.multinomial (2,3,4) = 1260. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Nat.multinomial. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Nat.choose. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Nat.choose has a fast csimp implementation; the recursive definition alone would be exponential."
+
+[[component]]
+id = "mathlib.int.factorial"
+source = "mathlib"
+capability = "Factorial, ascending and descending factorial"
+domain = "Nat"
+declarations = ["Nat.factorial", "Nat.ascFactorial", "Nat.descFactorial"]
+paths = ["Mathlib/Data/Nat/Factorial/Basic.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: 10000! with decimal conversion 362 ms"
+status = "reusable"
+evidence = "#eval (toString (Nat.factorial 10000)).length = 35660. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Nat.ascFactorial, Nat.descFactorial. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Nat.factorial. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Naive product; binary splitting would be faster for huge n."
+
+[[component]]
+id = "mathlib.int.bernoulli"
+source = "mathlib"
+capability = "Bernoulli numbers"
+domain = "Nat index, Rat values"
+declarations = ["bernoulli", "bernoulli'"]
+paths = ["Mathlib/NumberTheory/Bernoulli.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: B_16 245 ms; B_20 3.3 s; B_30 no result after more than 250 s (exponential recursion)"
+status = "adaptable"
+evidence = "#eval bernoulli 20 = -174611/330; bernoulli 30 did not finish within the 300 s run. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Text changed since v4.33.0, noncomputable modifier and section status unchanged: bernoulli, bernoulli'. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Well-founded recursion over the full recurrence without memoization: exponential. A CAS needs an Akiyama-Tanigawa or zeta-based algorithm, proved equal to `bernoulli`."
+
+[[component]]
+id = "mathlib.int.fibonacci"
+source = "mathlib"
+capability = "Fibonacci numbers"
+domain = "Nat"
+declarations = ["Nat.fib", "Nat.fastFib", "Mathlib.Meta.NormNum.evalNatFib"]
+paths = ["Mathlib/Data/Nat/Fib/Basic.lean", "Mathlib/Tactic/NormNum/NatFib.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: fib 100000 (20899 digits) 194 ms"
+status = "reusable"
+evidence = "#eval (toString (Nat.fib 100000)).length = 20899; norm_num proved fib 200 value. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Nat.fastFib, Mathlib.Meta.NormNum.evalNatFib. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Nat.fib. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Nat.fastFib (doubling) exists with a csimp-style link."
+
+[[component]]
+id = "mathlib.int.nat-log"
+source = "mathlib"
+capability = "Integer logarithm base b"
+domain = "Nat"
+declarations = ["Nat.log", "Nat.clog", "Nat.log2"]
+paths = ["Mathlib/Data/Nat/Log.lean", "src/Init/Data/Nat/Log2.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: Nat.log 2 of a 30-digit number <50 ms"
+status = "reusable"
+evidence = "#eval Nat.log 2 123456789012345678901234567890 = 96. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Nat.log2 is in core."
+
+[[component]]
+id = "mathlib.int.prime-counting"
+source = "mathlib"
+capability = "Prime counting and prime enumeration below a bound"
+domain = "Nat"
+declarations = ["Nat.primeCounting", "Nat.primesBelow", "Nat.primeCounting'"]
+paths = ["Mathlib/NumberTheory/PrimeCounting.lean", "Mathlib/Data/Nat/PrimeFin.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: primesBelow 10000 card and primeCounting 1000 <50 ms each"
+status = "adaptable"
+evidence = "#eval (Nat.primesBelow 10000).card = 1229; #eval Nat.primeCounting 1000 = 168. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Nat.primesBelow, Nat.primeCounting'. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Nat.primeCounting. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Filter with trial-division primality; a sieve is missing."
+
+[[component]]
+id = "mathlib.int.nth-prime"
+source = "mathlib"
+capability = "n-th element of a predicate (n-th prime)"
+domain = "Nat predicates"
+declarations = ["Nat.nth"]
+paths = ["Mathlib/Data/Nat/Nth.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit Nat.nth: noncomputable=true; #eval Nat.nth Nat.Prime 100 failed 'depends on Nat.nth, which is noncomputable'. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Needs a computable enumeration with a proof of equality to Nat.nth."
+
+[[component]]
+id = "mathlib.int.sieve"
+source = "mathlib"
+capability = "Sieve of Eratosthenes / segmented sieve"
+domain = "Nat"
+declarations = []
+paths = []
+kind = "executable-algorithm"
+executable = "not-present"
+performance = "not measured"
+status = "missing"
+evidence = "Nat.primesBelow is a filter of range by decidable primality (PrimeFin.lean); no sieve found by grep -ril sieve over Mathlib/Data/Nat and Mathlib/NumberTheory (only Selberg sieve theory files). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run."
+notes = "Needed for prime tables. Hex supplies an executable implementation: hex.HexPrimality.sieve-prime-table."
+
+[[component]]
+id = "mathlib.int.probable-prime"
+source = "mathlib"
+capability = "Fermat / Miller-Rabin probable-prime tests"
+domain = "Nat"
+declarations = ["Nat.FermatPsp", "Nat.ProbablePrime"]
+paths = ["Mathlib/NumberTheory/FermatPsp.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "FermatPsp.lean defines predicates (Prop); no Miller-Rabin algorithm found by grep -ri 'miller' Mathlib. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Predicates only; a CAS must implement Miller-Rabin/BPSW."
+
+[[component]]
+id = "mathlib.int.factoring-advanced"
+source = "mathlib"
+capability = "Pollard rho, ECM, quadratic sieve, number field sieve"
+domain = "Nat"
+declarations = []
+paths = []
+kind = "executable-algorithm"
+executable = "not-present"
+performance = "not measured"
+status = "missing"
+evidence = "grep -ril 'pollard\\|elliptic curve method\\|quadratic sieve' over Mathlib found no algorithm. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run."
+notes = "Only trial division exists. Hex supplies an executable implementation: hex.HexIntFactor.ecm, hex.HexIntFactor.certified-factorization, hex.HexPrimality.factor-finders."
+
+[[component]]
+id = "mathlib.int.continued-fractions"
+source = "mathlib"
+capability = "Generalized continued fraction expansion of a value in a floor field"
+domain = "LinearOrderedField with FloorRing (Rat works)"
+declarations = ["GenContFract.of", "GenContFract.IntFractPair.stream", "GenContFract.convs"]
+paths = ["Mathlib/Algebra/ContinuedFractions/Computation/Basic.lean", "Mathlib/Algebra/ContinuedFractions/Computation/Translations.lean", "Mathlib/Algebra/ContinuedFractions/Basic.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: expansion of 355/113 <50 ms"
+status = "reusable"
+evidence = "#eval (GenContFract.of (355/113 : ℚ)).h = 3; .s.take 5 = [(1,7),(1,16)]. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Lazy Stream'.Seq; for reals it is noncomputable because Real floor is noncomputable."
+
+[[component]]
+id = "mathlib.int.padic-valuation"
+source = "mathlib"
+capability = "p-adic valuation of naturals, integers and rationals; p-adic norm on Q"
+domain = "Nat, Int, Rat; prime p"
+declarations = ["padicValNat", "padicValInt", "padicValRat", "padicNorm"]
+paths = ["Mathlib/Data/Nat/PadicValNat.lean", "Mathlib/NumberTheory/Padics/PadicVal/Basic.lean", "Mathlib/NumberTheory/Padics/PadicNorm.lean"]
+kind = "executable-algorithm"
+executable = "noncomputable"
+performance = "measured: <50 ms"
+status = "adaptable"
+evidence = "#eval padicValNat 2 (2^10*3) = 10; padicValRat 3 (81/4) = 4; padicNorm 3 (81/4) = 1/81. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: padicValNat. Noncomputable status changed since v4.33.0: padicValInt, padicValRat, padicNorm. Changed on master: padicValInt, padicValRat and padicNorm are now `noncomputable def` through `multiplicity` (PadicVal/Basic.lean:86, :124; PadicNorm.lean:44); only padicValNat stays computable, defined by Nat.maxPowDvdDiv (Data/Nat/PadicValNat.lean:21). The v4.33.0 #eval of padicValRat and padicNorm does not carry over."
+notes = "padicValNat computes; a computable p-adic valuation on ℤ and ℚ can be rebuilt from padicValNat on numerator and denominator, with padicValNat_def (padicValNat p n = multiplicity p n) as the bridge to Mathlib's definitions."
+
+[[component]]
+id = "mathlib.int.primorial"
+source = "mathlib"
+capability = "Primorial"
+domain = "Nat"
+declarations = ["primorial"]
+paths = ["Mathlib/NumberTheory/Primorial.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: primorial 30 <50 ms"
+status = "reusable"
+evidence = "#eval primorial 30 = 6469693230. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Text changed since v4.33.0, noncomputable modifier and section status unchanged: primorial. The run results above are from v4.33.0 and were not repeated on master."
+notes = ""
+
+[[component]]
+id = "mathlib.int.fermat-numbers"
+source = "mathlib"
+capability = "Fermat numbers"
+domain = "Nat"
+declarations = ["Nat.fermatNumber"]
+paths = ["Mathlib/NumberTheory/Fermat.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: <50 ms"
+status = "reusable"
+evidence = "#eval Nat.fermatNumber 6 = 18446744073709551617. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Nat.fermatNumber. The run results above are from v4.33.0 and were not repeated on master."
+notes = ""
+
+[[component]]
+id = "mathlib.int.harmonic"
+source = "mathlib"
+capability = "Harmonic numbers"
+domain = "Nat index, Rat values"
+declarations = ["harmonic"]
+paths = ["Mathlib/NumberTheory/Harmonic/Defs.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: H_30 <50 ms"
+status = "reusable"
+evidence = "#eval harmonic 30 = 9304682830147/2329089562800. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Text changed since v4.33.0, noncomputable modifier and section status unchanged: harmonic. The run results above are from v4.33.0 and were not repeated on master."
+notes = ""
+
+[[component]]
+id = "mathlib.int.binary-num"
+source = "mathlib"
+capability = "Binary positional naturals and integers (Num, PosNum, ZNum) with minFac"
+domain = "Num, PosNum, ZNum"
+declarations = ["Num", "PosNum", "ZNum", "PosNum.minFac"]
+paths = ["Mathlib/Data/Num/Basic.lean", "Mathlib/Data/Num/Prime.lean"]
+kind = "data-structure"
+executable = "defined-computable"
+performance = "not measured"
+status = "adaptable"
+evidence = "Inductive types with structural arithmetic in source; the module could not be loaded: it imports Batteries.Data.Nat.Bitwise, whose .olean is not built in this package directory. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Historically used for kernel-friendly binary numerals; GMP-backed Nat makes it largely obsolete for computation."
+
+# ---------------------------------------------------------------------------------------------
+# 2. Rationals, ZMod, finite fields, p-adics, reals, floats, intervals
+# ---------------------------------------------------------------------------------------------
+
+[[component]]
+id = "lean-core.rat.arithmetic"
+source = "lean-core"
+capability = "Exact rational arithmetic in lowest terms"
+domain = "Rat (core) with Mathlib Field instance"
+declarations = ["Rat", "Rat.add", "Rat.mul", "Rat.inv", "Rat.div", "Rat.instField"]
+paths = ["src/Init/Data/Rat/Basic.lean", "Mathlib/Algebra/Field/Rat.lean"]
+kind = "data-structure"
+executable = "ran"
+performance = "measured: ((1/3)+(2/7))^50 <50 ms"
+status = "reusable"
+evidence = "#eval ((1:ℚ)/3 + 2/7)^50 printed exact result; #audit Rat.instField computable. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Rat moved to core; Batteries.Data.Rat is now a deprecated shim to Float conversion."
+
+[[component]]
+id = "mathlib.rat.floor-sqrt"
+source = "mathlib"
+capability = "Floor, ceiling and exact square root of rationals"
+domain = "Rat"
+declarations = ["Rat.floor", "Rat.ceil", "Int.floor", "Rat.sqrt"]
+paths = ["Mathlib/Data/Rat/Floor.lean", "Mathlib/Data/Rat/Sqrt.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: <50 ms"
+status = "reusable"
+evidence = "#eval Int.floor (355/113 : ℚ) = 3; #eval Rat.sqrt (49/16) = 7/4. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = ""
+
+[[component]]
+id = "mathlib.zmod.arithmetic"
+source = "mathlib"
+capability = "Arithmetic in Z/nZ, including inverse via extended gcd and decidable equality"
+domain = "ZMod n for literal n (ZMod 0 = Int)"
+declarations = ["ZMod", "ZMod.commRing", "ZMod.inv", "ZMod.val", "ZMod.instField", "ZMod.unitOfCoprime"]
+paths = ["Mathlib/Data/ZMod/Defs.lean", "Mathlib/Data/ZMod/Basic.lean", "Mathlib/Algebra/Field/ZMod.lean"]
+kind = "data-structure"
+executable = "ran"
+performance = "measured: inverse and power modulo 2^127-1 <50 ms"
+status = "reusable"
+evidence = "#eval (2 : ZMod 1000000007)⁻¹ = 500000004; (12345 : ZMod (2^127-1))⁻¹ * 12345 = 1; (4 : ZMod 12)⁻¹ = 1 (junk value for a non-unit). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: ZMod, ZMod.commRing, ZMod.inv, ZMod.val, ZMod.unitOfCoprime. Text changed since v4.33.0, noncomputable modifier and section status unchanged: ZMod.instField. The run results above are from v4.33.0 and were not repeated on master."
+notes = "ZMod n is defined by cases on n (Int for 0, Fin n otherwise), so the modulus must be a literal or a reducible term. Inverse of a non-unit returns a junk value instead of failing. ZMod.instField is the generated name of the anonymous `instance : Field (ZMod p)` at Mathlib/Algebra/Field/ZMod.lean:30."
+
+[[component]]
+id = "mathlib.zmod.units"
+source = "mathlib"
+capability = "Unit group of Z/nZ: enumeration and cardinality"
+domain = "ZMod n"
+declarations = ["ZMod.unitsEquivCoprime", "Units"]
+paths = ["Mathlib/Data/ZMod/Units.lean", "Mathlib/Data/ZMod/Basic.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: Fintype.card (ZMod 20)ˣ <50 ms"
+status = "adaptable"
+evidence = "#eval Fintype.card (ZMod 20)ˣ = 8. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Enumeration-based; multiplicative order is noncomputable (orderOf)."
+
+[[component]]
+id = "mathlib.zmod.kernel-decide"
+source = "mathlib"
+capability = "Kernel evaluation of ZMod identities by decide"
+domain = "ZMod p literals"
+declarations = ["ZMod.decidableEq"]
+paths = ["Mathlib/Data/ZMod/Defs.lean"]
+kind = "decision-procedure"
+executable = "ran"
+performance = "measured: `decide` on (3 : ZMod 1000003)^1000002 = 1 fails with maximum recursion depth"
+status = "adaptable"
+evidence = "t2 line 63 error 'maximum recursion depth has been reached'. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Kernel proofs of large modular identities should go through Nat-literal certificates (norm_num PowMod) instead of decide on ZMod."
+
+[[component]]
+id = "mathlib.group.order-of"
+source = "mathlib"
+capability = "Order of a group element; group exponent"
+domain = "Monoid"
+declarations = ["orderOf", "Monoid.exponent"]
+paths = ["Mathlib/GroupTheory/OrderOfElement.lean", "Mathlib/GroupTheory/Exponent.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit orderOf: noncomputable=true; #eval orderOf σ failed 'depends on orderOf, which is noncomputable'. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Defined by minimalPeriod (Nat.find over a classical predicate). Needs computable order for finite groups, permutations (lcm of cycle type) and ZMod units (factor n-1)."
+
+[[component]]
+id = "mathlib.ff.galois-field"
+source = "mathlib"
+capability = "Finite field GF(p^n) as splitting field of X^(p^n) - X"
+domain = "prime p, n : Nat"
+declarations = ["GaloisField", "GaloisField.card", "FiniteField.isSplittingField_sub"]
+paths = ["Mathlib/FieldTheory/Finite/GaloisField.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "GaloisField.lean:36 `noncomputable section`; #eval Fintype.card (GaloisField 2 3) failed: no Fintype instance. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: GaloisField, GaloisField.card. Text changed since v4.33.0, noncomputable modifier and section status unchanged: FiniteField.isSplittingField_sub."
+notes = "A CAS needs GF(p^n) as ZMod p [X] / (f) for an explicit irreducible f (Conway or random), with a ring isomorphism to GaloisField for proofs."
+
+[[component]]
+id = "mathlib.ff.executable-gfpn"
+source = "mathlib"
+capability = "Executable GF(p^n) arithmetic"
+domain = "prime powers"
+declarations = []
+paths = []
+kind = "data-structure"
+executable = "not-present"
+performance = "not measured"
+status = "missing"
+evidence = "AdjoinRoot is noncomputable (#audit AdjoinRoot.instCommRing noncomputable=true); Polynomial ring operations noncomputable; no other GF(p^n) representation found. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run."
+notes = "Only GF(p) = ZMod p computes. Hex supplies an executable implementation: hex.HexGFqField.finite-field, hex.HexConway.conway-table."
+
+[[component]]
+id = "mathlib.ff.finite-field-theory"
+source = "mathlib"
+capability = "Finite field theorems (Fermat little theorem, cyclic unit group, cardinality)"
+domain = "Field with Fintype"
+declarations = ["FiniteField.pow_card", "ZMod.pow_totient", "IsCyclic"]
+paths = ["Mathlib/FieldTheory/Finite/Basic.lean"]
+kind = "theorem"
+executable = "not-present"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "theorems; no algorithmic content (primitive root search absent). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: FiniteField.pow_card, ZMod.pow_totient. Text changed since v4.33.0, noncomputable modifier and section status unchanged: IsCyclic."
+notes = "Primitive root / discrete log algorithms are missing. Hex supplies an executable implementation: hex.HexDiscreteLog.spec (discrete logarithm specification)."
+
+[[component]]
+id = "mathlib.padic.numbers"
+source = "mathlib"
+capability = "p-adic numbers Q_p as Cauchy completion; p-adic integers Z_p"
+domain = "prime p"
+declarations = ["Padic", "PadicInt", "PadicSeq", "padicNormE", "PadicInt.appr", "PadicInt.toZModPow", "PadicInt.toZMod"]
+paths = ["Mathlib/NumberTheory/Padics/PadicNumbers.lean", "Mathlib/NumberTheory/Padics/PadicIntegers.lean", "Mathlib/NumberTheory/Padics/RingHoms.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "PadicNumbers.lean:164 and PadicIntegers.lean:57 `noncomputable section`; #audit PadicInt.toZModPow noncomputable=true; #eval on ℤ_[3] failed 'depends on PadicInt.instCommRing'. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Padic, PadicSeq, PadicInt.appr, PadicInt.toZModPow, PadicInt.toZMod. Text changed since v4.33.0, noncomputable modifier and section status unchanged: padicNormE. Read on master only: PadicInt."
+notes = "A CAS needs fixed-precision or lazy p-adics (capped-relative / capped-absolute as in Sage) with a map to Padic for proofs."
+
+[[component]]
+id = "mathlib.real.cauchy-reals"
+source = "mathlib"
+capability = "Real numbers as Cauchy sequences of rationals"
+domain = "ℝ"
+declarations = ["Real", "Real.instField", "Real.decidableLT", "Real.sqrt", "Real.ofCauchy"]
+paths = ["Mathlib/Basic/Real/Basic.lean", "Mathlib/Analysis/Real/Sqrt.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "Master Basic/Real/Basic.lean:112, :446, :456, :476 `noncomputable instance` (Inv, LinearOrder, Field, decidableLT). v4.33.0 run: #eval (2:ℝ)+3 printed 'Real.ofCauchy (sorry /- 5, 5, 5, ... -/)' via an unsafe Repr; Real.sqrt and decide (1 < 2) failed. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Real, Real.instField, Real.decidableLT, Real.sqrt. Located in master source by text search: Real.ofCauchy at Mathlib/Basic/Real/Basic.lean:36. Mathlib/Data/Real/Basic.lean is a deprecated_module stub (since 2026-08-27) that imports Mathlib.Basic.Real.Basic."
+notes = "Ring operations on ℝ compute Cauchy sequences, but inverse, order and all special functions are noncomputable. Concrete real values come only from proofs (norm_num, bounds lemmas)."
+
+[[component]]
+id = "mathlib.complex.numbers"
+source = "mathlib"
+capability = "Complex numbers as pairs of reals"
+domain = "ℂ"
+declarations = ["Complex", "Complex.instField", "Complex.exp", "Complex.I"]
+paths = ["Mathlib/Basic/Complex/Basic.lean", "Mathlib/Analysis/SpecialFunctions/Exp.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit Complex.instField noncomputable=true; #eval Complex.I * Complex.I printed Cauchy-sequence reprs of -1 and 0. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Complex, Complex.instField, Complex.I. Read on master only: Complex.exp. Mathlib/Data/Complex/Basic.lean is a deprecated_module stub that imports Mathlib.Basic.Complex.Basic."
+notes = "Same limits as ℝ. Gaussian rationals / exact algebraic numbers would be the CAS representation."
+
+[[component]]
+id = "mathlib.real.pi-bounds"
+source = "mathlib"
+capability = "Certified rational bounds for pi"
+domain = "Real.pi"
+declarations = ["Real.pi_gt_d2", "Real.pi_lt_d4", "Real.pi_gt_d6", "Real.pi_lt_d6"]
+paths = ["Mathlib/Analysis/Real/Pi/Bounds.lean"]
+kind = "theorem"
+executable = "ran"
+performance = "measured: lemma use instant (precomputed proofs)"
+status = "adaptable"
+evidence = "`example : (3.14 : ℝ) < Real.pi := Real.pi_gt_d2` and `Real.pi < 3.1416 := Real.pi_lt_d4` checked. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Fixed-digit lemmas proved by nested sqrt bounds; no arbitrary-precision pi."
+
+[[component]]
+id = "mathlib.real.norm-num-real-sqrt"
+source = "mathlib"
+capability = "Proof-producing evaluation of Real.sqrt on perfect squares and NNReal sqrt"
+domain = "ℝ, ℝ≥0 literals"
+declarations = ["Mathlib.Meta.NormNum.evalRealSqrt"]
+paths = ["Mathlib/Tactic/NormNum/RealSqrt.lean"]
+kind = "decision-procedure"
+executable = "ran"
+performance = "measured: Real.sqrt 16 = 4 <50 ms"
+status = "reusable"
+evidence = "`example : Real.sqrt 16 = 4 := by norm_num` checked. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Exact values only."
+
+[[component]]
+id = "lean-core.float.ieee754"
+source = "lean-core"
+capability = "IEEE-754 binary64 and binary32 floating point with libm functions"
+domain = "Float, Float32, FloatArray"
+declarations = ["Float", "Float.sqrt", "Float.exp", "Float.sin", "Float.log", "Float32", "FloatArray"]
+paths = ["src/Init/Data/Float.lean", "src/Init/Data/Float/Float32.lean", "src/Init/Data/FloatArray.lean"]
+kind = "data-structure"
+executable = "ran"
+performance = "measured: 1000 Float.sin evaluations <50 ms"
+status = "reusable"
+evidence = "#eval (Float.sqrt 2.0, Float.exp 1.0, Float.sin 1.0) = (1.414214, 2.718282, 0.841471); 1e308*10 = inf; Float.log 0 = -inf. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Opaque to the kernel (no theorems relate Float to ℝ). Usable for numerics, not for certified results."
+
+[[component]]
+id = "lean-core.dyadic.rationals"
+source = "lean-core"
+capability = "Dyadic rationals m*2^e with exact ring operations and directed rounding from Rat"
+domain = "Dyadic"
+declarations = ["Dyadic", "Dyadic.ofIntWithPrec", "Rat.toDyadic", "Dyadic.roundDown", "Dyadic.toRat", "Dyadic.blt"]
+paths = ["src/Init/Data/Dyadic/Basic.lean", "src/Init/Data/Dyadic/Round.lean", "src/Init/Data/Dyadic/Inv.lean", "src/Init/Data/Dyadic/Instances.lean"]
+kind = "data-structure"
+executable = "defined-computable"
+performance = "not measured"
+status = "adaptable"
+evidence = "Source: `instance : CommRing Dyadic`, `def toDyadic (x : Rat) (prec : Int)`, `def roundDown`; #eval failed only because Dyadic has no Repr instance. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Proved CommRing and ordered-ring instances: the natural base for certified ball/interval arithmetic. Needs Repr, division with rounding, and interval layer."
+
+[[component]]
+id = "mathlib.interval.order-intervals"
+source = "mathlib"
+capability = "Closed intervals of an order with pointwise addition (interval arithmetic on ordered groups)"
+domain = "NonemptyInterval α, Interval α for ordered α"
+declarations = ["NonemptyInterval", "Interval", "NonemptyInterval.pure", "NonemptyInterval.toProd"]
+paths = ["Mathlib/Order/Interval/Basic.lean", "Mathlib/Algebra/Order/Interval/Basic.lean"]
+kind = "data-structure"
+executable = "ran"
+performance = "measured: <50 ms"
+status = "adaptable"
+evidence = "#eval ([1,2] + [-3,4] : NonemptyInterval ℚ).toProd = (-2, 6); multiplication on NonemptyInterval ℚ failed (no HMul instance: Mathlib's interval multiplication needs monotone multiplication, e.g. canonically ordered semirings). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: NonemptyInterval, Interval, NonemptyInterval.pure. Located in master source by text search: NonemptyInterval.toProd at Mathlib/Order/Interval/Basic.lean:35 (extends Prod). The run results above are from v4.33.0 and were not repeated on master."
+notes = "No signed interval multiplication, division, or rounding; not a numerical interval library."
+
+[[component]]
+id = "mathlib.interval.ball-arithmetic"
+source = "mathlib"
+capability = "Rounded interval / ball arithmetic for real functions (Arb-style)"
+domain = "ℝ, ℂ"
+declarations = []
+paths = []
+kind = "data-structure"
+executable = "not-present"
+performance = "not measured"
+status = "missing"
+evidence = "Searched Mathlib for interval arithmetic tactics: only Mathlib/Tactic/IntervalCases.lean (case split) and Order/Interval; no `interval` evaluator or ball type. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run."
+notes = "Core Dyadic is the nearest building block. Hex supplies an executable implementation: the HexInterval library (see hex.toml)."
+
+# ---------------------------------------------------------------------------------------------
+# 3. Polynomials and tactic-internal polynomial algorithms
+# ---------------------------------------------------------------------------------------------
+
+[[component]]
+id = "mathlib.poly.univariate-ring"
+source = "mathlib"
+capability = "Univariate polynomial ring R[X]: construction and ring operations (X, C, +, *)"
+domain = "Semiring R"
+declarations = ["Polynomial", "Polynomial.X", "Polynomial.C", "Polynomial.monomial", "AddMonoidAlgebra.semiring"]
+paths = ["Mathlib/Algebra/Polynomial/Basic.lean", "Mathlib/Algebra/MonoidAlgebra/Defs.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "Polynomial/Basic.lean:61 `noncomputable section`, with `abbrev Polynomial R := AddMonoidAlgebra R ℕ` at :69; MonoidAlgebra/Defs.lean:54 `@[expose] public noncomputable section` holds the ring structure. v4.33.0 run: #audit Polynomial.X/C/monomial noncomputable=true; #eval (X^2+1 : ℤ[X]).eval 3 failed 'depends on instAdd, which is noncomputable' (Finsupp addition). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Polynomial.X, Polynomial.C. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Polynomial, Polynomial.monomial. Located in master source by text search: AddMonoidAlgebra.semiring at Mathlib/Algebra/MonoidAlgebra/Defs.lean:733 (to_additive of MonoidAlgebra.semiring)."
+notes = "Root cause: Finsupp.instAdd and Finsupp.single are noncomputable (classical decidable support). A CAS needs a dense/sparse computable representation with a ring equivalence to Polynomial."
+
+[[component]]
+id = "mathlib.poly.univariate-readers"
+source = "mathlib"
+capability = "Coefficient, degree, leading coefficient, evaluation and decidable equality of an already-built polynomial"
+domain = "Polynomial R with computable underlying Finsupp"
+declarations = ["AddMonoidAlgebra.coeff", "Polynomial.degree", "Polynomial.natDegree", "Polynomial.leadingCoeff", "Polynomial.eval", "Polynomial.eval₂", "AddMonoidAlgebra.instDecidableEq", "Polynomial.ofFinsupp"]
+paths = ["Mathlib/Algebra/Polynomial/Basic.lean", "Mathlib/Algebra/MonoidAlgebra/Defs.lean", "Mathlib/Algebra/Polynomial/Degree/Defs.lean", "Mathlib/Algebra/Polynomial/Eval/Defs.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: <50 ms on degree-2 inputs"
+status = "adaptable"
+evidence = "Built p = ofFinsupp ⟨{0,1,2}, coefficient function, proof⟩ by hand; #eval p.eval 5 = 36, p.natDegree = 2, p.leadingCoeff = 1. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Polynomial.degree, Polynomial.natDegree, Polynomial.leadingCoeff, Polynomial.eval. Read on master only: Polynomial.eval₂, Polynomial.ofFinsupp. Located in master source by text search: AddMonoidAlgebra.coeff at Mathlib/Algebra/MonoidAlgebra/Defs.lean:69; AddMonoidAlgebra.instDecidableEq at Mathlib/Algebra/MonoidAlgebra/Defs.lean:173 (to_additive). Changed on master: Polynomial R is `abbrev Polynomial R := AddMonoidAlgebra R ℕ` (Polynomial/Basic.lean:69), so coefficients are the field AddMonoidAlgebra.coeff : ℕ →₀ R (MonoidAlgebra/Defs.lean:69) and Polynomial.ofFinsupp is a deprecated identity. The hand-built v4.33.0 example corresponds to AddMonoidAlgebra.ofCoeff ⟨support, f, proof⟩ on master; it was not rerun. The texts of degree, natDegree, leadingCoeff and eval are unchanged. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Readers are compiled, so a computable representation can be transported into Polynomial values for proofs. Not usable as a computational ring."
+
+[[component]]
+id = "mathlib.poly.derivative"
+source = "mathlib"
+capability = "Formal derivative"
+domain = "Polynomial R"
+declarations = ["Polynomial.derivative", "Polynomial.iterate_derivative_mul"]
+paths = ["Mathlib/Algebra/Polynomial/Derivative.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit Polynomial.derivative noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = ""
+
+[[component]]
+id = "mathlib.poly.division"
+source = "mathlib"
+capability = "Division with remainder by monic polynomials and over fields"
+domain = "Polynomial R (monic divisor) / Polynomial K"
+declarations = ["Polynomial.divByMonic", "Polynomial.modByMonic", "Polynomial.div", "Polynomial.mod", "Polynomial.divModByMonicAux"]
+paths = ["Mathlib/Algebra/Polynomial/Div.lean", "Mathlib/Algebra/Polynomial/FieldDivision.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "Div.lean:28 and FieldDivision.lean:27 `noncomputable section`; Div.lean:124 `noncomputable def divModByMonicAux`. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Polynomial.divByMonic, Polynomial.div, Polynomial.mod, Polynomial.divModByMonicAux. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Polynomial.modByMonic."
+notes = "Algorithm is written recursively but compiled code is disabled; a computable representation would reuse the same recursion."
+
+[[component]]
+id = "mathlib.poly.gcd"
+source = "mathlib"
+capability = "Polynomial gcd (Euclidean over fields, normalized gcd over UFDs), content, primitive part"
+domain = "Polynomial K, Polynomial R with NormalizedGCDMonoid R"
+declarations = ["EuclideanDomain.gcd", "Polynomial.normalizedGcdMonoid", "Polynomial.content", "Polynomial.primPart"]
+paths = ["Mathlib/Algebra/Polynomial/FieldDivision.lean", "Mathlib/RingTheory/Polynomial/Content.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "Content.lean:224 `noncomputable def primPart`, :459 `noncomputable instance normalizedGcdMonoid`. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Subresultant / modular gcd algorithms are missing."
+
+[[component]]
+id = "mathlib.poly.resultant"
+source = "mathlib"
+capability = "Sylvester matrix and resultant"
+domain = "Polynomial R over CommRing"
+declarations = ["Polynomial.sylvester", "Polynomial.resultant"]
+paths = ["Mathlib/RingTheory/Polynomial/Resultant/Basic.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: resultant of degree 2 and 1 <50 ms; cost is Leibniz determinant (n!) of the Sylvester matrix"
+status = "adaptable"
+evidence = "#eval Polynomial.resultant ((X+1)^2 built by ofFinsupp) (X-3 built by ofFinsupp) = 16. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Computable given computable inputs, but via Matrix.det (factorial cost); unusable above total degree about 8."
+
+[[component]]
+id = "mathlib.poly.discriminant"
+source = "mathlib"
+capability = "Polynomial discriminant"
+domain = "Polynomial R"
+declarations = ["Polynomial.discr"]
+paths = ["Mathlib/RingTheory/Polynomial/Resultant/Basic.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit Polynomial.discr noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = ""
+
+[[component]]
+id = "mathlib.poly.roots"
+source = "mathlib"
+capability = "Multiset of roots in an integral domain"
+domain = "Polynomial R, IsDomain R"
+declarations = ["Polynomial.roots", "Polynomial.rootSet", "Polynomial.nthRoots"]
+paths = ["Mathlib/Algebra/Polynomial/Roots.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit Polynomial.roots noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Real root isolation, complex root approximation and roots over finite fields are missing."
+
+[[component]]
+id = "mathlib.poly.factorization"
+source = "mathlib"
+capability = "Polynomial factorization (Berlekamp, Cantor-Zassenhaus, Zassenhaus/van Hoeij, LLL)"
+domain = "Polynomial over ZMod p, ℤ, ℚ, number fields"
+declarations = ["UniqueFactorizationMonoid.normalizedFactors"]
+paths = ["Mathlib/RingTheory/Polynomial/UniqueFactorization.lean", "Mathlib/RingTheory/UniqueFactorizationDomain/NormalizedFactors.lean"]
+kind = "theorem"
+executable = "not-present"
+performance = "not measured"
+status = "missing"
+evidence = "Only UFD existence (normalizedFactors is noncomputable, classical); grep -ril 'berlekamp\\|zassenhaus\\|cantor' Mathlib found no algorithm. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Irreducibility criteria (Eisenstein, Gauss lemma) exist as theorems. Hex supplies an executable implementation: hex.HexBerlekamp.berlekamp-factor, hex.HexBerlekamp.distinct-degree-factor and the HexBerlekampZassenhaus and HexHensel libraries."
+
+[[component]]
+id = "mathlib.poly.special-families"
+source = "mathlib"
+capability = "Cyclotomic and Chebyshev polynomials"
+domain = "Polynomial R"
+declarations = ["Polynomial.cyclotomic", "Polynomial.cyclotomic'", "Polynomial.Chebyshev.T", "Polynomial.Chebyshev.U"]
+paths = ["Mathlib/RingTheory/Polynomial/Cyclotomic/Basic.lean", "Mathlib/RingTheory/Polynomial/Chebyshev.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit Polynomial.cyclotomic and Polynomial.Chebyshev.T noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = ""
+
+[[component]]
+id = "mathlib.poly.composition"
+source = "mathlib"
+capability = "Polynomial composition"
+domain = "Polynomial R"
+declarations = ["Polynomial.comp"]
+paths = ["Mathlib/Algebra/Polynomial/Eval/Defs.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit Polynomial.comp noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = ""
+
+[[component]]
+id = "mathlib.poly.multivariate"
+source = "mathlib"
+capability = "Multivariate polynomial ring and evaluation, total degree"
+domain = "MvPolynomial σ R"
+declarations = ["MvPolynomial", "MvPolynomial.X", "MvPolynomial.eval", "MvPolynomial.totalDegree"]
+paths = ["Mathlib/Algebra/MvPolynomial/Basic.lean", "Mathlib/Algebra/MvPolynomial/Degrees.lean", "Mathlib/Algebra/MvPolynomial/Eval.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "MvPolynomial/Basic.lean:68 `noncomputable section`; #eval of X 0 * X 1 evaluation failed 'depends on AddMonoidAlgebra.nonAssocSemiring'. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "eval and totalDegree are compiled but no computable constructor exists."
+
+[[component]]
+id = "mathlib.poly.monomial-orders"
+source = "mathlib"
+capability = "Monomial orders (lex, degree lex), leading term, multivariate division theorem"
+domain = "MvPolynomial σ R"
+declarations = ["MonomialOrder", "MonomialOrder.lex", "MonomialOrder.degree", "MonomialOrder.div", "MonomialOrder.div_set", "MonomialOrder.reduce"]
+paths = ["Mathlib/Data/Finsupp/MonomialOrder.lean", "Mathlib/RingTheory/MvPolynomial/Groebner.lean"]
+kind = "theorem"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "Groebner.lean:56 `noncomputable def subLTerm`, :87 `noncomputable def reduce`, :128 `theorem div` (existence only); #audit MonomialOrder.lex noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: MonomialOrder, MonomialOrder.lex, MonomialOrder.degree, MonomialOrder.div_set, MonomialOrder.reduce. Text changed since v4.33.0, noncomputable modifier and section status unchanged: MonomialOrder.div."
+notes = "Division is an existence theorem. Buchberger/F4 and Groebner basis definitions/criteria are missing from Mathlib (grep buchberger: none)."
+
+[[component]]
+id = "mathlib.poly.groebner-basis"
+source = "mathlib"
+capability = "Groebner basis computation (Buchberger, F4/F5)"
+domain = "MvPolynomial over a field"
+declarations = []
+paths = []
+kind = "executable-algorithm"
+executable = "not-present"
+performance = "not measured"
+status = "missing"
+evidence = "grep -ril 'buchberger\\|groebner basis' over Mathlib found only MvPolynomial/Groebner.lean (division theorem); the only executable S-polynomial code is grind's (see lean-core.tactic.grind-groebner). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run."
+notes = "Hex supplies an executable implementation: hex.HexGroebner.f4, hex.HexGroebner.certified-basis, hex.HexGroebner.division-normal-form."
+
+[[component]]
+id = "mathlib.poly.power-series"
+source = "mathlib"
+capability = "Formal power series ring, coefficients, inverse of units"
+domain = "PowerSeries R, MvPowerSeries σ R"
+declarations = ["PowerSeries", "PowerSeries.mk", "PowerSeries.coeff", "PowerSeries.invOfUnit", "MvPowerSeries"]
+paths = ["Mathlib/RingTheory/PowerSeries/Basic.lean", "Mathlib/RingTheory/PowerSeries/Inverse.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "PowerSeries/Basic.lean:50 `noncomputable section`; #audit PowerSeries.coeff noncomputable=true; #eval of a coefficient failed. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "PowerSeries.mk is computable (functions ℕ → R) but coefficient extraction is not. A lazy-series or truncated representation is needed."
+
+[[component]]
+id = "mathlib.poly.laurent"
+source = "mathlib"
+capability = "Laurent polynomials"
+domain = "LaurentPolynomial R"
+declarations = ["LaurentPolynomial", "LaurentPolynomial.T"]
+paths = ["Mathlib/Algebra/Polynomial/Laurent.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "Defined as AddMonoidAlgebra R ℤ, whose ring structure is noncomputable (same Finsupp root cause). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = ""
+
+[[component]]
+id = "mathlib.poly.ratfunc"
+source = "mathlib"
+capability = "Rational functions K(X)"
+domain = "RatFunc K"
+declarations = ["RatFunc"]
+paths = ["Mathlib/FieldTheory/RatFunc/Defs.lean", "Mathlib/FieldTheory/RatFunc/Basic.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "Built as FractionRing of Polynomial K; inherits noncomputable polynomial operations. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = ""
+
+[[component]]
+id = "mathlib.data.finsupp"
+source = "mathlib"
+capability = "Finitely supported functions (backbone of Polynomial, MvPolynomial, MonoidAlgebra, linear combinations)"
+domain = "α →₀ M"
+declarations = ["Finsupp", "Finsupp.single", "Finsupp.instAdd", "Finsupp.onFinset", "Finsupp.mapRange", "Finsupp.support"]
+paths = ["Mathlib/Data/Finsupp/Defs.lean", "Mathlib/Data/Finsupp/Single.lean", "Mathlib/Algebra/Group/Finsupp.lean"]
+kind = "data-structure"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit Finsupp.instAdd, Finsupp.single, Finsupp.onFinset, Finsupp.mapRange noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Finsupp, Finsupp.single, Finsupp.instAdd, Finsupp.onFinset. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Finsupp.mapRange. Located in master source by text search: Finsupp.support at Mathlib/Data/Finsupp/Defs.lean:90."
+notes = "The single biggest executability obstacle in Mathlib algebra. Structure literals ⟨support, toFun, proof⟩ are computable."
+
+[[component]]
+id = "mathlib.data.dfinsupp"
+source = "mathlib"
+capability = "Dependent finitely supported functions with computable addition"
+domain = "Π₀ i, β i with DecidableEq ι and decidable zero"
+declarations = ["DFinsupp", "DFinsupp.single", "DFinsupp.instAdd"]
+paths = ["Mathlib/Data/DFinsupp/Defs.lean"]
+kind = "data-structure"
+executable = "ran"
+performance = "measured: <50 ms"
+status = "adaptable"
+evidence = "#eval ((DFinsupp.single 1 5 + DFinsupp.single 1 2 : Π₀ _ : Fin 3, ℤ) 1) = 7. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Quotient-of-list representation, computable but slow and not normalizing; DirectSum is built on it. DFinsupp.instAdd is the generated name of the anonymous `instance : Add (Π₀ i, β i)` at Mathlib/Data/DFinsupp/Defs.lean:186."
+
+[[component]]
+id = "lean-core.tactic.grind-commring-poly"
+source = "lean-core"
+capability = "Sparse multivariate polynomials over ℤ (and ℤ/c) in normal form: add, multiply, power, constant multiple, from expression tree, grevlex/revlex monomial order"
+domain = "Lean.Grind.CommRing.Expr over variables Nat; integer or characteristic-c coefficients"
+declarations = ["Lean.Grind.CommRing.Poly", "Lean.Grind.CommRing.Mon", "Lean.Grind.CommRing.Expr", "Lean.Grind.CommRing.Expr.toPoly", "Lean.Grind.CommRing.Expr.toPolyC", "Lean.Grind.CommRing.Poly.mul", "Lean.Grind.CommRing.Poly.pow", "Lean.Grind.CommRing.Poly.mulC", "Lean.Grind.CommRing.Poly.combine", "Lean.Grind.CommRing.Mon.grevlex", "Lean.Grind.CommRing.Expr.denote_toPoly"]
+paths = ["src/Init/Grind/Ring/CommSolver.lean"]
+kind = "tactic-internal-algorithm"
+executable = "ran"
+performance = "measured: (x+y+1)^20 (231 terms) and (x+y+z+1)^12 mod 7 each <50 ms interpreted"
+status = "adaptable"
+evidence = "#eval ((Expr.pow (x+y) 3).toPoly) printed the 4-term normal form; repr sizes 478590 and 491762 characters for the larger cases. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Ordinary functions on inductive data, with proved denotation lemmas (Expr.denote_toPoly) into any CommRing: the strongest reusable executable polynomial kernel found. Linked-list representation; Int coefficients only (rationals handled outside)."
+
+[[component]]
+id = "lean-core.tactic.grind-groebner"
+source = "lean-core"
+capability = "Groebner-style completion: S-polynomials, simplification and superposition of polynomial equations"
+domain = "grind CommRing Poly"
+declarations = ["Lean.Grind.CommRing.Poly.spolM", "Lean.Grind.CommRing.Stepwise.superpose", "Lean.Grind.CommRing.Stepwise.simp", "Lean.Meta.Grind.Arith.CommRing.processNewEq"]
+paths = ["src/Lean/Meta/Tactic/Grind/Arith/CommRing/SafePoly.lean", "src/Lean/Meta/Tactic/Grind/Arith/CommRing/EqCnstr.lean", "src/Init/Grind/Ring/CommSolver.lean"]
+kind = "tactic-internal-algorithm"
+executable = "ran"
+performance = "measured: grind proved x=y ⊢ x^2=y^2 and x*y=1, x=2 ⊢ y=1/2 instantly"
+status = "adaptable"
+evidence = "#audit Lean.Grind.CommRing.Poly.spolM computable (ir=true); grind examples in t3 checked. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Lean.Grind.CommRing.Stepwise.superpose, Lean.Grind.CommRing.Stepwise.simp. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Lean.Grind.CommRing.Poly.spolM, Lean.Meta.Grind.Arith.CommRing.processNewEq. The run results above are from v4.33.0 and were not repeated on master."
+notes = "spolM runs in RingM (grind's monad); the completion loop lives in GoalM and is entangled with the E-graph. Reuse needs extraction into a pure Buchberger loop over Poly."
+
+[[component]]
+id = "mathlib.tactic.ring-normal-form"
+source = "mathlib"
+capability = "Commutative (semi)ring normalization with proof (ring, ring_nf)"
+domain = "Lean.Expr of a commutative semiring"
+declarations = ["Mathlib.Tactic.Ring.ExSum", "Mathlib.Tactic.Ring.ExProd", "Mathlib.Tactic.Ring.ExBase", "Mathlib.Tactic.Ring.Common.eval"]
+paths = ["Mathlib/Tactic/Ring/Basic.lean", "Mathlib/Tactic/Ring/Common.lean", "Mathlib/Tactic/Ring/RingNF.lean"]
+kind = "tactic-internal-algorithm"
+executable = "ran"
+performance = "measured: ring on (x+y)^10 identity 117 ms"
+status = "adaptable"
+evidence = "`example (x y : ℚ) : (x + y)^10 = (y + x)^10 := by ring` checked. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Mathlib.Tactic.Ring.ExSum, Mathlib.Tactic.Ring.ExProd, Mathlib.Tactic.Ring.ExBase. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Mathlib.Tactic.Ring.Common.eval. On master the ring normaliser's evaluator is Mathlib.Tactic.Ring.Common.eval (Ring/Common.lean:1271). The run results above are from v4.33.0 and were not repeated on master."
+notes = "ExSum is indexed by Qq expressions (Q($α)): a meta-level proof-producing normalizer, not a polynomial data type. Usable as a certificate checker for identities a CAS finds."
+
+[[component]]
+id = "mathlib.tactic.linarith-simplex"
+source = "mathlib"
+capability = "Exact rational simplex method and Gaussian elimination to a tableau (Positivstellensatz-style certificate search)"
+domain = "Dense or sparse matrices over ℚ"
+declarations = ["Mathlib.Tactic.Linarith.SimplexAlgorithm.findPositiveVector", "Mathlib.Tactic.Linarith.SimplexAlgorithm.Gauss.getTableau", "Mathlib.Tactic.Linarith.SimplexAlgorithm.runSimplexAlgorithm", "Mathlib.Tactic.Linarith.SimplexAlgorithm.DenseMatrix", "Mathlib.Tactic.Linarith.SimplexAlgorithm.SparseMatrix"]
+paths = ["Mathlib/Tactic/Linarith/Oracle/SimplexAlgorithm/Gauss.lean", "Mathlib/Tactic/Linarith/Oracle/SimplexAlgorithm/SimplexAlgorithm.lean", "Mathlib/Tactic/Linarith/Oracle/SimplexAlgorithm/PositiveVector.lean", "Mathlib/Tactic/Linarith/Oracle/SimplexAlgorithm/Datatypes.lean"]
+kind = "tactic-internal-algorithm"
+executable = "ran"
+performance = "measured: 3x4 Gauss tableau and 2x3 positive-vector search <50 ms"
+status = "adaptable"
+evidence = "#eval in MetaM: findPositiveVector on [[1,-1,0],[0,1,-1]] = #[1/3, 1/3, 1/3]; getTableau on a rank-2 3x4 matrix gave basic #[0,1] free #[2,3]. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Unverified (oracle output is checked by linarith later); runs in MetaM/CoreM only for exceptions. Reusable as an exact LP/rank oracle."
+
+[[component]]
+id = "mathlib.tactic.linarith-fourier-motzkin"
+source = "mathlib"
+capability = "Fourier-Motzkin elimination over linear forms"
+domain = "Linarith.Comp (linear constraints over ℚ)"
+declarations = ["Mathlib.Tactic.Linarith.Linexp", "Mathlib.Tactic.Linarith.Comp", "Mathlib.Tactic.Linarith.Linexp.add"]
+paths = ["Mathlib/Tactic/Linarith/Oracle/FourierMotzkin.lean", "Mathlib/Tactic/Linarith/Datatypes.lean"]
+kind = "tactic-internal-algorithm"
+executable = "defined-computable"
+performance = "not measured"
+status = "adaptable"
+evidence = "#audit Linexp.add computable; Linexp := List (Nat × Int). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Exponential; kept as alternative oracle."
+
+[[component]]
+id = "mathlib.tactic.linarith-preprocessing"
+source = "mathlib"
+capability = "Linear forms over monomials parsed from expressions (Linarith.Monom, Linarith.Sum)"
+domain = "Lean.Expr"
+declarations = ["Mathlib.Tactic.Linarith.Monom", "Mathlib.Tactic.Linarith.Sum", "Mathlib.Tactic.Linarith.linearFormOfExpr"]
+paths = ["Mathlib/Tactic/Linarith/Parsing.lean", "Mathlib/Tactic/Linarith/Preprocessing.lean"]
+kind = "tactic-internal-algorithm"
+executable = "defined-computable"
+performance = "not measured"
+status = "adaptable"
+evidence = "#audit linearFormOfExpr computable (ir=true). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Monom/Sum are TreeMap-based sparse polynomials over ℚ (meta level)."
+
+[[component]]
+id = "mathlib.tactic.linarith"
+source = "mathlib"
+capability = "Linear arithmetic over ordered fields (certificate search + checking)"
+domain = "LinearOrderedField hypotheses"
+declarations = ["Mathlib.Tactic.Linarith.linarith"]
+paths = ["Mathlib/Tactic/Linarith/Frontend.lean", "Mathlib/Tactic/Linarith/Verification.lean"]
+kind = "decision-procedure"
+executable = "ran"
+performance = "measured: 3-constraint problem instant"
+status = "reusable"
+evidence = "`(h1 : 2*x+3*y ≤ 5) (h2 : x ≥ 1) (h3 : y ≥ 1) : x + y ≤ 2 := by linarith` checked. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = ""
+
+[[component]]
+id = "mathlib.tactic.polyrith"
+source = "mathlib"
+capability = "Ideal-membership certificate search for polynomial equalities"
+domain = "commutative ring hypotheses"
+declarations = ["Mathlib.Tactic.Polyrith.«tacticPolyrithOnly[_]»"]
+paths = ["Mathlib/Tactic/Polyrith.lean"]
+kind = "tactic-internal-algorithm"
+executable = "defined-computable"
+performance = "not measured"
+status = "adaptable"
+evidence = "Polyrith.lean:48-50: uses the SageCell web API at sagecell.sagemath.org and requires curl. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. On master the tactic is still an anonymous `syntax \"polyrith\"` (Polyrith.lean:52) that calls the SageCell web API through curl (:48-50)."
+notes = "Not run (network). Delegates the Groebner computation to remote Sage; the result is checked by linear_combination. A native CAS would replace the remote call. Mathlib.Tactic.Polyrith.«tacticPolyrithOnly[_]» is the generated name of the anonymous `syntax \"polyrith\" (&\" only\")? ...` at Mathlib/Tactic/Polyrith.lean:52."
+
+[[component]]
+id = "mathlib.tactic.linear-combination"
+source = "mathlib"
+capability = "Check an ideal-membership certificate (linear combination of hypotheses) by ring normalization"
+domain = "commutative ring equalities"
+declarations = ["Mathlib.Tactic.LinearCombination.linearCombination"]
+paths = ["Mathlib/Tactic/LinearCombination.lean"]
+kind = "decision-procedure"
+executable = "defined-computable"
+performance = "not measured"
+status = "reusable"
+evidence = "module loaded in t13. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Located in master source by text search: Mathlib.Tactic.LinearCombination.linearCombination at Mathlib/Tactic/LinearCombination.lean:293."
+notes = "The proof half of a Groebner-based CAS workflow."
+
+[[component]]
+id = "lean-core.tactic.omega"
+source = "lean-core"
+capability = "Decision procedure for linear integer and natural arithmetic (Presburger fragment)"
+domain = "Int, Nat linear constraints"
+declarations = ["Lean.Elab.Tactic.Omega.omega"]
+paths = ["src/Lean/Elab/Tactic/Omega/Core.lean", "src/Lean/Elab/Tactic/Omega/Frontend.lean"]
+kind = "decision-procedure"
+executable = "ran"
+performance = "measured: small system instant"
+status = "reusable"
+evidence = "`(h1 : a + b = c) (h2 : a - b = 1) : 2*a = c + 1 := by omega` checked. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Core problem/solver data structures are ordinary Lean code."
+
+[[component]]
+id = "lean-core.tactic.grind-cutsat"
+source = "lean-core"
+capability = "Linear integer arithmetic solver inside grind (cutsat), linear arithmetic over ordered modules"
+domain = "Int, ordered rings"
+declarations = ["Lean.Meta.Grind.Arith.Cutsat.State", "Lean.Meta.Grind.Arith.Cutsat.mbtc"]
+paths = ["src/Lean/Meta/Tactic/Grind/Arith/Cutsat/Types.lean", "src/Lean/Meta/Tactic/Grind/Arith/Cutsat/Search.lean", "src/Lean/Meta/Tactic/Grind/Arith/Cutsat/MBTC.lean"]
+kind = "tactic-internal-algorithm"
+executable = "defined-computable"
+performance = "not measured"
+status = "adaptable"
+evidence = "Source directories present in toolchain src/lean/Lean/Meta/Tactic/Grind/Arith. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Lean.Meta.Grind.Arith.Cutsat.mbtc. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Lean.Meta.Grind.Arith.Cutsat.State. Lean.Meta.Grind.Arith.Cutsat is a namespace, not a declaration; the records now name its solver state and model-based theory combination."
+notes = "Not exercised separately."
+
+[[component]]
+id = "mathlib.tactic.compute-degree"
+source = "mathlib"
+capability = "Prove degree / natDegree / leading coefficient of explicit polynomials"
+domain = "Polynomial expressions"
+declarations = ["Mathlib.Tactic.ComputeDegree.computeDegree"]
+paths = ["Mathlib/Tactic/ComputeDegree.lean"]
+kind = "decision-procedure"
+executable = "ran"
+performance = "measured: 59 ms"
+status = "reusable"
+evidence = "`natDegree (X^5 + 3*X^2 + 1 : ℤ[X]) = 5 := by compute_degree!` checked. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Located in master source by text search: Mathlib.Tactic.ComputeDegree.computeDegree at Mathlib/Tactic/ComputeDegree.lean:475. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Symbolic, works without computable polynomials."
+
+[[component]]
+id = "mathlib.tactic.reduce-mod-char"
+source = "mathlib"
+capability = "Reduce numerals modulo the characteristic"
+domain = "ZMod n and rings with CharP"
+declarations = ["Tactic.ReduceModChar.reduce_mod_char"]
+paths = ["Mathlib/Tactic/ReduceModChar.lean"]
+kind = "decision-procedure"
+executable = "ran"
+performance = "measured: 87 ms"
+status = "reusable"
+evidence = "`(x + 7) * 3 = 3 * x` in ZMod 7 by ring_nf; reduce_mod_char checked. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Located in master source by text search: Tactic.ReduceModChar.reduce_mod_char at Mathlib/Tactic/ReduceModChar.lean:295. The run results above are from v4.33.0 and were not repeated on master."
+notes = ""
+
+# ---------------------------------------------------------------------------------------------
+# 4. Linear algebra
+# ---------------------------------------------------------------------------------------------
+
+[[component]]
+id = "mathlib.linalg.matrix-arithmetic"
+source = "mathlib"
+capability = "Matrix addition, multiplication, transpose, matrix-vector product, decidable equality"
+domain = "Matrix m n R for Fintype index types (functions)"
+declarations = ["Matrix", "Matrix.of", "Matrix.transpose", "Matrix.mulVec", "Matrix.decidableEq", "Matrix.diagonal", "Matrix.submatrix"]
+paths = ["Mathlib/LinearAlgebra/Matrix/Defs.lean", "Mathlib/Data/Matrix/Mul.lean", "Mathlib/LinearAlgebra/Matrix/Notation.lean", "Mathlib/Data/Matrix/Basic.lean"]
+kind = "data-structure"
+executable = "ran"
+performance = "measured: one entry and the trace of a 40x40 integer product <50 ms each"
+status = "adaptable"
+evidence = "#eval m3 * m3 = !![5,5,1;5,11,7;1,7,17]; decide (m3 * 1 = m3) = true; 40x40 product trace 7094. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Matrix.transpose, Matrix.decidableEq, Matrix.submatrix. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Matrix.of, Matrix.mulVec, Matrix.diagonal. Located in master source by text search: Matrix at Mathlib/LinearAlgebra/Matrix/Defs.lean:55. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Matrices are functions, so entries are recomputed on every access (no memoization); repeated products are exponential in chain length. Needs an Array-backed representation with an equivalence to Matrix."
+
+[[component]]
+id = "mathlib.linalg.trace-kronecker"
+source = "mathlib"
+capability = "Trace and Kronecker product"
+domain = "Matrix over semiring"
+declarations = ["Matrix.trace", "Matrix.kronecker", "Matrix.kroneckerMap"]
+paths = ["Mathlib/LinearAlgebra/Matrix/Trace.lean", "Mathlib/LinearAlgebra/Matrix/Kronecker.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: <50 ms"
+status = "reusable"
+evidence = "#eval Matrix.trace m3 = 9; #audit Matrix.kronecker computable. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = ""
+
+[[component]]
+id = "mathlib.linalg.determinant"
+source = "mathlib"
+capability = "Determinant (Leibniz permutation sum)"
+domain = "Matrix n n R, CommRing R"
+declarations = ["Matrix.det", "Matrix.detRowAlternating", "Matrix.det_succ_row_zero", "Matrix.det_fin_two"]
+paths = ["Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: 6x6 integer det 53 ms; 7x7 533 ms; 8x8 4.8 s (factor about 9-10 per size step, n!)"
+status = "adaptable"
+evidence = "#eval (mk 6).det = 847152, (mk 7).det = 7096320, (mk 8).det = 78185904; `decide` proved m3.det = 18. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Matrix.detRowAlternating, Matrix.det_succ_row_zero, Matrix.det_fin_two. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Matrix.det. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Computable in principle, exponential in practice. A CAS needs Bareiss / modular determinant with a proof of equality to Matrix.det."
+
+[[component]]
+id = "mathlib.linalg.adjugate"
+source = "mathlib"
+capability = "Adjugate matrix and Cramer's rule"
+domain = "Matrix n n R, CommRing R"
+declarations = ["Matrix.adjugate", "Matrix.cramer"]
+paths = ["Mathlib/LinearAlgebra/Matrix/Adjugate.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: 3x3 <50 ms; cost n^2 determinants of size n-1 (factorial)"
+status = "adaptable"
+evidence = "#eval m3.adjugate = !![11,-4,1;-4,8,-2;1,-2,5]. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = ""
+
+[[component]]
+id = "mathlib.linalg.inverse"
+source = "mathlib"
+capability = "Matrix inverse"
+domain = "Matrix n n R"
+declarations = ["Matrix.inv", "Matrix.mul_nonsing_inv"]
+paths = ["Mathlib/LinearAlgebra/Matrix/NonsingularInverse.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit Matrix.inv noncomputable=true; #eval of a rational 3x3 inverse failed 'depends on inv'. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Defined through Ring.inverse (classical). adjugate / det is computable for fields but exponential."
+
+[[component]]
+id = "mathlib.linalg.charpoly"
+source = "mathlib"
+capability = "Characteristic polynomial and characteristic matrix"
+domain = "Matrix n n R"
+declarations = ["Matrix.charpoly", "Matrix.charmatrix"]
+paths = ["Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.lean", "Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit Matrix.charpoly, Matrix.charmatrix noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Needs Hessenberg / Berkowitz / Faddeev-LeVerrier over a computable polynomial type."
+
+[[component]]
+id = "mathlib.linalg.rank"
+source = "mathlib"
+capability = "Matrix rank and module finrank"
+domain = "Matrix over CommRing; Module"
+declarations = ["Matrix.rank", "Module.finrank", "Module.rank"]
+paths = ["Mathlib/LinearAlgebra/Matrix/Rank.lean", "Mathlib/LinearAlgebra/Dimension/Finrank.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit Matrix.rank, Module.finrank noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Matrix.rank, Module.finrank. Read on master only: Module.rank."
+notes = "Echelon certificates (next component) give a checkable route."
+
+[[component]]
+id = "mathlib.linalg.echelon-certificates"
+source = "mathlib"
+capability = "Row echelon / reduced row echelon predicates, pivot structure, rank certificate"
+domain = "Matrix m n R with ordered index types"
+declarations = ["Matrix.IsRowEchelon", "Matrix.IsReducedRowEchelon", "Matrix.IsLeadingEntry", "Matrix.IsPivotedBy", "Matrix.IsPivotedBy.rank_eq"]
+paths = ["Mathlib/LinearAlgebra/Matrix/Echelon/Basic.lean", "Mathlib/LinearAlgebra/Matrix/Echelon/Pivot.lean", "Mathlib/LinearAlgebra/Matrix/Echelon/Decomposition.lean"]
+kind = "theorem"
+executable = "defined-computable"
+performance = "not measured"
+status = "adaptable"
+evidence = "Pivot.lean:144 `theorem rank_eq`; Pivot.lean:165 decidability section; Decomposition.lean:48 `structure Decomposition (A : Matrix m n R) (L : Matrix m m R) (σ : Equiv.Perm m)` (on master it takes L and σ as parameters) with rank_eq. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Predicates and certificate theorems only; no elimination algorithm produces them. A CAS supplies the echelon form, these check it."
+
+[[component]]
+id = "mathlib.linalg.transvections"
+source = "mathlib"
+capability = "Elementary transvection matrices and existence of transvection reduction to diagonal form"
+domain = "Matrix over a field"
+declarations = ["Matrix.transvection", "Matrix.TransvectionStruct", "Matrix.Pivot.listTransvecCol", "Matrix.Pivot.exists_list_transvec_mul_mul_list_transvec_eq_diagonal"]
+paths = ["Mathlib/LinearAlgebra/Matrix/Transvection.lean"]
+kind = "theorem"
+executable = "defined-computable"
+performance = "not measured"
+status = "adaptable"
+evidence = "#audit Matrix.transvection, listTransvecCol computable; reduction is stated as `theorem exists_...`. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "listTransvecCol/Row are computable for one pivot step; the full reduction is an existence proof."
+
+[[component]]
+id = "mathlib.linalg.gaussian-elimination"
+source = "mathlib"
+capability = "Executable Gaussian elimination / RREF / solving linear systems / kernel basis"
+domain = "Matrix over a field"
+declarations = []
+paths = []
+kind = "executable-algorithm"
+executable = "not-present"
+performance = "not measured"
+status = "missing"
+evidence = "No elimination algorithm in Mathlib/LinearAlgebra (echelon files contain predicates); only tactic-internal Linarith.SimplexAlgorithm.Gauss (see mathlib.tactic.linarith-simplex). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run."
+notes = "Hex supplies an executable implementation: hex.HexRowReduce.rref, hex.HexRank.rank-producer."
+
+[[component]]
+id = "mathlib.linalg.smith-normal-form"
+source = "mathlib"
+capability = "Smith normal form over a PID (existence of adapted bases)"
+domain = "Submodules of free modules over a PID"
+declarations = ["Module.Basis.SmithNormalForm", "Submodule.smithNormalForm", "Submodule.smithNormalFormOfLE"]
+paths = ["Mathlib/LinearAlgebra/FreeModule/PID.lean", "Mathlib/LinearAlgebra/FreeModule/Finite/Quotient.lean"]
+kind = "theorem"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "PID.lean defines SmithNormalForm via noncomputable choice; no matrix algorithm. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "A CAS needs the Kannan-Bachem / modular SNF algorithm with unimodular transforms. Hex supplies an executable implementation: hex.HexSmith.snf, hex.HexSmith.snf-certificate."
+
+[[component]]
+id = "mathlib.linalg.hermite-normal-form"
+source = "mathlib"
+capability = "Hermite normal form"
+domain = "integer matrices"
+declarations = []
+paths = []
+kind = "executable-algorithm"
+executable = "not-present"
+performance = "not measured"
+status = "missing"
+evidence = "grep -rli 'hermite.*normal\\|hermiteNormalForm' Mathlib: no matches. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run."
+notes = "Hex supplies an executable implementation: hex.HexHermite.hnf, hex.HexHermite.hnf-certificate."
+
+[[component]]
+id = "mathlib.linalg.lll"
+source = "mathlib"
+capability = "LLL lattice basis reduction"
+domain = "integer lattices"
+declarations = []
+paths = []
+kind = "executable-algorithm"
+executable = "not-present"
+performance = "not measured"
+status = "missing"
+evidence = "grep -rli 'LLL\\b\\|Lenstra' Mathlib: only unrelated matches (Ordmap, CategoryTheory.Galois). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run."
+notes = "Hex supplies an executable implementation: hex.HexLLL.lll-native, hex.HexLLL.lll-certified."
+
+[[component]]
+id = "mathlib.linalg.eigen"
+source = "mathlib"
+capability = "Eigenspaces, eigenvalues, generalized eigenspaces"
+domain = "Module.End R M"
+declarations = ["Module.End.eigenspace", "Module.End.HasEigenvalue", "Module.End.genEigenspace"]
+paths = ["Mathlib/LinearAlgebra/Eigenspace/Basic.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit Module.End.eigenspace computable only because it is a Submodule (a set); HasEigenvalue is a Prop. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "No eigenvalue computation (exact or numeric)."
+
+[[component]]
+id = "mathlib.linalg.bases-kernels"
+source = "mathlib"
+capability = "Bases of free modules, linear map kernels, matrix-linear map correspondence"
+domain = "Module R M"
+declarations = ["Module.Basis", "Module.Basis.ofVectorSpace", "LinearMap.ker", "Matrix.toLin'", "LinearMap.toMatrix'", "Module.Free"]
+paths = ["Mathlib/LinearAlgebra/Basis/Defs.lean", "Mathlib/LinearAlgebra/Matrix/ToLin.lean", "Mathlib/Algebra/Module/Submodule/Ker.lean", "Mathlib/LinearAlgebra/Basis/VectorSpace.lean", "Mathlib/LinearAlgebra/FreeModule/Basic.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit Module.Basis.ofVectorSpace noncomputable=true; LinearMap.ker is a Submodule (set) with no decidable membership instance. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Matrix.toLin' is compiled (functions) but does not yield kernel bases."
+
+[[component]]
+id = "mathlib.linalg.special-groups"
+source = "mathlib"
+capability = "Special and general linear groups of matrices"
+domain = "Matrix n n R"
+declarations = ["Matrix.SpecialLinearGroup", "Matrix.GeneralLinearGroup"]
+paths = ["Mathlib/LinearAlgebra/Matrix/SpecialLinearGroup.lean", "Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "not measured"
+status = "adaptable"
+evidence = "#audit: types computable (subtypes of Matrix); group law is Matrix multiplication. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Inherits function-matrix performance."
+
+# ---------------------------------------------------------------------------------------------
+# 5. Groups
+# ---------------------------------------------------------------------------------------------
+
+[[component]]
+id = "mathlib.group.perm-basic"
+source = "mathlib"
+capability = "Permutations of a finite type: composition, application, cycle notation, swaps"
+domain = "Equiv.Perm α with Fintype α, DecidableEq α"
+declarations = ["Equiv.Perm", "Equiv.swap", "Cycle.formPerm", "Equiv.Perm.instRepr"]
+paths = ["Mathlib/Logic/Equiv/Defs.lean", "Mathlib/GroupTheory/Perm/Cycle/Concrete.lean"]
+kind = "data-structure"
+executable = "ran"
+performance = "measured: <50 ms"
+status = "adaptable"
+evidence = "#eval (σ * σ) 0 = 2 for σ = c[0,1,2]*c[3,4]*c[5,6,7]; #eval σ printed in cycle notation. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Permutations are function pairs (no array image), so long products are slow. A CAS needs array-backed permutations with an Equiv.Perm interpretation."
+
+[[component]]
+id = "mathlib.group.perm-sign"
+source = "mathlib"
+capability = "Sign of a permutation"
+domain = "Equiv.Perm α, Fintype α"
+declarations = ["Equiv.Perm.sign"]
+paths = ["Mathlib/GroupTheory/Perm/Sign.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: <50 ms on S8"
+status = "reusable"
+evidence = "#eval Equiv.Perm.sign σ = -1; `decide` proved it. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = ""
+
+[[component]]
+id = "mathlib.group.perm-cycles"
+source = "mathlib"
+capability = "Cycle type, cycle factors, support, cycleOf, partition of a permutation"
+domain = "Equiv.Perm α, Fintype α"
+declarations = ["Equiv.Perm.cycleType", "Equiv.Perm.cycleFactorsFinset", "Equiv.Perm.support", "Equiv.Perm.cycleOf", "Equiv.Perm.partition"]
+paths = ["Mathlib/GroupTheory/Perm/Cycle/Type.lean", "Mathlib/GroupTheory/Perm/Cycle/Factors.lean", "Mathlib/GroupTheory/Perm/Support.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: cycle type of all 5040 elements of S7 1.7 s"
+status = "reusable"
+evidence = "#eval σ.cycleType = {3,2,3}; σ.cycleFactorsFinset.card = 3; count of 7-cycles in S7 = 720. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Equiv.Perm.cycleType, Equiv.Perm.support, Equiv.Perm.cycleOf, Equiv.Perm.partition. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Equiv.Perm.cycleFactorsFinset. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Order of a permutation = lcm of cycleType is computable this way even though orderOf is not."
+
+[[component]]
+id = "mathlib.group.perm-enumeration"
+source = "mathlib"
+capability = "Enumeration of the symmetric group and filtering"
+domain = "Finset.univ : Finset (Equiv.Perm (Fin n))"
+declarations = ["Equiv.instFintype", "Fintype.card", "List.permutations"]
+paths = ["Mathlib/Data/Fintype/Perm.lean", "Mathlib/Data/List/Permutation.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: derangements of S8 (40320 elements) 545 ms; sign filter on S5 <50 ms"
+status = "reusable"
+evidence = "#eval count of fixed-point-free permutations of Fin 8 = 14833; (List.range 8).permutations.length = 40320. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Brute force only."
+
+[[component]]
+id = "mathlib.group.free-group"
+source = "mathlib"
+capability = "Free group: word reduction, normal form, decidable equality, word length, cyclic reduction"
+domain = "FreeGroup α with DecidableEq α"
+declarations = ["FreeGroup", "FreeGroup.reduce", "FreeGroup.toWord", "FreeGroup.norm", "FreeGroup.instDecidableEq", "FreeGroup.reduceCyclically", "FreeGroup.mk"]
+paths = ["Mathlib/GroupTheory/FreeGroup/Basic.lean", "Mathlib/GroupTheory/FreeGroup/Reduce.lean", "Mathlib/GroupTheory/FreeGroup/CyclicallyReduced.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: product of 4000 generators reduced 61 ms"
+status = "reusable"
+evidence = "#eval FreeGroup.reduce [(0,t),(1,t),(1,f),(0,f),(2,t)] = [(2,true)]; decide (of 0 * (of 0)⁻¹ = 1) = true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: FreeGroup.reduce, FreeGroup.toWord, FreeGroup.norm, FreeGroup.instDecidableEq, FreeGroup.reduceCyclically, FreeGroup.mk. Text changed since v4.33.0, noncomputable modifier and section status unchanged: FreeGroup. The run results above are from v4.33.0 and were not repeated on master."
+notes = "FreeGroup.instDecidableEq is the generated name of the anonymous `instance : DecidableEq (FreeGroup α)` at Mathlib/GroupTheory/FreeGroup/Reduce.lean:294."
+
+[[component]]
+id = "mathlib.group.presented-group"
+source = "mathlib"
+capability = "Group presentations ⟨S | R⟩ as quotients of free groups"
+domain = "PresentedGroup rels"
+declarations = ["PresentedGroup", "PresentedGroup.toGroup", "Group.IsFinitelyPresented"]
+paths = ["Mathlib/GroupTheory/PresentedGroup.lean", "Mathlib/GroupTheory/FinitelyPresentedGroup.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "Quotient by normal closure; no decidable equality instance (word problem undecidable in general). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Group.IsFinitelyPresented. Text changed since v4.33.0, noncomputable modifier and section status unchanged: PresentedGroup, PresentedGroup.toGroup."
+notes = "Todd-Coxeter / Knuth-Bendix are missing."
+
+[[component]]
+id = "mathlib.group.coset-enumeration"
+source = "mathlib"
+capability = "Todd-Coxeter coset enumeration and Schreier-Sims base and strong generating set"
+domain = "finitely presented groups; permutation groups"
+declarations = []
+paths = []
+kind = "executable-algorithm"
+executable = "not-present"
+performance = "not measured"
+status = "missing"
+evidence = "grep -rln 'ToddCoxeter\\|Todd-Coxeter\\|SchreierSims\\|Schreier-Sims' Mathlib: no matches (Mathlib/GroupTheory/Schreier.lean is Schreier's lemma). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run."
+notes = "Hex supplies an executable implementation: hex.HexPermGroup.schreier-sims, hex.HexPermGroup.rank-enumerate-cosets."
+
+[[component]]
+id = "mathlib.group.specific-groups"
+source = "mathlib"
+capability = "Dihedral, generalized quaternion, alternating and cyclic groups with computable multiplication"
+domain = "DihedralGroup n, QuaternionGroup n, alternatingGroup α, ZMod n"
+declarations = ["DihedralGroup", "DihedralGroup.instGroup", "QuaternionGroup", "alternatingGroup"]
+paths = ["Mathlib/GroupTheory/SpecificGroups/Dihedral.lean", "Mathlib/GroupTheory/SpecificGroups/Quaternion.lean", "Mathlib/GroupTheory/SpecificGroups/Alternating.lean"]
+kind = "data-structure"
+executable = "ran"
+performance = "measured: <50 ms"
+status = "adaptable"
+evidence = "#eval Fintype.card (DihedralGroup 10) = 20; Fintype.card (alternatingGroup (Fin 5)) = 60; printing an element failed: no Repr for DihedralGroup/QuaternionGroup. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: DihedralGroup, QuaternionGroup, alternatingGroup. Text changed since v4.33.0, noncomputable modifier and section status unchanged: DihedralGroup.instGroup. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Needs Repr instances. DihedralGroup.instGroup is the generated name of the anonymous `instance : Group (DihedralGroup n)` at Mathlib/GroupTheory/SpecificGroups/Dihedral.lean:71."
+
+[[component]]
+id = "mathlib.group.subgroup-membership"
+source = "mathlib"
+capability = "Subgroup closure and membership"
+domain = "Subgroup G"
+declarations = ["Subgroup.closure", "Subgroup.center", "Subgroup.normalizer"]
+paths = ["Mathlib/Algebra/Group/Subgroup/Lattice.lean", "Mathlib/GroupTheory/Subgroup/Center.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "decide (c[0,1] ∈ Subgroup.closure {c[0,1,2]}) failed: no Decidable instance. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Brute-force centre via Finset filter works (#eval centre of S4 has 1 element)."
+
+[[component]]
+id = "mathlib.group.actions"
+source = "mathlib"
+capability = "Group actions, orbits, stabilizers, orbit-stabilizer, Burnside, class equation"
+domain = "MulAction G α"
+declarations = ["MulAction.orbit", "MulAction.stabilizer", "MulAction.card_orbit_mul_card_stabilizer_eq_card_group", "Group.card_center_add_sum_card_noncenter_eq_card"]
+paths = ["Mathlib/GroupTheory/GroupAction/Defs.lean", "Mathlib/GroupTheory/GroupAction/Quotient.lean", "Mathlib/GroupTheory/ClassEquation.lean"]
+kind = "theorem"
+executable = "defined-computable"
+performance = "measured: orbit of 0 under S5 by Finset.image 5 elements <50 ms"
+status = "adaptable"
+evidence = "MulAction.orbit is a Set (no computation); Finset.image over Finset.univ computes orbits by brute force. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: MulAction.orbit, MulAction.stabilizer, MulAction.card_orbit_mul_card_stabilizer_eq_card_group. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Group.card_center_add_sum_card_noncenter_eq_card."
+notes = "No orbit algorithm on generators."
+
+[[component]]
+id = "mathlib.group.sylow"
+source = "mathlib"
+capability = "Sylow theorems"
+domain = "finite groups"
+declarations = ["Sylow", "Sylow.exists_subgroup_card_pow_prime", "card_sylow_modEq_one"]
+paths = ["Mathlib/GroupTheory/Sylow.lean"]
+kind = "theorem"
+executable = "not-present"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "theorems and a structure; no Sylow subgroup computation. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Sylow, Sylow.exists_subgroup_card_pow_prime, card_sylow_modEq_one."
+notes = ""
+
+[[component]]
+id = "mathlib.group.coxeter"
+source = "mathlib"
+capability = "Coxeter matrices (ADE, B, F, G, H families), Coxeter systems, length function"
+domain = "CoxeterMatrix B, CoxeterSystem"
+declarations = ["CoxeterMatrix", "CoxeterMatrix.A", "CoxeterMatrix.E₈", "CoxeterSystem", "CoxeterSystem.length"]
+paths = ["Mathlib/GroupTheory/Coxeter/Matrix.lean", "Mathlib/GroupTheory/Coxeter/Basic.lean", "Mathlib/GroupTheory/Coxeter/Length.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit CoxeterMatrix.E₈ computable (it is a matrix); CoxeterSystem.length noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: CoxeterMatrix, CoxeterMatrix.E₈, CoxeterSystem, CoxeterSystem.length. Text changed since v4.33.0, noncomputable modifier and section status unchanged: CoxeterMatrix.A."
+notes = "The Coxeter group is a PresentedGroup; reduced words and root-system computations are missing."
+
+[[component]]
+id = "mathlib.group.abelianization-quotients"
+source = "mathlib"
+capability = "Quotient groups and abelianization"
+domain = "Group G, normal subgroup N"
+declarations = ["QuotientGroup.mk", "Group.Abelianization", "HasQuotient.Quotient"]
+paths = ["Mathlib/GroupTheory/QuotientGroup/Defs.lean", "Mathlib/GroupTheory/Abelianization/Defs.lean", "Mathlib/Algebra/Quotient.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "Quotient types without decidable equality. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: QuotientGroup.mk. Read on master only: Group.Abelianization. Located in master source by text search: HasQuotient.Quotient at Mathlib/Algebra/Quotient.lean:50. On master Abelianization is Group.Abelianization (Abelianization/Defs.lean:44)."
+notes = ""
+
+[[component]]
+id = "mathlib.group.finite-abelian-structure"
+source = "mathlib"
+capability = "Structure theorem for finite abelian groups"
+domain = "finite commutative groups"
+declarations = ["AddCommGroup.equiv_directSum_zmod_of_finite"]
+paths = ["Mathlib/GroupTheory/FiniteAbelian/Basic.lean"]
+kind = "theorem"
+executable = "not-present"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "existence theorem; invariant factors not computed. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Would follow from executable SNF. Hex supplies an executable implementation: hex.HexSmith.abelian-structure, hex.HexSmith.snf."
+
+# ---------------------------------------------------------------------------------------------
+# 6. Combinatorics and discrete mathematics
+# ---------------------------------------------------------------------------------------------
+
+[[component]]
+id = "mathlib.comb.finset-multiset-list"
+source = "mathlib"
+capability = "Finite sets, multisets and lists: enumeration, filter, image, powerset, product, sort"
+domain = "Finset α, Multiset α, List α with DecidableEq"
+declarations = ["Finset", "Multiset", "Finset.powerset", "Finset.filter", "Finset.image", "Finset.sort", "Multiset.sort", "Finset.Icc"]
+paths = ["Mathlib/Data/Finset/Basic.lean", "Mathlib/Data/Finset/Powerset.lean", "Mathlib/Data/Finset/Sort.lean", "Mathlib/Order/Interval/Finset/Nat.lean"]
+kind = "data-structure"
+executable = "ran"
+performance = "measured: powerset of a 16-set (65536) <50 ms; Finset.Icc 3 100000 card <50 ms"
+status = "reusable"
+evidence = "#eval (Finset.range 16).powerset.card = 65536; (Finset.Icc 3 100000).card = 99998. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Quotient-of-list representation; union/insert dedup is quadratic."
+
+[[component]]
+id = "mathlib.comb.fintype-card"
+source = "mathlib"
+capability = "Cardinality of finite types by enumeration"
+domain = "Fintype α"
+declarations = ["Fintype.card", "Fintype", "Nat.card"]
+paths = ["Mathlib/Data/Fintype/Card.lean", "Mathlib/SetTheory/Cardinal/Finite.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: card (Equiv.Perm (Fin 6)) <50 ms; injective maps Fin 5 → Fin 4 (1024 functions) <50 ms"
+status = "reusable"
+evidence = "#eval Fintype.card (Equiv.Perm (Fin 6)) = 720; Nat.card noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Fintype.card enumerates; Nat.card is noncomputable."
+
+[[component]]
+id = "mathlib.comb.partitions"
+source = "mathlib"
+capability = "Integer partitions and their enumeration"
+domain = "Nat.Partition n"
+declarations = ["Nat.Partition", "Nat.Partition.instFintype", "Nat.Partition.parts", "Nat.Partition.ofSums"]
+paths = ["Mathlib/Combinatorics/Enumerative/Partition/Basic.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: card of partitions of 15 = 176 in 2.35 s; partitions of 25 no result after 390 s"
+status = "adaptable"
+evidence = "#eval Fintype.card (Nat.Partition 15) = 176; partitions of 25 timed out (exit 124). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Nat.Partition, Nat.Partition.instFintype, Nat.Partition.ofSums. Located in master source by text search: Nat.Partition.parts at Mathlib/Combinatorics/Enumerative/Partition/Basic.lean:54. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Fintype instance enumerates a superset of multisets: super-polynomial. Needs a partition generator and the partition-count recurrence. Nat.Partition.instFintype is the generated name of the anonymous `instance (n : ℕ) : Fintype (Partition n)` at Mathlib/Combinatorics/Enumerative/Partition/Basic.lean:201."
+
+[[component]]
+id = "mathlib.comb.compositions"
+source = "mathlib"
+capability = "Integer compositions"
+domain = "Composition n"
+declarations = ["Composition", "Composition.blocks"]
+paths = ["Mathlib/Combinatorics/Enumerative/Composition.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: compositions of 12 (2048) 209 ms"
+status = "reusable"
+evidence = "#eval Fintype.card (Composition 12) = 2048. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Composition. Located in master source by text search: Composition.blocks at Mathlib/Combinatorics/Enumerative/Composition.lean:103. The run results above are from v4.33.0 and were not repeated on master."
+notes = ""
+
+[[component]]
+id = "mathlib.comb.young-diagrams"
+source = "mathlib"
+capability = "Young diagrams, row lengths, transpose, semistandard Young tableaux"
+domain = "YoungDiagram, SemistandardYoungTableau μ"
+declarations = ["YoungDiagram", "YoungDiagram.rowLens", "YoungDiagram.ofRowLens", "YoungDiagram.transpose", "SemistandardYoungTableau"]
+paths = ["Mathlib/Combinatorics/Young/YoungDiagram.lean", "Mathlib/Combinatorics/Young/SemistandardTableau.lean"]
+kind = "data-structure"
+executable = "defined-computable"
+performance = "not measured"
+status = "adaptable"
+evidence = "#audit rowLens, ofRowLens, transpose computable (ir=true); SSYT is a structure of functions with proofs (no enumeration). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "No tableau enumeration, RSK, Kostka numbers, or symmetric functions."
+
+[[component]]
+id = "mathlib.comb.catalan"
+source = "mathlib"
+capability = "Catalan numbers"
+domain = "Nat"
+declarations = ["catalan", "PowerSeries.catalanSeries"]
+paths = ["Mathlib/Combinatorics/Enumerative/Catalan/Basic.lean", "Mathlib/RingTheory/PowerSeries/Catalan.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: catalan 15 6.06 s; catalan 18 156 s; catalan 30 no result (exponential recursion)"
+status = "adaptable"
+evidence = "#eval catalan 15 = 9694845; catalan 18 = 477638700. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: PowerSeries.catalanSeries. Text changed since v4.33.0, noncomputable modifier and section status unchanged: catalan. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Defined by the convolution recurrence without memoization. Replace with centralBinom n / (n+1) (theorem catalan_eq_centralBinom_div exists)."
+
+[[component]]
+id = "mathlib.comb.stirling"
+source = "mathlib"
+capability = "Stirling numbers of the first and second kind"
+domain = "Nat"
+declarations = ["Nat.stirlingFirst", "Nat.stirlingSecond"]
+paths = ["Mathlib/Combinatorics/Enumerative/Stirling.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: S(20,7) and s(20,7) about 65 ms each; S(60,20) no result within about 240 s (exponential recursion)"
+status = "adaptable"
+evidence = "#eval Nat.stirlingSecond 20 7 = 11143554045652; Nat.stirlingFirst 20 7 = 52260903362512720. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Nat.stirlingFirst, Nat.stirlingSecond. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Two-term recursion without memoization."
+
+[[component]]
+id = "mathlib.comb.bell-multinomial"
+source = "mathlib"
+capability = "Bell-type numbers of a multiset and multinomial coefficients"
+domain = "Multiset Nat"
+declarations = ["Multiset.bell", "Nat.multinomial"]
+paths = ["Mathlib/Combinatorics/Enumerative/Bell.lean", "Mathlib/Data/Nat/Choose/Multinomial.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: <50 ms"
+status = "reusable"
+evidence = "#eval Multiset.bell {2,2,3} = 105. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Classical Bell numbers B_n are not defined as such."
+
+[[component]]
+id = "mathlib.comb.derangements"
+source = "mathlib"
+capability = "Number of derangements"
+domain = "Nat"
+declarations = ["numDerangements", "derangements"]
+paths = ["Mathlib/Combinatorics/Derangements/Finite.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: D_20 <50 ms"
+status = "reusable"
+evidence = "#eval numDerangements 20 = 895014631192902121. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: derangements. Text changed since v4.33.0, noncomputable modifier and section status unchanged: numDerangements. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Two-step recursion compiled with structural recursion (fast here)."
+
+[[component]]
+id = "mathlib.comb.finpartition"
+source = "mathlib"
+capability = "Finite partitions of a finset / set partitions"
+domain = "Finpartition s"
+declarations = ["Finpartition"]
+paths = ["Mathlib/Order/Partition/Finpartition.lean"]
+kind = "data-structure"
+executable = "defined-computable"
+performance = "not measured"
+status = "adaptable"
+evidence = "#audit Finpartition computable structure. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "No enumeration measured."
+
+[[component]]
+id = "mathlib.comb.sym"
+source = "mathlib"
+capability = "Symmetric powers (multisets of fixed size), unordered pairs"
+domain = "Sym α n, Sym2 α"
+declarations = ["Sym", "Sym2"]
+paths = ["Mathlib/Data/Sym/Basic.lean", "Mathlib/Data/Sym/Sym2.lean"]
+kind = "data-structure"
+executable = "defined-computable"
+performance = "not measured"
+status = "adaptable"
+evidence = "#audit Sym, Sym2 computable types. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = ""
+
+[[component]]
+id = "mathlib.graph.simple-graph-basic"
+source = "mathlib"
+capability = "Simple graphs with decidable adjacency: degree, edge set, adjacency matrix, standard families"
+domain = "SimpleGraph V with Fintype V and DecidableRel G.Adj"
+declarations = ["SimpleGraph", "SimpleGraph.degree", "SimpleGraph.edgeFinset", "SimpleGraph.adjMatrix", "SimpleGraph.cycleGraph", "SimpleGraph.pathGraph", "SimpleGraph.completeGraph"]
+paths = ["Mathlib/Combinatorics/SimpleGraph/Basic.lean", "Mathlib/Combinatorics/SimpleGraph/Finite.lean", "Mathlib/Combinatorics/SimpleGraph/AdjMatrix.lean", "Mathlib/Combinatorics/SimpleGraph/CycleGraph.lean", "Mathlib/Combinatorics/SimpleGraph/Circulant.lean", "Mathlib/Combinatorics/SimpleGraph/Hasse.lean"]
+kind = "data-structure"
+executable = "ran"
+performance = "measured: <50 ms on C8"
+status = "adaptable"
+evidence = "#eval (cycleGraph 8).degree 0 = 2; edgeFinset.card = 8; adjMatrix of C4 printed; decide on (pathGraph 6).Reachable failed: no DecidableRel instance for pathGraph adjacency. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Graphs are adjacency predicates; decidability instances are missing for some families. Needs adjacency-list representation."
+
+[[component]]
+id = "mathlib.graph.connectivity"
+source = "mathlib"
+capability = "Reachability, connectedness, connected components (decidable on finite graphs)"
+domain = "SimpleGraph V, Fintype V, DecidableEq V, DecidableRel G.Adj"
+declarations = ["SimpleGraph.instDecidableRelReachable", "SimpleGraph.Connected", "SimpleGraph.ConnectedComponent", "SimpleGraph.finsetWalkLength"]
+paths = ["Mathlib/Combinatorics/SimpleGraph/Connectivity/Finite.lean"]
+kind = "decision-procedure"
+executable = "ran"
+performance = "measured: decide (cycleGraph 6).Connected <50 ms"
+status = "adaptable"
+evidence = "#eval decide (SimpleGraph.cycleGraph 6).Connected = true; Finite.lean:56 decides Reachable by enumerating all walks of length < |V| (finsetWalkLength). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Walk enumeration is exponential in |V|; BFS/union-find is missing. SimpleGraph.instDecidableRelReachable is the generated name of the anonymous `instance : DecidableRel G.Reachable` at Mathlib/Combinatorics/SimpleGraph/Connectivity/Finite.lean:56."
+
+[[component]]
+id = "mathlib.graph.cliques"
+source = "mathlib"
+capability = "Cliques of given size"
+domain = "SimpleGraph V, Fintype V"
+declarations = ["SimpleGraph.cliqueFinset", "SimpleGraph.CliqueFree"]
+paths = ["Mathlib/Combinatorics/SimpleGraph/Clique.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: 3-cliques of K6 and C7 <50 ms"
+status = "adaptable"
+evidence = "#eval ((⊤ : SimpleGraph (Fin 6)).cliqueFinset 3).card = 20; C7 has 0 triangles. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Brute force over powerset of size k."
+
+[[component]]
+id = "mathlib.graph.metric-colouring"
+source = "mathlib"
+capability = "Graph distance, girth, chromatic number, colourings, matchings, Hamiltonicity"
+domain = "SimpleGraph V"
+declarations = ["SimpleGraph.dist", "SimpleGraph.edist", "SimpleGraph.girth", "SimpleGraph.chromaticNumber", "SimpleGraph.Coloring", "SimpleGraph.Subgraph.IsPerfectMatching", "SimpleGraph.IsHamiltonian"]
+paths = ["Mathlib/Combinatorics/SimpleGraph/Metric.lean", "Mathlib/Combinatorics/SimpleGraph/Girth.lean", "Mathlib/Combinatorics/SimpleGraph/Coloring/Vertex.lean", "Mathlib/Combinatorics/SimpleGraph/Matching.lean", "Mathlib/Combinatorics/SimpleGraph/Hamiltonian.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit dist, edist, girth, chromaticNumber noncomputable=true; #eval failed for dist and chromaticNumber. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Shortest paths, colouring search, matching algorithms and isomorphism testing are missing."
+
+[[component]]
+id = "mathlib.comb.matroid"
+source = "mathlib"
+capability = "Matroids (set-based axioms, duality, minors)"
+domain = "Matroid α"
+declarations = ["Matroid", "Matroid.Indep", "Matroid.IsBase"]
+paths = ["Mathlib/Combinatorics/Matroid/Basic.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "Matroid fields are Set/Prop-valued; no decidable instances. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Matroid. Located in master source by text search: Matroid.Indep at Mathlib/Combinatorics/Matroid/Basic.lean:198; Matroid.IsBase at Mathlib/Combinatorics/Matroid/Basic.lean:196."
+notes = ""
+
+[[component]]
+id = "mathlib.order.lattices"
+source = "mathlib"
+capability = "Order theory: lattices, Boolean algebras, Galois connections, finite orders"
+domain = "Lattice α, BooleanAlgebra α"
+declarations = ["Lattice", "BooleanAlgebra", "GaloisConnection", "Fin.succAbove"]
+paths = ["Mathlib/Order/Lattice.lean", "Mathlib/Order/BooleanAlgebra/Basic.lean", "Mathlib/Order/GaloisConnection/Basic.lean", "Mathlib/Data/Fin/SuccPred.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "not measured"
+status = "adaptable"
+evidence = "type classes; operations compute for concrete instances (Finset, Bool, Fin n). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "No poset algorithms (Möbius function of a poset, linear extensions, order dimension)."
+
+[[component]]
+id = "mathlib.comb.generating-functions"
+source = "mathlib"
+capability = "Generating functions as power series"
+domain = "PowerSeries"
+declarations = ["PowerSeries.catalanSeries", "PowerSeries.mk"]
+paths = ["Mathlib/RingTheory/PowerSeries/Catalan.lean", "Mathlib/RingTheory/PowerSeries/WellKnown.lean"]
+kind = "theorem"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "PowerSeries.coeff noncomputable (see mathlib.poly.power-series). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = ""
+
+# ---------------------------------------------------------------------------------------------
+# 7. Number theory and arithmetic geometry
+# ---------------------------------------------------------------------------------------------
+
+[[component]]
+id = "mathlib.nt.gaussian-integers"
+source = "mathlib"
+capability = "Gaussian integers: ring operations, norm, Euclidean division, gcd"
+domain = "GaussianInt = ℤ√-1"
+declarations = ["GaussianInt", "GaussianInt.instEuclideanDomain", "Zsqrtd.norm"]
+paths = ["Mathlib/NumberTheory/Zsqrtd/GaussianInt.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: <50 ms"
+status = "reusable"
+evidence = "#eval (3+4i)*(1-2i) = 11-2i; norm (3+4i) = 25; (27+4i)/(3+2i) = 7-3i, mod = -i; gcd (27+4i) 5 = 2-i. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "GaussianInt.instEuclideanDomain is the generated name of the anonymous `instance : EuclideanDomain ℤ[i]` at Mathlib/NumberTheory/Zsqrtd/GaussianInt.lean:229."
+
+[[component]]
+id = "mathlib.nt.zsqrtd"
+source = "mathlib"
+capability = "Quadratic integer rings ℤ[√d]: ring operations and norm"
+domain = "Zsqrtd d, d : ℤ"
+declarations = ["Zsqrtd", "Zsqrtd.norm", "Zsqrtd.commRing"]
+paths = ["Mathlib/NumberTheory/Zsqrtd/Basic.lean"]
+kind = "data-structure"
+executable = "defined-computable"
+performance = "not measured"
+status = "adaptable"
+evidence = "#audit Zsqrtd.norm computable; #eval (1+√2)^40 failed only for lack of a Repr instance on ℤ√2. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Needs Repr; class groups / units of real quadratic fields missing."
+
+[[component]]
+id = "mathlib.nt.pell"
+source = "mathlib"
+capability = "Pell equation solutions x_n, y_n for d = a^2 - 1; existence of fundamental solutions for general d"
+domain = "a > 1 (Matiyasevic form); nonsquare d (general)"
+declarations = ["Pell.xn", "Pell.yn", "Pell.Solution₁", "Pell.exists_of_not_isSquare"]
+paths = ["Mathlib/NumberTheory/PellMatiyasevic.lean", "Mathlib/NumberTheory/Pell.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: n = 10 <50 ms"
+status = "adaptable"
+evidence = "#eval (Pell.xn (a := 2) _ 10, Pell.yn (a := 2) _ 10) = (262087, 151316). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "General-d fundamental solution is an existence theorem; continued-fraction solver missing."
+
+[[component]]
+id = "mathlib.nt.sums-of-squares"
+source = "mathlib"
+capability = "Two- and four-square theorems"
+domain = "Nat"
+declarations = ["Nat.sum_four_squares", "Nat.Prime.sq_add_sq", "Nat.eq_sq_add_sq_iff"]
+paths = ["Mathlib/NumberTheory/SumFourSquares.lean", "Mathlib/NumberTheory/SumTwoSquares.lean"]
+kind = "theorem"
+executable = "not-present"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "theorems (∃ statements); no Cornacchia / representation algorithm. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Nat.sum_four_squares, Nat.Prime.sq_add_sq. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Nat.eq_sq_add_sq_iff."
+notes = ""
+
+[[component]]
+id = "mathlib.nt.quadratic-forms"
+source = "mathlib"
+capability = "Quadratic forms and maps on modules; associated bilinear forms; discriminant"
+domain = "QuadraticMap R M N"
+declarations = ["QuadraticForm", "QuadraticMap", "QuadraticMap.polarBilin", "Matrix.toQuadraticForm'", "QuadraticForm.discr"]
+paths = ["Mathlib/LinearAlgebra/QuadraticForm/Basic.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit Matrix.toQuadraticMap' computable (evaluation of x^T A x), QuadraticForm.discr noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. Matrix.toQuadraticMap' is a deprecated alias (since 2026-05-15) of Matrix.toQuadraticForm' (QuadraticForm/Basic.lean:1154-1157)."
+notes = "No reduction theory, genus symbols, equivalence testing, or representation numbers."
+
+[[component]]
+id = "mathlib.nt.weierstrass-invariants"
+source = "mathlib"
+capability = "Weierstrass curve invariants b2..b8, c4, c6, discriminant"
+domain = "WeierstrassCurve R over CommRing"
+declarations = ["WeierstrassCurve", "WeierstrassCurve.Δ", "WeierstrassCurve.c₄", "WeierstrassCurve.c₆", "WeierstrassCurve.b₂"]
+paths = ["Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: <50 ms"
+status = "reusable"
+evidence = "#eval Δ of y^2+y = x^3-x over ℚ = 37; c₄ = 48; over ZMod 7 Δ of y^2 = x^3+x+1 = 1. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = ""
+
+[[component]]
+id = "mathlib.nt.weierstrass-j"
+source = "mathlib"
+capability = "j-invariant of an elliptic curve"
+domain = "WeierstrassCurve with IsElliptic"
+declarations = ["WeierstrassCurve.j"]
+paths = ["Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit WeierstrassCurve.j noncomputable=true (uses unit inverse of Δ). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "c4^3/Δ over a field is trivial to compute directly."
+
+[[component]]
+id = "mathlib.nt.elliptic-point-addition"
+source = "mathlib"
+capability = "Group law on affine points of a Weierstrass curve (slope, addX, addY, point addition, scalar multiples)"
+domain = "WeierstrassCurve.Affine over a field with DecidableEq"
+declarations = ["WeierstrassCurve.Affine.Point", "WeierstrassCurve.Affine.Point.instAdd", "WeierstrassCurve.Affine.slope", "WeierstrassCurve.Affine.addX", "WeierstrassCurve.Affine.addY"]
+paths = ["Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.lean", "Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Formula.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: 20P on curve 37a over ℚ <50 ms"
+status = "reusable"
+evidence = "P=(0,0) on y^2+y=x^3-x: #eval x(2P) = 1, x(5P) = 1/4, x(20P) has 19 characters. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "The AddCommGroup proof is noncomputable-free here; point construction needs a nonsingularity proof (cheap by norm_num). Jacobian/projective coordinates exist too (Jacobian/Point.lean). WeierstrassCurve.Affine.Point.instAdd is the generated name of the anonymous `instance : Add W.Point` at Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.lean:664."
+
+[[component]]
+id = "mathlib.nt.elliptic-curves-advanced"
+source = "mathlib"
+capability = "Point counting, torsion, Mordell-Weil rank, isogenies, conductor, minimal models, L-functions of elliptic curves"
+domain = "elliptic curves over ℚ, finite fields, number fields"
+declarations = []
+paths = []
+kind = "executable-algorithm"
+executable = "not-present"
+performance = "not measured"
+status = "missing"
+evidence = "Mathlib/AlgebraicGeometry/EllipticCurve contains Weierstrass, Affine, Jacobian, Projective, VariableChange, Group, DivisionPolynomial, NormalForms, ModelsWithJ; no algorithms for these. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run."
+notes = "Division polynomials exist as definitions over noncomputable polynomials."
+
+[[component]]
+id = "mathlib.nt.number-fields"
+source = "mathlib"
+capability = "Number fields: ring of integers, discriminant, class number, unit group rank (Dirichlet), Minkowski bound"
+domain = "NumberField K"
+declarations = ["NumberField.RingOfIntegers", "NumberField.RingOfIntegers.basis", "NumberField.discr", "NumberField.classNumber", "NumberField.Units.rank", "NumberField.Units.exist_unique_eq_mul_prod"]
+paths = ["Mathlib/NumberTheory/NumberField/Basic.lean", "Mathlib/NumberTheory/NumberField/Discriminant/Defs.lean", "Mathlib/NumberTheory/NumberField/ClassNumber.lean", "Mathlib/NumberTheory/NumberField/Units/DirichletTheorem.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit NumberField.classNumber, NumberField.discr, RingOfIntegers.basis noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Round-2 maximal order, class group and unit computations are missing."
+
+[[component]]
+id = "mathlib.nt.cyclotomic-fields"
+source = "mathlib"
+capability = "Cyclotomic extensions and cyclotomic fields"
+domain = "IsCyclotomicExtension S A B"
+declarations = ["IsCyclotomicExtension", "CyclotomicField"]
+paths = ["Mathlib/NumberTheory/Cyclotomic/Basic.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "CyclotomicField is a splitting field (noncomputable construction). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = ""
+
+[[component]]
+id = "mathlib.nt.characters"
+source = "mathlib"
+capability = "Dirichlet characters, quadratic characters, χ₄, χ₈, Gauss sums"
+domain = "DirichletCharacter R n, MulChar"
+declarations = ["DirichletCharacter", "ZMod.χ₄", "ZMod.χ₈", "quadraticChar", "gaussSum"]
+paths = ["Mathlib/NumberTheory/DirichletCharacter/Basic.lean", "Mathlib/NumberTheory/LegendreSymbol/ZModChar.lean", "Mathlib/NumberTheory/LegendreSymbol/QuadraticChar/Basic.lean", "Mathlib/NumberTheory/GaussSum.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: <50 ms"
+status = "adaptable"
+evidence = "#eval ZMod.χ₄ 3 = -1; quadraticChar (ZMod 7) 3 = -1 (after Fact (Nat.Prime 7) instance); gaussSum computable (ir=true). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "No enumeration of the character group (Conrey labels), conductors, or primitive characters."
+
+[[component]]
+id = "mathlib.nt.l-series"
+source = "mathlib"
+capability = "L-series, Riemann zeta, Dirichlet L-functions"
+domain = "ℂ-valued"
+declarations = ["LSeries", "riemannZeta", "DirichletCharacter.LFunction"]
+paths = ["Mathlib/NumberTheory/LSeries/Basic.lean", "Mathlib/NumberTheory/LSeries/RiemannZeta.lean", "Mathlib/NumberTheory/LSeries/DirichletContinuation.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit LSeries, riemannZeta noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = ""
+
+[[component]]
+id = "mathlib.nt.modular-forms"
+source = "mathlib"
+capability = "Modular forms, slash actions, Eisenstein series"
+domain = "ModularForm Γ k"
+declarations = ["ModularForm", "CuspForm", "SlashAction"]
+paths = ["Mathlib/NumberTheory/ModularForms/Basic.lean", "Mathlib/NumberTheory/ModularForms/SlashActions.lean", "Mathlib/NumberTheory/ModularForms/EisensteinSeries/Basic.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "ModularForms/Basic.lean:32 `@[expose] public noncomputable section`; the slash action is the class SlashAction (SlashActions.lean:38). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "q-expansion coefficients, modular symbols and Hecke operators on bases are missing."
+
+[[component]]
+id = "mathlib.nt.zlattice"
+source = "mathlib"
+capability = "ℤ-lattices in real vector spaces, covolume"
+domain = "Submodule ℤ E with IsZLattice"
+declarations = ["IsZLattice", "ZLattice.covolume"]
+paths = ["Mathlib/Algebra/Module/ZLattice/Basic.lean", "Mathlib/Algebra/Module/ZLattice/Covolume.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "Lattices are submodules of real spaces (noncomputable ℝ). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "No Gram-matrix lattice type, no short-vector enumeration, no integral lattice genus theory."
+
+[[component]]
+id = "mathlib.nt.wilson-fermat-theory"
+source = "mathlib"
+capability = "Wilson's theorem, quadratic reciprocity, Fermat's last theorem n=4 and other classical theorems"
+domain = "Nat, ZMod p"
+declarations = ["ZMod.wilsons_lemma", "legendreSym.quadratic_reciprocity", "fermatLastTheoremFour"]
+paths = ["Mathlib/NumberTheory/Wilson.lean", "Mathlib/NumberTheory/LegendreSymbol/QuadraticReciprocity.lean", "Mathlib/NumberTheory/FLT/Four.lean"]
+kind = "theorem"
+executable = "not-present"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "theorem statements. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Useful as correctness lemmas for CAS algorithms."
+
+# ---------------------------------------------------------------------------------------------
+# 8. Algebraic structures
+# ---------------------------------------------------------------------------------------------
+
+[[component]]
+id = "mathlib.alg.ideals"
+source = "mathlib"
+capability = "Ideals: span, radical, prime/maximal predicates, membership"
+domain = "Ideal R"
+declarations = ["Ideal.span", "Ideal.radical", "Ideal.IsPrime", "Ideal.IsMaximal", "Submodule.span"]
+paths = ["Mathlib/RingTheory/Ideal/Span.lean", "Mathlib/RingTheory/Ideal/Operations.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "decide ((6:ℤ) ∈ Ideal.span {3}) failed: no Decidable instance; Ideal.span is compiled only because a Submodule is a set. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Ideal membership needs Groebner bases / Hermite form."
+
+[[component]]
+id = "mathlib.alg.ideal-quotient"
+source = "mathlib"
+capability = "Quotient rings R/I"
+domain = "Ideal.Quotient I"
+declarations = ["Ideal.Quotient.mk", "Ideal.Quotient.commRing"]
+paths = ["Mathlib/RingTheory/Ideal/Quotient/Defs.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#eval Ideal.Quotient.mk (span {5}) 7 failed: no Repr and no decidable equality. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Quot-based; usable only with an external normal form."
+
+[[component]]
+id = "mathlib.alg.adjoin-root"
+source = "mathlib"
+capability = "R[X]/(f): adjoining a root"
+domain = "AdjoinRoot f"
+declarations = ["AdjoinRoot", "AdjoinRoot.mk", "AdjoinRoot.instCommRing", "AdjoinRoot.powerBasis"]
+paths = ["Mathlib/RingTheory/AdjoinRoot.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "AdjoinRoot.lean:46 `noncomputable section`; #audit AdjoinRoot.instCommRing noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "The natural target for transporting an executable number-field / GF(p^n) arithmetic."
+
+[[component]]
+id = "mathlib.alg.localization"
+source = "mathlib"
+capability = "Localization at a submonoid; fraction field"
+domain = "Localization M, FractionRing R"
+declarations = ["Localization", "Localization.mk", "FractionRing", "IsLocalization"]
+paths = ["Mathlib/RingTheory/Localization/Defs.lean", "Mathlib/RingTheory/Localization/FractionRing.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit Localization.mk computable; #eval failed: no Repr, no decidable equality (quotient by a classical relation). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = ""
+
+[[component]]
+id = "mathlib.alg.tensor-product"
+source = "mathlib"
+capability = "Tensor products of modules and algebras"
+domain = "TensorProduct R M N"
+declarations = ["TensorProduct", "TensorProduct.tmul", "Algebra.TensorProduct.instSemiring"]
+paths = ["Mathlib/LinearAlgebra/TensorProduct/Defs.lean", "Mathlib/LinearAlgebra/TensorProduct/Basic.lean", "Mathlib/RingTheory/TensorProduct/Basic.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "Quotient of a free additive monoid; no normal form or decidable equality. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Computation needs bases (Kronecker products of matrices)."
+
+[[component]]
+id = "mathlib.alg.direct-sum"
+source = "mathlib"
+capability = "Direct sums of modules / graded objects"
+domain = "DirectSum ι β"
+declarations = ["DirectSum", "DirectSum.of"]
+paths = ["Mathlib/Algebra/DirectSum/Basic.lean"]
+kind = "data-structure"
+executable = "defined-computable"
+performance = "not measured"
+status = "adaptable"
+evidence = "DirectSum is DFinsupp (computable addition, see mathlib.data.dfinsupp). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = ""
+
+[[component]]
+id = "mathlib.alg.free-algebra"
+source = "mathlib"
+capability = "Free algebras, free monoids"
+domain = "FreeAlgebra R X, FreeMonoid α"
+declarations = ["FreeAlgebra", "FreeAlgebra.ι", "FreeMonoid", "FreeMonoid.of"]
+paths = ["Mathlib/Algebra/FreeAlgebra.lean", "Mathlib/Algebra/FreeMonoid/Basic.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "measured: FreeMonoid product <50 ms"
+status = "adaptable"
+evidence = "#eval (FreeMonoid.of 1 * FreeMonoid.of 2).toList = [1, 2]; FreeAlgebra is a quotient (no normal form). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: FreeAlgebra, FreeMonoid.of. Text changed since v4.33.0, noncomputable modifier and section status unchanged: FreeMonoid. Read on master only: FreeAlgebra.ι."
+notes = "FreeMonoid computes (lists); FreeAlgebra needs a noncommutative polynomial representation."
+
+[[component]]
+id = "mathlib.alg.lie-algebras"
+source = "mathlib"
+capability = "Lie rings and algebras; commutator bracket on associative algebras"
+domain = "LieRing L, LieAlgebra R L; Matrix with commutator"
+declarations = ["LieRing", "LieAlgebra", "LieRing.ofAssociativeRing"]
+paths = ["Mathlib/Algebra/Lie/Basic.lean", "Mathlib/Algebra/Lie/OfAssociative.lean", "Mathlib/Algebra/Lie/Matrix.lean"]
+kind = "formal-definition"
+executable = "ran"
+performance = "measured: <50 ms"
+status = "adaptable"
+evidence = "#eval ⁅!![1,2;3,4], !![0,1;0,0]⁆ = !![-3,-3;0,3] over ℤ. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "No structure constants, root systems, Weyl character formula, or Killing form computations."
+
+[[component]]
+id = "mathlib.alg.clifford-exterior"
+source = "mathlib"
+capability = "Clifford and exterior algebras"
+domain = "CliffordAlgebra Q, ExteriorAlgebra R M"
+declarations = ["CliffordAlgebra", "ExteriorAlgebra"]
+paths = ["Mathlib/LinearAlgebra/CliffordAlgebra/Basic.lean", "Mathlib/LinearAlgebra/ExteriorAlgebra/Basic.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "Defined as RingQuot of a tensor algebra (no normal form). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = ""
+
+[[component]]
+id = "mathlib.alg.quaternions"
+source = "mathlib"
+capability = "Quaternion algebras (a,b) and Hamilton quaternions with computable ring operations"
+domain = "QuaternionAlgebra R a b c, Quaternion R"
+declarations = ["QuaternionAlgebra", "Quaternion", "QuaternionAlgebra.instRing"]
+paths = ["Mathlib/Algebra/Quaternion.lean"]
+kind = "data-structure"
+executable = "ran"
+performance = "measured: <50 ms"
+status = "reusable"
+evidence = "#eval (1+2i+3j+4k)*(5+6i+7j+8k) over ℤ = -60+12i+30j+24k; real part in ℍ[ℚ,-1,0,-3] = -166. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: QuaternionAlgebra. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Quaternion, QuaternionAlgebra.instRing. On master Quaternion R is an abbrev for QuaternionAlgebra R (-1) 0 (-1) (Quaternion.lean:684), so its ring structure is QuaternionAlgebra.instRing (:437); Quaternion.instRing no longer exists. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Structure with four fields; no maximal orders or norm-form algorithms."
+
+[[component]]
+id = "mathlib.alg.monoid-algebra"
+source = "mathlib"
+capability = "Monoid and group algebras R[G]"
+domain = "MonoidAlgebra R G, AddMonoidAlgebra R G"
+declarations = ["MonoidAlgebra", "MonoidAlgebra.single", "AddMonoidAlgebra"]
+paths = ["Mathlib/Algebra/MonoidAlgebra/Defs.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit MonoidAlgebra.single noncomputable=true; Finsupp root cause. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = ""
+
+[[component]]
+id = "mathlib.alg.module-quotients"
+source = "mathlib"
+capability = "Quotient modules and linear map kernels/ranges"
+domain = "Submodule R M"
+declarations = ["Submodule.Quotient.mk", "LinearMap.ker", "LinearMap.range"]
+paths = ["Mathlib/LinearAlgebra/Quotient/Defs.lean", "Mathlib/Algebra/Module/Submodule/Ker.lean", "Mathlib/Algebra/Module/Submodule/Range.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "Quotient types; no decidable equality. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = ""
+
+[[component]]
+id = "mathlib.alg.noetherian-ufd-theory"
+source = "mathlib"
+capability = "Noetherian rings, Hilbert basis theorem, UFDs, PIDs, Dedekind domains"
+domain = "commutative rings"
+declarations = ["IsNoetherianRing", "Polynomial.isNoetherianRing", "UniqueFactorizationMonoid", "IsDedekindDomain"]
+paths = ["Mathlib/RingTheory/Noetherian/Basic.lean", "Mathlib/RingTheory/Polynomial/Basic.lean", "Mathlib/RingTheory/UniqueFactorizationDomain/Basic.lean", "Mathlib/RingTheory/DedekindDomain/Basic.lean"]
+kind = "theorem"
+executable = "not-present"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "theorem libraries. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: IsNoetherianRing. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Polynomial.isNoetherianRing, UniqueFactorizationMonoid, IsDedekindDomain."
+notes = "Correctness backbone for CAS algorithms; no algorithms."
+
+# ---------------------------------------------------------------------------------------------
+# 9. Homological algebra, topology, category theory
+# ---------------------------------------------------------------------------------------------
+
+[[component]]
+id = "mathlib.homology.complexes"
+source = "mathlib"
+capability = "Chain complexes, homological complexes, homotopies"
+domain = "HomologicalComplex V c in a preadditive category"
+declarations = ["HomologicalComplex", "ChainComplex", "CochainComplex", "Homotopy"]
+paths = ["Mathlib/Algebra/Homology/HomologicalComplex.lean", "Mathlib/Algebra/Homology/Homotopy.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "Category-theoretic structures over arbitrary categories; objects are not data. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Matrices of integers with SNF would be the computational model."
+
+[[component]]
+id = "mathlib.homology.homology"
+source = "mathlib"
+capability = "Homology of short complexes and complexes; Ext and Tor in abelian categories"
+domain = "ShortComplex C with HasHomology; abelian categories"
+declarations = ["CategoryTheory.ShortComplex.homology", "HomologicalComplex.homology", "CategoryTheory.Abelian.Ext"]
+paths = ["Mathlib/Algebra/Homology/ShortComplex/Homology.lean", "Mathlib/Algebra/Homology/DerivedCategory/Ext/Basic.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit CategoryTheory.ShortComplex.homology noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: CategoryTheory.Abelian.Ext. Text changed since v4.33.0, noncomputable modifier and section status unchanged: CategoryTheory.ShortComplex.homology, HomologicalComplex.homology."
+notes = "No homology computation of explicit complexes."
+
+[[component]]
+id = "mathlib.topology.simplicial"
+source = "mathlib"
+capability = "Simplex category, simplicial sets, standard simplices, geometric simplicial complexes"
+domain = "SimplexCategory, SSet, Geometry.SimplicialComplex"
+declarations = ["SimplexCategory", "SimplexCategory.mk", "SSet", "SSet.stdSimplex", "Geometry.SimplicialComplex"]
+paths = ["Mathlib/AlgebraicTopology/SimplexCategory/Basic.lean", "Mathlib/AlgebraicTopology/SimplicialSet/Basic.lean", "Mathlib/AlgebraicTopology/SimplicialSet/StdSimplex.lean", "Mathlib/Analysis/Convex/SimplicialComplex/Basic.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "measured: SimplexCategory object length <50 ms"
+status = "formalized-not-executable"
+evidence = "#eval (SimplexCategory.mk 3).len = 3; SSet are functors (no finite data); SimplicialComplex is geometric (sets in a real space). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: SimplexCategory, SSet, SSet.stdSimplex, Geometry.SimplicialComplex. Located in master source by text search: SimplexCategory.mk at Mathlib/AlgebraicTopology/SimplexCategory/Defs.lean:52."
+notes = "No abstract finite simplicial complex with boundary matrices."
+
+[[component]]
+id = "mathlib.homology.computational"
+source = "mathlib"
+capability = "Computation of homology groups, Betti numbers and torsion of finite complexes"
+domain = "finite simplicial / cellular complexes"
+declarations = []
+paths = []
+kind = "executable-algorithm"
+executable = "not-present"
+performance = "not measured"
+status = "missing"
+evidence = "No executable boundary-matrix or SNF-based homology found in Mathlib/AlgebraicTopology or Mathlib/Algebra/Homology. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run."
+notes = "Hex supplies an executable implementation: hex.HexSmith.snf (integer Smith normal form, from which homology groups of a finite complex follow)."
+
+[[component]]
+id = "mathlib.category.basic"
+source = "mathlib"
+capability = "Categories, functors, limits, module categories"
+domain = "CategoryTheory.Category"
+declarations = ["CategoryTheory.Category", "CategoryTheory.Functor", "ModuleCat"]
+paths = ["Mathlib/CategoryTheory/Category/Basic.lean", "Mathlib/Algebra/Category/ModuleCat/Basic.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "structures of proofs and functions; nothing to evaluate. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: CategoryTheory.Category, CategoryTheory.Functor. Text changed since v4.33.0, noncomputable modifier and section status unchanged: ModuleCat."
+notes = ""
+
+# ---------------------------------------------------------------------------------------------
+# 10. Analysis, symbolic and numeric
+# ---------------------------------------------------------------------------------------------
+
+[[component]]
+id = "mathlib.analysis.derivative"
+source = "mathlib"
+capability = "Derivatives (deriv, fderiv) and their simp lemmas as symbolic differentiation"
+domain = "functions 𝕜 → F over nontrivially normed fields"
+declarations = ["deriv", "fderiv", "deriv_add", "deriv_mul", "Real.deriv_exp"]
+paths = ["Mathlib/Analysis/Calculus/Deriv/Basic.lean", "Mathlib/Analysis/SpecialFunctions/ExpDeriv.lean", "Mathlib/Analysis/Calculus/Deriv/Add.lean", "Mathlib/Analysis/Calculus/Deriv/Mul.lean"]
+kind = "theorem"
+executable = "ran"
+performance = "measured: simp proofs below the profiler threshold"
+status = "adaptable"
+evidence = "`deriv (fun x : ℝ => x^2) = fun x => 2*x` by ext; simp and `deriv (fun x => exp x * sin x) 0 = 1` by simp both checked; #audit deriv noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: deriv, deriv_add, deriv_mul, Real.deriv_exp. Read on master only: fderiv. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Symbolic differentiation is available as proof search (simp, fun_prop) that verifies a stated answer. It does not return a derivative expression as data."
+
+[[component]]
+id = "mathlib.analysis.fun-prop"
+source = "mathlib"
+capability = "Function property propagation (continuity, differentiability, measurability)"
+domain = "function expressions"
+declarations = ["Mathlib.Meta.FunProp.funProp"]
+paths = ["Mathlib/Tactic/FunProp.lean", "Mathlib/Tactic/FunProp/Core.lean"]
+kind = "decision-procedure"
+executable = "defined-computable"
+performance = "not measured"
+status = "reusable"
+evidence = "module imported in t10. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = ""
+
+[[component]]
+id = "mathlib.analysis.integrals"
+source = "mathlib"
+capability = "Bochner and interval integrals, fundamental theorem of calculus"
+domain = "measure spaces, ℝ intervals"
+declarations = ["MeasureTheory.integral", "intervalIntegral", "intervalIntegral.integral_eq_sub_of_hasDerivAt"]
+paths = ["Mathlib/MeasureTheory/Integral/Bochner/Basic.lean", "Mathlib/MeasureTheory/Integral/IntervalIntegral/Basic.lean", "Mathlib/MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit MeasureTheory.integral, intervalIntegral noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: intervalIntegral, intervalIntegral.integral_eq_sub_of_hasDerivAt. Read on master only: MeasureTheory.integral."
+notes = "No symbolic integration (Risch) or numeric quadrature."
+
+[[component]]
+id = "mathlib.analysis.special-functions"
+source = "mathlib"
+capability = "exp, log, trigonometric functions, real powers, Gamma, zeta, exponential in Banach algebras"
+domain = "ℝ, ℂ, normed algebras"
+declarations = ["Real.exp", "Real.log", "Real.sin", "Real.cos", "Real.pi", "Real.Gamma", "riemannZeta", "NormedSpace.exp", "Complex.exp"]
+paths = ["Mathlib/Analysis/SpecialFunctions/Exp.lean", "Mathlib/Analysis/SpecialFunctions/Log/Basic.lean", "Mathlib/Analysis/SpecialFunctions/Trigonometric/Basic.lean", "Mathlib/Analysis/SpecialFunctions/Gamma/Basic.lean", "Mathlib/NumberTheory/LSeries/RiemannZeta.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "#audit Real.exp, Real.log, Real.sin, Real.cos, Real.pi, Real.Gamma, riemannZeta, NormedSpace.exp noncomputable=true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Real.exp, Real.log, Real.sin, Real.cos, Real.Gamma, riemannZeta. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Real.pi. Read on master only: NormedSpace.exp, Complex.exp."
+notes = "Concrete values only via simp lemmas at special points (exp 0 = 1 checked) and bound lemmas."
+
+[[component]]
+id = "mathlib.analysis.limits-asymptotics"
+source = "mathlib"
+capability = "Limits, filters, asymptotics; multiseries infrastructure for asymptotic expansion"
+domain = "Filter, Asymptotics"
+declarations = ["Filter.Tendsto", "Asymptotics.IsBigO"]
+paths = ["Mathlib/Order/Filter/Basic.lean", "Mathlib/Analysis/Asymptotics/Defs.lean", "Mathlib/Tactic/ComputeAsymptotics/Multiseries/Basic.lean"]
+kind = "formal-definition"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "Mathlib/Tactic/ComputeAsymptotics has only Multiseries/* and Lemmas.lean; no top-level tactic file. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Filter.Tendsto. Read on master only: Asymptotics.IsBigO."
+notes = "ComputeAsymptotics looks like in-progress work toward a limit-computing tactic (inference from file layout)."
+
+[[component]]
+id = "mathlib.analysis.series-odes-optimization"
+source = "mathlib"
+capability = "Series summation, ODE existence (Picard-Lindelöf, Gronwall), convex optimization theory, Fourier transform"
+domain = "ℝ, ℂ, Banach spaces"
+declarations = ["tsum", "IsPicardLindelof", "norm_le_gronwallBound_of_norm_deriv_right_le", "VectorFourier.fourierIntegral", "Fourier.fourierIntegral"]
+paths = ["Mathlib/Topology/Algebra/InfiniteSum/Defs.lean", "Mathlib/Analysis/ODE/PicardLindelof.lean", "Mathlib/Analysis/ODE/Gronwall.lean", "Mathlib/Analysis/Fourier/FourierTransform.lean"]
+kind = "theorem"
+executable = "noncomputable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "tsum and integrals are noncomputable; the Fourier integral is VectorFourier.fourierIntegral and Fourier.fourierIntegral (Analysis/Fourier/FourierTransform.lean:81, :339). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: IsPicardLindelof, norm_le_gronwallBound_of_norm_deriv_right_le, VectorFourier.fourierIntegral, Fourier.fourierIntegral. Located in master source by text search: tsum at Mathlib/Topology/Algebra/InfiniteSum/Defs.lean (to_additive of tprod)."
+notes = "No numeric ODE solvers, FFT, or optimizers."
+
+[[component]]
+id = "mathlib.analysis.fft-float-linalg"
+source = "mathlib"
+capability = "FFT, floating-point linear algebra (LU, QR, SVD, eigen)"
+domain = "Float arrays"
+declarations = []
+paths = []
+kind = "executable-algorithm"
+executable = "not-present"
+performance = "not measured"
+status = "missing"
+evidence = "grep for FFT and Float matrix code over Mathlib, Batteries, core: no matches beyond FloatArray. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run."
+notes = "Hex supplies an executable implementation: hex.HexPolyFast.karatsuba (fast polynomial multiplication; no FFT found in hex.toml)."
+
+[[component]]
+id = "mathlib.analysis.positivity-bound"
+source = "mathlib"
+capability = "Positivity and bound tactics"
+domain = "ordered field expressions"
+declarations = ["Mathlib.Meta.Positivity.positivity", "Mathlib.Tactic.Bound.boundNormNum"]
+paths = ["Mathlib/Tactic/Positivity/Core.lean", "Mathlib/Tactic/Bound.lean"]
+kind = "decision-procedure"
+executable = "defined-computable"
+performance = "not measured"
+status = "reusable"
+evidence = "modules imported in t13. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The `bound` tactic is an anonymous `syntax \"bound\"` (Mathlib/Tactic/Bound.lean:243); the record names its norm_num discharger."
+notes = ""
+
+[[component]]
+id = "mathlib.tactic.field-simp"
+source = "mathlib"
+capability = "Clearing denominators in field expressions"
+domain = "field expressions with nonzero hypotheses"
+declarations = ["Mathlib.Tactic.FieldSimp.fieldSimp"]
+paths = ["Mathlib/Tactic/FieldSimp.lean"]
+kind = "decision-procedure"
+executable = "ran"
+performance = "measured: 163 ms"
+status = "reusable"
+evidence = "`(ha : a ≠ 0) : a * b / a = b := by field_simp` checked. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Located in master source by text search: Mathlib.Tactic.FieldSimp.fieldSimp at Mathlib/Tactic/FieldSimp.lean:707. The run results above are from v4.33.0 and were not repeated on master."
+notes = ""
+
+[[component]]
+id = "mathlib.tactic.norm-num-core"
+source = "mathlib"
+capability = "Proof-producing numeric evaluation of ring/field expressions on numerals, with extensions (GCD, divisibility, IsSquare, factorial, Nat.log, ordinals, Irrational)"
+domain = "numerals in (semi)rings and fields"
+declarations = ["Mathlib.Meta.NormNum.derive", "Mathlib.Meta.NormNum.evalNatGCD", "Mathlib.Meta.NormNum.evalNatDvd"]
+paths = ["Mathlib/Tactic/NormNum/Core.lean", "Mathlib/Tactic/NormNum/Basic.lean", "Mathlib/Tactic/NormNum/GCD.lean", "Mathlib/Tactic/NormNum/IsSquare.lean", "Mathlib/Tactic/NormNum/NatFactorial.lean", "Mathlib/Tactic/NormNum/Irrational.lean"]
+kind = "decision-procedure"
+executable = "ran"
+performance = "measured: gcd of 15-digit and 10-digit numerals decided <50 ms"
+status = "reusable"
+evidence = "norm_num evaluated Nat.gcd 123456789012345 9876543210 and refuted the claim '= 45' (goal reduced to False). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "The certified-arithmetic layer a CAS can target for small closed checks."
+
+# ---------------------------------------------------------------------------------------------
+# 11. Logic, SAT, automata, computability
+# ---------------------------------------------------------------------------------------------
+
+[[component]]
+id = "std.sat.cnf-aig"
+source = "std"
+capability = "CNF formulas, DIMACS output, and-inverter graphs with relabelling"
+domain = "Std.Sat.CNF, Std.Sat.AIG"
+declarations = ["Std.Sat.CNF", "Std.Sat.AIG", "Std.Sat.CNF.dimacs"]
+paths = ["src/Std/Sat/CNF/Basic.lean", "src/Std/Sat/CNF/Dimacs.lean", "src/Std/Sat/AIG.lean"]
+kind = "data-structure"
+executable = "defined-computable"
+performance = "not measured"
+status = "reusable"
+evidence = "#audit Std.Sat.CNF computable type; used at runtime by bv_decide. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Std.Sat.CNF, Std.Sat.AIG. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Std.Sat.CNF.dimacs."
+notes = ""
+
+[[component]]
+id = "std.sat.lrat-checker"
+source = "std"
+capability = "Verified LRAT proof checker for UNSAT certificates"
+domain = "CNF + LRAT proof"
+declarations = ["Std.Tactic.BVDecide.LRAT.check"]
+paths = ["src/Std/Tactic/BVDecide/LRAT/Checker.lean", "src/Std/Tactic/BVDecide/LRAT/Parser.lean"]
+kind = "decision-procedure"
+executable = "defined-computable"
+performance = "not measured"
+status = "reusable"
+evidence = "#audit Std.Tactic.BVDecide.LRAT.check computable (ir=true). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Std.Tactic.BVDecide.LRAT.check."
+notes = "Certificate checker for external SAT solvers (CaDiCaL bundled with Lean)."
+
+[[component]]
+id = "std.tactic.bv-decide"
+source = "std"
+capability = "Bit-vector decision procedure by bit-blasting to SAT with LRAT checking"
+domain = "BitVec n, Bool"
+declarations = ["Lean.Parser.Tactic.bvDecide", "Lean.Meta.Tactic.BVDecide.bvDecide"]
+paths = ["src/Init/Tactics.lean", "src/Std/Tactic/BVDecide.lean", "src/Lean/Elab/Tactic/BVDecide.lean", "src/Lean/Meta/Tactic/BVDecide/Main.lean"]
+kind = "decision-procedure"
+executable = "ran"
+performance = "measured: 16-bit addition commutativity 87 ms; 32-bit x*3 = x+x+x 59 ms; 16-bit multiplication commutativity: SAT solver timeout after 10.7 s"
+status = "reusable"
+evidence = "t12 bv_decide examples; 'The SAT solver timed out while solving the problem.'. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Lean.Meta.Tactic.BVDecide.bvDecide. Located in master source by text search: Lean.Parser.Tactic.bvDecide at Init/Tactics.lean:1965. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Multiplier circuits are hard for SAT. The solver is external (cadical)."
+
+[[component]]
+id = "mathlib.automata.dfa-nfa"
+source = "mathlib"
+capability = "Deterministic and nondeterministic finite automata, evaluation, subset construction, epsilon-NFA"
+domain = "DFA α σ, NFA α σ, εNFA α σ"
+declarations = ["DFA", "DFA.eval", "DFA.accepts", "NFA", "NFA.eval", "NFA.toDFA", "εNFA"]
+paths = ["Mathlib/Computability/DFA.lean", "Mathlib/Computability/NFA.lean", "Mathlib/Computability/EpsilonNFA.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: <50 ms"
+status = "adaptable"
+evidence = "#eval dfaEven.eval [true,true,false,true] = true; decide ([true,true] ∈ dfaEven.accepts) failed: no Decidable instance (accepts is a Language = Set). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "NFA states are Set σ (NFA.eval not compiled); minimization and equivalence checking missing."
+
+[[component]]
+id = "mathlib.automata.regex"
+source = "mathlib"
+capability = "Regular expressions with Brzozowski-derivative matching"
+domain = "RegularExpression α, DecidableEq α"
+declarations = ["RegularExpression", "RegularExpression.deriv", "RegularExpression.rmatch", "RegularExpression.matches'"]
+paths = ["Mathlib/Computability/RegularExpressions.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: matching (a+b)* against a 200-letter word <50 ms"
+status = "reusable"
+evidence = "#eval rmatch ((a+b)*c c*) on 'acc' = true; rmatch (star (a+b)) on 200 a's = true. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "rmatch is proved correct (rmatch_iff_matches')."
+
+[[component]]
+id = "mathlib.computability.partrec"
+source = "mathlib"
+capability = "Partial recursive functions, codes with fuel-bounded evaluation, Turing machines, primitive recursion"
+domain = "Nat.Partrec.Code, Turing.TM0/TM1/TM2"
+declarations = ["Nat.Partrec", "Nat.Partrec.Code", "Nat.Partrec.Code.evaln", "Nat.Partrec.Code.eval", "Turing.TM0.step", "Primrec"]
+paths = ["Mathlib/Computability/Partrec.lean", "Mathlib/Computability/PartrecCode.lean", "Mathlib/Computability/TuringMachine/PostTuringMachine.lean", "Mathlib/Computability/Primrec/Basic.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: <50 ms"
+status = "reusable"
+evidence = "#eval Nat.Partrec.Code.evaln 100 Code.succ 5 = some 6. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Theory library; evaluation is a curiosity for a CAS."
+
+[[component]]
+id = "mathlib.computability.languages-grammars"
+source = "mathlib"
+capability = "Formal languages and context-free grammars"
+domain = "Language α, ContextFreeGrammar T"
+declarations = ["Language", "ContextFreeGrammar"]
+paths = ["Mathlib/Computability/Language.lean", "Mathlib/Computability/ContextFreeGrammar.lean"]
+kind = "formal-definition"
+executable = "defined-computable"
+performance = "not measured"
+status = "formalized-not-executable"
+evidence = "Language is Set (List α); no parser (CYK) found. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = ""
+
+[[component]]
+id = "lean-core.tactic.decide"
+source = "lean-core"
+capability = "Proof by kernel evaluation of a Decidable instance (decide, decide +kernel, native_decide)"
+domain = "decidable propositions"
+declarations = ["Decidable.decide", "Lean.Parser.Tactic.decide"]
+paths = ["src/Init/Prelude.lean", "src/Init/Tactics.lean", "src/Lean/Elab/Tactic/ElabTerm.lean"]
+kind = "decision-procedure"
+executable = "ran"
+performance = "measured: sign of a permutation of Fin 8, 3x3 det, Fin 4 identity <50 ms; prime 1009 fails (recursion depth)"
+status = "adaptable"
+evidence = "t4: `m3.det = 18 := by decide`; t5: sign σ = -1 by decide; t1c: Nat.Prime 1009 by decide failed. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Located in master source by text search: Decidable.decide at Init/Prelude.lean (class Decidable); Lean.Parser.Tactic.decide at Init/Tactics.lean:1515. Lean.ofReduceBool is not in the v4.36.0 source; `native_decide` is documented as a synonym for `decide +native` (Init/Tactics.lean:1518). The run results above are from v4.33.0 and were not repeated on master."
+notes = "native_decide trusts the compiler (axiom Lean.ofReduceBool); not exercised here."
+
+[[component]]
+id = "plausible.testing"
+source = "plausible"
+capability = "Property-based random testing of propositions"
+domain = "Testable propositions with SampleableExt generators"
+declarations = ["Plausible.Testable", "Plausible.SampleableExt"]
+paths = ["Plausible/Testable.lean", "Plausible/Sampleable.lean"]
+kind = "executable-algorithm"
+executable = "ran"
+performance = "measured: n < 30 → n*n ≠ 2 tested instantly"
+status = "reusable"
+evidence = "`∀ n : ℕ, n < 30 → n * n ≠ 2 := by plausible` reported 'Unable to find a counter-example'. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Useful for testing CAS routines against Mathlib definitions."
+
+[[component]]
+id = "mathlib.tactic.case-bashing"
+source = "mathlib"
+capability = "Finite case splits (fin_cases, interval_cases) and Fintype derivation"
+domain = "finite types, bounded Nat/Int variables"
+declarations = ["Lean.Elab.Tactic.finCases", "Mathlib.Tactic.IntervalCases.intervalCases", "Mathlib.Deriving.Fintype.mkFintype"]
+paths = ["Mathlib/Tactic/FinCases.lean", "Mathlib/Tactic/IntervalCases.lean", "Mathlib/Tactic/DeriveFintype.lean"]
+kind = "decision-procedure"
+executable = "ran"
+performance = "measured: interval_cases over 4 values instant"
+status = "reusable"
+evidence = "`(h : n < 4) : n^2 < 16 := by interval_cases n <;> norm_num` checked. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Mathlib.Deriving.Fintype.mkFintype. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Mathlib.Tactic.IntervalCases.intervalCases. Located in master source by text search: Lean.Elab.Tactic.finCases at Mathlib/Tactic/FinCases.lean:92. The run results above are from v4.33.0 and were not repeated on master."
+notes = ""
+
+# ---------------------------------------------------------------------------------------------
+# 12. General-purpose data structures
+# ---------------------------------------------------------------------------------------------
+
+[[component]]
+id = "lean-core.data.array"
+source = "lean-core"
+capability = "Dynamic arrays with in-place update, sorting, binary search; byte arrays; vectors of fixed length"
+domain = "Array α, ByteArray, Vector α n"
+declarations = ["Array", "Array.qsort", "Array.insertionSort", "Array.binSearch", "ByteArray", "Vector"]
+paths = ["src/Init/Data/Array/Basic.lean", "src/Init/Data/Array/QSort.lean", "src/Init/Data/Array/BinSearch.lean", "src/Init/Data/ByteArray.lean", "src/Init/Data/Vector.lean", "src/Init/Data/Array/QSort/Basic.lean", "src/Init/Data/Array/InsertionSort.lean"]
+kind = "data-structure"
+executable = "ran"
+performance = "measured: qsort of 10^5 Nat 92 ms"
+status = "reusable"
+evidence = "#eval ((Array.range 100000).map ...).qsort (· < ·) |>.size = 100000. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Unchanged since v4.33.0: Array, Array.qsort, Array.insertionSort, Array.binSearch, ByteArray. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Vector. The run results above are from v4.33.0 and were not repeated on master."
+notes = "The base for dense matrices and permutations in a CAS (destructive update when uniquely referenced)."
+
+[[component]]
+id = "lean-core.data.list-sort"
+source = "lean-core"
+capability = "Lists with merge sort"
+domain = "List α"
+declarations = ["List", "List.mergeSort", "List.insertionSort"]
+paths = ["src/Init/Data/List/Sort/Basic.lean", "Mathlib/Data/List/Sort.lean"]
+kind = "data-structure"
+executable = "defined-computable"
+performance = "not measured"
+status = "reusable"
+evidence = "#audit List.mergeSort computable. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "List.insertionSort is defined in Mathlib (Mathlib/Data/List/Sort.lean:61), not in Lean core; List.mergeSort is core."
+
+[[component]]
+id = "std.data.hashmap"
+source = "std"
+capability = "Hash maps and hash sets (plain, dependent, extensional)"
+domain = "Std.HashMap α β with Hashable, BEq"
+declarations = ["Std.HashMap", "Std.DHashMap", "Std.HashSet", "Std.ExtHashMap"]
+paths = ["src/Std/Data/HashMap/Basic.lean", "src/Std/Data/DHashMap/Basic.lean", "src/Std/Data/HashSet/Basic.lean", "src/Std/Data/ExtHashMap/Basic.lean"]
+kind = "data-structure"
+executable = "ran"
+performance = "measured: 10^5 inserts 272 ms (interpreted fold)"
+status = "reusable"
+evidence = "#eval size after 10^5 inserts = 100000. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Verified lemma library."
+
+[[component]]
+id = "std.data.treemap"
+source = "std"
+capability = "Ordered maps and sets (weight-balanced trees)"
+domain = "Std.TreeMap α β with Ord"
+declarations = ["Std.TreeMap", "Std.TreeSet", "Std.DTreeMap", "Std.ExtTreeMap"]
+paths = ["src/Std/Data/TreeMap/Basic.lean", "src/Std/Data/TreeSet/Basic.lean", "src/Std/Data/DTreeMap/Basic.lean"]
+kind = "data-structure"
+executable = "ran"
+performance = "measured: 10^5 inserts 195 ms"
+status = "reusable"
+evidence = "#eval size after 10^5 inserts = 100000. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Natural sparse-polynomial container (monomial → coefficient)."
+
+[[component]]
+id = "lean-core.data.bitvec"
+source = "lean-core"
+capability = "Fixed-width bit vectors with arithmetic, division, shifts"
+domain = "BitVec n"
+declarations = ["BitVec", "BitVec.mul", "BitVec.udiv"]
+paths = ["src/Init/Data/BitVec/Basic.lean"]
+kind = "data-structure"
+executable = "ran"
+performance = "measured: 256-bit division <50 ms"
+status = "reusable"
+evidence = "#eval 0xdeadbeef#32 * 0x12345678#32 = 1445054984#32; 256-bit udiv printed. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement. The run results above are from v4.33.0 and were not repeated on master."
+notes = "Backed by Nat."
+
+[[component]]
+id = "lean-core.data.rarray"
+source = "lean-core"
+capability = "Balanced read-only arrays for kernel reflection contexts"
+domain = "Lean.RArray α"
+declarations = ["Lean.RArray"]
+paths = ["src/Init/Data/RArray.lean"]
+kind = "data-structure"
+executable = "defined-computable"
+performance = "not measured"
+status = "reusable"
+evidence = "#audit Lean.RArray computable; used as Context in grind CommRing denotation. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Relevant for proof-by-reflection designs."
+
+[[component]]
+id = "batteries.data.binary-heap"
+source = "batteries"
+capability = "Binary heap priority queue"
+domain = "Batteries.BinaryHeap α lt"
+declarations = ["Batteries.BinaryHeap"]
+paths = ["Batteries/Data/BinaryHeap/Basic.lean"]
+kind = "data-structure"
+executable = "defined-computable"
+performance = "not measured"
+status = "reusable"
+evidence = "Source has no noncomputable definitions; module .olean is not built in this package directory, so it was not run. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Read on master only: Batteries.BinaryHeap."
+notes = ""
+
+[[component]]
+id = "batteries.data.union-find"
+source = "batteries"
+capability = "Union-find (disjoint sets) with path compression"
+domain = "Batteries.UnionFind"
+declarations = ["Batteries.UnionFind", "Batteries.UnionFind.union", "Batteries.UnionFind.find"]
+paths = ["Batteries/Data/UnionFind/Basic.lean"]
+kind = "data-structure"
+executable = "defined-computable"
+performance = "not measured"
+status = "reusable"
+evidence = "Source: only `noncomputable def rankMax` (line 141, proof helper) and noncomputable Equiv relation; module not built here, not run. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Read on master only: Batteries.UnionFind, Batteries.UnionFind.union, Batteries.UnionFind.find."
+notes = "Needed for graph connectivity and coset enumeration."
+
+[[component]]
+id = "batteries.data.rbmap"
+source = "batteries"
+capability = "Red-black tree maps and sets"
+domain = "Batteries.RBMap α β cmp"
+declarations = ["Batteries.RBMap", "Batteries.RBSet"]
+paths = ["Batteries/Data/RBMap/Basic.lean"]
+kind = "data-structure"
+executable = "not-present"
+performance = "not measured"
+status = "missing"
+evidence = "Source present; module not built here, not run; Std.TreeMap supersedes it. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. On Batteries b4b25a3886 Batteries/Data/RBMap/Basic.lean is a deprecated_module stub (since 2026-10-05): the module moved to leanprover-community/batteries-recycling. Batteries.RBMap and Batteries.RBSet are absent from the master trees."
+notes = "Use Std.TreeMap and Std.TreeSet (component std.data.treemap) or Lean.RBMap (Lean/Data/RBMap.lean)."
+
+[[component]]
+id = "batteries.data.heaps"
+source = "batteries"
+capability = "Binomial and pairing heaps"
+domain = "Batteries.BinomialHeap, Batteries.PairingHeap"
+declarations = ["Batteries.BinomialHeap", "Batteries.PairingHeap"]
+paths = ["Batteries/Data/BinomialHeap/Basic.lean", "Batteries/Data/PairingHeap.lean"]
+kind = "data-structure"
+executable = "defined-computable"
+performance = "not measured"
+status = "reusable"
+evidence = "#audit Batteries.BinomialHeap computable (BinomialHeap.Basic built); PairingHeap not built. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Text changed since v4.33.0, noncomputable modifier and section status unchanged: Batteries.BinomialHeap. Read on master only: Batteries.PairingHeap."
+notes = ""
+
+[[component]]
+id = "batteries.data.mllist"
+source = "batteries"
+capability = "Lazy monadic lists"
+domain = "MLList m α"
+declarations = ["MLList"]
+paths = ["Batteries/Data/MLList/Basic.lean"]
+kind = "data-structure"
+executable = "defined-computable"
+performance = "not measured"
+status = "reusable"
+evidence = "Module built (used by Mathlib tactics). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Useful for lazy enumeration."
+
+[[component]]
+id = "mathlib.data.lazy-seq"
+source = "mathlib"
+capability = "Lazy possibly-infinite sequences and computations"
+domain = "Stream'.Seq α, Computation α"
+declarations = ["Stream'.Seq", "Computation"]
+paths = ["Mathlib/Data/Seq/Basic.lean", "Mathlib/Data/Seq/Computation.lean"]
+kind = "data-structure"
+executable = "defined-computable"
+performance = "not measured"
+status = "adaptable"
+evidence = "#audit Stream'.Seq computable type; used by continued fractions. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Implemented as functions ℕ → Option α (no memoization)."
+
+[[component]]
+id = "mathlib.data.ordmap"
+source = "mathlib"
+capability = "Size-balanced ordered sets with verified invariants"
+domain = "Ordnode α, Ordset α"
+declarations = ["Ordnode", "Ordset"]
+paths = ["Mathlib/Data/Ordmap/Ordnode.lean", "Mathlib/Data/Ordmap/Ordset.lean"]
+kind = "data-structure"
+executable = "defined-computable"
+performance = "not measured"
+status = "adaptable"
+evidence = "#audit Ordnode, Ordset computable. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Std.TreeSet is the maintained alternative."
+
+[[component]]
+id = "lean-core.io.random"
+source = "lean-core"
+capability = "Pseudo-random number generation"
+domain = "StdGen, IO.rand"
+declarations = ["IO.rand", "StdGen", "randNat"]
+paths = ["src/Init/Data/Random.lean"]
+kind = "executable-algorithm"
+executable = "defined-computable"
+performance = "not measured"
+status = "reusable"
+evidence = "#audit IO.rand computable. Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run. Declaration text unchanged since the v4.33.0 measurement."
+notes = "Needed for randomized CAS algorithms (Miller-Rabin, Cantor-Zassenhaus)."

@@ -1,0 +1,1045 @@
+{
+  "revision": {
+    "version": "11.0.beta5",
+    "commit": "c00171e47d6e68d8148d7ee10c4dd77b71a97662"
+  },
+  "capabilities": 69,
+  "exclusions": 3,
+  "public_entities": 38782,
+  "by_capability": 329,
+  "excluded": 25,
+  "unaccounted": 38428,
+  "sections": [
+    {
+      "section": "algebras",
+      "group": "Mathematics / Mathematical Structures",
+      "public_entities": 1942,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 1942,
+      "doctests": 11558,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "anderson_motives",
+      "group": "Mathematics / Drinfeld modules and related topics",
+      "public_entities": 13,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 13,
+      "doctests": 80,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "arithgroup",
+      "group": "Mathematics / Number Theory",
+      "public_entities": 191,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 191,
+      "doctests": 798,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "arithmetic_curves",
+      "group": "Mathematics / Algebraic and Arithmetic Geometry",
+      "public_entities": 1189,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 1189,
+      "doctests": 12180,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "asymptotic",
+      "group": "Mathematics / Calculus and Analysis",
+      "public_entities": 228,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 228,
+      "doctests": 1957,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "calculus",
+      "group": "Mathematics / Calculus and Analysis",
+      "public_entities": 543,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 543,
+      "doctests": 5492,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "categories",
+      "group": "Mathematics / Parents and Categories",
+      "public_entities": 2718,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 2718,
+      "doctests": 12478,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "coding",
+      "group": "Mathematics / Discrete Mathematics",
+      "public_entities": 470,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 470,
+      "doctests": 3113,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "coercion",
+      "group": "Mathematics / Parents and Categories",
+      "public_entities": 55,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 55,
+      "doctests": 536,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "combinat",
+      "group": "Mathematics / Discrete Mathematics",
+      "public_entities": 8177,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 8177,
+      "doctests": 47908,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "constants",
+      "group": "Mathematics / Calculus and Analysis",
+      "public_entities": 16,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 16,
+      "doctests": 57,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "cpython",
+      "group": "Infrastructure / Programming Facilities",
+      "public_entities": 8,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 8,
+      "doctests": 100,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "cryptography",
+      "group": "Mathematics / Discrete Mathematics",
+      "public_entities": 373,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 373,
+      "doctests": 2687,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "curves",
+      "group": "Mathematics / Algebraic and Arithmetic Geometry",
+      "public_entities": 298,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 298,
+      "doctests": 2435,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "data_structures",
+      "group": "Infrastructure / Programming Facilities",
+      "public_entities": 227,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 227,
+      "doctests": 1564,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "databases",
+      "group": "Mathematics / Miscellaneous",
+      "public_entities": 256,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 256,
+      "doctests": 873,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "diophantine_approximation",
+      "group": "Mathematics / Number Theory",
+      "public_entities": 40,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 40,
+      "doctests": 248,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "discrete_geometry",
+      "group": "Mathematics / Geometry and Topology",
+      "public_entities": 1246,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 1246,
+      "doctests": 10026,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "doctest",
+      "group": "Infrastructure / Programming Facilities",
+      "public_entities": 146,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 146,
+      "doctests": 1300,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "drinfeld_modular",
+      "group": "Mathematics / Drinfeld modules and related topics",
+      "public_entities": 31,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 31,
+      "doctests": 219,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "drinfeld_modules",
+      "group": "Mathematics / Drinfeld modules and related topics",
+      "public_entities": 62,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 62,
+      "doctests": 1055,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "dynamics",
+      "group": "Mathematics / Discrete Mathematics",
+      "public_entities": 292,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 292,
+      "doctests": 3422,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "euclidean_spaces",
+      "group": "Mathematics / Geometry and Topology",
+      "public_entities": 21,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 21,
+      "doctests": 250,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "finite_rings",
+      "group": "Mathematics / Basic Rings and Fields",
+      "public_entities": 309,
+      "by_capability": 1,
+      "excluded": 0,
+      "unaccounted": 308,
+      "doctests": 2062,
+      "doctests_by_capability": 3
+    },
+    {
+      "section": "function_fields",
+      "group": "Mathematics / Number Fields, Function Fields, and Valuations",
+      "public_entities": 434,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 434,
+      "doctests": 2854,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "functions",
+      "group": "Mathematics / Calculus and Analysis",
+      "public_entities": 266,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 266,
+      "doctests": 1717,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "game_theory",
+      "group": "Mathematics / Discrete Mathematics",
+      "public_entities": 39,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 39,
+      "doctests": 620,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "games",
+      "group": "Mathematics / Miscellaneous",
+      "public_entities": 29,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 29,
+      "doctests": 164,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "graphs",
+      "group": "Mathematics / Discrete Mathematics",
+      "public_entities": 1336,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 1336,
+      "doctests": 17396,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "groups",
+      "group": "Mathematics / Mathematical Structures",
+      "public_entities": 908,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 908,
+      "doctests": 6075,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "hecke",
+      "group": "Mathematics / Number Theory",
+      "public_entities": 144,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 144,
+      "doctests": 455,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "homology",
+      "group": "Mathematics / Homological Algebra",
+      "public_entities": 105,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 105,
+      "doctests": 871,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "hyperbolic_geometry",
+      "group": "Mathematics / Geometry and Topology",
+      "public_entities": 123,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 123,
+      "doctests": 741,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "interfaces",
+      "group": "Infrastructure / Subsystem Interfaces",
+      "public_entities": 819,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 819,
+      "doctests": 3052,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "knots",
+      "group": "Mathematics / Geometry and Topology",
+      "public_entities": 118,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 118,
+      "doctests": 1065,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "lfunctions",
+      "group": "Mathematics / Number Theory",
+      "public_entities": 64,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 64,
+      "doctests": 419,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "libs",
+      "group": "Infrastructure / Subsystem Interfaces",
+      "public_entities": 322,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 322,
+      "doctests": 1541,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "logic",
+      "group": "Mathematics / Discrete Mathematics",
+      "public_entities": 65,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 65,
+      "doctests": 354,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "manifolds",
+      "group": "Mathematics / Geometry and Topology",
+      "public_entities": 857,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 857,
+      "doctests": 12415,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "matrices",
+      "group": "Mathematics / Linear Algebra",
+      "public_entities": 754,
+      "by_capability": 1,
+      "excluded": 0,
+      "unaccounted": 753,
+      "doctests": 9062,
+      "doctests_by_capability": 62
+    },
+    {
+      "section": "matroids",
+      "group": "Mathematics / Discrete Mathematics",
+      "public_entities": 542,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 542,
+      "doctests": 3103,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "misc",
+      "group": "Infrastructure / Programming Facilities",
+      "public_entities": 866,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 866,
+      "doctests": 5444,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "modabvar",
+      "group": "Mathematics / Number Theory",
+      "public_entities": 209,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 209,
+      "doctests": 890,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "modfrm",
+      "group": "Mathematics / Number Theory",
+      "public_entities": 962,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 962,
+      "doctests": 6339,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "modsym",
+      "group": "Mathematics / Number Theory",
+      "public_entities": 463,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 463,
+      "doctests": 2395,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "modules",
+      "group": "Mathematics / Linear Algebra",
+      "public_entities": 719,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 719,
+      "doctests": 5675,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "monoids",
+      "group": "Mathematics / Mathematical Structures",
+      "public_entities": 124,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 124,
+      "doctests": 685,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "noncommutative_polynomial_rings",
+      "group": "Mathematics / Basic Rings and Fields",
+      "public_entities": 179,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 179,
+      "doctests": 1652,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "number_fields",
+      "group": "Mathematics / Number Fields, Function Fields, and Valuations",
+      "public_entities": 876,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 876,
+      "doctests": 7114,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "numerical",
+      "group": "Mathematics / Calculus and Analysis",
+      "public_entities": 555,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 555,
+      "doctests": 4629,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "oremodules",
+      "group": "Mathematics / Linear Algebra",
+      "public_entities": 69,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 69,
+      "doctests": 639,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "padics",
+      "group": "Mathematics / Basic Rings and Fields",
+      "public_entities": 535,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 535,
+      "doctests": 3743,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "parallel",
+      "group": "Infrastructure / Programming Facilities",
+      "public_entities": 56,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 56,
+      "doctests": 303,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "plot3d",
+      "group": "Graphics",
+      "public_entities": 330,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 330,
+      "doctests": 1959,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "plotting",
+      "group": "Graphics",
+      "public_entities": 200,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 200,
+      "doctests": 2045,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "polynomial_rings",
+      "group": "Mathematics / Basic Rings and Fields",
+      "public_entities": 1710,
+      "by_capability": 1,
+      "excluded": 0,
+      "unaccounted": 1709,
+      "doctests": 12802,
+      "doctests_by_capability": 6
+    },
+    {
+      "section": "power_series",
+      "group": "Mathematics / Basic Rings and Fields",
+      "public_entities": 456,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 456,
+      "doctests": 3803,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "probability",
+      "group": "Mathematics / Probability and Statistics",
+      "public_entities": 46,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 46,
+      "doctests": 204,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "quadratic_forms",
+      "group": "Mathematics / Number Theory",
+      "public_entities": 183,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 183,
+      "doctests": 1296,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "quat_algebras",
+      "group": "Mathematics / Basic Rings and Fields",
+      "public_entities": 26,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 26,
+      "doctests": 123,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "quivers",
+      "group": "Mathematics / Discrete Mathematics",
+      "public_entities": 146,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 146,
+      "doctests": 921,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "repl",
+      "group": "User Interfaces",
+      "public_entities": 300,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 300,
+      "doctests": 1493,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "resolutions",
+      "group": "Mathematics / Homological Algebra",
+      "public_entities": 15,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 15,
+      "doctests": 101,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "riemannian_geometry",
+      "group": "Mathematics / Geometry and Topology",
+      "public_entities": 44,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 44,
+      "doctests": 300,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "rings",
+      "group": "Mathematics / Mathematical Structures",
+      "public_entities": 306,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 306,
+      "doctests": 1928,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "rings_numerical",
+      "group": "Mathematics / Basic Rings and Fields",
+      "public_entities": 825,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 825,
+      "doctests": 3206,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "rings_standard",
+      "group": "Mathematics / Basic Rings and Fields",
+      "public_entities": 351,
+      "by_capability": 326,
+      "excluded": 25,
+      "unaccounted": 0,
+      "doctests": 2915,
+      "doctests_by_capability": 2862
+    },
+    {
+      "section": "sat",
+      "group": "Mathematics / Discrete Mathematics",
+      "public_entities": 49,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 49,
+      "doctests": 389,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "schemes",
+      "group": "Mathematics / Algebraic and Arithmetic Geometry",
+      "public_entities": 689,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 689,
+      "doctests": 5771,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "semirings",
+      "group": "Mathematics / Mathematical Structures",
+      "public_entities": 14,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 14,
+      "doctests": 76,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "sets",
+      "group": "Mathematics / Mathematical Structures",
+      "public_entities": 276,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 276,
+      "doctests": 1712,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "spkg",
+      "group": "General Information",
+      "public_entities": 184,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 184,
+      "doctests": 449,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "stats",
+      "group": "Mathematics / Probability and Statistics",
+      "public_entities": 114,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 114,
+      "doctests": 573,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "structure",
+      "group": "Mathematics / Parents and Categories",
+      "public_entities": 305,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 305,
+      "doctests": 1589,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "tensor_free_modules",
+      "group": "Mathematics / Linear Algebra",
+      "public_entities": 179,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 179,
+      "doctests": 2765,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "topology",
+      "group": "Mathematics / Geometry and Topology",
+      "public_entities": 365,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 365,
+      "doctests": 2438,
+      "doctests_by_capability": 0
+    },
+    {
+      "section": "valuations",
+      "group": "Mathematics / Number Fields, Function Fields, and Valuations",
+      "public_entities": 280,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 280,
+      "doctests": 1611,
+      "doctests_by_capability": 0
+    }
+  ],
+  "unlisted": [
+    {
+      "package": "sage.algebras",
+      "public_entities": 34,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 34
+    },
+    {
+      "package": "sage.all",
+      "public_entities": 1,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 1
+    },
+    {
+      "package": "sage.all_test",
+      "public_entities": 1,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 1
+    },
+    {
+      "package": "sage.arith",
+      "public_entities": 1,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 1
+    },
+    {
+      "package": "sage.categories",
+      "public_entities": 7,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 7
+    },
+    {
+      "package": "sage.cli",
+      "public_entities": 24,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 24
+    },
+    {
+      "package": "sage.combinat",
+      "public_entities": 6,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 6
+    },
+    {
+      "package": "sage.cpython",
+      "public_entities": 1,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 1
+    },
+    {
+      "package": "sage.data_structures",
+      "public_entities": 11,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 11
+    },
+    {
+      "package": "sage.doctest",
+      "public_entities": 20,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 20
+    },
+    {
+      "package": "sage.dynamics",
+      "public_entities": 75,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 75
+    },
+    {
+      "package": "sage.env",
+      "public_entities": 4,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 4
+    },
+    {
+      "package": "sage.features",
+      "public_entities": 60,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 60
+    },
+    {
+      "package": "sage.functions",
+      "public_entities": 31,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 31
+    },
+    {
+      "package": "sage.geometry",
+      "public_entities": 137,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 137
+    },
+    {
+      "package": "sage.graphs",
+      "public_entities": 18,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 18
+    },
+    {
+      "package": "sage.groups",
+      "public_entities": 50,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 50
+    },
+    {
+      "package": "sage.homology",
+      "public_entities": 2,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 2
+    },
+    {
+      "package": "sage.interacts",
+      "public_entities": 26,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 26
+    },
+    {
+      "package": "sage.interfaces",
+      "public_entities": 24,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 24
+    },
+    {
+      "package": "sage.knots",
+      "public_entities": 3,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 3
+    },
+    {
+      "package": "sage.libs",
+      "public_entities": 382,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 382
+    },
+    {
+      "package": "sage.manifolds",
+      "public_entities": 46,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 46
+    },
+    {
+      "package": "sage.matrix",
+      "public_entities": 31,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 31
+    },
+    {
+      "package": "sage.misc",
+      "public_entities": 15,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 15
+    },
+    {
+      "package": "sage.modular",
+      "public_entities": 81,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 81
+    },
+    {
+      "package": "sage.modules",
+      "public_entities": 15,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 15
+    },
+    {
+      "package": "sage.numerical",
+      "public_entities": 83,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 83
+    },
+    {
+      "package": "sage.quadratic_forms",
+      "public_entities": 139,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 139
+    },
+    {
+      "package": "sage.repl",
+      "public_entities": 30,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 30
+    },
+    {
+      "package": "sage.rings",
+      "public_entities": 681,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 681
+    },
+    {
+      "package": "sage.sandpiles",
+      "public_entities": 8,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 8
+    },
+    {
+      "package": "sage.schemes",
+      "public_entities": 18,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 18
+    },
+    {
+      "package": "sage.sets",
+      "public_entities": 6,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 6
+    },
+    {
+      "package": "sage.structure",
+      "public_entities": 13,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 13
+    },
+    {
+      "package": "sage.symbolic",
+      "public_entities": 18,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 18
+    },
+    {
+      "package": "sage.tests",
+      "public_entities": 130,
+      "by_capability": 0,
+      "excluded": 0,
+      "unaccounted": 130
+    }
+  ]
+}

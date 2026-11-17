@@ -1,0 +1,1844 @@
+# Manual section `rings_standard` (Integers and Rational Numbers).
+#
+# An operation is recorded at its natural generality (`euclidean.gcd`, `monoids.power`,
+# `rings.quotient-ring`). The selectors of this file name only the integer and rational entities.
+# Records for later sections extend those selectors or add a specialization under `generalizes`.
+
+domain = "integers-and-rationals"
+
+# ---------------------------------------------------------------------------------------------
+# Ring arithmetic
+# ---------------------------------------------------------------------------------------------
+
+[[capability]]
+id = "integers.arithmetic"
+title = "Arithmetic of arbitrary-precision integers"
+statement = "The ring operations of Z on integers of any size: sum, difference, product, negation, comparison, sign, parity, the unit test with the inverse of a unit, and the canonical associate |n|."
+domain = "The ring Z."
+contract = "Z x Z -> Z for +, -, *; Z -> {-1, 0, 1} for the sign; Z -> Bool for parity, unit and identity tests; a unit u maps to u^-1; n maps to |n|. The additive order of n is 1 for n = 0 and infinite otherwise; the multiplicative order is 1 for 1, 2 for -1 and infinite otherwise."
+exactness = "exact"
+algorithms = [
+  { family = "Schoolbook, Karatsuba, Toom-Cook and FFT multiplication", sources = ["[Knu1997] section 4.3", "[BZ2010] chapter 1"] },
+]
+depends_on = []
+sage = [
+  "sage.rings.integer:Integer",
+  "sage.rings.integer:Integer.list",
+  "sage.rings.integer:Integer.sign",
+  "sage.rings.integer:Integer.numerator",
+  "sage.rings.integer:Integer.denominator",
+  "sage.rings.integer:Integer.as_integer_ratio",
+  "sage.rings.integer:Integer.real",
+  "sage.rings.integer:Integer.imag",
+  "sage.rings.integer:Integer.conjugate",
+  "sage.rings.integer:Integer.is_one",
+  "sage.rings.integer:Integer.is_integral",
+  "sage.rings.integer:Integer.is_rational",
+  "sage.rings.integer:Integer.is_integer",
+  "sage.rings.integer:Integer.is_unit",
+  "sage.rings.integer:Integer.is_even",
+  "sage.rings.integer:Integer.is_odd",
+  "sage.rings.integer:Integer.additive_order",
+  "sage.rings.integer:Integer.multiplicative_order",
+  "sage.rings.integer:Integer.inverse_of_unit",
+  "sage.rings.integer:Integer.canonical_associate",
+]
+tests = [
+  "Ring identities on run-time inputs, for example (a + b)^2 = a^2 + 2ab + b^2 and (a - b)(a + b) = a^2 - b^2",
+  "Agreement of a result modulo several primes with the same computation in Z/p",
+  "Agreement of a product with digit-list long multiplication, [Knu1997] section 4.3.1 Algorithm M",
+]
+reuse = { status = "reusable", components = ["lean-core.int.bignum-arithmetic"], evidence = "Lean's `Int` and `Nat` are arbitrary-precision and compile to GMP calls." }
+backends = ["gmp"]
+references = ["Knu1997", "BZ2010"]
+
+[[capability]]
+id = "rationals.arithmetic"
+title = "Arithmetic of rational numbers"
+statement = "The field operations of Q on fractions in lowest terms with positive denominator: sum, difference, product, quotient, comparison, sign, numerator and denominator, and the remainder of a rational with denominator prime to n modulo n."
+domain = "The field Q."
+contract = "Q x Q -> Q for +, -, *; Q x Q^* -> Q for /; Q -> Z x Z_{>0} for (numerator, denominator) with gcd 1; Q -> {-1, 0, 1} for the sign. The additive order of q is 1 for q = 0 and infinite otherwise; the multiplicative order is 1 for 1, 2 for -1 and infinite otherwise."
+exactness = "exact"
+algorithms = [
+  { family = "Fraction arithmetic with gcd normalization", sources = ["[Knu1997] section 4.5.1"] },
+]
+depends_on = ["integers.arithmetic", "euclidean.gcd", "integers.modular-inverse"]
+sage = [
+  "sage.rings.rational:Rational",
+  "sage.rings.rational:Rational.list",
+  "sage.rings.rational:Rational.sign",
+  "sage.rings.rational:Rational.numerator",
+  "sage.rings.rational:Rational.denominator",
+  "sage.rings.rational:Rational.as_integer_ratio",
+  "sage.rings.rational:Rational.real",
+  "sage.rings.rational:Rational.imag",
+  "sage.rings.rational:Rational.conjugate",
+  "sage.rings.rational:Rational.is_one",
+  "sage.rings.rational:Rational.is_integral",
+  "sage.rings.rational:Rational.is_rational",
+  "sage.rings.rational:Rational.additive_order",
+  "sage.rings.rational:Rational.multiplicative_order",
+  "sage.rings.rational:Rational.mod_ui",
+  "sage.rings.rational_field:frac",
+]
+tests = [
+  "Field identities on run-time inputs, for example (a/b) + (c/d) = (ad + bc)/(bd) after reduction",
+  "The result is in lowest terms: gcd(numerator, denominator) = 1 and denominator > 0",
+  "Agreement with the image in Z/p for primes p that do not divide the denominators",
+]
+reuse = { status = "reusable", components = ["lean-core.rat.arithmetic"], evidence = "Lean's `Rat` stores a reduced fraction with a proof of coprimality and has compiled field operations." }
+backends = ["gmp"]
+references = ["Knu1997"]
+
+[[capability]]
+id = "monoids.power"
+title = "Power of an element of a monoid by an integer exponent"
+statement = "Given x in a monoid M and n >= 0, return x^n with O(log n) multiplications. For x invertible and n < 0, return (x^-1)^|n|."
+domain = "Multiplicative monoids; groups for negative exponents."
+contract = "M x N -> M, and G x Z -> G for a group G. The result is independent of the addition chain."
+exactness = "exact"
+algorithms = [
+  { family = "Binary powering (square and multiply), left-to-right and right-to-left", sources = ["[Knu1997] section 4.6.3", "[Coh1993] section 1.2"] },
+]
+depends_on = []
+sage = ["sage.arith.power:generic_power"]
+tests = [
+  "x^(m + n) = x^m x^n and (x^m)^n = x^(mn) on run-time inputs",
+  "Agreement with the product of n copies of x for small n, in Z, in Z/m and in 2 x 2 integer matrices",
+]
+reuse = { status = "reusable", components = ["lean-core.int.bignum-arithmetic"], evidence = "`Nat.pow` and `Int.pow` compile to GMP calls. Mathlib has `npowBinRec`, binary powering in any monoid; the default `Monoid.npow` field is the linear `npowRec`." }
+backends = []
+references = ["Knu1997", "Coh1993"]
+
+# ---------------------------------------------------------------------------------------------
+# Euclidean structure
+# ---------------------------------------------------------------------------------------------
+
+[[capability]]
+id = "euclidean.division"
+title = "Division with remainder in a Euclidean domain"
+statement = "Given a and b != 0 in a Euclidean domain R with degree function d, return q and r with a = q b + r and r = 0 or d(r) < d(b). Decide whether b divides a, and return the exact quotient when it does."
+domain = "Euclidean domains with a computable division. For Z, d(n) = |n| and the remainder convention is stated by the operation (floor, truncation or balanced)."
+contract = "R x (R - 0) -> R x R for (q, r); R x R -> Bool for divisibility; exact division is defined when b divides a."
+exactness = "exact"
+algorithms = [
+  { family = "Long division; Newton reciprocal division; exact division from the low digits", sources = ["[Knu1997] section 4.3.1 Algorithm D", "[BZ2010] sections 1.4 and 1.4.5"] },
+]
+depends_on = ["integers.arithmetic"]
+sage = [
+  "sage.rings.integer:Integer.quo_rem",
+  "sage.rings.integer:Integer.euclidean_degree",
+  "sage.rings.integer:Integer.divides",
+  "sage.rings.integer:Integer.divide_knowing_divisible_by",
+  "sage.rings.integer_ring:IntegerRing_class.parameter",
+]
+tests = [
+  "a = q b + r and 0 <= r < |b| on run-time inputs, both signs of a and b",
+  "b divides a if and only if the remainder is 0; exact division returns q with q b = a",
+]
+reuse = { status = "reusable", components = ["lean-core.int.bignum-arithmetic", "hex.HexArith.int-exact-div"], evidence = "`Int.ediv`, `Int.emod`, `Int.fdiv`, `Int.tdiv` are compiled; Hex supplies exact division." }
+backends = ["gmp"]
+references = ["Knu1997", "BZ2010"]
+
+[[capability]]
+id = "euclidean.gcd"
+title = "Greatest common divisor and least common multiple in a Euclidean domain"
+statement = "Given a, b in a Euclidean domain R, return the normalized generator g of the ideal (a, b) and the normalized generator l of the ideal (a) intersected with (b). Extend both to finite lists. For a rational q, the content is |q|."
+domain = "Euclidean domains with a computable division and a unit-normal form. For Z the normal form is the non-negative associate."
+contract = "R x R -> R for gcd and lcm; List R -> R with gcd [] = 0 and lcm [] = 1. For rationals a/b and c/d in lowest terms: gcd = gcd(a, c)/lcm(b, d) and lcm = lcm(a, c)/gcd(b, d)."
+exactness = "exact"
+algorithms = [
+  { family = "Euclidean algorithm; binary gcd; Lehmer's algorithm; half-gcd", sources = ["[Knu1997] section 4.5.2", "[Coh1993] section 1.3", "[BZ2010] section 1.6"] },
+]
+depends_on = ["euclidean.division"]
+sage = [
+  "sage.arith.misc:gcd",
+  "sage.arith.functions:lcm",
+  "sage.arith.functions:LCM_list",
+  "sage.rings.integer:GCD_list",
+  "sage.rings.rational:Rational.content",
+]
+tests = [
+  "g divides a and b, and every common divisor of a and b divides g",
+  "gcd(a, b) lcm(a, b) = |a b| in Z",
+  "Agreement with the gcd read from the prime factorizations of a and b",
+]
+reuse = { status = "reusable", components = ["lean-core.int.gcd-lcm"], evidence = "`Nat.gcd`, `Int.gcd`, `Nat.lcm`, `Int.lcm` are compiled; `Nat.gcd` has a GMP implementation." }
+backends = ["gmp", "pari"]
+references = ["Knu1997", "Coh1993", "BZ2010"]
+
+[[capability]]
+id = "euclidean.xgcd"
+title = "Extended greatest common divisor"
+statement = "Given a, b in a Euclidean domain R, return g, s, t with g = gcd(a, b) = s a + t b."
+domain = "Euclidean domains with a computable division and a unit-normal form."
+contract = "R x R -> R x R x R. For Z the cofactors are the minimal ones: |s| <= |b / (2g)| and |t| <= |a / (2g)| when both bounds are at least 1."
+exactness = "exact"
+algorithms = [
+  { family = "Extended Euclidean algorithm; Lehmer's extension; half-gcd", sources = ["[Knu1997] section 4.5.2 Algorithm X", "[Coh1993] section 1.3"] },
+]
+depends_on = ["euclidean.gcd"]
+sage = [
+  "sage.arith.misc:xgcd",
+  "sage.rings.integer:Integer.xgcd",
+]
+tests = [
+  "The Bezout identity g = s a + t b, with g equal to the result of `euclidean.gcd`",
+  "The minimality bounds on s and t",
+]
+reuse = { status = "reusable", components = ["mathlib.int.xgcd", "hex.HexArith.extended-gcd"], evidence = "Mathlib's `Nat.xgcd`, `Int.gcdA`, `Int.gcdB` and Hex's extended gcd are compiled, with the Bezout identity proved." }
+backends = ["gmp"]
+references = ["Knu1997", "Coh1993"]
+
+[[capability]]
+id = "rationals.rounding"
+title = "Rounding of rational numbers to integers"
+statement = "Given a rational q, return the floor, the ceiling, the truncation toward 0, and the nearest integer under a stated tie rule (away from 0, toward 0, to even, up or down)."
+domain = "Q; real numbers given exactly enough to decide the comparison."
+contract = "Q -> Z. floor(q) <= q < floor(q) + 1; ceil(q) = -floor(-q); trunc(q) = sign(q) floor(|q|)."
+exactness = "exact"
+algorithms = [
+  { family = "Division with remainder of the numerator by the denominator", sources = ["[GKP1994] chapter 3"] },
+]
+depends_on = ["euclidean.division", "rationals.arithmetic"]
+sage = [
+  "sage.rings.rational:Rational.floor",
+  "sage.rings.rational:Rational.ceil",
+  "sage.rings.rational:Rational.trunc",
+  "sage.rings.rational:Rational.round",
+  "sage.rings.integer:Integer.floor",
+  "sage.rings.integer:Integer.ceil",
+  "sage.rings.integer:Integer.trunc",
+  "sage.rings.integer:Integer.round",
+  "sage.arith.misc:integer_floor",
+  "sage.arith.misc:integer_ceil",
+  "sage.arith.misc:integer_trunc",
+]
+tests = [
+  "The defining inequalities floor(q) <= q < floor(q) + 1 and ceil(q) - 1 < q <= ceil(q)",
+  "floor(q + n) = floor(q) + n for integers n; each tie rule on half-integers, [GKP1994] chapter 3",
+]
+reuse = { status = "reusable", components = ["mathlib.rat.floor-sqrt"], evidence = "`Rat.floor`, `Rat.ceil` and Mathlib's `FloorRing Rat` instance are compiled." }
+backends = ["gmp"]
+references = ["GKP1994"]
+
+# ---------------------------------------------------------------------------------------------
+# Modular arithmetic
+# ---------------------------------------------------------------------------------------------
+
+[[capability]]
+id = "integers.modular-inverse"
+title = "Inverse of an integer modulo an integer"
+statement = "Given a and m > 0 with gcd(a, m) = 1, return the b in [0, m) with a b = 1 mod m. Report that no inverse exists when gcd(a, m) != 1."
+domain = "Z and a modulus m > 0; more generally a Euclidean domain and an ideal generator."
+contract = "Z x Z_{>0} -> Z, defined exactly when gcd(a, m) = 1."
+exactness = "exact"
+algorithms = [
+  { family = "Extended Euclidean algorithm", sources = ["[Knu1997] section 4.5.2", "[Coh1993] section 1.3"] },
+]
+depends_on = ["euclidean.xgcd"]
+sage = [
+  "sage.arith.misc:inverse_mod",
+  "sage.rings.integer:Integer.inverse_mod",
+]
+tests = [
+  "a b = 1 mod m and 0 <= b < m",
+  "For a prime modulus p, agreement with a^(p - 2) mod p (Fermat's little theorem)",
+]
+reuse = { status = "reusable", components = ["mathlib.zmod.arithmetic", "hex.HexArith.extended-gcd"], evidence = "`ZMod.inv` is defined through `Nat.gcdA` and is compiled." }
+backends = ["gmp"]
+references = ["Knu1997", "Coh1993"]
+
+[[capability]]
+id = "integers.modular-power"
+title = "Power of an integer modulo an integer"
+statement = "Given a, an exponent n and a modulus m > 0, return a^n mod m without forming a^n. For n < 0 and gcd(a, m) = 1, return (a^-1)^|n| mod m."
+domain = "Z, an exponent in Z and a modulus m > 0."
+contract = "Z x Z x Z_{>0} -> [0, m)."
+exactness = "exact"
+algorithms = [
+  { family = "Binary and sliding-window powering with Montgomery or Barrett reduction", sources = ["[Coh1993] section 1.2", "[BZ2010] sections 2.4 and 2.6"] },
+]
+depends_on = ["monoids.power", "integers.modular-inverse"]
+sage = [
+  "sage.arith.misc:power_mod",
+  "sage.rings.integer:Integer.powermod",
+]
+tests = [
+  "Agreement with (a^n) mod m computed in Z for small n",
+  "Euler's theorem a^phi(m) = 1 mod m for gcd(a, m) = 1",
+]
+reuse = { status = "reusable", components = ["lean-core.int.modpow", "hex.HexArith.pow-mod", "hex.HexArith.montgomery", "hex.HexArith.barrett"], evidence = "`Nat.powMod` in Lean core and Hex's `powMod` with Montgomery and Barrett contexts are compiled." }
+backends = ["gmp"]
+references = ["Coh1993", "BZ2010"]
+
+[[capability]]
+id = "modular.crt"
+title = "Chinese remainder reconstruction"
+statement = "Given residues a_i and moduli m_i, return x with x = a_i mod m_i for all i, modulo lcm(m_i), or report that the system is inconsistent. Return the basis e_i with e_i = 1 mod m_i and e_i = 0 mod m_j for j != i when the moduli are pairwise coprime. Apply the reconstruction entry by entry to vectors."
+domain = "Z; more generally a Euclidean domain. Moduli need not be coprime for two residues: the system is consistent exactly when a_1 = a_2 mod gcd(m_1, m_2)."
+contract = "List (R x R) -> R x R for (x, lcm of the moduli), with x reduced modulo the lcm; List R -> List R for the basis."
+exactness = "exact"
+algorithms = [
+  { family = "Pairwise extended gcd; Garner's mixed-radix algorithm; product and remainder trees", sources = ["[Knu1997] section 4.3.2", "[Coh1993] section 1.3.3", "[GG2013] sections 5.4 and 10.3"] },
+]
+depends_on = ["euclidean.xgcd"]
+sage = [
+  "sage.arith.misc:crt",
+  "sage.arith.misc:CRT_list",
+  "sage.arith.misc:CRT_basis",
+  "sage.arith.misc:CRT_vectors",
+  "sage.rings.integer:Integer.crt",
+  "sage.rings.integer_ring:crt_basis",
+]
+tests = [
+  "x = a_i mod m_i for every i and 0 <= x < lcm(m_i)",
+  "Round trip: for a run-time x below the product of the moduli, the reconstruction of its residues is x",
+  "Inconsistent systems (a_1 != a_2 mod gcd(m_1, m_2)) are rejected",
+]
+reuse = { status = "reusable", components = ["hex.HexModular.crt", "mathlib.int.crt"], evidence = "Hex has incremental and vector Chinese remaindering with product-tree plans; Mathlib's `Nat.chineseRemainder` is computable." }
+backends = ["gmp"]
+references = ["Knu1997", "Coh1993", "GG2013"]
+
+[[capability]]
+id = "modular.multimodular-basis"
+title = "Multimodular residue bases"
+statement = "Keep a list of pairwise coprime word-sized primes with the precomputed partial products and inverses of Garner's algorithm. Extend the list until its product exceeds a bound, replace a prime, and reconstruct an integer from its residues."
+domain = "Lists of distinct primes below the machine word bound."
+contract = "A basis (p_1, ..., p_k) with partial products P_i = p_1 ... p_i and c_i = P_{i-1}^-1 mod p_i; residues (r_1, ..., r_k) -> the x in [0, P_k) with x = r_i mod p_i."
+exactness = "exact"
+algorithms = [
+  { family = "Garner's mixed-radix reconstruction with a growing prime list", sources = ["[Knu1997] section 4.3.2", "[GG2013] section 5.4"] },
+]
+depends_on = ["modular.crt", "integers.prime-search"]
+sage = ["sage.arith.multi_modular:*"]
+tests = [
+  "Round trip for a run-time integer below the product of the basis",
+  "After an extension to a height bound H the product of the basis exceeds H",
+]
+reuse = { status = "reusable", components = ["hex.HexModular.crt", "hex.HexModArith.prime-field"], evidence = "Hex's CRT plans keep product trees over a prime list; `HexModArith` enumerates word-sized primes." }
+backends = ["gmp"]
+references = ["Knu1997", "GG2013"]
+
+[[capability]]
+id = "modular.rational-reconstruction"
+title = "Rational reconstruction from a residue"
+statement = "Given a and m > 0, return the rational n/d with n = a d mod m, gcd(d, m) = 1 and |n|, d <= sqrt(m/2), which is unique when it exists; report that none exists otherwise. The maximal-quotient variant returns n/d with the smallest |n| d below a threshold."
+domain = "Z and a modulus m > 0; vectors entry by entry with a common denominator."
+contract = "Z x Z_{>0} -> Q, partial. With bounds N, D satisfying 2 N D < m the answer with |n| <= N and 0 < d <= D is unique."
+exactness = "exact"
+algorithms = [
+  { family = "Truncated extended Euclidean algorithm (Wang)", sources = ["[Wan1981]", "[GG2013] section 5.10"] },
+  { family = "Maximal quotient rational reconstruction", sources = ["[Mon2004]"] },
+]
+depends_on = ["euclidean.xgcd"]
+sage = [
+  "sage.arith.misc:rational_reconstruction",
+  "sage.arith.misc:mqrr_rational_reconstruction",
+  "sage.rings.integer:Integer.rational_reconstruction",
+]
+tests = [
+  "n = a d mod m and the bounds on |n| and d",
+  "Round trip: for a run-time n/d with 2 |n| d < m, the reconstruction of n d^-1 mod m is n/d",
+]
+reuse = { status = "reusable", components = ["hex.HexModular.rational-reconstruction"], evidence = "Hex has scalar and vector rational reconstruction from a modular image." }
+backends = ["gmp"]
+references = ["Wan1981", "Mon2004", "GG2013"]
+
+[[capability]]
+id = "modular.primitive-root"
+title = "Primitive root modulo an integer"
+statement = "Given n = 1, 2, 4, p^k or 2 p^k for an odd prime p, return the smallest positive generator of the cyclic group (Z/n)^*. Report that none exists for other n."
+domain = "Positive integers n."
+contract = "Z_{>0} -> Z, defined exactly when (Z/n)^* is cyclic."
+exactness = "exact"
+algorithms = [
+  { family = "Search over candidates g with g^(phi/q) != 1 for each prime q dividing phi(n); lift from p to p^k", sources = ["[Coh1993] section 1.4.1"] },
+]
+depends_on = ["integers.factorization", "integers.modular-power", "integers.multiplicative-functions"]
+sage = ["sage.arith.misc:primitive_root"]
+tests = [
+  "The multiplicative order of g modulo n is phi(n)",
+  "No smaller positive integer has order phi(n)",
+  "Existence exactly for n = 1, 2, 4, p^k, 2 p^k (Gauss)",
+]
+reuse = { status = "adaptable", components = ["hex.HexIntFactor.multiplicative-order"], evidence = "Hex has multiplicative-order certificates and primitive roots from a checked factorization; the lift to prime powers and the smallest-root contract need a wrapper." }
+backends = ["pari"]
+references = ["Coh1993"]
+
+[[capability]]
+id = "modular.residue-sets"
+title = "Sets of residues with a multiplicative property"
+statement = "Given n > 0, list the quadratic residues modulo n, and list the integers in [1, m] that are coprime to n."
+domain = "Positive integers n, and a bound m."
+contract = "Z_{>0} -> sorted List Z for the squares modulo n in [0, n); Z x Z_{>0} -> sorted List Z for the integers 1 <= k <= m with gcd(k, n) = 1."
+exactness = "exact"
+algorithms = [
+  { family = "Enumeration of squares; sieve by the prime divisors of n", sources = ["[HW2008] chapter VI"] },
+]
+depends_on = ["euclidean.gcd", "integers.factorization"]
+sage = [
+  "sage.arith.misc:quadratic_residues",
+  "sage.rings.integer:Integer.coprime_integers",
+]
+tests = [
+  "For an odd prime p there are (p + 1)/2 quadratic residues in [0, p), and r != 0 is one exactly when the Legendre symbol (r/p) is 1",
+  "The number of integers in [1, n] coprime to n is phi(n)",
+]
+reuse = { status = "adaptable", components = ["mathlib.zmod.units", "lean-core.int.gcd-lcm"], evidence = "Both sets are finite filters over compiled gcd and multiplication; no declaration returns them in this form." }
+backends = []
+references = ["HW2008"]
+
+# ---------------------------------------------------------------------------------------------
+# Representation, roots, logarithms, valuations
+# ---------------------------------------------------------------------------------------------
+
+[[capability]]
+id = "integers.radix-representation"
+title = "Positional representation of integers and rationals"
+statement = "Given an integer n and a base b >= 2, return the digits of n in base b, least significant first, and the string in bases 2 to 36. Return the balanced digits in (-b/2, b/2]. Return the number of digits, the bit length, the number of trailing zero bits, single bits and the number of 1 bits. Convert between an integer and a byte string in big-endian or little-endian order, signed or unsigned. Convert a rational to the string of its numerator and denominator."
+domain = "Z and Q; bases b >= 2; two's complement for the bit operations on negative integers where the operation states it."
+contract = "Z x Z_{>=2} -> List Z with n = sum d_i b^i and 0 <= d_i < b (digits of |n| for n < 0, with the sign applied to each digit); Z -> String and String -> Z are inverse to each other; Z -> Bytes and Bytes -> Z are inverse to each other for a given length, byte order and signedness."
+exactness = "exact"
+algorithms = [
+  { family = "Repeated division for small inputs; divide-and-conquer radix conversion", sources = ["[Knu1997] section 4.4", "[BZ2010] section 1.7"] },
+]
+depends_on = ["euclidean.division"]
+sage = [
+  "sage.rings.integer:Integer.str",
+  "sage.rings.integer:Integer.hex",
+  "sage.rings.integer:Integer.oct",
+  "sage.rings.integer:Integer.binary",
+  "sage.rings.integer:Integer.bits",
+  "sage.rings.integer:Integer.bit_length",
+  "sage.rings.integer:Integer.nbits",
+  "sage.rings.integer:Integer.trailing_zero_bits",
+  "sage.rings.integer:Integer.digits",
+  "sage.rings.integer:Integer.balanced_digits",
+  "sage.rings.integer:Integer.ndigits",
+  "sage.rings.integer:Integer.test_bit",
+  "sage.rings.integer:Integer.popcount",
+  "sage.rings.integer:Integer.to_bytes",
+  "sage.rings.integer_ring:IntegerRing_class.from_bytes",
+  "sage.rings.rational:Rational.str",
+]
+tests = [
+  "n = sum d_i b^i with every digit in range; the balanced digits lie in (-b/2, b/2]",
+  "Round trips string -> integer -> string and bytes -> integer -> bytes on run-time inputs",
+  "The number of base-b digits of n > 0 is floor(log_b n) + 1",
+]
+reuse = { status = "reusable", components = ["mathlib.int.digits", "lean-core.int.bignum-arithmetic"], evidence = "`Nat.digits`, `Nat.toDigits`, `Nat.repr`, `Nat.log2`, `Nat.testBit` are compiled. Balanced digits and byte strings are short programs over them." }
+backends = ["gmp"]
+references = ["Knu1997", "BZ2010"]
+
+[[capability]]
+id = "integers.roots-and-perfect-powers"
+title = "Integer roots and perfect-power tests"
+statement = "Given n >= 0 and k >= 1, return floor(n^(1/k)) and the remainder n - floor(n^(1/k))^k, and decide whether n is a k-th power. Decide whether n is a perfect power and return (a, k) with n = a^k and k maximal. Decide whether n is a power of a given base. Extend the root and the tests to rationals through the numerator and the denominator. For a rational a and an exponent m/d, return c and e with a^(m/d) = c e^(m/d) and e free of d-th powers found by bounded factoring."
+domain = "Z and Q. Odd k for negative arguments."
+contract = "Z_{>=0} x Z_{>0} -> Z x Z for (root, remainder); Z -> Bool for the tests; Z -> Z x Z_{>0} for (a, k). An exact root is returned only when it exists in Z or Q; otherwise the operation reports that the root is not rational."
+exactness = "exact"
+algorithms = [
+  { family = "Newton iteration for integer roots", sources = ["[Coh1993] section 1.7.1", "[BZ2010] section 1.5"] },
+  { family = "Square and power detection by residues modulo small moduli, then a root", sources = ["[Coh1993] sections 1.7.2 and 1.7.3", "[Ber1998]"] },
+]
+depends_on = ["integers.arithmetic", "euclidean.division", "integers.trial-division"]
+sage = [
+  "sage.arith.misc:is_square",
+  "sage.arith.misc:is_power_of_two",
+  "sage.rings.integer:Integer.sqrt",
+  "sage.rings.integer:Integer.isqrt",
+  "sage.rings.integer:Integer.sqrtrem",
+  "sage.rings.integer:Integer.nth_root",
+  "sage.rings.integer:Integer.is_square",
+  "sage.rings.integer:Integer.perfect_power",
+  "sage.rings.integer:Integer.is_perfect_power",
+  "sage.rings.integer:Integer.is_power_of",
+  "sage.rings.rational:Rational.sqrt",
+  "sage.rings.rational:Rational.nth_root",
+  "sage.rings.rational:Rational.is_square",
+  "sage.rings.rational:Rational.is_nth_power",
+  "sage.rings.rational:Rational.is_perfect_power",
+  "sage.rings.rational:integer_rational_power",
+  "sage.rings.rational:rational_power_parts",
+]
+tests = [
+  "r^k <= n < (r + 1)^k for the returned root r",
+  "n is a square exactly when sqrtrem returns remainder 0; a^k is reported as a k-th power for run-time a",
+  "The exponent in perfect_power is the gcd of the exponents in the prime factorization",
+]
+reuse = { status = "adaptable", components = ["lean-core.int.isqrt", "hex.HexArith.integer-sqrt", "mathlib.rat.floor-sqrt"], evidence = "`Nat.sqrt` and Hex's floor and ceiling square roots are compiled. Higher roots and the perfect-power decomposition are not present." }
+backends = ["gmp", "pari"]
+references = ["Coh1993", "BZ2010", "Ber1998"]
+
+[[capability]]
+id = "integers.integer-logarithm"
+title = "Integer logarithm"
+statement = "Given n > 0 and a base b >= 2, return the largest e with b^e <= n."
+domain = "Positive integers; bases b >= 2."
+contract = "Z_{>0} x Z_{>=2} -> Z_{>=0} with b^e <= n < b^(e + 1)."
+exactness = "exact"
+algorithms = [
+  { family = "Estimate from the bit lengths, then correction by exact powers", sources = ["[BZ2010] section 1.7"] },
+]
+depends_on = ["monoids.power"]
+sage = ["sage.rings.integer:Integer.exact_log"]
+tests = [
+  "b^e <= n < b^(e + 1) on run-time inputs, including n = b^k - 1, b^k and b^k + 1",
+]
+reuse = { status = "reusable", components = ["mathlib.int.nat-log"], evidence = "`Nat.log` and `Nat.clog` are compiled, with the defining inequalities proved." }
+backends = ["gmp"]
+references = ["BZ2010"]
+
+[[capability]]
+id = "integers.valuation"
+title = "p-adic valuation of an integer or a rational"
+statement = "Given n != 0 and p >= 2, return the largest v with p^v dividing n, and the cofactor n / p^v. For a rational a/b, return v_p(a) - v_p(b) and the unit part."
+domain = "Z - 0 and Q^*; p >= 2, a prime for the valuation properties."
+contract = "(Z - 0) x Z_{>=2} -> Z_{>=0} x Z for (v, u) with n = p^v u and p not dividing u; Q^* x Z_{>=2} -> Z x Q. The valuation of 0 is +infinity."
+exactness = "exact"
+algorithms = [
+  { family = "Repeated division; divide-and-conquer with the powers p^(2^i)", sources = ["[BZ2010] section 1.7"] },
+]
+depends_on = ["euclidean.division"]
+sage = [
+  "sage.arith.misc:valuation",
+  "sage.rings.integer:Integer.valuation",
+  "sage.rings.integer:Integer.val_unit",
+  "sage.rings.rational:Rational.valuation",
+  "sage.rings.rational:Rational.val_unit",
+]
+tests = [
+  "n = p^v u with p not dividing u",
+  "For a prime p: v(m n) = v(m) + v(n) and v(m + n) >= min(v(m), v(n))",
+  "Legendre's formula for v_p(n!)",
+]
+reuse = { status = "adaptable", components = ["mathlib.int.padic-valuation"], evidence = "The reuse map lists `padicValNat`; the audit of Mathlib master reports it is defined through `multiplicity` and marked noncomputable, so a compiled loop over `Nat.div` is needed." }
+backends = ["gmp"]
+references = ["BZ2010"]
+
+[[capability]]
+id = "integers.coprime-splitting"
+title = "Coprime parts of an integer without factoring"
+statement = "Given n and m, return the largest divisor of n coprime to m and the largest divisor of n whose prime divisors all divide m. Return the odd part and the p-primary part. Given m, n > 0, return m_1 dividing m and n_1 dividing n with gcd(m_1, n_1) = 1 and m_1 n_1 = lcm(m, n). For a rational and a set S of primes, return the factor that is prime to S."
+domain = "Z - 0 and Q^*."
+contract = "(Z - 0) x (Z - 0) -> Z x Z for (coprime part, smooth part) with product |n|; (Z_{>0})^2 -> (Z_{>0})^3 for (lcm, m_1, n_1). Only gcds and divisions are used."
+exactness = "exact"
+algorithms = [
+  { family = "Iterated gcd and exact division", sources = ["[Ber2005]", "[BS1996] chapter 4"] },
+]
+depends_on = ["euclidean.gcd", "integers.valuation"]
+sage = [
+  "sage.arith.misc:xlcm",
+  "sage.arith.misc:odd_part",
+  "sage.arith.misc:prime_to_m_part",
+  "sage.arith.misc:smooth_part",
+  "sage.arith.misc:coprime_part",
+  "sage.rings.integer:Integer.prime_to_m_part",
+  "sage.rings.integer:Integer.p_primary_part",
+  "sage.rings.integer:Integer.odd_part",
+  "sage.rings.rational:Rational.prime_to_S_part",
+]
+tests = [
+  "The two parts multiply to |n|; the first is coprime to m; every prime divisor of the second divides m",
+  "Agreement with the parts read from the prime factorization of n",
+  "lcm(m, n) = m_1 n_1 with gcd(m_1, n_1) = 1, m_1 | m and n_1 | n",
+]
+reuse = { status = "adaptable", components = ["lean-core.int.gcd-lcm", "hex.HexArith.int-exact-div"], evidence = "The operations are loops over compiled gcd and exact division; no declaration returns these parts." }
+backends = ["gmp"]
+references = ["Ber2005", "BS1996"]
+
+# ---------------------------------------------------------------------------------------------
+# Primes
+# ---------------------------------------------------------------------------------------------
+
+[[capability]]
+id = "integers.primality-proving"
+title = "Proved primality test"
+statement = "Decide whether an integer n is prime, with a proof: a certificate for a prime, a compositeness witness or a factor for a composite. Irreducibility in Z is primality of |n|."
+domain = "Z; n of any size."
+contract = "Z -> Bool. The answer is unconditional."
+exactness = "exact"
+algorithms = [
+  { family = "Trial division and BPSW for n < 2^64, where BPSW is verified exhaustively", sources = ["[CP2005] section 3.6"] },
+  { family = "N - 1 and N + 1 tests (Pocklington, Brillhart-Lehmer-Selfridge)", sources = ["[Coh1993] section 8.3", "[CP2005] section 4.1"] },
+  { family = "APR-CL Jacobi sum test", sources = ["[Coh1993] section 9.1"] },
+  { family = "Elliptic curve primality proving (Goldwasser-Kilian, Atkin-Morain)", sources = ["[Coh1993] section 9.2", "[AM1993]"] },
+]
+depends_on = ["integers.probable-primality", "integers.factorization", "integers.modular-power"]
+sage = [
+  "sage.arith.misc:is_prime",
+  "sage.rings.integer:Integer.is_prime",
+  "sage.rings.integer:Integer.is_irreducible",
+]
+tests = [
+  "Agreement with trial division below 10^6",
+  "Mersenne primes 2^p - 1 for p in the known list are prime; Carmichael numbers (561, 1105, 1729, ...) are composite",
+  "The strong pseudoprimes to bases 2, 3, 5, 7 of [PSW1980] are composite",
+]
+reuse = { status = "reusable", components = ["hex.HexPrimality.decide-prime-next-prime", "hex.HexPrimality.pocklington-certificates", "hex.HexECPP.certificate-checker", "hex.HexECPP.certificate-producer", "mathlib.int.primality-decidable"], evidence = "Hex has a total primality decision with kernel-checkable Pocklington certificates and an ECPP certificate checker. The ECPP producer is adaptable: it relies on PARI import for large inputs." }
+backends = ["pari"]
+references = ["Coh1993", "CP2005", "AM1993", "PSW1980"]
+
+[[capability]]
+id = "integers.probable-primality"
+title = "Probable-prime test"
+statement = "Given n, return false when n is proved composite by a strong pseudoprime test, and true otherwise. A true answer is not a proof for n >= 2^64."
+domain = "Z."
+contract = "Z -> Bool. False is always correct. True is correct for n < 2^64; no composite n with a true answer is known for the Baillie-PSW test."
+exactness = "heuristic"
+exactness_notes = "The Baillie-PSW test has no known counterexample. A Miller-Rabin test with k random bases errs with probability at most 4^-k on a composite input."
+algorithms = [
+  { family = "Miller-Rabin strong pseudoprime test", sources = ["[Coh1993] section 8.2", "[CP2005] section 3.5"] },
+  { family = "Baillie-PSW: a base-2 strong test and a strong Lucas test", sources = ["[BW1980]", "[PSW1980]", "[CP2005] section 3.6"] },
+]
+depends_on = ["integers.modular-power", "number-theory.kronecker-symbol"]
+sage = [
+  "sage.arith.misc:is_pseudoprime",
+  "sage.rings.integer:Integer.is_pseudoprime",
+]
+tests = [
+  "Every prime below 10^6 is reported true",
+  "Agreement with `integers.primality-proving` on run-time inputs below 2^64",
+  "The base-2 strong pseudoprimes 2047, 3277, 4033 are reported false",
+]
+reuse = { status = "reusable", components = ["hex.HexPrimality.miller-rabin"], evidence = "Hex has a compiled Miller-Rabin test. The strong Lucas half of Baillie-PSW is not listed in the reuse map." }
+backends = ["pari"]
+references = ["Coh1993", "CP2005", "BW1980", "PSW1980"]
+
+[[capability]]
+id = "integers.prime-power-test"
+title = "Prime-power test"
+statement = "Given n, decide whether n = p^k for a prime p and k >= 1, and return (p, k). The probable variant uses a probable-prime test for p."
+domain = "Z."
+contract = "Z -> Bool, or Z -> Z x Z for (p, k), with (n, 0) when n is not a prime power."
+exactness = "exact"
+exactness_notes = "The probable variant has the exactness of `integers.probable-primality`."
+algorithms = [
+  { family = "Perfect-power decomposition, then a primality test of the root", sources = ["[Coh1993] section 1.7.3"] },
+]
+depends_on = ["integers.roots-and-perfect-powers", "integers.primality-proving", "integers.probable-primality"]
+sage = [
+  "sage.arith.misc:is_prime_power",
+  "sage.arith.misc:is_pseudoprime_power",
+  "sage.rings.integer:Integer.is_prime_power",
+  "sage.rings.integer:Integer.is_pseudoprime_power",
+]
+tests = [
+  "p^k is reported with (p, k) for run-time primes p and exponents k",
+  "The number of prime powers up to x agrees with the sum of pi(x^(1/k)) over k >= 1",
+]
+reuse = { status = "adaptable", components = ["hex.HexPrimality.decide-prime-next-prime", "lean-core.int.isqrt"], evidence = "The primality half is reusable from Hex; the perfect-power half is not present." }
+backends = ["pari"]
+references = ["Coh1993"]
+
+[[capability]]
+id = "integers.prime-enumeration"
+title = "Enumeration of primes and prime powers"
+statement = "List the primes in an interval, the first n primes, the n-th prime, the primes as a lazy sequence, and the prime powers in an interval."
+domain = "Intervals of Z_{>=0}; indices n >= 1."
+contract = "Z x Z -> sorted List Z for the primes p with a <= p < b; Z_{>0} -> Z for the n-th prime."
+exactness = "exact"
+algorithms = [
+  { family = "Sieve of Eratosthenes, segmented and wheel variants", sources = ["[CP2005] section 3.2"] },
+  { family = "Combinatorial prime counting (Meissel-Lehmer, Lagarias-Miller-Odlyzko) for the n-th prime", sources = ["[CP2005] section 3.7", "[LMO1985]"] },
+]
+depends_on = ["integers.primality-proving", "integers.roots-and-perfect-powers"]
+sage = [
+  "sage.arith.misc:primes",
+  "sage.arith.misc:primes_first_n",
+  "sage.arith.misc:eratosthenes",
+  "sage.arith.misc:nth_prime",
+  "sage.arith.misc:prime_powers",
+  "sage.rings.fast_arith:prime_range",
+  "sage.rings.rational_field:RationalField.primes_of_bounded_norm_iter",
+]
+tests = [
+  "Every listed number is prime by `integers.primality-proving`, and no prime of the interval is missing",
+  "pi(10^k) = 4, 25, 168, 1229, 9592, 78498 for k = 1, ..., 6",
+  "The 10^6-th prime is 15485863",
+]
+reuse = { status = "reusable", components = ["hex.HexPrimality.sieve-prime-table", "mathlib.int.prime-counting"], evidence = "Hex has an Eratosthenes sieve and a prime table. The n-th prime by combinatorial counting is not present; a sieve covers the range that Sage's `nth_prime` serves in practice." }
+backends = ["pari", "primecount"]
+references = ["CP2005", "LMO1985"]
+
+[[capability]]
+id = "integers.prime-search"
+title = "Next and previous prime or prime power"
+statement = "Given n, return the smallest prime greater than n, the largest prime less than n, and the same for prime powers. The probable variant returns the next probable prime."
+domain = "Z; n >= 3 for the previous prime and n >= 3 for the previous prime power."
+contract = "Z -> Z. No prime lies strictly between n and the result."
+exactness = "exact"
+exactness_notes = "The probable variant has the exactness of `integers.probable-primality`."
+algorithms = [
+  { family = "Sieve of an interval by small primes, then a primality test of each survivor", sources = ["[CP2005] section 3.2"] },
+]
+depends_on = ["integers.primality-proving", "integers.probable-primality", "integers.prime-power-test"]
+sage = [
+  "sage.arith.misc:next_prime",
+  "sage.arith.misc:previous_prime",
+  "sage.arith.misc:next_probable_prime",
+  "sage.arith.misc:next_prime_power",
+  "sage.arith.misc:previous_prime_power",
+  "sage.rings.integer:Integer.next_prime",
+  "sage.rings.integer:Integer.previous_prime",
+  "sage.rings.integer:Integer.next_probable_prime",
+  "sage.rings.integer:Integer.next_prime_power",
+  "sage.rings.integer:Integer.previous_prime_power",
+]
+tests = [
+  "The result is prime and every integer strictly between n and the result is composite",
+  "Iterating next_prime from 1 gives the list of `integers.prime-enumeration`",
+  "Bertrand's postulate: next_prime(n) < 2n for n > 1",
+]
+reuse = { status = "reusable", components = ["hex.HexPrimality.decide-prime-next-prime"], evidence = "Hex has a next-prime search over its total primality decision. The previous-prime and prime-power searches are the same loop." }
+backends = ["pari"]
+references = ["CP2005"]
+
+[[capability]]
+id = "integers.random-prime"
+title = "Random prime in an interval"
+statement = "Given bounds a <= b, return a prime p with a <= p <= b, uniformly distributed over the primes of the interval, or report that the interval holds no prime."
+domain = "Intervals of Z."
+contract = "Z x Z x generator state -> Z. With the proof option the result is a proved prime; otherwise a probable prime."
+exactness = "exact"
+exactness_notes = "Without proof the result has the exactness of `integers.probable-primality`. The distribution is uniform over the primes of the interval."
+algorithms = [
+  { family = "Rejection sampling: uniform integers in the interval, tested for primality", sources = ["[BS1996] chapter 9"] },
+]
+depends_on = ["integers.primality-proving", "integers.probable-primality", "rings.random-sampling"]
+sage = ["sage.arith.misc:random_prime"]
+tests = [
+  "The result is prime and lies in [a, b] for run-time bounds",
+  "An interval with one prime returns that prime; an interval with no prime is rejected",
+  "Chi-squared test of uniformity over the primes below 100",
+]
+reuse = { status = "adaptable", components = ["hex.HexPrimality.decide-prime-next-prime"], evidence = "Rejection sampling over Hex's primality decision and Lean's `StdGen`." }
+backends = ["pari"]
+references = ["BS1996"]
+
+# ---------------------------------------------------------------------------------------------
+# Factorization and functions of the factorization
+# ---------------------------------------------------------------------------------------------
+
+[[capability]]
+id = "integers.trial-division"
+title = "Trial division"
+statement = "Given n and a bound B, return the smallest prime divisor of n that is at most B, or n when there is none. Return the factorization of the B-smooth part of n and the cofactor."
+domain = "Z - 0; bounds B >= 2."
+contract = "Z x Z -> Z for the smallest prime divisor up to B; Z x Z -> Factorization x Z for (smooth part, cofactor)."
+exactness = "exact"
+algorithms = [
+  { family = "Division by the primes up to B from a sieve or a wheel; remainder trees for many primes", sources = ["[Coh1993] section 8.1", "[CP2005] section 3.1"] },
+]
+depends_on = ["euclidean.division", "integers.valuation"]
+sage = [
+  "sage.arith.misc:trial_division",
+  "sage.rings.integer:Integer.trial_division",
+  "sage.rings.factorint:factor_trial_division",
+]
+tests = [
+  "The result divides n, is prime, and no smaller prime divides n",
+  "For n with all prime divisors above B the result is n",
+]
+reuse = { status = "reusable", components = ["mathlib.int.minfac", "hex.HexArith.nat-prime-basics", "hex.HexPrimality.sieve-prime-table"], evidence = "`Nat.minFac` is compiled trial division; Hex supplies the prime table." }
+backends = ["gmp", "pari"]
+references = ["Coh1993", "CP2005"]
+
+[[capability]]
+id = "integers.factorization"
+title = "Factorization of an integer into primes"
+statement = "Given n != 0, return the unit sign(n) and the primes p_1 < ... < p_r with exponents e_i >= 1 such that n = sign(n) p_1^e_1 ... p_r^e_r. Return the set of prime divisors. For a rational, factor the numerator and the denominator and return integer exponents. With a bound, return a partial factorization and a cofactor with no prime divisor below the bound."
+domain = "Z - 0 and Q^*."
+contract = "(Z - 0) -> {1, -1} x sorted List (Z x Z_{>0}). Every listed base is a proved prime unless the caller requests probable primes."
+exactness = "exact"
+exactness_notes = "With proof off the bases are probable primes. The run time is subexponential in the size of the second-largest prime divisor."
+algorithms = [
+  { family = "Trial division, Pollard rho, Pollard p - 1, SQUFOF", sources = ["[Coh1993] sections 8.5, 8.7 and 8.8", "[CP2005] chapter 5"] },
+  { family = "Elliptic curve method", sources = ["[Coh1993] section 10.3", "[CP2005] section 7.4"] },
+  { family = "Multiple polynomial quadratic sieve", sources = ["[Coh1993] section 10.4", "[CP2005] section 6.1"] },
+  { family = "Number field sieve", sources = ["[Coh1993] section 10.5", "[CP2005] section 6.2"] },
+]
+depends_on = ["integers.trial-division", "integers.primality-proving", "integers.roots-and-perfect-powers", "euclidean.gcd", "integers.modular-power"]
+sage = [
+  "sage.arith.misc:factor",
+  "sage.arith.misc:prime_divisors",
+  "sage.rings.integer:Integer.factor",
+  "sage.rings.integer:Integer.prime_divisors",
+  "sage.rings.integer:Integer.support",
+  "sage.rings.rational:Rational.factor",
+  "sage.rings.rational:Rational.support",
+  "sage.rings.factorint:fermat_factor",
+  "sage.rings.factorint_flint:factor_using_flint",
+  "sage.rings.factorint_pari:factor_using_pari",
+]
+tests = [
+  "The product of the factorization is n and every base is prime by `integers.primality-proving`",
+  "Factorizations from the Cunningham tables [BLS+2002], for example 2^67 - 1 = 193707721 x 761838257287",
+  "Run-time products of two primes of equal size are split",
+]
+reuse = { status = "adaptable", components = ["hex.HexIntFactor.certified-factorization", "hex.HexIntFactor.ecm", "hex.HexPrimality.factor-finders", "mathlib.int.factorization"], evidence = "Hex has complete and partial factorization with checked certificates over Pollard rho, p - 1, SQUFOF and ECM. A quadratic sieve and a number field sieve are absent, so inputs with two large prime divisors are out of reach." }
+backends = ["pari", "flint", "interface:ecm", "interface:qsieve"]
+references = ["Coh1993", "CP2005", "BLS+2002"]
+
+[[capability]]
+id = "integers.special-form-factorization"
+title = "Factorization of numbers of special form"
+statement = "Given b and n, return the algebraic factors of b^n - 1 and b^n + 1: the values Phi_d(b) of the cyclotomic polynomials for d dividing n, and the Aurifeuillian factors L and M with Phi_n(b) = L M when they exist. Use a table of known prime factors of Cunningham numbers before general factoring."
+domain = "Integers b^n +- 1 and values of cyclotomic polynomials."
+contract = "Z -> List Z for a nontrivial splitting of Phi_n(b), empty when none exists; Z -> Factorization for the table-assisted factorization."
+exactness = "exact"
+algorithms = [
+  { family = "Cyclotomic splitting of b^n +- 1", sources = ["[BLS+2002] introduction"] },
+  { family = "Aurifeuillian factorization by Lucas and Schinzel polynomials", sources = ["[Bre1993]", "[Sch1962]"] },
+]
+depends_on = ["integers.factorization", "integers.squarefree"]
+sage = [
+  "sage.rings.factorint:aurifeuillian",
+  "sage.rings.factorint:factor_aurifeuillian",
+  "sage.rings.factorint:factor_cunningham",
+]
+tests = [
+  "The product of the returned factors is the input",
+  "2^(4k + 2) + 1 = (2^(2k + 1) - 2^(k + 1) + 1)(2^(2k + 1) + 2^(k + 1) + 1) for run-time k",
+  "Agreement with the main Cunningham tables [BLS+2002]",
+]
+reuse = { status = "specified-unimplemented", components = ["hex.spec.hex-cyclotomic"], evidence = "The Hex specification for cyclotomic polynomials from a checked factorization is not implemented; Aurifeuillian factors are in no surveyed library." }
+backends = ["pari"]
+references = ["BLS+2002", "Bre1993", "Sch1962"]
+license_notes = "Sage's `factor_cunningham` reads the optional `cunningham_tables` database. The table of prime factors is factual data; record its source and licence before it is copied."
+
+[[capability]]
+id = "integers.squarefree"
+title = "Squarefree test and squarefree part"
+statement = "Given n != 0, decide whether n is squarefree. Return the squarefree part: the s with n = s t^2 and s squarefree, with the sign of n. For a rational a/b, return the squarefree part of a b."
+domain = "Z - 0 and Q^*."
+contract = "Z -> Bool; Z -> Z for s. n / s is a perfect square."
+exactness = "exact"
+exactness_notes = "No method faster than factoring is known for general n."
+algorithms = [
+  { family = "Factorization; trial division up to n^(1/3) followed by a square test of the cofactor", sources = ["[Coh1993] section 8.1", "[CP2005] chapter 5"] },
+]
+depends_on = ["integers.factorization", "integers.roots-and-perfect-powers"]
+sage = [
+  "sage.arith.misc:is_squarefree",
+  "sage.rings.integer:Integer.is_squarefree",
+  "sage.rings.integer:Integer.squarefree_part",
+  "sage.rings.rational:Rational.squarefree_part",
+]
+tests = [
+  "n / s is a perfect square and s has no square divisor above 1",
+  "The number of squarefree integers up to x agrees with sum mu(d) floor(x / d^2)",
+]
+reuse = { status = "adaptable", components = ["hex.HexIntFactor.multiplicative-functions", "mathlib.int.factorization"], evidence = "Hex computes the squarefree part from a checked factorization." }
+backends = ["pari"]
+references = ["Coh1993", "CP2005"]
+
+[[capability]]
+id = "integers.divisors"
+title = "Divisors of an integer"
+statement = "Given n != 0, return the sorted list of positive divisors, the number of divisors, and the list of squarefree divisors."
+domain = "Z - 0; more generally an element of a unique factorization domain with its factorization."
+contract = "(Z - 0) -> sorted List Z_{>0}; (Z - 0) -> Z_{>0} for the count, equal to the product of (e_i + 1)."
+exactness = "exact"
+algorithms = [
+  { family = "Products over the factorization, merged in increasing order", sources = ["[HW2008] section 16.7"] },
+]
+depends_on = ["integers.factorization"]
+sage = [
+  "sage.arith.misc:divisors",
+  "sage.arith.misc:number_of_divisors",
+  "sage.arith.misc:squarefree_divisors",
+  "sage.rings.integer:Integer.divisors",
+  "sage.rings.integer:Integer.number_of_divisors",
+]
+tests = [
+  "Every listed d divides n, the list is sorted and has prod (e_i + 1) entries",
+  "d -> n / d reverses the list",
+  "Agreement with a filter of [1, n] for small n",
+]
+reuse = { status = "adaptable", components = ["hex.HexIntFactor.multiplicative-functions", "mathlib.int.divisors"], evidence = "Hex lists divisors from a checked factorization. `Nat.divisors` is a filter of [1, n]: correct, with cost linear in n." }
+backends = ["pari"]
+references = ["HW2008"]
+
+[[capability]]
+id = "integers.multiplicative-functions"
+title = "Multiplicative arithmetic functions"
+statement = "Given n >= 1, return the divisor power sum sigma_k(n), Euler's phi(n), Carmichael's lambda(n), the Moebius mu(n), Dedekind's psi(n) = n prod (1 + 1/p), and the radical. Return mu on an interval."
+domain = "Positive integers; k >= 0."
+contract = "Z_{>0} -> Z. Each function is determined by its values on prime powers: sigma_k(p^e) = 1 + p^k + ... + p^(ke), phi(p^e) = p^(e-1)(p - 1), mu(p) = -1 and mu(p^e) = 0 for e >= 2, psi(p^e) = p^(e-1)(p + 1), rad(p^e) = p; lambda is the lcm of its values on prime powers, with lambda(2^e) = 2^(e-2) for e >= 3."
+exactness = "exact"
+algorithms = [
+  { family = "Evaluation on the factorization", sources = ["[HW2008] chapter XVI"] },
+  { family = "Sieve for the values on an interval", sources = ["[CP2005] section 3.2"] },
+]
+depends_on = ["integers.factorization"]
+sage = [
+  "sage.arith.misc:Sigma",
+  "sage.arith.misc:Euler_Phi",
+  "sage.arith.misc:Moebius",
+  "sage.arith.misc:Moebius.range",
+  "sage.arith.misc:carmichael_lambda",
+  "sage.arith.misc:dedekind_psi",
+  "sage.arith.misc:radical",
+  "sage.rings.integer:Integer.euler_phi",
+  "sage.rings.integer:Integer.moebius",
+]
+tests = [
+  "sum over d | n of phi(d) = n; sum over d | n of mu(d) = [n = 1]",
+  "sigma_k(n) equals the sum of d^k over the list of `integers.divisors`",
+  "a^lambda(n) = 1 mod n for every a coprime to n, and lambda(n) is the least such exponent for small n",
+]
+reuse = { status = "adaptable", components = ["hex.HexIntFactor.multiplicative-functions", "hex.HexIntFactor.multiplicative-order", "mathlib.int.totient", "mathlib.int.moebius"], evidence = "Hex computes sigma_k, the totient, the radical and the Carmichael function from a checked factorization. Dedekind's psi is not listed." }
+backends = ["pari"]
+references = ["HW2008", "CP2005"]
+
+# ---------------------------------------------------------------------------------------------
+# Quadratic residues, symbols and discriminants
+# ---------------------------------------------------------------------------------------------
+
+[[capability]]
+id = "number-theory.kronecker-symbol"
+title = "Legendre, Jacobi and Kronecker symbols"
+statement = "Given integers a and n, return the Kronecker symbol (a/n) in {-1, 0, 1}: the Legendre symbol for n an odd prime, extended multiplicatively in n to odd n > 0 (Jacobi), to n = 2, to n = -1 and to n = 0. Given a, return the modulus m and the residue classes of primes p modulo m on which (a/p) = 1 and on which (a/p) = -1."
+domain = "Z x Z."
+contract = "Z x Z -> {-1, 0, 1}. (a/p) = a^((p-1)/2) mod p for an odd prime p. (a/2) = 0 for a even, 1 for a = +-1 mod 8, -1 for a = +-3 mod 8. (a/-1) = sign(a) with (0/-1) = 1. (a/0) = 1 for a = +-1 and 0 otherwise."
+exactness = "exact"
+algorithms = [
+  { family = "Binary algorithm with quadratic reciprocity", sources = ["[Coh1993] section 1.4.2"] },
+]
+depends_on = ["euclidean.division", "integers.valuation"]
+sage = [
+  "sage.arith.misc:kronecker_symbol",
+  "sage.arith.misc:legendre_symbol",
+  "sage.arith.misc:jacobi_symbol",
+  "sage.rings.integer:Integer.kronecker",
+  "sage.rings.integer:Integer.jacobi",
+  "sage.rings.integer:Integer.quadratic_residuocity_characterization",
+]
+tests = [
+  "Euler's criterion (a/p) = a^((p-1)/2) mod p for odd primes p",
+  "Quadratic reciprocity (p/q)(q/p) = (-1)^((p-1)(q-1)/4) and the supplements for -1 and 2",
+  "Multiplicativity in each argument on run-time inputs",
+]
+reuse = { status = "adaptable", components = ["mathlib.int.jacobi-legendre"], evidence = "Mathlib's `jacobiSym` has a compiled fast evaluator behind `norm_num`; the extension to even and non-positive n is a short wrapper." }
+backends = ["gmp", "pari"]
+references = ["Coh1993"]
+
+[[capability]]
+id = "quadratic.fundamental-discriminant"
+title = "Discriminants and fundamental discriminants"
+statement = "Given D, decide whether D is a discriminant (D = 0 or 1 mod 4) and whether D is fundamental (D = 1 mod 4 and squarefree, or D = 4m with m = 2 or 3 mod 4 and squarefree). Given D != 0, return the discriminant of the field Q(sqrt D)."
+domain = "Z."
+contract = "Z -> Bool; (Z - 0) -> Z for the fundamental discriminant, equal to 1 when D is a square."
+exactness = "exact"
+algorithms = [
+  { family = "Squarefree part, then the congruence modulo 4", sources = ["[Coh1993] section 5.1"] },
+]
+depends_on = ["integers.squarefree"]
+sage = [
+  "sage.arith.misc:fundamental_discriminant",
+  "sage.rings.integer:Integer.is_discriminant",
+  "sage.rings.integer:Integer.is_fundamental_discriminant",
+]
+tests = [
+  "The result divides 4 D, differs from D by a rational square, and is fundamental",
+  "The fundamental discriminants in [-20, 20] are -20, -19, -15, -11, -8, -7, -4, -3, 1, 5, 8, 12, 13, 17",
+]
+reuse = { status = "adaptable", components = ["hex.HexIntFactor.multiplicative-functions"], evidence = "A congruence test over the squarefree part, which Hex computes from a checked factorization." }
+backends = ["pari"]
+references = ["Coh1993"]
+
+[[capability]]
+id = "quadratic.class-number"
+title = "Class number of a quadratic order"
+statement = "Given a non-square discriminant D, return the number of classes of primitive binary quadratic forms of discriminant D (positive definite forms for D < 0), which is the narrow class number of the quadratic order of discriminant D."
+domain = "Discriminants D = 0 or 1 mod 4, not squares."
+contract = "Z -> Z_{>0}."
+exactness = "exact"
+exactness_notes = "Sage's proof=False option returns a value that is correct under the generalized Riemann hypothesis."
+algorithms = [
+  { family = "Enumeration of reduced forms", sources = ["[Coh1993] section 5.3.1"] },
+  { family = "Shanks's baby-step giant-step in the class group; analytic class number formula", sources = ["[Coh1993] sections 5.3.3 and 5.4"] },
+  { family = "Subexponential class group computation (Hafner-McCurley, Buchmann)", sources = ["[Coh1993] sections 5.5 and 5.9"] },
+]
+depends_on = ["quadratic.fundamental-discriminant", "number-theory.kronecker-symbol", "integers.factorization"]
+sage = ["sage.rings.integer:Integer.class_number"]
+tests = [
+  "The imaginary quadratic discriminants of class number 1 are -3, -4, -7, -8, -11, -12, -16, -19, -27, -28, -43, -67, -163",
+  "Agreement with a count of reduced forms for |D| below 10^4",
+  "h(-23) = 3, h(-47) = 5, h(-71) = 7",
+]
+reuse = { status = "specified-unimplemented", components = ["hex.future.unit-class-groups"], evidence = "Hex lists class groups as future work. Reduction theory of binary quadratic forms is not in a surveyed Lean library as compiled code." }
+backends = ["pari"]
+references = ["Coh1993"]
+
+[[capability]]
+id = "quadratic.padic-squares"
+title = "Squares in the p-adic numbers"
+statement = "Given a rational a and a prime p, decide whether a is a square in Q_p. Return the valuation of the quadratic defect of a at p: the valuation of the ideal generated by the a - x^2 for x in Q_p."
+domain = "Q and a prime p."
+contract = "Q x prime -> Bool; Q x prime -> Z or +infinity, with +infinity exactly when a is a square in Q_p."
+exactness = "exact"
+algorithms = [
+  { family = "Valuation parity and the residue of the unit part: Legendre symbol for odd p, residue modulo 8 for p = 2", sources = ["[Ser1973] chapter II section 3.3", "[OMe1973] section 63A"] },
+]
+depends_on = ["integers.valuation", "number-theory.kronecker-symbol"]
+sage = [
+  "sage.rings.rational:Rational.is_padic_square",
+  "sage.rings.rational_field:RationalField.quadratic_defect",
+]
+tests = [
+  "a = p^(2k) u^2 is a square for run-time k and unit u",
+  "For odd p and a unit u: u is a square in Q_p exactly when (u/p) = 1; in Q_2 exactly when u = 1 mod 8",
+  "Agreement with Hensel lifting of a square root modulo p^3",
+]
+reuse = { status = "specified-unimplemented", components = ["mathlib.int.jacobi-legendre"], evidence = "The criterion is a formula over the valuation and the Legendre symbol; no Lean library states it as a function." }
+backends = []
+references = ["Ser1973", "OMe1973"]
+
+[[capability]]
+id = "quadratic.hilbert-symbol"
+title = "Hilbert symbol and conductor of a quaternion algebra over Q"
+statement = "Given non-zero rationals a, b and a place v of Q (a prime or the real place), return (a, b)_v = 1 when a x^2 + b y^2 = z^2 has a non-zero solution in Q_v and -1 otherwise. Return the product of the primes p with (a, b)_p = -1."
+domain = "Q^* x Q^* and the places of Q."
+contract = "Q^* x Q^* x place -> {1, -1}; Q^* x Q^* -> Z_{>0} for the conductor."
+exactness = "exact"
+algorithms = [
+  { family = "Explicit formulas from the valuations and the residues of the unit parts", sources = ["[Ser1973] chapter III Theorem 1"] },
+]
+depends_on = ["integers.valuation", "number-theory.kronecker-symbol", "integers.factorization"]
+sage = [
+  "sage.arith.misc:hilbert_symbol",
+  "sage.arith.misc:hilbert_conductor",
+]
+tests = [
+  "The product formula: the product of (a, b)_v over all places v is 1, [Ser1973] chapter III Theorem 3",
+  "Bilinearity, symmetry, and (a, -a)_v = (a, 1 - a)_v = 1",
+  "(-1, -1)_v = -1 exactly for v = 2 and the real place",
+]
+reuse = { status = "specified-unimplemented", components = ["mathlib.int.jacobi-legendre"], evidence = "The formulas of [Ser1973] use the valuation and the Legendre symbol; no surveyed Lean library defines the Hilbert symbol as a function." }
+backends = ["pari"]
+references = ["Ser1973"]
+
+[[capability]]
+id = "quadratic.hilbert-symbol-realization"
+title = "Rationals with prescribed Hilbert symbols"
+statement = "Given a squarefree d > 0 with an even number of prime divisors, return integers a, b such that the primes p with (a, b)_p = -1 are the prime divisors of d. Given b in Q^* and a finite set S of places of even cardinality at which b is not a square, return an integer a with (a, b)_v = -1 exactly for v in S."
+domain = "Squarefree integers d; finite sets of places of Q."
+contract = "Z_{>0} -> Z x Z; set of places x Q^* -> Z. The operation fails when no solution exists (odd cardinality, or b a square at a place of S)."
+exactness = "exact"
+algorithms = [
+  { family = "Search over primes in residue classes fixed by the local conditions; linear algebra over F_2 on the Selmer group Q(S, 2)", sources = ["[Ser1973] chapter III Theorem 4", "[Voi2021] chapter 14"] },
+]
+depends_on = ["quadratic.hilbert-symbol", "integers.prime-search", "number-fields.selmer-group"]
+sage = [
+  "sage.arith.misc:hilbert_conductor_inverse",
+  "sage.rings.rational_field:RationalField.hilbert_symbol_negative_at_S",
+]
+tests = [
+  "The conductor of the returned pair, computed by `quadratic.hilbert-symbol`, is d",
+  "The Hilbert symbols of the returned a against b are -1 on S and 1 at every other place",
+]
+reuse = { status = "missing", components = [], evidence = "No surveyed Lean library has the Hilbert symbol; this operation depends on it." }
+backends = ["pari"]
+references = ["Ser1973", "Voi2021"]
+
+# ---------------------------------------------------------------------------------------------
+# Combinatorial and special numbers
+# ---------------------------------------------------------------------------------------------
+
+[[capability]]
+id = "combinatorics.factorial"
+title = "Factorials and factorial powers"
+statement = "Given n >= 0, return n!, the multifactorial n!_k = n (n - k)(n - 2k) ..., and the number of derangements of n points. Given x in a commutative ring and a >= 0, return the falling factorial x (x - 1) ... (x - a + 1) and the rising factorial x (x + 1) ... (x + a - 1)."
+domain = "Non-negative integers n; x in a commutative ring for the factorial powers."
+contract = "Z_{>=0} -> Z_{>0}; R x Z_{>=0} -> R. The empty product is 1."
+exactness = "exact"
+algorithms = [
+  { family = "Binary splitting; prime-power (swing) factorial", sources = ["[BZ2010] chapter 4", "[Bor1985]"] },
+  { family = "Recurrence D_n = n D_{n-1} + (-1)^n for derangements", sources = ["[GKP1994] section 5.3"] },
+]
+depends_on = ["integers.arithmetic"]
+sage = [
+  "sage.arith.misc:factorial",
+  "sage.arith.misc:falling_factorial",
+  "sage.arith.misc:rising_factorial",
+  "sage.arith.misc:subfactorial",
+  "sage.rings.integer:Integer.factorial",
+  "sage.rings.integer:Integer.multifactorial",
+]
+tests = [
+  "n! = n (n - 1)!; Legendre's formula for the exponent of each prime in n!",
+  "Wilson's theorem (p - 1)! = -1 mod p for primes p",
+  "The falling factorial of n of length k is n! / (n - k)!; the derangement numbers 1, 0, 1, 2, 9, 44, 265",
+]
+reuse = { status = "reusable", components = ["mathlib.int.factorial"], evidence = "`Nat.factorial`, `Nat.ascFactorial`, `Nat.descFactorial` and `numDerangements` are computable. Binary splitting is an implementation choice behind the same contract." }
+backends = ["gmp"]
+references = ["BZ2010", "Bor1985", "GKP1994"]
+
+[[capability]]
+id = "combinatorics.binomial"
+title = "Binomial and multinomial coefficients"
+statement = "Given x in a Q-algebra or in Z and m >= 0, return the binomial coefficient x (x - 1) ... (x - m + 1) / m!. Return it modulo n without forming the integer. Given k_1, ..., k_r >= 0, return the multinomial coefficient (k_1 + ... + k_r)! / (k_1! ... k_r!). Return the table of all binomial coefficients of a row n, and of all multinomial coefficients of r parts of n."
+domain = "x in Z, Q or a ring that contains Q; m in Z_{>=0}; moduli n >= 1."
+contract = "R x Z_{>=0} -> R; List Z_{>=0} -> Z_{>0}; Z_{>=0} -> Map (Z x Z) Z for the row n."
+exactness = "exact"
+algorithms = [
+  { family = "Multiplicative formula with exact division; factorization by Kummer's theorem", sources = ["[GKP1994] chapter 5"] },
+  { family = "Lucas's theorem and its prime-power extension for the residue modulo n", sources = ["[Gra1997]"] },
+]
+depends_on = ["combinatorics.factorial", "euclidean.division", "modular.crt"]
+sage = [
+  "sage.arith.misc:binomial",
+  "sage.arith.misc:multinomial",
+  "sage.arith.misc:binomial_coefficients",
+  "sage.arith.misc:multinomial_coefficients",
+  "sage.rings.integer:Integer.binomial",
+]
+tests = [
+  "Pascal's rule C(n, k) = C(n - 1, k - 1) + C(n - 1, k) and the row sum 2^n",
+  "Vandermonde's identity on run-time inputs",
+  "C(-n, k) = (-1)^k C(n + k - 1, k); the residue modulo a prime agrees with Lucas's theorem",
+]
+reuse = { status = "reusable", components = ["mathlib.int.binomial"], evidence = "`Nat.choose`, `Nat.multinomial` and `Ring.choose` are computable; the modular variant is a wrapper." }
+backends = ["gmp", "pari"]
+references = ["GKP1994", "Gra1997"]
+
+[[capability]]
+id = "number-theory.bernoulli-numbers"
+title = "Bernoulli numbers"
+statement = "Given n >= 0, return the rational B_n defined by t / (e^t - 1) = sum B_n t^n / n!, with B_1 = -1/2."
+domain = "Non-negative integers n."
+contract = "Z_{>=0} -> Q. B_n = 0 for odd n >= 3; the denominator of B_2k is the product of the primes p with (p - 1) | 2k (von Staudt-Clausen)."
+exactness = "exact"
+algorithms = [
+  { family = "Multimodular: B_k modulo many primes, then the Chinese remainder theorem and the von Staudt-Clausen denominator", sources = ["[Har2010]"] },
+  { family = "Zeta-function evaluation to a precision that determines the numerator", sources = ["[Fil1992]"] },
+  { family = "Recurrences and the tangent-number algorithm", sources = ["[GKP1994] section 6.5", "[BH2013]"] },
+]
+depends_on = ["number-theory.bernoulli-mod-p", "modular.crt", "integers.prime-enumeration", "rationals.arithmetic"]
+sage = [
+  "sage.arith.misc:bernoulli",
+  "sage.rings.bernmm:bernmm_bern_rat",
+]
+tests = [
+  "The recurrence sum over k < n of C(n, k) B_k = 0 for n >= 2",
+  "The von Staudt-Clausen theorem for the denominator",
+  "B_12 = -691/2730 and B_30 = 8615841276005/14322",
+]
+reuse = { status = "adaptable", components = ["mathlib.int.bernoulli"], evidence = "Mathlib's `bernoulli'` is defined by the recurrence over `Rat` and evaluates by well-founded recursion: correct, with cost that grows too fast for n in the thousands." }
+backends = ["flint", "pari", "arb", "interface:gap", "ntl"]
+references = ["Har2010", "Fil1992", "GKP1994", "BH2013"]
+
+[[capability]]
+id = "number-theory.bernoulli-mod-p"
+title = "Bernoulli numbers modulo a prime"
+statement = "Given a prime p >= 3, return B_0, B_2, ..., B_(p-3) modulo p. Given p and an even k with 0 <= k <= p - 3, return B_k modulo p."
+domain = "Primes p >= 3."
+contract = "prime -> List (Z/p) of length (p - 1)/2; prime x Z -> Z/p."
+exactness = "exact"
+algorithms = [
+  { family = "Power-series inversion modulo p through a primitive root and polynomial multiplication", sources = ["[BCEM1993]", "[BCEMS2001]"] },
+  { family = "A single B_k modulo p by a sum over a subgroup of (Z/p)^*", sources = ["[Har2010]"] },
+]
+depends_on = ["modular.primitive-root", "integers.modular-power", "integers.modular-inverse"]
+sage = [
+  "sage.rings.bernoulli_mod_p:*",
+  "sage.rings.bernmm:bernmm_bern_modp",
+]
+tests = [
+  "Agreement with the reduction of the rational B_k of `number-theory.bernoulli-numbers`",
+  "For p >= 5 and even k with 2 <= k <= p - 3: the sum of a^k over a = 1, ..., p - 1 is p B_k modulo p^2",
+  "The irregular primes below 200 are 37, 59, 67, 101, 103, 131, 149, 157: exactly these p divide a numerator B_k with k <= p - 3",
+]
+reuse = { status = "specified-unimplemented", components = ["hex.HexModArith.ntt", "hex.HexModArith.zmod64"], evidence = "The method is published and its inputs (word-sized modular arithmetic and number-theoretic transforms) are in Hex; no Lean implementation exists." }
+backends = ["ntl"]
+references = ["BCEM1993", "BCEMS2001", "Har2010"]
+
+[[capability]]
+id = "number-theory.dedekind-sum"
+title = "Dedekind sums"
+statement = "Given coprime integers p and k != 0, return the Dedekind sum s(p, k) = sum over i = 1, ..., |k| of ((i/k)) ((p i/k)), where ((x)) = x - floor(x) - 1/2 for x not an integer and 0 otherwise."
+domain = "Coprime integers p, k with k != 0."
+contract = "Z x Z -> Q."
+exactness = "exact"
+algorithms = [
+  { family = "Reciprocity law with the Euclidean algorithm", sources = ["[Apo1990] section 3.7", "[RG1972]"] },
+]
+depends_on = ["euclidean.division", "rationals.arithmetic"]
+sage = ["sage.arith.misc:dedekind_sum"]
+tests = [
+  "Agreement with the defining sum for small k",
+  "The reciprocity law 12 (s(p, k) + s(k, p)) = p/k + k/p + 1/(p k) - 3 for coprime p, k > 0",
+]
+reuse = { status = "specified-unimplemented", components = [], evidence = "A short program over rational arithmetic and the Euclidean algorithm; not found in the surveyed Lean libraries." }
+backends = ["flint", "pari"]
+references = ["Apo1990", "RG1972"]
+
+[[capability]]
+id = "number-theory.gauss-sum"
+title = "Gauss sums of characters of a finite field"
+statement = "Given a multiplicative character chi of a finite field F_q with values in a ring that contains a primitive p-th root of unity zeta, and an additive character psi(x) = zeta^Tr(a x), return the sum over x in F_q^* of chi(x) psi(x)."
+domain = "Finite fields F_q; characters with values in a cyclotomic field, a finite field or the complex numbers."
+contract = "character x additive character -> element of the value ring. For chi non-trivial and psi non-trivial, |g|^2 = q in the complex numbers."
+exactness = "exact"
+exactness_notes = "Exact when the values lie in a cyclotomic or finite field; approximate when they are complex floating-point numbers."
+algorithms = [
+  { family = "Direct summation over a generator of F_q^*", sources = ["[IR1990] chapter 8 section 2"] },
+]
+depends_on = ["modular.primitive-root"]
+sage = ["sage.arith.misc:gauss_sum"]
+tests = [
+  "g(chi) g(chi^-1) = chi(-1) q for chi non-trivial",
+  "For the quadratic character of F_p the square of the Gauss sum is (-1)^((p-1)/2) p",
+]
+reuse = { status = "adaptable", components = ["mathlib.nt.characters"], evidence = "Mathlib defines `gaussSum` over a `Finset.sum`; evaluation needs an executable finite field and an executable value ring." }
+backends = []
+references = ["IR1990"]
+
+# ---------------------------------------------------------------------------------------------
+# Diophantine and sequence operations
+# ---------------------------------------------------------------------------------------------
+
+[[capability]]
+id = "diophantine.sums-of-squares"
+title = "Representation of an integer as a sum of squares"
+statement = "Given n >= 0, return integers with a^2 + b^2 = n, with a^2 + b^2 + c^2 = n, with a^2 + b^2 + c^2 + d^2 = n, or k integers whose squares sum to n, or report that no representation exists. Decide whether n is a sum of two squares."
+domain = "Non-negative integers n; k >= 1."
+contract = "Z_{>=0} -> sorted tuple of k non-negative integers, partial. A representation by two squares exists exactly when every prime p = 3 mod 4 divides n to an even power; by three squares exactly when n is not 4^a (8b + 7); by four squares always."
+exactness = "exact"
+algorithms = [
+  { family = "Square root of -1 modulo p and Cornacchia's reduction, combined over the factorization", sources = ["[Coh1993] section 1.5.2"] },
+  { family = "Randomized reduction of three and four squares to two squares of a prime", sources = ["[RS1986]"] },
+]
+depends_on = ["integers.factorization", "integers.roots-and-perfect-powers", "number-theory.kronecker-symbol", "integers.probable-primality"]
+sage = [
+  "sage.arith.misc:two_squares",
+  "sage.arith.misc:three_squares",
+  "sage.arith.misc:four_squares",
+  "sage.arith.misc:sum_of_k_squares",
+  "sage.rings.sum_of_squares:*",
+]
+tests = [
+  "The squares of the returned tuple sum to n",
+  "The existence criteria of Fermat, Legendre and Lagrange on run-time inputs",
+  "The number of n <= 10^4 that are sums of two squares agrees with a direct enumeration of a^2 + b^2",
+]
+reuse = { status = "formalized-not-executable", components = ["mathlib.nt.sums-of-squares", "compelliptic.tonelli-shanks", "mathlib.nt.gaussian-integers"], evidence = "Mathlib proves the two-square and four-square theorems as existence statements. A modular square root and a Euclidean gcd of Gaussian integers, the inputs of the constructive proof, are compiled." }
+backends = ["pari"]
+references = ["Coh1993", "RS1986"]
+
+[[capability]]
+id = "sequences.finite-differences"
+title = "Iterated finite differences of a sequence"
+statement = "Given a finite sequence (a_0, ..., a_n) in an additive group and k >= 1, return the k-th forward difference sequence."
+domain = "Finite sequences in an additive group."
+contract = "List A x Z_{>0} -> List A of length n + 1 - k, with entry i equal to the sum over j of (-1)^(k - j) C(k, j) a_(i + j)."
+exactness = "exact"
+algorithms = [
+  { family = "Repeated subtraction of neighbours", sources = ["[GKP1994] section 2.6"] },
+]
+depends_on = []
+sage = ["sage.arith.misc:differences"]
+tests = [
+  "The (d + 1)-th differences of the values of a polynomial of degree d are 0, and the d-th differences are d! times the leading coefficient",
+  "Agreement with the binomial formula for the k-th difference",
+]
+reuse = { status = "adaptable", components = ["mathlib.int.binomial"], evidence = "A list program; Mathlib's `fwdDiff` states the same operation on functions." }
+backends = []
+references = ["GKP1994"]
+
+[[capability]]
+id = "continued-fractions.continuant"
+title = "Continuant of a sequence"
+statement = "Given (a_1, ..., a_n) in a commutative ring, return the continuant K(a_1, ..., a_n): the numerator of the continued fraction [a_1; a_2, ..., a_n], defined by K() = 1, K(a_1) = a_1 and K(a_1, ..., a_n) = a_n K(a_1, ..., a_(n-1)) + K(a_1, ..., a_(n-2))."
+domain = "Finite sequences in a commutative ring."
+contract = "List R -> R."
+exactness = "exact"
+algorithms = [
+  { family = "Three-term recurrence", sources = ["[Knu1997] section 4.5.3", "[GKP1994] section 6.7"] },
+]
+depends_on = []
+sage = ["sage.arith.misc:continuant"]
+tests = [
+  "K(a_1, ..., a_n) = K(a_n, ..., a_1)",
+  "[a_1; a_2, ..., a_n] = K(a_1, ..., a_n) / K(a_2, ..., a_n) for positive integers",
+  "K(1, ..., 1) with n ones is the Fibonacci number F_(n+1)",
+]
+reuse = { status = "adaptable", components = ["mathlib.int.continued-fractions"], evidence = "Mathlib's `GenContFract` computes numerators and denominators of convergents by the same recurrence; a list interface is a wrapper." }
+backends = []
+references = ["Knu1997", "GKP1994"]
+
+[[capability]]
+id = "continued-fractions.expansion-of-rational"
+title = "Continued fraction expansion of a rational number"
+statement = "Given a rational q, return the finite sequence of partial quotients [a_0; a_1, ..., a_n] with a_0 = floor(q), a_i >= 1 for i >= 1, and a_n >= 2 when n >= 1. The alternative forms end in 1 or use nearest-integer quotients."
+domain = "Q."
+contract = "Q -> List Z. The value of the continued fraction is q, and the expansion with a_n >= 2 is unique."
+exactness = "exact"
+algorithms = [
+  { family = "Euclidean algorithm on the numerator and the denominator", sources = ["[Knu1997] section 4.5.3", "[HW2008] chapter X"] },
+]
+depends_on = ["euclidean.division", "rationals.rounding"]
+sage = [
+  "sage.rings.rational:Rational.continued_fraction",
+  "sage.rings.rational:Rational.continued_fraction_list",
+]
+tests = [
+  "Round trip: the value of the returned continued fraction is q",
+  "The convergents p_k/q_k satisfy p_k q_(k-1) - p_(k-1) q_k = (-1)^(k-1)",
+  "The partial quotients of F_(n+1)/F_n are all 1 except the last",
+]
+reuse = { status = "reusable", components = ["mathlib.int.continued-fractions"], evidence = "`GenContFract.of` over `Rat` is computable and terminates on rationals (`GenContFract.terminates_of_rat`)." }
+backends = ["gmp", "pari"]
+references = ["Knu1997", "HW2008"]
+
+[[capability]]
+id = "algebraic-numbers.algebraic-dependency"
+title = "Integer polynomial with a given approximate root"
+statement = "Given a real or complex number z known to a finite precision, or a p-adic number, and a degree bound n, return a non-zero polynomial f in Z[x] of degree at most n with small coefficients and |f(z)| small. With a height bound, return an f that is proved to be the only candidate within the bound, or report that none exists."
+domain = "Approximations of real, complex and p-adic numbers; degree bounds n >= 1."
+contract = "approximation x Z_{>0} -> Z[x]. The output need not vanish at the number that z approximates."
+exactness = "heuristic"
+exactness_notes = "The polynomial is a short vector of a lattice built from the powers of z. It is the minimal polynomial only when the precision exceeds a bound in the degree and the height of the true minimal polynomial."
+algorithms = [
+  { family = "LLL reduction of the lattice of integer relations among 1, z, ..., z^n", sources = ["[KLL1988]", "[Coh1993] section 2.7.2"] },
+  { family = "PSLQ integer relation detection", sources = ["[FBA1999]"] },
+]
+depends_on = ["lattices.lll-reduction"]
+sage = ["sage.arith.misc:algebraic_dependency"]
+tests = [
+  "For a run-time f in Z[x], irreducible with a real root computed to enough digits, the result is +-f",
+  "sqrt(2) + sqrt(3) to 50 digits gives x^4 - 10 x^2 + 1",
+  "Too few digits for the degree gives a polynomial that fails an exact evaluation check: the test asserts that the caller can detect this",
+]
+reuse = { status = "adaptable", components = ["hex.HexLLL.lll-native", "hex.future.lattice-applications"], evidence = "Hex has an exact integer LLL reduction. The construction of the relation lattice is listed in Hex as future work." }
+backends = ["pari", "fplll"]
+references = ["KLL1988", "Coh1993", "FBA1999"]
+
+[[capability]]
+id = "rationals.decimal-period"
+title = "Period of the base-b expansion of a rational"
+statement = "Given a rational q, return the length of the repeating part of its decimal expansion: the multiplicative order of 10 modulo the part of the denominator that is coprime to 10."
+domain = "Q; the base 10 in Sage, any base b >= 2 in general."
+contract = "Q -> Z_{>0}. The period is 1 for a terminating expansion."
+exactness = "exact"
+algorithms = [
+  { family = "Multiplicative order from the factorization of the group order", sources = ["[HW2008] chapter IX", "[Coh1993] section 1.4.1"] },
+]
+depends_on = ["integers.coprime-splitting", "modular.multiplicative-order"]
+sage = ["sage.rings.rational:Rational.period"]
+tests = [
+  "The period of 1/7 is 6, of 1/11 is 2, of 1/97 is 96",
+  "Agreement with the period found by long division for denominators below 10^4",
+]
+reuse = { status = "adaptable", components = ["hex.HexIntFactor.multiplicative-order"], evidence = "Hex has multiplicative-order certificates from a checked factorization." }
+backends = ["pari"]
+references = ["HW2008", "Coh1993"]
+
+# ---------------------------------------------------------------------------------------------
+# Heights, S-integrality, Selmer groups
+# ---------------------------------------------------------------------------------------------
+
+[[capability]]
+id = "heights.rational-heights"
+title = "Heights of rational numbers"
+statement = "Given a rational q = a/b in lowest terms, return the multiplicative height H(q) = max(|a|, |b|), the logarithmic height h(q) = log H(q), and its local contributions: max(0, -v_p(q)) log p at a prime p and max(0, log |q|) at the real place, with the sums over the non-archimedean and the archimedean places."
+domain = "Q; the general statement is for elements of a number field."
+contract = "Q -> Z_{>0} for H; Q x precision -> real for the logarithmic heights, with h(q) equal to the sum of the local heights."
+exactness = "approximate"
+exactness_notes = "H(q) is an exact integer. The logarithmic heights are real numbers returned to a stated precision."
+algorithms = [
+  { family = "Definition through the valuations and the real absolute value", sources = ["[Sil2009] chapter VIII section 5", "[HS2000] part B"] },
+]
+depends_on = ["rationals.arithmetic", "integers.valuation", "integers.factorization", "reals.elementary-functions"]
+sage = [
+  "sage.rings.rational:Rational.height",
+  "sage.rings.rational:Rational.global_height",
+  "sage.rings.rational:Rational.global_height_arch",
+  "sage.rings.rational:Rational.global_height_non_arch",
+  "sage.rings.rational:Rational.local_height",
+  "sage.rings.rational:Rational.local_height_arch",
+  "sage.rings.integer:Integer.global_height",
+]
+tests = [
+  "h(q) = h(1/q), and h(q) is the sum of the local heights within the stated precision",
+  "H(q) = max(|a|, |b|) exactly; h(n) = log |n| for a non-zero integer n",
+  "The number of rationals with H(q) <= B agrees with the count from `rationals.enumeration-by-height`",
+]
+reuse = { status = "adaptable", components = ["lean-core.rat.arithmetic", "leancert.rat-interval"], evidence = "H(q) is immediate from `Rat.num` and `Rat.den`. The logarithm needs certified real evaluation, which LeanCert supplies on intervals." }
+backends = ["mpfr"]
+references = ["Sil2009", "HS2000"]
+
+[[capability]]
+id = "rationals.enumeration-by-height"
+title = "Enumeration of rational numbers of bounded height"
+statement = "Given integers 0 <= A < B, list the rationals q with A <= H(q) < B, each once."
+domain = "Height bounds in Z_{>=0}."
+contract = "Z x Z -> lazy List Q. The number of q with H(q) = h is 4 phi(h) for h >= 2, 3 for h = 1 (the values 0, 1, -1)."
+exactness = "exact"
+algorithms = [
+  { family = "Enumeration of coprime pairs", sources = ["[HW2008] chapter III (Farey series)"] },
+]
+depends_on = ["euclidean.gcd", "rationals.arithmetic"]
+sage = ["sage.rings.rational_field:RationalField.range_by_height"]
+tests = [
+  "Every listed q satisfies the bound, no q is repeated, and the count for height h >= 2 is 4 phi(h)",
+  "Agreement with a filter over all pairs (a, b) with |a|, b < B",
+]
+reuse = { status = "adaptable", components = ["lean-core.rat.arithmetic", "lean-core.int.gcd-lcm", "mathlib.int.totient"], evidence = "A filter over pairs with compiled gcd; no declaration lists rationals by height." }
+backends = []
+references = ["HW2008"]
+
+[[capability]]
+id = "rationals.s-integrality"
+title = "S-integers and S-units"
+statement = "Given a rational q and a finite set S of primes, decide whether q is an S-integer (v_p(q) >= 0 for every p not in S) and whether q is an S-unit (v_p(q) = 0 for every p not in S)."
+domain = "Q and finite sets of primes; the general statement is for a number field and a finite set of prime ideals."
+contract = "Q x Finset prime -> Bool."
+exactness = "exact"
+algorithms = [
+  { family = "Removal of the primes of S from the denominator (and the numerator) by valuations", sources = ["[Neu1999] chapter I section 11"] },
+]
+depends_on = ["integers.valuation", "integers.coprime-splitting"]
+sage = [
+  "sage.rings.rational:Rational.is_S_integral",
+  "sage.rings.rational:Rational.is_S_unit",
+]
+tests = [
+  "q is an S-unit exactly when q and 1/q are S-integers",
+  "A run-time product of powers of the primes of S, with either sign, is an S-unit; multiplied by a prime outside S it is not",
+]
+reuse = { status = "adaptable", components = ["lean-core.rat.arithmetic", "lean-core.int.gcd-lcm"], evidence = "A loop of exact divisions on `Rat.num` and `Rat.den`." }
+backends = []
+references = ["Neu1999"]
+
+[[capability]]
+id = "number-fields.selmer-group"
+title = "Selmer group K(S, m) of a number field"
+statement = "Given a number field K, a finite set S of primes and m >= 2, return generators of K(S, m): the subgroup of K^* / (K^*)^m of classes a with v_p(a) = 0 mod m for every prime p outside S. Return the orders of the generators, list the elements, and return the F_p-vector space K(S, p) with the map from K^* to it."
+domain = "Number fields K; this section covers K = Q, where Q(S, m) is generated by -1 (for m even) and the primes of S."
+contract = "K x Finset prime x Z_{>=2} -> List K^* x List Z; for m = p prime, also the linear map K(S, p) -> F_p^r and its section."
+exactness = "exact"
+algorithms = [
+  { family = "For K = Q: the generators -1 and the primes of S", sources = ["Direct from unique factorization in Z"] },
+  { family = "For general K: S-units and the m-torsion of the S-class group", sources = ["[Coh2000] section 5.2.2"] },
+]
+depends_on = ["integers.valuation", "integers.factorization"]
+sage = [
+  "sage.rings.rational_field:RationalField.selmer_generators",
+  "sage.rings.rational_field:RationalField.selmer_group_iterator",
+  "sage.rings.rational_field:RationalField.selmer_space",
+]
+tests = [
+  "|Q(S, m)| = m^|S| for m odd and 2 m^|S| for m even",
+  "Every listed element has valuations divisible by m outside S; two listed elements differ by no m-th power",
+  "The map to F_p^r is a homomorphism with kernel the p-th powers, on run-time S-units",
+]
+reuse = { status = "adaptable", components = ["hex.HexIntFactor.certified-factorization", "hex.future.unit-class-groups"], evidence = "For Q the generators are immediate and the coordinate map needs valuations only. The general case needs S-units and class groups, which Hex lists as future work." }
+backends = ["pari"]
+references = ["Coh2000"]
+
+# ---------------------------------------------------------------------------------------------
+# Q as a number field
+# ---------------------------------------------------------------------------------------------
+
+[[capability]]
+id = "number-fields.degree-one-case"
+title = "Number field invariants of Q"
+statement = "The operations of a number field evaluated on K = Q: degree 1, discriminant 1, signature (1, 0), class number 1, maximal order Z, power basis (1), defining polynomial x, one real embedding, the trivial automorphism group, the places (the real place and the primes), and for an element q: norm q, trace q, characteristic polynomial and minimal polynomial x - q."
+domain = "The field Q, as the base case of absolute and relative number fields."
+contract = "Each operation returns the value that the generic number field operation returns for a field of degree 1. This record adds no algorithm."
+exactness = "exact"
+algorithms = [
+  { family = "Constant values", sources = ["[Neu1999] chapter I"] },
+]
+depends_on = ["rationals.arithmetic"]
+sage = [
+  "sage.rings.rational_field:RationalField.discriminant",
+  "sage.rings.rational_field:RationalField.absolute_discriminant",
+  "sage.rings.rational_field:RationalField.relative_discriminant",
+  "sage.rings.rational_field:RationalField.class_number",
+  "sage.rings.rational_field:RationalField.signature",
+  "sage.rings.rational_field:RationalField.embeddings",
+  "sage.rings.rational_field:RationalField.automorphisms",
+  "sage.rings.rational_field:RationalField.places",
+  "sage.rings.rational_field:RationalField.complex_embedding",
+  "sage.rings.rational_field:RationalField.maximal_order",
+  "sage.rings.rational_field:RationalField.number_field",
+  "sage.rings.rational_field:RationalField.power_basis",
+  "sage.rings.rational_field:RationalField.polynomial",
+  "sage.rings.rational_field:RationalField.is_absolute",
+  "sage.rings.rational:Rational.norm",
+  "sage.rings.rational:Rational.relative_norm",
+  "sage.rings.rational:Rational.absolute_norm",
+  "sage.rings.rational:Rational.trace",
+  "sage.rings.rational:Rational.charpoly",
+  "sage.rings.rational:Rational.minpoly",
+]
+tests = [
+  "Agreement with the generic number field operations on the field Q[x]/(x - 1)",
+  "The minimal polynomial x - q vanishes at q; norm and trace are q",
+]
+reuse = { status = "formalized-not-executable", components = ["mathlib.nt.number-fields"], evidence = "Mathlib proves these values for Q (`Rat.numberField_discr`, the class number and the ring of integers of Q); they are theorems, and the operations are constants." }
+backends = []
+references = ["Neu1999"]
+
+[[capability]]
+id = "number-fields.norm-equation"
+title = "Norm equation in an extension of number fields"
+statement = "Given a finite extension L/K of number fields and a in K, decide whether a = N_{L/K}(x) for some x in L, and return such an x."
+domain = "Extensions L/K of number fields; this section covers K = Q with a an integer or a rational."
+contract = "K x extension -> Bool, or Bool x L for the witness."
+exactness = "exact"
+exactness_notes = "Sage's proof=False option gives an answer that is correct under the generalized Riemann hypothesis. For a non-Galois extension the unconditional answer needs the Galois closure."
+algorithms = [
+  { family = "S-units of L and K for a set S that depends on a and the class group; linear algebra on the exponent vectors", sources = ["[Coh2000] section 7.5", "[Sim2002]"] },
+]
+depends_on = ["number-fields.selmer-group", "integers.factorization"]
+sage = [
+  "sage.rings.rational:Rational.is_norm",
+  "sage.rings.integer:Integer.is_norm",
+]
+tests = [
+  "A run-time norm N(x) of x in Q(sqrt d) is reported as a norm, and the returned witness has that norm",
+  "-1 is not a norm from Q(i), because N(a + b i) = a^2 + b^2 >= 0; 5 = N(2 + i) is a norm",
+  "Hasse norm theorem for cyclic extensions: a is a global norm exactly when it is a local norm at every place",
+]
+reuse = { status = "specified-unimplemented", components = ["hex.future.unit-class-groups", "mathlib.nt.number-fields"], evidence = "The method is published; S-unit and class group computation, its inputs, are listed in Hex as future work." }
+backends = ["pari"]
+references = ["Coh2000", "Sim2002"]
+
+# ---------------------------------------------------------------------------------------------
+# Objects and constructions
+# ---------------------------------------------------------------------------------------------
+
+[[capability]]
+id = "rings.integers-and-rationals-objects"
+title = "The ring of integers and the field of rationals as objects"
+statement = "The ring Z and the field Q as run-time objects, with their structure constants: characteristic 0, infinite order, Krull dimension 1 for Z and 0 for Q, Z is not a field and Q is the prime field of characteristic 0, the generator 1 as a ring, degree 1, and the roots of unity: -1 generates the group of roots of unity, and a primitive n-th root exists only for n = 1, 2."
+domain = "The objects Z and Q of the category of commutative rings."
+contract = "Each property is a constant of the object. The n-th root of unity operation returns 1 for n = 1, -1 for n = 2, and fails for n >= 3."
+exactness = "exact"
+algorithms = [
+  { family = "Constant values", sources = ["[Lan2002] chapter II"] },
+]
+depends_on = ["integers.arithmetic", "rationals.arithmetic"]
+sage = [
+  "sage.rings.integer_ring:IntegerRing_class",
+  "sage.rings.integer_ring:IntegerRing",
+  "sage.rings.integer_ring:IntegerRing_class.is_field",
+  "sage.rings.integer_ring:IntegerRing_class.gens",
+  "sage.rings.integer_ring:IntegerRing_class.gen",
+  "sage.rings.integer_ring:IntegerRing_class.ngens",
+  "sage.rings.integer_ring:IntegerRing_class.degree",
+  "sage.rings.integer_ring:IntegerRing_class.absolute_degree",
+  "sage.rings.integer_ring:IntegerRing_class.characteristic",
+  "sage.rings.integer_ring:IntegerRing_class.krull_dimension",
+  "sage.rings.integer_ring:IntegerRing_class.order",
+  "sage.rings.integer_ring:IntegerRing_class.zeta",
+  "sage.rings.rational_field:RationalField",
+  "sage.rings.rational_field:RationalField.gens",
+  "sage.rings.rational_field:RationalField.gen",
+  "sage.rings.rational_field:RationalField.ngens",
+  "sage.rings.rational_field:RationalField.degree",
+  "sage.rings.rational_field:RationalField.absolute_degree",
+  "sage.rings.rational_field:RationalField.is_prime_field",
+  "sage.rings.rational_field:RationalField.characteristic",
+  "sage.rings.rational_field:RationalField.order",
+  "sage.rings.rational_field:RationalField.zeta",
+]
+tests = [
+  "Z is initial: the unique ring map Z -> Z/n sends k to k mod n, for run-time n and k",
+  "Q is the fraction field of Z: every non-zero integer is invertible in Q and every element is a quotient of integers",
+  "The units of Z are 1 and -1; the roots of unity of Q are 1 and -1",
+]
+reuse = { status = "reusable", components = ["lean-core.int.bignum-arithmetic", "lean-core.rat.arithmetic"], evidence = "`Int` and `Rat` with Mathlib's `CommRing Int`, `Field Rat` and `CharZero` instances. The catalogue of `lean-cas-dsl` owns the object ids." }
+backends = ["gmp"]
+references = ["Lan2002"]
+
+[[capability]]
+id = "rings.canonical-map-z-to-q"
+title = "The inclusion of Z in Q and its partial inverse"
+statement = "The ring homomorphism Z -> Q, n -> n/1, and the partial map Q -> Z defined on the rationals with denominator 1. The inclusion is injective and not surjective."
+domain = "The rings Z and Q; the general statement is the localization map of an integral domain into its fraction field."
+contract = "Z -> Q total and injective; Q -> Z partial, defined when the denominator is 1; each is a section of the other on its domain."
+exactness = "exact"
+algorithms = [
+  { family = "Localization map of a domain into its fraction field", sources = ["[Lan2002] chapter II section 4"] },
+]
+depends_on = ["rings.fraction-field"]
+sage = [
+  "sage.rings.rational:Z_to_Q",
+  "sage.rings.rational:Z_to_Q.section",
+  "sage.rings.rational:Z_to_Q.is_surjective",
+  "sage.rings.rational:Q_to_Z",
+  "sage.rings.rational:Q_to_Z.section",
+]
+tests = [
+  "The map is a ring homomorphism on run-time inputs: it preserves sums, products and 1",
+  "The partial inverse composed with the inclusion is the identity on Z, and it rejects 1/2",
+]
+reuse = { status = "reusable", components = ["lean-core.rat.arithmetic"], evidence = "`Int.cast : Int -> Rat` with `Int.castRingHom`, and `Rat.num` guarded by `Rat.den = 1`." }
+backends = ["gmp"]
+references = ["Lan2002"]
+
+[[capability]]
+id = "rings.fraction-field"
+title = "Fraction field of an integral domain"
+statement = "Given an integral domain R with computable arithmetic, construct its field of fractions Frac(R) with the localization map R -> Frac(R). Elements are pairs (a, b) with b != 0 up to a d = b c, in a normal form when R has computable gcds and a unit-normal form. The construction is functorial: an injective ring map R -> S of domains extends to Frac(R) -> Frac(S)."
+domain = "Integral domains; normal forms for gcd domains."
+contract = "Domain R -> (Field F, RingHom R F) with the universal property: every injective ring map from R to a field factors through F uniquely. For R = Z the result is Q."
+exactness = "exact"
+algorithms = [
+  { family = "Pairs with cross-multiplication equality; reduction by the gcd", sources = ["[Lan2002] chapter II section 4"] },
+]
+depends_on = ["euclidean.gcd"]
+sage = [
+  "sage.rings.integer_ring:IntegerRing_class.fraction_field",
+  "sage.rings.rational_field:RationalField.construction",
+]
+tests = [
+  "Frac(Z) with the map Z -> Frac(Z) is isomorphic to Q under the unique map given by the universal property, on run-time elements",
+  "The field axioms in Frac(R) for R = Z and R = Q[x], on run-time inputs",
+  "Functoriality: the extension of Z -> Z[i] to Q -> Q(i) commutes with the localization maps",
+]
+reuse = { status = "formalized-not-executable", components = ["mathlib.alg.localization", "lean-core.rat.arithmetic"], evidence = "Mathlib's `FractionRing` is a quotient type with a noncomputable inverse. `Rat` is the executable instance for Z; the construction for a general run-time domain is not executable." }
+backends = []
+references = ["Lan2002"]
+
+[[capability]]
+id = "rings.quotient-ring"
+title = "Quotient of a commutative ring by an ideal"
+statement = "Given a commutative ring R and an ideal I with a computable membership test and normal form, construct R/I with the projection R -> R/I. For R = Z and I = (n), the result is Z/n."
+domain = "Commutative rings with an ideal that has a computable normal form for residues: principal ideals of a Euclidean domain, ideals with a Groebner basis."
+contract = "(R, I) -> (Ring Q, RingHom R Q) with kernel I and the universal property: a ring map from R that vanishes on I factors through Q uniquely."
+exactness = "exact"
+algorithms = [
+  { family = "Residues by division with remainder; by Groebner basis normal forms in polynomial rings", sources = ["[Lan2002] chapter II section 1", "[CLO2015] chapter 5 section 3"] },
+]
+depends_on = ["euclidean.division"]
+sage = ["sage.rings.integer_ring:IntegerRing_class.quotient"]
+tests = [
+  "The projection Z -> Z/n is a surjective ring homomorphism with kernel nZ, on run-time n and elements",
+  "The universal property: the map Z/12 -> Z/4 induced by reduction is well defined, and no ring map Z/4 -> Z/12 exists",
+  "Z/n is a field exactly when n is prime",
+]
+reuse = { status = "adaptable", components = ["mathlib.zmod.arithmetic", "hex.HexModArith.zmod64", "mathlib.alg.ideal-quotient"], evidence = "`ZMod n` and Hex's `ZMod64` are executable for R = Z with n known when the type is formed. Mathlib's `Ideal.Quotient` is a quotient type with no normal form. A quotient by an ideal chosen at run time needs the runtime-object probe of the architecture phase." }
+backends = []
+references = ["Lan2002", "CLO2015"]
+
+[[capability]]
+id = "rings.residue-field"
+title = "Residue field of a ring at a prime ideal"
+statement = "Given a commutative ring R and a prime ideal P with a computable test, construct the field Frac(R/P) with the reduction map from the localization R_P and a lifting map back to R. For R = Z and P = (p) the result is F_p; for R = Q and a prime p the reduction map is defined on the rationals with denominator prime to p."
+domain = "Commutative rings with a computable prime ideal; here Z and Q at a rational prime."
+contract = "(R, P) -> (Field k, partial RingHom R_P -> k, lift k -> R) with the lift a section of the reduction."
+exactness = "exact"
+algorithms = [
+  { family = "Quotient by a maximal ideal; inversion of denominators in the residue field", sources = ["[Neu1999] chapter I section 8"] },
+]
+depends_on = ["rings.quotient-ring", "integers.primality-proving", "integers.modular-inverse"]
+sage = [
+  "sage.rings.integer_ring:IntegerRing_class.residue_field",
+  "sage.rings.rational_field:RationalField.residue_field",
+]
+tests = [
+  "The reduction Z -> F_p is a ring homomorphism with kernel pZ; the lift composed with the reduction is the identity",
+  "The reduction of a/b with p not dividing b equals a b^-1 in F_p; rationals with p in the denominator are rejected",
+  "A composite modulus is rejected",
+]
+reuse = { status = "adaptable", components = ["mathlib.zmod.arithmetic", "hex.HexModArith.prime-field"], evidence = "`ZMod p` with `Fact p.Prime` and Hex's prime field structure on `ZMod64` are executable; the reduction map from the localization is a wrapper." }
+backends = []
+references = ["Neu1999"]
+
+[[capability]]
+id = "rings.completion"
+title = "Completion of a ring at a place"
+statement = "Given Z or Q and a place (a prime p or the real place) with a precision, construct the completion: Z_p or Q_p to the given p-adic precision, or the real numbers to the given precision, with the canonical map into it."
+domain = "The rings Z and Q with their places; the general statement is for a ring with a valuation or an absolute value."
+contract = "(R, place, precision) -> (Ring C, RingHom R C). The image of R is dense, and the map is an isometry for the absolute value of the place."
+exactness = "approximate"
+exactness_notes = "Elements of the completion carry a finite precision. The record of the construction is exact; arithmetic in the result has the exactness of the p-adic or real model chosen."
+algorithms = [
+  { family = "Inverse limit of Z/p^n; Cauchy completion", sources = ["[Neu1999] chapter II sections 1 to 4", "[Ser1973] chapter II"] },
+]
+depends_on = ["rings.quotient-ring", "integers.valuation", "valuations.padic-valuation-object"]
+sage = [
+  "sage.rings.integer_ring:IntegerRing_class.completion",
+  "sage.rings.rational_field:RationalField.completion",
+]
+tests = [
+  "The image of n in Z_p to precision k is n mod p^k, and the map is a ring homomorphism",
+  "The p-adic absolute value of the image of q equals p^(-v_p(q))",
+  "Hensel: x^2 = 2 has a root in Z_7 to any requested precision and none in Z_5",
+]
+reuse = { status = "specified-unimplemented", components = ["hex.spec.hex-padics", "hex.future.exact-padics", "mathlib.padic.numbers", "leancert.rat-interval"], evidence = "Mathlib's `Padic` and `Real` are Cauchy completions and are not executable. Hex has a specification for capped-precision p-adic numbers that is not implemented. LeanCert has executable real intervals." }
+backends = ["mpfr", "pari"]
+references = ["Neu1999", "Ser1973"]
+
+[[capability]]
+id = "rings.extension-by-polynomial"
+title = "Extension of a ring by a root of a polynomial"
+statement = "Given a commutative ring R and a monic polynomial f in R[x], construct R[x]/(f) with the map R -> R[x]/(f) and the distinguished root of f. For R = Z and f irreducible the result is an order of a number field; for R = Q and f irreducible it is a number field. A list of polynomials gives a tower."
+domain = "Commutative rings with computable arithmetic and a monic f; irreducible f for a domain or a field."
+contract = "(R, f) -> (Ring S, RingHom R S, root in S) with the universal property: a ring map R -> T and a root of f in T determine a unique map S -> T."
+exactness = "exact"
+algorithms = [
+  { family = "Residues of polynomials of degree below deg f, with reduction by division with remainder", sources = ["[Lan2002] chapter IV section 1", "[Coh1993] section 4.2"] },
+]
+depends_on = ["rings.quotient-ring", "polynomials.univariate-arithmetic"]
+sage = [
+  "sage.rings.integer_ring:IntegerRing_class.extension",
+  "sage.rings.rational_field:RationalField.extension",
+]
+tests = [
+  "The distinguished root satisfies f, for a run-time monic f over Z",
+  "The universal property: Z[x]/(x^2 + 1) -> Z/5 exists for each of the roots 2 and 3 of x^2 + 1, and sends the root to it",
+  "The norm from Q[x]/(x^2 - d) to Q of a + b sqrt(d) is a^2 - d b^2",
+]
+reuse = { status = "formalized-not-executable", components = ["mathlib.alg.adjoin-root"], evidence = "Mathlib's `AdjoinRoot` is a quotient of a noncomputable polynomial type. Hex's executable polynomial and finite-field quotients cover F_p[x]/(f); the construction over a run-time ring is the subject of an architecture probe." }
+backends = ["pari", "ntl", "flint"]
+references = ["Lan2002", "Coh1993"]
+
+[[capability]]
+id = "fields.algebraic-closure"
+title = "Algebraic closure of a field"
+statement = "Given a field K with computable arithmetic and polynomial factorization, construct an algebraic closure with exact arithmetic and a decidable equality: each element is given by a polynomial over K and data that selects one root. For K = Q the result is the field of algebraic numbers, with its real subfield ordered."
+domain = "Fields with computable polynomial factorization; here Q."
+contract = "Field K -> (Field L, RingHom K L) with L algebraically closed and algebraic over K. Equality and, for real algebraic numbers, the order are decided exactly."
+exactness = "exact"
+exactness_notes = "Elements are exact. Numerical enclosures are used to select roots and are refined until a comparison is decided."
+algorithms = [
+  { family = "Minimal polynomial with an isolating interval or disc; arithmetic by resultants and factorization", sources = ["[Coh1993] section 4.2", "[GG2013] chapter 6 (resultants)"] },
+  { family = "Lazy towers of number fields with interval arithmetic", sources = ["The module documentation of `sage.rings.qqbar` in the baseline checkout"] },
+]
+depends_on = ["rings.extension-by-polynomial", "polynomials.univariate-arithmetic", "integers.factorization"]
+sage = ["sage.rings.rational_field:RationalField.algebraic_closure"]
+tests = [
+  "sqrt(2) sqrt(3) = sqrt(6) and (sqrt(2) + sqrt(3))^4 - 10 (sqrt(2) + sqrt(3))^2 + 1 = 0, decided exactly",
+  "Every run-time monic f in Z[x] of degree d has d roots counted with multiplicity, and their product is (-1)^d f(0)",
+  "The real roots are ordered consistently with rational approximations",
+]
+reuse = { status = "adaptable", components = ["hex.HexRealRoots.real-root-isolation", "mathlib.alg.adjoin-root"], evidence = "Hex has real root isolation for integer polynomials. Mathlib's `AlgebraicClosure` is not executable. Arithmetic of algebraic numbers by resultants is not in a surveyed library." }
+backends = ["flint", "pari", "arb"]
+references = ["Coh1993", "GG2013"]
+
+[[capability]]
+id = "valuations.padic-valuation-object"
+title = "The p-adic valuation as a discrete valuation on Z and Q"
+statement = "Given a prime p, the p-adic valuation as an object: a function v: Q -> Z with +infinity at 0 that satisfies v(a b) = v(a) + v(b) and v(a + b) >= min(v(a), v(b)), with its uniformizer p, value group Z, residue field F_p, reduction map on the valuation ring and lift from the residue field. It is the base of extensions of valuations to polynomial rings and number fields."
+domain = "Z and Q with a rational prime p; the general statement is a discrete valuation on a field."
+contract = "prime -> valuation object with: evaluation Q -> Z or +infinity, uniformizer, residue field, reduce: {v >= 0} -> F_p, lift: F_p -> Z, restriction to Z and extension to Q."
+exactness = "exact"
+algorithms = [
+  { family = "Evaluation by `integers.valuation`; reduction by `rings.residue-field`", sources = ["[Neu1999] chapter II section 3", "[Mac1936]"] },
+]
+depends_on = ["integers.valuation", "rings.residue-field", "integers.primality-proving"]
+sage = [
+  "sage.rings.integer_ring:IntegerRing_class.valuation",
+  "sage.rings.rational_field:RationalField.valuation",
+]
+tests = [
+  "The valuation axioms on run-time rationals, with equality v(a + b) = min(v(a), v(b)) when v(a) != v(b)",
+  "v(p) = 1; reduce is a ring homomorphism on the valuation ring with kernel {v > 0}; lift is a section of reduce",
+  "The product formula with the real absolute value: |q| times the product of p^(-v_p(q)) is 1",
+]
+reuse = { status = "adaptable", components = ["mathlib.int.padic-valuation", "mathlib.zmod.arithmetic"], evidence = "Mathlib has `padicValRat` with the valuation axioms proved; the audit of Mathlib master reports the evaluation is noncomputable, so the executable object wraps `integers.valuation`." }
+backends = []
+references = ["Neu1999", "Mac1936"]
+
+[[capability]]
+id = "rings.random-sampling"
+title = "Random elements of Z and Q"
+statement = "Given a generator state, return a random integer: uniform on an interval [a, b), or from the distribution on Z with probability proportional to 1/max(1, |n|)^2 scaled by a size parameter. Return a random rational with numerator and denominator bounded by given bounds."
+domain = "Z and Q with a named distribution; the general statement is a sampler on a set with a stated distribution."
+contract = "generator state x parameters -> element x generator state. The distribution is part of the contract."
+exactness = "exact"
+exactness_notes = "The sample is an exact element. The claim under test is the distribution."
+algorithms = [
+  { family = "Uniform integers by rejection from random bits; inverse transform for the 1/n^2 law", sources = ["[Knu1997] section 3.4.1"] },
+]
+depends_on = ["integers.arithmetic", "rationals.arithmetic"]
+sage = [
+  "sage.rings.integer_ring:IntegerRing_class.random_element",
+  "sage.rings.rational_field:RationalField.random_element",
+]
+tests = [
+  "Every sample lies in the requested interval or within the requested bounds",
+  "Chi-squared test of uniformity on a small interval with a fixed seed sequence",
+  "The same seed gives the same sequence",
+]
+reuse = { status = "adaptable", components = ["lean-core.int.bignum-arithmetic"], evidence = "Lean core has `StdGen` and `randNat`; Plausible has samplers for `Int` and `Rat`. The 1/n^2 law is specific to Sage and is a short program." }
+backends = ["gmp"]
+references = ["Knu1997"]
+
+[[capability]]
+id = "reals.elementary-functions"
+title = "Elementary and gamma function values at integers and rationals"
+statement = "Given a rational q and a precision, return an enclosure or a correctly rounded value of exp(q), of log(q) for q > 0 to a base b, and of Gamma(q) for q not a non-positive integer. Return the exact value when it is rational: log_b(b^k) = k, and Gamma(n) = (n - 1)! for integers n >= 1."
+domain = "Q for the argument; real numbers to a finite precision for the value."
+contract = "Q x precision -> real interval or floating-point number with a stated error bound; the exact cases return an integer or a rational."
+exactness = "approximate"
+exactness_notes = "Exact in the rational cases. Otherwise the value is a real number to the requested precision, and Sage returns a symbolic expression when no precision is given."
+algorithms = [
+  { family = "Argument reduction and binary splitting of Taylor series; arithmetic-geometric mean for the logarithm", sources = ["[BZ2010] chapter 4"] },
+  { family = "Gamma function by the Stirling series and the functional equation", sources = ["[BZ2010] chapter 4", "[Joh2014]"] },
+]
+depends_on = ["rationals.arithmetic", "integers.integer-logarithm", "combinatorics.factorial"]
+sage = [
+  "sage.rings.integer:Integer.log",
+  "sage.rings.integer:Integer.exp",
+  "sage.rings.integer:Integer.gamma",
+  "sage.rings.rational:Rational.log",
+  "sage.rings.rational:Rational.gamma",
+]
+tests = [
+  "exp(log(q)) encloses q; log(a b) and log(a) + log(b) have intersecting enclosures",
+  "Gamma(n) = (n - 1)! exactly; Gamma(1/2)^2 encloses pi",
+  "log_b(b^k) = k exactly for run-time b and k",
+]
+reuse = { status = "adaptable", components = ["leancert.expr-eval-dyadic", "leancert.rat-interval", "leancert.dyadic-interval"], evidence = "LeanCert evaluates exp and log on dyadic and rational intervals with certified enclosures. A gamma function enclosure is not listed." }
+backends = ["mpfr", "pari", "arb"]
+references = ["BZ2010", "Joh2014"]
+
+# ---------------------------------------------------------------------------------------------
+# Exclusions
+# ---------------------------------------------------------------------------------------------
+
+[[exclusion]]
+id = "integers-and-rationals.plots"
+reason = "presentation"
+rationale = "Plots of the values of sigma, phi and mu on an interval, the English ordinal string of an integer, and an ordering of complex numbers for printing. The values come from capabilities above; the drawing and the wording are presentation."
+sage = [
+  "sage.arith.misc:Sigma.plot",
+  "sage.arith.misc:Euler_Phi.plot",
+  "sage.arith.misc:Moebius.plot",
+  "sage.arith.misc:sort_complex_numbers_for_display",
+  "sage.rings.integer:Integer.ordinal_str",
+]
+
+[[exclusion]]
+id = "integers-and-rationals.sage-plumbing"
+reason = "infrastructure"
+rationale = "Pickling constructors, the allocation pool of integer objects, the subclass hook for wrapped integers, coercion morphisms from machine integers, the dispatch helpers that choose a gcd or an inverse routine by type, the Python-style `range` of integers, the list of sample elements for Sage's generic tests, and fixed-width C integer wrappers that repeat gcd, inverse and rational reconstruction for testing."
+sage = [
+  "sage.rings.integer:make_integer",
+  "sage.rings.integer:free_integer_pool",
+  "sage.rings.integer:IntegerWrapper",
+  "sage.rings.integer:int_to_Z",
+  "sage.rings.rational:make_rational",
+  "sage.rings.rational:int_to_Q",
+  "sage.arith.misc:get_gcd",
+  "sage.arith.misc:get_inverse_mod",
+  "sage.rings.integer_ring:IntegerRing_class.range",
+  "sage.rings.rational_field:RationalField.some_elements",
+  "sage.rings.fast_arith:arith_*",
+]
+
+[[exclusion]]
+id = "integers-and-rationals.web-comic"
+reason = "external-interface"
+rationale = "`xkcd` downloads a comic from a web site. It is not mathematics."
+sage = ["sage.arith.misc:xkcd"]
