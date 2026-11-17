@@ -42,5 +42,11 @@ jobs:
       uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3
     - name: Install uv
       uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9
+    - name: Provide pinned Sage parser source
+      run: |
+        target="$HOME/gitclones/sage-dev-allopts-develop/src/sage/rings/integer.pyx"
+        mkdir -p "$(dirname "$target")"
+        curl -fsSL --output "$target" https://raw.githubusercontent.com/dzackgarza/sage/c00171e47d6e68d8148d7ee10c4dd77b71a97662/src/sage/rings/integer.pyx
+        printf "%s  %s\n" 3abf8e7483042eac57087879067131b5b5cd0458f8fd42c96c21cd3f8843b639 "$target" | sha256sum -c -
     - name: Build and scan
       run: just test-ci
