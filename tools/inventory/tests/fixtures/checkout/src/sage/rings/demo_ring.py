@@ -48,6 +48,10 @@ class DemoRing(Parent, UniqueRepresentation):
             return helper(self)
 
 
+@overload
+def demo_gcd(a: int, b: int) -> int: ...
+@overload
+def demo_gcd(a: list, b: None = None) -> int: ...
 def demo_gcd(a, b):
     r"""
     Return the greatest common divisor.

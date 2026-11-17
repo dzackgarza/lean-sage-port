@@ -5,9 +5,9 @@
   },
   "modules": 3041,
   "manual_modules": 2400,
-  "entities": 66473,
-  "public_entities": 41052,
-  "manual_public_entities": 38818,
+  "entities": 66424,
+  "public_entities": 41014,
+  "manual_public_entities": 38782,
   "doctests": 441010,
   "packages": 437
 }

@@ -7,7 +7,7 @@
 {"section":"categories","group":"Mathematics / Parents and Categories","title":"Categories","modules":232,"public_entities":2718,"doctests":17093}
 {"section":"coding","group":"Mathematics / Discrete Mathematics","title":"Coding Theory","modules":42,"public_entities":470,"doctests":5476}
 {"section":"coercion","group":"Mathematics / Parents and Categories","title":"Coercion","modules":5,"public_entities":55,"doctests":953}
-{"section":"combinat","group":"Mathematics / Discrete Mathematics","title":"Combinatorics","modules":390,"public_entities":8179,"doctests":71687}
+{"section":"combinat","group":"Mathematics / Discrete Mathematics","title":"Combinatorics","modules":390,"public_entities":8177,"doctests":71687}
 {"section":"constants","group":"Mathematics / Calculus and Analysis","title":"Mathematical Constants","modules":1,"public_entities":16,"doctests":248}
 {"section":"cpython","group":"Infrastructure / Programming Facilities","title":"Python Technicalities","modules":5,"public_entities":8,"doctests":116}
 {"section":"cryptography","group":"Mathematics / Discrete Mathematics","title":"Cryptography","modules":25,"public_entities":373,"doctests":3871}
@@ -16,7 +16,7 @@
 {"section":"databases","group":"Mathematics / Miscellaneous","title":"Databases","modules":14,"public_entities":256,"doctests":1415}
 {"section":"diophantine_approximation","group":"Mathematics / Number Theory","title":"Diophantine Approximation","modules":1,"public_entities":40,"doctests":437}
 {"section":"discrete_geometry","group":"Mathematics / Geometry and Topology","title":"Combinatorial and Discrete Geometry","modules":75,"public_entities":1246,"doctests":13969}
-{"section":"doctest","group":"Infrastructure / Programming Facilities","title":"Test Framework","modules":10,"public_entities":148,"doctests":1802}
+{"section":"doctest","group":"Infrastructure / Programming Facilities","title":"Test Framework","modules":10,"public_entities":146,"doctests":1802}
 {"section":"documentation","group":"Infrastructure / Documentation System","title":"Documentation System","modules":0,"public_entities":0,"doctests":0}
 {"section":"drinfeld_modular","group":"Mathematics / Drinfeld modules and related topics","title":"Drinfeld Modular Forms","modules":4,"public_entities":31,"doctests":415}
 {"section":"drinfeld_modules","group":"Mathematics / Drinfeld modules and related topics","title":"Drinfeld Modules","modules":6,"public_entities":62,"doctests":1419}
@@ -38,10 +38,10 @@
 {"section":"lfunctions","group":"Mathematics / Number Theory","title":"L-Functions","modules":5,"public_entities":64,"doctests":492}
 {"section":"libs","group":"Infrastructure / Subsystem Interfaces","title":"C/C++ Library Interfaces","modules":36,"public_entities":322,"doctests":3029}
 {"section":"logic","group":"Mathematics / Discrete Mathematics","title":"Symbolic Logic","modules":6,"public_entities":65,"doctests":496}
-{"section":"manifolds","group":"Mathematics / Geometry and Topology","title":"Manifolds and Differential Geometry","modules":66,"public_entities":862,"doctests":17878}
+{"section":"manifolds","group":"Mathematics / Geometry and Topology","title":"Manifolds and Differential Geometry","modules":66,"public_entities":857,"doctests":17878}
 {"section":"matrices","group":"Mathematics / Linear Algebra","title":"Matrices and Spaces of Matrices","modules":48,"public_entities":754,"doctests":12855}
 {"section":"matroids","group":"Mathematics / Discrete Mathematics","title":"Matroid Theory","modules":27,"public_entities":542,"doctests":5074}
-{"section":"misc","group":"Infrastructure / Programming Facilities","title":"Utilities","modules":99,"public_entities":876,"doctests":9196}
+{"section":"misc","group":"Infrastructure / Programming Facilities","title":"Utilities","modules":99,"public_entities":866,"doctests":9196}
 {"section":"modabvar","group":"Mathematics / Number Theory","title":"Modular Abelian Varieties","modules":12,"public_entities":209,"doctests":1547}
 {"section":"modfrm","group":"Mathematics / Number Theory","title":"Modular Forms","modules":56,"public_entities":962,"doctests":9383}
 {"section":"modsym","group":"Mathematics / Number Theory","title":"Modular Symbols","modules":26,"public_entities":463,"doctests":3945}
@@ -62,12 +62,12 @@
 {"section":"quat_algebras","group":"Mathematics / Basic Rings and Fields","title":"Quaternion Algebras","modules":2,"public_entities":26,"doctests":314}
 {"section":"quivers","group":"Mathematics / Discrete Mathematics","title":"Quivers","modules":8,"public_entities":146,"doctests":1814}
 {"section":"references","group":"General Information","title":"Bibliographic References","modules":0,"public_entities":0,"doctests":0}
-{"section":"repl","group":"User Interfaces","title":"Command Line Interface","modules":34,"public_entities":301,"doctests":2071}
+{"section":"repl","group":"User Interfaces","title":"Command Line Interface","modules":34,"public_entities":300,"doctests":2071}
 {"section":"resolutions","group":"Mathematics / Homological Algebra","title":"Resolutions","modules":2,"public_entities":15,"doctests":289}
 {"section":"riemannian_geometry","group":"Mathematics / Geometry and Topology","title":"Parametrized Surfaces","modules":2,"public_entities":44,"doctests":333}
 {"section":"rings","group":"Mathematics / Mathematical Structures","title":"Rings","modules":18,"public_entities":306,"doctests":4044}
-{"section":"rings_numerical","group":"Mathematics / Basic Rings and Fields","title":"Real and Complex Numbers","modules":12,"public_entities":826,"doctests":5872}
-{"section":"rings_standard","group":"Mathematics / Basic Rings and Fields","title":"Integers and Rational Numbers","modules":15,"public_entities":366,"doctests":3910}
+{"section":"rings_numerical","group":"Mathematics / Basic Rings and Fields","title":"Real and Complex Numbers","modules":12,"public_entities":825,"doctests":5872}
+{"section":"rings_standard","group":"Mathematics / Basic Rings and Fields","title":"Integers and Rational Numbers","modules":15,"public_entities":351,"doctests":3910}
 {"section":"sat","group":"Mathematics / Discrete Mathematics","title":"SAT solvers","modules":8,"public_entities":49,"doctests":531}
 {"section":"schemes","group":"Mathematics / Algebraic and Arithmetic Geometry","title":"Schemes","modules":56,"public_entities":689,"doctests":8779}
 {"section":"semirings","group":"Mathematics / Mathematical Structures","title":"Semirings","modules":3,"public_entities":14,"doctests":185}

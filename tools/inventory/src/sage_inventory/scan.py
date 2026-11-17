@@ -58,9 +58,16 @@ def scan_file(module: str, path: Path, include: Path) -> Scan:
         title, entities = _cython_entities(module, path, include)
     else:
         title, entities = _python_entities(module, text)
+    # A name defined more than once (typing overloads, a property and its setter, a Cython forward
+    # declaration) is one entity: the definition that carries the documentation.
+    unique: dict[str, Entity] = {}
+    for entity in entities:
+        kept = unique.get(entity.id)
+        if kept is None or entity.doctests > kept.doctests:
+            unique[entity.id] = entity
     return Scan(
         title=title,
-        entities=tuple(entities),
+        entities=tuple(unique.values()),
         doctests=len(PROMPT.findall(text)),
         backends=_backends(text),
         features=_features(text),
