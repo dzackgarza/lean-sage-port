@@ -3,7 +3,16 @@ name: CI
   push:
     branches:
     - main
+    paths:
+    - '**.lean'
+    - lakefile.toml
+    - lean-toolchain
+    - justfile
+    - .github/workflows/ci.yml
   workflow_dispatch: null
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
