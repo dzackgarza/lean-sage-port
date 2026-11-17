@@ -29,7 +29,7 @@ has its domain, output, reuse decision, actual prerequisites and existing test/o
 **Acceptance**: General native computations accept runtime domain parameters and retain the
 maps and chosen structure required by later operations; same-input oracle comparisons pass.
 
-- [ ] T007 [US2] Resolve the native algorithm-selection interface from the DSL formal-side
+- [x] T007 [US2] Resolve the native algorithm-selection interface from the DSL formal-side
   sources and record its concrete owner and signatures in `docs/architecture.md`.
 - [ ] T008 [US2] Complete `Probes/RuntimeQuotient.lean` and its public executable entry point
   for runtime quotient/extension construction using existing Hex representations.

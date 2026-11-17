@@ -4,8 +4,11 @@ The reusable evidence is maintained in `inventory/reuse/`, `inventory/references
 `docs/architecture.md`; these files own revisions and declaration paths.
 
 - Native algorithms form a Lean library consumed on the formal side. The DSL external-leaf
-  restrictions do not prohibit this library. The operation-selection hook still needs concrete
-  source-level resolution before DSL integration is specified as ready.
+  restrictions do not prohibit this library. The surveyed kernel sends general values through
+  `Realize.send` to external registrations; its native discharge handles propositions only.
+  `docs/architecture.md` specifies the required DSL-owned native port using the existing
+  `Operation`, `Wire`, elaborator and result types. That owner addition must precede DSL
+  integration; native-library probes do not establish that the addition is implemented.
 - Hex supplies executable polynomial, matrix and prime-field quotient representations. Reuse
   these for the runtime experiments rather than construct a parallel arithmetic hierarchy.
 - Sage's selected source doctests and reference computations determine acceptance. Noncanonical
