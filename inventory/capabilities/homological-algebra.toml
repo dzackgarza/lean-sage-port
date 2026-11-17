@@ -69,3 +69,35 @@ reuse = { status = "formalized-not-executable", components = ["mathlib.homology.
 backends = []
 references = []
 license_notes = "Sage source is GPL-2.0-or-later; multiplication examples document composition order independently of any Lean representation."
+
+[[capability]]
+id = "complexes.finite-free-dual"
+title = "Dual of a finite free complex"
+statement = "Dualize each module and differential, reversing the differential degree."
+domain = "Bounded complexes of finite free modules over a commutative ring, with chosen bases."
+contract = "Return (C^dual)_i=Hom_R(C_i,R), differential degree -delta, and differential at i+delta equal to the transpose of d_i. Keep the dual bases and evaluation pairing, so double dualization is identified with C through evaluation."
+exactness = "exact"
+algorithms = [{ family = "Transpose differential matrices and reverse their direction", sources = ["sage/homology/chain_complex.py:ChainComplex_class.dual", "sage/homology/chain_complex_morphism.py:ChainComplexMorphism.dual"] }]
+depends_on = ["complexes.finite-free-construction", "matrices.arithmetic"]
+sage = ["sage.homology.chain_complex:ChainComplex_class.dual", "sage.homology.chain_complex_morphism:ChainComplexMorphism.dual"]
+catalogue = []
+tests = ["The evaluation identity <d^dual phi,x>=<phi,dx> holds for runtime vectors and covectors.", "Double dualization recovers every differential matrix under the evaluation identification.", "Dualizing a composite chain map reverses its order; source and target are interchanged."]
+reuse = { status = "formalized-not-executable", components = ["mathlib.homology.complexes"], evidence = "The formal complex representation is available; the surveyed map does not establish an executable dual-complex constructor with retained evaluation pairing." }
+backends = []
+references = []
+
+[[capability]]
+id = "complexes.finite-direct-sum"
+title = "Finite direct sums of complexes"
+statement = "Construct a finite direct sum of complexes with component inclusions and projections."
+domain = "Bounded finite free complexes over one commutative ring, with a common grading group and differential degree."
+contract = "Return the degreewise direct sum with block-diagonal differential and the chosen inclusions and projections. The differential commutes with those maps. The empty sum is the zero complex."
+exactness = "exact"
+algorithms = [{ family = "Block-diagonal differential assembly", sources = ["sage/homology/chain_complex.py:ChainComplex_class.cartesian_product"] }]
+depends_on = ["complexes.finite-free-construction", "complexes.chain-maps"]
+sage = ["sage.homology.chain_complex:ChainComplex_class.cartesian_product"]
+catalogue = []
+tests = ["Projection_j after inclusion_i is identity for i=j and zero otherwise; the sum of inclusion_i after projection_i is identity.", "Each inclusion and projection satisfies the chain-map equation.", "The module rank in every degree is the sum of the input ranks, including degrees with zero differentials."]
+reuse = { status = "formalized-not-executable", components = ["mathlib.homology.complexes"], evidence = "Reuse the abstract complex semantics. The capability requires explicit computational inclusions and projections in addition to assembled matrices." }
+backends = []
+references = []
