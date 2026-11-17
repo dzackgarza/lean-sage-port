@@ -38,15 +38,15 @@ references = []
 id = "graphs.shortest-path"
 title = "Shortest path with a route witness"
 statement = "Return a minimum-weight path between two vertices, or certify that no path exists."
-domain = "Finite directed or undirected graphs with ordered additive edge weights. For signed weights, a reachable negative cycle makes the minimum undefined and must be reported."
-contract = "(G,u,v,w) -> no-path, negative-cycle, or (path,total weight). The path uses original vertices and edges, starts at u, ends at v, and has minimum total weight. Unit weights give ordinary graph distance."
+domain = "Finite directed or undirected graphs with edge weights in a linearly ordered additive commutative group. The minimum is undefined exactly when a negative-weight cycle is reachable from u and can reach v."
+contract = "(G,u,v,w) -> no-path if v is unreachable from u; unbounded-below if a negative-weight cycle lies on a u-to-v walk; otherwise (walk,total weight) minimizing all u-to-v walks. The witness uses original vertices and edges. Unit weights give ordinary graph distance."
 exactness = "exact"
 algorithms = [{ family = "BFS for unit weights, Dijkstra for nonnegative weights, Bellman-Ford for signed weights", sources = ["sage.graphs.generic_graph:GenericGraph.shortest_path", "sage.graphs.generic_graph:GenericGraph.shortest_paths", "graph-library-for-lean4 Graph/Dijkstra.lean"] }]
 depends_on = ["graphs.finite-construction"]
 sage = ["sage.graphs.generic_graph:GenericGraph.shortest_path", "sage.graphs.generic_graph:GenericGraph.shortest_path_length", "sage.graphs.generic_graph:GenericGraph.shortest_paths", "sage.graphs.generic_graph:GenericGraph.shortest_path_lengths", "sage.graphs.generic_graph:GenericGraph.shortest_path_all_pairs"]
 catalogue = []
-tests = ["Every returned route has the reported weight and each consecutive pair is an edge", "For nonnegative weights, its weight equals the minimum over all simple u-to-v paths; unreachable vertices return no-path"]
-reuse = { status = "adaptable", components = ["graphlib4-classic-graph-algorithms", "hex.future.graph-shortest-path"], evidence = "The graph-library-for-lean4 survey identifies executable Dijkstra on an older toolchain, without correctness proof; Hex lists shortest path as future work. Neither surveys a signed-weight, negative-cycle-aware producer." }
+tests = ["Every returned walk has the reported weight and each consecutive pair is an edge", "With nonnegative weights, its weight equals the minimum over all simple u-to-v paths; unreachable vertices return no-path", "A negative cycle reachable from u but unable to reach v does not change the finite u-to-v minimum", "A negative cycle reachable from u that can reach v makes u-to-v walk weights unbounded below"]
+reuse = { status = "adaptable", components = ["graphlib4-classic-graph-algorithms", "hex.future.graph-shortest-path"], evidence = "The graph-library-for-lean4 survey identifies executable Dijkstra on an older toolchain, without correctness proof; Hex lists shortest path as future work. Neither surveys a signed-weight, destination-relevant negative-cycle producer. Sage's Bellman-Ford documentation says it raises on a negative cycle; its reported behavior does not prove the destination-specific contract." }
 backends = ["boost", "networkx"]
 references = []
 
