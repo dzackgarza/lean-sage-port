@@ -1,7 +1,7 @@
 # Specification Quality Checklist: Semiring computations
 
-**Purpose**: Validate specification completeness before planning.  
-**Created**: 2026-11-17  
+**Purpose**: Validate specification completeness before planning.
+**Created**: 2026-11-17
 **Feature**: [spec.md](../spec.md)
 
 ## Content quality

@@ -1,7 +1,7 @@
 # Implementation Plan: Semiring computations
 
-**Feature directory**: `specs/002-semirings`  
-**Specification**: [spec.md](spec.md)  
+**Feature directory**: `specs/002-semirings`
+**Specification**: [spec.md](spec.md)
 **Status**: Specification for later implementation; no semiring runtime is implemented by this plan.
 
 ## Technical context

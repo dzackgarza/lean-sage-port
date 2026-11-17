@@ -1,8 +1,8 @@
 # Feature Specification: Semiring computations
 
-**Feature directory**: `specs/002-semirings`  
-**Created**: 2026-11-17  
-**Status**: Draft for independent mathematical review  
+**Feature directory**: `specs/002-semirings`
+**Created**: 2026-11-17
+**Status**: Draft for independent mathematical review
 **Source**: `inventory/capabilities/semirings.toml`, Sage 11.0.beta5 at `c00171e47d6e68d8148d7ee10c4dd77b71a97662`
 
 ## User Scenarios & Testing
@@ -32,6 +32,7 @@ A user selects min-plus or max-plus over an ordered additive commutative group a
 2. Tropical zero is the selected infinity; tropical one is finite base zero. Infinity is absorbing under multiplication and neutral under addition.
 3. A finite element has the base-group inverse under tropical multiplication; inversion or division by tropical zero fails. Natural powers use repeated tropical multiplication. Any wider exponent domain requires its own documented base operation.
 4. Multiplicative order returns `1` for tropical one and infinity otherwise, including the absorbing element.
+5. For a base with a separately selected element called `1`, the Sage `gens` accessor returns the tropical lift of that element and infinity. This accessor does not supply a generator for an arbitrary ordered additive group.
 
 ### User Story 3 — Transport tropical values (Priority: P2)
 
@@ -96,3 +97,4 @@ The source doctests cover zero and one, finite and infinite tropical elements, m
 - `TropicalToTropical` in the baseline demonstrates integer-to-rational coercion. The mathematical contract requires an explicit order-preserving additive base map; a bare conversion is insufficient to justify a general map.
 - The source's `extremum_cycle_mean` checks membership under `RR` and uses division by path length. This specification's exact contract uses rational values and exact rational division. Approximate real semantics require a separate precision contract.
 - Natural-number arithmetic uses Lean's existing `Nat`. Sage's `NN` construction and additive generator family are source examples, not authority for another natural-number type.
+- The baseline `TropicalSemiring.gens` returns `(base one, infinity)` for bases such as `ℤ` and `ℚ`. An ordered additive group has no canonical base one. The accessor therefore needs a selected base element and does not change the general tropical semiring construction's domain.

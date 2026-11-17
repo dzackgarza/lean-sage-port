@@ -21,9 +21,9 @@ Tasks below describe later implementation. This feature package is a specificati
 
 - [ ] T003 [US2] Resolve the mathematical object and operation contracts at `lean-categories` and their catalogue ids at `lean-cas-dsl`, as specified by `inventory/capabilities/semirings.toml`; record the owner resolution in `inventory/reuse/lean-categories.toml` before exposing native operations.
 - [ ] T004 [US2] Implement tagged finite/infinity values with retained base and orientation in `LeanSagePort/Semirings/Tropical.lean` under those owner contracts.
-- [ ] T005 [US2] Implement min/max addition, base-addition multiplication, natural powers, finite inverse and exact failure behavior in `LeanSagePort/Semirings/Tropical.lean`.
+- [ ] T005 [US2] Implement min/max addition, base-addition multiplication, natural powers, finite inverse, the conditional selected-base-one `gens` accessor and exact failure behavior in `LeanSagePort/Semirings/Tropical.lean`.
 - [ ] T006 [US2] Implement the documented multiplicative-order result through its owner catalogue operation in `LeanSagePort/Semirings/Tropical.lean`.
-- [ ] T007 [US2] Add source-selected tropical arithmetic and multiplicative-order cases plus semiring identities through public operations in `Acceptance/Semirings.lean`.
+- [ ] T007 [US2] Add source-selected tropical arithmetic, conditional `gens` accessor, and multiplicative-order cases plus semiring identities through public operations in `Acceptance/Semirings.lean`.
 
 ## Phase 3: Tropical transport (US3, P2)
 
