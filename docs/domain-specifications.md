@@ -2,7 +2,7 @@
 
 The pinned Sage manual taxonomy is indexed in [`inventory/domains.toml`](../inventory/domains.toml). Each linked capability file states intrinsic operations, exact domains, reuse evidence, source selectors, and acceptance comparisons. A blank contract cell means that the section has no capability record yet; it remains in scope when its disposition is mathematical. This index is a route to contracts, not a completion claim.
 
-The dependency-ordered milestone that owns each section is recorded in [`docs/milestones.md`](milestones.md). The milestone assignment determines which section's capabilities are prerequisites for which others. It does not determine completion order within a section.
+The dependency-ordered milestone that owns each section is recorded in [`specs/004-milestones/plan.md`](../specs/004-milestones/plan.md). The milestone assignment determines which section's capabilities are prerequisites for which others. It does not determine completion order within a section.
 
 The baseline source is [`inventory/sage/index/`](../inventory/sage/index/) at the revision in its `summary.json`. `entities.jsonl.gz` locates each selected Sage method and its doctests; `modules.jsonl` locates its source file. Run the repository's `sage-inventory unaccounted` command for a section to see the live entity-level gap. [`inventory/coverage.json`](../inventory/coverage.json) owns the measured counts. Reuse evidence lives in [`inventory/reuse/`](../inventory/reuse/) and reference-engine provenance in [`inventory/references/`](../inventory/references/).
 

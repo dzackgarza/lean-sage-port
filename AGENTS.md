@@ -19,7 +19,8 @@ object and operation. When the catalogue lacks one, the gap is reported to its o
 | Path | Content |
 | --- | --- |
 | `docs/constitution.md` | Permanent project scope, ten commitments, and ownership boundaries. |
-| `docs/milestones.md` | Dependency-ordered milestones with section scope, prerequisites, and acceptance conditions. |
+| `docs/milestones.md` | Pointer to `specs/004-milestones/plan.md`, the authoritative milestone roadmap. |
+| `specs/004-milestones/` | Spec Kit feature for the milestone roadmap: spec, research, data model, plan, tasks. |
 | `docs/architecture.md` | Source-checked architecture candidate; describes the native dispatch interface and composition mechanism. |
 | `docs/capability-records.md` | Rules and schema for capability records. |
 | `docs/domain-specifications.md` | Index of manual sections to their capability files. |

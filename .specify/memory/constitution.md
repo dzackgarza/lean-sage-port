@@ -14,22 +14,24 @@ output and failure behavior. A declaration or theorem alone does not satisfy tha
 Mathlib and lean-categories provide mathematical definitions and abstract obligations.
 lean-cas-dsl provides the language, kernel and catalogue interface. This repository supplies
 computations under those contracts. Missing semantics or catalogue entries go to their owner.
-A storage representation must not become a competing definition of the mathematical object.
+A storage representation MUST NOT become a competing definition of the mathematical object.
+No parallel catalogue, registry, or stable-id scheme may be introduced here.
 
 ### III. Reuse before new algorithms
 
-Each computational obligation must name the inspected Lean implementations and reference
+Each computational obligation MUST name the inspected Lean implementations and reference
 algorithms that could supply it. Record source revisions, declarations, executability evidence,
 supported domains and licences. Separate a source-level candidate from a tested reusable package.
-A failed name search does not authorize a replacement implementation.
+A failed name search does not authorize a replacement implementation; it authorizes filing a gap
+report with the upstream owner.
 
 ### IV. Generality and composition
 
 Specify each operation at its intrinsic mathematical scope. Preserve coefficient domains,
 defining maps, chosen generators, embeddings, precision and other selected structure needed
-by later computations. Representation changes must preserve these data through explicit maps.
+by later computations. Representation changes MUST preserve these data through explicit maps.
 A result is not complete when its printed value is correct but subsequent operations cannot use it.
-Extensions must use the existing mathematical and computational contracts.
+Extensions MUST use the existing mathematical and computational contracts.
 
 ### V. Acceptance from existing mathematics and computations
 
@@ -47,7 +49,29 @@ work, except when the capability itself requires a stated computational bound or
 case cannot complete. Construction should retain data cheaply and defer expensive queries.
 A timing failure does not redefine the product or license a narrower mathematical domain.
 
+### VII. Growth by extension
+
+New mathematical domains and algorithms MUST integrate through the existing catalogue contracts
+and the existing execution architecture. Adding a new domain MUST NOT require rebuilding or
+replumbing any already-accepted capability. The architecture probe acceptance (SC-003 of
+`specs/001-native-computation`) is the evidence that the extension mechanism works; each new
+milestone MUST NOT introduce dependencies that violate it.
+
 ## Product scope and specification
+
+The target is complete: every mathematical domain in the Sage 11.0.beta5 reference manual is
+in scope. Implementation is partitioned into dependency-ordered milestones. "Complete" means
+every public Sage entity has either an implemented native computation or a justified exclusion
+(reason: `infrastructure`, `external-interface`, `presentation`, `data`, or `deprecated`) in a
+capability record. The ultimate completion condition is that `sage-inventory unaccounted` returns
+nothing for every mathematical section.
+
+**Milestones** are defined in `specs/004-milestones/`. Each milestone names the Sage manual
+sections in scope, its mathematical prerequisites (prior milestones whose operations it depends
+on), the capability records already established, key reuse decisions from `inventory/reuse/`,
+and acceptance conditions. No milestone may begin implementation until all its stated
+prerequisites have passed their own acceptance. No percentage of full Sage coverage should be
+inferred from completing any single milestone.
 
 The master specification identifies the target domains through the reference-manual taxonomy.
 Capability records attach intrinsic contracts to baseline entities. Source coverage measures
@@ -89,9 +113,22 @@ Support additional platforms only when explicitly required. Check source licence
 ## Governance
 
 The constitution governs product invariants; AGENTS.md supplies operational instructions.
-Explicit project-direction changes require a forward amendment and corresponding changes at
-the contract owner. Record rationale in Git, not a parallel progress diary. Major versions change
-invariants, minor versions add obligations, and patches clarify their meaning. Review each feature
-against the constitution before implementation and again before acceptance.
+`docs/constitution.md` is a human-readable summary that MUST stay consistent with this file;
+this file is authoritative.
 
-**Version**: 1.0.0 | **Ratified**: 2026-11-17 | **Last Amended**: 2026-11-17
+**Amendment procedure**: Any change to a Core Principle or to the Product Scope section requires
+(1) a Git commit updating this file with rationale in the commit message, (2) a corresponding
+update to any specification, capability record, or implementation issue that depends on the
+changed text, and (3) a version bump according to the table below. Changes to Development and
+Evidence or Governance sections that do not alter principles or scope are patch-level.
+
+| Change type | Version component | Examples |
+|---|---|---|
+| Remove or redefine a principle; narrow the product scope | MAJOR | Dropping a mathematical domain; changing "MUST NOT" to "SHOULD NOT" |
+| Add a new principle or section; materially expand an obligation | MINOR | New principle VII; milestone structure added to Scope |
+| Clarify wording; fix typos; non-semantic refinements | PATCH | Rewording a rationale; correcting a link |
+
+Review each feature against the constitution before implementation and again before acceptance.
+Complexity violations MUST be justified in writing before the work begins.
+
+**Version**: 1.1.0 | **Ratified**: 2026-11-17 | **Last Amended**: 2026-11-17
