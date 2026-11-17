@@ -1,0 +1,21 @@
+name = "lean_sage_port"
+defaultTargets = ["Probes"]
+
+[leanOptions]
+pp.unicode.fun = true
+relaxedAutoImplicit = false
+
+[[require]]
+name = "hex"
+git = "https://github.com/leanprover/hex.git"
+rev = "main"
+
+# Mathlib comes last: Lake gives the last requirement precedence for shared dependencies, and the
+# Mathlib build cache is valid only for Mathlib's own versions of them.
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "master"
+
+[[lean_lib]]
+name = "Probes"
