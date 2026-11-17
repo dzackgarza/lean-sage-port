@@ -1,0 +1,115 @@
+# Elliptic-curve operations in Sage 11.0.beta5, c00171e47d6e68d8148d7ee10c4dd77b71a97662.
+
+domain = "arithmetic-geometry"
+
+[[capability]]
+id = "elliptic.point-group-law"
+title = "Elliptic-curve point arithmetic"
+statement = "Construct rational points on a nonsingular Weierstrass curve and compute their abelian-group sum."
+domain = "Nonsingular Weierstrass curves over a field, including Q and finite fields."
+contract = "(E,P,Q) -> P+Q in E(K). Retain E and each point's coordinates; the point at infinity is the identity."
+exactness = "exact"
+algorithms = [{ family = "Chord-and-tangent rational formulas", sources = ["sage.schemes.elliptic_curves.ell_point:EllipticCurvePoint_field", "Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Formula.lean"] }]
+depends_on = []
+sage = ["sage.schemes.elliptic_curves.ell_point:EllipticCurvePoint_field"]
+catalogue = []
+tests = ["For points P,Q,R on E, (P+Q)+R=P+(Q+R), P+O=P, and P+(-P)=O", "Every computed sum satisfies the defining Weierstrass equation of E"]
+reuse = { status = "reusable", components = ["mathlib.nt.elliptic-point-addition", "compelliptic.short-weierstrass"], evidence = "Mathlib's affine Weierstrass point addition ran on a rational example in its reuse survey. CompElliptic adds a proved short-Weierstrass implementation for a narrower model." }
+backends = []
+references = []
+
+[[capability]]
+id = "elliptic.finite-field-point-count"
+title = "Count points on an elliptic curve over a finite field"
+statement = "Compute the cardinality of E(F_q), including the point at infinity, and of specified finite extensions."
+domain = "Nonsingular elliptic curves over finite fields F_q, including nonprime fields and characteristics 2 and 3; positive extension degree d."
+contract = "(E/F_q,d>=1) -> #E(F_{q^d}) in Nat, with the base field, extension embedding, and curve retained for subsequent point computations."
+exactness = "exact"
+algorithms = [{ family = "Exhaustive enumeration, baby-step giant-step, and PARI ellcard", sources = ["sage.schemes.elliptic_curves.ell_finite_field:EllipticCurve_finite_field.cardinality", "sage.schemes.elliptic_curves.cardinality:cardinality_exhaustive", "sage.schemes.elliptic_curves.cardinality:cardinality_bsgs"] }]
+depends_on = ["elliptic.point-group-law"]
+sage = ["sage.schemes.elliptic_curves.ell_finite_field:EllipticCurve_finite_field.cardinality", "sage.schemes.elliptic_curves.ell_finite_field:EllipticCurve_finite_field.count_points"]
+catalogue = []
+tests = ["For small q, the count equals one plus the independently enumerated affine solutions of the curve equation", "The Hasse bound holds: abs(#E(F_q)-(q+1)) <= 2 sqrt(q)"]
+reuse = { status = "adaptable", components = ["compelliptic.curve-order-certificate", "hex.HexGFqField.finite-field", "hex.future.elliptic-curves"], evidence = "CompElliptic certifies a supplied group order, but does not produce it. Hex provides a finite-field representation and lists elliptic point counting as future work. The surveyed implementations do not establish a generic point-count producer." }
+backends = ["pari"]
+references = []
+
+[[capability]]
+id = "elliptic.local-reduction"
+title = "Local reduction data of an elliptic curve"
+statement = "Compute a minimal local Weierstrass model and conductor exponent at a specified prime."
+domain = "Elliptic curves over Q at a rational prime, or over a number field at a prime ideal where local arithmetic is available."
+contract = "(E,p) -> (E_p,change-of-variables,f_p,reduction type), where E_p is locally minimal, the change of variables identifies it with E, and f_p is the local conductor exponent."
+exactness = "exact"
+algorithms = [{ family = "Tate's algorithm", sources = ["sage.schemes.elliptic_curves.ell_local_data:EllipticCurveLocalData.minimal_model", "sage.schemes.elliptic_curves.ell_local_data:EllipticCurveLocalData.conductor_valuation"] }]
+depends_on = []
+sage = ["sage.schemes.elliptic_curves.ell_local_data:EllipticCurveLocalData.minimal_model", "sage.schemes.elliptic_curves.ell_local_data:EllipticCurveLocalData.conductor_valuation"]
+catalogue = []
+tests = ["The transformed equation defines a curve isomorphic to E over the base field and has minimal discriminant valuation at p", "For good reduction the conductor exponent is zero; for multiplicative reduction it is one"]
+reuse = { status = "adaptable", components = ["ec-tate.tate-algorithm"], evidence = "The ecosystem survey found an executable Tate algorithm over Z at a prime, on a 2023 toolchain, with tested-only correctness. Its current-toolchain compatibility and number-field scope remain unestablished." }
+backends = ["pari"]
+references = []
+
+[[capability]]
+id = "elliptic.global-minimal-model"
+title = "Global minimal model with change of variables"
+statement = "Produce a global minimal Weierstrass equation when one exists."
+domain = "Elliptic curves over Q; over number fields, report when no global minimal model exists."
+contract = "E -> (E_min,isomorphism E -> E_min) with minimal discriminant valuations at every finite prime. Over Q select the standard reduced coefficients a1,a2,a3 in {0,+/-1}."
+exactness = "exact"
+algorithms = [{ family = "Combine local minimal reductions and normalize Weierstrass coefficients", sources = ["sage.schemes.elliptic_curves.ell_rational_field:EllipticCurve_rational_field.minimal_model", "sage.schemes.elliptic_curves.ell_number_field:EllipticCurve_number_field.global_minimal_model"] }]
+depends_on = ["elliptic.local-reduction"]
+sage = ["sage.schemes.elliptic_curves.ell_rational_field:EllipticCurve_rational_field.minimal_model", "sage.schemes.elliptic_curves.ell_number_field:EllipticCurve_number_field.global_minimal_model"]
+catalogue = []
+tests = ["The supplied change of variables identifies the original and minimal curve equations", "At every prime dividing the original discriminant, the output has minimal discriminant valuation"]
+reuse = { status = "missing", components = [], evidence = "The inspected Mathlib, Hex, and CompElliptic survey entries do not supply a global minimal-model producer or its isomorphism data." }
+backends = ["pari"]
+references = []
+
+[[capability]]
+id = "elliptic.conductor"
+title = "Conductor of an elliptic curve"
+statement = "Compute the conductor as the product of local prime powers with conductor exponents."
+domain = "Elliptic curves over Q or a number field whose prime ideals and local reduction data can be computed."
+contract = "E -> N(E)=product p^f_p (an integer over Q, an ideal over a number field), retaining the local exponent data and its prime support."
+exactness = "exact"
+algorithms = [{ family = "Tate local reduction and product of conductor factors", sources = ["sage.schemes.elliptic_curves.ell_rational_field:EllipticCurve_rational_field.conductor", "sage.schemes.elliptic_curves.ell_number_field:EllipticCurve_number_field.conductor", "PARI ellglobalred"] }]
+depends_on = ["elliptic.local-reduction", "integers.factorization"]
+sage = ["sage.schemes.elliptic_curves.ell_rational_field:EllipticCurve_rational_field.conductor", "sage.schemes.elliptic_curves.ell_number_field:EllipticCurve_number_field.conductor"]
+catalogue = []
+tests = ["The exponent of each bad prime in N(E) equals the local conductor exponent; primes of good reduction do not divide N(E)", "For the rational curve with coefficients [1,-1,1,-29372,-1932937], N(E)=3006, as checked by Sage's independent PARI and mwrank routes"]
+reuse = { status = "missing", components = [], evidence = "The inspected Mathlib, Hex, and CompElliptic survey entries do not supply a conductor producer. CompElliptic's point arithmetic does not calculate local reduction." }
+backends = ["pari", "mwrank"]
+references = []
+
+[[capability]]
+id = "elliptic.bounded-rational-points"
+title = "Enumerate rational points under an explicit height bound"
+statement = "Return the rational points on an elliptic curve whose specified naive height is at most an input bound."
+domain = "Elliptic curves over Q with an explicit finite naive-height bound; number-field variants require a defined height and finite search region."
+contract = "(E,B) -> the finite set {P in E(Q) : h_naive(P) <= B}, with exact coordinates on E. The bound is part of the output contract; this is not a claim to enumerate the unbounded infinite set E(Q)."
+exactness = "exact"
+algorithms = [{ family = "Enumerate bounded rational x-coordinates and test the Weierstrass equation", sources = ["sage.schemes.elliptic_curves.ell_number_field:EllipticCurve_number_field.rational_points", "sage.schemes.elliptic_curves.ell_rational_field:EllipticCurve_rational_field.point_search"] }]
+depends_on = ["elliptic.point-group-law", "heights.rational-heights"]
+sage = ["sage.schemes.elliptic_curves.ell_number_field:EllipticCurve_number_field.rational_points"]
+catalogue = []
+tests = ["Every returned point lies on E and satisfies the height bound", "For a small bound, exhaustive reduced numerator-denominator enumeration finds exactly the returned set"]
+reuse = { status = "missing", components = [], evidence = "The inspected Mathlib, Hex, and CompElliptic survey entries contain point arithmetic but no bounded rational-point enumerator with a completeness guarantee." }
+backends = ["pari"]
+references = []
+
+[[capability]]
+id = "elliptic.mordell-weil-point-search"
+title = "Search for independent Mordell-Weil points"
+statement = "Search a height-bounded region for rational points and return independent points generating the saturated subgroup found."
+domain = "Elliptic curves over Q with an input naive logarithmic height limit."
+contract = "(E,B) -> a list of points on E(Q), their independence information, and the subgroup generated after saturation. This result is relative to the search; it does not certify a basis of all E(Q) without an independent rank and saturation proof."
+exactness = "exact"
+algorithms = [{ family = "ratpoints search followed by subgroup saturation", sources = ["sage.schemes.elliptic_curves.ell_rational_field:EllipticCurve_rational_field.point_search", "PARI/GP ratpoints"] }]
+depends_on = ["elliptic.point-group-law"]
+sage = ["sage.schemes.elliptic_curves.ell_rational_field:EllipticCurve_rational_field.point_search"]
+catalogue = []
+tests = ["Every returned generator lies on E and the claimed independent generators have no displayed nontrivial relation", "On a curve with independently certified rank and saturation, the generated subgroup agrees with the certified Mordell-Weil group"]
+reuse = { status = "missing", components = [], evidence = "The inspected Mathlib, Hex, and CompElliptic survey entries contain no Mordell-Weil search and saturation algorithm." }
+backends = ["pari"]
+references = []
