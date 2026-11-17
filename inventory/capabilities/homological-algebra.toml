@@ -1,0 +1,54 @@
+# Source: Sage 11.0.beta5, c00171e47d6e68d8148d7ee10c4dd77b71a97662.
+# Selectors below identify the inspected implementations, not the whole manual section.
+domain = "homological-algebra"
+
+[[capability]]
+id = "complexes.finite-free-construction"
+title = "Bounded complexes of finite free modules"
+statement = "Construct a bounded graded family of finite free modules and differentials whose consecutive composites vanish."
+domain = "A commutative coefficient ring with executable arithmetic and equality; a free abelian grading group and a fixed differential degree."
+contract = "Input ranks, chosen bases and differential matrices; return the complex with its coefficient ring, grading, differential degree and all defining linear maps. Reject incompatible dimensions or nonzero consecutive composites. Zero differentials must retain source and target ranks."
+exactness = "exact"
+algorithms = [{ family = "Finite graded matrix assembly and composition checks", sources = ["sage/homology/chain_complex.py:ChainComplex"] }]
+depends_on = ["matrices.arithmetic"]
+sage = ["sage.homology.chain_complex:ChainComplex", "sage.homology.chain_complex:ChainComplex_class.differential", "sage.homology.chain_complex:ChainComplex_class.grading_group", "sage.homology.chain_complex:ChainComplex_class.degree_of_differential", "sage.homology.chain_complex:ChainComplex_class.free_module_rank", "sage.homology.chain_complex:ChainComplex_class.free_module"]
+catalogue = []
+tests = ["For runtime matrices A and B with BA=0, recover the supplied maps and dimensions, including rectangular zero maps.", "For consecutive identity maps on a nonzero module over a nonzero ring, construction rejects the nonzero composite."]
+reuse = { status = "formalized-not-executable", components = ["mathlib.homology.complexes"], evidence = "The reuse map supplies HomologicalComplex and ChainComplex semantics. It does not establish an executable constructor from runtime matrices. No chain-complex catalogue entry was found in inventory/reuse/lean-categories.toml." }
+backends = []
+references = []
+license_notes = "Sage chain_complex.py is GPL-2.0-or-later; use as a behavioral reference, and review licensing before source translation."
+
+[[capability]]
+id = "complexes.homology-with-representatives"
+title = "Homology and representative cycles"
+statement = "Compute the quotient of cycles by boundaries in each requested degree, including representative cycles when requested."
+domain = "Bounded finite free complexes over the integers or an effective exact field."
+contract = "Return the free rank and invariant factors over the integers, or dimension over a field. With generators requested, retain cycle vectors in the original chosen bases and their orders. The quotient presentation must support subsequent computations on classes; dimensions alone do not discharge the representative contract."
+exactness = "exact"
+algorithms = [{ family = "Kernel coordinates followed by Smith reduction of the incoming differential", sources = ["sage/homology/chain_complex.py:ChainComplex_class._homology_generators_snf", "sage/homology/chain_complex.py:ChainComplex_class._homology_in_degree", "[DHSW2003]"] }]
+depends_on = ["complexes.finite-free-construction", "matrices.kernel", "matrices.smith-normal-form", "matrices.hermite-normal-form"]
+sage = ["sage.homology.chain_complex:ChainComplex_class.homology", "sage.homology.chain_complex:ChainComplex_class.betti"]
+catalogue = []
+tests = ["For the two-term integer complex with differential multiplication by a runtime integer n>1, the cokernel is Z/n and the kernel is zero.", "For a zero differential between free modules, homology has the original ranks and the chosen basis gives representatives.", "Each returned representative z satisfies dz=0; an invariant factor m gives a boundary witness for mz, and the Smith transformations establish generation and all relations.", "For a field complex, dim H_i = dim C_i - rank d_i - rank d_(i-degree)."]
+reuse = { status = "adaptable", components = ["mathlib.homology.homology", "hex.HexSmith.snf", "hex.HexSmith.snf-certificate"], evidence = "Mathlib supplies homology semantics; the Hex map supplies integer Smith reduction and certificates as prerequisites, not an already implemented homology operation. Field kernels and coordinate transport remain separate obligations." }
+backends = ["pari"]
+references = ["DHSW2003"]
+license_notes = "Sage implementation is GPL-2.0-or-later. Hex algorithms require independent conformance checks for the chosen coefficient domains."
+
+[[capability]]
+id = "complexes.shift"
+title = "Translation of a graded complex"
+statement = "Shift the grading of a complex and change the differential sign with the shift parity."
+domain = "Bounded finite free complexes over a commutative ring, with grading group G and differential degree delta in G."
+contract = "For shift integer n, set C[n]_j=C_(j+n*delta) and d[n]=(-1)^n*d. Retain the coefficient ring, selected bases, grading group and delta. This fixes the sign and indexing convention explicitly."
+exactness = "exact"
+algorithms = [{ family = "Reindexing and scalar multiplication", sources = ["sage/homology/chain_complex.py:ChainComplex_class.shift"] }]
+depends_on = ["complexes.finite-free-construction"]
+sage = ["sage.homology.chain_complex:ChainComplex_class.shift"]
+catalogue = []
+tests = ["C[a][b] has the same graded matrices as C[a+b] for runtime integers a,b.", "For delta=-1, C[n]_j=C_(j-n); consecutive shifted differentials still compose to zero.", "Shifting twice restores differential signs and shifts indices by twice delta."]
+reuse = { status = "formalized-not-executable", components = ["mathlib.homology.complexes"], evidence = "Reuse the complex semantics; executable reindexing and the comparison with the formal shift need inspection in a dedicated implementation specification." }
+backends = []
+references = ["Wei1994"]
+license_notes = "Sage source cites Weibel with the opposite shift-index convention; do not identify the two without a signed reindexing map."
