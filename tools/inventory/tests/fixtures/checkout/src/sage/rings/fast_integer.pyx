@@ -8,6 +8,8 @@ from sage.libs.gmp.mpz cimport *
 from cypari2.gen cimport Gen
 cimport sage.structure.element
 
+lazy_import('sage.rings.unlisted', 'stray')
+
 
 cdef inline int c_only(int a) noexcept:
     return a
@@ -51,4 +53,6 @@ cpdef int fast_valuation(int a, int p) noexcept:
 
 
 def gcd_list(values):
+    from .demo_ring import demo_gcd
+    import sage.version
     return values

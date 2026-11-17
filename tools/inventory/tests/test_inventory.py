@@ -125,6 +125,25 @@ def test_module_records_carry_title_engines_features_and_manual_placement(index:
     assert modules["sage.rings.unlisted"]["manual"] is None
 
 
+def test_module_records_list_the_indexed_modules_they_import(index: Path) -> None:
+    modules = {record["module"]: record for record in _lines(index / "modules.jsonl")}
+    # `fast_integer` by a relative, parenthesized import; `unlisted` as a submodule imported by name;
+    # `sage.version` by `lazy_import`. `sage.structure.parent` and the engines are outside this checkout.
+    assert modules["sage.rings.demo_ring"]["imports"] == [
+        "sage.rings.fast_integer",
+        "sage.rings.unlisted",
+        "sage.version",
+    ]
+    # Cython: `demo_ring` and `sage.version` inside a function body, `unlisted` by `lazy_import`.
+    assert modules["sage.rings.fast_integer"]["imports"] == [
+        "sage.rings.demo_ring",
+        "sage.rings.unlisted",
+        "sage.version",
+    ]
+    # The docstring of `unlisted` shows import statements as text; the module imports nothing.
+    assert modules["sage.rings.unlisted"]["imports"] == []
+
+
 def test_summary_sections_and_packages_describe_the_checkout(index: Path, checkout: Path) -> None:
     summary = json.loads((index / "summary.json").read_text())
     assert summary == {

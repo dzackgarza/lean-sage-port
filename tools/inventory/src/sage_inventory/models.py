@@ -94,6 +94,8 @@ class Module(Strict):
     methods: int
     public_entities: int
     doctests: int
+    imports: tuple[str, ...]
+    """Indexed modules this module imports: at module level, in function bodies, and by `lazy_import`."""
     backends: tuple[str, ...]
     """External engines and libraries the module imports."""
     features: tuple[str, ...]

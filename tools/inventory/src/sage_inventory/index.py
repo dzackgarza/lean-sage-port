@@ -55,6 +55,20 @@ def _scan(job: tuple[str, str, str]) -> tuple[str, str, Scan]:
     return module, path, scan_file(module, Path(path), Path(include))
 
 
+def _imported_modules(module: str, scan: Scan, known: frozenset[str]) -> tuple[str, ...]:
+    """The indexed modules that `module` imports.
+
+    `from a import b` names the module `a.b` when that module exists, and `a` otherwise.
+    """
+    found: set[str] = set()
+    for imported in scan.imports:
+        submodules = {f"{imported.module}.{name}" for name in imported.names} & known
+        found |= submodules
+        if len(submodules) < len(imported.names) or not imported.names:
+            found |= {imported.module} & known
+    return tuple(sorted(found - {module}))
+
+
 def _module_name(path: Path, include: Path) -> str:
     parts = path.relative_to(include).with_suffix("").parts
     return ".".join(parts[:-1] if parts[-1] == "__init__" else parts)
@@ -73,6 +87,7 @@ def build_index(baseline: Baseline, output: Path) -> IndexSummary:
     jobs = [(_module_name(path, include), str(path), str(include)) for path in files]
     log.info("scanning %d source files of Sage %s (%s)", len(jobs), revision.version, revision.commit)
 
+    known = frozenset(name for name, _, _ in jobs)
     modules: list[Module] = []
     entities: list[Entity] = []
     with ProcessPoolExecutor() as pool:
@@ -91,12 +106,12 @@ def build_index(baseline: Baseline, output: Path) -> IndexSummary:
                     methods=kinds.count("method"),
                     public_entities=sum(entity.public for entity in scan.entities),
                     doctests=scan.doctests,
+                    imports=_imported_modules(name, scan, known),
                     backends=scan.backends,
                     features=scan.features,
                 )
             )
 
-    known = {module.module for module in modules}
     for missing in sorted(set(placed) - known):
         log.warning("the manual lists %s, which has no source file", missing)
 

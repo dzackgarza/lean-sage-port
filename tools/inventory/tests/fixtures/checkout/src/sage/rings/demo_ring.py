@@ -8,7 +8,16 @@ import numpy
 
 from sage.interfaces.gap import gap
 from sage.libs.pari import pari
+from sage.misc.lazy_import import lazy_import
+from sage.rings import unlisted
 from sage.structure.parent import Parent
+
+from .fast_integer import (
+    FastInteger,
+    gcd_list,
+)
+
+lazy_import("sage.version", ["version"], deprecation=1)
 
 
 class DemoRing(Parent, UniqueRepresentation):
