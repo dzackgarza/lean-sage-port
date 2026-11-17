@@ -18,6 +18,12 @@ object and operation. When the catalogue lacks one, the gap is reported to its o
 
 | Path | Content |
 | --- | --- |
+| `docs/constitution.md` | Permanent project scope, ten commitments, and ownership boundaries. |
+| `docs/milestones.md` | Dependency-ordered milestones with section scope, prerequisites, and acceptance conditions. |
+| `docs/architecture.md` | Source-checked architecture candidate; describes the native dispatch interface and composition mechanism. |
+| `docs/capability-records.md` | Rules and schema for capability records. |
+| `docs/domain-specifications.md` | Index of manual sections to their capability files. |
+| `docs/oracles.md` | Sage oracle image identity and query instructions. |
 | `inventory/sage/baseline.yaml` | The checkout and source paths used to build the current index. |
 | `inventory/sage/release.toml` | Official release identity and the indexed fork content comparison. |
 | `inventory/sage/index/` | Generated index of that checkout: modules, entities, manual sections, packages, imports. |
@@ -28,6 +34,7 @@ object and operation. When the catalogue lacks one, the gap is reported to its o
 | `inventory/references/` | Non-Lean reference engines (FLINT, PARI, GAP, Singular and others) and their licences. |
 | `tools/inventory/` | The `sage-inventory` command: builds the index and measures coverage. |
 | `Probes/` | Executable Lean probes that test architectural decisions. |
+| `specs/` | Spec Kit documents: reconnaissance master spec (`001`), and per-domain specs as milestones proceed. |
 
 ## Existing inventories in `dzackgarza/research`
 
