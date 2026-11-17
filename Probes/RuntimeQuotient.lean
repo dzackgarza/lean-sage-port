@@ -41,7 +41,7 @@ def composed {p : Nat} [ZMod64.Bounds p] [ZMod64.PrimeModulus p]
 
 /-- Runtime construction checks the required primality, word bound, monicity,
 and positive degree before opening the dependent quotient type. -/
-def run (p : Nat) (modulus input : Array Nat) : Option (Array Nat) :=
+def run (p : Nat) (modulus input : Array Nat) : Option (Array Nat × Bool) :=
   if hp : Hex.Nat.Prime p then
     if hb : 0 < p ∧ p < 2 ^ 31 then
       letI : ZMod64.Bounds p := ⟨hb.1, hb.2⟩
@@ -49,10 +49,21 @@ def run (p : Nat) (modulus input : Array Nat) : Option (Array Nat) :=
       let g := polynomial p modulus
       if hm : DensePoly.Monic g then
         if hd : 0 < g.natDegree then
-          let a := FpPoly.Quotient.reduce (g := g) (hmonic := hm) (hg_pos := hd)
-            (polynomial p input)
+          let source := polynomial p input
+          let a := FpPoly.Quotient.reduce (g := g) (hmonic := hm) (hg_pos := hd) source
           let output := composed (g := g) (hm := hm) (hd := hd) a
-          some (output.val.toArray.map ZMod64.toNat)
+          let root : FpPoly.Quotient g hm hd := selectedRoot
+          let mappedCoefficients : DensePoly (FpPoly.Quotient g hm hd) :=
+            DensePoly.ofCoeffs (source.toArray.map fun c =>
+              constantMap (g := g) (hm := hm) (hd := hd) c)
+          let throughMaps := DensePoly.evalImpl mappedCoefficients root
+          let quotientMap := FpPoly.Quotient.reduce (g := g) (hmonic := hm) (hg_pos := hd)
+          let mapsAgree :=
+            decide (throughMaps = a) &&
+            decide (quotientMap g = (0 : FpPoly.Quotient g hm hd)) &&
+            decide (quotientMap (source + FpPoly.X) = a + root) &&
+            decide (quotientMap (source * FpPoly.X) = a * root)
+          some (output.val.toArray.map ZMod64.toNat, mapsAgree)
         else none
       else none
     else none
@@ -60,9 +71,9 @@ def run (p : Nat) (modulus input : Array Nat) : Option (Array Nat) :=
 
 -- Contrasting runtime characteristics and defining polynomials exercise the
 -- same construction and composition. The guards are architectural smoke tests.
-#guard run 2 #[1, 1, 1] #[0, 1] == some #[]
-#guard run 3 #[2, 0, 1] #[1, 2] == some #[0, 2]
-#guard run 3 #[1, 1, 1] #[2, 0, 1] == some #[2]
+#guard run 2 #[1, 1, 1] #[0, 1] == some (#[], true)
+#guard run 3 #[2, 0, 1] #[1, 2] == some (#[0, 2], true)
+#guard run 3 #[1, 1, 1] #[2, 0, 1] == some (#[2], true)
 
 /-- Mathlib's actual quotient map for the selected defining polynomial.
 The source polynomial is identified through HexPolyFpTheory's proved ring equivalence. -/

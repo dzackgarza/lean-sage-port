@@ -76,12 +76,19 @@ result needs a dependent dimension witness.
 contain the current executable experiments and a CLI entry point. They are
 source-checked against the Hex and Mathlib APIs but have not yet passed CI. The
 CLI takes a prime characteristic, a monic defining polynomial and an input
-polynomial as ascending coefficient lists, and prints a canonical result.
+polynomial as ascending coefficient lists. It prints a canonical result and
+`maps=true` only when the defining polynomial maps to zero, coefficient-wise
+Horner evaluation through the selected constant map and root agrees with the
+quotient map, and that quotient map preserves addition and multiplication with
+the selected root. A false map check exits with failure.
 The generic computation also runs over `Int`, `ZMod 7` and
 `Hex.DensePoly Int` without an operation-specific copy. The three sample
 outputs in the quotient probe were checked with the workstation's Sage
 10.10.beta8 using `PolynomialRing(GF(p), 'x').quotient(f)`. The indexed target
-is Sage 11.0.beta5, so this check does not establish baseline-version parity. The
+is Sage 11.0.beta5, so this check does not establish baseline-version parity.
+The same Sage quotient computations checked the map equalities for all three
+inputs. One defining polynomial is reducible; this experiment constructs a
+quotient algebra and does not claim a field operation. The
 quotient experiment uses Hex's existing
 `FpPoly.Quotient`, the chosen characteristic and defining polynomial as run-time
 inputs, and one generic polynomial/matrix computation over its result. It also

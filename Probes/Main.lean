@@ -45,6 +45,7 @@ def main (args : List String) : IO UInt32 := do
       | none =>
           stderr.putStrLn "invalid domain: characteristic must be prime below 2^31; defining polynomial must be monic and nonconstant"
           return 2
-      | some result =>
+      | some (result, mapsAgree) =>
           IO.println (Probes.Main.printCoefficients result)
-          return 0
+          IO.println s!"maps={mapsAgree}"
+          return if mapsAgree then 0 else 1
