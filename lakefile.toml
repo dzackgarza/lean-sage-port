@@ -1,5 +1,5 @@
 name = "lean_sage_port"
-defaultTargets = ["Probes"]
+defaultTargets = ["Probes", "runtime-quotient"]
 
 [leanOptions]
 pp.unicode.fun = true
@@ -19,3 +19,7 @@ rev = "6d97e8ad9c32c778e7000ffda543a29488155467"
 
 [[lean_lib]]
 name = "Probes"
+
+[[lean_exe]]
+name = "runtime-quotient"
+root = "Probes.Main"
