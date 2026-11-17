@@ -46,7 +46,7 @@ algorithms = [{ family = "Row reduction over a field; unimodular normal-form tra
 depends_on = ["matrices.arithmetic", "matrices.rank"]
 sage = ["sage.matrix.matrix2:Matrix.right_kernel_matrix", "sage.matrix.matrix2:Matrix.left_kernel_matrix", "sage.matrix.matrix2:Matrix.right_kernel", "sage.matrix.matrix2:Matrix.left_kernel", "sage.matrix.matrix2:Matrix.integer_kernel"]
 catalogue = ["mor.sets.matrix_ker"]
-tests = ["Every returned basis vector v satisfies Av = 0, and the number of vectors is n - rank(A) over a field", "For an integral kernel, the image of every integer solution lies in the returned integer span"]
+tests = ["Every returned basis vector v satisfies Av = 0, and the number of vectors is n - rank(A) over a field", "For an integral kernel basis B, AB=0, rank(B)=n-rank_Q(A), and the gcd of its maximal minors is 1 (with the empty minor equal to 1 at rank zero); these independent conditions certify that its span is the full saturated integer kernel.", "For a runtime one-row matrix [a b] with coprime nonzero entries, the integer kernel has primitive generator (b,-a) up to sign; rational-nullspace vectors with denominators are not accepted as an integer basis."]
 reuse = { status = "adaptable", components = ["mathlib.linalg.bases-kernels", "hex.HexRowReduce.nullspace-span", "hex.HexHermite.lattice-membership-kernel"], evidence = "Mathlib defines kernels but does not produce finite bases. HexRowReduce provides a field nullspace span; the hex-dev Hermite library provides an integral kernel basis. The integral implementation is unreleased at the surveyed revision." }
 backends = ["flint", "linbox"]
 references = []
