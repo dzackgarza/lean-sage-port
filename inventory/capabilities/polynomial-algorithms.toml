@@ -1,0 +1,83 @@
+# Sage 11.0.beta5 polynomial_rings manual section; computation contracts beyond
+# the polynomial construction and division already in polynomials.toml.
+domain = "polynomial-algorithms"
+
+[[capability]]
+id = "polynomials.extended-gcd"
+title = "Normalized polynomial gcd with Bezout witnesses"
+statement = "Given two univariate polynomials over a field, compute their monic gcd and Bezout coefficients."
+domain = "F[x] for a field F with executable arithmetic, inversion and zero test; over Z[x], a primitive gcd uses content and pseudo-remainders."
+contract = "(f,g) -> (d,u,v) in F[x]^3 with d monic when nonzero, d = uf+vg, d divides f and g, and every common divisor divides d. For f=g=0, d=0. Integer-polynomial gcd returns the normalized integer gcd with positive leading coefficient; Bezout witnesses for that case live in Q[x] when integer coefficients are insufficient."
+exactness = "exact"
+algorithms = [{ family = "Euclidean remainder sequence and extended Euclid; primitive pseudo-remainder over integers", sources = ["Sage polynomial_element.pyx Polynomial.gcd and Polynomial.xgcd", "HexPoly/Euclid/DivGcd.lean", "HexPoly/PseudoGcd.lean"] }]
+depends_on = ["polynomials.univariate-arithmetic"]
+sage = ["sage.rings.polynomial.polynomial_element:Polynomial.gcd", "sage.rings.polynomial.polynomial_element:Polynomial.xgcd", "sage.rings.polynomial.polynomial_element_generic:Polynomial_generic_sparse.gcd"]
+catalogue = ["mor.sets.gcd"]
+tests = ["On run-time f,g in Q[x], verify d = uf+vg, divisibility and monic normalization independently by polynomial division", "For f=x^2-1 and g=x^2-2x+1 over Q, d=x-1 up to the stated normalization"]
+reuse = { status = "reusable", components = ["hex.HexPoly.gcd-xgcd", "hex.HexPoly.pseudo-division", "comppoly.division-xgcd"], evidence = "Hex DensePoly supplies executable gcd, extended gcd, Bezout and divisibility lemmas; its pseudo-division covers integral-domain coefficients. CompPoly has a Mathlib bridge for the field case." }
+backends = ["flint", "ntl"]
+references = []
+
+[[capability]]
+id = "polynomials.univariate-factorization"
+title = "Complete factorization of a univariate polynomial"
+statement = "Given a nonzero polynomial over Z, Q or a finite field, return its unit or scalar and irreducible factors with multiplicities."
+domain = "Z[x], Q[x], and F_q[x] for finite fields with executable arithmetic; the zero polynomial is a separately identified degenerate input."
+contract = "f -> (c, [(h_i,e_i)]) with f = c product_i h_i^e_i, each e_i > 0, each h_i irreducible and normalized by the coefficient-domain convention, and pairwise distinct factors up to associates. Return factor polynomials in the original coefficient ring with the same variable and parent."
+exactness = "exact"
+algorithms = [{ family = "Square-free decomposition, finite-field splitting, Hensel lifting and Zassenhaus recombination", sources = ["Sage polynomial_element.pyx Polynomial.factor", "HexBerlekamp/Factor.lean", "HexBerlekampZassenhaus/Factorization.lean"] }]
+depends_on = ["polynomials.univariate-arithmetic", "polynomials.extended-gcd", "integers.factorization"]
+sage = ["sage.rings.polynomial.polynomial_element:Polynomial.factor", "sage.rings.polynomial.polynomial_integer_dense_ntl:Polynomial_integer_dense_ntl.factor"]
+catalogue = ["mor.sets.polynomial_factorization", "mor.sets.polynomial_factorization_unit", "mor.sets.polynomial_factorization_factors"]
+tests = ["Multiply the returned unit and factors with multiplicities to recover the run-time input exactly", "Check irreducibility independently with a distinct algorithm or a mathematical irreducibility criterion; product reconstruction alone is insufficient"]
+reuse = { status = "adaptable", components = ["hex.HexBerlekamp.berlekamp-factor", "hex.HexBerlekampZassenhaus.factorize", "hex.HexBerlekampZassenhausTheory.factorization-soundness"], evidence = "Released Hex has finite-prime-field splitting and certified Z[x] factorization. The surveyed components do not establish the full F_q and Q[x] output contract without adaptation; the catalogue owns factorization semantics." }
+backends = ["flint", "ntl", "pari"]
+references = []
+
+[[capability]]
+id = "polynomials.multivariate-arithmetic"
+title = "Arithmetic of multivariate polynomials"
+statement = "Given a finite variable family and a computable commutative coefficient ring, construct and calculate sparse multivariate polynomials."
+domain = "R[x_1,...,x_n] for finite n and a commutative ring R with decidable zero and executable operations."
+contract = "A polynomial retains its ordered variable family and coefficient ring. Sum, negation and product return elements of the same parent; coefficient lookup and evaluation agree with the formal polynomial laws. A chosen admissible monomial order supplies leading-term queries without changing polynomial equality."
+exactness = "exact"
+algorithms = [{ family = "Sparse monomial map arithmetic", sources = ["Sage multi_polynomial_element.py MPolynomial_polydict", "HexMvPoly/Operations.lean"] }]
+depends_on = []
+sage = ["sage.rings.polynomial.multi_polynomial_element:MPolynomial_polydict", "sage.rings.polynomial.multi_polynomial_element:MPolynomial_polydict.degree", "sage.rings.polynomial.multi_polynomial_element:MPolynomial_polydict.monomials"]
+catalogue = []
+tests = ["For run-time f,g and point a, evaluate f+g and fg both before and after polynomial arithmetic and compare in R", "The coefficient of a monomial in fg equals the finite convolution of coefficients of f and g"]
+reuse = { status = "reusable", components = ["hex.HexMvPoly.sparse-mvpoly", "hex.HexMvPoly.monomial-orders", "mathlib.poly.multivariate"], evidence = "Released Hex defines sparse executable MvPoly, ring operations and lawful lex/grlex/grevlex comparisons; Mathlib supplies the formal polynomial owner." }
+backends = ["singular"]
+references = []
+
+[[capability]]
+id = "ideals.groebner-basis"
+title = "Reduced Groebner basis of a polynomial ideal"
+statement = "Given generators of an ideal of a multivariate polynomial ring over a field and an admissible monomial order, compute the unique reduced Groebner basis."
+domain = "F[x_1,...,x_n] with F a field supporting exact executable arithmetic and equality, and a chosen admissible global monomial order."
+contract = "(I, order) -> G where <G> = I, the leading monomials of G generate the leading ideal of I, each g in G is monic, and no monomial in any g is divisible by the leading monomial of another basis member. Return G in the same polynomial ring with the selected order retained."
+exactness = "exact"
+algorithms = [{ family = "Buchberger S-pair completion or F4 linear algebra with independent certificate check", sources = ["Sage multi_polynomial_ideal.py MPolynomialIdeal.groebner_basis", "Singular std", "HexGroebner/Basis.lean"] }]
+depends_on = ["polynomials.multivariate-arithmetic"]
+sage = ["sage.rings.polynomial.multi_polynomial_ideal:MPolynomialIdeal.groebner_basis"]
+catalogue = []
+tests = ["Every input generator reduces to zero by G, every g in G belongs to the input ideal, and all S-polynomials reduce to zero", "For I=<x*y-1,y^2-y> in Q[x,y], compare the reduced basis to a second algorithm at the same monomial order"]
+reuse = { status = "adaptable", components = ["hex.HexGroebner.certified-basis", "hex.HexGroebnerTheory.groebner-soundness", "mathlib.poly.groebner-basis"], evidence = "Unreleased HexGroebner computes and checks a reduced basis over F_p for p < 2^31; its checked route has a soundness theorem, but general-field execution and completeness are not established by the map. Mathlib's Groebner theory is noncomputable." }
+backends = ["singular", "msolve"]
+references = []
+
+[[capability]]
+id = "ideals.polynomial-normal-form"
+title = "Canonical normal form modulo a polynomial ideal"
+statement = "Given a polynomial and an ideal's reduced Groebner basis at a selected monomial order, compute its unique remainder and decide ideal membership."
+domain = "F[x_1,...,x_n] with exact executable field arithmetic, a fixed admissible monomial order, and a reduced Groebner basis G."
+contract = "(f,G) -> r in the same polynomial ring such that f-r belongs to <G> and no monomial of r is divisible by a leading monomial in G. For a reduced Groebner basis, r is unique; f belongs to <G> iff r=0. Preserve the order and the ideal context for later quotient computations."
+exactness = "exact"
+algorithms = [{ family = "Multivariate leading-term division and certified remainder", sources = ["Sage multi_polynomial_ideal.py MPolynomialIdeal.reduce", "HexGroebner/NormalForm.lean"] }]
+depends_on = ["ideals.groebner-basis"]
+sage = ["sage.rings.polynomial.multi_polynomial_ideal:MPolynomialIdeal.reduce", "sage.rings.polynomial.multi_polynomial_element:MPolynomial_polydict.reduce"]
+catalogue = []
+tests = ["For I=<x^3+y,y> in Q[x,y], the normal forms of y and x^3 are zero while that of x-y is x", "For run-time f and basis G, independently reconstruct f-r as a combination of G and verify no remainder monomial is divisible by a leading monomial of G"]
+reuse = { status = "adaptable", components = ["hex.HexGroebner.division-normal-form", "hex.HexGroebnerTheory.groebner-soundness"], evidence = "Unreleased HexGroebner implements division, remainder and membership for its finite-prime-field domain, with proof of the checked route. General exact fields require representation and algorithm adaptation." }
+backends = ["singular"]
+references = []
