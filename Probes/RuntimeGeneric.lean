@@ -1,4 +1,4 @@
-import HexPoly.Operations
+import HexPoly.Instances
 import HexMatrix.Basic
 import Mathlib.Data.ZMod.Basic
 
@@ -17,5 +17,9 @@ def composed {R : Type} [Zero R] [DecidableEq R] [One R] [Add R] [Mul R]
 
 #guard composed (2 : Int) 3 == 1025
 #guard composed (2 : ZMod 7) 3 == 3
+#guard composed
+    (Hex.DensePoly.ofCoeffs #[2] : Hex.DensePoly Int)
+    (Hex.DensePoly.ofCoeffs #[0, 1]) ==
+      Hex.DensePoly.ofCoeffs #[5, 4, 1, 4, 2, 0, 1]
 
 end Probes.RuntimeGeneric

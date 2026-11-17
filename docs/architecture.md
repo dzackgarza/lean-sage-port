@@ -77,7 +77,9 @@ contain the current executable experiments and a CLI entry point. They are
 source-checked against the Hex and Mathlib APIs but have not yet passed CI. The
 CLI takes a prime characteristic, a monic defining polynomial and an input
 polynomial as ascending coefficient lists, and prints a canonical result.
-The three sample outputs in the quotient probe were checked with Sage's
+The generic computation also runs over `Int`, `ZMod 7` and
+`Hex.DensePoly Int` without an operation-specific copy. The three sample
+outputs in the quotient probe were checked with Sage's
 `PolynomialRing(GF(p), 'x').quotient(f)` at the pinned local baseline. The
 quotient experiment uses Hex's existing
 `FpPoly.Quotient`, the chosen characteristic and defining polynomial as run-time
