@@ -1,0 +1,153 @@
+# Quaternion-algebra elements in Sage 11.0.beta5, c00171e47d6e68d8148d7ee10c4dd77b71a97662.
+
+domain = "quaternions"
+
+[[capability]]
+id = "quaternions.coordinates"
+title = "Quaternion algebra elements and basis coordinates"
+statement = "Construct elements of (a,b) over a field and recover their coefficients in the chosen basis 1,i,j,ij."
+domain = "Quaternion algebras over a field of characteristic other than two, including Q and number fields."
+contract = "(a,b,x0,x1,x2,x3) -> x0+x1*i+x2*j+x3*ij with i^2=a, j^2=b, ij=-ji; retain base field, a,b and basis. Coordinate extraction is inverse to construction."
+exactness = "exact"
+algorithms = [{ family = "Four-coordinate quaternion representation", sources = ["sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_generic", "Mathlib/Algebra/Quaternion.lean"] }]
+depends_on = []
+sage = ["sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract", "sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_generic", "sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_rational_field", "sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_number_field", "sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.coefficient_tuple", "sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_rational_field.coefficient_tuple"]
+catalogue = []
+tests = ["Sage doctests: sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_generic and QuaternionAlgebraElement_abstract.coefficient_tuple; compare four coefficients in the same chosen basis."]
+reuse = { status = "reusable", components = ["mathlib.alg.quaternions"], evidence = "Mathlib QuaternionAlgebra is a computable four-coordinate type with ring operations; the survey ran integer and rational products. Sage's chosen parameters and basis must be retained." }
+backends = []
+references = []
+
+[[capability]]
+id = "quaternions.scalar-membership"
+title = "Test whether a quaternion is scalar"
+statement = "Decide whether a quaternion lies in the embedded coefficient field."
+domain = "Quaternion algebra (a,b) over a field with decidable equality."
+contract = "q -> Bool, true exactly when its i,j,ij coordinates are zero."
+exactness = "exact"
+algorithms = [{ family = "Coefficient zero tests", sources = ["sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.is_constant"] }]
+depends_on = ["quaternions.coordinates"]
+sage = ["sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.is_constant", "sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_rational_field.is_constant"]
+catalogue = []
+tests = ["Sage doctests: sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.is_constant and QuaternionAlgebraElement_rational_field.is_constant; compare the boolean."]
+reuse = { status = "adaptable", components = ["mathlib.alg.quaternions"], evidence = "Mathlib supplies computable coordinates and equality; the exact scalar-membership function was not identified in the surveyed declarations." }
+backends = []
+references = []
+
+[[capability]]
+id = "quaternions.conjugation"
+title = "Standard quaternion conjugation"
+statement = "Negate the three non-scalar coordinates of a quaternion."
+domain = "Quaternion algebras (a,b) over a field of characteristic other than two."
+contract = "q=x0+x1*i+x2*j+x3*ij -> conjugate(q)=x0-x1*i-x2*j-x3*ij in the same algebra."
+exactness = "exact"
+algorithms = [{ family = "Coordinate sign change", sources = ["sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.conjugate"] }]
+depends_on = ["quaternions.coordinates"]
+sage = ["sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.conjugate", "sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_rational_field.conjugate"]
+catalogue = []
+tests = ["Sage doctests: sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.conjugate and QuaternionAlgebraElement_rational_field.conjugate; compare all four coordinates."]
+reuse = { status = "adaptable", components = ["mathlib.alg.quaternions"], evidence = "Mathlib supplies the four-coordinate quaternion representation; its survey did not specifically verify an executable generic conjugation declaration." }
+backends = []
+references = []
+
+[[capability]]
+id = "quaternions.reduced-trace"
+title = "Reduced trace of a quaternion"
+statement = "Compute the scalar q+conjugate(q)."
+domain = "Quaternion algebras (a,b) over a field of characteristic other than two."
+contract = "q=x0+x1*i+x2*j+x3*ij -> 2*x0 in the base field."
+exactness = "exact"
+algorithms = [{ family = "Scalar-coordinate doubling", sources = ["sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.reduced_trace"] }]
+depends_on = ["quaternions.conjugation"]
+sage = ["sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.reduced_trace", "sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_rational_field.reduced_trace"]
+catalogue = []
+tests = ["Sage doctests: sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.reduced_trace and QuaternionAlgebraElement_rational_field.reduced_trace; compare exact base-field values."]
+reuse = { status = "adaptable", components = ["mathlib.alg.quaternions"], evidence = "Mathlib's computable coordinates suffice, but the surveyed map does not identify reduced trace as a direct exported computation." }
+backends = []
+references = []
+
+[[capability]]
+id = "quaternions.reduced-norm"
+title = "Reduced norm of a quaternion"
+statement = "Compute q times its standard conjugate as an element of the coefficient field."
+domain = "Quaternion algebras (a,b) over a field of characteristic other than two."
+contract = "q=x0+x1*i+x2*j+x3*ij -> x0^2-a*x1^2-b*x2^2+a*b*x3^2 in the base field."
+exactness = "exact"
+algorithms = [{ family = "Four-variable quadratic norm form", sources = ["sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.reduced_norm"] }]
+depends_on = ["quaternions.conjugation"]
+sage = ["sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.reduced_norm", "sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_rational_field.reduced_norm"]
+catalogue = []
+tests = ["Sage doctests: sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.reduced_norm and QuaternionAlgebraElement_rational_field.reduced_norm; compare exact base-field values."]
+reuse = { status = "adaptable", components = ["mathlib.alg.quaternions"], evidence = "Mathlib's computable quaternion product and coordinates can realize the norm, while the surveyed map does not identify the exact norm declaration." }
+backends = []
+references = []
+
+[[capability]]
+id = "quaternions.reduced-characteristic-polynomial"
+title = "Reduced characteristic polynomial of a quaternion"
+statement = "Construct X^2 minus reduced trace times X plus reduced norm."
+domain = "Quaternion algebras over a field of characteristic other than two."
+contract = "q -> X^2-Trd(q)*X+Nrd(q) in K[X], retaining the coefficient field and chosen polynomial variable."
+exactness = "exact"
+algorithms = [{ family = "Polynomial assembly from trace and norm", sources = ["sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.reduced_characteristic_polynomial"] }]
+depends_on = ["quaternions.reduced-trace", "quaternions.reduced-norm", "polynomials.univariate-arithmetic"]
+sage = ["sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.reduced_characteristic_polynomial"]
+catalogue = []
+tests = ["Sage doctests: sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.reduced_characteristic_polynomial; compare polynomial coefficients after matching the variable name."]
+reuse = { status = "adaptable", components = ["mathlib.alg.quaternions"], evidence = "The surveyed Mathlib quaternion representation is executable; a reduced-characteristic-polynomial producer was not identified." }
+backends = []
+references = []
+
+[[capability]]
+id = "quaternions.regular-representation"
+title = "Matrix of left or right quaternion multiplication"
+statement = "Represent multiplication by a quaternion as a linear map in the chosen four-element basis."
+domain = "Quaternion algebras over a field with a selected basis 1,i,j,ij."
+contract = "(q,side) -> 4 by 4 matrix M over K whose action on coordinates agrees with x -> q*x or x -> x*q; retain the side and basis identification."
+exactness = "exact"
+algorithms = [{ family = "Multiply each basis element and collect coordinates", sources = ["sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.matrix"] }]
+depends_on = ["quaternions.coordinates", "matrices.arithmetic"]
+sage = ["sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.matrix"]
+catalogue = []
+tests = ["Sage doctests: sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.matrix; compare matrix entries after matching left or right action and basis order."]
+reuse = { status = "adaptable", components = ["mathlib.alg.quaternions", "mathlib.linalg.matrix-arithmetic"], evidence = "Mathlib supplies quaternion multiplication and matrix construction; no regular-representation constructor was located in the surveyed declarations." }
+backends = []
+references = []
+
+[[capability]]
+id = "quaternions.trace-pairing"
+title = "Reduced-trace pairing on a quaternion algebra"
+statement = "Compute the symmetric bilinear pairing Trd(conjugate(x)*y)."
+domain = "Quaternion algebras (a,b) over a field of characteristic other than two."
+contract = "(x,y) -> Trd(conjugate(x)*y) in the base field, retaining the common algebra."
+exactness = "exact"
+algorithms = [{ family = "Conjugation, quaternion multiplication, and reduced trace", sources = ["sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.pair"] }]
+depends_on = ["quaternions.conjugation", "quaternions.reduced-trace"]
+sage = ["sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.pair"]
+catalogue = []
+tests = ["Sage doctests: sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_abstract.pair; compare exact base-field values for both argument orders."]
+reuse = { status = "adaptable", components = ["mathlib.alg.quaternions"], evidence = "Mathlib quaternion arithmetic supplies the ingredients; the pairing itself is not identified in the surveyed component map." }
+backends = []
+references = []
+
+[[capability]]
+id = "quaternions.rational-coordinate-transport"
+title = "Transport rational quaternion coordinates to integer and rational matrices"
+statement = "Convert a finite list of rational quaternions to a coefficient matrix, with an optional common denominator, and reconstruct the list."
+domain = "Quaternion algebras over Q with the chosen basis 1,i,j,ij."
+contract = "(q1,...,qn) -> Q-matrix with their coefficient rows, or (Z-matrix A,d>0) with row_i(A)/d=coordinates(q_i); inverse reconstruction preserves the algebra parameters and row order."
+exactness = "exact"
+algorithms = [{ family = "Common-denominator clearing and coordinate transport", sources = ["sage.algebras.quatalg.quaternion_algebra_cython:integral_matrix_and_denom_from_rational_quaternions", "sage.algebras.quatalg.quaternion_algebra_cython:rational_quaternions_from_integral_matrix_and_denom"] }]
+depends_on = ["quaternions.coordinates", "matrices.arithmetic"]
+sage = ["sage.algebras.quatalg.quaternion_algebra_cython:integral_matrix_and_denom_from_rational_quaternions", "sage.algebras.quatalg.quaternion_algebra_cython:rational_matrix_from_rational_quaternions", "sage.algebras.quatalg.quaternion_algebra_cython:rational_quaternions_from_integral_matrix_and_denom", "sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_rational_field.denominator", "sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_rational_field.denominator_and_integer_coefficient_tuple", "sage.algebras.quatalg.quaternion_algebra_element:QuaternionAlgebraElement_rational_field.integer_coefficient_tuple"]
+catalogue = []
+tests = ["Sage doctests: the three public functions of sage.algebras.quatalg.quaternion_algebra_cython and QuaternionAlgebraElement_rational_field.denominator_and_integer_coefficient_tuple; compare reconstructed quaternion coefficients and the positive common denominator."]
+reuse = { status = "adaptable", components = ["mathlib.alg.quaternions", "mathlib.linalg.matrix-arithmetic"], evidence = "Mathlib's executable coordinates and matrices provide the data, but the surveyed sources do not provide this exact transport map." }
+backends = ["flint"]
+references = []
+
+[[exclusion]]
+id = "quaternions.legacy-unpickling"
+reason = "deprecated"
+rationale = "Legacy Python serialization constructors do not compute a mathematical quaternion operation."
+sage = ["sage.algebras.quatalg.quaternion_algebra_element:unpickle_QuaternionAlgebraElement_generic_v0", "sage.algebras.quatalg.quaternion_algebra_element:unpickle_QuaternionAlgebraElement_rational_field_v0", "sage.algebras.quatalg.quaternion_algebra_element:unpickle_QuaternionAlgebraElement_number_field_v0"]

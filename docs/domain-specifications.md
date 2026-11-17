@@ -56,7 +56,7 @@ The baseline source is [`inventory/sage/index/`](../inventory/sage/index/) at th
 | Power Series and Laurent Series (`power_series`) | — |
 | Probability (`probability`) | — |
 | Quadratic Forms (`quadratic_forms`) | — |
-| Quaternion Algebras (`quat_algebras`) | — |
+| Quaternion Algebras (`quat_algebras`) | [`quaternions.toml`](../inventory/capabilities/quaternions.toml) |
 | Quivers (`quivers`) | — |
 | Resolutions (`resolutions`) | — |
 | Parametrized Surfaces (`riemannian_geometry`) | — |

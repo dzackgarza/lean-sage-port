@@ -448,7 +448,7 @@ id = "quat_algebras"
 group = "Mathematics / Basic Rings and Fields"
 title = "Quaternion Algebras"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/quaternions.toml"]
 
 [[section]]
 id = "quivers"
