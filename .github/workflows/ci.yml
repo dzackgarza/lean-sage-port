@@ -17,15 +17,12 @@ jobs:
       run: git clone --depth 1 https://github.com/dzackgarza/ai-review-ci.git "$HOME/ai-review-ci"
     - name: Install ripgrep
       run: sudo apt-get update && sudo apt-get install -y ripgrep
-    - name: Install Lean
-      uses: leanprover/lean-action@v1
-      with:
-        auto-config: 'false'
-        build: 'false'
-        test: 'false'
-        lint: 'false'
-        use-mathlib-cache: 'false'
-        use-github-cache: 'false'
+    - name: Install elan
+      run: 'curl -sSfL https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain none
+
+        echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+        '
     - name: Install just
       uses: extractions/setup-just@v4
     - name: Build and scan
