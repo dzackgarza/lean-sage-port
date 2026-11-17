@@ -12,12 +12,12 @@
 
 ## Requirement completeness
 
-- [x] No unresolved clarification marker remains in the exact scope.
+- [x] Source-resolved mathematical scope is explicit; unresolved owner contracts are named as readiness gaps.
 - [x] Functional requirements have stated inputs, outputs, hypotheses and failure cases.
 - [x] Success criteria concern public computation, source acceptance and retained structure.
 - [x] Source-selected acceptance covers min/max orientation, zero and one, empty and nonsquare matrices, and unbounded cycles.
 - [x] The exact rational mean scope is distinct from approximate real computation.
-- [x] Dependencies and owner boundaries are identified without a local mathematical ontology.
+- [x] Dependencies and owner boundaries are identified, and Mathlib tropical arithmetic is reused without a local mathematical ontology.
 
 ## Feature readiness
 

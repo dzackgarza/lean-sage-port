@@ -23,14 +23,14 @@ id = "semirings.tropical-construction"
 title = "Min-plus and max-plus tropical semirings"
 statement = "Adjoin a selected infinity to an ordered additive base and use min or max as semiring addition and base addition as multiplication."
 domain = "An ordered additive commutative group with decidable comparison; choose min-plus or max-plus convention."
-contract = "(R,orientation) -> T(R) with tropical zero equal to the selected infinity and tropical one equal to base zero. Elements retain base values and convention; Sage's gens returns the distinguished pair (base one, infinity)."
+contract = "(R,orientation) -> T(R) with tropical zero equal to the selected infinity and tropical one equal to base zero. Elements retain base values and convention. When the base also supplies a selected one, Sage's gens accessor returns its tropical lift and infinity; that pair is not generic generator data for an arbitrary ordered additive group."
 exactness = "exact"
 algorithms = [{ family = "Tagged infinity and ordered base arithmetic", sources = ["sage.rings.semirings.tropical_semiring:TropicalSemiring", "sage.rings.semirings.tropical_semiring:TropicalSemiringElement"] }]
 depends_on = []
 sage = ["sage.rings.semirings.tropical_semiring:TropicalSemiring", "sage.rings.semirings.tropical_semiring:TropicalSemiringElement", "sage.rings.semirings.tropical_semiring:TropicalSemiring.zero", "sage.rings.semirings.tropical_semiring:TropicalSemiring.one", "sage.rings.semirings.tropical_semiring:TropicalSemiring.gens", "sage.rings.semirings.tropical_semiring:TropicalSemiringElement.lift"]
 catalogue = ["op.semirings.add", "op.semirings.mul", "op.semirings.pow"]
-tests = ["Sage doctests: sage.rings.semirings.tropical_semiring:TropicalSemiring and TropicalSemiringElement; compare min-plus and max-plus operations, including their distinct zero and one elements."]
-reuse = { status = "missing", components = [], evidence = "The inspected Mathlib, Hex, and broader Lean reuse maps have no identified executable min-plus or max-plus semiring with tagged infinity and retained orientation." }
+tests = ["Sage doctests: sage.rings.semirings.tropical_semiring:TropicalSemiring and TropicalSemiringElement; compare min-plus and max-plus operations, including their distinct zero and one elements. The gens example over QQ uses the separately selected base one."]
+reuse = { status = "adaptable", components = ["mathlib.algebra.tropical-semiring"], evidence = "Mathlib Algebra/Tropical/Basic.lean supplies computable MinTropical (WithTop R) and MaxTropical (WithBot R) semiring arithmetic at the pinned revision. A runtime-selected orientation, parent retention and the conditional Sage gens accessor still need a realization under owner contracts; no new tropical arithmetic representation is justified." }
 backends = []
 references = []
 

@@ -2,7 +2,7 @@
 
 **Input**: [spec.md](spec.md), [plan.md](plan.md), [contracts/semiring-computations.md](contracts/semiring-computations.md), and the source-selected doctests in `inventory/capabilities/semirings.toml`.
 
-Tasks below describe later implementation. This feature package is a specification; no task is marked complete by the inventory or this document.
+Tasks below describe later implementation. This feature package is a specification; no task is marked complete by the inventory or this document. Owner-controlled catalogue contracts in `spec.md` remain unresolved, so dependent tasks are not implementation-ready.
 
 ## Phase 1: Natural-number computation (US1, P1)
 
@@ -19,9 +19,9 @@ Tasks below describe later implementation. This feature package is a specificati
 
 **Independent test**: Source-selected `TropicalSemiring` and `TropicalSemiringElement` cases pass for both orientations, including zero, one, finite inverse and division failure.
 
-- [ ] T003 [US2] Resolve the mathematical object and operation contracts at `lean-categories` and their catalogue ids at `lean-cas-dsl`, as specified by `inventory/capabilities/semirings.toml`; record the owner resolution in `inventory/reuse/lean-categories.toml` before exposing native operations.
-- [ ] T004 [US2] Implement tagged finite/infinity values with retained base and orientation in `LeanSagePort/Semirings/Tropical.lean` under those owner contracts.
-- [ ] T005 [US2] Implement min/max addition, base-addition multiplication, natural powers, finite inverse, the conditional selected-base-one `gens` accessor and exact failure behavior in `LeanSagePort/Semirings/Tropical.lean`.
+- [ ] T003 [US2] Resolve the tropical mathematical object and operation contracts at `lean-categories` and stable ids at `lean-cas-dsl`; record exact upstream declarations in `inventory/reuse/lean-categories.toml` before exposing native operations.
+- [ ] T004 [US2] Realize the runtime-selected orientation with Mathlib `MinTropical (WithTop R)` and `MaxTropical (WithBot R)` in `LeanSagePort/Semirings/Tropical.lean`; retain the base and parent under the owner contracts.
+- [ ] T005 [US2] Expose Mathlib's min/max addition, base-addition multiplication, natural powers and finite inverse through the native contract, with the conditional selected-base-one `gens` accessor and exact failure behavior in `LeanSagePort/Semirings/Tropical.lean`.
 - [ ] T006 [US2] Implement the documented multiplicative-order result through its owner catalogue operation in `LeanSagePort/Semirings/Tropical.lean`.
 - [ ] T007 [US2] Add source-selected tropical arithmetic, conditional `gens` accessor, and multiplicative-order cases plus semiring identities through public operations in `Acceptance/Semirings.lean`.
 

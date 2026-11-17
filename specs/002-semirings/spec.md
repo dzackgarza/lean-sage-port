@@ -2,7 +2,7 @@
 
 **Feature directory**: `specs/002-semirings`
 **Created**: 2026-11-17
-**Status**: Draft for independent mathematical review
+**Status**: Draft; owner-controlled tropical object and operation contracts remain unresolved
 **Source**: `inventory/capabilities/semirings.toml`, Sage 11.0.beta5 at `c00171e47d6e68d8148d7ee10c4dd77b71a97662`
 
 ## User Scenarios & Testing
@@ -67,7 +67,7 @@ The source doctests cover zero and one, finite and infinite tropical elements, m
 ### Functional requirements
 
 - **FR-001**: Expose `ℕ` with its existing mathematical semiring operations, executable Lean natural-number arithmetic, and the selected additive generator family documented by the source.
-- **FR-002**: Construct min-plus and max-plus semirings over ordered additive commutative groups with decidable comparison. Preserve base, orientation and selected infinity in runtime elements.
+- **FR-002**: Construct min-plus and max-plus semirings over ordered additive commutative groups with decidable comparison, using Mathlib's `MinTropical (WithTop R)` and `MaxTropical (WithBot R)` structures. Preserve base, orientation and selected infinity in runtime elements.
 - **FR-003**: Compute tropical addition, multiplication, natural powers, finite multiplicative inverse, and the documented identity and failure cases on runtime inputs.
 - **FR-004**: Compute the multiplicative-order convention in `semirings.tropical-multiplicative-order`.
 - **FR-005**: Construct and compose transport induced by an order-preserving additive base map while preserving source, target and infinity.
@@ -98,3 +98,7 @@ The source doctests cover zero and one, finite and infinite tropical elements, m
 - The source's `extremum_cycle_mean` checks membership under `RR` and uses division by path length. This specification's exact contract uses rational values and exact rational division. Approximate real semantics require a separate precision contract.
 - Natural-number arithmetic uses Lean's existing `Nat`. Sage's `NN` construction and additive generator family are source examples, not authority for another natural-number type.
 - The baseline `TropicalSemiring.gens` returns `(base one, infinity)` for bases such as `ℤ` and `ℚ`. An ordered additive group has no canonical base one. The accessor therefore needs a selected base element and does not change the general tropical semiring construction's domain.
+
+## Unresolved owner contracts
+
+`inventory/capabilities/semirings.toml` has no catalogue ids for tropical object construction, multiplicative order, base change, closure or cycle mean. The mathematical owner must determine the corresponding operations and the DSL owner must expose their stable ids. The `MinTropical`/`MaxTropical` realization and public operations cannot be declared implementation-ready until those contracts are reconciled. The current feature specification states the required behavior without inventing local ids.
