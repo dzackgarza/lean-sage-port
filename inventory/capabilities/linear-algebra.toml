@@ -6,13 +6,13 @@ domain = "linear-algebra"
 [[capability]]
 id = "matrices.arithmetic"
 title = "Matrix construction and arithmetic"
-statement = "Construct finite matrices over a coefficient ring and compute their sums and composable products."
-domain = "Finite rectangular matrices over a specified ring; addition requires equal shapes and multiplication requires matching inner dimensions."
+statement = "Construct finite matrices over a coefficient semiring and compute their sums and composable products."
+domain = "Finite rectangular matrices over a specified semiring; addition requires equal shapes and multiplication requires matching inner dimensions."
 contract = "(R, m, n, entries) -> Mat(m,n,R); Mat(m,n,R)^2 -> Mat(m,n,R); Mat(m,n,R) x Mat(n,p,R) -> Mat(m,p,R). The coefficient ring and dimensions remain available for later calculations."
 exactness = "exact"
 algorithms = [{ family = "Entrywise addition and finite-sum multiplication", sources = ["sage.matrix.constructor:matrix", "sage.matrix.matrix_space:MatrixSpace"] }]
 depends_on = []
-sage = ["sage.matrix.constructor:matrix", "sage.matrix.matrix_space:MatrixSpace"]
+sage = ["sage.matrix.constructor:matrix", "sage.matrix.matrix_space:MatrixSpace", "sage.rings.semirings.tropical_matrix:Matrix_tropical_dense"]
 catalogue = ["obj.rings.matrices", "mor.sets.matrix_rows", "mor.modules.matrix_linear_map"]
 tests = ["Sage doctests: sage/matrix/constructor.pyx:matrix constructs the displayed 2x3 rational matrices from rows, entries and a function, then checks their parent MatrixSpace; include its zero-size and finite-field examples.", "Supplemental contract check: compare entries of composable products with defining finite sums and verify identities over the retained coefficient ring; the constructor doctests cover matrix creation, not this full arithmetic contract."]
 reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "hex.HexMatrix.dense-matrix"], evidence = "Mathlib Matrix is a computable function representation, while Hex.Matrix is dense Vector data; inventory/reuse/mathlib-core.toml and hex.toml record their source declarations. Their representation bridge is a separate obligation." }

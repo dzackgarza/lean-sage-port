@@ -23,14 +23,30 @@ id = "semirings.tropical-construction"
 title = "Min-plus and max-plus tropical semirings"
 statement = "Adjoin a selected infinity to an ordered additive base and use min or max as semiring addition and base addition as multiplication."
 domain = "An ordered additive commutative group with decidable comparison; choose min-plus or max-plus convention."
-contract = "(R,orientation) -> T(R) with tropical zero equal to the selected infinity and tropical one equal to base zero. Elements retain base values and convention."
+contract = "(R,orientation) -> T(R) with tropical zero equal to the selected infinity and tropical one equal to base zero. Elements retain base values and convention; Sage's gens returns the distinguished pair (base one, infinity)."
 exactness = "exact"
 algorithms = [{ family = "Tagged infinity and ordered base arithmetic", sources = ["sage.rings.semirings.tropical_semiring:TropicalSemiring", "sage.rings.semirings.tropical_semiring:TropicalSemiringElement"] }]
 depends_on = []
-sage = ["sage.rings.semirings.tropical_semiring:TropicalSemiring", "sage.rings.semirings.tropical_semiring:TropicalSemiringElement", "sage.rings.semirings.tropical_semiring:TropicalSemiring.zero", "sage.rings.semirings.tropical_semiring:TropicalSemiring.one", "sage.rings.semirings.tropical_semiring:TropicalSemiringElement.lift"]
+sage = ["sage.rings.semirings.tropical_semiring:TropicalSemiring", "sage.rings.semirings.tropical_semiring:TropicalSemiringElement", "sage.rings.semirings.tropical_semiring:TropicalSemiring.zero", "sage.rings.semirings.tropical_semiring:TropicalSemiring.one", "sage.rings.semirings.tropical_semiring:TropicalSemiring.gens", "sage.rings.semirings.tropical_semiring:TropicalSemiringElement.lift"]
 catalogue = ["op.semirings.add", "op.semirings.mul", "op.semirings.pow"]
 tests = ["Sage doctests: sage.rings.semirings.tropical_semiring:TropicalSemiring and TropicalSemiringElement; compare min-plus and max-plus operations, including their distinct zero and one elements."]
 reuse = { status = "missing", components = [], evidence = "The inspected Mathlib, Hex, and broader Lean reuse maps have no identified executable min-plus or max-plus semiring with tagged infinity and retained orientation." }
+backends = []
+references = []
+
+[[capability]]
+id = "semirings.tropical-multiplicative-order"
+title = "Multiplicative order of a tropical element"
+statement = "Determine whether a tropical element is the multiplicative identity or has infinite multiplicative order."
+domain = "Tropical semirings over torsion-free ordered additive groups, including their absorbing infinity."
+contract = "x -> 1 if x is tropical one; infinity otherwise. The absorbing tropical zero has infinite order by this convention."
+exactness = "exact"
+algorithms = [{ family = "Identity comparison in the torsion-free base group", sources = ["sage.rings.semirings.tropical_semiring:TropicalSemiringElement.multiplicative_order"] }]
+depends_on = ["semirings.tropical-construction"]
+sage = ["sage.rings.semirings.tropical_semiring:TropicalSemiringElement.multiplicative_order"]
+catalogue = []
+tests = ["Sage doctests: sage.rings.semirings.tropical_semiring:TropicalSemiringElement.multiplicative_order; compare the identity and absorbing infinity cases."]
+reuse = { status = "missing", components = [], evidence = "The inspected reuse maps have no tropical-element order producer; decidable equality of the base provides the direct algorithm once the tropical representation exists." }
 backends = []
 references = []
 
