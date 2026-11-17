@@ -13,14 +13,14 @@ default:
 # Run the fast local gate: no Lean compilation
 test:
     @just -f {{ai_review_ci}}/justfiles/lean.just -d . lean-no-sorry
-    @cd tools/inventory && uv run --quiet pytest -q
+    @cd tools/inventory && uv run --locked --quiet pytest -q
 
-# Resolve the newest dependencies, build every Lean target and scan the sources; for CI
+# Build the locked Lean targets and scan the sources; for CI
 test-ci:
-    lake update
     lake exe cache get
     lake build
     @just -f {{ai_review_ci}}/justfiles/lean.just -d . lean-no-sorry
+    @cd tools/inventory && uv run --locked --quiet pytest -q
 
 # Scan staged Lean source; the commit hook runs this
 [private]

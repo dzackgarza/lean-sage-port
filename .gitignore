@@ -4,6 +4,3 @@ __pycache__/
 .lake/
 # The global ignore file drops Cython sources; the Sage-shaped test fixture is one.
 !tools/inventory/tests/fixtures/**/*.pyx
-uv.lock
-# Lean packages track their newest revisions; the resolved manifest is not a source file.
-lake-manifest.json

@@ -58,12 +58,12 @@ of modules from source. Mathlib alone adds about 7 GB of build products.
   aggregate `import Hex`. The aggregate pulls every `*Theory` library and TauCeti.
 - `just test` is the local gate. It compiles no Lean.
 
-### Every dependency tracks its newest version
+### Reproducible dependency set
 
-Lean, Mathlib (`master`), Hex (`main`), the CI actions and the Python tools carry no pin to an older
-version. `lake-manifest.json` and `uv.lock` are not committed. When two newest versions do not build
-together, record the failure in an issue and report it to the owner; do not move this repository to
-an older version.
+`lean-toolchain` and `lakefile.toml` name the compatible Lean, Mathlib and Hex revisions.
+`lake-manifest.json` locks the full Lake dependency graph; `tools/inventory/uv.lock` locks the
+Python inventory environment. Commit both locks when dependencies change. CI builds this resolved
+set and runs the inventory tests. Change versions only after CI establishes a compatible set.
 
 In `lakefile.toml`, Mathlib is the last `[[require]]`. Lake gives the last requirement precedence
 for shared dependencies, and Mathlib's build cache is valid only for Mathlib's own versions of them.
