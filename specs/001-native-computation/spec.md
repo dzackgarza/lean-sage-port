@@ -5,6 +5,15 @@
 **Status**: Draft; architecture acceptance requires the executable probes.
 **Scope**: Mathematical computation across the baseline Sage reference manual.
 
+## Current assignment boundary
+
+The user stories below specify the intended CAS product. This assignment delivers the source
+inventory, reuse decisions, architectural experiments, specifications and reproducible acceptance
+infrastructure from which that product can be implemented. It does not implement every product
+operation. Its acceptance is SC-001 through SC-007: the requirements and evidence must be complete
+enough for later implementers to proceed under resolved contracts. Runtime probes are executed
+experiments; the remaining operation tests are reused source obligations for later implementation.
+
 ## User Scenarios & Testing
 
 ### User Story 1 — Compute in a chosen mathematical domain (Priority: P1)

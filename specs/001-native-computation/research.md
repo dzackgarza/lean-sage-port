@@ -16,7 +16,7 @@ The reusable evidence is maintained in `inventory/reuse/`, `inventory/references
 - The existing source index is a development snapshot. Release-baseline reconciliation remains
   an explicit source-provenance obligation rather than a silent change to recorded references.
 
-The current capability dependency declarations contain a cycle between primality proving and
-integer factorization. Some algorithm families use each other, but that does not establish a
-mandatory implementation dependency in both directions. Resolve the algorithm-specific inputs
-from sources before deriving the implementation DAG.
+Primality has a complete trial-division route independent of full integer factorization
+(`Mathlib/Data/Nat/Prime/Defs.lean`, `Nat.minFac`). Factorization can therefore consume primality
+without a mandatory cycle. Pocklington and ECPP have additional algorithm-specific inputs;
+their use of factorization does not make factorization a prerequisite for every primality route.

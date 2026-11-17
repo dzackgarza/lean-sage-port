@@ -71,6 +71,13 @@ no mathematical content goes to an `[[exclusion]]` with its reason: `infrastruct
 record valid. When an algorithm depends on an operation of another section, write that record in
 the file of its own section, with the selectors of its real Sage entities.
 
+**Separate algorithm alternatives from mandatory prerequisites.** `depends_on` records the
+inputs needed by the selected complete computational route. Algorithm families can consume
+additional inputs without making them universal prerequisites. For example, factorization
+certifies prime factors using primality, while a complete trial-division primality decision
+does not require a factorization implementation. Pocklington and ECPP may use factorization
+internally; those inputs belong to their algorithm-specific specifications.
+
 **Attach the record to the catalogue.** The catalogue ids are the component ids of
 `inventory/reuse/lean-categories.toml` without the prefix `catalogue.`; each component states its
 mathematics in the field `capability`. Name every object and operation that the record computes,

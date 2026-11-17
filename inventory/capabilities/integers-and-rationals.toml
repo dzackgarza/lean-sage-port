@@ -574,7 +574,7 @@ references = ["Ber2005", "BS1996"]
 [[capability]]
 id = "integers.primality-proving"
 title = "Proved primality test"
-statement = "Decide whether an integer n is prime, with a proof: a certificate for a prime, a compositeness witness or a factor for a composite. Irreducibility in Z is primality of |n|."
+statement = "Decide unconditionally whether an integer n is a positive prime. The public result is Boolean; an implementation may use certificates internally. Irreducibility in Z is primality of |n|."
 domain = "Z; n of any size."
 contract = "Z -> Bool. The answer is unconditional."
 exactness = "exact"
@@ -584,7 +584,7 @@ algorithms = [
   { family = "APR-CL Jacobi sum test", sources = ["[Coh1993] section 9.1"] },
   { family = "Elliptic curve primality proving (Goldwasser-Kilian, Atkin-Morain)", sources = ["[Coh1993] section 9.2", "[AM1993]"] },
 ]
-depends_on = ["integers.probable-primality", "integers.factorization", "integers.modular-power"]
+depends_on = ["integers.trial-division", "integers.modular-power"]
 sage = [
   "sage.arith.misc:is_prime",
   "sage.rings.integer:Integer.is_prime",
@@ -592,9 +592,7 @@ sage = [
 ]
 catalogue = ["mor.sets.nat_is_prime"]
 tests = [
-  "Agreement with trial division below 10^6",
-  "Mersenne primes 2^p - 1 for p in the known list are prime; Carmichael numbers (561, 1105, 1729, ...) are composite",
-  "The strong pseudoprimes to bases 2, 3, 5, 7 of [PSW1980] are composite",
+  "Baseline doctests: sage/arith/misc.py:is_prime and sage/rings/integer.pyx:Integer.is_prime, with the arithmetic proof flag enabled. Compare Boolean results against Sage on the same integer inputs; preserve the distinct negative-integer convention of is_irreducible.",
 ]
 reuse = { status = "reusable", components = ["hex.HexPrimality.decide-prime-next-prime", "hex.HexPrimality.pocklington-certificates", "hex.HexECPP.certificate-checker", "hex.HexECPP.certificate-producer", "mathlib.int.primality-decidable"], evidence = "Hex has a total primality decision with kernel-checkable Pocklington certificates and an ECPP certificate checker. The ECPP producer is adaptable: it relies on PARI import for large inputs." }
 backends = ["pari"]
