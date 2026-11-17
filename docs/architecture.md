@@ -72,9 +72,14 @@ result needs a dependent dimension witness.
 
 ## Discriminating executable probes
 
-`Probes/RuntimeGeneric.lean` and `Probes/RuntimeQuotient.lean` contain the current
-executable experiments. They are source-checked against the Hex and Mathlib APIs but
-have not yet passed CI. The quotient experiment uses Hex's existing
+`Probes/RuntimeGeneric.lean`, `Probes/RuntimeQuotient.lean` and `Probes/Main.lean`
+contain the current executable experiments and a CLI entry point. They are
+source-checked against the Hex and Mathlib APIs but have not yet passed CI. The
+CLI takes a prime characteristic, a monic defining polynomial and an input
+polynomial as ascending coefficient lists, and prints a canonical result.
+The three sample outputs in the quotient probe were checked with Sage's
+`PolynomialRing(GF(p), 'x').quotient(f)` at the pinned local baseline. The
+quotient experiment uses Hex's existing
 `FpPoly.Quotient`, the chosen characteristic and defining polynomial as run-time
 inputs, and one generic polynomial/matrix computation over its result. It also
 names Mathlib's actual `AdjoinRoot.mk` for the same polynomial. The missing
