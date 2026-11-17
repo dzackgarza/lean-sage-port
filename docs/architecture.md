@@ -31,13 +31,23 @@ equivalence in `HexMatrixTheory`; `HexPermGroup` has a checked stabilizer chain 
 Mathlib-facing theory bridge. These are candidates for direct reuse, not designs to
 reimplement. The reuse map distinguishes released packages from unreleased `hex-dev` code.
 
-There is an ownership conflict to settle with the DSL owner before integration:
-`lean-cas-dsl/AGENTS.md` says a leaf ships no Lean and that Lean-dischargeable computation
-belongs to its formal side, while this repository is explicitly chartered to supply
-native Lean algorithms. The coherent candidate is a Lean library with a native API,
-consumed by an owner-approved kernel/formal-side integration. It must not register as an
-opaque external-CAS leaf or claim the leaf acceptance firewall as its own proof. The
-kernel's existing public contract, rather than this repository, determines any adapter.
+The DSL's leaf rule does not constrain an independent native Lean library. Its `INTENT.md`
+places native computation on the formal side; `AGENTS.md` forbids a *leaf* from shipping
+Lean code or certifying itself. This repository can supply a native Lean library that
+the formal side or kernel imports. It does not become an opaque external-engine leaf.
+`lean-categories`' catalogue entries name the mathematical declarations, while the DSL's
+`Admission`, `Wire` and `StructuredResult.Result` are the existing public entry and result
+types for language evaluation. The native library can expose typed computations using
+those declared mathematical objects, and the kernel can consume them through its
+existing admission and realization path. No second registry or language is required.
+
+The surveyed `ObjectEntry` and `OperationEntry` contain semantic declaration names and
+binding data, not an algorithm registration field. `MonoLiftComputation` and
+`MonoLiftFactorComputation` are examples of callable computational obligations owned by
+`lean-categories`; they do not constitute a generic evaluator for all operations.
+The exact kernel mechanism for choosing a native implementation of an arbitrary
+catalogue operation remains to be identified in source and exercised. This is an
+integration contract gap, not an ownership contradiction.
 
 ## Computation contracts
 
@@ -51,12 +61,26 @@ kernel's existing public contract, rather than this repository, determines any a
 | Correctness | Assert the mathematical contract against independent Sage doctests, published results or second computations; formal proofs can strengthen a specific bridge. | A local algorithm proof or its own fixture cannot choose or change the expected answer. |
 
 Lean's dependent types can express the runtime package, but its exact representation and
-erasure cost are not yet validated. Mathlib's abstract `Polynomial R` operations are
-noncomputable in the surveyed source; a computable polynomial representation needs a
-faithful bridge rather than pretending that abstract syntax executes. Hex matrices use
-type-level dimensions, so a runtime-sized result needs a dependent dimension witness.
+erasure cost are not yet validated. Hex already has executable `FpPoly.Quotient` and
+`GFqRing.PolyQuotient` for prime-field polynomial quotients. `HexPolyFpTheory.fpPolyEquiv`
+relates its polynomial coefficients to Mathlib's `Polynomial (ZMod p)`; the surveyed Hex
+modules do not yet establish a generic ring equivalence from a quotient by a runtime
+chosen polynomial to Mathlib's `AdjoinRoot`. The probe reuses Hex's quotient operations
+and retains the actual polynomial, constant embedding and root; this bridge remains a
+specific formal obligation. Hex matrices use type-level dimensions, so a runtime-sized
+result needs a dependent dimension witness.
 
 ## Discriminating executable probes
+
+`Probes/RuntimeGeneric.lean` and `Probes/RuntimeQuotient.lean` contain the current
+executable experiments. They are source-checked against the Hex and Mathlib APIs but
+have not yet passed CI. The quotient experiment uses Hex's existing
+`FpPoly.Quotient`, the chosen characteristic and defining polynomial as run-time
+inputs, and one generic polynomial/matrix computation over its result. It also
+names Mathlib's actual `AdjoinRoot.mk` for the same polynomial. The missing
+equivalence between these two quotient types remains an explicit probe failure
+condition; retaining two parallel maps without proving their relation does not
+establish representation independence.
 
 1. **Quotient and extension domains.** Construct `ZMod n` and a polynomial quotient
    from runtime input, retain the quotient map and selected generator, perform arithmetic,
