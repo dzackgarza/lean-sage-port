@@ -1,0 +1,83 @@
+# Graph operations at the Sage 11.0.beta5 baseline (c00171e47d6e68d8148d7ee10c4dd77b71a97662).
+
+domain = "graphs"
+
+[[capability]]
+id = "graphs.finite-construction"
+title = "Finite graph construction and adjacency"
+statement = "Construct a finite graph from vertices and incidence data and query its edges and neighbors."
+domain = "Finite directed or undirected graphs; loops, parallel edges, and edge labels are selected input structure."
+contract = "(V,E,orientation,loop-policy,multiplicity,labels) -> G. Vertex and edge identities and labels survive later graph operations; adjacency respects orientation and multiplicity."
+exactness = "exact"
+algorithms = [{ family = "Finite incidence and adjacency representation", sources = ["sage.graphs.graph:Graph", "sage.graphs.digraph:DiGraph", "sage.graphs.generic_graph:GenericGraph"] }]
+depends_on = []
+sage = ["sage.graphs.graph:Graph", "sage.graphs.digraph:DiGraph", "sage.graphs.generic_graph:GenericGraph.add_vertex", "sage.graphs.generic_graph:GenericGraph.add_edge", "sage.graphs.generic_graph:GenericGraph.add_edges", "sage.graphs.generic_graph:GenericGraph.vertices", "sage.graphs.generic_graph:GenericGraph.edges"]
+catalogue = []
+tests = ["The edge incidences and labels queried from a constructed graph equal its input edge multiset", "Relabeling vertices by a bijection preserves adjacency, degrees, loops, and edge multiplicity"]
+reuse = { status = "adaptable", components = ["mathlib.graph.simple-graph-basic", "hex.HexGraph.graphs"], evidence = "Mathlib SimpleGraph and Hex.Graph cover finite simple undirected graphs. Sage Graph and DiGraph admit loops, parallel edges, and labels, so these Lean types cover only a proper subdomain." }
+backends = []
+references = []
+
+[[capability]]
+id = "graphs.connected-components"
+title = "Connected components of a finite graph"
+statement = "Partition vertices by mutual path reachability."
+domain = "Finite undirected graphs; directed graphs require the separately specified strong or weak reachability relation."
+contract = "G -> partition of V(G), with each block a maximal connected vertex set. Preserve vertex identities so induced component subgraphs can be constructed."
+exactness = "exact"
+algorithms = [{ family = "Breadth-first or depth-first traversal", sources = ["sage.graphs.connectivity:connected_components"] }]
+depends_on = ["graphs.finite-construction"]
+sage = ["sage.graphs.connectivity:connected_components", "sage.graphs.connectivity:number_of_connected_components", "sage.graphs.connectivity:connected_components_subgraphs", "sage.graphs.connectivity:connected_component_containing_vertex", "sage.graphs.connectivity:connected_components_sizes"]
+catalogue = []
+tests = ["Every vertex occurs in exactly one block; vertices in one block have a path between them", "No edge joins vertices in distinct blocks of an undirected graph"]
+reuse = { status = "adaptable", components = ["mathlib.graph.connectivity", "hex.HexGraph.graphs"], evidence = "Mathlib decides finite SimpleGraph reachability by walk enumeration; Hex supplies the finite simple graph data structure. No surveyed component supplies the full Sage graph-domain partition producer." }
+backends = []
+references = []
+
+[[capability]]
+id = "graphs.shortest-path"
+title = "Shortest path with a route witness"
+statement = "Return a minimum-weight path between two vertices, or certify that no path exists."
+domain = "Finite directed or undirected graphs with ordered additive edge weights. For signed weights, a reachable negative cycle makes the minimum undefined and must be reported."
+contract = "(G,u,v,w) -> no-path, negative-cycle, or (path,total weight). The path uses original vertices and edges, starts at u, ends at v, and has minimum total weight. Unit weights give ordinary graph distance."
+exactness = "exact"
+algorithms = [{ family = "BFS for unit weights, Dijkstra for nonnegative weights, Bellman-Ford for signed weights", sources = ["sage.graphs.generic_graph:GenericGraph.shortest_path", "sage.graphs.generic_graph:GenericGraph.shortest_paths", "graph-library-for-lean4 Graph/Dijkstra.lean"] }]
+depends_on = ["graphs.finite-construction"]
+sage = ["sage.graphs.generic_graph:GenericGraph.shortest_path", "sage.graphs.generic_graph:GenericGraph.shortest_path_length", "sage.graphs.generic_graph:GenericGraph.shortest_paths", "sage.graphs.generic_graph:GenericGraph.shortest_path_lengths", "sage.graphs.generic_graph:GenericGraph.shortest_path_all_pairs"]
+catalogue = []
+tests = ["Every returned route has the reported weight and each consecutive pair is an edge", "For nonnegative weights, its weight equals the minimum over all simple u-to-v paths; unreachable vertices return no-path"]
+reuse = { status = "adaptable", components = ["graphlib4-classic-graph-algorithms", "hex.future.graph-shortest-path"], evidence = "The graph-library-for-lean4 survey identifies executable Dijkstra on an older toolchain, without correctness proof; Hex lists shortest path as future work. Neither surveys a signed-weight, negative-cycle-aware producer." }
+backends = ["boost", "networkx"]
+references = []
+
+[[capability]]
+id = "graphs.minimum-spanning-tree"
+title = "Minimum spanning tree or spanning forest"
+statement = "Return a least-weight acyclic edge set spanning each connected component of an undirected graph."
+domain = "Finite undirected graphs with comparable exact edge weights; parallel edges retain their identities."
+contract = "(G,w) -> edges F with the same connected components as G, no cycles, and minimum sum of weights among such edge sets. Return source edge identities so labels and weights remain available."
+exactness = "exact"
+algorithms = [{ family = "Kruskal, Prim, Boruvka, or filter-Kruskal", sources = ["sage.graphs.generic_graph:GenericGraph.min_spanning_tree", "[OSS2009]", "graph-library-for-lean4 Graph/MinimumSpanningTree.lean"] }]
+depends_on = ["graphs.finite-construction", "graphs.connected-components"]
+sage = ["sage.graphs.generic_graph:GenericGraph.min_spanning_tree"]
+catalogue = []
+tests = ["For a connected graph with n vertices, the result has n-1 edges and a path between every pair of vertices", "For each result edge e, every edge crossing the cut formed by removing e has weight at least that of e"]
+reuse = { status = "adaptable", components = ["graphlib4-classic-graph-algorithms", "hex.future.graph-spanning-tree"], evidence = "graph-library-for-lean4 supplies a Kruskal implementation on Lean v4.12.0; Hex lists spanning trees as future work. Sage's min_spanning_tree requires weights convertible to float, so its result alone does not establish exact ordering for arbitrary weights." }
+backends = ["boost", "networkx"]
+references = ["OSS2009"]
+
+[[capability]]
+id = "graphs.isomorphism"
+title = "Graph isomorphism with an explicit vertex map"
+statement = "Decide whether two graphs are isomorphic and return a vertex bijection when they are."
+domain = "Finite graphs with matching directedness; selected loop, multiplicity, and label structure must be preserved."
+contract = "(G,H) -> no or a bijection f:V(G) -> V(H) preserving and reflecting the selected edge incidences, orientation, multiplicity, and labels."
+exactness = "exact"
+algorithms = [{ family = "Canonical labeling by individualization and refinement", sources = ["sage.graphs.generic_graph:GenericGraph.is_isomorphic", "hex-dev HexGraphIso/Ops.lean", "IsoGraph/Canon/Algorithm.lean"] }]
+depends_on = ["graphs.finite-construction"]
+sage = ["sage.graphs.generic_graph:GenericGraph.is_isomorphic"]
+catalogue = []
+tests = ["A returned bijection preserves and reflects every edge incidence and selected label", "Canonical forms agree exactly for isomorphic finite simple graphs; a graph and a relabeling of it are isomorphic"]
+reuse = { status = "adaptable", components = ["hex.HexGraphIso.dense-canon", "hex.HexGraphIso.sparse-canon", "isograph-canonical-labelling"], evidence = "HexGraphIso and IsoGraph provide executable canonical labeling of finite simple undirected graphs. Sage's method also handles directed graphs and multigraphs; these extensions need representation and algorithm evidence before a reusable classification for the full domain." }
+backends = ["bliss"]
+references = []
