@@ -13,7 +13,7 @@ algorithms = [{ family = "Permutation composition and checked stabilizer-chain c
 depends_on = []
 sage = ["sage.groups.perm_gps.permgroup:PermutationGroup", "sage.groups.perm_gps.permgroup:PermutationGroup_generic", "sage.groups.perm_gps.permgroup:PermutationGroup_generic.subgroup"]
 catalogue = ["obj.groups.symmetric", "obj.sets.permutations", "obj.subgroups.subgroup"]
-tests = ["For permutations a and b supplied at run time, every generated element fixes any point fixed by both generators; a and b belong to the result.", "If a and b have disjoint supports, the generated group has order ord(a)*ord(b), and its action still uses the supplied domain."]
+tests = ["Baseline doctests: sage/groups/perm_gps/permgroup.py, PermutationGroup and PermutationGroup_generic.subgroup. Compare generated subgroups through membership in both directions on the same labelled domain, rather than printed generators."]
 reuse = { status = "reusable", components = ["hex.HexPermGroup.perm", "hex.HexPermGroup.schreier-sims", "hex.HexPermGroupTheory.group-bridge"], evidence = "HexPermGroup builds a checked stabilizer chain from an Array of Perm n; its theory bridge relates the result to Mathlib permutation groups. A runtime finite domain still needs a chosen equivalence with Fin n and transport of the action." }
 backends = ["gap"]
 references = []
@@ -30,7 +30,7 @@ algorithms = [{ family = "Schreier-Sims stabilizer chain, orbit product and sift
 depends_on = ["groups.permutation-group"]
 sage = ["sage.groups.perm_gps.permgroup:PermutationGroup_generic.order"]
 catalogue = []
-tests = ["For the group generated at run time by a 3-cycle a and a disjoint transposition b, order is 6; a*b belongs, and a permutation moving an additional fixed point does not.", "Every positive membership word evaluates to the query permutation; the number of distinct enumerated elements equals the reported order for a small runtime group."]
+tests = ["Baseline doctests: sage/groups/perm_gps/permgroup.py, PermutationGroup_generic.order. Compare order and membership with Sage/GAP on identical runtime generators and queries; compare constructive membership by evaluating the returned word, since valid words need not coincide."]
 reuse = { status = "reusable", components = ["hex.HexPermGroup.schreier-sims", "hex.HexPermGroup.membership-words"], evidence = "Hex.Group.order is the product of basic orbit sizes; Group.contains and word? sift against a checked stabilizer chain. Sage order uses GAP Size after special cases." }
 backends = ["gap"]
 references = []
@@ -46,7 +46,7 @@ algorithms = [{ family = "Breadth-first traversal under generators with Schreier
 depends_on = ["groups.permutation-group"]
 sage = ["sage.groups.perm_gps.permgroup:PermutationGroup_generic.orbit", "sage.groups.perm_gps.permgroup:PermutationGroup_generic.orbits", "sage.groups.perm_gps.permgroup:PermutationGroup_action.orbits"]
 catalogue = []
-tests = ["For each returned y, its transporter sends x to y; applying every supplied generator to each returned y stays in the orbit.", "The computed orbits partition the entire finite acted-on set and agree with the equivalence relation y=g·x for a small runtime action."]
+tests = ["Baseline doctests: sage/groups/perm_gps/permgroup.py, PermutationGroup_generic.orbit and orbits. Compare Sage/GAP orbit sets and partitions without depending on enumeration order; compare transporters by their action on the source point."]
 reuse = { status = "reusable", components = ["hex.HexPermGroup.orbits", "hex.HexPermGroup.actions"], evidence = "Hex Orbit.ofSymmetric constructs a checked Schreier tree; Hex Action supplies orbit construction on supported finite action domains. The Sage method also exposes GAP actions on tuples and sets." }
 backends = ["gap"]
 references = []
@@ -62,7 +62,7 @@ algorithms = [{ family = "Stabilizer-chain refinement from an orbit transversal"
 depends_on = ["groups.permutation-group", "groups.orbit"]
 sage = ["sage.groups.perm_gps.permgroup:PermutationGroup_generic.stabilizer"]
 catalogue = ["obj.subgroups.action_stabilizer"]
-tests = ["For a runtime action and point x, each returned generator fixes x, and every enumerated element of G fixing x belongs to the returned subgroup.", "The orbit-stabilizer equality |G|=|G·x|*|G_x| holds, including fixed points and nontransitive actions."]
+tests = ["Baseline doctests: sage/groups/perm_gps/permgroup.py, PermutationGroup_generic.stabilizer. Compare with the Sage/GAP stabilizer as a subgroup of the same ambient permutation group; different generating sets are permitted."]
 reuse = { status = "reusable", components = ["hex.HexPermGroup.subgroup-ops", "hex.HexPermGroup.orbits", "hex.HexPermGroupTheory.structure-specs"], evidence = "Hex Subgroup.stabilizer and pointwise stabilizer are executable; the theory map states their Mathlib specifications. Transport from arbitrary finite action domains must retain the inclusion." }
 backends = ["gap"]
 references = []
@@ -78,7 +78,7 @@ algorithms = [{ family = "Transversal construction from a checked permutation gr
 depends_on = ["groups.permutation-group", "groups.order-and-membership"]
 sage = ["sage.groups.perm_gps.permgroup:PermutationGroup_generic.cosets"]
 catalogue = []
-tests = ["Each element of G lies in exactly one returned coset; every coset has |H| elements and the count is |G|/|H|.", "For a nonnormal subgroup, left and right cosets use their stated multiplication order; the coset containing identity is H."]
+tests = ["Baseline doctests: sage/groups/perm_gps/permgroup.py, PermutationGroup_generic.cosets. Compare partitions with Sage for the same subgroup and side, ignoring representative and enumeration choices."]
 reuse = { status = "reusable", components = ["hex.HexPermGroup.rank-enumerate-cosets", "hex.HexPermGroup.subgroup-ops"], evidence = "Hex provides cosets and transversals for a built permutation group. Sage cosets enumerates elements and is documented as a naive instructional implementation." }
 backends = []
 references = []
@@ -95,7 +95,7 @@ algorithms = [{ family = "Todd-Coxeter coset enumeration", sources = ["sage/grou
 depends_on = ["groups.permutation-group"]
 sage = ["sage.groups.finitely_presented:FinitelyPresentedGroup.as_permutation_group"]
 catalogue = []
-tests = ["For a runtime presentation with commuting generators of orders 2 and 3 and the trivial subgroup, the completed action has six cosets; the two generator images satisfy the relators and generate a group of order six.", "For every completed table, its generator permutations satisfy all relators; raising the resource bound cannot turn a previously complete exact table into a contradictory result."]
+tests = ["Baseline doctests: sage/groups/finitely_presented.py, FinitelyPresentedGroup.as_permutation_group. Compare completed actions with GAP CosetTable for the same presentation and subgroup up to coset relabelling that intertwines the original generator actions. Resource exhaustion is inconclusive, not a different mathematical result."]
 reuse = { status = "formalized-not-executable", components = ["mathlib.group.presented-group", "mathlib.group.coset-enumeration", "mathlib.group.free-group"], evidence = "Mathlib supplies presentation and free-group semantics, but the audited GroupTheory tree has no Todd-Coxeter algorithm. Hex permutation-group cosets require an already constructed permutation group, so they do not implement this construction from relators." }
 backends = ["gap"]
 references = []
