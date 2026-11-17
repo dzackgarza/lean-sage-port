@@ -36,6 +36,8 @@ object and operation. When the catalogue lacks one, the gap is reported to its o
 | `tools/inventory/` | The `sage-inventory` command: builds the index and measures coverage. |
 | `Probes/` | Executable Lean probes that test architectural decisions. |
 | `specs/` | Spec Kit documents: reconnaissance master spec (`001`), and per-domain specs as milestones proceed. |
+| `specs/004-milestones/plan.md` | Authoritative dependency-ordered milestone roadmap (M0–M14). |
+| `specs/005-master-product-spec/plan.md` | Master product specification: scope table, output-contract taxonomy, completion condition, ownership boundaries. |
 
 ## Existing inventories in `dzackgarza/research`
 

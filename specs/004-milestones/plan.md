@@ -83,6 +83,11 @@ inventory/
 
 ## Milestone definitions
 
+**Global prerequisite**: M0 must fully satisfy SC-001–SC-007 of `specs/001-native-computation/spec.md`
+before *implementation* work begins in any milestone M1–M14. Capability-writing (coverage work)
+may begin in M1 and M14 once M0 SC-002 (reuse decisions) and SC-003 (probes pass) are met.
+See `data-model.md` §"State transitions" for the coverage-complete vs. accepted distinction.
+
 ### M0 — Reconnaissance and foundation
 
 **Sections**: All (meta-level; no entities assigned exclusively to M0)
@@ -99,7 +104,9 @@ inventory/
 ### M1 — Integers, rationals, and core modular arithmetic
 
 **Sections**: `rings_standard`, `finite_rings`
-**Prerequisites**: M0 (SC-003 and SC-002)
+**Prerequisites**: M0 (all SC-001–SC-007 of `specs/001-native-computation/spec.md` must pass
+  before M1 implementation begins; M0 SC-002 and SC-003 are the minimum to start
+  capability-writing work in M1)
 **Capability files**: `integers-and-rationals.toml`, `finite-rings.toml`
 **Reuse files**: `mathlib-core.toml` (lean-core.int.*, lean-core.rat.*, mathlib.int.*),
   `hex.toml` (hex.HexArith.*, hex.HexModular.*, hex.HexPrimality.*, hex.HexIntFactor)
@@ -153,7 +160,9 @@ inventory/
 ### M4 — Linear algebra: matrices, modules, and lattices
 
 **Sections**: `matrices`, `modules`, `tensor_free_modules`, `quadratic_forms`
-**Prerequisites**: M1, M2
+**Prerequisites**: M1, M2 (M4 may begin matrix arithmetic work after M1 alone; full M4
+  acceptance — including characteristic polynomial and rational normal form — requires M2.
+  M4 is listed as parallelizable with M2 for the milestone *start*, not for all capabilities.)
 **Capability files**: `linear-algebra.toml`, `lattices.toml`;
   new files needed for `modules`, `tensor_free_modules`, `quadratic_forms`
 **Reuse files**: `hex.toml` (hex.HexMatrix.*, hex.HexDeterminant.*, hex.HexSmith.*,
@@ -226,9 +235,13 @@ inventory/
 **Entity count**: ~10,350 (combinat alone is 8,177; 47,908 doctests)
 **Note**: Acceptance for combinat must be automated. The capability-writing phase requires
   extensive exclusion analysis — most combinat methods specialize generic constructions.
-**Acceptance — coverage**: `sage-inventory unaccounted` returns nothing for all six sections
-**Acceptance — implementation**: All selected entities pass oracle comparison via automated
-  oracle runs
+**Acceptance — coverage**: `sage-inventory unaccounted <index> <caps>` returns nothing for all six sections
+**Acceptance — implementation**: All selected entities pass oracle comparison. For `combinat`
+  (47,908 doctests), acceptance runs must be automated: a batch oracle script reads selected
+  entities from the capability files, queries the Sage image in `docs/oracles.md` for each,
+  and reports a pass/fail count. Manual verification is not an accepted procedure. The oracle
+  script format and pass threshold (all selected entities, zero failures) must be agreed before
+  M8 implementation begins and recorded in the M8 tracking issue (#9).
 
 ---
 
@@ -317,17 +330,25 @@ inventory/
 **Sections**: `categories`, `sets`, `monoids`, `structure` (mathematical content only),
   `coercion` (mathematical map obligations only)
 **Prerequisites**: M0–M3 (categories reference operations from these milestones)
-**Capability files**: None new expected; existing files from M1–M3 provide the catalogue
-  entries that account for most `categories` entities
+**Capability files**: None new expected in a new M14-specific file. Any `categories` entity
+  that is mathematical rather than a framework helper MUST have a capability record in an
+  earlier domain milestone's capability file (M1–M13), not in M14. M14 closes only after
+  every remaining entity is either accounted for by an earlier milestone's capability selector
+  or carries a justified `[[exclusion]]` with reason `implementation-support` or `presentation`.
+  Filing the exclusion is M14's work; writing the capability record is the domain milestone's.
 **Reuse files**: `lean-categories.toml` (all 500+ catalogue components)
 **Entity count**: ~3,100
 **Note**: This is primarily an accounting milestone. The work is running
   `sage-inventory unaccounted categories`, categorizing residual entities as `exclusion`
   (framework helpers) or filing gaps with `lean-categories`. Very few new capability records
-  are expected.
-**Acceptance — coverage**: `sage-inventory unaccounted` returns nothing for all five sections
-**Acceptance — implementation**: N/A for infrastructure/exclusion entities; for any entities
-  with mathematical capability records, oracle comparison applies
+  are expected. Per Constitution Principle III, any entity with a mathematical content cannot
+  be silently excluded — it must either have a capability record in a domain milestone or an
+  explicit exclusion with justification.
+**Acceptance — coverage**: `sage-inventory unaccounted <index> <capabilities>` returns nothing
+  for `categories`, `sets`, `monoids`, `structure`, `coercion`
+**Acceptance — implementation**: N/A for entities with justified `exclusion` entries. For any
+  entity with a capability selector (owned by a domain milestone), oracle comparison applies
+  in that milestone, not in M14.
 
 ---
 

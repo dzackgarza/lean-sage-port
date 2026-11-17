@@ -27,9 +27,9 @@ complete. These must hold before US1 or US2 can be accepted.
   milestone delivers at least one capability named in a `depends_on` field of a capability in
   the dependent milestone. Record the justifying capability pairs in
   `contracts/milestone-schema.md` as a DAG verification table.
-- [ ] T005 [P] [US2] Topological-sort the prerequisite edges from `plan.md` and confirm no
-  cycle exists. Document the sort order in `plan.md` §"Dependency graph". Fail and amend
-  `plan.md` if any cycle is found.
+- [ ] T005 [P] [US2] Topologically sort the prerequisite edges from `plan.md` and verify that
+  the ASCII diagram in §"Dependency graph" agrees with the computed order. Record any
+  discrepancy as an amendment to the diagram. Fail and amend `plan.md` if any cycle is found.
 - [ ] T006 Verify that `docs/domain-specifications.md` has a Milestone column entry for every
   section with `disposition = "mathematical"` in `inventory/domains.toml`, and that every
   entry agrees with `plan.md`. Run the quickstart scenario 4 check and fix any discrepancies.
@@ -81,9 +81,9 @@ for `depends_on` entries that cross from M2 to M4 or M4 to M2. Confirm zero cros
 - [ ] T012 [P] [US2] For the M2 ∥ M4 pair specifically: confirm that `matrices.arithmetic`'s
   `depends_on` does not name any polynomial capability, and that `polynomials.univariate-
   arithmetic`'s `depends_on` does not name any matrix capability. Add the evidence to `plan.md`.
-- [ ] T013 [US2] Update `plan.md` §"Parallelism permitted" to include explicit evidence (a
-  specific confirmed zero-cross-edge check) for each listed pair, replacing the current
-  assertion with a verifiable citation.
+- [ ] T013 [US2] Update `plan.md` §"Parallelism permitted" to include explicit evidence for
+  each listed pair. Format: add a table with columns "Pair | Checked capabilities | Result"
+  replacing the current assertions with verifiable citations from T011 and T012.
 
 **Checkpoint**: Every parallelism claim in `plan.md` is backed by a zero-cross-edge confirmation.
 

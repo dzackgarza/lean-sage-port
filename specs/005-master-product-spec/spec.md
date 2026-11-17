@@ -1,0 +1,170 @@
+# Feature Specification: Master product specification
+
+**Feature Branch**: `005-master-product-spec`
+**Created**: 2026-11-17
+**Status**: Draft
+
+## User Scenarios & Testing
+
+### User Story 1 — Know exactly what this product computes (Priority: P1)
+
+A new contributor, a formal reviewer, or an independent evaluator reads the master product
+specification and can determine: what operations this system is intended to compute, over what
+mathematical domains, with what output contracts, and against what acceptance standard — without
+reading capability records, source code, or external documentation.
+
+**Why this priority**: Without a single document that states the full intended product, the
+capability inventory is an implementation artifact, not a product contract. The spec hierarchy
+the plan brief requires has: constitution → master product spec → domain specs → implementation
+specs. Without the master product spec, domain specs have no parent to constrain them.
+
+**Independent Test**: Given only `specs/005-master-product-spec/spec.md` and the Sage reference
+manual table of contents, an evaluator can determine whether any given Sage operation is in
+scope, out of scope, or deferred — and can cite the reason from the spec without opening any
+other repository file.
+
+**Acceptance Scenarios**:
+
+1. **Given** a Sage operation from an arbitrary manual section, **when** an evaluator reads the
+   master spec, **then** the section appears in the scope table and either has a milestone
+   assignment (in scope) or a disposition (excluded, deferred, or infrastructure-only).
+2. **Given** the master spec's coverage contract, **when** `sage-inventory coverage` is run,
+   **then** the numbers it reports are interpretable against the master spec's definitions
+   without additional context.
+3. **Given** the master spec's output-contract definitions, **when** a domain spec is written
+   for any section, **then** the domain spec's acceptance conditions can be derived from the
+   master spec's contracts without inventing new standards.
+
+---
+
+### User Story 2 — Know what "done" means for the full product (Priority: P1)
+
+A project maintainer needs a single authoritative statement of the product's completion
+condition that does not drift as individual milestones are completed. The completion condition
+must be machine-checkable and must not depend on counting milestones.
+
+**Why this priority**: Milestone completion is a progress measure, not a product definition.
+The plan brief explicitly states "No overall CAS-completion percentage should be inferred from
+finishing this reconnaissance." The master spec provides the fixed reference against which
+progress is measured.
+
+**Independent Test**: The completion condition stated in the master spec can be evaluated in
+one shell command (`sage-inventory unaccounted` returning nothing for every mathematical
+section) and one oracle-run condition (all selected entities pass comparison), without reading
+any other document.
+
+**Acceptance Scenarios**:
+
+1. **Given** the master spec's completion condition, **when** a milestone is accepted,
+   **then** its acceptance updates the product's coverage measure in a way derivable from the
+   master spec's definitions (without rewriting the spec).
+2. **Given** the master spec's output-contract definitions, **when** any capability record is
+   written, **then** its `exactness` and `contract` fields can be validated against the master
+   spec's category taxonomy without ambiguity.
+
+---
+
+### User Story 3 — Determine the scope boundary for any mathematical operation (Priority: P2)
+
+A domain expert wants to contribute a new capability or challenge an existing one. They need a
+clear statement of which decisions belong to this repository and which go to upstream owners
+(`lean-categories`, `lean-cas-dsl`, Hex).
+
+**Why this priority**: The plan brief's ownership table (§3) must be reflected in a document
+that domain-spec authors can cite. Without this, every domain spec reinvents the ownership
+boundary.
+
+**Independent Test**: Given a proposed new capability (mathematical operation, algorithm, or
+construction), the master spec's scope and ownership sections yield a deterministic answer to:
+"Does this belong here, in `lean-categories`, in `lean-cas-dsl`, or in Hex?" with a citation
+to the specific ownership rule.
+
+**Acceptance Scenarios**:
+
+1. **Given** a proposed new matrix operation, **when** an implementer reads the master spec's
+   ownership section, **then** they can determine whether the mathematical contract goes to
+   `lean-categories` and the executable computation goes here, or whether both go to the same
+   owner.
+2. **Given** a proposed operation whose mathematical type does not exist in the `lean-categories`
+   catalogue, **when** an implementer reads the master spec, **then** they know to file a gap
+   report with `lean-categories` before writing any capability record here.
+
+---
+
+### Edge Cases
+
+- A Sage section is added in a future Sage release after the baseline is pinned. The master
+  spec's scope is defined relative to the pinned baseline; a new release requires an explicit
+  amendment.
+- A capability is claimed by two different domain specs. The master spec's coverage contract
+  (one capability record per intrinsic operation) defines the tie-breaking rule.
+- A Sage operation is both a mathematical operation and a framework helper. The master spec's
+  disposition taxonomy must have a category for this case.
+- A Lean formal proof that an algorithm is correct exists in Mathlib but the algorithm itself
+  is `noncomputable`. The master spec's output-contract definitions distinguish these.
+
+## Requirements
+
+### Functional Requirements
+
+- **FR-001**: The master spec MUST list every Sage manual section from the baseline and state
+  its disposition: `mathematical` (in scope, with milestone), `implementation-support`,
+  `presentation`, `reference-data`, or `deferred` (mathematical but not yet assigned).
+- **FR-002**: The master spec MUST define the four output-contract categories used across all
+  capability records: `exact`, `approximate` (with error bound), `heuristic` (can be wrong),
+  `conditional` (correct under a named hypothesis). These definitions must be stable across
+  all domain specs.
+- **FR-003**: The master spec MUST state the product's completion condition in machine-checkable
+  terms, referencing the specific `sage-inventory` command and the oracle comparison standard.
+- **FR-004**: The master spec MUST state the ownership boundaries: which mathematical content
+  goes to `lean-categories`, which language/kernel contracts go to `lean-cas-dsl`, which
+  executable algorithms are in Hex, and which native computations belong here.
+- **FR-005**: The master spec MUST list the cross-milestone obligations (the four items in
+  `specs/004-milestones/plan.md` §"Cross-milestone obligations") as product-level obligations
+  that any domain spec or implementation issue may reference.
+- **FR-006**: The master spec MUST cross-reference `specs/004-milestones/plan.md` as the
+  milestone roadmap and `specs/001-native-computation/spec.md` as the reconnaissance spec,
+  without duplicating their content.
+- **FR-007**: The master spec MUST define what it means for a capability to be "accounted for":
+  either a capability record with a selector that matches at least one entity, or a justified
+  `[[exclusion]]`. This definition governs all coverage measurement.
+- **FR-008**: The master spec MUST state that the Sage 11.0.beta5 baseline is fixed, and that
+  the scope is not updated for Sage releases until an explicit spec amendment with version bump.
+
+### Key Entities
+
+- **Disposition**: One of `mathematical`, `implementation-support`, `presentation`,
+  `reference-data`, mapping a Sage manual section to its treatment in this product.
+- **Output-contract category**: One of `exact`, `approximate`, `heuristic`, `conditional` —
+  the type of guarantee a native computation makes about its result.
+- **Completion condition**: The machine-checkable criterion for the full product being done.
+- **Ownership boundary**: The assignment of mathematical content, language contracts,
+  algorithms, and native computations to their respective upstream owners.
+
+## Success Criteria
+
+### Measurable Outcomes
+
+- **SC-001**: The master spec's section scope table is complete: for every section id in
+  `inventory/domains.toml`, the master spec has a row with its disposition. Zero rows missing.
+- **SC-002**: The four output-contract categories are defined with examples drawn from existing
+  capability records in `inventory/capabilities/`. No capability record uses a category not
+  defined in the master spec.
+- **SC-003**: The completion condition in the master spec is consistent with
+  `inventory/coverage.json`'s measurement schema: the same `sage-inventory unaccounted`
+  command that closes a capability record is the one that the master spec's completion
+  condition names.
+- **SC-004**: Every ownership boundary in the master spec can be verified against a specific
+  source declaration in `inventory/reuse/lean-categories.toml`, `inventory/reuse/hex.toml`,
+  or `inventory/reuse/mathlib-core.toml`.
+
+## Assumptions
+
+- The Sage 11.0.beta5 baseline in `inventory/sage/release.toml` is the fixed target.
+- The four output-contract categories (`exact`, `approximate`, `heuristic`, `conditional`)
+  are already established in `docs/capability-records.md` §Fields and in existing capability
+  records; the master spec formalizes them, it does not invent them.
+- The ownership boundary table in `AGENTS.md` §"Who owns what" is the starting point; the
+  master spec expands it with implementation-level specificity.
+- The master spec is not itself a capability record; it does not select Sage entities. It
+  defines the framework within which capability records are written.
