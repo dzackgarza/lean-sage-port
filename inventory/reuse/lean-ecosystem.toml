@@ -2605,22 +2605,60 @@ reason = "Excluded by brief: covered by a separate survey."
 [[rejected]]
 name = "VerifiedCalculus-Lean"
 url = "https://github.com/pietercollins/VerifiedCalculus-Lean"
-reason = "GPL-3.0; 4 .lean files (GitHub tree API). Not cloned or read in source."
+reason = "At f0bb742dc3be3c8984dd6a387ddb056eae7c90bf, the tree has only VerifiedCalculus/Logic/{Kleeneans,Omniscience,Sierpinskians}.lean and an umbrella import. Kleeneans.lean:11-228 defines three-valued logic and Kleenean quotients, with no numerical-calculus algorithm. GPL-3.0, Lean v4.33.1. Source read; no build performed."
 
-[[rejected]]
+[[source]]
 name = "NLAlib"
 url = "https://github.com/NLA-lib/NLAlib"
-reason = "Apache-2.0, Mathlib-based, 1479 .lean files. README describes theory of numerical linear algebra (matrix analysis, Krylov, sketching). Not cloned; executable content not inspected."
+revision = "6f049b047e4e310688b27c583265f266a213900b"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.33.1"
+surveyed = "2026-11-17"
+notes = "Source inspected through the GitHub tree and raw files at this revision. The ShiftedQR/Alg.lean module defines a scalar instruction-program implementation of one shifted QR step. Its evaluation and broad numerical acceptance were not checked here. lakefile.toml requires Mathlib v4.33.1 and describes NLAlibTools as runnable diagnostics."
+
+[[component]]
+id = "nlalib/shifted-qr-step"
+source = "NLAlib"
+capability = "One shifted QR step on a complex matrix using scalar Givens rotations"
+domain = "numerical linear algebra"
+declarations = ["NLAlib.ShiftedQR.round", "NLAlib.ShiftedQR.sweep", "NLAlib.ShiftedQR.shiftedStep"]
+paths = ["NLAlib/Eigensolvers/ShiftedQR/Alg.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "source-theorems-not-audited"
+status = "adaptable"
+evidence = ["ShiftedQR/Alg.lean:38,58,70 defines round, sweep and shiftedStep as Ops.Impl programs", "Source revision 6f049b047e4e310688b27c583265f266a213900b; no build or evaluation in this survey"]
+notes = "The public object is an Ops.Impl instruction program, so reuse requires an interpreter and a check of numerical semantics. This is evidence of a real algorithm, not a complete eigenvalue solver."
 
 [[rejected]]
 name = "PrimeGaps186"
 url = "https://github.com/openai/PrimeGaps186"
 reason = "Conditional theorem development (3 input axioms); numerical certificate is Python. 2 .lean files."
 
-[[rejected]]
+[[source]]
 name = "intmul"
 url = "https://github.com/lockqueue/intmul"
-reason = "Apache-2.0. README: papers, Lean formalizations, Python reference and C/GMP companion. Not cloned or read in source."
+revision = "4738aeff839dafd4bbcd176a0550f70242d966a6"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.33.1"
+surveyed = "2026-11-17"
+notes = "The companion/lean/IntMul/ComputableCore.lean file contains an actual computable natural-number product and a stated equality theorem. The lean/IntMul/ExecutableAlgorithm/IdealizedFastDFT.lean file instead uses noncomputable complex arithmetic. No Lake package manifest was found in the inspected root tree. Build and speed were not tested."
+
+[[component]]
+id = "intmul/computable-nat-mul"
+source = "intmul"
+capability = "Natural-number multiplication with a self-recursive FFT-based arithmetic pipeline"
+domain = "integer arithmetic"
+declarations = ["computableNatMulAux", "computableNatMul", "computableNatMulAux_eq_mul", "computableNatMul_eq_mul"]
+paths = ["companion/lean/IntMul/ComputableCore.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "stated-proved:computableNatMul_eq_mul"
+status = "adaptable"
+evidence = ["ComputableCore.lean:2341-2372 defines computableNatMulAux and computableNatMul and proves equality for bounded inputs", "Source revision 4738aeff839dafd4bbcd176a0550f70242d966a6; no build or timing measurement in this survey"]
+notes = "A real Lean algorithm, but source-level proof and performance need independent validation before replacing Lean's native Nat multiplication. The companion source is not a packaged Lake dependency."
 
 [[rejected]]
 name = "Lean4Lean"
