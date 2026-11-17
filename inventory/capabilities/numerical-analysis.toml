@@ -18,6 +18,7 @@ catalogue = []
 tests = ["For rational inputs exactly representable at p bits, rounded addition agrees with rational addition when the result is representable", "For a positive rational between two adjacent p-bit values, rounding toward negative and positive infinity returns those respective neighbours"]
 reuse = { status = "adaptable", components = ["FloatLib.binary-formats", "FloatLib.certified-transcendentals"], evidence = "FloatLib defines executable formats parameterized by a type-level precision, and a correctly rounded transcendental subset. A run-time p to typed-format representation and generic arithmetic composition remain unverified." }
 backends = ["mpfr"]
+references = []
 
 [[capability]]
 id = "interval.real-enclosure-arithmetic"
@@ -34,6 +35,7 @@ catalogue = []
 tests = ["For rational x and y contained in input intervals X and Y, exact rational x+y and x*y lie in the corresponding output intervals", "For X = [2,3], the square-root enclosure contains sqrt(2) and sqrt(3), witnessed by squared endpoint inequalities"]
 reuse = { status = "adaptable", components = ["leancert.dyadic-interval", "leancert.rat-interval", "leancert.expr-eval-dyadic", "interval.floating", "interval.interval-special-functions"], evidence = "LeanCert supplies proved dyadic and rational containment; girving/interval supplies fixed-width outward-rounded transcendental intervals. Neither surveyed component supplies the full Sage run-time precision and ball contracts." }
 backends = ["mpfi", "arb"]
+references = []
 
 [[capability]]
 id = "numerical.real-root-localization"
@@ -50,6 +52,7 @@ catalogue = []
 tests = ["For f(x)=x^2-2 on [1,2], an enclosing result contains the positive square root of 2 by endpoint sign inequalities", "For a bracket with f(a)f(b)>0, a method requiring a sign-change proof returns a stated failure instead of a root claim"]
 reuse = { status = "adaptable", components = ["leancert.root-finding", "leancert.dyadic-interval"], evidence = "LeanCert proves root existence and exclusion for interval bisection and contraction; the Sage method's point-estimate result and the certified result need separate public contracts." }
 backends = ["scipy"]
+references = []
 
 [[capability]]
 id = "numerical.definite-integration"
@@ -66,3 +69,4 @@ catalogue = []
 tests = ["For f(x)=x^2 on [0,1], the certified interval contains 1/3 and meets its declared width bound", "For a polynomial antiderivative F, an integral enclosure contains exact F(b)-F(a) for run-time rational endpoints"]
 reuse = { status = "adaptable", components = ["leancert.integration", "leancert.expr-eval-dyadic"], evidence = "LeanCert has certified uniform and adaptive interval integration. Its accepted function representation and hypotheses must be reconciled with the Sage numerical integration domain; GSL's error estimate is not a containment certificate." }
 backends = ["gsl"]
+references = []
