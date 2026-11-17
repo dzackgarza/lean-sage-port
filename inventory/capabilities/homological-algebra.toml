@@ -101,3 +101,52 @@ tests = ["Projection_j after inclusion_i is identity for i=j and zero otherwise;
 reuse = { status = "formalized-not-executable", components = ["mathlib.homology.complexes"], evidence = "Reuse the abstract complex semantics. The capability requires explicit computational inclusions and projections in addition to assembled matrices." }
 backends = []
 references = []
+
+[[capability]]
+id = "complexes.tensor-product"
+title = "Tensor product of finite free complexes"
+statement = "Construct the graded tensor product of two complexes, including the signed tensor differential and the canonical pure-tensor map."
+domain = "Bounded complexes of finite free modules over one commutative ring with integer grading and a common odd differential degree."
+contract = "(C⊗D)_i=⊕_(a+b=i) C_a⊗D_b, with d(x⊗y)=d_C(x)⊗y+(-1)^(a*delta)x⊗d_D(y) for homogeneous x in C_a. Retain the coefficient ring, factor embeddings, chosen tensor bases and the signed differential."
+exactness = "exact"
+algorithms = [{ family = "Kronecker blocks and Koszul signs", sources = ["sage/homology/chain_complex.py:ChainComplex_class.tensor"] }]
+depends_on = ["complexes.finite-free-construction", "complexes.finite-direct-sum", "matrices.arithmetic"]
+sage = ["sage.homology.chain_complex:ChainComplex_class.tensor"]
+catalogue = []
+tests = ["For homogeneous runtime basis vectors x in degree a and y, the returned differential equals the signed Leibniz formula and its square is zero.", "For two one-step complexes with differentials multiplication by runtime scalars u and v, the middle differential has signed entries and consecutive tensor differentials compose to zero.", "Tensoring with the complex containing R only in degree zero yields a complex isomorphic to the original through the pure-tensor map."]
+reuse = { status = "formalized-not-executable", components = ["mathlib.alg.tensor-product", "mathlib.homology.complexes", "mathlib.linalg.trace-kronecker"], evidence = "Mathlib supplies tensor-product semantics and computable matrix Kronecker operations. No surveyed component constructs the signed tensor complex with preserved factor maps." }
+backends = []
+references = []
+license_notes = "Sage source is GPL-2.0-or-later."
+
+[[capability]]
+id = "complexes.chain-homotopy"
+title = "Chain homotopy between chain maps"
+statement = "Construct a graded homotopy witnessing that two chain maps induce the same homology map."
+domain = "Two chain maps f,g:C→D between bounded finite free complexes of common differential degree delta."
+contract = "Return degree-minus-delta maps H_i:C_i→D_(i-delta), retaining f,g,C,D and checking f-g=d_D H+H d_C in every degree. Expose each H_i for later composition and dualization."
+exactness = "exact"
+algorithms = [{ family = "Degreewise matrix assembly and chain-homotopy equation", sources = ["sage/homology/chain_homotopy.py:ChainHomotopy.__init__"] }]
+depends_on = ["complexes.chain-maps", "matrices.arithmetic"]
+sage = ["sage.homology.chain_homotopy:ChainHomotopy", "sage.homology.chain_homotopy:ChainHomotopy.in_degree", "sage.homology.chain_homotopy:ChainHomotopy.dual"]
+catalogue = []
+tests = ["For runtime homotopy matrices H, compute f-g and d_D H+H d_C independently in every degree; reject a changed matrix that breaks the equality.", "For every cycle z, f(z)-g(z)=d_D H(z), so f and g return equal homology classes.", "Dualizing twice returns the original homotopy under evaluation and retains the reversed source and target maps."]
+reuse = { status = "formalized-not-executable", components = ["mathlib.homology.complexes"], evidence = "Mathlib supplies the abstract homotopy equation. The surveyed map does not establish an executable construction on runtime matrix complexes." }
+backends = []
+references = []
+
+[[capability]]
+id = "complexes.chain-contraction"
+title = "Chain contraction with projection and inclusion"
+statement = "Construct a strong deformation retract of one complex onto another."
+domain = "Bounded finite free complexes C and M over the same commutative ring, chain maps pi:C→M and iota:M→C, and degree-minus-delta homotopy H on C."
+contract = "Return (pi,iota,H) with pi*iota=id_M, id_C-iota*pi=dH+Hd, H²=0, pi*H=0 and H*iota=0. Retain both complexes and maps so cycles in M lift to C through iota."
+exactness = "exact"
+algorithms = [{ family = "Matrix identity checks for a strong deformation retract", sources = ["sage/homology/chain_homotopy.py:ChainContraction.__init__"] }]
+depends_on = ["complexes.chain-maps", "complexes.chain-homotopy"]
+sage = ["sage.homology.chain_homotopy:ChainContraction", "sage.homology.chain_homotopy:ChainContraction.pi", "sage.homology.chain_homotopy:ChainContraction.iota", "sage.homology.chain_homotopy:ChainContraction.dual"]
+catalogue = []
+tests = ["For runtime maps and homotopy, check all five contraction equations on component matrices in every degree.", "For an acyclic two-term summand with identity differential adjoined to a zero-differential complex, the projection and inclusion induce inverse homology maps and iota lifts each basis class to a cycle.", "A map with pi*iota different from identity is rejected even if the homotopy equation holds."]
+reuse = { status = "formalized-not-executable", components = ["mathlib.homology.complexes"], evidence = "The source map records formal chain homotopies, but no executable matrix contraction with retained pi and iota." }
+backends = []
+references = ["PR2015"]
