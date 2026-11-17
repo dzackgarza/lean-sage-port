@@ -65,7 +65,7 @@ The baseline source is [`inventory/sage/index/`](../inventory/sage/index/) at th
 | Integers and Rational Numbers (`rings_standard`) | [`integers-and-rationals.toml`](../inventory/capabilities/integers-and-rationals.toml) |
 | SAT solvers (`sat`) | — |
 | Schemes (`schemes`) | — |
-| Semirings (`semirings`) | — |
+| Semirings (`semirings`) | [`semirings.toml`](../inventory/capabilities/semirings.toml) |
 | Sets (`sets`) | — |
 | Statistics (`stats`) | — |
 | Tensors on Free Modules of Finite Rank (`tensor_free_modules`) | — |

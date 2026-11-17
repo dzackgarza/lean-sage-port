@@ -526,7 +526,7 @@ id = "semirings"
 group = "Mathematics / Mathematical Structures"
 title = "Semirings"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/semirings.toml"]
 
 [[section]]
 id = "sets"

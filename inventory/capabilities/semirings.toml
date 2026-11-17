@@ -1,0 +1,83 @@
+# Semiring operations in Sage 11.0.beta5, c00171e47d6e68d8148d7ee10c4dd77b71a97662.
+
+domain = "semirings"
+
+[[capability]]
+id = "semirings.natural-numbers"
+title = "Natural-number semiring"
+statement = "Construct the nonnegative integers with their inherited addition, multiplication, zero and one."
+domain = "Nonnegative integers."
+contract = "N as a commutative semiring with additive generator 1; elements remain natural numbers under subsequent arithmetic."
+exactness = "exact"
+algorithms = [{ family = "Reuse natural-number arithmetic", sources = ["sage.rings.semirings.non_negative_integer_semiring:NonNegativeIntegerSemiring"] }]
+depends_on = ["integers.arithmetic"]
+sage = ["sage.rings.semirings.non_negative_integer_semiring:NonNegativeIntegerSemiring", "sage.rings.semirings.non_negative_integer_semiring:NonNegativeIntegerSemiring.additive_semigroup_generators"]
+catalogue = ["obj.semirings.naturals", "op.semirings.add", "op.semirings.mul", "op.semirings.pow"]
+tests = ["Sage doctests: sage.rings.semirings.non_negative_integer_semiring:NonNegativeIntegerSemiring; compare natural-number results through the catalogue operations."]
+reuse = { status = "reusable", components = ["lean-core.int.bignum-arithmetic"], evidence = "Lean core supplies executable Nat addition, multiplication, and power; the survey records the actual declarations. This record concerns their semiring realization, not a separate representation." }
+backends = []
+references = []
+
+[[capability]]
+id = "semirings.tropical-construction"
+title = "Min-plus and max-plus tropical semirings"
+statement = "Adjoin a selected infinity to an ordered additive base and use min or max as semiring addition and base addition as multiplication."
+domain = "An ordered additive commutative group with decidable comparison; choose min-plus or max-plus convention."
+contract = "(R,orientation) -> T(R) with tropical zero equal to the selected infinity and tropical one equal to base zero. Elements retain base values and convention."
+exactness = "exact"
+algorithms = [{ family = "Tagged infinity and ordered base arithmetic", sources = ["sage.rings.semirings.tropical_semiring:TropicalSemiring", "sage.rings.semirings.tropical_semiring:TropicalSemiringElement"] }]
+depends_on = []
+sage = ["sage.rings.semirings.tropical_semiring:TropicalSemiring", "sage.rings.semirings.tropical_semiring:TropicalSemiringElement", "sage.rings.semirings.tropical_semiring:TropicalSemiring.zero", "sage.rings.semirings.tropical_semiring:TropicalSemiring.one", "sage.rings.semirings.tropical_semiring:TropicalSemiringElement.lift"]
+catalogue = ["op.semirings.add", "op.semirings.mul", "op.semirings.pow"]
+tests = ["Sage doctests: sage.rings.semirings.tropical_semiring:TropicalSemiring and TropicalSemiringElement; compare min-plus and max-plus operations, including their distinct zero and one elements."]
+reuse = { status = "missing", components = [], evidence = "The inspected Mathlib, Hex, and broader Lean reuse maps have no identified executable min-plus or max-plus semiring with tagged infinity and retained orientation." }
+backends = []
+references = []
+
+[[capability]]
+id = "semirings.tropical-base-change"
+title = "Transport between tropical semirings"
+statement = "Apply an order-preserving additive map of bases to tropical elements and the selected infinity."
+domain = "Min-plus or max-plus tropical semirings with the same orientation and an order-preserving additive base map."
+contract = "(f:R->S,T(R),T(S)) -> semiring map T(f):T(R)->T(S), preserving the selected infinity, tropical addition, and multiplication."
+exactness = "exact"
+algorithms = [{ family = "Map finite values and preserve infinity", sources = ["sage.rings.semirings.tropical_semiring:TropicalToTropical"] }]
+depends_on = ["semirings.tropical-construction"]
+sage = ["sage.rings.semirings.tropical_semiring:TropicalToTropical"]
+catalogue = []
+tests = ["Sage doctests: sage.rings.semirings.tropical_semiring:TropicalToTropical, including Z-to-Q base change and infinity preservation; compare map composition on finite values."]
+reuse = { status = "missing", components = [], evidence = "The inspected reuse maps identify no executable tropical-base-change map; the owner of mathematical morphisms must supply its catalogue operation." }
+backends = []
+references = []
+
+[[capability]]
+id = "semirings.tropical-matrix-closure"
+title = "Tropical matrix path closure"
+statement = "Compute the convergent tropical sum of positive matrix powers, optionally with identity."
+domain = "Square matrices over a min-plus or max-plus tropical semiring with exact ordered-group base; report a cycle that makes the sum unbounded."
+contract = "A -> A+ A^2+... (weak) or I+A+A^2+... (strong), entrywise in the tropical semiring. Preserve the matrix's vertex indices and base convention."
+exactness = "exact"
+algorithms = [{ family = "Floyd-Warshall closure", sources = ["sage.rings.semirings.tropical_matrix:Matrix_tropical_dense.weak_transitive_closure", "[But2010] Algorithm 1.6.21"] }]
+depends_on = ["semirings.tropical-construction", "matrices.arithmetic"]
+sage = ["sage.rings.semirings.tropical_matrix:Matrix_tropical_dense.weak_transitive_closure", "sage.rings.semirings.tropical_matrix:Matrix_tropical_dense.strong_transitive_closure"]
+catalogue = []
+tests = ["Sage doctests: sage.rings.semirings.tropical_matrix:Matrix_tropical_dense.weak_transitive_closure and strong_transitive_closure; compare each entry and the unbounded-cycle result at the same min/max convention."]
+reuse = { status = "missing", components = [], evidence = "The inspected reuse maps contain neither a generic tropical matrix closure producer nor its unbounded-cycle contract. Hex's future graph shortest-path entry is a specification, not this operation." }
+backends = []
+references = ["But2010"]
+
+[[capability]]
+id = "semirings.tropical-cycle-mean"
+title = "Extremal cycle mean of a tropical matrix"
+statement = "Return the minimum or maximum mean weight of directed cycles represented by a square tropical matrix."
+domain = "Square tropical matrices over an exact ordered subgroup of Q, with min-plus or max-plus convention."
+contract = "A -> the extremal cycle mean in the selected convention, or the corresponding infinity when no finite cycle exists."
+exactness = "exact"
+algorithms = [{ family = "Karp cycle-mean algorithm", sources = ["sage.rings.semirings.tropical_matrix:Matrix_tropical_dense.extremum_cycle_mean", "[But2010] Section 1.6.1"] }]
+depends_on = ["semirings.tropical-construction", "matrices.arithmetic"]
+sage = ["sage.rings.semirings.tropical_matrix:Matrix_tropical_dense.extremum_cycle_mean"]
+catalogue = []
+tests = ["Sage doctests: sage.rings.semirings.tropical_matrix:Matrix_tropical_dense.extremum_cycle_mean; compare exact rational cycle means and the empty-matrix convention.", "For a small matrix, enumerate directed cycles independently and compare their mean weights."]
+reuse = { status = "missing", components = [], evidence = "No executable tropical cycle-mean producer was identified in the inspected Mathlib, Hex, or broader Lean reuse maps." }
+backends = []
+references = ["But2010"]
