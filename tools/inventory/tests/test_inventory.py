@@ -165,6 +165,9 @@ def test_coverage_counts_documented_public_entities_by_capability_exclusion_and_
     assert (report.capabilities, report.exclusions) == (1, 1)
     (section,) = report.sections
     assert (section.section, section.doctests, section.doctests_by_capability) == ("rings_standard", 7, 3)
+    # `sage.rings.unlisted:stray` is public, outside the manual, and selected by no record.
+    (package,) = report.unlisted
+    assert (package.package, package.public_entities, package.unaccounted) == ("sage.rings", 1, 1)
 
 
 def _records_with(tmp_path: Path, old: str, new: str) -> Path:

@@ -2,7 +2,9 @@
 
 The denominator is every public entity (class, function, method) of a module that the reference
 manual documents. An entity is accounted for when a capability record or an exclusion record
-selects it. A selector is a shell-style pattern:
+selects it. Modules that the manual does not list are counted separately, by package: Sage documents
+some of them through a listed class that imports their functions as methods. A selector is a
+shell-style pattern:
 
 - `sage.rings.finite_rings.*` selects every entity of the matching modules;
 - `sage.rings.integer:Integer.gcd` or `sage.matrix.*:*.determinant` selects entities by qualified name.
@@ -27,6 +29,7 @@ from sage_inventory.models import (
     Entity,
     Exclusion,
     IndexSummary,
+    PackageCoverage,
     SectionCoverage,
 )
 
@@ -101,12 +104,16 @@ def measure(index: Path, capabilities_dir: Path, reuse_dir: Path) -> CoverageRep
 
     counts: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
     groups: dict[str, str] = {}
+    unlisted: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
     for entity in entities:
-        placement = modules[entity.module].manual
-        if placement is None or not entity.public:
+        if not entity.public:
             continue
-        groups[placement.section] = placement.group
-        row = counts[placement.section]
+        placement = modules[entity.module].manual
+        if placement is None:
+            row = unlisted[".".join(entity.module.split(".")[:2])]
+        else:
+            groups[placement.section] = placement.group
+            row = counts[placement.section]
         row["public_entities"] += 1
         row["doctests"] += entity.doctests
         if entity.id in by_capability:
@@ -138,4 +145,14 @@ def measure(index: Path, capabilities_dir: Path, reuse_dir: Path) -> CoverageRep
         excluded=sum(section.excluded for section in sections),
         unaccounted=sum(section.unaccounted for section in sections),
         sections=sections,
+        unlisted=tuple(
+            PackageCoverage(
+                package=package,
+                public_entities=row["public_entities"],
+                by_capability=row["by_capability"],
+                excluded=row["excluded"],
+                unaccounted=row["unaccounted"],
+            )
+            for package, row in sorted(unlisted.items())
+        ),
     )

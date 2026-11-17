@@ -232,7 +232,19 @@ class SectionCoverage(Strict):
     doctests_by_capability: int
 
 
+class PackageCoverage(Strict):
+    """Public entities of the modules of one package that the reference manual does not list."""
+
+    package: str
+    public_entities: int
+    by_capability: int
+    excluded: int
+    unaccounted: int
+
+
 class CoverageReport(Strict):
+    """The totals count documented modules. `unlisted` counts the rest of the source, by package."""
+
     revision: Revision
     capabilities: int
     exclusions: int
@@ -241,3 +253,4 @@ class CoverageReport(Strict):
     excluded: int
     unaccounted: int
     sections: tuple[SectionCoverage, ...]
+    unlisted: tuple[PackageCoverage, ...]
