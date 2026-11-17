@@ -1,0 +1,1866 @@
+# Upstream licence and provenance of external engines and databases that SageMath calls.
+# Sage index: 11.0.beta5, commit c00171e47d6e68d8148d7ee10c4dd77b71a97662.
+# Upstream sources read 2026-11-17. 'agrees_with_sage' is yes | no | imprecise | unverified | no-sage-statement | no-sage-package.
+# sage_modules counts distinct modules in inventory/sage/index/modules.jsonl naming any of sage_backends.
+
+[[engine]]
+id = "4ti2"
+name = "4ti2"
+kind = "system"
+provides = "Lattice bases, Markov and Graver bases, toric ideals of integer matrices"
+upstream = "https://github.com/4ti2/4ti2"
+sage_package = "4ti2"
+sage_type = "optional"
+sage_version = "1.6.10"
+sage_backends = ["interface:four_ti_2"]
+sage_modules = 1
+sage_states = "4ti2 is released under a GPL v2 license."
+licence = "GPL-2.0-or-later"
+licence_evidence = "gh api repos/4ti2/4ti2 COPYING and source headers 'version 2 of the License, or (at your option) any later version' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "imprecise"
+porting = "reference-only"
+porting_note = "Sage writes 'GPL v2' and omits 'or later'."
+
+[[engine]]
+id = "arb"
+name = "Arb"
+kind = "library"
+provides = "Ball arithmetic: rigorous real and complex intervals, special functions"
+upstream = "https://github.com/flintlib/arb"
+sage_package = ""
+sage_type = ""
+sage_version = ""
+sage_backends = ["arb"]
+sage_modules = 2
+sage_states = ""
+licence = "LGPL-2.1-or-later"
+licence_evidence = "gh api repos/flintlib/arb README (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no-sage-package"
+porting = "reference-only"
+porting_note = "Arb was merged into FLINT 3; Sage now gets Arb from the flint package, which is LGPL-3.0-or-later."
+
+[[engine]]
+id = "axiom"
+name = "Axiom"
+kind = "system"
+provides = "Computer algebra system (interface only)"
+upstream = "https://github.com/daly/axiom"
+sage_package = ""
+sage_type = ""
+sage_version = ""
+sage_backends = ["interface:axiom"]
+sage_modules = 2
+sage_states = ""
+licence = "BSD-3-Clause"
+licence_evidence = "gh api repos/daly/axiom readme: 'released under the Modified BSD license' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no-sage-package"
+porting = "permissive-portable"
+porting_note = "Not shipped by Sage; the interface calls an installed axiom binary."
+
+[[engine]]
+id = "brial"
+name = "BRiAl"
+kind = "library"
+provides = "Boolean polynomial rings and Groebner bases (PolyBoRi successor)"
+upstream = "https://github.com/BRiAl/BRiAl"
+sage_package = "brial"
+sage_type = "standard"
+sage_version = "1.2.15"
+sage_backends = []
+sage_modules = 0
+sage_states = "GPL version 2 or later"
+licence = "GPL-2.0-or-later"
+licence_evidence = "gh api repos/BRiAl/BRiAl licence files and headers (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "cddlib"
+name = "cddlib"
+kind = "library"
+provides = "Double description method: polyhedron vertex and facet enumeration"
+upstream = "https://github.com/cddlib/cddlib"
+sage_package = "cddlib"
+sage_type = "standard"
+sage_version = "0.94n"
+sage_backends = []
+sage_modules = 0
+sage_states = "GPL v2"
+licence = "GPL-2.0-only"
+licence_evidence = "gh api repos/cddlib/cddlib COPYING is the GPL-2 text; headers say 'Please read COPYING (GNU General Public Licence)' without a version or 'or later' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = "Inferred: '-only' because no 'or later' statement was found."
+
+[[engine]]
+id = "cliquer"
+name = "Cliquer"
+kind = "library"
+provides = "Maximum and weighted cliques in graphs"
+upstream = "https://github.com/dimpase/autocliquer"
+sage_package = "cliquer"
+sage_type = "standard"
+sage_version = "1.23"
+sage_backends = []
+sage_modules = 0
+sage_states = "GNU General Public License v2"
+licence = "GPL-2.0-or-later"
+licence_evidence = "gh api repos/dimpase/autocliquer README 'GPL version 2 or later'; the original page users.aalto.fi/~pat/cliquer.html says 'GNU GPL' without a version (read 2026-11-17)"
+verified = true
+agrees_with_sage = "imprecise"
+porting = "reference-only"
+porting_note = "Sage writes 'GPL v2' and omits 'or later'."
+
+[[engine]]
+id = "conway_polynomials"
+name = "Conway polynomials database"
+kind = "database"
+provides = "Conway polynomials of finite fields (Frank Luebeck's tables)"
+upstream = "https://github.com/sagemath/conway-polynomials"
+sage_package = "conway_polynomials"
+sage_type = "standard"
+sage_version = "0.10"
+sage_backends = []
+sage_modules = 0
+sage_states = "GPL version 3 or later"
+licence = "GPL-3.0-or-later"
+licence_evidence = "gh api repos/sagemath/conway-polynomials COPYING (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = "The polynomials are mathematical facts that can be recomputed; the packaged file and code are GPL."
+
+[[engine]]
+id = "coxeter3"
+name = "Coxeter 3"
+kind = "library"
+provides = "Coxeter groups: Bruhat order, Kazhdan-Lusztig polynomials, cells"
+upstream = "https://github.com/tscrim/coxeter"
+sage_package = "coxeter3"
+sage_type = "optional"
+sage_version = "8ac9c71723c8ca57a836d6381aed125261e44e9e.p0"
+sage_backends = ["coxeter3"]
+sage_modules = 5
+sage_states = "GPL"
+licence = "LicenseRef-GPL-unversioned"
+licence_evidence = "gh api repos/tscrim/coxeter: no licence file, headers only 'Copyright (C) 2002 Fokko du Cloux'; du Cloux page math.univ-lyon1.fr/~ducloux/coxeter/coxeter3/english/coxeter3_e.html: 'license of the Free Software Foundation ... copyleft' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = "No GPL version is stated anywhere upstream."
+
+[[engine]]
+id = "cvxopt"
+name = "CVXOPT"
+kind = "library"
+provides = "Convex optimisation: cone programs, LP, QP"
+upstream = "https://github.com/cvxopt/cvxopt"
+sage_package = "cvxopt"
+sage_type = "standard"
+sage_version = "1.3.3"
+sage_backends = ["cvxopt"]
+sage_modules = 3
+sage_states = "GPLv3 or later. Includes parts under GPLv2, GNU Lesser General Public License, v2.1. See src/LICENSE for more details. (Sage-compatible)"
+licence = "GPL-3.0-or-later"
+licence_evidence = "gh api repos/cvxopt/cvxopt LICENSE (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = "Bundled parts carry GPL-2 / LGPL-2.1 terms, as Sage also says."
+
+[[engine]]
+id = "cypari2"
+name = "cypari2"
+kind = "library"
+provides = "Cython bindings to PARI"
+upstream = "https://github.com/sagemath/cypari2"
+sage_package = "cypari"
+sage_type = "standard"
+sage_version = "2.2.6"
+sage_backends = []
+sage_modules = 0
+sage_states = "GPL version 2 or later"
+licence = "GPL-2.0-or-later"
+licence_evidence = "gh api repos/sagemath/cypari2 licence file (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "ecl"
+name = "Embeddable Common Lisp"
+kind = "system"
+provides = "Common Lisp implementation that runs Maxima inside Sage"
+upstream = "https://gitlab.com/embeddable-common-lisp/ecl"
+sage_package = "ecl"
+sage_type = "standard"
+sage_version = "26.5.5"
+sage_backends = ["ecl", "interface:lisp"]
+sage_modules = 4
+sage_states = "- LGPL V2+ or compatible - for details see https://common-lisp.net/project/ecl/static/manual/Copyrights.html#Copyright-of-ECL"
+licence = "LGPL-2.1-or-later"
+licence_evidence = "gitlab.com/embeddable-common-lisp/ecl LICENSE (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "eclib"
+name = "eclib (mwrank)"
+kind = "library"
+provides = "Elliptic curves over Q: 2-descent (mwrank), modular symbols, Cremona tables"
+upstream = "https://github.com/JohnCremona/eclib"
+sage_package = "eclib"
+sage_type = "standard"
+sage_version = "20250627"
+sage_backends = ["eclib", "interface:mwrank"]
+sage_modules = 11
+sage_states = "eclib is licensed GPL v2+."
+licence = "GPL-2.0-or-later"
+licence_evidence = "gh api repos/JohnCremona/eclib libsrc headers 'version 2 of the License, or (at your option) any later version' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = "The mwrank program is part of eclib."
+
+[[engine]]
+id = "ecm"
+name = "GMP-ECM"
+kind = "library"
+provides = "Integer factorisation by elliptic curves, P-1, P+1"
+upstream = "https://gitlab.inria.fr/zimmerma/ecm"
+sage_package = "ecm"
+sage_type = "standard"
+sage_version = "7.0.7"
+sage_backends = ["interface:ecm"]
+sage_modules = 2
+sage_states = "LGPL V3+"
+licence = "LGPL-3.0-or-later AND GPL-3.0-or-later"
+licence_evidence = "git clone gitlab.inria.fr/zimmerma/ecm: ecm.c header LGPL v3 or later (library); COPYING says the ecm binary is GPL-3 or later (read 2026-11-17)"
+verified = true
+agrees_with_sage = "imprecise"
+porting = "reference-only"
+porting_note = "Sage says 'LGPL V3+'; the Sage interface runs the ecm binary, which is GPL-3.0-or-later."
+
+[[engine]]
+id = "elliptic_curves"
+name = "Elliptic curve databases (Cremona mini, Stein ellcurves)"
+kind = "database"
+provides = "Cremona tables up to conductor 10000 and Stein's curves"
+upstream = "https://github.com/JohnCremona/ecdata"
+sage_package = "elliptic_curves"
+sage_type = "standard"
+sage_version = "0.8.1"
+sage_backends = []
+sage_modules = 0
+sage_states = ""
+licence = "Artistic-2.0 AND NOASSERTION"
+licence_evidence = "gh api repos/JohnCremona/ecdata LICENSE is Artistic-2.0 (Cremona part); no upstream source found for William Stein's ellcurves database (read 2026-11-17)"
+verified = false
+agrees_with_sage = "no-sage-statement"
+porting = "reference-only"
+porting_note = "verified=false for the Stein part: SPKG.rst lists only an email contact. Artistic-2.0 is not in the permissive list, so reference-only (inferred classification). The curve data are recomputable facts."
+
+[[engine]]
+id = "fflas_ffpack"
+name = "FFLAS-FFPACK"
+kind = "library"
+provides = "Dense linear algebra over finite fields (BLAS-based)"
+upstream = "https://github.com/linbox-team/fflas-ffpack"
+sage_package = "fflas_ffpack"
+sage_type = "standard"
+sage_version = "2.5.0+sage-2026-10-18"
+sage_backends = []
+sage_modules = 0
+sage_states = "LGPL V2.1 or later"
+licence = "LGPL-2.1-or-later"
+licence_evidence = "gh api repos/linbox-team/fflas-ffpack README (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "flint"
+name = "FLINT"
+kind = "library"
+provides = "Number theory: integer, rational, polynomial, matrix, p-adic, finite field and ball arithmetic"
+upstream = "https://github.com/flintlib/flint"
+sage_package = "flint"
+sage_type = "standard"
+sage_version = "3.4.0"
+sage_backends = ["flint"]
+sage_modules = 55
+sage_states = "FLINT is licensed GPL v2+."
+licence = "LGPL-3.0-or-later"
+licence_evidence = "gh api repos/flintlib/flint README 'LGPL version 3 or later'; COPYING.LESSER is the LGPL-3 text (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no"
+porting = "reference-only"
+porting_note = "Sage SPKG says 'GPL v2+'; Sage COPYING.txt also lists GPLv2+."
+
+[[engine]]
+id = "fplll"
+name = "fplll"
+kind = "library"
+provides = "Lattice reduction: LLL, BKZ, enumeration, SVP/CVP"
+upstream = "https://github.com/fplll/fplll"
+sage_package = "fplll"
+sage_type = "standard"
+sage_version = "5.5.0"
+sage_backends = []
+sage_modules = 0
+sage_states = "- LGPL V2.1+"
+licence = "LGPL-2.1-or-later"
+licence_evidence = "gh api repos/fplll/fplll licence file (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "fpylll"
+name = "fpylll"
+kind = "library"
+provides = "Python bindings to fplll"
+upstream = "https://github.com/fplll/fpylll"
+sage_package = "fpylll"
+sage_type = "standard"
+sage_version = "0.6.4"
+sage_backends = []
+sage_modules = 0
+sage_states = "GPL version 2 or later"
+licence = "GPL-2.0-or-later"
+licence_evidence = "gh api repos/fplll/fpylll licence file (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "fricas"
+name = "FriCAS"
+kind = "system"
+provides = "Computer algebra system: symbolic integration, algebraic structures"
+upstream = "https://github.com/fricas/fricas"
+sage_package = "fricas"
+sage_type = "optional"
+sage_version = "1.3.12"
+sage_backends = ["interface:fricas"]
+sage_modules = 8
+sage_states = "Modified BSD license."
+licence = "BSD-3-Clause"
+licence_evidence = "gh api repos/fricas/fricas licence file (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "permissive-portable"
+porting_note = ""
+
+[[engine]]
+id = "frobby"
+name = "Frobby"
+kind = "system"
+provides = "Monomial ideals: irreducible decomposition, Alexander duals, Hilbert series"
+upstream = "https://github.com/Macaulay2/frobby"
+sage_package = "frobby"
+sage_type = "optional"
+sage_version = "0.9.0.p2"
+sage_backends = ["interface:frobby"]
+sage_modules = 1
+sage_states = "- GPL version 2.0 or later"
+licence = "GPL-2.0-or-later"
+licence_evidence = "gh api repos/Macaulay2/frobby licence file (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "gap"
+name = "GAP"
+kind = "system"
+provides = "Computational group theory: permutation, matrix, finitely presented groups, character tables"
+upstream = "https://github.com/gap-system/gap"
+sage_package = "gap"
+sage_type = "standard"
+sage_version = "4.16.1"
+sage_backends = ["gap", "interface:gap"]
+sage_modules = 101
+sage_states = ""
+licence = "GPL-2.0-or-later"
+licence_evidence = "gh api repos/gap-system/gap COPYRIGHT (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no-sage-statement"
+porting = "reference-only"
+porting_note = "GAP packages carry their own licences."
+
+[[engine]]
+id = "gap3"
+name = "GAP 3 (Jean Michel's distribution)"
+kind = "system"
+provides = "GAP 3 with CHEVIE: Hecke algebras, Coxeter and reflection groups"
+upstream = "https://github.com/jmichel7/gap3-jm"
+sage_package = "gap3"
+sage_type = "experimental"
+sage_version = "04jul17"
+sage_backends = ["interface:gap3"]
+sage_modules = 6
+sage_states = "Most parts of the GAP distribution, including the core part of the GAP system, are distributed under the terms of the GNU General Public License (see http://www.gnu.org/licenses/gpl.html or the file GPL in the etc directory of the GAP in..."
+licence = "LicenseRef-GAP3"
+licence_evidence = "gh api repos/jmichel7/gap3-jm doc/copyrigh.tex: free use, modified versions must stay free, 'proprietary modifications will not be allowed' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no"
+porting = "reference-only"
+porting_note = "Sage says GNU GPL; the GAP 3 copyright text is a custom licence, not the GPL."
+
+[[engine]]
+id = "genus2reduction"
+name = "genus2reduction (PARI genus2red)"
+kind = "library"
+provides = "Reduction type of genus-2 curves over Q"
+upstream = "https://pari.math.u-bordeaux.fr/"
+sage_package = "pari"
+sage_type = "standard"
+sage_version = "2.17.1"
+sage_backends = ["interface:genus2reduction"]
+sage_modules = 3
+sage_states = "GPL version 2+"
+licence = "GPL-2.0-or-later"
+licence_evidence = "Sage's interface calls PARI's genus2red; PARI git LICENSE at af459b2 (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = "No separate upstream: the former standalone program now lives in PARI."
+
+[[engine]]
+id = "gf2x"
+name = "gf2x"
+kind = "library"
+provides = "Multiplication of polynomials over GF(2)"
+upstream = "https://gitlab.inria.fr/gf2x/gf2x"
+sage_package = "gf2x"
+sage_type = "standard"
+sage_version = "1.3.0"
+sage_backends = []
+sage_modules = 0
+sage_states = "- GNU GPLv2+."
+licence = "LGPL-2.1-or-later"
+licence_evidence = "git clone gitlab.inria.fr/gf2x/gf2x: gf2x.c header LGPL 2.1 or later; the build becomes GPL-3.0-or-later only when the GPL file toom-gpl.c is used (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no"
+porting = "reference-only"
+porting_note = "Sage says 'GPLv2+'."
+
+[[engine]]
+id = "gfan"
+name = "Gfan"
+kind = "system"
+provides = "Groebner fans and tropical varieties"
+upstream = "https://users-math.au.dk/jensen/software/gfan/gfan.html"
+sage_package = "gfan"
+sage_type = "standard"
+sage_version = "0.6.2.p1"
+sage_backends = ["interface:gfan"]
+sage_modules = 2
+sage_states = "- GPL version 2 or version 3 (according to the gfan website)"
+licence = "GPL-2.0-only OR GPL-3.0-only"
+licence_evidence = "users-math.au.dk/jensen/software/gfan/gfan.html: 'version 2 or 3 as desired' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "giac"
+name = "Giac"
+kind = "system"
+provides = "Computer algebra: Groebner bases, symbolic integration, polynomial arithmetic"
+upstream = "https://www-fourier.univ-grenoble-alpes.fr/~parisse/giac.html"
+sage_package = "giac"
+sage_type = "optional"
+sage_version = "1.9.0.15p0"
+sage_backends = ["giac", "interface:giac"]
+sage_modules = 7
+sage_states = "GPLv3+ Note: except the french html documentation which is freely redistributable for non commercial only purposes. This doc has been removed in the Sage package, see spkg-src"
+licence = "GPL-3.0-or-later"
+licence_evidence = "upstream page: 'license GPL3, for commercial dual-license contact us'; gh api repos/geogebra/giac (mirror) gen.cc header version 3 or later (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "givaro"
+name = "Givaro"
+kind = "library"
+provides = "Finite fields, rational and integer arithmetic for LinBox"
+upstream = "https://github.com/linbox-team/givaro"
+sage_package = "givaro"
+sage_type = "standard"
+sage_version = "4.2.1.p1"
+sage_backends = []
+sage_modules = 0
+sage_states = "- GNU GPL"
+licence = "CECILL-B"
+licence_evidence = "gh api repos/linbox-team/givaro README and LICENSE (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no"
+porting = "permissive-portable"
+porting_note = "Sage says 'GNU GPL'. CeCILL-B is a BSD-style attribution licence; classed permissive (inferred: it is not in the rule's list by name)."
+
+[[engine]]
+id = "glpk"
+name = "GLPK"
+kind = "library"
+provides = "Linear and mixed-integer programming"
+upstream = "https://www.gnu.org/software/glpk/"
+sage_package = "glpk"
+sage_type = "standard"
+sage_version = "5.0.p1"
+sage_backends = ["glpk"]
+sage_modules = 2
+sage_states = "The GLPK package is GPL version 3."
+licence = "GPL-3.0-or-later"
+licence_evidence = "ftp.gnu.org glpk-5.0.tar.gz: src/glpk.h 'either version 3 of the License, or (at your option) any later version'; COPYING is GPL-3 (read 2026-11-17)"
+verified = true
+agrees_with_sage = "imprecise"
+porting = "reference-only"
+porting_note = "Sage writes 'GPL v3' and omits 'or later'."
+
+[[engine]]
+id = "gmp"
+name = "GMP"
+kind = "library"
+provides = "Arbitrary-precision integers, rationals and floats"
+upstream = "https://gmplib.org/"
+sage_package = "gmp"
+sage_type = "standard"
+sage_version = "6.3.0"
+sage_backends = ["gmp", "gmpxx"]
+sage_modules = 113
+sage_states = "- LGPL V3"
+licence = "LGPL-3.0-or-later OR GPL-2.0-or-later"
+licence_evidence = "gmplib.org: 'distributed under the dual licenses, GNU LGPL v3 and GNU GPL v2'; gmp-h.in header (gh api repos/gmp-mirror/gmp) states LGPL v3 or later, or GPL v2 or later (read 2026-11-17)"
+verified = true
+agrees_with_sage = "imprecise"
+porting = "reference-only"
+porting_note = "Sage says 'LGPL V3' and omits the GPL-2.0-or-later alternative and 'or later'."
+
+[[engine]]
+id = "gmpy2"
+name = "gmpy2"
+kind = "library"
+provides = "Python bindings to GMP, MPFR, MPC"
+upstream = "https://github.com/gmpy2/gmpy2"
+sage_package = "gmpy2"
+sage_type = "standard"
+sage_version = "2.3.0"
+sage_backends = []
+sage_modules = 0
+sage_states = "LGPL-3.0+"
+licence = "LGPL-3.0-or-later"
+licence_evidence = "gh api repos/gmpy2/gmpy2 licence file (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "gnuplot"
+name = "gnuplot"
+kind = "system"
+provides = "Function and data plotting (interface only)"
+upstream = "https://sourceforge.net/projects/gnuplot/"
+sage_package = ""
+sage_type = ""
+sage_version = ""
+sage_backends = ["interface:gnuplot"]
+sage_modules = 1
+sage_states = ""
+licence = "gnuplot"
+licence_evidence = "git clone of sourceforge gnuplot-main: Copyright file; modified source may be distributed only as patches (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no-sage-package"
+porting = "reference-only"
+porting_note = "Not copyleft but not permissive: modified copies only as patches. Plotting, not mathematics."
+
+[[engine]]
+id = "graphs"
+name = "Sage graph database (Grout, ISGCI, Brouwer)"
+kind = "database"
+provides = "Small graphs, ISGCI graph classes, strongly regular graphs"
+upstream = "https://jasongrout.org/graph_database"
+sage_package = "graphs"
+sage_type = "standard"
+sage_version = "20210214.p0"
+sage_backends = []
+sage_modules = 0
+sage_states = ""
+licence = "NOASSERTION"
+licence_evidence = "tried jasongrout.org (personal page, no database licence), graphclasses.org (no licence text), win.tue.nl/~aeb/graphs/srg/srgtab.html (no licence text) (read 2026-11-17)"
+verified = false
+agrees_with_sage = "no-sage-statement"
+porting = "reference-only"
+porting_note = "No licence found for any of the three sources; with no licence there is no permission to copy, so reference-only. The data are recomputable facts."
+
+[[engine]]
+id = "gsl"
+name = "GNU Scientific Library"
+kind = "library"
+provides = "Numerical special functions, integration, random numbers, linear algebra"
+upstream = "https://www.gnu.org/software/gsl/"
+sage_package = "gsl"
+sage_type = "standard"
+sage_version = "2.7.1"
+sage_backends = ["gsl"]
+sage_modules = 11
+sage_states = "- GPL V3"
+licence = "GPL-3.0-or-later"
+licence_evidence = "git clone savannah gsl: specfunc/gamma.c header 'either version 3 of the License, or (at your option) any later version' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "imprecise"
+porting = "reference-only"
+porting_note = "Sage writes 'GPL V3' and omits 'or later'."
+
+[[engine]]
+id = "highs"
+name = "HiGHS"
+kind = "library"
+provides = "Linear, mixed-integer and quadratic programming"
+upstream = "https://github.com/ERGO-Code/HiGHS"
+sage_package = "highs"
+sage_type = "standard"
+sage_version = "1.14.0"
+sage_backends = ["highs"]
+sage_modules = 1
+sage_states = "- MIT License"
+licence = "MIT"
+licence_evidence = "gh api repos/ERGO-Code/HiGHS LICENSE (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "permissive-portable"
+porting_note = ""
+
+[[engine]]
+id = "iml"
+name = "IML (Integer Matrix Library)"
+kind = "library"
+provides = "Exact integer and rational linear system solving, nullspaces"
+upstream = "https://cs.uwaterloo.ca/~astorjoh/iml.html"
+sage_package = "iml"
+sage_type = "standard"
+sage_version = "1.0.4p2.p2"
+sage_backends = ["iml"]
+sage_modules = 1
+sage_states = "- GPLv2+"
+licence = "BSD-3-Clause"
+licence_evidence = "cs.uwaterloo.ca/~astorjoh/iml-1.0.5.tar.bz2: src/*.c headers carry a 3-clause BSD text; the tarball COPYING file is the GPL-2 text (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no"
+porting = "permissive-portable"
+porting_note = "Sage says 'GPLv2+'. Inferred SPDX: the header text matches BSD-3-Clause. The GPL-2 COPYING file conflicts with the headers; confirm with the authors before porting code."
+
+[[engine]]
+id = "jmol"
+name = "Jmol"
+kind = "system"
+provides = "3-D molecular and surface viewer used for plots"
+upstream = "https://sourceforge.net/projects/jmol/"
+sage_package = "jmol"
+sage_type = "optional"
+sage_version = "14.29.52"
+sage_backends = ["interface:jmoldata"]
+sage_modules = 2
+sage_states = "GPLv2+"
+licence = "LGPL-2.1-or-later"
+licence_evidence = "gh api repos/BobHanson/Jmol-SwingJS src/org/jmol/viewer/Viewer.java header 'version 2.1 of the License, or (at your option) any later version'; sourceforge.net/projects/jmol says LGPLv2 (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no"
+porting = "reference-only"
+porting_note = "Sage says 'GPLv2+'. Visualisation, not mathematics."
+
+[[engine]]
+id = "kash"
+name = "KASH/KANT"
+kind = "proprietary-system"
+provides = "Algebraic number theory (KANT shell)"
+upstream = "https://www.math.tu-berlin.de/~kant/kash.html"
+sage_package = ""
+sage_type = ""
+sage_version = ""
+sage_backends = ["interface:kash"]
+sage_modules = 3
+sage_states = ""
+licence = "LicenseRef-KASH-freeware"
+licence_evidence = "web.archive.org 2022 copy of math.tu-berlin.de/~kant/kash.html: 'KASH is freely available'; the live page returned only the university portal; no licence terms or source release found (read 2026-11-17)"
+verified = false
+agrees_with_sage = "no-sage-package"
+porting = "proprietary-no-source"
+porting_note = "verified=false: only a free-binary statement was found, no licence terms. Inferred: binary-only freeware."
+
+[[engine]]
+id = "khoca"
+name = "Khoca"
+kind = "system"
+provides = "Khovanov homology of knots and links"
+upstream = "https://github.com/LLewark/khoca"
+sage_package = "khoca"
+sage_type = "optional"
+sage_version = "1.4"
+sage_backends = ["interface:khoca"]
+sage_modules = 2
+sage_states = "GPLv2+"
+licence = "GPL-3.0-or-later"
+licence_evidence = "gh api repos/LLewark/khoca source headers (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no"
+porting = "reference-only"
+porting_note = "Sage says 'GPLv2+'."
+
+[[engine]]
+id = "latte_int"
+name = "LattE integrale"
+kind = "system"
+provides = "Lattice-point counting and integration over polytopes"
+upstream = "https://github.com/latte-int/latte"
+sage_package = "latte_int"
+sage_type = "optional"
+sage_version = "1.7.6"
+sage_backends = ["interface:latte"]
+sage_modules = 3
+sage_states = "GPLv2"
+licence = "GPL-2.0-only"
+licence_evidence = "gh api repos/latte-int/latte headers 'under the terms of the version 2 of the GNU GPL' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = "Inferred: '-only' because no 'or later' statement was found."
+
+[[engine]]
+id = "lcalc"
+name = "lcalc"
+kind = "library"
+provides = "L-function zeros and values"
+upstream = "https://gitlab.com/sagemath/lcalc"
+sage_package = "lcalc"
+sage_type = "standard"
+sage_version = "2.2.2"
+sage_backends = ["lcalc"]
+sage_modules = 1
+sage_states = "- LGPL V2+"
+licence = "GPL-2.0-or-later"
+licence_evidence = "gitlab.com/sagemath/lcalc doc/COPYING (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no"
+porting = "reference-only"
+porting_note = "Sage says 'LGPL V2+'."
+
+[[engine]]
+id = "libbraiding"
+name = "libbraiding"
+kind = "library"
+provides = "Braid groups: normal forms, conjugacy, centralisers"
+upstream = "https://github.com/miguelmarco/libbraiding"
+sage_package = "libbraiding"
+sage_type = "standard"
+sage_version = "1.3.2"
+sage_backends = ["braiding"]
+sage_modules = 2
+sage_states = "GPLv3+"
+licence = "GPL-2.0-or-later"
+licence_evidence = "gh api repos/miguelmarco/libbraiding lib headers 'version 2 ... or (at your option) any later version'; LICENSE holds the GPL-3 text; README says 'GPL' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no"
+porting = "reference-only"
+porting_note = "Sage says 'GPLv3+'. The headers govern; GPL-3 distribution is compatible."
+
+[[engine]]
+id = "libhomfly"
+name = "libhomfly"
+kind = "library"
+provides = "HOMFLY polynomial of links"
+upstream = "https://github.com/miguelmarco/libhomfly"
+sage_package = "libhomfly"
+sage_type = "standard"
+sage_version = "1.04"
+sage_backends = ["homfly"]
+sage_modules = 1
+sage_states = "Public domain"
+licence = "Unlicense"
+licence_evidence = "gh api repos/miguelmarco/libhomfly licence file (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "permissive-portable"
+porting_note = "Public-domain dedication."
+
+[[engine]]
+id = "lie"
+name = "LiE"
+kind = "system"
+provides = "Lie group computations: representations, Weyl groups"
+upstream = "http://wwwmathlabo.univ-poitiers.fr/~maavl/LiE/"
+sage_package = "lie"
+sage_type = "experimental"
+sage_version = "2.2.2"
+sage_backends = ["interface:lie"]
+sage_modules = 1
+sage_states = "GNU Lesser General Public License (LGPL), version unspecified"
+licence = "LicenseRef-LGPL-unversioned"
+licence_evidence = "wwwmathlabo.univ-poitiers.fr/~maavl/LiE/: CWI gave permission and A. Cohen chose the LGPL; no version given (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "linbox"
+name = "LinBox"
+kind = "library"
+provides = "Exact linear algebra over integers and finite fields"
+upstream = "https://github.com/linbox-team/linbox"
+sage_package = "linbox"
+sage_type = "standard"
+sage_version = "1.7.1"
+sage_backends = ["linbox"]
+sage_modules = 7
+sage_states = "LGPL V2 or later"
+licence = "LGPL-2.1-or-later"
+licence_evidence = "gh api repos/linbox-team/linbox headers (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "lrcalc"
+name = "lrcalc (Littlewood-Richardson calculator)"
+kind = "library"
+provides = "Littlewood-Richardson coefficients, Schubert products"
+upstream = "https://sites.math.rutgers.edu/~asbuch/lrcalc/"
+sage_package = "lrcalc"
+sage_type = "standard"
+sage_version = "2.1"
+sage_backends = ["lrcalc"]
+sage_modules = 5
+sage_states = "GNU General Public License V2+"
+licence = "GPL-3.0-only"
+licence_evidence = "sites.math.rutgers.edu/~asbuch/lrcalc/lrcalc-2.1.tar.gz COPYING is the GPL-3 text; headers say only 'See the file LICENSE'; homepage says 'GNU GPL'; PyPI lrcalc licence field 'GPL3' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no"
+porting = "reference-only"
+porting_note = "Sage says 'GPL V2+'. Inferred: '-only' because no 'or later' statement was found."
+
+[[engine]]
+id = "lrcalc_python"
+name = "lrcalc Python bindings"
+kind = "library"
+provides = "Python bindings to lrcalc"
+upstream = "https://pypi.org/project/lrcalc/"
+sage_package = "lrcalc_python"
+sage_type = "standard"
+sage_version = "2.1"
+sage_backends = []
+sage_modules = 0
+sage_states = "GNU General Public License V3"
+licence = "GPL-3.0-only"
+licence_evidence = "pypi.org/pypi/lrcalc/json licence 'GPL3'; same lrcalc-2.1 tarball, COPYING GPL-3 (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = "Inferred: '-only' because no 'or later' statement was found."
+
+[[engine]]
+id = "m4ri"
+name = "M4RI"
+kind = "library"
+provides = "Dense linear algebra over GF(2)"
+upstream = "https://github.com/malb/m4ri"
+sage_package = "m4ri"
+sage_type = "standard"
+sage_version = "20260122.p0"
+sage_backends = ["m4ri"]
+sage_modules = 3
+sage_states = "- GNU General Public License Version 2 or later (see src/COPYING)"
+licence = "GPL-2.0-or-later"
+licence_evidence = "gh api repos/malb/m4ri headers 'version 2 or higher' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "m4rie"
+name = "M4RIE"
+kind = "library"
+provides = "Dense linear algebra over GF(2^e)"
+upstream = "https://github.com/malb/m4rie"
+sage_package = "m4rie"
+sage_type = "standard"
+sage_version = "20250128"
+sage_backends = ["m4rie"]
+sage_modules = 1
+sage_states = "- GNU General Public License Version 2 or later (see src/COPYING)"
+licence = "GPL-2.0-or-later"
+licence_evidence = "gh api repos/malb/m4rie README 'GPLv2+'; COPYING is GPL-2 (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "macaulay2"
+name = "Macaulay2"
+kind = "system"
+provides = "Commutative algebra and algebraic geometry"
+upstream = "https://github.com/Macaulay2/M2"
+sage_package = ""
+sage_type = ""
+sage_version = ""
+sage_backends = ["interface:macaulay2"]
+sage_modules = 17
+sage_states = ""
+licence = "GPL-2.0-or-later"
+licence_evidence = "gh api repos/Macaulay2/M2 (branch stable) README; distributed binaries are GPL-3.0 (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no-sage-package"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "magma"
+name = "Magma"
+kind = "proprietary-system"
+provides = "Computer algebra: groups, number theory, algebraic geometry"
+upstream = "http://magma.maths.usyd.edu.au/magma/"
+sage_package = ""
+sage_type = ""
+sage_version = ""
+sage_backends = ["interface:magma", "interface:magma_free"]
+sage_modules = 18
+sage_states = ""
+licence = "proprietary"
+licence_evidence = "magma.maths.usyd.edu.au/magma/ordering/: paid licence (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no-sage-package"
+porting = "proprietary-no-source"
+porting_note = "interface:magma_free uses the free online calculator."
+
+[[engine]]
+id = "maple"
+name = "Maple"
+kind = "proprietary-system"
+provides = "Commercial computer algebra system"
+upstream = "https://www.maplesoft.com/products/maple/"
+sage_package = ""
+sage_type = ""
+sage_version = ""
+sage_backends = ["interface:maple"]
+sage_modules = 5
+sage_states = ""
+licence = "proprietary"
+licence_evidence = "maplesoft.com/products/maple/: sells personal, student and institutional licences (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no-sage-package"
+porting = "proprietary-no-source"
+porting_note = ""
+
+[[engine]]
+id = "mathematica"
+name = "Mathematica (Wolfram Language)"
+kind = "proprietary-system"
+provides = "Commercial computer algebra system"
+upstream = "https://www.wolfram.com/mathematica/"
+sage_package = ""
+sage_type = ""
+sage_version = ""
+sage_backends = ["interface:mathematica"]
+sage_modules = 5
+sage_states = ""
+licence = "proprietary"
+licence_evidence = "wolfram.com/mathematica/: group, organisational, volume and site licensing (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no-sage-package"
+porting = "proprietary-no-source"
+porting_note = ""
+
+[[engine]]
+id = "mathics"
+name = "Mathics3"
+kind = "system"
+provides = "Free interpreter for a Wolfram-Language subset"
+upstream = "https://github.com/Mathics3/mathics-core"
+sage_package = "mathics"
+sage_type = "optional"
+sage_version = ""
+sage_backends = ["interface:mathics"]
+sage_modules = 2
+sage_states = "GPL"
+licence = "GPL-3.0-only"
+licence_evidence = "gh api repos/Mathics3/mathics-core README 'GPL Version 3 (GPL3)' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "imprecise"
+porting = "reference-only"
+porting_note = "Sage writes 'GPL'. Inferred: '-only' because no 'or later' statement was found."
+
+[[engine]]
+id = "matlab"
+name = "MATLAB"
+kind = "proprietary-system"
+provides = "Commercial numerical computing environment"
+upstream = "https://www.mathworks.com/products/matlab.html"
+sage_package = ""
+sage_type = ""
+sage_version = ""
+sage_backends = ["interface:matlab"]
+sage_modules = 1
+sage_states = ""
+licence = "proprietary"
+licence_evidence = "mathworks.com/pricing-licensing.html: Standard licence 'For use at a commercial, government, or other organization' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no-sage-package"
+porting = "proprietary-no-source"
+porting_note = ""
+
+[[engine]]
+id = "maxima"
+name = "Maxima"
+kind = "system"
+provides = "Computer algebra: calculus, simplification, ODEs, integration"
+upstream = "https://sourceforge.net/projects/maxima/"
+sage_package = "maxima"
+sage_type = "standard"
+sage_version = "5.49.0"
+sage_backends = ["interface:maxima_lib", "interface:maxima_abstract"]
+sage_modules = 11
+sage_states = "Maxima is distributed under the GNU General Public License, with some export restrictions from the U.S. Department of Energy. See the file COPYING."
+licence = "GPL-2.0-only"
+licence_evidence = "git clone of sourceforge maxima code: COPYING is the GPL-2 text plus a DOE export note (read 2026-11-17)"
+verified = true
+agrees_with_sage = "imprecise"
+porting = "reference-only"
+porting_note = "Sage writes 'GPL'. Inferred: '-only' because no 'or later' statement was found."
+
+[[engine]]
+id = "meataxe"
+name = "SharedMeatAxe"
+kind = "library"
+provides = "Matrices and modular representations over finite fields"
+upstream = "https://github.com/simon-king-jena/SharedMeatAxe"
+sage_package = "meataxe"
+sage_type = "optional"
+sage_version = "1.0.3"
+sage_backends = ["meataxe"]
+sage_modules = 1
+sage_states = "The Shared Meat-Axe is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later..."
+licence = "GPL-2.0-or-later"
+licence_evidence = "gh api repos/simon-king-jena/SharedMeatAxe COPYING (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "mpc"
+name = "GNU MPC"
+kind = "library"
+provides = "Arbitrary-precision complex arithmetic"
+upstream = "https://www.multiprecision.org/mpc/"
+sage_package = "mpc"
+sage_type = "standard"
+sage_version = "1.3.1"
+sage_backends = ["mpc"]
+sage_modules = 1
+sage_states = "LGPLv3+ for the code and GFDLv1.3+ (with no invariant sections) for the documentation."
+licence = "LGPL-3.0-or-later"
+licence_evidence = "multiprecision.org/mpc/ (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "mpfi"
+name = "MPFI"
+kind = "library"
+provides = "Arbitrary-precision interval arithmetic"
+upstream = "https://gitlab.inria.fr/mpfi/mpfi"
+sage_package = "mpfi"
+sage_type = "standard"
+sage_version = "1.5.2"
+sage_backends = ["mpfi"]
+sage_modules = 8
+sage_states = "This version of MPFI is released under the GNU Lesser General Public License. It is permitted to link MPFI to non-free programs, as long as when distributing them the MPFI source code and a means to re-link with a modified MPFI is provided."
+licence = "LGPL-2.1-or-later"
+licence_evidence = "git clone gitlab.inria.fr/mpfi/mpfi: src/mpfi.h header 2.1 or later; COPYING is GPL-3, COPYING.LESSER is LGPL-3 (read 2026-11-17)"
+verified = true
+agrees_with_sage = "imprecise"
+porting = "reference-only"
+porting_note = "Sage writes 'GNU Lesser GPL' with no version."
+
+[[engine]]
+id = "mpfr"
+name = "GNU MPFR"
+kind = "library"
+provides = "Correctly rounded arbitrary-precision floating point"
+upstream = "https://www.mpfr.org/"
+sage_package = "mpfr"
+sage_type = "standard"
+sage_version = "4.2.2"
+sage_backends = ["mpfr"]
+sage_modules = 21
+sage_states = "MPFR is free. It is distributed under the GNU Lesser General Public License (GNU Lesser GPL), version 3 or later (2.1 or later for MPFR versions until 2.4.x). The library has been registered in France by the Agence de Protection des Prog..."
+licence = "LGPL-3.0-or-later"
+licence_evidence = "mpfr.org (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "mpmath"
+name = "mpmath"
+kind = "library"
+provides = "Arbitrary-precision real and complex floating point, special functions"
+upstream = "https://github.com/mpmath/mpmath"
+sage_package = "mpmath"
+sage_type = "standard"
+sage_version = "1.4.1"
+sage_backends = ["mpmath"]
+sage_modules = 25
+sage_states = ""
+licence = "BSD-3-Clause"
+licence_evidence = "gh api repos/mpmath/mpmath LICENSE (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no-sage-statement"
+porting = "permissive-portable"
+porting_note = ""
+
+[[engine]]
+id = "mupad"
+name = "MuPAD (MATLAB Symbolic Math Toolbox)"
+kind = "proprietary-system"
+provides = "Commercial symbolic engine"
+upstream = "https://www.mathworks.com/products/symbolic.html"
+sage_package = ""
+sage_type = ""
+sage_version = ""
+sage_backends = ["interface:mupad"]
+sage_modules = 1
+sage_states = ""
+licence = "proprietary"
+licence_evidence = "mathworks.com/pricing-licensing.html lists Symbolic Math Toolbox as a licensed product; the MuPAD pages returned HTTP 403 (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no-sage-package"
+porting = "proprietary-no-source"
+porting_note = "Inferred: the MuPAD engine ships only inside the licensed Symbolic Math Toolbox."
+
+[[engine]]
+id = "nauty"
+name = "nauty and Traces"
+kind = "library"
+provides = "Graph automorphism groups and canonical labelling"
+upstream = "https://pallini.di.uniroma1.it/"
+sage_package = "nauty"
+sage_type = "standard"
+sage_version = "2.9.3"
+sage_backends = []
+sage_modules = 0
+sage_states = "Since version 2.6, nauty license is GPL-compatible, see http://users.cecs.anu.edu.au/~bdm/nauty/COPYRIGHT.txt (a copy of this file, called COPYRIGHT, is also present in the tarball)"
+licence = "Apache-2.0"
+licence_evidence = "users.cecs.anu.edu.au/~bdm/nauty/COPYRIGHT.txt and pallini.di.uniroma1.it (read 2026-11-17)"
+verified = true
+agrees_with_sage = "imprecise"
+porting = "permissive-portable"
+porting_note = "Sage writes 'GPL-compatible, see COPYRIGHT.txt'."
+
+[[engine]]
+id = "networkx"
+name = "NetworkX"
+kind = "library"
+provides = "Graph algorithms in Python"
+upstream = "https://github.com/networkx/networkx"
+sage_package = "networkx"
+sage_type = "standard"
+sage_version = "3.7"
+sage_backends = ["networkx"]
+sage_modules = 12
+sage_states = "BSD"
+licence = "BSD-3-Clause"
+licence_evidence = "gh api repos/networkx/networkx LICENSE.txt (read 2026-11-17)"
+verified = true
+agrees_with_sage = "imprecise"
+porting = "permissive-portable"
+porting_note = "Sage writes 'BSD' without the clause count."
+
+[[engine]]
+id = "ntl"
+name = "NTL"
+kind = "library"
+provides = "Number theory: polynomials and matrices over Z, Z/p, GF(p^n)"
+upstream = "https://github.com/libntl/ntl"
+sage_package = "ntl"
+sage_type = "standard"
+sage_version = "11.6.0"
+sage_backends = ["ntl"]
+sage_modules = 53
+sage_states = "- GNU LGPLv2.1+"
+licence = "LGPL-2.1-or-later"
+licence_evidence = "gh api repos/libntl/ntl README (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = "The SPKG agrees; Sage's top-level COPYING.txt says GPLv2+, which disagrees."
+
+[[engine]]
+id = "numpy"
+name = "NumPy"
+kind = "library"
+provides = "Numerical arrays and dense linear algebra"
+upstream = "https://github.com/numpy/numpy"
+sage_package = "numpy"
+sage_type = "standard"
+sage_version = "2.4.4"
+sage_backends = ["numpy"]
+sage_modules = 64
+sage_states = ""
+licence = "BSD-3-Clause"
+licence_evidence = "gh api repos/numpy/numpy LICENSE.txt (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no-sage-statement"
+porting = "permissive-portable"
+porting_note = "Bundled components carry other permissive licences."
+
+[[engine]]
+id = "octave"
+name = "GNU Octave"
+kind = "system"
+provides = "Numerical computing (MATLAB-like)"
+upstream = "https://octave.org/"
+sage_package = ""
+sage_type = ""
+sage_version = ""
+sage_backends = ["interface:octave"]
+sage_modules = 2
+sage_states = ""
+licence = "GPL-3.0-or-later"
+licence_evidence = "octave.org/license (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no-sage-package"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "openblas"
+name = "OpenBLAS"
+kind = "library"
+provides = "BLAS and LAPACK"
+upstream = "https://github.com/OpenMathLib/OpenBLAS"
+sage_package = "openblas"
+sage_type = "standard"
+sage_version = "0.3.28"
+sage_backends = []
+sage_modules = 0
+sage_states = "3-clause BSD license"
+licence = "BSD-3-Clause"
+licence_evidence = "gh api repos/OpenMathLib/OpenBLAS LICENSE (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "permissive-portable"
+porting_note = ""
+
+[[engine]]
+id = "palp"
+name = "PALP"
+kind = "system"
+provides = "Lattice polytopes: normal forms, reflexive polytopes, Hodge numbers"
+upstream = "https://gitlab.com/stringstuwien/PALP"
+sage_package = "palp"
+sage_type = "standard"
+sage_version = "2.21"
+sage_backends = []
+sage_modules = 0
+sage_states = "- When released, GPL 2 was in force. - There is a link to a web page, which now points to GPL 3, but would have pointed to GPL 2 at the time the package was released. - Therefore one can deduce the authors were happy for this to be relea..."
+licence = "GPL-3.0-only"
+licence_evidence = "gitlab.com/stringstuwien/PALP COPYING 'GNU GPL version 3' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "imprecise"
+porting = "reference-only"
+porting_note = "Sage discusses GPL 2 or 3 without a decision. Inferred: '-only' because no 'or later' statement was found."
+
+[[engine]]
+id = "pari"
+name = "PARI/GP"
+kind = "library"
+provides = "Number theory: number fields, elliptic curves, modular forms, L-functions, factorisation"
+upstream = "https://pari.math.u-bordeaux.fr/"
+sage_package = "pari"
+sage_type = "standard"
+sage_version = "2.17.1"
+sage_backends = ["pari", "interface:gp"]
+sage_modules = 140
+sage_states = "GPL version 2+"
+licence = "GPL-2.0-or-later"
+licence_evidence = "git clone pari.math.u-bordeaux.fr pari.git LICENSE at af459b2 (2026-11-15); home page 'GPLv2+' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "pari_galdata"
+name = "PARI galdata"
+kind = "database"
+provides = "Galois groups of degree 8-11 polynomials for polgalois"
+upstream = "https://pari.math.u-bordeaux.fr/packages.html"
+sage_package = "pari_galdata"
+sage_type = "standard"
+sage_version = "20080411.p0"
+sage_backends = []
+sage_modules = 0
+sage_states = "GPL version 2+"
+licence = "GPL-2.0-or-later"
+licence_evidence = "pari.math.u-bordeaux.fr/packages.html 'GPL version 2 or any later version' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "pari_seadata_small"
+name = "PARI seadata (small)"
+kind = "database"
+provides = "Modular polynomials for SEA point counting"
+upstream = "https://pari.math.u-bordeaux.fr/packages.html"
+sage_package = "pari_seadata_small"
+sage_type = "standard"
+sage_version = "20090618.p0"
+sage_backends = []
+sage_modules = 0
+sage_states = "GPL version 2+"
+licence = "GPL-2.0-or-later"
+licence_evidence = "pari.math.u-bordeaux.fr/packages.html 'GPL version 2 or any later version' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "planarity"
+name = "Edge Addition Planarity Suite"
+kind = "library"
+provides = "Planarity testing and embedding"
+upstream = "https://github.com/graph-algorithms/edge-addition-planarity-suite"
+sage_package = "planarity"
+sage_type = "standard"
+sage_version = "4.0.0.0"
+sage_backends = []
+sage_modules = 0
+sage_states = "New BSD License"
+licence = "BSD-3-Clause"
+licence_evidence = "gh api repos/graph-algorithms/edge-addition-planarity-suite LICENSE (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "permissive-portable"
+porting_note = ""
+
+[[engine]]
+id = "polymake"
+name = "polymake"
+kind = "system"
+provides = "Polytopes, fans, simplicial complexes, tropical geometry"
+upstream = "https://github.com/polymake/polymake"
+sage_package = "polymake"
+sage_type = "optional"
+sage_version = "4.14"
+sage_backends = ["interface:polymake"]
+sage_modules = 6
+sage_states = "- GPL v3"
+licence = "GPL-2.0-or-later"
+licence_evidence = "gh api repos/polymake/polymake (branch Releases) lib/core/src headers (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no"
+porting = "reference-only"
+porting_note = "Sage says 'GPL v3'."
+
+[[engine]]
+id = "polytopes_db"
+name = "Reflexive polytopes database"
+kind = "database"
+provides = "Kreuzer-Skarke reflexive polytopes in dimensions 2 and 3"
+upstream = "http://hep.itp.tuwien.ac.at/~kreuzer/CY/"
+sage_package = "polytopes_db"
+sage_type = "standard"
+sage_version = "20170220.p0"
+sage_backends = []
+sage_modules = 0
+sage_states = "GPL"
+licence = "NOASSERTION"
+licence_evidence = "tried hep.itp.tuwien.ac.at/~kreuzer/CY/CYpalp.html ('GNU licence terms', which refers to PALP, not the data); no licence for the data files found (read 2026-11-17)"
+verified = false
+agrees_with_sage = "unverified"
+porting = "reference-only"
+porting_note = "verified=false. Inferred: the data may follow PALP (GPL-3.0). Sage writes 'GPL'. The polytopes are recomputable facts."
+
+[[engine]]
+id = "povray"
+name = "POV-Ray"
+kind = "system"
+provides = "Ray tracer (interface only)"
+upstream = "https://github.com/POV-Ray/povray"
+sage_package = ""
+sage_type = ""
+sage_version = ""
+sage_backends = ["interface:povray"]
+sage_modules = 1
+sage_states = ""
+licence = "AGPL-3.0-or-later"
+licence_evidence = "gh api repos/POV-Ray/povray source/povmain.cpp header 'either version 3 of the License, or (at your option) any later version' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no-sage-package"
+porting = "reference-only"
+porting_note = "Rendering, not mathematics."
+
+[[engine]]
+id = "ppl"
+name = "Parma Polyhedra Library"
+kind = "library"
+provides = "Convex polyhedra, MIP, grids"
+upstream = "https://github.com/BUGSENG/PPL"
+sage_package = "ppl"
+sage_type = "standard"
+sage_version = "1.2.p1"
+sage_backends = ["ppl"]
+sage_modules = 9
+sage_states = "GPL v3+"
+licence = "GPL-3.0-or-later"
+licence_evidence = "gh api repos/BUGSENG/PPL (branch devel) README (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "pplpy"
+name = "pplpy"
+kind = "library"
+provides = "Python bindings to PPL"
+upstream = "https://github.com/sagemath/pplpy"
+sage_package = "pplpy"
+sage_type = "standard"
+sage_version = "0.9.0"
+sage_backends = []
+sage_modules = 0
+sage_states = "GPL version 3"
+licence = "GPL-3.0-or-later"
+licence_evidence = "gh api repos/sagemath/pplpy licence file (read 2026-11-17)"
+verified = true
+agrees_with_sage = "imprecise"
+porting = "reference-only"
+porting_note = "Sage writes 'GPL v3' and omits 'or later'."
+
+[[engine]]
+id = "primecount"
+name = "primecount"
+kind = "library"
+provides = "Prime counting function pi(x)"
+upstream = "https://github.com/kimwalisch/primecount"
+sage_package = "primecount"
+sage_type = "standard"
+sage_version = "8.6"
+sage_backends = ["primecount"]
+sage_modules = 1
+sage_states = "primecount is licensed BSD 2"
+licence = "BSD-2-Clause"
+licence_evidence = "gh api repos/kimwalisch/primecount COPYING (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "permissive-portable"
+porting_note = ""
+
+[[engine]]
+id = "primecountpy"
+name = "primecountpy"
+kind = "library"
+provides = "Python bindings to primecount"
+upstream = "https://github.com/dimpase/primecountpy"
+sage_package = "primecountpy"
+sage_type = "standard"
+sage_version = "0.2.1"
+sage_backends = []
+sage_modules = 0
+sage_states = "GPLv3"
+licence = "GPL-2.0-or-later"
+licence_evidence = "gh api repos/dimpase/primecountpy licence file (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no"
+porting = "reference-only"
+porting_note = "Sage says 'GPLv3'."
+
+[[engine]]
+id = "primesieve"
+name = "primesieve"
+kind = "library"
+provides = "Prime sieving and enumeration"
+upstream = "https://github.com/kimwalisch/primesieve"
+sage_package = "primesieve"
+sage_type = "standard"
+sage_version = "12.15"
+sage_backends = []
+sage_modules = 0
+sage_states = "BSD-2-clause"
+licence = "BSD-2-Clause"
+licence_evidence = "gh api repos/kimwalisch/primesieve COPYING (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "permissive-portable"
+porting_note = ""
+
+[[engine]]
+id = "qepcad"
+name = "QEPCAD B (with SACLIB)"
+kind = "system"
+provides = "Quantifier elimination by cylindrical algebraic decomposition"
+upstream = "https://github.com/chriswestbrown/qepcad"
+sage_package = "qepcad"
+sage_type = "optional"
+sage_version = "1.74"
+sage_backends = ["interface:qepcad"]
+sage_modules = 1
+sage_states = "ICS :wikipedia:`ISC_license`"
+licence = "ISC"
+licence_evidence = "gh api repos/chriswestbrown/qepcad qesource/LICENSE and repos/chriswestbrown/saclib LICENSE: ISC-style text (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "permissive-portable"
+porting_note = "Inferred SPDX: the text is ISC-style. SACLIB (Sage package saclib) carries the same terms."
+
+[[engine]]
+id = "qhull"
+name = "Qhull"
+kind = "library"
+provides = "Convex hulls, Delaunay and Voronoi diagrams"
+upstream = "https://github.com/qhull/qhull"
+sage_package = "qhull"
+sage_type = "standard"
+sage_version = "2020-src-8.0.2"
+sage_backends = []
+sage_modules = 0
+sage_states = "Not a standard license, but Sage compatible. See the COPYING.txt file in the source directory for details."
+licence = "Qhull"
+licence_evidence = "gh api repos/qhull/qhull COPYING.txt: free copy, modify, redistribute with notice and modification-record conditions (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "permissive-portable"
+porting_note = "Inferred classification: permissive with attribution conditions; keep COPYING.txt and record modifications."
+
+[[engine]]
+id = "r"
+name = "R"
+kind = "system"
+provides = "Statistics environment"
+upstream = "https://www.r-project.org/"
+sage_package = "r"
+sage_type = "optional"
+sage_version = ""
+sage_backends = ["interface:r"]
+sage_modules = 3
+sage_states = "- GPL v2 or GPL v3"
+licence = "GPL-2.0-only OR GPL-3.0-only"
+licence_evidence = "svn.r-project.org/R/trunk/doc/COPYRIGHTS: 'R as a whole is distributed under GPL version 2 or 3'; most files GPL-2 or later (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "regina"
+name = "Regina"
+kind = "system"
+provides = "3- and 4-manifold topology, normal surfaces"
+upstream = "https://github.com/regina-normal/regina"
+sage_package = "regina"
+sage_type = "optional"
+sage_version = ""
+sage_backends = ["interface:regina"]
+sage_modules = 4
+sage_states = "GPLv2+"
+licence = "GPL-2.0-or-later"
+licence_evidence = "gh api repos/regina-normal/regina LICENSE.txt, with additional permissions (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "rubiks"
+name = "Rubik's cube solvers (Reid, Winter, Dietz)"
+kind = "system"
+provides = "Rubik's cube solving programs"
+upstream = "http://www.cflmath.com/~reid/Rubik/optimal_solver.html"
+sage_package = "rubiks"
+sage_type = "optional"
+sage_version = "20070912.p21"
+sage_backends = ["interface:rubik"]
+sage_modules = 1
+sage_states = "SPKG.rst Description: Michael Reid (GPL); Dik T. Winter (MIT License); Eric Dietz (GPL); look inside the directories under /src for licensing."
+licence = "NOASSERTION"
+licence_evidence = "tried cflmath.com/~reid/Rubik (no response) and web.archive.org copies from 2014 and 2020 of math.ucf.edu/~reid/Rubik/optimal_solver.html (no licence text); web.archive.org 2012 copy of wrongway.org/?rubiksource says Dietz's programs are 'released GPL' with no version; no upstream found for Dik Winter's programs (read 2026-11-17)"
+verified = false
+agrees_with_sage = "unverified"
+porting = "reference-only"
+porting_note = "verified=false. Sage's SPKG.rst Description says Reid GPL, Winter MIT, Dietz GPL. Only Dietz's 'GPL' (unversioned) was confirmed upstream."
+
+[[engine]]
+id = "rw"
+name = "rw (rank-width)"
+kind = "library"
+provides = "Rank-width and rank decompositions of graphs"
+upstream = "https://sourceforge.net/projects/rankwidth/"
+sage_package = "rw"
+sage_type = "standard"
+sage_version = "0.10"
+sage_backends = []
+sage_modules = 0
+sage_states = "GPL version 2 or later"
+licence = "GPL-2.0-only"
+licence_evidence = "sourceforge.net/projects/rankwidth/ licence label 'GPLv2' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no"
+porting = "reference-only"
+porting_note = "Sage says 'GPL v2+'. Inferred: '-only' from the SourceForge label; source headers were not read."
+
+[[engine]]
+id = "sagemath"
+name = "SageMath (psage subprocess)"
+kind = "system"
+provides = "A second Sage process used by the psage interface"
+upstream = "https://github.com/sagemath/sage"
+sage_package = "sagelib"
+sage_type = "standard"
+sage_version = "11.0.beta5"
+sage_backends = ["interface:psage"]
+sage_modules = 1
+sage_states = ""
+licence = "GPL-2.0-or-later"
+licence_evidence = "gh api repos/sagemath/sage (branch develop) COPYING.txt: original Sage code GPL-2+, whole distribution GPL-3; README 'GPLv2+' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no-sage-statement"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "scilab"
+name = "Scilab"
+kind = "system"
+provides = "Numerical computing"
+upstream = "https://gitlab.com/scilab/scilab"
+sage_package = ""
+sage_type = ""
+sage_version = ""
+sage_backends = ["interface:scilab"]
+sage_modules = 2
+sage_states = ""
+licence = "GPL-2.0-only"
+licence_evidence = "gitlab.com/scilab/scilab COPYING: GPL v2.0 since Scilab 6.0; some files BSD (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no-sage-package"
+porting = "reference-only"
+porting_note = "Inferred: '-only' because no 'or later' statement was found."
+
+[[engine]]
+id = "scipy"
+name = "SciPy"
+kind = "library"
+provides = "Numerical integration, optimisation, special functions, sparse linear algebra"
+upstream = "https://github.com/scipy/scipy"
+sage_package = "scipy"
+sage_type = "standard"
+sage_version = "1.17.1"
+sage_backends = ["scipy"]
+sage_modules = 19
+sage_states = "SciPy's license is free for both commercial and non-commercial use, under the BSD terms. See http://www.scipy.org/License_Compatibility"
+licence = "BSD-3-Clause"
+licence_evidence = "gh api repos/scipy/scipy LICENSE.txt (read 2026-11-17)"
+verified = true
+agrees_with_sage = "imprecise"
+porting = "permissive-portable"
+porting_note = "Sage writes 'BSD'. Bundled components carry other licences."
+
+[[engine]]
+id = "singular"
+name = "Singular"
+kind = "system"
+provides = "Polynomial computations: Groebner and standard bases, commutative algebra, singularities"
+upstream = "https://github.com/Singular/Singular"
+sage_package = "singular"
+sage_type = "standard"
+sage_version = "4.4.1"
+sage_backends = ["singular", "interface:singular"]
+sage_modules = 49
+sage_states = "GPLv2 or GPLv3"
+licence = "GPL-2.0-only OR GPL-3.0-only"
+licence_evidence = "gh api repos/Singular/Singular (branch spielwiese) COPYING '(version 2 or version 3 of the License)' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "sirocco"
+name = "SIROCCO"
+kind = "library"
+provides = "Certified homotopy continuation for plane curve braid monodromy"
+upstream = "https://github.com/miguelmarco/SIROCCO2"
+sage_package = "sirocco"
+sage_type = "optional"
+sage_version = "2.1.1"
+sage_backends = ["sirocco"]
+sage_modules = 1
+sage_states = "GPLv3+"
+licence = "GPL-3.0-only"
+licence_evidence = "gh api repos/miguelmarco/SIROCCO2 README 'GPL, version 3.0'; LICENSE is GPL-3 (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no"
+porting = "reference-only"
+porting_note = "Sage says 'GPLv3+'. Inferred: '-only' because no 'or later' statement was found."
+
+[[engine]]
+id = "snappy"
+name = "SnapPy"
+kind = "system"
+provides = "Hyperbolic 3-manifolds"
+upstream = "https://github.com/3-manifolds/SnapPy"
+sage_package = "snappy"
+sage_type = "optional"
+sage_version = ""
+sage_backends = ["interface:snappy"]
+sage_modules = 5
+sage_states = "GPLv2+"
+licence = "GPL-2.0-or-later"
+licence_evidence = "gh api repos/3-manifolds/SnapPy README (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = ""
+
+[[engine]]
+id = "suitesparse"
+name = "SuiteSparse"
+kind = "library"
+provides = "Sparse direct solvers: AMD, COLAMD, CHOLMOD, UMFPACK, SPQR"
+upstream = "https://github.com/DrTimothyAldenDavis/SuiteSparse"
+sage_package = "suitesparse"
+sage_type = "standard"
+sage_version = "7.8.0"
+sage_backends = []
+sage_modules = 0
+sage_states = ""
+licence = "BSD-3-Clause AND LGPL-2.1-or-later AND GPL-2.0-or-later AND Apache-2.0"
+licence_evidence = "gh api repos/DrTimothyAldenDavis/SuiteSparse (branch dev) LICENSE.txt: AMD/CAMD/COLAMD/CCOLAMD BSD-3-Clause, UMFPACK and SPQR and several CHOLMOD modules GPL-2.0-or-later, CHOLMOD headers and GraphBLAS Apache-2.0 (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no-sage-statement"
+porting = "reference-only"
+porting_note = "Licence is per component; the ordering codes AMD and COLAMD are permissive-portable."
+
+[[engine]]
+id = "symmetrica"
+name = "SYMMETRICA"
+kind = "library"
+provides = "Symmetric functions and representations of symmetric groups"
+upstream = "https://gitlab.com/sagemath/symmetrica"
+sage_package = "symmetrica"
+sage_type = "standard"
+sage_version = "3.1.0"
+sage_backends = ["symmetrica"]
+sage_modules = 8
+sage_states = "Public Domain (see the above web site)"
+licence = "ISC"
+licence_evidence = "gitlab.com/sagemath/symmetrica LICENSE (read 2026-11-17)"
+verified = true
+agrees_with_sage = "no"
+porting = "permissive-portable"
+porting_note = "Sage says 'Public Domain'."
+
+[[engine]]
+id = "sympow"
+name = "SYMPOW"
+kind = "library"
+provides = "Special values of symmetric-power L-functions of elliptic curves"
+upstream = "https://github.com/passagemath/upstream-sympow"
+sage_package = "sympow"
+sage_type = "standard"
+sage_version = "2.023.6"
+sage_backends = []
+sage_modules = 0
+sage_states = "- See the file src/COPYING"
+licence = "LicenseRef-SYMPOW"
+licence_evidence = "gh api repos/passagemath/upstream-sympow COPYING and gitlab.com/rezozer/forks/sympow COPYING: BSD-2-style text with an extra clause that a GPL compilation must state SYMPOW is less restrictive (read 2026-11-17)"
+verified = true
+agrees_with_sage = "imprecise"
+porting = "permissive-portable"
+porting_note = "Sage writes 'See src/COPYING'. Keep the extra clause when porting."
+
+[[engine]]
+id = "sympy"
+name = "SymPy"
+kind = "library"
+provides = "Symbolic mathematics in Python"
+upstream = "https://github.com/sympy/sympy"
+sage_package = "sympy"
+sage_type = "standard"
+sage_version = "1.14.0"
+sage_backends = ["sympy", "interface:sympy"]
+sage_modules = 41
+sage_states = "New BSD: http://www.opensource.org/licenses/bsd-license.php"
+licence = "BSD-3-Clause"
+licence_evidence = "gh api repos/sympy/sympy LICENSE (read 2026-11-17)"
+verified = true
+agrees_with_sage = "yes"
+porting = "permissive-portable"
+porting_note = ""
+
+[[engine]]
+id = "tachyon"
+name = "Tachyon"
+kind = "system"
+provides = "Ray tracer used for 3-D plots"
+upstream = "http://jedi.ks.uiuc.edu/~johns/tachyon/"
+sage_package = "tachyon"
+sage_type = "standard"
+sage_version = "0.99.5.p0"
+sage_backends = ["interface:tachyon"]
+sage_modules = 3
+sage_states = "Copyright (c) 1994-2010 John E. Stone All rights reserved. Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: 1. Redistributions of source code m..."
+licence = "NOASSERTION"
+licence_evidence = "tried jedi.ks.uiuc.edu/~johns/tachyon/ and /~johns/raytracer/ (timeouts on three attempts), photonlimited.com/~johns/tachyon/ (timeout), web.archive.org copies 2021-2024 (no licence text) (read 2026-11-17)"
+verified = false
+agrees_with_sage = "unverified"
+porting = "reference-only"
+porting_note = "verified=false. Sage reproduces a BSD-3-style text; it was not confirmed upstream. Rendering, not mathematics."
+
+[[engine]]
+id = "tides"
+name = "TIDES"
+kind = "library"
+provides = "Taylor-series ODE integration with arbitrary precision"
+upstream = "https://sourceforge.net/projects/tidesodes/"
+sage_package = "tides"
+sage_type = "optional"
+sage_version = "2.0.p0"
+sage_backends = ["interface:tides"]
+sage_modules = 1
+sage_states = "GPLv3+"
+licence = "GPL-3.0-only"
+licence_evidence = "sourceforge.net/projects/tidesodes/ licence label 'GNU General Public License version 3.0 (GPLv3)' (read 2026-11-17)"
+verified = true
+agrees_with_sage = "imprecise"
+porting = "reference-only"
+porting_note = "Sage says 'GPLv3+'. Inferred: '-only' from the SourceForge label; source headers were not read."

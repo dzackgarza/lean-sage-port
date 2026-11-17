@@ -1,0 +1,2741 @@
+# Lean 4 ecosystem reuse survey: executable mathematics outside Mathlib/Batteries/Std/Hex.
+# Snapshot dated 2026-11-17. Revisions are the shallow-clone HEADs in ~/.cache/lean-sage-port/sources.
+
+[[source]]
+name = "cslib"
+url = "https://github.com/leanprover/cslib"
+revision = "8f9d3f4c81cedd7642de586f3e300f74659b8d38"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.36.0"
+mathlib_rev = "fc4f59e5 (v4.36.0)"
+last_commit = "2026-11-16"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "351 files, 54323 loc; sorry 0, axiom 0, partial 0, unsafe 0, extern 0, noncomputable 114, native_decide 0, IO.Process 0. CS theory library (automata, CCS, lambda calculus, logics, circuits, query complexity, crypto). Only executable algorithms are list sorts with cost monad. No computer-algebra content. Reservoir (live API 2026-11-17): listed as leanprover/cslib."
+
+[[source]]
+name = "SciLean"
+url = "https://github.com/lecopivo/SciLean"
+revision = "95f8119a2884e9c41f82136523bd5568ea7075c5"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.28.0-rc1"
+mathlib_rev = "5352afcc (v4.28.0-rc1)"
+last_commit = "2026-02-18"
+reservoir = true
+native = false
+surveyed = "2026-11-17"
+notes = "568 files, 86155 loc; sorry 832, sorry_proof 2525 (macro for axiom sorryProofAxiom, SciLean/Util/SorryProof.lean:3,9), axiom 36 incl. realFloatEquiv : ℝ ≃ Float (Logic/Isomorph/RealToFloat/Type.lean:16), partial 85, unsafe 22, extern 11, implemented_by 3, noncomputable 196, native_decide 43, IO.Process 1. Links -lblas -lm and C/*.c; depends on LeanBLAS. README: early-stage proof of concept. Reservoir (live API 2026-11-17): listed as lecopivo/scilean."
+
+[[source]]
+name = "LeanBLAS"
+url = "https://github.com/lecopivo/LeanBLAS"
+revision = "926cd897a7d2f403d6a0e2c5600adcf573e22b42"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.28.0-rc1"
+mathlib_rev = "5352afcc (v4.28.0-rc1)"
+last_commit = "2026-02-12"
+reservoir = true
+native = false
+surveyed = "2026-11-17"
+notes = "19 files, 2674 loc; sorry 0 (1 in Spec/LevelOne.lean by raw grep), axiom 1, extern 48 (all in LeanBLAS/FFI/*.lean), noncomputable 4. Links system libblas.so (OpenBLAS/CBLAS). Spec files state BLAS semantics; LawfulBLAS (BLAS.lean:39) is an assumption class, docs say it is false for floats. Reservoir (live API 2026-11-17): listed as lecopivo/leanblas."
+
+[[source]]
+name = "NumLean-lecopivo"
+url = "https://github.com/lecopivo/NumLean"
+revision = "2d54625a2aea925d634b33aa99d0dc3b47f1c9ac"
+license = "none"
+lean_toolchain = "leanprover/lean4:v4.30.0"
+mathlib_rev = "c5ea0035 (v4.30.0)"
+last_commit = "2026-08-25"
+reservoir = false
+native = false
+surveyed = "2026-11-17"
+notes = "271 files, 36543 loc; sorry 18 (sampled hits are in comments that survived stripping or commented code), axiom 0, partial 53, unsafe 32, extern 45 (Data/ScalarArrays.lean, Float64Array, Float32Array -> own C in c/*.c, no BLAS), implemented_by 14, noncomputable 36, native_decide 33; ~1021 theorem lines. README: aims to be a fully verified numerical-linear-algebra fragment of SciLean. No license file and GitHub reports none: not reusable as-is. Reservoir 404. Reservoir (live API 2026-11-17): not listed (404 for every candidate name)."
+
+[[source]]
+name = "TensorLib"
+url = "https://github.com/leanprover/TensorLib"
+revision = "37a8d1e31186b6bac621a3ccea91b733a3d82e8d"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.35.0"
+mathlib_rev = "56a00585 (v4.35.0)"
+last_commit = "2026-10-22"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "21 files, 9333 loc; sorry 8, axiom 16 (Float32 arithmetic axioms, TensorLib/MixedPrec.lean:50-544), partial 4, extern 0, noncomputable 0, native_decide 4, IO.Process 2 (tests shell out to python3/pytest: Test.lean:28, Main.lean:71). NumPy-compatible ByteArray tensors in pure Lean. Mathlib imported only by LOrd.lean and MixedPrec.lean. Reservoir (live API 2026-11-17): listed as leanprover/TensorLib."
+
+[[source]]
+name = "CvxLean"
+url = "https://github.com/verified-optimization/CvxLean"
+revision = "c62c2f292c6420f31a12e738ebebdfed50f6f840"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.8.0-rc1"
+mathlib_rev = "efad919b"
+last_commit = "2024-05-20"
+reservoir = true
+native = false
+surveyed = "2026-11-17"
+notes = "189 files, 21208 loc; sorry 28, axiom 0, partial 54, unsafe 20, implemented_by 1, noncomputable 65, IO.Process 4. Solves by writing CBF and running the external `mosek` binary (Command/Solve/Conic.lean:61); pre-DCP rewriting spawns a Rust egg binary (Tactic/PreDCP/Egg/Runner.lean:104). Solver output is not certificate-checked. Toolchain is 2.5 years old. Reservoir (live API 2026-11-17): listed as verified-optimization/CvxLean."
+
+[[source]]
+name = "lp"
+url = "https://github.com/leanprover/lp"
+revision = "e87b229a42a0373e6750f5af17ec409787c42832"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.33.1"
+mathlib_rev = "none"
+last_commit = "2026-08-26"
+reservoir = false
+native = false
+surveyed = "2026-11-17"
+notes = "Umbrella of re-export shims (LP/*.lean, 171 loc) over leanprover/lp-core @8b6d241b, lp-verify @1131b0a1, lp-tactic @86634295, lp-backend-soplex-ffi @4a113eb0 (Reservoir lists LPBackendSoplexFFI only), soplex-ffi @c076d61a. 95 files incl. tests/benchmarks; sorry 0, axiom 0. SoPlex is an untrusted oracle; exact-rational certificates are checked by pure-Lean checkers with soundness theorems (lp-verify, read via gh api). No Mathlib dependency. Reservoir (live API 2026-11-17): not listed (404 for every candidate name)."
+
+[[source]]
+name = "soplex-ffi"
+url = "https://github.com/leanprover/soplex-ffi"
+revision = "c076d61ac71c3b95fd61845ff914f4c0035b3ff5"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.33.1"
+mathlib_rev = "none"
+last_commit = "2026-08-26"
+reservoir = false
+native = false
+surveyed = "2026-11-17"
+notes = "6 files, 1306 loc; extern 9 (SoplexFFI/Basic.lean:64-455), C++ bridge ffi/lean_soplex*.cpp, builds vendored SoPlex and static GMP. Exact and float solves, MPS/LP file IO. Reservoir (live API 2026-11-17): not listed (404 for every candidate name)."
+
+[[source]]
+name = "sos"
+url = "https://github.com/leanprover/sos"
+revision = "fb7ae417609093f04cf0608dc92e9343550c2ae4"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.33.1"
+mathlib_rev = "0df444a3 (v4.33.1)"
+last_commit = "2026-08-27"
+reservoir = true
+native = false
+surveyed = "2026-11-17"
+notes = "54 files, 8310 loc; sorry 0, axiom 0, partial 18, extern 2, noncomputable 1, native_decide 18 (only SOSTest/RatSimplexTests.lean and SOSTest/BBR.lean). Depends on leanprover/csdp-ffi @eb41f276 (vendored CSDP C via @[extern lean_csdp_solve_ffi] at CSDP/Basic.lean:90, links BLAS/LAPACK; read via gh api) and Hex mv-poly (HexMvPoly @e25a580e, CMvPolynomial). CSDP is FFI, not an external binary. Float Gram matrix is rounded to Rat, LDLT-decomposed, and the certificate is checked by decide +kernel against sos_sound. Reservoir (live API 2026-11-17): listed as leanprover/sos."
+
+[[source]]
+name = "TorchLean"
+url = "https://github.com/lean-dojo/TorchLean"
+revision = "bb95db148ab63e3beb3e9c43813ad782bdddad67"
+license = "MIT"
+lean_toolchain = "leanprover/lean4:v4.35.0"
+mathlib_rev = "56a005855ea17e0b0958f73ec801ae140b0a1679 (v4.35.0)"
+last_commit = "2026-11-12"
+reservoir = true
+native = false
+surveyed = "2026-11-17"
+notes = "Shallow clone at bb95db14: 1238 .lean files, 398513 lines, 16 C/C++ files (csrc/). Grep counts: sorry 2, axiom 0, partial 85, unsafe 17, extern 7, implemented_by 1, noncomputable 442, native_decide 0, IO.Process 8. CPU path is Lean; GPU path is LibTorch FFI (README calls it a trust boundary). Generic-scalar tensor factorizations with theorems over ℝ. Depends on FloatLib. Reservoir (live API 2026-11-17): listed as lean-dojo/TorchLean."
+
+[[source]]
+name = "CompPoly"
+url = "https://github.com/Verified-zkEVM/CompPoly"
+revision = "e28da34817c3775cfb935376acf5d416f555d64f"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.35.0"
+mathlib_rev = "56a005855ea17e0b0958f73ec801ae140b0a1679 (v4.35.0)"
+last_commit = "2026-11-05"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "559 files, 144732 loc. sorry=9 (all in comments/docs: Fields/PrattCertificate.lean doc lines, lakefile, scripts/AxiomSweep), axiom=0, partial=7 (all `meta partial def` certificate generators in Fields/PrattCertificate.lean), unsafe=1, extern=0, implemented_by=0, noncomputable=298 (Mathlib bridges), native_decide=0, IO.Process=1. Most complete computable-algebra library surveyed: dense Array polynomials with RingEquiv to Mathlib Polynomial/MvPolynomial, proved division/xgcd/NTT/root finding, dense and polynomial-matrix linear algebra, Montgomery prime fields and binary tower fields. No irreducible factorization (Berlekamp/full Cantor-Zassenhaus), resultants or Groebner bases found by grep. Reservoir (live API 2026-11-17): listed as Verified-zkEVM/CompPoly. Native-code check: none in library; IO.Process only in bench/CompPolyBench/Common.lean:316"
+
+[[source]]
+name = "ArkLib"
+url = "https://github.com/Verified-zkEVM/ArkLib"
+revision = "a17d4deeb416624d567aea5f7212935f5a111a0d"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.35.0"
+mathlib_rev = "56a005855ea17e0b0958f73ec801ae140b0a1679 (v4.35.0)"
+last_commit = "2026-11-14"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "1507 files, 399923 loc. sorry=14, axiom=7 (sampled hits are docstring text such as 'axiom-clean'; no axiom declaration seen), partial=11, unsafe=28, noncomputable=1251, native_decide=8, IO.Process=3. Depends on CompPoly and VCVio. Overwhelmingly SNARK/IOP security theory (coding theory, FRI, sumcheck, Binius). Executable parts inspected: cyclotomic quotient ring Rq on CompPoly with computable inverse, Poseidon2 over KoalaBear, BN254 curve constants on Mathlib WeierstrassCurve. Reservoir (live API 2026-11-17): listed as Verified-zkEVM/Arklib. Native-code check: none found; IO.Process=3 (not inspected)"
+
+[[source]]
+name = "CompElliptic"
+url = "https://github.com/daira/CompElliptic"
+revision = "2c0444035a84db957f27f06433715058d1e890ad"
+license = "Apache-2.0 OR MIT (README: dual-licensed)"
+lean_toolchain = "leanprover/lean4:v4.30.0"
+mathlib_rev = "c5ea00351c28e24afc9f0f84379aa41082b1188f (v4.30.0)"
+last_commit = "2026-08-20"
+reservoir = false
+native = true
+surveyed = "2026-11-17"
+notes = "46 files, 13701 loc. sorry=0, axiom=3 (all test fixtures in MetaCheck/AxiomCheck.lean:52,65,77), partial=3, unsafe=5, extern=1, implemented_by=3, noncomputable=15, native_decide=75. Short Weierstrass over Pasta/Jubjub only, with transport to Mathlib WeierstrassCurve. Reservoir (live API 2026-11-17): not listed (404 for every candidate name). Native-code check: precompileModules=true FastFieldNative lane (lakefile.toml:39); implemented_by in Curves/Pasta/Fast/Projective.lean; vendors CompPoly Montgomery code under CompElliptic/Vendor"
+
+[[source]]
+name = "ec-tate-lean"
+url = "https://github.com/KisaraBlue/ec-tate-lean"
+revision = "865843899c56a28044b8bbe42f88e75a4431a629"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:nightly-2023-08-19"
+mathlib_rev = "unpinned (lakefile.lean:13 requires mathlib from git with no rev; no lake-manifest.json)"
+last_commit = "2026-05-25 (LICENSE added; code dates to the 2023 toolchain)"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "52 files, 7786 loc. sorry=112 (ValuedRing 34, CubicRoots 23, TateRing 19, QuadRing/Valuations 15, QuadRing/Basic 12, TateInt 7), axiom=0, partial=4, noncomputable=7. The sorries are valuation-bound proof obligations inside the algorithm bodies, e.g. TateInt.lean:170,224,240. Code still evaluates (#eval at TateInt.lean:631-635); tested against LMFDB data in test/LMFDB.lean. Reservoir (live API 2026-11-17): listed as KisaraBlue/ec-tate-lean. Fork-recorded Reservoir claim \"not listed (404, lake name ECTate)\" was wrong. Native-code check: none"
+
+[[source]]
+name = "miller-rabin"
+url = "https://github.com/hanwenzhu/miller-rabin"
+revision = "9042c23578732ec7a8609ea8a569f58d81614c8c"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.22.0"
+mathlib_rev = "79e94a093aff4a60fb1b1f92d9681e407124c2ca (v4.22.0)"
+last_commit = "2026-10-19"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "13 files, 1289 loc. sorry=0, axiom=0, partial=0, noncomputable=2, native_decide=4. Runnable randomized test plus the 1/4 error bound for strong probable primes. Reservoir (live API 2026-11-17): listed as hanwenzhu/MillerRabin. Native-code check: none"
+
+[[source]]
+name = "PrimeFactorLean"
+url = "https://github.com/Vilin97/PrimeFactorLean"
+revision = "d26f6a704ba83c311601b47ec183f465a309c6f7"
+license = "MIT"
+lean_toolchain = "leanprover/lean4:v4.24.0"
+mathlib_rev = "f897ebcf72cd16f89ab4577d0c826cd14afaafc7 (v4.24.0)"
+last_commit = "2026-11-07"
+reservoir = false
+native = true
+surveyed = "2026-11-17"
+notes = "67 files, 30930 loc. sorry=0, axiom=0, partial=0, unsafe=0, extern=0, implemented_by=0, noncomputable=0, native_decide=0, IO.Process=1. 17 integer-factorization algorithms from trial division to GNFS; README reports RSA-100 by GNFS in 2.6 min on 16 cores (claim not reproduced here). Reservoir (live API 2026-11-17): not listed (404 for every candidate name). Native-code check: none (pure Lean, multithreaded; lean_exe factor CLI at lakefile.lean:25)"
+
+[[source]]
+name = "MonomialOrderedPolynomial"
+url = "https://github.com/WuProver/MonomialOrderedPolynomial"
+revision = "395c5f73357e6f8a377c97108ae8eb2123c4bfe1"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.29.0-rc8"
+mathlib_rev = "698d2b68b870f1712040ab0c233d34372d4b56df (v4.29.0-rc8)"
+last_commit = "2026-04-07"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "14 files, 4816 loc. sorry=16 (3 in Polynomial.lean:76,80,84 degree/leadingCoeff/coeff lemmas; rest in PolynomialExamples.lean), axiom=0, noncomputable=5. Sorted-list AddMonoidAlgebra built for kernel-reduction proof by reflection (polynomial identity testing). No division or Buchberger. Reservoir (live API 2026-11-17): listed as WuProver/MonomialOrderedPolynomial. Native-code check: none"
+
+[[source]]
+name = "groebner_proj"
+url = "https://github.com/WuProver/groebner_proj"
+revision = "5ae0d42ebd6d9abd129c19c1e3720418eb590246"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.34.1"
+mathlib_rev = "d13f23b723b8a846827a245b89c10fc7d3f11612 (v4.34.1)"
+last_commit = "2026-10-22"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "30 files, 8025 loc. sorry=3 (Groebner/ComputationExamples.lean:43,64,66), axiom=0, partial=7, noncomputable=6. Theory on Mathlib MvPolynomial: IsRemainder, IsGroebnerBasis, Buchberger criterion, reduced bases. No executable Buchberger algorithm. Reservoir (live API 2026-11-17): listed as WuProver/groebner. Native-code check: none"
+
+[[source]]
+name = "GroebnerTactic"
+url = "https://github.com/WuProver/GroebnerTactic"
+revision = "f36fb4cacbd155cf3b848c1abcaa1606de81bead"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.34.1"
+mathlib_rev = "d13f23b723b8a846827a245b89c10fc7d3f11612 (v4.34.1)"
+last_commit = "2026-10-02"
+reservoir = true
+native = false
+surveyed = "2026-11-17"
+notes = "6 files, 2981 loc. sorry=0, axiom=0, partial=6, noncomputable=0, IO.Process=4. Certifying tactics: an external CAS computes the Groebner basis, then the kernel checks the certificate by PIT on MonomialOrderedPolynomial. Reservoir (live API 2026-11-17): listed as WuProver/GroebnerTac. Native-code check: external binaries: IO.Process.spawn of `sage` (GroebnerTac/Tactic.lean:202-203) and `python3`/.venv python with SymPy (Tactic.lean:243-244,267-268,303-304)"
+
+[[source]]
+name = "lean-groebner"
+url = "https://github.com/Hagb/lean-groebner"
+revision = "3b9a7bfe8c009cbc5f9fcbfd55942be67e798a03"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:nightly-2023-06-10"
+mathlib_rev = "none (no manifest pin)"
+last_commit = "2025-04-29"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "8 files, 2497 loc. sorry=0, noncomputable=13. Archived; README says it is superseded by Mathlib MonomialOrder.div and groebner_proj. Division is noncomputable (Division.lean:49,113). Reservoir (live API 2026-11-17): listed as Hagb/lean-groebner. Fork-recorded Reservoir claim \"not listed (404)\" was wrong. Native-code check: none"
+
+[[source]]
+name = "lean-normal-forms"
+url = "https://github.com/JJYYY-JJY/lean-normal-forms"
+revision = "3f80f9524d88a124a49330eb36a2acb5ed41e179"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.32.0"
+mathlib_rev = "81a5d257c8e410db227a6665ed08f64fea08e997 (v4.32.0)"
+last_commit = "2026-08-01"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "95 files, 39249 loc. sorry=0, axiom=0, partial=0, unsafe=0, noncomputable=12, native_decide=0. Artifact of arXiv:2607.22524. SCOPE.md: the maintained surface is nonsingular square Int matrices. The generic HNF/SNF API over EuclideanDomain with ComputableEuclideanOps also exists, but the only ComputableEuclideanOps instance is Int (Euclidean/Int.lean:69). Matrices are Mathlib function-matrices, so the code runs but slowly. Reservoir (live API 2026-11-17): listed as JJYYY-JJY/NormalForms. Native-code check: none"
+
+[[source]]
+name = "RealRooted"
+url = "https://github.com/PerAlexandersson/RealRooted"
+revision = "97f10b62a5ee23647da42280008587e029c63e42"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.35.0"
+mathlib_rev = "56a005855ea17e0b0958f73ec801ae140b0a1679 (v4.35.0)"
+last_commit = "2026-11-16"
+reservoir = false
+native = true
+surveyed = "2026-11-17"
+notes = "2249 files, 568666 loc. sorry=3, axiom=0, partial=31, unsafe=1, implemented_by=1, noncomputable=1810. Theory of real-rooted polynomials, interlacing and stability, with a Sturm theorem over Real[X] (noncomputable section). Its tactics are proof automation, not algorithms. Reservoir (live API 2026-11-17): not listed (404 for every candidate name). Native-code check: none"
+
+[[source]]
+name = "YatimaStdLib.lean"
+url = "https://github.com/argumentcomputer/YatimaStdLib.lean"
+revision = "3037f0c14128751b95510c2723f067ec7a494f08"
+license = "MIT"
+lean_toolchain = "leanprover/lean4:v4.4.0-rc1"
+mathlib_rev = "none"
+last_commit = "2023-12-07"
+reservoir = true
+native = false
+surveyed = "2026-11-17"
+notes = "70 files, 4293 loc. sorry=0, axiom=0, partial=21, extern=9, theorems=0 in Polynomial/Matrix/Arithmetic. Unverified utilities: Array polynomials, dense/sparse matrices, Zmod with modInv/modSqrt, millerRabinTest, dLog. Stale toolchain. Reservoir (live API 2026-11-17): listed as argumentcomputer/YatimaStdLib. Native-code check: FFI: ffi.c plus 9 @[extern] byte-array/UInt conversions (UInt.lean:38, ByteArray.lean:32, ByteVector.lean:57)"
+
+[[source]]
+name = "Polylean"
+url = "https://github.com/siddhartha-gadgil/Polylean"
+revision = "b2379c538307b2ce4a9f9969587232f9d94dd438"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.19.0-rc3"
+mathlib_rev = "ff99cdaecce8cab2fcc3d3828ab7f79717fbf77a (v4.19.0-rc3)"
+last_commit = "2025-04-22"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "33 files, 5091 loc. sorry=3, partial=4, unsafe=6, native_decide=2. Formalizes Gardam's disproof of the Kaplansky unit conjecture with a computable free-module/group-ring quotient that has decidable equality. ConjInvLength contains IO-based word-length search. Reservoir (live API 2026-11-17): listed as siddhartha-gadgil/Polylean. Native-code check: none"
+
+[[source]]
+name = "ETHCryptoLean"
+url = "https://github.com/revofusion/ETHCryptoLean"
+revision = "d3889e9f2d433b9edeeab87fc5dd025d9a0d14fd"
+license = "MIT"
+lean_toolchain = "leanprover/lean4:v4.31.0-rc2"
+mathlib_rev = "none"
+last_commit = "2026-09-24"
+reservoir = false
+native = true
+surveyed = "2026-11-17"
+notes = "18 files, 3270 loc. sorry=0, axiom=0, partial=0, native_decide=1. Only 1 theorem (UInt256.lean). Pure-Lean EVM precompiles: secp256k1, BN254 and BLS12-381 optimal-ate pairing, KZG, hashes. Tested against vectors only. Reservoir (live API 2026-11-17): not listed (404 for every candidate name). Native-code check: none (README: no FFI, no opaque definitions)"
+
+[[source]]
+name = "FFaCiL.lean"
+url = "https://github.com/argumentcomputer/FFaCiL.lean"
+revision = "b3254118a665ca18625c7ca848cc02625d2e5d73"
+license = "MIT"
+lean_toolchain = "leanprover/lean4:nightly-2023-01-10"
+mathlib_rev = "none"
+last_commit = "2023-04-06"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "15 files, 1731 loc. sorry=0, partial=7. Unverified finite fields (Zmod PrimeField class), projective short-Weierstrass curves, MSM/GLV over Pasta. Stale toolchain. Reservoir (live API 2026-11-17): listed as argumentcomputer/FFaCiL.lean. Fork-recorded Reservoir claim \"not listed (404)\" was wrong. Native-code check: none"
+
+[[source]]
+name = "leancert"
+url = "https://github.com/alerad/leancert"
+revision = "44b323a0d6af00211d5013f6e021432db032087c"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.35.0"
+mathlib_rev = "56a005855ea17e0b0958f73ec801ae140b0a1679 (v4.35.0)"
+last_commit = "2026-10-28"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "494 files, 123393 LOC. Counts 4/0/45/160/0/0/437/346/0. Sorry only in LeanCert/CertifiedBounds/Li2.lean:43,50. native_decide mostly in Test/Examples/Validity. Default tactic trust route is native_decide (option leancert.trust, LeanCert/Tactic/Verification.lean:52-117); 'kernel' route uses decide +kernel. Mathlib-Polynomial Taylor models are noncomputable; DyPoly/QPoly are the computable alternatives. Reservoir (live API 2026-11-17): listed as alerad/LeanCert."
+
+[[source]]
+name = "interval"
+url = "https://github.com/girving/interval"
+revision = "2c89204b806f4acd9b8530a38e656369d0a4d7f3"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.34.1"
+mathlib_rev = "d13f23b723b8a846827a245b89c10fc7d3f11612 (v4.34.1)"
+last_commit = "2026-10-13"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "86 files, 17047 LOC. Counts 0/0/1/3/0/0/22/113/0. Library proofs do not use native_decide: test/axioms.lean prints axioms [propext, Classical.choice, Quot.sound] for a lemma covering +,/,inv,exp,log,sin,cos,pow,*. native_decide appears only in the user-facing `interval` tactic (Interval/Tactic/Interval.lean:31,141) and tests. Lean package name 'interval'. Reservoir (live API 2026-11-17): listed as girving/interval."
+
+[[source]]
+name = "series"
+url = "https://github.com/girving/series"
+revision = "ca60d8c0ca19afb2b5bd21ee050464f08bd8d298"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.26.0-rc2"
+mathlib_rev = "d5c9558e75342a10d6321e6a8c798a14f68ae23c (master)"
+last_commit = "2025-11-22"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "30 files, 3808 LOC. Counts 0/0/0/0/0/0/13/0/0. Depends on girving/interval. Reservoir package name girving/ray-series. Toolchain lags interval (v4.26 vs v4.34). Reservoir (live API 2026-11-17): listed as girving/ray-series."
+
+[[source]]
+name = "ComputableReal"
+url = "https://github.com/Timeroot/ComputableReal"
+revision = "61221e0d67648119919bc51b27e693766f48c791"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.17.0-rc1"
+mathlib_rev = "2e4bea3590e14768d39b454d51bc438cf1731503"
+last_commit = "2025-03-04"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "13 files, 3816 LOC. Counts 0/0/1/0/0/0/4/23/0 (meta.py sorry count 0 because the sorries sit inside a TODO(mul_assoc) block comment, ComputableReal/ComputableRSeq.lean:961-976). Stale toolchain (v4.17). Reservoir name Timeroot/computableReal. Reservoir (live API 2026-11-17): listed as Timeroot/computableReal."
+
+[[source]]
+name = "Flean"
+url = "https://github.com/josephmckinsey/Flean"
+revision = "b5e0bde66ee5b08edeb32b53d8aef80031df13ae"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.27.0-rc1"
+mathlib_rev = "2f24e66e7ac77f5a00f0cf6b7724822c13cb4190 (master)"
+last_commit = "2026-04-07"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "9 files, 2586 LOC. Counts 0/0/0/0/0/0/3/0/0. README says a rewrite is in josephmckinsey/flean2. Only rounding of rationals to a float model and negation; no add/mul found in Flean/. Reservoir (live API 2026-11-17): listed as josephmckinsey/flean."
+
+[[source]]
+name = "fp-lean"
+url = "https://github.com/opencompl/fp-lean"
+revision = "bf6fa4c4e981e9a18052517370f66699f2261cf4"
+license = "Apache-2.0 (LICENSE.txt)"
+lean_toolchain = "leanprover/lean4:nightly-2026-06-30"
+mathlib_rev = "none"
+last_commit = "2026-11-04"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "205 files, 40879 LOC. Counts 92/13/1/0/0/0/0/18/0. Bit-blasting IEEE754 on BitVec (symfpu circuits). Axioms: private Canonical_all (Fp/PackUnpackNormalize.lean:32,145) and range axioms in Fp/Theorems/UnpackedFloat/Round/IsLowerHalfTieBreak.lean:1109. 11 sorry lines under Fp/. Nightly toolchain, no Mathlib. Reservoir (live API 2026-11-17): listed as opencompl/fp-lean."
+
+[[source]]
+name = "lean-smt"
+url = "https://github.com/ufmg-smite/lean-smt"
+revision = "cbec5bd226c79d80ce0c2d2ea28e1e6359c5f207"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.35.0"
+mathlib_rev = "56a005855ea17e0b0958f73ec801ae140b0a1679 (v4.35.0)"
+last_commit = "2026-11-09"
+reservoir = true
+native = false
+surveyed = "2026-11-17"
+notes = "287 files, 28944 LOC. Counts 27/3/37/5/0/2/7/0/4. Solving is delegated to cvc5 through lean-cvc5 (Smt/Reconstruct.lean:10 imports cvc5); proofs are reconstructed in Lean. Reservoir name ufmg-smite/smt. Reservoir (live API 2026-11-17): listed as ufmg-smite/smt."
+
+[[source]]
+name = "leansat"
+url = "https://github.com/leanprover/leansat"
+revision = "b83b5d8631ee54bc913b0e6aaf44711c34a50e0d"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:nightly-2024-08-02"
+mathlib_rev = "none"
+last_commit = "2024-08-29"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "Archived on GitHub. README.md:1-4: deprecated, merged into Lean 4 core as Std.Tactic.BVDecide in nightly-2024-08-29. Use core Std.Tactic.BVDecide / Std.Sat instead. 305 files, 22772 LOC. Counts 0/0/17/1/0/1/0/0/2. The LRAT checker is native; the SAT search runs an external solver via IO.Process.spawn (LeanSAT/External/Solver.lean:62-63). Reservoir (live API 2026-11-17): listed as leanprover/LeanSAT."
+
+[[source]]
+name = "lean-cvc5"
+url = "https://github.com/abdoo8080/lean-cvc5"
+revision = "d19a134c237ec7f0cb86c2027062eedeb577a9a9"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.35.0"
+mathlib_rev = "none"
+last_commit = "2026-11-02"
+reservoir = true
+native = false
+surveyed = "2026-11-17"
+notes = "31 files, 24918 LOC. Counts 1/0/0/9/3/27/0/0/0; 476 lines mention extern. FFI to the cvc5 C++ solver (ffi/ directory, cvc5.lean). Reservoir name abdoo8080/cvc5. Reservoir (live API 2026-11-17): listed as abdoo8080/cvc5."
+
+[[source]]
+name = "lean-egg"
+url = "https://github.com/marcusrossel/lean-egg"
+revision = "2605a63b6a78407114c692f5dc626531ff62df55"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.30.0-rc2"
+mathlib_rev = "none"
+last_commit = "2026-05-20"
+reservoir = true
+native = false
+surveyed = "2026-11-17"
+notes = "200 files, 12323 LOC, 31 C/Rust source files. Counts 137/3/27/2/3/1/0/0/0 (sorry count 137 is mostly test fixtures; not audited). README: deprecated, recommends core grind. E-graph saturation runs in Rust egg via @[extern \"run_eqsat_request\"] (Lean/Egg/Core/Request/Basic.lean:121). Reservoir (live API 2026-11-17): listed as marcusrossel/egg."
+
+[[source]]
+name = "truth_research"
+url = "https://github.com/lambdaclass/truth_research"
+revision = "f34ebd15084ec5ffaaad3b28a489bca0b8032406"
+license = "MIT"
+lean_toolchain = "leanprover/lean4:v4.26.0"
+mathlib_rev = "none"
+last_commit = "2026-06-10"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "OptiSat. 32 files, 12256 LOC. Counts 0/0/8/0/0/0/0/0/1. Lean package name optisat, library LambdaSat. README claims 363 theorems, zero sorry, zero custom axioms. Public saturate/parallelSaturate are partial def; soundness theorems are stated on fuel-bounded variants (saturateF, ematchF). Reservoir (live API 2026-11-17): listed as lambdaclass/optisat."
+
+[[source]]
+name = "lean4-bdd"
+url = "https://github.com/eshelyaron/lean4-bdd"
+revision = "89a95e2b6ff2873d8f4bfd704909fe58f5b0472b"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.30.0"
+mathlib_rev = "c5ea00351c28e24afc9f0f84379aa41082b1188f (v4.30.0)"
+last_commit = "2026-07-26"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "23 files, 9409 LOC. Counts all 0. Reservoir name eshelyaron/bdd. Reduced ordered BDDs with apply, restrict, relabel, choice, decidable semantic equivalence. Reservoir (live API 2026-11-17): listed as eshelyaron/bdd."
+
+[[source]]
+name = "Knuth-Bendix-procedure"
+url = "https://github.com/masazaucer/Knuth-Bendix-procedure"
+revision = "9b512c7defae04211dbe8f256e145f8f0e0eb568"
+license = "none found"
+lean_toolchain = "leanprover/lean4:v4.30.0-rc2"
+mathlib_rev = "5450b53e5ddc75d46418fabb605edbf36bd0beb6 (v4.30.0-rc2)"
+last_commit = "2026-11-10"
+reservoir = false
+native = true
+surveyed = "2026-11-17"
+notes = "11 files, 3192 LOC. Counts 0/0/0/0/0/0/5/0/0. No LICENSE or COPYING file in the checkout. Reservoir masazaucer/knuth-bendix returns 404. README is the template stub. KnuthBendix uses partial_fixpoint; #eval! examples in ShortLex.lean:214-218. Reservoir (live API 2026-11-17): not listed (404 for every candidate name)."
+
+[[source]]
+name = "ginac-lean"
+url = "https://github.com/utensil/ginac-lean"
+revision = "67cfb123ad8605dd4101a24f4d285bf1f348c0d4"
+license = "MIT"
+lean_toolchain = "leanprover/lean4:v4.8.0"
+mathlib_rev = "none"
+last_commit = "2024-10-09"
+reservoir = true
+native = false
+surveyed = "2026-11-17"
+notes = "5 Lean files, 279 LOC. Proof of concept: only Symbol.mk and Symbol.name bound to GiNaC C++ (lean/Ginac/Symbol.lean:7-11). README calls it a POC, not for production. Reservoir name utensil/GinacLean. Reservoir (live API 2026-11-17): listed as utensil/GinacLean."
+
+[[source]]
+name = "Lean-Oscar"
+url = "https://github.com/todbeibrot/Lean-Oscar"
+revision = "ed34a2063adb78c877a4526c778ceab0305c0b1c"
+license = "GPL-3.0"
+lean_toolchain = "leanprover/lean4:v4.7.0"
+mathlib_rev = "c06d0ad3d9d66abcd4307fb0cf58a1e108e273fd"
+last_commit = "2025-10-06"
+reservoir = true
+native = false
+surveyed = "2026-11-17"
+notes = "15 files, 2224 LOC. Counts 0/18/0/9/10/0/0/1/0. Spawns a Julia OSCAR server (Oscar/Server.lean:13-19) and exchanges MRDI JSON. Reservoir todbeibrot/oscar returns 404. Toolchain v4.7.0 is very stale. Reservoir (live API 2026-11-17): listed as todbeibrot/mrdi."
+
+[[source]]
+name = "FloatLib"
+url = "https://github.com/lean-dojo/FloatLib"
+revision = "acba2057e452f32f4ed4f06bb0adbeda5342ba92"
+license = "MIT"
+lean_toolchain = "leanprover/lean4:v4.35.0"
+mathlib_rev = "56a005855ea17e0b0958f73ec801ae140b0a1679 (v4.35.0)"
+last_commit = "2026-11-10"
+reservoir = false
+native = true
+surveyed = "2026-11-17"
+notes = "1451 files, 301584 LOC. Counts 0/0/61/15/0/1/240/48/0. All 48 native_decide files are under tests/FloatLibTests/Conformance. C/C++ files are MPFR/SoftPosit test oracles only (tests/oracles). Reservoir lean-dojo/FloatLib returns 404. Cloned by this fork. Reservoir (live API 2026-11-17): not listed (404 for every candidate name)."
+
+[[source]]
+name = "FloatSpec"
+url = "https://github.com/Beneficial-AI-Foundation/FloatSpec"
+revision = "158263e983ec3925e02b10f5b312498bf414e0f1"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.34.0-rc2"
+mathlib_rev = "85e3a25e006c35636f0e53b0e9296caca2685bc0 (v4.34.0-rc2)"
+last_commit = "2026-09-13"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "80 files, 196669 LOC. Counts 0/0/5/0/0/0/1207/8/0. Port of Coq Flocq; mostly specification. Fplus and Fdiv in Calc are noncomputable; Fsqrt, Fmult, Falign are defined computable. Cloned by this fork. Reservoir (live API 2026-11-17): listed as Beneficial-AI-Foundation/FloatSpec."
+
+[[source]]
+name = "IsoGraph"
+url = "https://github.com/Timeroot/IsoGraph"
+revision = "7cfa23706dd70245805ec157686049851c8372f1"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.34.0-rc2"
+mathlib_rev = "85e3a25e006c35636f0e53b0e9296caca2685bc0 (v4.34.0-rc2)"
+last_commit = "2026-09-02"
+reservoir = false
+native = true
+surveyed = "2026-11-17"
+notes = "Cloned and read. 156 files, 137335 LOC. sorry 0, axiom 0, partial 12, unsafe 6, extern 0, implemented_by 6, noncomputable 180, native_decide 796, IO.Process 0. Strongest graph-algorithm source found: verified canonical labelling, automorphism generators, isomorphism-class enumeration. Uses bv_decide (CaDiCaL + kernel-checked LRAT) for SAT-backed invariants. Toolchain is one minor version ahead of v4.33.0. Reservoir (live API 2026-11-17): not listed (404 for every candidate name)."
+
+[[source]]
+name = "graph-library-for-lean4"
+url = "https://github.com/PeterKementzey/graph-library-for-lean4"
+revision = "913d75d381c9e0f27fb8f98117b52e15573fd1d6"
+license = "MIT"
+lean_toolchain = "leanprover/lean4:v4.12.0"
+mathlib_rev = "none"
+last_commit = "2026-01-02"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "Cloned and read. 16 files, 1602 LOC. sorry 0, partial 2, no theorems. 2021 bachelor project: Dijkstra, max flow, Kruskal, topological sort, BFS/DFS on adjacency arrays; no correctness proofs; old toolchain. Reservoir (live API 2026-11-17): listed as PeterKementzey/Graph."
+
+[[source]]
+name = "Algorithm"
+url = "https://github.com/astrainfinita/Algorithm"
+revision = "69286ae288088cbabf10d867a10fea6d698dbbe8"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.35.0-rc2"
+mathlib_rev = "065356127b1dc0016f66b7283ce0ce2c4055aa55"
+last_commit = "2026-09-18"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "Cloned and read. 30 files, 5667 LOC. sorry 0, noncomputable 5. README: very early stage. Verified union-find and DFS forest; Dijkstra file holds lemmas only. Reservoir (live API 2026-11-17): listed as astrainfinita/algorithm."
+
+[[source]]
+name = "atlas-lean"
+url = "https://github.com/facebookresearch/atlas-lean"
+revision = "e43db5602b47a3b7b1095b541c2bdad9a6b1a735"
+license = "Apache-2.0 with an added no-ML-training clause (GitHub reports NOASSERTION)"
+lean_toolchain = "leanprover/lean4:v4.35.0"
+mathlib_rev = "56a005855ea17e0b0958f73ec801ae140b0a1679 (v4.35.0)"
+last_commit = "2026-11-16"
+reservoir = false
+native = true
+surveyed = "2026-11-17"
+notes = "Sparse clone of CSLibExt/Algorithms, MathlibExt/NumberTheory, MathlibExt/Combinatorics and tests only (1892 files, 637373 LOC in the checkout). sorry 0, axiom 0, partial 0, unsafe 0, extern 0, implemented_by 0, noncomputable 1426, native_decide 0. Corpus: 169 files with #eval, almost all in CSLibExtTest/Algorithms. GitHub HEAD moved to 3c728e6acead (2026-11-17) after the clone. LICENSE line 1: 'not intended for use to train, fine-tune, distill, evaluate, or otherwise develop ML models' before the Apache text; legal review needed. Algorithms are written in the CSLib TimeM cost monad, so each result carries an operation count. Reservoir (live API 2026-11-17): not listed (404 for every candidate name)."
+
+[[source]]
+name = "sympy-proofs"
+url = "https://github.com/sylee957/sympy-proofs"
+revision = "7f9a3349e3ebb40a1498702604899b0d79d3a093"
+license = "none"
+lean_toolchain = "leanprover/lean4:v4.35.0"
+mathlib_rev = "56a005855ea17e0b0958f73ec801ae140b0a1679 (v4.35.0)"
+last_commit = "2026-11-16"
+reservoir = false
+native = true
+surveyed = "2026-11-17"
+notes = "Cloned (not in the corpus). 566 files, 73095 LOC. sorry 0, axiom 0, partial 16, noncomputable 318, native_decide 0. No LICENSE file: all rights reserved, so code is reference-only until the author licenses it. Verified RREF and generalized inverse. Reservoir (live API 2026-11-17): not listed (404 for every candidate name). Fork-recorded Reservoir claim \"unchecked\" was wrong."
+
+[[source]]
+name = "zeta-lab"
+url = "https://github.com/teal-sea/zeta-lab"
+revision = "a401821c9608526425f3d4cf7ff8e59bc37e1c79"
+license = "MIT"
+lean_toolchain = "leanprover/lean4:v4.35.0-rc2 (lean/ subproject)"
+mathlib_rev = "065356127b1dc0016f66b7283ce0ce2c4055aa55 (lean/lake-manifest.json)"
+last_commit = "2026-11-15"
+reservoir = false
+native = true
+surveyed = "2026-11-17"
+notes = "Cloned (not in the corpus). 761 files, 488202 LOC including vendored and hunt subprojects. sorry 21, axiom 3, partial 1, noncomputable 850. sorry occurs in DavenportHeilbronn, GroundTruth and FiniteFieldTrace among ZetaLean files. Research monorepo; the reusable piece is rational interval and complex-ball arithmetic with soundness theorems. Reservoir (live API 2026-11-17): not listed (404 for every candidate name)."
+
+[[source]]
+name = "Algolean"
+url = "https://github.com/Shreyas4991/Algolean"
+revision = "234eef497c4c54a63f39e3e5f7ce00aed088f53c"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.35.0"
+mathlib_rev = "56a005855ea17e0b0958f73ec801ae140b0a1679 (v4.35.0)"
+last_commit = "2026-11-16"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "Cloned. 249 files, 55187 LOC. sorry 0, axiom 0, partial 2, noncomputable 222. Query-combinator (free-monad) cost models for complexity theory; algorithms are programs in an abstract model, not fast executable code. Reservoir (live API 2026-11-17): listed as Shreyas4991/Algolean."
+
+[[source]]
+name = "GraphLib"
+url = "https://github.com/sorrachai/GraphLib"
+revision = "4021feb8dbb84df8c9b765a1a341abcd4e1d225c"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.35.0"
+mathlib_rev = "56a005855ea17e0b0958f73ec801ae140b0a1679 (v4.35.0)"
+last_commit = "2026-11-10"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "Cloned. 83 files, 15233 LOC. sorry 8, axiom 0, noncomputable 40. Depends on Mathlib and CSLib. Graph algorithms on SimpleDiGraph with Fintype vertex sets (BFS, connectivity, flow, MST, SCC, shortest path), union-find, splay tree. Reservoir (live API 2026-11-17): listed as sorrachai/GraphLib."
+
+[[source]]
+name = "SPG"
+url = "https://github.com/tsurumi-yizhou/SPG"
+revision = "6d0405cb7c1e0dea38694ed1f6665d7c937aff96"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.29.0-rc4"
+mathlib_rev = "9d092b118b6f9f777ba67c7a2d2c2bcdd1b52395"
+last_commit = "2026-03-10"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "Cloned. 23 files, 1764 LOC. sorry 0, partial 1, noncomputable 0. Executable but unverified List-of-Q linear algebra for magnetic point groups. Reservoir (live API 2026-11-17): listed as tsurumi-yizhou/SPG."
+
+[[source]]
+name = "amo-lean"
+url = "https://github.com/manuelpuebla/amo-lean"
+revision = "555e5db8732ae644e930ff1541e20e00dc2322e1"
+license = "MIT"
+lean_toolchain = "leanprover/lean4:v4.26.0"
+mathlib_rev = "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67 (v4.26.0)"
+last_commit = "2026-03-14"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "Shallow clone at 555e5db8: 206 .lean files, 70605 lines, 57 C/Rust/header files (generated output and benchmarks). Grep counts: sorry 6, axiom 8, partial 63, unsafe 0, extern 0, implemented_by 0, noncomputable 71, native_decide 511, IO.Process 5. Verified NTT/FRI compiler emitting C/Rust for Goldilocks and BabyBear fields; old toolchain. Reservoir (live API 2026-11-17): listed as manuelpuebla/amo-lean."
+
+[[source]]
+name = "TauCeti"
+url = "https://github.com/TauCetiProject/TauCeti"
+revision = "7b4d5f7042c90b82d76446b6c62c94bbda739af2"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.36.0-rc2"
+mathlib_rev = "048fffa1dbcd080d3058fab41d8c188168595c22 (master)"
+last_commit = "2026-11-16"
+reservoir = true
+native = true
+surveyed = "2026-11-17"
+notes = "Not cloned (491MB). Corpus: 0 files with ^#eval. Listed as a source only for its specification-side components; see [[rejected]]. Reservoir (live API 2026-11-17): listed as TauCetiProject/TauCeti. Shallow clone at 7b4d5f70: 32784 .lean files, 7187837 lines. Grep counts: sorry 1, axiom 0, partial 4, unsafe 4, extern 0, implemented_by 0, noncomputable 32449, native_decide 0, IO.Process 3."
+
+[[source]]
+name = "lean4-mpn"
+url = "https://github.com/fgdorais/lean4-mpn"
+revision = "862f63d87fc6e56d648eb33296f1cf7ff688fd89"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.36.0-rc2"
+mathlib_rev = "none"
+last_commit = "2026-11-14"
+reservoir = false
+native = true
+surveyed = "2026-11-17"
+notes = "Verified GMP-style multi-precision naturals. 122 .lean files, about 49,700 lines. Only dependency: fgdorais/lean4-scalar-arrays (rev a7eff8c4), whose array primitives are C in the Lean runtime style and whose loops use implemented_by. Grep counts (comments stripped): sorry 0, axiom 0, partial 0, unsafe 0, extern 25 (all in MPN64/Arch/UInt.lean: inline-C high words of 64-bit add/sub/mul via __uint128_t), implemented_by 0, native_decide 0. MPN32 and the shared MPN library contain no extern (README portability rule). Marked native because the only C is word-level arithmetic, not an external algorithm. Toolchain is ahead of v4.33.0 (main tracks the newest Lean release including RCs). Reservoir (live API 2026-11-17): not listed (404 for fgdorais/lean4-mpn, mpn, MPN). Found by GitHub search \"lean-gmp\" after the brief's survey batches."
+
+[[source]]
+name = "lp-verify"
+url = "https://github.com/leanprover/lp-verify"
+revision = "1131b0a11c683d4833cd735c83157a32952ad3aa"
+license = "Apache-2.0"
+lean_toolchain = "leanprover/lean4:v4.33.1"
+mathlib_rev = "none"
+last_commit = "2026-08-26"
+reservoir = false
+native = true
+surveyed = "2026-11-17"
+notes = "Pure-Lean exact-rational LP certificate checkers with soundness theorems; the revision is the one the lp umbrella pins. 10 .lean files, 2311 lines. Only dependency LPCore @8b6d241b. Grep counts: sorry 0, axiom 0, partial 0, unsafe 0, extern 0, implemented_by 0, noncomputable 0, native_decide 0, IO.Process 0. Reservoir (live API 2026-11-17): not listed (404 for leanprover/LPVerify, lp-verify, lpverify)."
+
+[[source]]
+name = "csdp-ffi"
+url = "https://github.com/leanprover/csdp-ffi"
+revision = "4e24e780d9d87cc24483bc05006c451549df6289"
+license = "Apache-2.0 (vendored CSDP: CPL-1.0)"
+lean_toolchain = "leanprover/lean4:v4.34.1"
+mathlib_rev = "none"
+last_commit = "2026-09-25"
+reservoir = false
+native = false
+surveyed = "2026-11-17"
+notes = "Lean binding to vendored CSDP 6.2.0 C sources (THIRD_PARTY_NOTICES.md); links OpenBLAS or system LAPACK/BLAS (lakefile.lean:72-93) or a bundled portable BLAS subset. 9 .lean files, 806 lines, 52 C/C++/header files. Grep counts: sorry 0, axiom 0, partial 0, unsafe 0, extern 1, implemented_by 0. Surveyed at HEAD; sos pins the older rev eb41f276. Reservoir (live API 2026-11-17): not listed (404 for leanprover/CSDP)."
+
+[[component]]
+id = "scilean-dataarray"
+source = "SciLean"
+capability = "Flat unboxed array of plain-data scalars over ByteArray with typed get/set"
+domain = "numerical linear algebra storage"
+declarations = ["SciLean.DataArray", "SciLean.DataArray.get", "SciLean.DataArray.set", "SciLean.PlainDataType"]
+paths = ["SciLean/Data/DataArray/DataArray.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "stated-sorry:sorry_proof (bounds proofs)"
+status = "adaptable"
+evidence = ["SciLean/Data/DataArray/DataArray.lean:21", "SciLean/Data/DataArray/DataArray.lean:34", "SciLean/Data/DataArray/DataArray.lean:55"]
+notes = "Byte-level layout idea is reusable; the bounds obligations are discharged by sorry_proof axiom."
+
+[[component]]
+id = "scilean-dataarray-blas"
+source = "SciLean"
+capability = "BLAS level 1/2 instances for DataArray Float (dot, nrm2, axpy, gemv, trsv)"
+domain = "numerical linear algebra"
+declarations = ["LevelOneData (DataArray Float)", "LevelOneDataExt (DataArray Float)", "LevelTwoData (DataArray Float)"]
+paths = ["SciLean/Data/DataArray/Float.lean"]
+kind = "ffi-binding"
+depends_on_mathlib = true
+executable = "ffi"
+correctness = "none"
+status = "adaptable"
+evidence = ["SciLean/Data/DataArray/Float.lean:1-80"]
+notes = "Calls CBLAS through LeanBLAS; coercion is `cast sorry_proof`. Non-native."
+
+[[component]]
+id = "scilean-det-cofactor"
+source = "SciLean"
+capability = "Determinant by cofactor expansion over a generic ring"
+domain = "linear algebra"
+declarations = ["DataArrayN.minor", "DataArrayN.det"]
+paths = ["SciLean/Data/DataArray/Operations.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = ["SciLean/Data/DataArray/Operations.lean:134", "SciLean/Data/DataArray/Operations.lean:141"]
+notes = "O(n!) — not usable as a Sage-scale determinant. Has AD rules (SciLean/AD/Rules/DataArrayN/Det.lean:18)."
+
+[[component]]
+id = "scilean-tensor-ops"
+source = "SciLean"
+capability = "Tensor contractions, sums and index reshuffles on DataArrayN"
+domain = "multilinear algebra"
+declarations = ["SciLean.DataArrayN.contractLeftAddR", "SciLean.DataArrayN.contractRightAddR", "SciLean.DataArrayN.contractMiddleAddR", "SciLean.DataArrayN.outerAddR", "SciLean.DataArrayN.sumMiddleR", "SciLean.DataArrayN.sum", "SciLean.DataArrayN.sumRows", "SciLean.DataArrayN.sumCols"]
+paths = ["SciLean/Data/DataArray/TensorOperations.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "none"
+status = "adaptable"
+evidence = ["SciLean/Data/DataArray/TensorOperations.lean:12 namespace SciLean.DataArrayN; defs at :32,112,124,136,150,167,177,184"]
+notes = "Plain Lean loops; no theorems. Covers DataArrayN contraction, outer-product and sum operations (Id.run loops over R^[I,J,K])."
+
+[[component]]
+id = "scilean-sparse-matrix"
+source = "SciLean"
+capability = "Unassembled/assembled sparse matrix with get/add"
+domain = "sparse linear algebra"
+declarations = ["SciLean.SparseMatrixUnassembled", "SciLean.SparseMatrixAssembled", "SciLean.SparseMatrix"]
+paths = ["SciLean/Data/SparseMatrix/Basic.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "none"
+status = "adaptable"
+evidence = ["SciLean/Data/SparseMatrix/Basic.lean:25", "SciLean/Data/SparseMatrix/Basic.lean:47", "SciLean/Data/SparseMatrix/Basic.lean:77", "SciLean/Data/SparseMatrix/Basic.lean:156"]
+notes = "No solvers on top."
+
+[[component]]
+id = "scilean-ode-explicit"
+source = "SciLean"
+capability = "Explicit ODE steppers: forward Euler, explicit midpoint, Heun, RK4"
+domain = "numerical ODEs"
+declarations = ["forwardEuler", "explicitMidpoint", "heunMethod", "rungeKutta4"]
+paths = ["SciLean/Numerics/ODE/Solvers.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "none"
+status = "adaptable"
+evidence = ["SciLean/Numerics/ODE/Solvers.lean:20", "SciLean/Numerics/ODE/Solvers.lean:27", "SciLean/Numerics/ODE/Solvers.lean:36", "SciLean/Numerics/ODE/Solvers.lean:46"]
+notes = "Implicit methods at :24,:33,:42,:70-87 are noncomputable via `solve`. odeSolve spec (Analysis/ODE/OdeSolve.lean:42) has sorry_proof theorems (:63)."
+
+[[component]]
+id = "scilean-lbfgs"
+source = "SciLean"
+capability = "L-BFGS and generic optimize driver ported from Optim.jl"
+domain = "numerical optimization"
+declarations = ["SciLean.Optimjl.LBFGS.twoloop", "SciLean.Optimjl.LBFGS.updateState", "SciLean.Optimjl.optimizeM", "SciLean.Optimjl.optimize"]
+paths = ["SciLean/Numerics/Optimization/Optimjl/Multivariate/Solvers/FirstOrder/LBFGS.lean", "SciLean/Numerics/Optimization/Optimjl/Multivariate/Optimize/Optimize.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "noncomputable"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = ["LBFGS.lean:85-327", "Optimize.lean:22", "Optimize.lean:170"]
+notes = "Inside `noncomputable section`; needs a [BLAS (DataArray R) R R] instance, so the concrete run path is BLAS FFI."
+
+[[component]]
+id = "scilean-autodiff"
+source = "SciLean"
+capability = "Forward/reverse-mode AD by fun_trans/data_synth rewriting"
+domain = "automatic differentiation"
+declarations = ["HasFwdFDeriv", "HasRevFDeriv", "def_data_synth DataArrayN.det"]
+paths = ["SciLean/AD/Rules/DataArrayN/Det.lean"]
+kind = "decision-procedure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "stated-sorry:sorry_proof"
+status = "adaptable"
+evidence = ["SciLean/AD/Rules/DataArrayN/Det.lean:18"]
+notes = "Meta-level symbolic differentiation infrastructure; rule proofs lean on sorry_proof and ℝ≃Float axioms. Not a CAS algorithm."
+
+[[component]]
+id = "leanblas-cblas"
+source = "LeanBLAS"
+capability = "CBLAS level 1/2/3 Float64 bindings (dot, axpy, gemv, gemm, symm, trmm, trsm, syrk, syr2k, ...)"
+domain = "dense numerical linear algebra"
+declarations = ["leanblas_cblas_dgemm", "leanblas_cblas_dsymm", "leanblas_cblas_dtrmm", "leanblas_cblas_dtrsm", "leanblas_cblas_dsyrk", "leanblas_cblas_dsyr2k", "BLAS", "LawfulBLAS"]
+paths = ["LeanBLAS/FFI/CBLASLevelOneFloat64.lean", "LeanBLAS/FFI/CBLASLevelTwoFloat64.lean", "LeanBLAS/FFI/CBLASLevelThreeFloat64.lean", "LeanBLAS/BLAS.lean", "LeanBLAS/Spec/LevelOne.lean"]
+kind = "ffi-binding"
+depends_on_mathlib = true
+executable = "ffi"
+correctness = "none"
+status = "adaptable"
+evidence = ["LeanBLAS/FFI/CBLASLevelThreeFloat64.lean:15", "LeanBLAS/FFI/CBLASLevelThreeFloat64.lean:25-62", "LeanBLAS/BLAS.lean:25-44"]
+notes = "48 externs into system libblas. LawfulBLAS is an assumed Prop class; no proof that C matches Spec. No LAPACK (no LU/QR/eig)."
+
+[[component]]
+id = "numlean-tensor-interface"
+source = "NumLean-lecopivo"
+capability = "Shape/layout-indexed Tensor with TensorRingOps interface, dot/vmul, lawful algebraic instances"
+domain = "numerical linear algebra"
+declarations = ["NumLean.Tensor.dot", "NumLean.Tensor.dot_def", "TensorRingOps.tensorDot", "LawfulTensorRingOps.tensorDot_eq_vector_tensorDot", "NumLean.Tensor.norm_eq_sqrt_sum"]
+paths = ["NumLean/Data/Tensor/Algebra/VMul.lean", "NumLean/Interfaces/TensorAlgebra.lean", "NumLean/Data/Tensor/Algebra/Lawful.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:LawfulTensorRingOps.tensorDot_eq_vector_tensorDot"
+status = "adaptable"
+evidence = ["NumLean/Data/Tensor/Algebra/VMul.lean:18 def dot, :25 theorem dot_def (namespace NumLean.Tensor)", "NumLean/Interfaces/TensorAlgebra.lean:22 class TensorRingOps, :46 field tensorDot, :122 field tensorDot_eq_vector_tensorDot", "NumLean/Data/Tensor/Algebra/Lawful.lean:169 theorem norm_eq_sqrt_sum"]
+notes = "Reference implementation is Vector.tensorDot; fast path via own C float arrays (Data/Scalars/Float64/Float64Array.lean externs). Design is the best-verified numeric tensor layer seen, but no license blocks reuse. No factorizations found by name search."
+
+[[component]]
+id = "tensorlib-ndarray"
+source = "TensorLib"
+capability = "NumPy-compatible dtype-tagged ndarray: broadcasting, slicing, ufuncs, sum, dot, matmul, .npy IO"
+domain = "array computing"
+declarations = ["TensorLib.Tensor", "TensorLib.Tensor.Ufunc.add", "TensorLib.Tensor.Ufunc.sum", "TensorLib.Tensor.Ufunc.dot", "TensorLib.Tensor.Ufunc.matmul", "TensorLib.Npy"]
+paths = ["TensorLib/Tensor.lean", "TensorLib/Ufunc.lean", "TensorLib/Dtype.lean", "TensorLib/Npy.lean", "TensorLib/Broadcast.lean", "TensorLib/Slice.lean"]
+kind = "data-structure"
+depends_on_mathlib = false
+executable = "defined-computable"
+correctness = "tested-only"
+status = "adaptable"
+evidence = ["TensorLib/Ufunc.lean:31-299", "TensorLib/Test.lean:28", "TensorLib/MixedPrec.lean:50-544"]
+notes = "Pure Lean, Apache-2.0, current toolchain. Tests compare against NumPy via python3. Machine dtypes only (no exact rationals/bignums); MixedPrec rounding results rest on 16 Float32 axioms."
+
+[[component]]
+id = "cvxlean-dcp"
+source = "CvxLean"
+capability = "Disciplined convex programming: problem syntax, DCP canonization, conic export to MOSEK"
+domain = "convex optimization"
+declarations = ["CvxLean.Meta.solutionDataFromProblemData", "CvxLean.DCP.canonize", "CvxLean.runEggRequestRaw", "CvxLean.runEggRequest"]
+paths = ["CvxLean/Command/Solve/Conic.lean", "CvxLean/Tactic/DCP/DCP.lean", "CvxLean/Tactic/PreDCP/Egg/Runner.lean"]
+kind = "mathlib-bridge"
+depends_on_mathlib = true
+executable = "ffi"
+correctness = "none"
+status = "adaptable"
+evidence = ["CvxLean/Command/Solve/Conic.lean:36 unsafe def solutionDataFromProblemData; :61-62 IO.Process.output cmd \"mosek\"", "CvxLean/Tactic/DCP/DCP.lean:180 def canonize (namespace CvxLean.DCP)", "CvxLean/Tactic/PreDCP/Egg/Runner.lean:103 def runEggRequestRaw spawns egg-pre-dcp/utils/egg-pre-dcp; :164 runEggRequest"]
+notes = "External binaries via IO.Process (mosek, Rust egg). Float result not verified. Proved problem-equivalence transformations are the only Lean-side guarantee. Lean v4.8 era: port cost high."
+
+[[component]]
+id = "lp-verify-checker"
+source = "lp-verify"
+capability = "Pure-Lean exact-rational LP certificate checkers (optimal, Farkas infeasible, unbounded) with soundness proofs"
+domain = "linear programming"
+declarations = ["LP.Verify.checkOptimal", "LP.Verify.weak_duality", "LP.Verify.checkOptimal_sound", "LP.Verify.checkInfeasible_sound", "LP.Verify.checkUnbounded_sound"]
+paths = ["LPVerify/Bool.lean", "LPVerify/Sound.lean"]
+kind = "decision-procedure"
+depends_on_mathlib = false
+executable = "defined-computable"
+correctness = "proved:LP.Verify.checkOptimal_sound"
+status = "reusable"
+evidence = ["LPVerify/Bool.lean:278 def checkOptimal (namespace LP.Verify)", "LPVerify/Sound.lean:310 weak_duality, :323 checkOptimal_sound, :345 checkInfeasible_sound, :436 checkUnbounded_sound"]
+notes = "Read in the shallow clone of lp-verify. No Mathlib, Apache-2.0, v4.33.1. The verification half is native; producing certificates needs a solver."
+
+[[component]]
+id = "lp-solve-verified"
+source = "lp"
+capability = "solveVerified: run SoPlex, then check its exact certificate in Lean; plus `lp`/`maximize` tactics"
+domain = "linear programming"
+declarations = ["LP.Verify.solveVerified", "LP.Problem", "LPTactic"]
+paths = ["LP/Verify.lean", "LP/Backend/SoplexFFI.lean", "README.md"]
+kind = "ffi-binding"
+depends_on_mathlib = false
+executable = "ffi"
+correctness = "proved:LPVerify.checkOptimal_sound"
+status = "reusable"
+evidence = ["lp/README.md:1-80", "lp/lakefile.lean:10-18", "LP/Verify/Sound.lean:1-8"]
+notes = "Solver untrusted, answer checked; falls back to .unchecked. Backend registry is pluggable (LPCore.Backend), so a native Lean simplex backend could replace SoPlex."
+
+[[component]]
+id = "soplex-ffi-binding"
+source = "soplex-ffi"
+capability = "Exact (rational) and float SoPlex LP solve, MPS/LP read/write"
+domain = "linear programming"
+declarations = ["lean_soplex_solve_exact", "lean_soplex_solve_float", "lean_soplex_read_mps_ffi", "lean_soplex_write_lp_ffi"]
+paths = ["SoplexFFI/Basic.lean", "ffi/lean_soplex.cpp", "ffi/lean_soplex_bridge.cpp"]
+kind = "ffi-binding"
+depends_on_mathlib = false
+executable = "ffi"
+correctness = "none"
+status = "adaptable"
+evidence = ["SoplexFFI/Basic.lean:64", "SoplexFFI/Basic.lean:296", "SoplexFFI/Basic.lean:360", "SoplexFFI/Basic.lean:435-455"]
+notes = "Vendored SoPlex + static GMP C++ build. Non-native; trust comes from lp-verify."
+
+[[component]]
+id = "sos-certificate-checker"
+source = "sos"
+capability = "Positivstellensatz-style SOS certificate check over CMvPolynomial ℚ with soundness over ℝ"
+domain = "real algebraic geometry"
+declarations = ["SOS.Certificate", "SOS.Certificate.checks", "SOS.sos_sound", "SOS.sos_strict_sound", "SOS.sos_infeasible_sound", "SOS.sos_nonneg_refutation_sound"]
+paths = ["SOS/Certificate.lean", "SOS/Mathlib/Verifier.lean"]
+kind = "decision-procedure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:SOS.sos_sound"
+status = "reusable"
+evidence = ["SOS/Certificate.lean:75", "SOS/Certificate.lean:123-129", "SOS/Mathlib/Verifier.lean:234-249", "SOS/Mathlib/Verifier.lean:353", "SOS/Mathlib/Verifier.lean:380", "SOS/Mathlib/Tactic.lean:232"]
+notes = "Checked by decide +kernel, not native_decide. Depends on Hex (HexMvPoly)."
+
+[[component]]
+id = "sos-search"
+source = "sos"
+capability = "SOS search: Newton-polytope basis, SDP encoding, CSDP call, rational rounding of Gram matrix"
+domain = "semidefinite programming / polynomial optimization"
+declarations = ["SOS.newtonBasis", "SOS.buildSdp", "SOS.niceRound", "SOS.decodeSolution", "SOS.runFeasibilitySearch"]
+paths = ["SOS/Search.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = false
+executable = "ffi"
+correctness = "none"
+status = "adaptable"
+evidence = ["SOS/Search.lean:173", "SOS/Search.lean:478", "SOS/Search.lean:695", "SOS/Search.lean:728", "SOS/Search.lean:1161", "SOS/Search.lean:1940"]
+notes = "CSDP is vendored C called through @[extern lean_csdp_solve_ffi] (FFI, not a process), linking BLAS/LAPACK. Untrusted; output re-checked by sos-certificate-checker. The CSDP call itself is the separate component csdp-ffi-solve."
+
+[[component]]
+id = "sos-rat-linalg"
+source = "sos"
+capability = "Exact rational RREF/elimination, LDLᵀ decomposition, phase-1 simplex feasibility for Ax=b, x≥0"
+domain = "exact linear algebra"
+declarations = ["SOS.rref", "SOS.Rref.freeCols", "SOS.Rref.inconsistent", "SOS.eliminateAll", "SOS.LDL.decompose", "SOS.LDL.reconstruct", "SOS.findFeasibleEqLP?", "SOS.isFeasibleEqLP"]
+paths = ["SOS/RatLinAlg.lean", "SOS/LDL.lean", "SOS/RatSimplex.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = false
+executable = "defined-computable"
+correctness = "tested-only"
+status = "adaptable"
+evidence = ["SOS/RatLinAlg.lean:52", "SOS/RatLinAlg.lean:145", "SOS/LDL.lean:63", "SOS/LDL.lean:117", "SOS/RatSimplex.lean:120", "SOS/RatSimplex.lean:191"]
+notes = "Native Lean over Rat on Array (Array Rat); no theorems in these files (grep). Results are not trusted directly: they feed the kernel-checked certificate. Small dense helpers, not a matrix library."
+
+[[component]]
+id = "cslib-mergesort-timem"
+source = "cslib"
+capability = "Merge/insertion sort with a cost-counting monad and proved correctness and O(n log n) bounds; comparison-sort lower bound"
+domain = "algorithms (sorting)"
+declarations = ["Cslib.TimeM", "mergeSort_correct", "mergeSort_time_le", "IsSort.lowerBound_infinite"]
+paths = ["Cslib/Algorithms/Lean/TimeM.lean", "Cslib/Algorithms/Lean/MergeSort/MergeSort.lean", "Cslib/Algorithms/Lean/Query/Sort/LowerBound.lean"]
+kind = "theorem"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:mergeSort_correct"
+status = "formalized-not-executable"
+evidence = ["Cslib/Algorithms/Lean/TimeM.lean:50", "Cslib/Algorithms/Lean/MergeSort/MergeSort.lean:90-190", "Cslib/Algorithms/Lean/Query/Sort/LowerBound.lean:116"]
+notes = "List sort for cost reasoning; core List.mergeSort already exists. TimeM is a possible pattern for complexity statements, not an algorithm to reuse."
+
+[[component]]
+id = "torchlean-factorization"
+source = "TorchLean"
+capability = "Generic-scalar QR, triangular solve, Cholesky solve, ridge solve with correctness theorems over ℝ"
+domain = "numerical linear algebra"
+declarations = ["TorchLean.Tensor.qr", "mulVec_triSolveLowerFn", "mulVec_triSolveUpperFn", "mulVec_cholSolveFn", "solveRidge_spec"]
+paths = ["TorchLean/Tensor/LinearAlgebra.lean", "TorchLean/Tensor/Factorization/Solve.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:mulVec_triSolveLowerFn"
+status = "adaptable"
+evidence = ["TorchLean/Tensor/LinearAlgebra.lean:47 def qr (namespace TorchLean.Tensor)", "TorchLean/Tensor/Factorization/Solve.lean:74,97,124,157 (read in the shallow clone)"]
+notes = "Read in the shallow clone. Theorems are over ℝ (not executable); execution at Float via Storage α. QR theorems assume positive pivots. Most relevant numeric LA found outside Mathlib, but floating-point oriented."
+
+[[component]]
+id = "comppoly.cpolynomial"
+source = "CompPoly"
+capability = "Dense univariate polynomial type (canonical trimmed Array) with ring ops, eval and Horner, and a RingEquiv to Mathlib Polynomial"
+domain = "polynomials/univariate"
+declarations = ["CPolynomial", "CPolynomial.eval", "CPolynomial.evalHorner", "CPolynomial.ringEquiv"]
+paths = ["CompPoly/Univariate/Basic.lean", "CompPoly/Univariate/ToPoly/Equiv.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:CPolynomial.ringEquiv"
+status = "reusable"
+evidence = ["CompPoly/Univariate/Basic.lean:59", "CompPoly/Univariate/Basic.lean:301 eval_eq_evalHorner", "CompPoly/Univariate/ToPoly/Equiv.lean:176"]
+notes = "The ring operations are computable. The ringEquiv to Polynomial is a noncomputable def used only for transport."
+
+[[component]]
+id = "comppoly.division-xgcd"
+source = "CompPoly"
+capability = "Polynomial division, divByMonic, modByMonic via reversal, extended Euclid with Bezout and monic normalized gcd"
+domain = "polynomials/univariate"
+declarations = ["CPolynomial.xgcd", "CPolynomial.normXgcd", "div_toPoly_eq_div", "xgcd_toPoly_eq_gcd", "gcdMonic_toPoly_eq_normalize_gcd"]
+paths = ["CompPoly/Univariate/DivisionCorrectness.lean", "CompPoly/Univariate/EuclideanAlgorithm.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:xgcd_toPoly_eq_gcd"
+status = "reusable"
+evidence = ["CompPoly/Univariate/DivisionCorrectness.lean:545", "CompPoly/Univariate/DivisionCorrectness.lean:736 modByMonicByReversal_eq_modByMonic", "CompPoly/Univariate/EuclideanAlgorithm.lean:92 xgcd_bezout", "CompPoly/Univariate/EuclideanAlgorithm.lean:133"]
+notes = "Over a field with LawfulBEq. Also Modular.lean mulModWith/powModWith/xPowSubXModWith (lines 24,52,72)."
+
+[[component]]
+id = "comppoly.ntt-fastmul"
+source = "CompPoly"
+capability = "NTT-based fast polynomial multiplication with fallback to schoolbook"
+domain = "polynomials/univariate"
+declarations = ["fastMulImpl", "fastMulImpl_eq_mul", "safeFastMul_eq_mul", "withFallback_eq_mul"]
+paths = ["CompPoly/Univariate/NTT/FastMul.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:fastMulImpl_eq_mul"
+status = "reusable"
+evidence = ["CompPoly/Univariate/NTT/FastMul.lean:320", "CompPoly/Univariate/NTT/FastMul.lean:331", "CompPoly/Univariate/NTT/FastMul.lean:352"]
+notes = "Requires an NTT Domain that fits the operand sizes; the fallback variant is total."
+
+[[component]]
+id = "comppoly.roots-finite-field"
+source = "CompPoly"
+capability = "Roots of a univariate polynomial over a finite field via Cantor-Zassenhaus (Las Vegas) or Shoup splitting into linear factors"
+domain = "finite-fields/polynomial-roots"
+declarations = ["rootsInFiniteField", "rootsInFiniteField_spec", "cantorZassenhausOddAttemptWith", "lasVegasSplitLinearFactorsWith", "shoupSplitLinearFactorsWith_complete"]
+paths = ["CompPoly/Univariate/Roots/Correctness.lean", "CompPoly/Univariate/Roots/LasVegas/Basic.lean", "CompPoly/Univariate/Roots/Shoup/Correctness.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:rootsInFiniteField_spec"
+status = "reusable"
+evidence = ["CompPoly/Univariate/Roots/Correctness.lean:1081", "CompPoly/Univariate/Roots/Correctness.lean:886 rootsInFiniteField_sound", "CompPoly/Univariate/Roots/LasVegas/Basic.lean:136", "CompPoly/Univariate/Roots/LasVegas/Basic.lean:305 lasVegasSplitLinearFactorsWith_sound", "CompPoly/Univariate/Roots/Shoup/Correctness.lean:922"]
+notes = "The spec is membership iff eval = 0, for p != 0 and a valid splitter. Only linear-factor splitting; no full factorization into irreducibles. A partial base for a Sage factor() port over GF(q)."
+
+[[component]]
+id = "comppoly.quotient-ring"
+source = "CompPoly"
+capability = "Quotient polynomial representation with RingEquiv to Mathlib Polynomial"
+domain = "polynomials/univariate"
+declarations = ["QuotientCPolynomial", "QuotientCPolynomial.ringEquiv"]
+paths = ["CompPoly/Univariate/Quotient/Core.lean", "CompPoly/Univariate/Quotient/Equiv.lean"]
+kind = "mathlib-bridge"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:QuotientCPolynomial.ringEquiv"
+status = "reusable"
+evidence = ["CompPoly/Univariate/Quotient/Core.lean:67", "CompPoly/Univariate/Quotient/Equiv.lean:85"]
+notes = "The bridge itself is noncomputable; the quotient arithmetic is computable."
+
+[[component]]
+id = "comppoly.cmvpolynomial"
+source = "CompPoly"
+capability = "Sparse multivariate polynomials in n variables with monomial orders, leading monomial/coeff, aeval, bind1, rename, partial evaluation, and a RingEquiv to MvPolynomial (Fin n) R"
+domain = "polynomials/multivariate"
+declarations = ["CPoly.CMvPolynomial", "polyRingEquiv", "leadingMonomial", "leadingCoeff", "aeval", "bind₁", "rename"]
+paths = ["CompPoly/Multivariate/Operations.lean", "CompPoly/Multivariate/MvPolyEquiv/Instances.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:polyRingEquiv"
+status = "reusable"
+evidence = ["CompPoly/Multivariate/MvPolyEquiv/Instances.lean:372", "CompPoly/Multivariate/MvPolyEquiv/Instances.lean:379 coe_polyRingEquiv", "CompPoly/Multivariate/Operations.lean:62", "CompPoly/Multivariate/Operations.lean:89", "CompPoly/Multivariate/Operations.lean:130", "CompPoly/Multivariate/Operations.lean:257"]
+notes = "The natural carrier for an executable Buchberger, but no Groebner code exists in CompPoly."
+
+[[component]]
+id = "comppoly.bivariate-factor"
+source = "CompPoly"
+capability = "Bivariate division by linear-in-Y factors, as used for Guruswami-Sudan list decoding"
+domain = "polynomials/bivariate"
+declarations = ["divByLinearY", "divByLinearY_spec", "isLinearYFactor_iff"]
+paths = ["CompPoly/Bivariate/Factor.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:divByLinearY_spec"
+status = "adaptable"
+evidence = ["CompPoly/Bivariate/Factor.lean:99", "CompPoly/Bivariate/Factor.lean:518", "CompPoly/Bivariate/Factor.lean:71"]
+notes = "Coding-theory oriented; not a general bivariate factorizer."
+
+[[component]]
+id = "comppoly.lagrange-interpolation"
+source = "CompPoly"
+capability = "Lagrange interpolation over a Finset of nodes and over powers of a root of unity"
+domain = "polynomials/interpolation"
+declarations = ["Lagrange.basis", "Lagrange.interpolate", "Lagrange.interpolatePow"]
+paths = ["CompPoly/Univariate/Lagrange.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "none"
+status = "adaptable"
+evidence = ["CompPoly/Univariate/Lagrange.lean:89", "CompPoly/Univariate/Lagrange.lean:195", "CompPoly/Univariate/Lagrange.lean:237"]
+notes = "No correctness theorem was read for interpolate; there may be one elsewhere (not inspected). Also present but not inspected: Barycentric, CoefficientInterpolation, BatchEval, ReedSolomon, Vanishing."
+
+[[component]]
+id = "comppoly.dense-kernel"
+source = "CompPoly"
+capability = "Dense matrices over a field: RREF, homogeneous kernel basis and nonzero kernel witness"
+domain = "linear-algebra/dense"
+declarations = ["homogeneousKernelBasis", "homogeneousWitness", "homogeneousWitness_sound"]
+paths = ["CompPoly/LinearAlgebra/Dense/Kernel.lean", "CompPoly/LinearAlgebra/Dense/KernelCorrectness.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:homogeneousWitness_sound"
+status = "reusable"
+evidence = ["CompPoly/LinearAlgebra/Dense/Kernel.lean:49", "CompPoly/LinearAlgebra/Dense/Kernel.lean:56", "CompPoly/LinearAlgebra/Dense/KernelCorrectness.lean:579"]
+notes = "Array-backed DenseMatrix with a WellFormed predicate. Soundness was read; completeness of the basis was not checked."
+
+[[component]]
+id = "comppoly.polymatrix"
+source = "CompPoly"
+capability = "Polynomial matrices: Mulders-Storjohann weak Popov reduction, Strassen multiplication, approximant PM-basis"
+domain = "linear-algebra/polynomial-matrices"
+declarations = ["muldersStorjohannReduce", "muldersStorjohannStep_rowSpan_subset", "mulStrassenWith_eq_mulWith"]
+paths = ["CompPoly/LinearAlgebra/PolynomialMatrix/MuldersStorjohann.lean", "CompPoly/LinearAlgebra/PolynomialMatrix/MuldersStorjohannCorrectness/Reduction.lean", "CompPoly/LinearAlgebra/PolynomialMatrix/StrassenCorrectness.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:mulStrassenWith_eq_mulWith"
+status = "adaptable"
+evidence = ["CompPoly/LinearAlgebra/PolynomialMatrix/MuldersStorjohann.lean:123", "CompPoly/LinearAlgebra/PolynomialMatrix/MuldersStorjohannCorrectness/Reduction.lean:47", "CompPoly/LinearAlgebra/PolynomialMatrix/MuldersStorjohannCorrectness/Reduction.lean:84", "CompPoly/LinearAlgebra/PolynomialMatrix/StrassenCorrectness.lean:671"]
+notes = "The Mulders-Storjohann step has proved row-span preservation; a full weak-Popov output theorem was not located. Approximant/PMBasis was not inspected."
+
+[[component]]
+id = "comppoly.montgomery-prime-fields"
+source = "CompPoly"
+capability = "Fast native-word prime fields (Montgomery 32/64x8; BabyBear, KoalaBear, Goldilocks, Mersenne31, BN254, BLS12-381/377, Pasta, secp256k1) with RingEquiv to ZMod p"
+domain = "finite-fields/prime"
+declarations = ["Montgomery.ringEquiv", "Goldilocks.ringEquiv"]
+paths = ["CompPoly/Fields/Montgomery/Native32Field.lean", "CompPoly/Fields/Goldilocks/Fast.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:ringEquiv"
+status = "reusable"
+evidence = ["CompPoly/Fields/Montgomery/Native32Field.lean:625", "CompPoly/Fields/Goldilocks/Fast.lean:573"]
+notes = "The ringEquiv here is a computable def, so the arithmetic is proved equal to ZMod arithmetic. Only fixed cryptographic moduli plus the Mont32Field class for 32-bit moduli; no arbitrary-precision GF(p)."
+
+[[component]]
+id = "comppoly.binary-tower-fields"
+source = "CompPoly"
+capability = "Binary tower fields, GF(2^64), GF(2^128) GHASH, AES field, additive NTT"
+domain = "finite-fields/characteristic-2"
+declarations = ["ConcreteBTField", "towerRingEquiv0"]
+paths = ["CompPoly/Fields/Binary/Tower/Equiv.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:towerRingEquiv0"
+status = "adaptable"
+evidence = ["CompPoly/Fields/Binary/Tower/Equiv.lean:62"]
+notes = "The equivalence to the abstract BTField is noncomputable; the concrete arithmetic is computable. Specialised to Binius/AES fields, not general GF(2^n)."
+
+[[component]]
+id = "comppoly.pratt-certificate"
+source = "CompPoly"
+capability = "Pratt primality certificates checked in the kernel; generator uses deterministic Miller-Rabin as a meta function"
+domain = "number-theory/primality"
+declarations = ["PrattCertificate", "PrattCertificate.out", "deterministicMillerRabin"]
+paths = ["CompPoly/Fields/PrattCertificate.lean"]
+kind = "decision-procedure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:PrattCertificate.out"
+status = "adaptable"
+evidence = ["CompPoly/Fields/PrattCertificate.lean:125", "CompPoly/Fields/PrattCertificate.lean:240", "CompPoly/Fields/PrattCertificate.lean:291"]
+notes = "Certificate generation is `meta partial def` (unverified search); the checking side is proved."
+
+[[component]]
+id = "arklib.cyclotomic-rq"
+source = "ArkLib"
+capability = "Cyclotomic quotient ring R_q = R[X]/Phi on CompPoly, with computable inverse via normXgcd and RingEquiv to the Mathlib quotient"
+domain = "algebraic-number-theory/cyclotomic"
+declarations = ["Rq", "Rq.mk", "Rq.inv", "Rq.inv_mul_cancel", "equivQuotient"]
+paths = ["ArkLib/Data/Lattices/CyclotomicRing/Rq.lean", "ArkLib/Data/Lattices/CyclotomicRing/Inverse.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:Rq.inv_mul_cancel"
+status = "adaptable"
+evidence = ["ArkLib/Data/Lattices/CyclotomicRing/Rq.lean:101", "ArkLib/Data/Lattices/CyclotomicRing/Rq.lean:233", "ArkLib/Data/Lattices/CyclotomicRing/Inverse.lean:67", "ArkLib/Data/Lattices/CyclotomicRing/Inverse.lean:98"]
+notes = "Galois automorphisms, trace and subfield files are present but not inspected for computability. Pulling in ArkLib brings VCVio and the large SNARK tree."
+
+[[component]]
+id = "arklib.poseidon2"
+source = "ArkLib"
+capability = "Poseidon2 permutation over KoalaBear (widths 16 and 24)"
+domain = "cryptography/hash"
+declarations = ["Poseidon2.permute", "params16", "params24"]
+paths = ["ArkLib/Data/Hash/Poseidon2.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "none"
+status = "adaptable"
+evidence = ["ArkLib/Data/Hash/Poseidon2.lean:474", "ArkLib/Data/Hash/Poseidon2.lean:664"]
+notes = "Outside Sage scope; listed only because it is executable."
+
+[[component]]
+id = "compelliptic.short-weierstrass"
+source = "CompElliptic"
+capability = "Affine short-Weierstrass group law with proved associativity, an AddCommGroup on points, and transport to Mathlib WeierstrassCurve"
+domain = "elliptic-curves/arithmetic"
+declarations = ["ShortWeierstrass.add", "ShortWeierstrass.toW", "ShortWeierstrass.add_assoc", "SWPoint"]
+paths = ["CompElliptic/CurveForms/ShortWeierstrass.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:ShortWeierstrass.add_assoc"
+status = "adaptable"
+evidence = ["CompElliptic/CurveForms/ShortWeierstrass.lean:81", "CompElliptic/CurveForms/ShortWeierstrass.lean:137", "CompElliptic/CurveForms/ShortWeierstrass.lean:334", "CompElliptic/CurveForms/ShortWeierstrass.lean:495"]
+notes = "Generic over a field F. Concrete curves are only Pasta/IsoPasta; the fast projective lane uses implemented_by and a precompiled .so."
+
+[[component]]
+id = "compelliptic.tonelli-shanks"
+source = "CompElliptic"
+capability = "Tonelli-Shanks square root in finite fields with soundness and completeness"
+domain = "finite-fields/square-roots"
+declarations = ["sqrt?", "sqrt?_mul_self", "sqrt?_isSome_of_isSquare"]
+paths = ["CompElliptic/Fields/Sqrt.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:sqrt?_isSome_of_isSquare"
+status = "reusable"
+evidence = ["CompElliptic/Fields/Sqrt.lean:172", "CompElliptic/Fields/Sqrt.lean:261", "CompElliptic/Fields/Sqrt.lean:275", "CompElliptic/Fields/Sqrt.lean:284"]
+notes = "Needs a TonelliShanks data record (non-residue and 2-adic split) supplied per field."
+
+[[component]]
+id = "compelliptic.curve-order-certificate"
+source = "CompElliptic"
+capability = "Group-order certification from a prime-order witness plus a Hasse-like bound #E <= 2|F|+1"
+domain = "elliptic-curves/point-counting"
+declarations = ["card_eq_of_prime_witness_of_card_lt_two_mul", "card_le_two_mul_card_add_one"]
+paths = ["CompElliptic/CurveOrder.lean"]
+kind = "theorem"
+depends_on_mathlib = true
+executable = "not-implemented"
+correctness = "proved:card_eq_of_prime_witness_of_card_lt_two_mul"
+status = "adaptable"
+evidence = ["CompElliptic/CurveOrder.lean:134", "CompElliptic/CurveOrder.lean:165"]
+notes = "This certifies a known order; it does not count points (no Schoof/SEA, no baby-step giant-step)."
+
+[[component]]
+id = "ec-tate.tate-algorithm"
+source = "ec-tate-lean"
+capability = "Tate's algorithm over Z at a prime p: Kodaira type, conductor exponent, Tamagawa number, reduction type, urst change to a minimal model"
+domain = "elliptic-curves/local-invariants"
+declarations = ["Int.tate_algorithm", "tate_small_prime", "tate_big_prime", "TateRing.tate_algorithm"]
+paths = ["ECTate/Algebra/EllipticCurve/TateInt.lean", "ECTate/Algebra/EllipticCurve/TateRing.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "tested-only"
+status = "adaptable"
+evidence = ["ECTate/Algebra/EllipticCurve/TateInt.lean:619", "ECTate/Algebra/EllipticCurve/TateInt.lean:631", "ECTate/Algebra/EllipticCurve/TateInt.lean:170", "ECTate/Algebra/EllipticCurve/TateRing.lean:167"]
+notes = "Executable (#eval at TateInt.lean:631-635) and compared with LMFDB (test/LMFDB.lean). There is no output-correctness theorem, and the algorithm bodies carry sorry'd valuation invariants. Toolchain nightly-2023-08-19 with unpinned Mathlib, so porting is a rewrite against current Mathlib."
+
+[[component]]
+id = "miller-rabin.test"
+source = "miller-rabin"
+capability = "Randomized Miller-Rabin primality test with a proved bound of at most 1/4 strong liars for odd composites"
+domain = "number-theory/primality"
+declarations = ["MillerRabin.millerRabin", "MillerRabin.millerRabinIO", "SPP.millerRabinAux", "card_le_of_not_prime", "measure_le_of_not_prime"]
+paths = ["MillerRabin/MillerRabin.lean", "MillerRabin/StrongProbable.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:card_le_of_not_prime"
+status = "reusable"
+evidence = ["MillerRabin/MillerRabin.lean:60", "MillerRabin/MillerRabin.lean:67", "MillerRabin/StrongProbable.lean:54", "MillerRabin/StrongProbable.lean:70 millerRabinAux_eq_true_iff", "MillerRabin/StrongProbable.lean:654", "MillerRabin/StrongProbable.lean:690"]
+notes = "The bound is about the SPP predicate, and millerRabinAux is linked to SPP. No theorem in MillerRabin.lean states the error probability of the `millerRabin` loop itself."
+
+[[component]]
+id = "primefactorlean.factor"
+source = "PrimeFactorLean"
+capability = "Integer factorization portfolio (trial, wheel, Fermat, rho, Brent, SQUFOF, p-1, p+1, ECM, CFRAC, QS, MPQS, SIQS, GNFS, auto) returning a prime factorization, with Pocklington prime certification"
+domain = "number-theory/factorization"
+declarations = ["PrimeFactorLean.factor", "Algorithm", "factorCoreWith", "factor_total_correct", "factorCoreWith_correct", "Pocklington.oracle_sound", "factorSigned"]
+paths = ["PrimeFactorLean/Algorithms.lean", "PrimeFactorLean/Core.lean", "PrimeFactorLean/Proofs/Algorithms.lean", "PrimeFactorLean/Proofs/Core.lean", "PrimeFactorLean/Proofs/Pocklington.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:factor_total_correct"
+status = "reusable"
+evidence = ["PrimeFactorLean/Algorithms.lean:34", "PrimeFactorLean/Algorithms.lean:366", "PrimeFactorLean/Core.lean:201", "PrimeFactorLean/Proofs/Algorithms.lean:26", "PrimeFactorLean/Proofs/Core.lean:79", "PrimeFactorLean/Proofs/Pocklington.lean:436"]
+notes = "The correctness comes from a verified driver: every splitter is untrusted, splits are checked, and prime leaves pass a proved Pocklington oracle. The proof therefore holds for all algorithms without proving each sieve. Output is IsFactorization n ps with Nat.Prime leaves. Directly usable for Sage factor(ZZ) and is_prime-style certification. No sorry or FFI."
+
+[[component]]
+id = "primefactorlean.pocklington"
+source = "PrimeFactorLean"
+capability = "Pocklington and Pocklington-cube primality criteria and checker"
+domain = "number-theory/primality"
+declarations = ["pocklington", "pocklington_cube", "Pocklington.oracle_sound"]
+paths = ["PrimeFactorLean/Proofs/Pocklington.lean"]
+kind = "decision-procedure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:Pocklington.oracle_sound"
+status = "reusable"
+evidence = ["PrimeFactorLean/Proofs/Pocklington.lean:125", "PrimeFactorLean/Proofs/Pocklington.lean:230", "PrimeFactorLean/Proofs/Pocklington.lean:436"]
+notes = "The sound oracle is Nat -> Bool, with a split function used as fuel for recursive certification."
+
+[[component]]
+id = "mop.sorted-addmonoidalgebra"
+source = "MonomialOrderedPolynomial"
+capability = "Sorted-list AddMonoidAlgebra with a ring/alg equivalence to AddMonoidAlgebra and MvPolynomial, for kernel-reducible polynomial identity testing"
+domain = "polynomials/multivariate"
+declarations = ["SortedAddMonoidAlgebra", "ringEquivAddMonoidAlgebra", "algEquivAddMonoidAlgebra", "algEquivMvPolynomial", "MvPolynomial.SortedRepr"]
+paths = ["MonomialOrderedPolynomial/SortedAddMonoidAlgebra.lean", "MonomialOrderedPolynomial/MvPolynomial.lean"]
+kind = "mathlib-bridge"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:algEquivAddMonoidAlgebra"
+status = "adaptable"
+evidence = ["MonomialOrderedPolynomial/SortedAddMonoidAlgebra.lean:11", "MonomialOrderedPolynomial/SortedAddMonoidAlgebra.lean:192", "MonomialOrderedPolynomial/SortedAddMonoidAlgebra.lean:299", "MonomialOrderedPolynomial/MvPolynomial.lean:10", "MonomialOrderedPolynomial/Polynomial.lean:76"]
+notes = "Designed for kernel reduction (decide/rfl), not compiled speed. The univariate degree/leadingCoeff/coeff lemmas are sorry (Polynomial.lean:76,80,84). There is no division or Groebner computation."
+
+[[component]]
+id = "groebner_proj.theory"
+source = "groebner_proj"
+capability = "Groebner basis theory on Mathlib MvPolynomial: IsRemainder, IsGroebnerBasis, existence, Buchberger criterion, reduced bases"
+domain = "commutative-algebra/groebner"
+declarations = ["MonomialOrder.IsGroebnerBasis", "exists_isGroebnerBasis_finite", "IsGroebnerBasis.iff_isRemainder_sPolynomial_zero", "existsUnique_isRemainder"]
+paths = ["Groebner/Groebner.lean", "Groebner/Reduced.lean", "Groebner/Remainder.lean"]
+kind = "theorem"
+depends_on_mathlib = true
+executable = "not-implemented"
+correctness = "proved:iff_isRemainder_sPolynomial_zero"
+status = "formalized-not-executable"
+evidence = ["Groebner/Groebner.lean:81", "Groebner/Groebner.lean:143", "Groebner/Groebner.lean:553", "Groebner/Groebner.lean:503"]
+notes = "This is the specification layer an executable Buchberger on CompPoly CMvPolynomial would target. No algorithm is in the repository."
+
+[[component]]
+id = "groebnertactic.gb-certify"
+source = "GroebnerTactic"
+capability = "Tactics gb_solve, idealeq, add_gb_hyp: an external CAS computes Groebner data, and the kernel verifies remainders, membership, radical membership and ideal equality"
+domain = "commutative-algebra/groebner"
+declarations = ["gb_solve", "idealeq", "add_gb_hyp"]
+paths = ["GroebnerTac/Tactic.lean"]
+kind = "ffi-binding"
+depends_on_mathlib = true
+executable = "ffi"
+correctness = "proved:kernel-checked certificate (per-call)"
+status = "adaptable"
+evidence = ["GroebnerTac/Tactic.lean:202", "GroebnerTac/Tactic.lean:243", "GroebnerTac/Tactic.lean:267"]
+notes = "Shells out to `sage` or SymPy. The certificate-checking pattern is reusable; the computation is not in Lean."
+
+[[component]]
+id = "lean-normal-forms.hnf-snf"
+source = "lean-normal-forms"
+capability = "Hermite and Smith normal forms with unimodular transforms over a EuclideanDomain with ComputableEuclideanOps; results carry the Hermite/Smith proofs and uniqueness theorems"
+domain = "linear-algebra/integer-matrices"
+declarations = ["hermiteNormalFormOrdered", "hermiteNormalFormWithIndexing", "HNFResult", "hermiteNormalForm_isHermite", "smithNormalFormOrdered", "SNFResult", "smithNormalForm_isSmith", "isSmithNormalFormFin_unique_of_two_sided_equiv"]
+paths = ["NormalForms/Matrix/Hermite/Basic.lean", "NormalForms/Matrix/Hermite/Algorithm.lean", "NormalForms/Matrix/Smith/Basic.lean", "NormalForms/Matrix/Smith/Algorithm.lean", "NormalForms/Matrix/Smith/Uniqueness.lean", "NormalForms/Euclidean/Int.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:hermiteNormalForm_isHermite"
+status = "reusable"
+evidence = ["NormalForms/Matrix/Hermite/Basic.lean:25", "NormalForms/Matrix/Hermite/Basic.lean:144", "NormalForms/Matrix/Hermite/Basic.lean:189", "NormalForms/Matrix/Hermite/Basic.lean:205", "NormalForms/Matrix/Hermite/Basic.lean:213", "NormalForms/Matrix/Smith/Basic.lean:291", "NormalForms/Matrix/Smith/Basic.lean:314", "NormalForms/Matrix/Smith/Uniqueness.lean:1183", "NormalForms/Euclidean/Int.lean:69"]
+notes = "The Ordered and WithIndexing entry points are computable; plain hermiteNormalForm/smithNormalForm are noncomputable because they pick an arbitrary indexing. Correct by construction: the result structure stores U, H and the proofs. Int is the only ComputableEuclideanOps instance; Q[x] would need one. Uses Mathlib function-matrices, so expect poor performance."
+
+[[component]]
+id = "lean-normal-forms.kannan-bachem"
+source = "lean-normal-forms"
+capability = "Kannan-Bachem Smith reduction for nonsingular square Int matrices returning S,U,U^-1,V,V^-1, a trace, and polynomial bit-cost bounds"
+domain = "linear-algebra/integer-matrices"
+declarations = ["verifiedSmithPolynomialBitCost", "VerifiedSmithPolynomialBitCostResult"]
+paths = ["NormalForms/Research/KannanBachem/Bounds.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:verifiedSmithPolynomialBitCost"
+status = "reusable"
+evidence = ["NormalForms/Research/KannanBachem/Bounds.lean:242"]
+notes = "Requires A.det != 0. The result also proves equality with the canonical reference Smith form."
+
+[[component]]
+id = "lean-groebner.division"
+source = "lean-groebner"
+capability = "Multivariate division algorithm (quotients and remainder) and Groebner basis definitions over a field"
+domain = "commutative-algebra/groebner"
+declarations = ["mv_div", "rem", "quo_quo_sum_add_rem", "exists_groebner_basis"]
+paths = ["Division.lean", "Groebner.lean"]
+kind = "theorem"
+depends_on_mathlib = true
+executable = "noncomputable"
+correctness = "proved:quo_quo_sum_add_rem"
+status = "formalized-not-executable"
+evidence = ["Division.lean:113", "Division.lean:130", "Division.lean:242", "Groebner.lean:28"]
+notes = "Archived. Superseded by Mathlib MonomialOrder.div and groebner_proj."
+
+[[component]]
+id = "realrooted.sturm"
+source = "RealRooted"
+capability = "Sturm sequence and real root counting on an interval for Real[X]"
+domain = "real-algebraic/root-counting"
+declarations = ["RealRooted.sturmSequence", "RealRooted.sturmVariations", "card_roots_filter_Ioo_eq_sturmVariations_sub"]
+paths = ["RealRooted/RootCounting/Sturm.lean"]
+kind = "theorem"
+depends_on_mathlib = true
+executable = "noncomputable"
+correctness = "proved:card_roots_filter_Ioo_eq_sturmVariations_sub"
+status = "formalized-not-executable"
+evidence = ["RealRooted/RootCounting/Sturm.lean:33", "RealRooted/RootCounting/Sturm.lean:38", "RealRooted/RootCounting/Sturm.lean:274"]
+notes = "Inside a noncomputable section over Real. Could serve as the specification for a computable Q[x] Sturm/real-root-isolation implementation on CompPoly."
+
+[[component]]
+id = "polylean.group-ring"
+source = "Polylean"
+capability = "Computable free module / group ring as a quotient of formal sums with decidable equality, used to verify Gardam's unit"
+domain = "group-theory/group-rings"
+declarations = ["FormalSum", "FreeModule", "decideEqualQuotient", "beq_quot"]
+paths = ["UnitConjecture/FreeModule.lean", "UnitConjecture/GroupRing.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:decideEqualQuotient"
+status = "adaptable"
+evidence = ["UnitConjecture/FreeModule.lean:35", "UnitConjecture/FreeModule.lean:250", "UnitConjecture/FreeModule.lean:275", "UnitConjecture/FreeModule.lean:364"]
+notes = "List-based and slow. There is no bridge to Mathlib MonoidAlgebra."
+
+[[component]]
+id = "yatima.utilities"
+source = "YatimaStdLib.lean"
+capability = "Unverified Array polynomials, dense/sparse matrices, Zmod with modInv/modSqrt, Miller-Rabin, discrete log"
+domain = "misc/utilities"
+declarations = ["Polynomial", "SparseMatrix.multiplication", "Matrix.mul", "Zmod.modSqrt", "millerRabinTest", "dLog"]
+paths = ["YatimaStdLib/Polynomial.lean", "YatimaStdLib/SparseMatrix.lean", "YatimaStdLib/Zmod.lean", "YatimaStdLib/Arithmetic.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = false
+executable = "defined-computable"
+correctness = "none"
+status = "adaptable"
+evidence = ["YatimaStdLib/Polynomial.lean:14", "YatimaStdLib/SparseMatrix.lean:145", "YatimaStdLib/Zmod.lean:54", "YatimaStdLib/Arithmetic.lean:12", "YatimaStdLib/Arithmetic.lean:36"]
+notes = "0 theorems in these files; toolchain v4.4.0-rc1. Useful at most as a reference implementation."
+
+[[component]]
+id = "ethcrypto.bls12-381-pairing"
+source = "ETHCryptoLean"
+capability = "Optimal ate pairing on BLS12-381 (Fp12 tower, Miller loop, final exponentiation) plus BN254 pairing check"
+domain = "elliptic-curves/pairings"
+declarations = ["millerLoop", "atePairing", "pairingCheck"]
+paths = ["ETHCryptoLean/BLS12381/Pairing.lean", "ETHCryptoLean/BN256.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = false
+executable = "defined-computable"
+correctness = "tested-only"
+status = "adaptable"
+evidence = ["ETHCryptoLean/BLS12381/Pairing.lean:48", "ETHCryptoLean/BLS12381/Pairing.lean:145", "ETHCryptoLean/BLS12381/Pairing.lean:156"]
+notes = "The only executable pairing found. Fixed curves, Nat-based field arithmetic, test vectors only; no theorems."
+
+[[component]]
+id = "ffacil.curves"
+source = "FFaCiL.lean"
+capability = "Unverified prime-field class and projective short-Weierstrass arithmetic, MSM, GLV over Pasta"
+domain = "elliptic-curves/arithmetic"
+declarations = ["PrimeField", "Curve", "ProjectivePoint", "Curve.j", "Curve.discriminant"]
+paths = ["FFaCiL/PrimeField.lean", "FFaCiL/EllipticCurve.lean", "FFaCiL/MSM.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = false
+executable = "defined-computable"
+correctness = "none"
+status = "adaptable"
+evidence = ["FFaCiL/PrimeField.lean:51", "FFaCiL/EllipticCurve.lean:16", "FFaCiL/EllipticCurve.lean:43", "FFaCiL/EllipticCurve.lean:50"]
+notes = "Stale 2023 toolchain and no proofs; superseded by CompElliptic."
+
+[[component]]
+id = "leancert.dyadic-interval"
+source = "leancert"
+capability = "Dyadic numbers and dyadic intervals with outward rounding and bisection"
+domain = "interval-arithmetic"
+declarations = ["LeanCert.Core.Dyadic", "IntervalDyadic", "IntervalDyadic.roundOut", "IntervalDyadic.roundOut_contains", "IntervalDyadic.add", "IntervalDyadic.mem_add", "IntervalDyadic.bisect"]
+paths = ["LeanCert/Core/Dyadic.lean", "LeanCert/Core/IntervalDyadic.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:IntervalDyadic.mem_add"
+status = "reusable"
+evidence = ["LeanCert/Core/Dyadic.lean:42", "LeanCert/Core/IntervalDyadic.lean:48", "LeanCert/Core/IntervalDyadic.lean:213", "LeanCert/Core/IntervalDyadic.lean:224", "LeanCert/Core/IntervalDyadic.lean:258", "LeanCert/Core/IntervalDyadic.lean:266"]
+notes = "Dyadic has Int mantissa and Int exponent. Dyadic.toRat at Dyadic.lean:74, toReal at 119."
+
+[[component]]
+id = "leancert.rat-interval"
+source = "leancert"
+capability = "Rational-endpoint interval arithmetic"
+domain = "interval-arithmetic"
+declarations = ["IntervalRat", "IntervalRat.add", "IntervalRat.mul", "IntervalRat.mem_add"]
+paths = ["LeanCert/Core/IntervalRat/Basic.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:IntervalRat.mem_add"
+status = "reusable"
+evidence = ["LeanCert/Core/IntervalRat/Basic.lean:39", "LeanCert/Core/IntervalRat/Basic.lean:111", "LeanCert/Core/IntervalRat/Basic.lean:117", "LeanCert/Core/IntervalRat/Basic.lean:183"]
+notes = ""
+
+[[component]]
+id = "leancert.expr-eval-dyadic"
+source = "leancert"
+capability = "Interval evaluation of an expression AST with transcendental functions over dyadic intervals"
+domain = "interval-arithmetic"
+declarations = ["LeanCert.Core.Expr", "LeanCert.Internal.Dyadic.evalUnchecked", "LeanCert.Engine.evalIntervalDyadicChecked", "LeanCert.Engine.evalIntervalDyadic_correct"]
+paths = ["LeanCert/Core/Expr.lean", "LeanCert/Engine/IntervalEvalDyadic.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:LeanCert.Engine.evalIntervalDyadic_correct"
+status = "reusable"
+evidence = ["LeanCert/Core/Expr.lean:264", "LeanCert/Engine/IntervalEvalDyadic.lean:258 def evalUnchecked (namespace LeanCert.Internal.Dyadic)", "LeanCert/Engine/IntervalEvalDyadic.lean:698 def evalIntervalDyadicChecked, :730 theorem evalIntervalDyadic_correct"]
+notes = "sin/cos/exp/sinh/cosh/log/sqrt/inv/rpow at lines 88-199. atan returns the global bound [-2,2] (line 117), tanh [-1,1] (123), sinc and erf global bounds (142,148): sound but not tight."
+
+[[component]]
+id = "leancert.global-optimization"
+source = "leancert"
+capability = "Branch-and-bound global minimization and maximization with certified bounds"
+domain = "verified-numerics"
+declarations = ["globalMinimizeCore", "globalMinimize_lo_correct", "globalMinimizeCore_lo_correct", "globalMinimizeDyadic_lo_correct", "globalMaximizeDyadic_hi_correct"]
+paths = ["LeanCert/Engine/Optimization/Global.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:globalMinimizeDyadic_lo_correct"
+status = "reusable"
+evidence = ["LeanCert/Engine/Optimization/Global.lean:267", "LeanCert/Engine/Optimization/Global.lean:724", "LeanCert/Engine/Optimization/Global.lean:1007", "LeanCert/Engine/Optimization/Global.lean:1438", "LeanCert/Engine/Optimization/Global.lean:1462"]
+notes = ""
+
+[[component]]
+id = "leancert.root-finding"
+source = "leancert"
+capability = "Root existence and exclusion by bisection, interval Newton and Krawczyk contraction"
+domain = "verified-numerics"
+declarations = ["bisectRoot_hasRoot_correct", "bisectRoot_noRoot_correct", "newton_preserves_root", "newton_step_at_most_one_root", "newton_contraction_has_root", "newton_contraction_unique_root", "contraction_unique_fixedPoint_in_finBox"]
+paths = ["LeanCert/Engine/RootFinding/Bisection.lean", "LeanCert/Engine/RootFinding/Newton.lean", "LeanCert/Engine/RootFinding/Contraction.lean", "LeanCert/Engine/RootFinding/Krawczyk.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:newton_contraction_unique_root"
+status = "reusable"
+evidence = ["LeanCert/Engine/RootFinding/Bisection.lean:516", "LeanCert/Engine/RootFinding/Bisection.lean:558", "LeanCert/Engine/RootFinding/Newton.lean:364", "LeanCert/Engine/RootFinding/Newton.lean:511", "LeanCert/Engine/RootFinding/Contraction.lean:39", "LeanCert/Engine/RootFinding/Contraction.lean:377", "LeanCert/Engine/RootFinding/Krawczyk.lean:246"]
+notes = ""
+
+[[component]]
+id = "leancert.forward-ad"
+source = "leancert"
+capability = "Forward-mode automatic differentiation with interval derivative enclosures"
+domain = "verified-numerics"
+declarations = ["evalDualUnchecked_der_correct", "derivInterval_correct_idx", "evalWithDeriv1_correct"]
+paths = ["LeanCert/Engine/AD/Correctness.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:derivInterval_correct_idx"
+status = "reusable"
+evidence = ["LeanCert/Engine/AD/Correctness.lean:306", "LeanCert/Engine/AD/Correctness.lean:417", "LeanCert/Engine/AD/Correctness.lean:580"]
+notes = ""
+
+[[component]]
+id = "leancert.integration"
+source = "leancert"
+capability = "Certified interval enclosure of definite integrals, uniform and adaptive"
+domain = "verified-numerics"
+declarations = ["integrateInterval_correct", "integrateAdaptive_correct"]
+paths = ["LeanCert/Engine/Integrate.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:integrateAdaptive_correct"
+status = "reusable"
+evidence = ["LeanCert/Engine/Integrate.lean:453", "LeanCert/Engine/Integrate.lean:743"]
+notes = ""
+
+[[component]]
+id = "leancert.taylor-model-mathlib"
+source = "leancert"
+capability = "Taylor models over Mathlib Polynomial ℚ"
+domain = "verified-numerics"
+declarations = ["TaylorModel", "truncPoly", "boundPolyAbs"]
+paths = ["LeanCert/Engine/TaylorModel/Core.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "noncomputable"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = ["LeanCert/Engine/TaylorModel/Core.lean:42", "LeanCert/Engine/TaylorModel/Core.lean:907"]
+notes = "truncPoly, boundPolyAbs, const, identity are noncomputable def because Mathlib Polynomial is noncomputable. Correctness theorems in this file were not enumerated."
+
+[[component]]
+id = "leancert.computable-poly"
+source = "leancert"
+capability = "Computable dyadic polynomials and Taylor models (DyPoly, DyTM) with Bernstein bounds; dense rational polynomials QPoly"
+domain = "polynomial-arithmetic"
+declarations = ["DyPoly", "DyTM", "DyPoly.evalInterval", "bernsteinBound", "QPoly", "QPoly.add", "QPoly.mul", "QPoly.derivative", "QPoly.antiderivative", "QPoly.evalRat", "QPoly.integralRat"]
+paths = ["LeanCert/Engine/CompPoly.lean", "LeanCert/Engine/Algebra/QPoly.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "tested-only"
+status = "adaptable"
+evidence = ["LeanCert/Engine/CompPoly.lean:38", "LeanCert/Engine/CompPoly.lean:77", "LeanCert/Engine/Algebra/QPoly.lean:28", "LeanCert/Engine/Algebra/QPoly.lean:105"]
+notes = "LeanCert's own file, not the CompPoly package. Correctness theorems for these files were not searched; 'tested-only' is an upper bound pending that search."
+
+[[component]]
+id = "leancert.affine"
+source = "leancert"
+capability = "Affine arithmetic forms"
+domain = "interval-arithmetic"
+declarations = ["AffineForm"]
+paths = ["LeanCert/Engine/Affine/Basic.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "none"
+status = "adaptable"
+evidence = ["LeanCert/Engine/Affine/Basic.lean:62"]
+notes = "Soundness theorems not enumerated."
+
+[[component]]
+id = "leancert.verification-tactics"
+source = "leancert"
+capability = "Tactics that close real inequalities by certified evaluation; trust route native_decide by default, kernel decide optional"
+domain = "proof-automation"
+declarations = ["leancert.trust"]
+paths = ["LeanCert/Tactic/Verification.lean"]
+kind = "decision-procedure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:evalIntervalDyadic_correct"
+status = "reusable"
+evidence = ["LeanCert/Tactic/Verification.lean:52", "LeanCert/Tactic/Verification.lean:117"]
+notes = "Default 'native' route adds Lean.ofReduceBool to the trusted base."
+
+[[component]]
+id = "interval.floating"
+source = "interval"
+capability = "Software floating point: Int64 mantissa, UInt64 biased exponent, normalized, directed rounding on add and mul"
+domain = "floating-point"
+declarations = ["Floating", "Floating.Valid", "Floating.add", "Floating.approx_add", "Floating.mul", "Floating.approx_mul"]
+paths = ["Interval/Floating/Basic.lean", "Interval/Floating/Add.lean", "Interval/Floating/Mul.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:Floating.approx_add"
+status = "reusable"
+evidence = ["Interval/Floating/Basic.lean:31", "Interval/Floating/Basic.lean:40", "Interval/Floating/Add.lean:459", "Interval/Floating/Add.lean:692", "Interval/Floating/Mul.lean:222", "Interval/Floating/Mul.lean:333"]
+notes = "The `up : Bool` argument selects the rounding direction. Fixed 64-bit precision; not variable precision."
+
+[[component]]
+id = "interval.interval-special-functions"
+source = "interval"
+capability = "Conservative intervals over Floating with sqrt, exp, log, pow, sin, cos, sinh, cosh, pi"
+domain = "interval-arithmetic"
+declarations = ["Interval", "Approx", "Interval.sqrt", "Interval.approx_sqrt", "Interval.exp", "Interval.approx_exp", "Interval.log", "Interval.approx_log", "Interval.pow", "Interval.approx_pow", "Interval.sin", "Interval.approx_sin", "Interval.cos", "Interval.approx_cos", "approx_pi", "approx_sinh", "approx_cosh"]
+paths = ["Interval/Interval/Basic.lean", "Interval/Approx/Approx.lean", "Interval/Interval/Sqrt.lean", "Interval/Interval/Exp.lean", "Interval/Interval/Log.lean", "Interval/Interval/Pow.lean", "Interval/Interval/Sincos.lean", "Interval/Interval/Pi.lean", "Interval/Interval/Hyperbolic.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:Interval.approx_exp"
+status = "reusable"
+evidence = ["Interval/Interval/Basic.lean:34", "Interval/Approx/Approx.lean:22", "Interval/Interval/Sqrt.lean:19", "Interval/Interval/Sqrt.lean:23", "Interval/Interval/Exp.lean:95", "Interval/Interval/Exp.lean:119", "Interval/Interval/Log.lean:131", "Interval/Interval/Log.lean:169", "Interval/Interval/Pow.lean:22", "Interval/Interval/Pow.lean:33", "Interval/Interval/Sincos.lean:436", "Interval/Interval/Sincos.lean:442", "Interval/Interval/Sincos.lean:449", "Interval/Interval/Pi.lean:30", "Interval/Interval/Hyperbolic.lean:25", "test/axioms.lean"]
+notes = "Each approx_* lemma states that the interval contains the real function value. test/axioms.lean confirms no native_decide in these proofs. Box (complex intervals) in Interval/Box/ was listed but not read."
+
+[[component]]
+id = "interval.interval-tactic"
+source = "interval"
+capability = "`interval` tactic proving real inequalities by Floating interval evaluation"
+domain = "proof-automation"
+declarations = ["interval"]
+paths = ["Interval/Tactic/Interval.lean"]
+kind = "decision-procedure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:Interval.approx_exp"
+status = "adaptable"
+evidence = ["Interval/Tactic/Interval.lean:31", "Interval/Tactic/Interval.lean:141"]
+notes = "Uses native_decide; the docstring warns that the compiler must be trusted."
+
+[[component]]
+id = "series.power-series"
+source = "series"
+capability = "Truncated one-variable power series over any Approx scalar: Karatsuba product, generic Newton solve, inverse, square root"
+domain = "power-series"
+declarations = ["Series", "Subarray.karatsuba", "Series.mul", "Subarray.approx_karatsuba", "Series.exact_mul", "Newton", "Newton.solve", "Valid.exact_solve_correct", "Series.inv", "Series.approx_inv", "Series.sqrt", "Series.approx_sqrt"]
+paths = ["Series/Series/Basic.lean", "Series/Series/Mul.lean", "Series/Series/Newton.lean", "Series/Series/Inverse.lean", "Series/Series/Sqrt.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:Series.approx_inv"
+status = "reusable"
+evidence = ["Series/Series/Basic.lean:29", "Series/Series/Mul.lean:36", "Series/Series/Mul.lean:70", "Series/Series/Mul.lean:390", "Series/Series/Mul.lean:419", "Series/Series/Newton.lean:27", "Series/Series/Newton.lean:39", "Series/Series/Newton.lean:69", "Series/Series/Inverse.lean:59", "Series/Series/Inverse.lean:63", "Series/Series/Sqrt.lean:59", "Series/Series/Sqrt.lean:63"]
+notes = "Series stores an Array of coefficients and an order (valid up to O(z^order)). Correctness is stated as approximation of low-order derivatives of C^n functions (SeriesEq, Series/Analysis/Coeff.lean:127). Instances for Interval, ℚ, dyadic in Series/Series/{Interval,Rat,Dyadic}.lean (not read)."
+
+[[component]]
+id = "ComputableReal.computable-real-seq"
+source = "ComputableReal"
+capability = "Computable reals as converging rational lower/upper bound sequences with ring operations and inverse"
+domain = "exact-real-arithmetic"
+declarations = ["ComputableℝSeq", "ComputableℝSeq.sign"]
+paths = ["ComputableReal/ComputableRSeq.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "stated-sorry:ComputableℝSeq.mul_assoc"
+status = "adaptable"
+evidence = ["ComputableReal/ComputableRSeq.lean:91", "ComputableReal/ComputableRSeq.lean:532", "ComputableReal/ComputableRSeq.lean:961"]
+notes = "Each element carries lub : ℕ → NonemptyInterval ℚ plus Cauchy and enclosure proofs. sign is a partial def: it terminates on nonzero values and on structurally rational zero, and diverges on e.g. sqrt 2 - sqrt 2. mul_assoc and dependent theorems sit commented out under TODO(mul_assoc) with sorry."
+
+[[component]]
+id = "ComputableReal.is-computable-decide"
+source = "ComputableReal"
+capability = "IsComputable typeclass synthesizing a ComputableℝSeq structurally from a real expression, giving Decidable (x ≤ y), (x < y), (x = y) for native_decide"
+domain = "exact-real-arithmetic"
+declarations = ["IsComputable", "IsComputable.instDecidableLE", "IsComputable.instDecidableLT", "IsComputable.instDecidableEq", "IsComputableℂ"]
+paths = ["ComputableReal/IsComputable.lean", "ComputableReal/IsComputableC.lean"]
+kind = "decision-procedure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:IsComputable.instDecidableLE"
+status = "adaptable"
+evidence = ["ComputableReal/IsComputable.lean:8", "ComputableReal/IsComputable.lean:113", "ComputableReal/IsComputable.lean:118", "ComputableReal/IsComputable.lean:123", "ComputableReal/IsComputableC.lean:13"]
+notes = "Semi-decision: proves true strict inequalities and nonequalities; equality only for structurally rational expressions. Because sign is partial, the Decidable instances are usable only through native_decide/#eval, not kernel decide. Correctness is carried by the instance construction."
+
+[[component]]
+id = "ComputableReal.special-functions"
+source = "ComputableReal"
+capability = "Rational bound sequences for exp, sqrt and pi"
+domain = "exact-real-arithmetic"
+declarations = ["exp_lb", "exp_ub", "exp_lb₀_le_exp", "exp_ub₀_ge_exp", "pi_lb", "pi_ub", "pi_lb_le_pi", "pi_ub_ge_pi"]
+paths = ["ComputableReal/SpecialFunctions/Exp.lean", "ComputableReal/SpecialFunctions/Pi.lean", "ComputableReal/SpecialFunctions/Sqrt.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:pi_lb_le_pi"
+status = "adaptable"
+evidence = ["ComputableReal/SpecialFunctions/Exp.lean:82", "ComputableReal/SpecialFunctions/Exp.lean:95", "ComputableReal/SpecialFunctions/Exp.lean:222", "ComputableReal/SpecialFunctions/Exp.lean:226", "ComputableReal/SpecialFunctions/Pi.lean:313", "ComputableReal/SpecialFunctions/Pi.lean:317", "ComputableReal/SpecialFunctions/Pi.lean:324", "ComputableReal/SpecialFunctions/Pi.lean:331"]
+notes = "Sqrt.lean listed, not read."
+
+[[component]]
+id = "Flean.rational-to-float-rounding"
+source = "Flean"
+capability = "Parametric float model (FloatCfg) and rounding of rationals to it in five modes, with subnormals"
+domain = "floating-point"
+declarations = ["FloatCfg", "RoundingMode", "FloatRep", "roundf", "round_rep", "Flean.Float", "to_float", "to_rat", "to_float_to_rat", "q_le_floatrep_ceil", "floatrep_floor_le_q"]
+paths = ["Flean/FloatCfg.lean", "Flean/FloatRep.lean", "Flean/Rounding.lean", "Flean/Basic.lean"]
+kind = "theorem"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:to_float_to_rat"
+status = "formalized-not-executable"
+evidence = ["Flean/FloatCfg.lean:3", "Flean/FloatCfg.lean:9", "Flean/FloatRep.lean:10", "Flean/Rounding.lean:47", "Flean/Rounding.lean:268", "Flean/Rounding.lean:331", "Flean/Rounding.lean:349", "Flean/Basic.lean:22", "Flean/Basic.lean:29", "Flean/Basic.lean:59", "Flean/Basic.lean:205"]
+notes = "Rounding modes nearest/down/up/tozero/toinf. No floating add or mul found. Status formalized-not-executable means no arithmetic to run; the rounding itself is computable on ℚ."
+
+[[component]]
+id = "fp-lean.bitblasted-ieee"
+source = "fp-lean"
+capability = "IEEE754 PackedFloat e s on BitVec with add, mul, div, sqrt, fma, rounding in RNA/RNE/RTN/RTP/RTZ, related to SMT-LIB semantics"
+domain = "floating-point"
+declarations = ["PackedFloat", "RoundingMode", "add", "mul", "div", "sqrt", "UnpackedFloat.toExtRat_round_Rel_smtLibRound", "mul_eq_mul"]
+paths = ["Fp/PackedFloat/Basic.lean", "Fp/Rounding.lean", "Fp/Addition.lean", "Fp/Multiplication.lean", "Fp/Division.lean", "Fp/Sqrt.lean", "Fp/Theorems/AllRoundingModes.lean", "Fp/Theorems/Multiplication.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = false
+executable = "defined-computable"
+correctness = "proved:mul_eq_mul"
+status = "adaptable"
+evidence = ["Fp/PackedFloat/Basic.lean:20", "Fp/Rounding.lean:14", "Fp/Addition.lean:117", "Fp/Multiplication.lean:52", "Fp/Division.lean:45", "Fp/Sqrt.lean:84", "Fp/Theorems/AllRoundingModes.lean:30", "Fp/Theorems/Multiplication.lean:303", "Fp/PackUnpackNormalize.lean:32"]
+notes = "Designed for bv_decide bit-blasting, not throughput. Rounding bridge depends on the private axiom Canonical_all (PackUnpackNormalize.lean:32,145). README TODO: finish proofs, remove Canonical_all. Golden tests against FloatX and symfpu."
+
+[[component]]
+id = "lean-smt.smt-tactic"
+source = "lean-smt"
+capability = "`smt` tactic sending goals in UF and linear integer/real arithmetic to cvc5 and reconstructing proofs"
+domain = "proof-automation"
+declarations = ["Smt.smt", "smt", "smt?"]
+paths = ["Smt/Tactic/Smt.lean", "Smt/Reconstruct.lean"]
+kind = "ffi-binding"
+depends_on_mathlib = true
+executable = "ffi"
+correctness = "none"
+status = "adaptable"
+evidence = ["Smt/Tactic/Smt.lean:86", "Smt/Tactic/Smt.lean:217", "Smt/Tactic/Smt.lean:229", "Smt/Reconstruct.lean:10"]
+notes = "Soundness comes from Lean proof reconstruction of the cvc5 proof, not from a theorem about the solver. 27 sorry, 3 axiom per grep (not located)."
+
+[[component]]
+id = "leansat.lrat-checker"
+source = "leansat"
+capability = "Verified LRAT proof checker and bv_decide bit-blasting (superseded by core Std.Tactic.BVDecide)"
+domain = "sat"
+declarations = ["lratChecker", "lratCheckerSound", "rupAdd_sound", "ratAdd_sound"]
+paths = ["LeanSAT/LRAT/LRATChecker.lean", "LeanSAT/LRAT/LRATCheckerSound.lean", "LeanSAT/LRAT/Formula/RupAddSound.lean", "LeanSAT/LRAT/Formula/RatAddSound.lean"]
+kind = "decision-procedure"
+depends_on_mathlib = false
+executable = "defined-computable"
+correctness = "proved:lratCheckerSound"
+status = "reusable"
+evidence = ["LeanSAT/LRAT/LRATChecker.lean:51", "LeanSAT/LRAT/LRATCheckerSound.lean:87", "LeanSAT/LRAT/Formula/RupAddSound.lean:776", "LeanSAT/LRAT/Formula/RatAddSound.lean:608", "README.md:3"]
+notes = "Reuse the core version (Std.Tactic.BVDecide, Std.Sat) rather than this archived package."
+
+[[component]]
+id = "lean-cvc5.ffi"
+source = "lean-cvc5"
+capability = "Lean FFI to the cvc5 C++ API: terms, sorts, solver, checkSat, proofs"
+domain = "smt"
+declarations = ["cvc5.Solver.checkSat", "cvc5.Kind", "cvc5.ProofRule"]
+paths = ["cvc5.lean", "cvc5/Kind.lean", "cvc5/ProofRule.lean"]
+kind = "ffi-binding"
+depends_on_mathlib = false
+executable = "ffi"
+correctness = "none"
+status = "adaptable"
+evidence = ["cvc5.lean:29", "cvc5.lean:2735"]
+notes = "476 extern lines in Lean sources. Requires cvc5 native library."
+
+[[component]]
+id = "lean-egg.egg-tactic"
+source = "lean-egg"
+capability = "Equality-saturation tactic calling Rust egg, with explanation-based proof reconstruction"
+domain = "rewriting"
+declarations = ["egg"]
+paths = ["Lean/Egg/Core/Request/Basic.lean", "Lean/Egg/Core/Request/Equiv.lean"]
+kind = "ffi-binding"
+depends_on_mathlib = false
+executable = "ffi"
+correctness = "none"
+status = "adaptable"
+evidence = ["Lean/Egg/Core/Request/Basic.lean:121", "Lean/Egg/Core/Request/Equiv.lean:19"]
+notes = "Deprecated by its author in favour of core grind."
+
+[[component]]
+id = "truth_research.optisat-egraph"
+source = "truth_research"
+capability = "Native verified e-graph: union-find, e-matching, saturation, extraction (greedy, ILP-checked, treewidth DP)"
+domain = "rewriting"
+declarations = ["EGraph", "EGraph.find", "EGraph.merge", "ematchF", "saturateF", "saturate", "optimizeF_soundness", "extractAuto_complete"]
+paths = ["LambdaSat/Core.lean", "LambdaSat/UnionFind.lean", "LambdaSat/SaturationSpec.lean", "LambdaSat/Saturate.lean", "LambdaSat/PipelineSoundness.lean", "LambdaSat/CompletenessSpec.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = false
+executable = "defined-computable"
+correctness = "proved:optimizeF_soundness"
+status = "adaptable"
+evidence = ["LambdaSat/Core.lean:130", "LambdaSat/Core.lean:150", "LambdaSat/Core.lean:188", "LambdaSat/UnionFind.lean:64", "LambdaSat/SaturationSpec.lean:290", "LambdaSat/SaturationSpec.lean:358", "LambdaSat/Saturate.lean:42", "LambdaSat/PipelineSoundness.lean:6", "LambdaSat/PipelineSoundness.lean:81", "LambdaSat/CompletenessSpec.lean:423"]
+notes = "Soundness is proved for fuel-bounded saturateF/ematchF; the public saturate is partial def and carries no theorem (PipelineSoundness.lean:6 says so)."
+
+[[component]]
+id = "lean4-bdd.robdd"
+source = "lean4-bdd"
+capability = "Reduced ordered BDDs: apply, restrict, relabel, satisfying assignment, decidable semantic equivalence, CNF to BDD"
+domain = "boolean-functions"
+declarations = ["BDD", "BDD.apply", "BDD.apply_denotation", "BDD.restrict", "BDD.relabel", "BDD.choice", "OBdd.choice_evaluate", "BDD.instDecidableSemanticEquiv", "BDD_of_CNF"]
+paths = ["Bdd/BDD.lean", "Bdd/Choice.lean", "Bdd/Sat.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:BDD.apply_denotation"
+status = "reusable"
+evidence = ["Bdd/BDD.lean:12", "Bdd/BDD.lean:180", "Bdd/BDD.lean:322", "Bdd/BDD.lean:379", "Bdd/BDD.lean:460", "Bdd/BDD.lean:581", "Bdd/BDD.lean:640", "Bdd/Choice.lean:112", "Bdd/Sat.lean:12"]
+notes = "Zero sorry, axiom, partial, unsafe by grep."
+
+[[component]]
+id = "Knuth-Bendix-procedure.string-rewriting"
+source = "Knuth-Bendix-procedure"
+capability = "Knuth-Bendix completion for string rewriting systems (monoid presentations) and canonical reduction"
+domain = "combinatorial-group-theory"
+declarations = ["Rule", "OneStepKnuthBendix", "KnuthBendix", "KnuthBendix_dom", "KnuthBendix_Complete", "KnuthBendix_confluent", "CanonicalReduction", "ReduceOnce"]
+paths = ["KnuthBendix/KnuthBendix.lean", "KnuthBendix/KnuthBendixDomain.lean", "KnuthBendix/KnuthBendixTheorem.lean", "KnuthBendix/CanonicalReduction.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:KnuthBendix_Complete"
+status = "adaptable"
+evidence = ["KnuthBendix/KnuthBendix.lean:104", "KnuthBendix/KnuthBendix.lean:107", "KnuthBendix/KnuthBendix.lean:110", "KnuthBendix/KnuthBendixDomain.lean:14", "KnuthBendix/KnuthBendixTheorem.lean:175", "KnuthBendix/KnuthBendixTheorem.lean:235", "KnuthBendix/CanonicalReduction.lean:478", "KnuthBendix/ShortLex.lean:218"]
+notes = "KnuthBendix is a partial_fixpoint; theorems assume KnuthBendix_dom (termination after n rounds). Naive all-overlaps rounds, no ordering heuristics. No licence file: reuse needs permission."
+
+[[component]]
+id = "ginac-lean.symbol-poc"
+source = "ginac-lean"
+capability = "Proof-of-concept binding of GiNaC symbols"
+domain = "computer-algebra"
+declarations = ["Symbol", "Symbol.mk", "Symbol.name"]
+paths = ["lean/Ginac/Symbol.lean", "cpp/Symbol.cpp"]
+kind = "ffi-binding"
+depends_on_mathlib = false
+executable = "ffi"
+correctness = "none"
+status = "specified-unimplemented"
+evidence = ["lean/Ginac/Symbol.lean:3", "lean/Ginac/Symbol.lean:7", "lean/Ginac/Symbol.lean:10"]
+notes = "No expression arithmetic is bound."
+
+[[component]]
+id = "Lean-Oscar.oscar-tactics"
+source = "Lean-Oscar"
+capability = "Tactics delegating matrix inverse, permutation-group membership and presented-group questions to OSCAR over MRDI"
+domain = "computer-algebra"
+declarations = ["matrix_inverse", "perm_group_membership", "load_file", "juliaAccess"]
+paths = ["Oscar/Tactics.lean", "Oscar/Server.lean", "Mrdi/ToMrdi.lean", "Mrdi/FromMrdi.lean"]
+kind = "ffi-binding"
+depends_on_mathlib = true
+executable = "ffi"
+correctness = "none"
+status = "adaptable"
+evidence = ["Oscar/Tactics.lean:48", "Oscar/Tactics.lean:57", "Oscar/Tactics.lean:113", "Oscar/Tactics.lean:155", "Oscar/Server.lean:13", "Oscar/Server.lean:19"]
+notes = "External process (Julia). MRDI (de)serialization layer is the reusable idea; GPL-3.0 and toolchain v4.7.0."
+
+[[component]]
+id = "FloatLib.binary-formats"
+source = "FloatLib"
+capability = "Executable IEEE binary formats of any exponent/fraction width (word, two-word and limb storage) with proved add/sub/mul/div spec equality"
+domain = "floating-point"
+declarations = ["FloatLib.Floats.Binary", "FloatLib.Floats.BinaryLimbs", "FloatFormat", "ExecFloat.Proof.add_eq_spec"]
+paths = ["FloatLib/Floats/Formats/BinaryInterchange/Configured/Type.lean", "FloatLib/Floats/Formats/BinaryInterchange/Format/Definition.lean", "FloatLib/Floats/ExecFloat/Proof/Arithmetic.lean", "FloatLib/Floats/Formats/BinaryInterchange/Arithmetic/Proof.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:ExecFloat.Proof.add_eq_spec"
+status = "reusable"
+evidence = ["FloatLib/Floats/Formats/BinaryInterchange/Configured/Type.lean:209", "FloatLib/Floats/Formats/BinaryInterchange/Configured/Type.lean:247", "FloatLib/Floats/Formats/BinaryInterchange/Format/Definition.lean:82", "FloatLib/Floats/ExecFloat/Proof/Arithmetic.lean:44", "FloatLib/Floats/Formats/BinaryInterchange/Arithmetic/Proof.lean:36"]
+notes = "Precision is a type-level Nat parameter (BinaryLimbs needs width > 128), so it is multi-precision but fixed per type, unlike MPFR runtime precision. Only add_eq_spec was read; sub/mul/div theorems were not enumerated. Also decimal BID/DPD, posits with quire, FP8/6/4 (not read)."
+
+[[component]]
+id = "FloatLib.certified-transcendentals"
+source = "FloatLib"
+capability = "Correctly rounded exp, log, expm1, log1p, pow for binary formats under a budget"
+domain = "floating-point"
+declarations = ["Certified.exp", "toReal_of_exp_eq_ok", "toReal_of_log_eq_ok", "toReal_of_expMinus1_eq_ok"]
+paths = ["FloatLib/Floats/Formats/BinaryInterchange/Configured/Transcendentals.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:toReal_of_exp_eq_ok"
+status = "reusable"
+evidence = ["FloatLib/Floats/Formats/BinaryInterchange/Configured/Transcendentals.lean:365", "FloatLib/Floats/Formats/BinaryInterchange/Configured/Transcendentals.lean:379", "FloatLib/Floats/Formats/BinaryInterchange/Configured/Transcendentals.lean:410"]
+notes = "Theorem: if Certified.exp returns ok, the result equals Model.roundAt format (Real.exp x). The computation can fail when the budget is exhausted."
+
+[[component]]
+id = "FloatLib.interval-tactic"
+source = "FloatLib"
+capability = "Generic outward-rounded Interval over arbitrary endpoints and an `interval` tactic that closes goals by kernel reduction"
+domain = "interval-arithmetic"
+declarations = ["FloatLib.Numerics.Interval", "FloatLib.Floats.Interval", "interval"]
+paths = ["FloatLib/Numerics/Enclosure/Interval/Basic.lean", "FloatLib/Floats/Formats/BinaryInterchange/Interval/Core.lean", "FloatLib/Numerics/Automation/Interval.lean"]
+kind = "decision-procedure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "none"
+status = "reusable"
+evidence = ["FloatLib/Numerics/Enclosure/Interval/Basic.lean:25", "FloatLib/Floats/Formats/BinaryInterchange/Interval/Core.lean:30", "FloatLib/Numerics/Automation/Interval.lean:357", "FloatLib/Numerics/Automation/Interval.lean:323"]
+notes = "Docstring near Interval.lean:323-324 says every successful proof requires kernel verification (no native_decide in the library; native_decide only in tests). Correctness theorem names for the interval contract were not enumerated, hence 'none' as a placeholder."
+
+[[component]]
+id = "FloatSpec.flocq-port"
+source = "FloatSpec"
+capability = "Lean port of Coq Flocq: generic formats FIX/FLX/FLT, rounding, ulp, error bounds; reference Fplus/Fmult/Fsqrt/Fdiv"
+domain = "floating-point"
+declarations = ["FlocqFloat", "Falign", "Fmult", "Fsqrt", "Fsqrt_core", "Fplus", "Fplus_correct", "Fdiv"]
+paths = ["FloatSpec/src/Calc/Operations.lean", "FloatSpec/src/Calc/Plus.lean", "FloatSpec/src/Calc/Sqrt.lean", "FloatSpec/src/Calc/Div.lean"]
+kind = "theorem"
+depends_on_mathlib = true
+executable = "noncomputable"
+correctness = "proved:Fplus_correct"
+status = "formalized-not-executable"
+evidence = ["FloatSpec/src/Calc/Operations.lean:33", "FloatSpec/src/Calc/Operations.lean:494", "FloatSpec/src/Calc/Plus.lean:121", "FloatSpec/src/Calc/Plus.lean:163", "FloatSpec/src/Calc/Sqrt.lean:304", "FloatSpec/src/Calc/Sqrt.lean:630", "FloatSpec/src/Calc/Div.lean:408"]
+notes = "Fplus and Fdiv are noncomputable def; Fmult, Fsqrt, Falign are computable. 1207 noncomputable occurrences overall. FloatLib already includes a Flocq layer (FloatLib/Floats/Formats/Flocq) and is the better executable choice."
+
+[[component]]
+id = "isograph-canonical-labelling"
+source = "IsoGraph"
+capability = "Canonical form and canonical labelling of finite simple graphs (individualisation-refinement, nauty-style)"
+domain = "graph theory / isomorphism"
+declarations = ["Graph.ofOracle", "canonical", "canonicalForm", "canonicalLabellingOfOracle", "canon", "canonOfList"]
+paths = ["IsoGraph/Canon/Algorithm.lean", "IsoGraph/Canon/Spec.lean", "IsoGraph/Canon/Correct.lean", "IsoGraph/Canon/Equivariance.lean", "IsoGraph/Basic.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:canonical_ok"
+status = "reusable"
+evidence = ["IsoGraph/Canon/Algorithm.lean:80,2214,2226,2249 (plain Lean over Array, no imports); Canon/Equivariance.lean:4718 canonical_ok, 4740 canonical_cert; Canon/Correct.lean:72 canonical_cert_relabel; Canon/Spec.lean:701 canonAdj_relabel"]
+notes = "Algorithm file is Mathlib-free; proofs need Mathlib. Toolchain v4.34.0-rc2."
+
+[[component]]
+id = "isograph-automorphism-generators"
+source = "IsoGraph"
+capability = "Generators of the automorphism group of a graph from the canonical search tree"
+domain = "graph theory / permutation groups"
+declarations = ["autGens", "canonPermAndGens", "autGroup", "groupOrder?"]
+paths = ["IsoGraph/Canon/Group.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "tested-only"
+status = "adaptable"
+evidence = ["IsoGraph/Canon/Group.lean:51 autGroup (Mathlib Subgroup), 112 autGens, 124 canonPermAndGens, 159 groupOrder?"]
+notes = "Generator correctness theorems not located in the read slice. groupOrder? is a BFS orbit diagnostic, explicitly not Schreier-Sims; group order needs a stabilizer-chain algorithm from elsewhere."
+
+[[component]]
+id = "isograph-enumeration"
+source = "IsoGraph"
+capability = "Enumeration of all graphs (and connected graphs) on n vertices up to isomorphism"
+domain = "combinatorial enumeration"
+declarations = ["enumCodes", "enumerate", "enumerateIso", "enumCodesExt", "enumConnCodes_eq"]
+paths = ["IsoGraph/Enum/All.lean", "IsoGraph/Enum/Conn.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:enumerate_pairwise_not_iso"
+status = "reusable"
+evidence = ["IsoGraph/Enum/All.lean:514,518,594,1076; theorems exists_mem_enumerate :542, enumerate_pairwise_not_iso :575, enumerate_nodup :581; Enum/Conn.lean:1175"]
+notes = "Completeness and non-redundancy both proved."
+
+[[component]]
+id = "isograph-fractional-simplex"
+source = "IsoGraph"
+capability = "Exact rational simplex (Bland's rule) for fractional graph invariants, output checked as a primal/dual certificate"
+domain = "linear programming / graph invariants"
+declarations = ["fracIndepNum_le_of_idxCover"]
+paths = ["IsoGraph/Fractional.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:fracIndepNum_le_of_idxCover"
+status = "adaptable"
+evidence = ["IsoGraph/Fractional.lean:319 (Bland pivot), implemented_by at :434 and :444"]
+notes = "Simplex is untrusted; soundness comes from certificate checking. Specialised to graph LPs; generic LP reuse needs extraction."
+
+[[component]]
+id = "isograph-sat-invariants"
+source = "IsoGraph"
+capability = "graph_sat tactic: chromatic, clique, independence, matching, edge-chromatic numbers via bv_decide"
+domain = "graph invariants / decision procedures"
+declarations = ["graph_sat"]
+paths = ["IsoGraph/Sat.lean"]
+kind = "decision-procedure"
+depends_on_mathlib = true
+executable = "ffi"
+correctness = "proved:bv_decide LRAT kernel check"
+status = "adaptable"
+evidence = ["IsoGraph/Sat.lean (read): encodes invariants to bitvector SAT, solved by CaDiCaL, LRAT proof checked by kernel"]
+notes = "Proof-time tactic, not a runtime function."
+
+[[component]]
+id = "isograph-containment"
+source = "IsoGraph"
+capability = "Search for minors, embeddings, homomorphisms, immersions, topological minors"
+domain = "graph theory"
+declarations = ["findMinor_eq_none_iff"]
+paths = ["IsoGraph/Containment/Algorithms/Minor.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:findMinor_eq_none_iff"
+status = "adaptable"
+evidence = ["IsoGraph/Containment/Algorithms/Minor.lean:2387"]
+notes = "Only the minor search was read; other Containment algorithms seen in the tree, correctness not checked."
+
+[[component]]
+id = "graphlib4-classic-graph-algorithms"
+source = "graph-library-for-lean4"
+capability = "Dijkstra, max flow, Kruskal MST, topological sort, BFS/DFS"
+domain = "graph algorithms"
+declarations = ["Graph", "dijkstra", "findMaxFlow", "kruskal"]
+paths = ["Graph/Graph.lean", "Graph/Dijkstra.lean", "Graph/MaximumFlow.lean", "Graph/MinimumSpanningTree.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = false
+executable = "defined-computable"
+correctness = "none"
+status = "adaptable"
+evidence = ["Graph/Graph.lean:21, Dijkstra.lean:146, MaximumFlow.lean:207, MinimumSpanningTree.lean:44"]
+notes = "Lean v4.12.0; no proofs; port cost is a rewrite."
+
+[[component]]
+id = "algorithm-unionfind"
+source = "Algorithm"
+capability = "Union-find with path compression over a generic array-like parent store"
+domain = "data structures"
+declarations = ["UnionFind", "UnionFind.find", "UnionFind.union", "UnionFindWF", "rootCore_findAux_snd", "root_eq_self"]
+paths = ["Algorithm/Data/UnionFind.lean"]
+kind = "data-structure"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:rootCore_findAux_snd"
+status = "reusable"
+evidence = ["Algorithm/Data/UnionFind.lean:161,268,377,469,490 (defs); lemmas :42-153 incl. rootCore_findAux_snd :141, root_eq_self :153"]
+notes = "Path compression preserves roots is proved; union specification lemmas not individually checked."
+
+[[component]]
+id = "algorithm-dfs-forest"
+source = "Algorithm"
+capability = "Depth-first search forest, plain and tail-recursive"
+domain = "graph algorithms"
+declarations = ["dfsForest", "dfs", "dfsTR"]
+paths = ["Algorithm/Graph/DFS.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "tested-only"
+status = "adaptable"
+evidence = ["Algorithm/Graph/DFS.lean:181,236,299; grep for top-level theorem/lemma in DFS.lean found none at column 0"]
+notes = "Correctness theorems may be in sections not matched by the grep; unverified here."
+
+[[component]]
+id = "atlas-fft"
+source = "atlas-lean"
+capability = "Radix-2 FFT over a commutative ring with supplied root, inverse FFT, cyclic and linear convolution (polynomial multiplication)"
+domain = "polynomial arithmetic / Fourier"
+declarations = ["Cslib.Algorithms.Lean.TimeM.fft", "fftButterfly", "fftCircular", "fftLinear", "fftCircularArray", "fftLinearArray", "fft_correct"]
+paths = ["CSLibExt/Algorithms/Lean/Fourier/FFT.lean", "CSLibExt/Algorithms/Lean/Fourier/FFT/"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:fft_correct"
+status = "adaptable"
+evidence = ["Fourier/FFT.lean:44-80 (fft over Vector R (2^d), CommRing R); FFT/DFTCorrectness.lean:73 fft_correct (over C, IsPrimitiveRoot); FFT/Convolution.lean:40-67; FFT/LinearCorrectness.lean:46 fftPolynomial_fftLinear_stdAddChar_neg_one"]
+notes = "Runs in TimeM (returns value and cost); strip the monad for production. Correctness stated over C; ring-generic NTT correctness not seen. Licence clause needs review."
+
+[[component]]
+id = "atlas-miller-rabin"
+source = "atlas-lean"
+capability = "Miller-Rabin primality test with proved error bound (non-witnesses <= n/4)"
+domain = "number theory"
+declarations = ["twoAdicSplit", "witness", "millerRabin", "millerRabin_eq_true_iff", "card_nonwitnesses_le_quarter", "card_millerRabin_errors_le_quarter"]
+paths = ["CSLibExt/Algorithms/Lean/NumberTheory/MillerRabin.lean", "CSLibExt/Algorithms/Lean/NumberTheory/MillerRabinErrorBound.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:card_nonwitnesses_le_quarter"
+status = "adaptable"
+evidence = ["NumberTheory/MillerRabin.lean:56,79,89,98; MillerRabinErrorBound.lean:389 millerRabin_eq_true_iff, :728 card_nonwitnesses_le_quarter, :743 card_millerRabin_errors_le_quarter"]
+notes = "Probabilistic test; base list supplied by caller. TimeM wrapper."
+
+[[component]]
+id = "atlas-modexp-modlinear"
+source = "atlas-lean"
+capability = "Modular exponentiation by squaring; modular linear equation solving"
+domain = "number theory"
+declarations = ["modularExponentiation", "modularExponentiation_correct", "modularExponentiation_time_bounds"]
+paths = ["CSLibExt/Algorithms/Lean/NumberTheory/ModularExponentiation.lean", "CSLibExt/Algorithms/Lean/NumberTheory/ModularLinearEquation.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:modularExponentiation_correct"
+status = "adaptable"
+evidence = ["ModularExponentiation.lean:41 def, :180 modularExponentiation_correct, :291 time bounds"]
+notes = "Mathlib/core already have Nat.pow mod; value is the cost proof, not the algorithm."
+
+[[component]]
+id = "atlas-strassen-matrix"
+source = "atlas-lean"
+capability = "Strassen and recursive matrix multiplication; Freivalds verification"
+domain = "linear algebra"
+declarations = ["strassenMatrixAccumulate", "strassenMatrixAccumulate_ret", "strassenMatrixAccumulate_apply"]
+paths = ["CSLibExt/Algorithms/Lean/Matrix/Strassen/", "CSLibExt/Algorithms/Lean/Matrix/Multiply.lean", "CSLibExt/Algorithms/Lean/Matrix/Freivalds/"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:strassenMatrixAccumulate_apply"
+status = "adaptable"
+evidence = ["Matrix/Strassen/Basic.lean:72; Strassen/Correctness.lean:109,118"]
+notes = "Multiply.lean and Freivalds read only by listing."
+
+[[component]]
+id = "atlas-geometry"
+source = "atlas-lean"
+capability = "Convex hull, closest pair, segment intersection"
+domain = "computational geometry"
+declarations = []
+paths = ["CSLibExt/Algorithms/Lean/Geometry/"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "none"
+status = "adaptable"
+evidence = ["Directory listing only: ConvexHull.lean (30KB), ClosestPair.lean, SegmentIntersection.lean, AnySegmentsIntersect.lean; 6 #eval test files in CSLibExtTest/Algorithms/Lean/Geometry"]
+notes = "Not read; correctness status unknown (recorded as none until inspected)."
+
+[[component]]
+id = "sympy-proofs-rref"
+source = "sympy-proofs"
+capability = "Gauss-Jordan RREF over a field with kernel preservation, uniqueness, and fraction-field RREF certificates; matrix inverse and generalized inverse from RREF"
+domain = "linear algebra"
+declarations = ["SympyProofs.rref", "rref_isReducedRowEchelon", "rref_ker_eq", "rref_unique", "rref_algorithm_unique", "generalizedInverse", "inverseRref"]
+paths = ["SympyProofs/LinearAlgebra/Rref/", "SympyProofs/LinearAlgebra/GeneralizedInverse/"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:rref_isReducedRowEchelon"
+status = "adaptable"
+evidence = ["Rref/Algorithm.lean:35 def rref (Id.run over Vector (Vector F n) m); Rref/Correctness.lean:263 rref_isReducedRowEchelon, :274 rref_ker_eq; GeneralizedInverse/Algorithm.lean:17"]
+notes = "No licence in the repository: reference design only unless the author grants one. Targets Mathlib Matrix.IsReducedRowEchelon."
+
+[[component]]
+id = "zeta-lab-interval-ball"
+source = "zeta-lab"
+capability = "Rational interval and rational complex-ball arithmetic with containment soundness, exp/log/cpow enclosures"
+domain = "rigorous numerics"
+declarations = ["Interval", "ComplexBall", "ComplexBall.add", "exp1", "contains_exp1", "exp_lower", "exp_upper"]
+paths = ["lean/ZetaLean/Rigor.lean", "lean/ZetaLean/Ball.lean", "lean/ZetaLean/IntervalExp.lean", "lean/ZetaLean/IntervalCExp.lean", "lean/ZetaLean/BallTerm.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:contains_exp1"
+status = "adaptable"
+evidence = ["Rigor.lean:74 structure Interval; Ball.lean:56 ComplexBall, :108 add; IntervalExp.lean:45-119 (expSum, exp1, contains_exp1, halve)"]
+notes = "Q-endpoint intervals, slow but exact; compare with leancert/interval sources from other forks before choosing. Embedded in a research monorepo with sorry elsewhere."
+
+[[component]]
+id = "graphlib-algolib-graph"
+source = "GraphLib"
+capability = "BFS layers and distances, connectivity, flow, MST, SCC, shortest path on Mathlib-style digraphs"
+domain = "graph algorithms"
+declarations = ["bfsRun", "bfsLayer", "bfsDist", "reachable_of_mem_bfsVisited", "exists_walk_of_mem_bfsLayer"]
+paths = ["AlgoLib/Algorithms/Graph/", "AlgoLib/DataStructures/UnionFind/"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:reachable_of_mem_bfsVisited"
+status = "adaptable"
+evidence = ["AlgoLib/Algorithms/Graph/Traversal/BFS.lean:100-157 defs, :260,:278 theorems"]
+notes = "Fintype vertex-set encoding favours proofs over speed. 8 sorry in the repo; only BFS read."
+
+[[component]]
+id = "algolean-karatsuba-dlog"
+source = "Algolean"
+capability = "Karatsuba digit-list multiplication, Strassen, brute-force discrete log, sorting and string search in query-cost models"
+domain = "arithmetic / complexity"
+declarations = ["listAdd", "bruteForceDLog", "bruteForceDLog_eval", "bruteForceDLog_cost_le"]
+paths = ["Algolean/Algorithms/Karatsuba.lean", "Algolean/Algorithms/Strassen.lean", "Algolean/Algorithms/DiscreteLog.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:bruteForceDLog_eval"
+status = "formalized-not-executable"
+evidence = ["DiscreteLog.lean:76,91,131,172; Karatsuba.lean:54,71; AlgoleanTests/GroupExamples.lean:61 #eval of cost"]
+notes = "Programs are free-monad terms interpreted in a cost model; executable for cost, not competitive implementations."
+
+[[component]]
+id = "spg-rational-linear-algebra"
+source = "SPG"
+capability = "List-of-Q row reduction and nullspace basis; magnetic point group symmetry checks"
+domain = "linear algebra / crystallographic groups"
+declarations = ["rref_basis", "nullspace_basis", "independent_subset", "get_mpg"]
+paths = ["SPG/Physics/Hamiltonian/LinearAlgebra.lean", "SPG/Physics/SymmetryBreaking.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "none"
+status = "adaptable"
+evidence = ["SPG/Physics/Hamiltonian/LinearAlgebra.lean:36 rref_basis, :54 nullspace_basis; SymmetryBreaking.lean:10"]
+notes = "Small, unverified; superseded by sympy-proofs RREF design or Mathlib-side code."
+
+[[component]]
+id = "amo-lean-ntt"
+source = "amo-lean"
+capability = "NTT/INTT over generic fields and Goldilocks/BabyBear, lazy butterflies, verified code generation to C/Rust"
+domain = "polynomial arithmetic / finite fields"
+declarations = ["ntt_generic", "intt_generic", "NTT_spec", "butterfly", "ntt_dit_pipeline_correct"]
+paths = ["AmoLean/NTT/GenericNTT.lean", "AmoLean/NTT/Spec.lean", "AmoLean/NTT/Butterfly.lean", "AmoLean/NTT/NTTEndToEnd.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = true
+executable = "defined-computable"
+correctness = "proved:ntt_dit_pipeline_correct"
+status = "adaptable"
+evidence = ["AmoLean/NTT/GenericNTT.lean:32 def ntt_generic, :77 def intt_generic", "AmoLean/NTT/Spec.lean:34 def NTT_spec", "AmoLean/NTT/Butterfly.lean:37 def butterfly", "AmoLean/NTT/NTTEndToEnd.lean:48 theorem ntt_dit_pipeline_correct"]
+notes = "Read in the shallow clone. Under AmoLean/NTT the two files that contain the word sorry (Axioms.lean:41, Plonky3/ButterflyTV.lean:18) contain it only in comments. Radix4/Algorithm.lean:44-47 and Radix4/Butterfly4.lean:179 declare axioms; NTTEndToEnd.lean does not import Radix4 directly (transitive imports not traced). Lean v4.26.0."
+
+[[component]]
+id = "tauceti-subresultant"
+source = "TauCeti"
+capability = "Subresultant coefficient matrices and subresultants on Mathlib polynomials"
+domain = "polynomial algebra"
+declarations = ["Polynomial.subresultantCoeffMatrix", "Polynomial.subresultantCoeff", "Polynomial.subresultant"]
+paths = ["TauCeti/RingTheory/Polynomial/Subresultant/Polynomial.lean"]
+kind = "mathlib-bridge"
+depends_on_mathlib = true
+executable = "noncomputable"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = ["TauCeti/RingTheory/Polynomial/Subresultant/Polynomial.lean:59 namespace Polynomial; :71 def subresultantCoeffMatrix, :192 def subresultantCoeff, :305 noncomputable def subresultant (read in the shallow clone)"]
+notes = "Defined over Mathlib Polynomial (not an executable representation). Useful as the specification side for a computable resultant."
+
+[[component]]
+id = "tauceti-groebner-theory"
+source = "TauCeti"
+capability = "Groebner basis predicate, normal form and quotient basis"
+domain = "commutative algebra"
+declarations = ["MonomialOrder.IsGroebnerBasis", "MonomialOrder.IsGroebnerBasis.normalForm", "MonomialOrder.IsGroebnerBasis.basisQuotient"]
+paths = ["TauCeti/RingTheory/MvPolynomial/Groebner/Basic.lean", "TauCeti/RingTheory/MvPolynomial/Groebner/NormalForm.lean"]
+kind = "theorem"
+depends_on_mathlib = true
+executable = "noncomputable"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = ["TauCeti/RingTheory/MvPolynomial/Groebner/Basic.lean:104 def IsGroebnerBasis (Prop, namespace MonomialOrder)", "TauCeti/RingTheory/MvPolynomial/Groebner/NormalForm.lean:177 noncomputable def basisQuotient, :192 noncomputable def normalForm"]
+notes = "No Buchberger algorithm found in TauCeti (search for def *buchberger* returned none). Groebner/Buchberger.lean (301 lines) holds only the Buchberger criterion theorems (isGroebnerBasis_iff_span_eq_and_isRemainder_sPolynomial_zero, :283); no executable algorithm."
+
+[[component]]
+id = "lean4-mpn/w64-nat"
+source = "lean4-mpn"
+capability = "Arbitrary-precision natural numbers on UInt64 limbs: add, sub, mul (basecase, Karatsuba, Toom-3..8, Schonhage-Strassen FFT), div/mod (schoolbook, Burnikel-Ziegler, Barrett), sqrt (Zimmermann), gcd (Lehmer, half-gcd), bit operations, decimal conversion"
+domain = "integer arithmetic"
+declarations = ["MPN.W64.Nat", "MPN.Nat", "MPN.W64.Limbs64.mul", "MPN.W64.Limbs64.toNat_mul", "MPN.W64.Limbs64.toNat_div", "MPN.W64.Limbs64.toNat_mod", "MPN.W64.Nat.sqrt", "MPN.W64.Nat.toNat_sqrt", "MPN.W64.Num.gcd", "MPN.W64.Num.toNat_gcd"]
+paths = ["MPN64/Nat.lean", "MPN64/Num.lean", "MPN64/Gcd.lean", "MPN64/Div/DC.lean", "MPN/Default.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = false
+executable = "defined-computable"
+correctness = "proved:MPN.W64.Limbs64.toNat_mul"
+status = "reusable"
+evidence = ["README.md states every public operation is proved against Nat with standard axioms only", "MPN64/Nat.lean:211-292 toNat_add/sub/mul/div/mod; :610 toNat_sqrt; :628 Num.toNat_gcd (read in source)"]
+notes = "Five extern c inline word primitives in MPN64/Arch/UInt.lean; README claims speed within a few times GMP (benchmarks in MPN64/BENCH.md, not run). Not built in this survey."
+
+[[component]]
+id = "lean4-mpn/w32-nat"
+source = "lean4-mpn"
+capability = "Pure-Lean arbitrary-precision naturals on UInt32 limbs with the same algorithm set, no extern"
+domain = "integer arithmetic"
+declarations = ["MPN.W32.Nat", "MPN.W32.Nat.sqrt", "MPN.W32.Nat.toNat_sqrt"]
+paths = ["MPN32/Nat.lean", "MPN32/Div.lean", "MPN32/Mul.lean"]
+kind = "executable-algorithm"
+depends_on_mathlib = false
+executable = "defined-computable"
+correctness = "proved:MPN.W32.Nat.toNat_sqrt"
+status = "reusable"
+evidence = ["MPN32/Nat.lean:801 toNat_sqrt (read in source)", "grep: 0 extern in MPN32/ and MPN/"]
+notes = "Portable fallback width; slower than MPN64 per README."
+
+[[component]]
+id = "lean4-mpn/generic-natops"
+source = "lean4-mpn"
+capability = "Base-generic verified kernels over the class NatOps: Toom/Karatsuba products, FFT products modulo 2^N+1, Burnikel-Ziegler and Barrett division, Zimmermann sqrt, half-gcd, radix conversion"
+domain = "integer arithmetic"
+declarations = ["MPN.Generic.NatOps", "MPN.FFT.fftMulAt", "MPN.FFT.fftMulModAt", "MPN.Toom.mulToom"]
+paths = ["MPN/Generic", "MPN/FFT/Product.lean", "MPN/Toom"]
+kind = "executable-algorithm"
+depends_on_mathlib = false
+executable = "defined-computable"
+correctness = "proved:MPN.W64.Limbs64.toNat_mul"
+status = "adaptable"
+evidence = ["MPN/FFT/Product.lean:485 fftMulAt, :735 fftMulModAt (read in source)", "README module table for MPN.Generic.*"]
+notes = "README marks these kernels outside the API stability promise. Candidate reuse: the FFT/Toom kernels are generic over limb arrays, not over polynomial coefficient rings."
+
+[[component]]
+id = "csdp-ffi-solve"
+source = "csdp-ffi"
+capability = "Semidefinite-program solve by the vendored CSDP 6.2.0 C library (untrusted float oracle for sos)"
+domain = "optimization"
+declarations = ["CSDP.solve", "CSDP.solveImpl"]
+paths = ["CSDP/Basic.lean"]
+kind = "ffi-binding"
+depends_on_mathlib = false
+executable = "ffi"
+correctness = "none"
+status = "adaptable"
+evidence = ["CSDP/Basic.lean:90 @[extern \"lean_csdp_solve_ffi\"] private opaque solveImpl; :174 def solve"]
+notes = "Float output only; sos rounds it to Rat and checks the certificate in the kernel."
+
+[[rejected]]
+name = "lean-autograd"
+url = "https://github.com/alok/lean-autograd"
+reason = "58-line stub; bind1 := sorry; does not define Value; nightly toolchain. Inspected at e3dc1c4d3c677a759c50d4637fd3ee77bae1402c (licence Apache-2.0, toolchain leanprover/lean4:nightly, Reservoir listed)."
+
+[[rejected]]
+name = "NumLean-arthurpaulino"
+url = "https://github.com/arthurpaulino/NumLean"
+reason = "Abandoned 2022 Float matrix FFI wrapper (6 files, c/ffi.c), nightly-2022-01-15. Inspected at ed5e568cafc3eddf2aa62fc04eda0d06e6b9bb47 (licence Apache-2.0, toolchain leanprover/lean4:nightly-2022-01-15, Reservoir listed)."
+
+[[rejected]]
+name = "hesper"
+url = "https://github.com/Verilean/hesper"
+reason = "WebGPU shader/GPU kernel framework via native bindings; no exact or symbolic math. Inspected at 38fba72000a0d39a0421c5911378df9d28f6aca9 (licence Apache-2.0, toolchain leanprover/lean4:v4.28.0, Reservoir listed)."
+
+[[rejected]]
+name = "TenCert"
+url = "https://github.com/leanprover/TenCert"
+reason = "Meta-package (4 .lean files) re-exporting SHerLOC, KLR and TensorLib; TensorLib is surveyed separately. Inspected at caa51a0a8fb4425f13e9b4baf018d561e24fa349 (licence Apache-2.0, toolchain leanprover/lean4:v4.19.0, Reservoir listed)."
+
+[[rejected]]
+name = "tyr"
+url = "https://github.com/cpehle/tyr"
+reason = "LibTorch FFI ML framework; license NOASSERTION. Inspected at 05304ff22a1cf5f17df15eef372fc2a4bdf9f74c (licence NOASSERTION, toolchain leanprover/lean4:v4.29.0, Reservoir not listed)."
+
+[[rejected]]
+name = "bignum"
+url = "https://github.com/cslib-community/bignum"
+reason = "ARM aarch64 machine-code semantics and relational Hoare logic ported from s2n-bignum (Bignum/Arm/*.lean). No multiprecision arithmetic algorithms are in the repository. Inspected at 1b3952cba6438a6a03da02ff207deb6c93e7d4eb (licence Apache-2.0, toolchain leanprover/lean4:v4.36.0-rc1, Reservoir listed)."
+
+[[rejected]]
+name = "lattice-algorithm"
+url = "https://github.com/sh7vansh/lattice-algorithm"
+reason = "Order-theoretic complete lattices with a noncomputable transfinite 'basis discovery' sieve (LatticeTheory/BasisDiscovery.lean:69-91), 159 loc. Not Euclidean lattices; no LLL or reduction. Inspected at 37ca56bf066052d632b77d949059719506c609f1 (licence Apache-2.0, toolchain leanprover/lean4:v4.33.1, Reservoir not listed)."
+
+[[rejected]]
+name = "lean-matrix-sos"
+url = "https://github.com/selpoG/lean-matrix-sos"
+reason = "Only existence theorems (MatrixSOS/Certificates/FullLine.lean:43 fullLine_posSemidef_iff_sos) over Real polynomial matrices. The only computable defs are predicates and constructors (MatrixSOS/PolyMatrix.lean:30-50); no SOS/SDP algorithm. Inspected at e358a228191b093533c32c91a1d42ac48bf0e686 (licence Apache-2.0, toolchain leanprover/lean4:v4.34.0, Reservoir not listed)."
+
+[[rejected]]
+name = "AutomatePolynomial"
+url = "https://github.com/LiamSchilling/AutomatePolynomial"
+reason = "Proof-by-reflection tactics for degree/coeff/eval goals on Mathlib Polynomial (Representation/Polynomial/CoeffList.lean). No algorithm beyond coefficient-list add/mul. No licence file, and 2 sorry in Hyperlist/Basic.lean. Inspected at 63152d9a8a334fe728b88092b134bd9e1923bc2d (licence none found (no LICENSE file in checkout; README states none), toolchain leanprover/lean4:v4.22.0, Reservoir not listed)."
+
+[[rejected]]
+name = "VCVio"
+url = "https://github.com/Verified-zkEVM/VCVio"
+reason = "Not cloned. GitHub tree (1719 .lean files) shows cryptographic-protocol verification (Examples/, LatticeCrypto/ ML-KEM, ML-DSA, Falcon) and C reference implementations through Extern/*/FFI.lean. Its NTT and Falcon arithmetic are scheme-specific. Executable polynomial and field algebra is in CompPoly, which VCVio depends on."
+
+[[rejected]]
+name = "clean"
+url = "https://github.com/Verified-zkEVM/clean"
+reason = "Not cloned. GitHub tree shows a ZK circuit DSL (Clean/Circuit, Clean/Gadgets, Clean/Air, backends/plonky3). No CAS-style algorithms."
+
+[[rejected]]
+name = "crypto-lean4"
+url = "https://github.com/functionally/crypto-lean4"
+reason = "Not cloned. GitHub tree (37 .lean files, last push 2024-12-29) shows unverified ECDSA/ECDH/Schnorr/SHA2/Shamir secret sharing over SECG curves. Covered better by CompElliptic and ETHCryptoLean."
+
+[[rejected]]
+name = "class-group-and-mordell-equation"
+url = "https://github.com/lean-forward/class-group-and-mordell-equation"
+reason = "Lean 3 project (leanpkg.toml, src/ layout, last push 2022-12-13). Class-number computation for specific quadratic fields through a Sage socket tactic (src/tactic/sageify/). Not usable from Lean 4."
+
+[[rejected]]
+name = "alok/lean-inf"
+url = "https://github.com/alok/lean-inf"
+reason = "Levi-Civita field calculator: truncated ℚ-exponent series in a Std.HashMap with no correctness theorems found in LeviCivitaNum.lean; last push 2024-12-28. Not inspected beyond the declaration list."
+
+[[rejected]]
+name = "siddhartha-gadgil/Saturn"
+url = "https://github.com/siddhartha-gadgil/Saturn"
+reason = "DPLL SAT prover experiment (last push 2024-06-23); superseded by core Std.Tactic.BVDecide for SAT, and SAT is outside the numeric/algebra scope."
+
+[[rejected]]
+name = "hargoniX/crup"
+url = "https://github.com/hargoniX/crup"
+reason = "Unverified RUP checker executable (GPL-3.0, last push 2023-12-16); core LRAT checker supersedes it."
+
+[[rejected]]
+name = "girving/bottcher"
+url = "https://github.com/girving/bottcher"
+reason = "Application of girving/interval and girving/series to the Mandelbrot Böttcher series; no new reusable algorithm layer."
+
+[[rejected]]
+name = "Oscario0/LeanBisection"
+url = "https://github.com/Oscario0/LeanBisection"
+reason = "Bisection over Float/ℚ/ℝ via a typeclass; Float results are untrusted and leancert already has a proved bisection root finder."
+
+[[rejected]]
+name = "ulfjack/ryu"
+url = "https://github.com/ulfjack/ryu"
+reason = "C float-to-decimal library with a small Lean side directory (lean/Ryu); shortest-decimal printing only."
+
+[[rejected]]
+name = "lean-pool"
+url = "https://github.com/Vilin97/lean-pool"
+reason = "Theorem pool (Apache-2.0, v4.35.0-rc3, HEAD 01db1d7049cf, 2026-10-07). Corpus: 0 files with ^#eval; search for fft/ntt/karatsuba/groebner/millerRabin/factor/sieve/gcd/charpoly defs returned only noncomputable real-valued or Prop definitions (GapCVP, MetricCodes, BrauerGroup). Not cloned."
+
+[[rejected]]
+name = "physlib"
+url = "https://github.com/leanprover-community/physlib"
+reason = "Physics theorem library (Apache-2.0, v4.35.0, HEAD 08a6c1b5b8e6, Reservoir listed). Corpus: 3 files with ^#eval, not inspected. No mathematical algorithm targeted by the search queries."
+
+[[rejected]]
+name = "PrimeNumberTheoremAnd"
+url = "https://github.com/AlexKontorovich/PrimeNumberTheoremAnd"
+reason = "Analytic number theory proofs (Apache-2.0, v4.35.0, HEAD a4fb6989b07e, Reservoir listed). Corpus: 0 files with ^#eval; no executable components found."
+
+[[rejected]]
+name = "FLT"
+url = "https://github.com/ImperialCollegeLondon/FLT"
+reason = "Fermat's Last Theorem formalisation (Apache-2.0, v4.35.0, HEAD a3210204ad88, Reservoir listed). Corpus: 0 files with ^#eval; theorem-only."
+
+[[rejected]]
+name = "cam-combi"
+url = "https://github.com/YaelDillies/cam-combi"
+reason = "Cambridge combinatorics course formalisation (Apache-2.0, v4.36.0-rc2, HEAD 0a4253511907). Corpus: 0 files with #eval, 7 files with sorry; theorem-only."
+
+[[rejected]]
+name = "lean-matrix-cookbook"
+url = "https://github.com/eric-wieser/lean-matrix-cookbook"
+reason = "Matrix Cookbook identities as theorems (MIT, v4.35.0, HEAD 99ecc4bdd02f). Corpus: 1 #eval file, 11 sorry files; no algorithms."
+
+[[rejected]]
+name = "Lean-QuantumAlg"
+url = "https://github.com/QudeLeap/Lean-QuantumAlg"
+reason = "Quantum-algorithm correctness proofs (Apache-2.0, v4.33.1, HEAD 971dc8be8a15). Corpus: 0 #eval files, 2 sorry files; defs are matrices over C, PMFs, Prop predicates. No classical executable algorithm."
+
+[[rejected]]
+name = "lean4-pdl"
+url = "https://github.com/m4lvin/lean4-pdl"
+reason = "Tableau completeness proofs for PDL and basic modal logic (Apache-2.0, v4.36.0-rc2, HEAD 68802f94e80c, Reservoir listed). Corpus: 2 #eval files, 8 sorry files; tableau defs are proof objects, aLocalTableauFor is noncomputable. Logic, out of SageMath scope."
+
+[[rejected]]
+name = "demazure"
+url = "https://github.com/npflueger/demazure"
+reason = "Theorem library on Demazure products of ASP permutations of Z (cloned; 0 sorry); defs are Props on Z -> Z functions, no executable product. Inspected at 21522a502e3c07c09d5efd62c8dff19f95039662 (licence Apache-2.0, toolchain leanprover/lean4:v4.35.0, Reservoir listed)."
+
+[[rejected]]
+name = "fast-polynomials"
+url = "https://github.com/thomasahle/fast-polynomials"
+reason = "Lean side formalises the evaluation-chain theorems (1273 noncomputable, no #eval); the chain compiler is outside Lean. Theorems only for this purpose. Inspected at 09a36b0e7a6c153462bd43b91d4a3bb7ac886bef (licence MIT, toolchain leanprover/lean4:v4.27.0-rc1, Reservoir not listed)."
+
+[[rejected]]
+name = "group-theory-game"
+url = "https://github.com/ImperialCollegeLondon/group-theory-game"
+reason = "Lean 3 teaching game, last commit 2021-01-24 (HEAD 152ec4a92ad6), no lean-toolchain; not in the corpus. No executable algorithms."
+
+[[rejected]]
+name = "leanknot"
+url = "https://github.com/shua/leanknot"
+reason = "Cloned: 6 files, 830 LOC, 14 sorry, no licence, Lean v4.22.0. Definitions of tangles, links and Reidemeister equivalence; no invariant computation."
+
+[[rejected]]
+name = "AbstractSimplicialComplex"
+url = "https://github.com/smorel394/AbstractSimplicialComplex"
+reason = "Cloned: 14 files, 4549 LOC, 4 sorry, 57 noncomputable, no licence, Lean v4.0.0-rc4 (2024-01-16). Shellability and category theory of simplicial complexes; no homology or Euler-characteristic computation."
+
+[[rejected]]
+name = "Algolean (for production use)"
+url = "https://github.com/Shreyas4991/Algolean"
+reason = "Algorithms are free-monad programs in cost models; recorded as formalized-not-executable. Useful only for complexity proofs."
+
+[[rejected]]
+name = "CASette"
+url = "https://github.com/bollu/CASette"
+reason = "Python and C++, not Lean."
+
+[[rejected]]
+name = "hex"
+url = "https://github.com/leanprover/hex"
+reason = "Excluded by brief: covered by a separate survey."
+
+[[rejected]]
+name = "hex-dev"
+url = "https://github.com/kim-em/hex-dev"
+reason = "Excluded by brief: covered by a separate survey."
+
+[[rejected]]
+name = "VerifiedCalculus-Lean"
+url = "https://github.com/pietercollins/VerifiedCalculus-Lean"
+reason = "GPL-3.0; 4 .lean files (GitHub tree API). Not cloned or read in source."
+
+[[rejected]]
+name = "NLAlib"
+url = "https://github.com/NLA-lib/NLAlib"
+reason = "Apache-2.0, Mathlib-based, 1479 .lean files. README describes theory of numerical linear algebra (matrix analysis, Krylov, sketching). Not cloned; executable content not inspected."
+
+[[rejected]]
+name = "PrimeGaps186"
+url = "https://github.com/openai/PrimeGaps186"
+reason = "Conditional theorem development (3 input axioms); numerical certificate is Python. 2 .lean files."
+
+[[rejected]]
+name = "intmul"
+url = "https://github.com/lockqueue/intmul"
+reason = "Apache-2.0. README: papers, Lean formalizations, Python reference and C/GMP companion. Not cloned or read in source."
+
+[[rejected]]
+name = "Lean4Lean"
+url = ""
+reason = "Outside the brief scope (not executable mathematics); not inspected."
+
+[[rejected]]
+name = "duper"
+url = ""
+reason = "Outside the brief scope (not executable mathematics); not inspected."
+
+[[rejected]]
+name = "Polyrith"
+url = ""
+reason = "Outside the brief scope (not executable mathematics); not inspected."
+
+[[rejected]]
+name = "Carleson"
+url = ""
+reason = "Outside the brief scope (not executable mathematics); not inspected."
+
+[[rejected]]
+name = "raylib"
+url = ""
+reason = "Outside the brief scope (not executable mathematics); not inspected."
+
+[[rejected]]
+name = "doc-gen4"
+url = ""
+reason = "Outside the brief scope (not executable mathematics); not inspected."
+
+[[rejected]]
+name = "Verso"
+url = ""
+reason = "Outside the brief scope (not executable mathematics); not inspected."
+
+[[rejected]]
+name = "lean4-maze"
+url = ""
+reason = "Outside the brief scope (not executable mathematics); not inspected."
+
+[[not_found]]
+notes = "groebner_proj proves the Buchberger criterion on noncomputable MvPolynomial; GroebnerTactic outsources the computation to Sage/SymPy and checks certificates. hex-dev is outside fork B scope."
+query = "Executable Buchberger/F4 Groebner basis computation proved correct in Lean: groebner_proj, GroebnerTactic, MonomialOrderedPolynomial, lean-groebner, CompPoly (grep buchberger/groebner/sPolynomial); corpus query regex (groebner|sPolynomial) def over 36 repos, of which only hex-dev, groebner_proj, ArkLib and GroebnerTactic were relevant"
+
+[[not_found]]
+notes = "CompPoly only splits into linear factors (root finding). No squarefree decomposition or resultant defs found in CompPoly."
+query = "Full univariate factorization over finite fields (Berlekamp, or Cantor-Zassenhaus with distinct-degree/equal-degree steps into irreducibles): CompPoly grep def (berlekamp|resultant|subresultant|squarefree|zassenhaus); Roots/ directory"
+
+[[not_found]]
+notes = "CompElliptic certifies known orders only (CurveOrder.lean:165); Tate's algorithm exists only on a 2023 toolchain with sorry'd invariants."
+query = "Elliptic-curve point counting (Schoof/SEA/BSGS), general Weierstrass models with computable Mathlib bridge, and conductor/minimal-model computation on a current toolchain: CompElliptic, ec-tate-lean, FFaCiL.lean, ETHCryptoLean, ArkLib/Data/EllipticCurve"
+
+[[not_found]]
+notes = "Not found in the inspected sources."
+query = "Euclidean lattice reduction (LLL/BKZ) executable in Lean: lattice-algorithm (order lattices only), ArkLib/Data/Lattices (cyclotomic rings, Module-SIS definitions), lean-normal-forms SCOPE.md (LLL listed out of scope)"
+
+[[not_found]]
+query = "runtime-precision verified floating point (MPFR RealField analogue) ()"
+notes = "Not found in the inspected sources: girving/interval is fixed 64-bit; FloatLib precision is a type parameter; leancert Dyadic is exact with explicit rounding. Searched the 17 sources above."
+
+[[not_found]]
+query = "verified complex ball arithmetic with tight transcendental enclosures (Arb acb analogue) ()"
+notes = "Not found in the inspected sources. girving/interval has Box (complex intervals) with exp/sinh/cosh (Interval/Box/Exp.lean:74,78), not read further; leancert atan/tanh/erf enclosures are global bounds."
+
+[[not_found]]
+query = "Todd-Coxeter / coset enumeration: corpus regex def\\s+\\w*(toddCoxeter|coset_?enum) outside mathlib4 and hex: 0 files"
+
+[[not_found]]
+query = "Knuth-Bendix: corpus regex def\\s+\\w*knuthBendix outside mathlib4 and hex: 0 files (a repo named Knuth-Bendix-procedure is cloned by another fork; not inspected here)"
+
+[[not_found]]
+query = "Schreier-Sims / stabilizer chains: corpus regex def\\s+\\w*(schreierSims|stabChain|orbitStab) outside mathlib4 and hex: 0 files; IsoGraph Canon/Group.lean says it does not implement it"
+
+[[not_found]]
+query = "Smith normal form over Z: corpus regex def\\s+\\w*smithNormalForm outside mathlib4 and hex: only JJYYY-JJY/lean-normal-forms (2 files; owned by another fork)"
+
+[[not_found]]
+query = "Knot invariants (Jones, Kauffman bracket, Alexander): corpus regex def\\s+\\w*(jonesPoly|kauffman|alexanderPoly|bracket): 10 files in 6 repos, hits not inspected (likely Lie/Poisson brackets); leanknot has no invariant computation"
+
+[[not_found]]
+query = "Partition / composition / Young tableau enumeration: corpus regex def\\s+\\w*(partitions|allPartitions|youngTableaux|compositions)\\b outside mathlib4 and hex: 0 files (graph enumeration exists in IsoGraph)"
+
+[[not_found]]
+query = "Permutation group algorithms: corpus regex def\\s+\\w*(permGroupOrder|cycleType|permOrbit) outside mathlib4 and hex: 0 files"
+
+[[not_found]]
+query = "Simplicial homology computation: no executable code in AbstractSimplicialComplex; no other repo searched specifically"
+
+[[not_found]]
+query = "Buchberger / executable Groebner bases in TauCeti, atlas-lean, lean-pool: TauCeti defs are Props or noncomputable; atlas-lean and lean-pool hits not inspected beyond name search"
+
+[[not_found]]
+query = "VerifiedQC/Fast_multiplication (GitHub 404)"
+
+[[not_found]]
+query = "lean-numerics (GitHub 404 for the name)"
+
+[[not_found]]
+query = "Lean-GMP/lean-gmp (GitHub 404)"
+
+[[not_found]]
+query = "PolyNormal (GitHub 404; repo search empty)"
+
+[[not_found]]
+query = "leanprover-community/lean4-pdl (404; real repo m4lvin/lean4-pdl, not executable mathematics)"
+
+[[not_found]]
+query = "leanprover-community/PrimeNumberTheoremAnd (404; real repo AlexKontorovich/PrimeNumberTheoremAnd, theorem library)"
+
+[[not_found]]
+query = "GitHub repo search \"mpfr lean\": 0 Lean results"
+
+[[not_found]]
+query = "GitHub repo search \"flint lean\": 0 Lean results"
+
+[[not_found]]
+query = "GitHub repo search \"lean gmp\": 0 Lean results"
