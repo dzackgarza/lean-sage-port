@@ -52,3 +52,20 @@ reuse = { status = "formalized-not-executable", components = ["mathlib.homology.
 backends = []
 references = ["Wei1994"]
 license_notes = "Sage source cites Weibel with the opposite shift-index convention; do not identify the two without a signed reindexing map."
+
+[[capability]]
+id = "complexes.chain-maps"
+title = "Chain maps and their composition"
+statement = "Construct degree-preserving maps commuting with differentials and compose them in their stated source-to-target order."
+domain = "Bounded finite free complexes over the same commutative ring and grading group, with the same differential degree."
+contract = "A family f_i:C_i -> D_i must satisfy d_D f_i = f_(i+delta) d_C. Return f with its domain, codomain and component matrices. Composition g after f returns g_i*f_i and retains C as source and E as target. Missing components are zero maps with the dimensions determined by the complexes."
+exactness = "exact"
+algorithms = [{ family = "Degreewise matrix construction and multiplication with commutative-square checks", sources = ["sage/homology/chain_complex_morphism.py:ChainComplexMorphism.__init__", "sage/homology/chain_complex_morphism.py:ChainComplexMorphism.__mul__"] }]
+depends_on = ["complexes.finite-free-construction", "matrices.arithmetic"]
+sage = ["sage.homology.chain_complex_morphism:ChainComplexMorphism", "sage.homology.chain_complex_morphism:ChainComplexMorphism.in_degree", "sage.homology.chain_complex_morphism:ChainComplexMorphism.to_matrix", "sage.homology.chain_complex_morphism:ChainComplexMorphism.is_identity"]
+catalogue = []
+tests = ["For runtime rectangular component matrices F:C->D and G:D->E in zero-differential complexes, the composite has component GF; choose unequal ranks to detect reversed multiplication.", "A family with d_D F != F d_C is rejected.", "Composition preserves the chain-map equation, has the correct domain and codomain, and obeys identity and associativity laws."]
+reuse = { status = "formalized-not-executable", components = ["mathlib.homology.complexes"], evidence = "HomologicalComplex supplies abstract morphisms; a runtime matrix realization must retain the same commuting-square obligation. The inspected catalogue map contains no chain-map entry." }
+backends = []
+references = []
+license_notes = "Sage source is GPL-2.0-or-later; multiplication examples document composition order independently of any Lean representation."
