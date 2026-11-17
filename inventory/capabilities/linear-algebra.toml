@@ -1,0 +1,84 @@
+# Intrinsic matrix operations used by finite chain-complex calculations.
+# Sage baseline: 11.0.beta5, c00171e47d6e68d8148d7ee10c4dd77b71a97662.
+
+domain = "linear-algebra"
+
+[[capability]]
+id = "matrices.arithmetic"
+title = "Matrix construction and arithmetic"
+statement = "Construct finite matrices over a coefficient ring and compute their sums and composable products."
+domain = "Finite rectangular matrices over a specified ring; addition requires equal shapes and multiplication requires matching inner dimensions."
+contract = "(R, m, n, entries) -> Mat(m,n,R); Mat(m,n,R)^2 -> Mat(m,n,R); Mat(m,n,R) x Mat(n,p,R) -> Mat(m,p,R). The coefficient ring and dimensions remain available for later calculations."
+exactness = "exact"
+algorithms = [{ family = "Entrywise addition and finite-sum multiplication", sources = ["sage.matrix.constructor:matrix", "sage.matrix.matrix_space:MatrixSpace"] }]
+depends_on = []
+sage = ["sage.matrix.constructor:matrix", "sage.matrix.matrix_space:MatrixSpace"]
+catalogue = ["obj.rings.matrices", "mor.sets.matrix_rows", "mor.modules.matrix_linear_map"]
+tests = ["For every composable A, B, C, (AB)C = A(BC); the entries equal the defining finite sums", "The identity matrix acts on both sides and the zero matrix is additive identity"]
+reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "hex.HexMatrix.dense-matrix"], evidence = "Mathlib Matrix is a computable function representation, while Hex.Matrix is dense Vector data; inventory/reuse/mathlib-core.toml and hex.toml record their source declarations. Their representation bridge is a separate obligation." }
+backends = []
+references = []
+
+[[capability]]
+id = "matrices.rank"
+title = "Rank of a finite matrix"
+statement = "Return the dimension of the image of the linear map represented by a matrix."
+domain = "Finite matrices over a field, and integer matrices interpreted over Q."
+contract = "Mat(m,n,K) -> Nat, with 0 <= rank(A) <= min(m,n); for A over Z, rank is the Q-linear rank."
+exactness = "exact"
+algorithms = [{ family = "Gaussian elimination or modular rank reconstruction", sources = ["sage.matrix.matrix_integer_dense:Matrix_integer_dense.rank", "sage.matrix.matrix_rational_dense:Matrix_rational_dense.rank"] }]
+depends_on = ["matrices.arithmetic"]
+sage = ["sage.matrix.matrix_integer_dense:Matrix_integer_dense.rank", "sage.matrix.matrix_rational_dense:Matrix_rational_dense.rank"]
+catalogue = ["mor.sets.matrix_rank"]
+tests = ["rank(A) + nullity(A) = n for every m by n matrix over a field", "rank(A) equals the largest order of a nonzero minor"]
+reuse = { status = "adaptable", components = ["mathlib.linalg.rank", "hex.HexRank.rank-producer"], evidence = "Mathlib Matrix.rank is noncomputable. HexRank produces a rank for its supported dense matrix domain; the catalogue rank map is a mathematical specification, not the producer." }
+backends = ["flint", "linbox", "pari"]
+references = []
+
+[[capability]]
+id = "matrices.kernel"
+title = "Kernel basis of a matrix map"
+statement = "Compute a basis for the solutions of Ax = 0, retaining the embedding into the source module."
+domain = "Finite matrices over a field; integral kernels require a saturated Z-basis, not only a rational nullspace basis."
+contract = "Mat(m,n,K) -> a basis of ker(A: K^n -> K^m), with coordinates in the original K^n. Over Z, return a Z-basis of ker(A: Z^n -> Z^m)."
+exactness = "exact"
+algorithms = [{ family = "Row reduction over a field; unimodular normal-form transformations over Z", sources = ["sage.matrix.matrix2:Matrix.right_kernel_matrix", "sage.matrix.matrix2:Matrix.integer_kernel"] }]
+depends_on = ["matrices.arithmetic", "matrices.rank"]
+sage = ["sage.matrix.matrix2:Matrix.right_kernel_matrix", "sage.matrix.matrix2:Matrix.left_kernel_matrix", "sage.matrix.matrix2:Matrix.right_kernel", "sage.matrix.matrix2:Matrix.left_kernel", "sage.matrix.matrix2:Matrix.integer_kernel"]
+catalogue = ["mor.sets.matrix_ker"]
+tests = ["Every returned basis vector v satisfies Av = 0, and the number of vectors is n - rank(A) over a field", "For an integral kernel, the image of every integer solution lies in the returned integer span"]
+reuse = { status = "adaptable", components = ["mathlib.linalg.bases-kernels", "hex.HexRowReduce.nullspace-span", "hex.HexHermite.lattice-membership-kernel"], evidence = "Mathlib defines kernels but does not produce finite bases. HexRowReduce provides a field nullspace span; the hex-dev Hermite library provides an integral kernel basis. The integral implementation is unreleased at the surveyed revision." }
+backends = ["flint", "linbox"]
+references = []
+
+[[capability]]
+id = "matrices.smith-normal-form"
+title = "Smith normal form with basis transformations"
+statement = "Reduce an integer matrix to a diagonal matrix whose positive nonzero entries form a divisibility chain, and return the basis changes."
+domain = "Finite integer matrices of any shape and rank."
+contract = "A: Mat(m,n,Z) -> (D,U,V) with U in GL(m,Z), V in GL(n,Z), UAV=D; D has nonnegative diagonal and each positive diagonal entry divides the next. Return U and V so quotient and homology generators can be transported to the original coordinates."
+exactness = "exact"
+algorithms = [{ family = "Euclidean pivot reduction with elementary unimodular operations", sources = ["sage.matrix.matrix2:Matrix.smith_form", "sage.matrix.matrix_integer_dense:Matrix_integer_dense.smith_form", "hex-dev HexSmith/Smith.lean"] }]
+depends_on = ["matrices.arithmetic", "euclidean.xgcd"]
+sage = ["sage.matrix.matrix2:Matrix.smith_form", "sage.matrix.matrix_integer_dense:Matrix_integer_dense.smith_form"]
+catalogue = []
+tests = ["UAV=D and det(U), det(V) are units in Z", "The product of the first k positive diagonal entries equals the gcd of the k by k minors for each k"]
+reuse = { status = "reusable", components = ["mathlib.linalg.smith-normal-form", "hex.HexSmith.snf", "hex.HexSmith.snf-certificate"], evidence = "Mathlib's Smith statement is noncomputable. HexSmith supplies executable data including unimodular transforms and inverses, with IsSNF proof; surveyed code is in hex-dev and unreleased, so release integration still needs validation." }
+backends = ["flint", "pari"]
+references = []
+
+[[capability]]
+id = "matrices.hermite-normal-form"
+title = "Hermite normal form with basis transformation"
+statement = "Reduce an integer matrix to the canonical row Hermite form and return the unimodular row transformation."
+domain = "Finite integer matrices of any shape and rank."
+contract = "A: Mat(m,n,Z) -> (H,U) with U in GL(m,Z), UA=H; H is row Hermite with positive pivots and entries reduced above pivots. The transformation records the original row basis."
+exactness = "exact"
+algorithms = [{ family = "Extended-gcd row elimination", sources = ["sage.matrix.matrix2:Matrix.hermite_form", "hex-dev HexHermite/Hermite.lean"] }]
+depends_on = ["matrices.arithmetic", "euclidean.xgcd"]
+sage = ["sage.matrix.matrix2:Matrix.hermite_form"]
+catalogue = []
+tests = ["UA=H and det(U) is a unit in Z", "The rows of H and A generate the same Z-submodule of Z^n, and H satisfies the canonical pivot conditions"]
+reuse = { status = "adaptable", components = ["mathlib.linalg.hermite-normal-form", "hex.HexHermite.hnf", "hex.HexHermite.hnf-certificate"], evidence = "Mathlib map records no HNF algorithm. HexHermite produces HNF and transformations in hex-dev, but the library is unreleased at the surveyed revision." }
+backends = ["flint", "pari"]
+references = []
