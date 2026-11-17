@@ -10,9 +10,10 @@ acceptance from the selected Sage doctests and same-input reference computations
 
 ## Technical Context
 
-- Language: Lean v4.36.0; Python inventory tooling under the committed uv lock.
-- Dependencies: Mathlib 6d97e8ad9c32c778e7000ffda543a29488155467 and Hex
-  f4b180cfe51692a4e41587d731c92c08a9a63bc4, with the Lake manifest carrying transitive revisions.
+- Language: the Lean version in `lean-toolchain`; Python inventory tooling under the committed uv lock.
+- Dependencies: the revisions in `lakefile.toml` and the committed Lake manifest, validated
+  together by the architectural probe build. Reuse-map revisions identify survey evidence;
+  they do not by themselves establish package compatibility.
 - Mathematical owners: lean-categories semantics and lean-cas-dsl language/kernel.
 - Evidence storage: existing TOML capability/reuse files and generated JSON source indexes.
 - Validation: inventory schema/selector checks locally; Lean compilation and runtime probes in CI;
