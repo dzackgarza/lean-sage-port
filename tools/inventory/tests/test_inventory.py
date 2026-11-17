@@ -181,7 +181,7 @@ def test_coverage_counts_documented_public_entities_by_capability_exclusion_and_
     # Documented and public: 5 in fast_integer, 5 in demo_ring. `stray` is outside the manual.
     # The capability selects xgcd, gcd_list and demo_gcd; the exclusion selects Element and Element.inverse.
     assert (report.public_entities, report.by_capability, report.excluded, report.unaccounted) == (10, 3, 2, 5)
-    assert (report.capabilities, report.exclusions) == (1, 1)
+    assert (report.capabilities, report.attached_to_catalogue, report.exclusions) == (1, 1, 1)
     (section,) = report.sections
     assert (section.section, section.doctests, section.doctests_by_capability) == ("rings_standard", 7, 3)
     # `sage.rings.unlisted:stray` is public, outside the manual, and selected by no record.
@@ -226,8 +226,9 @@ def _records_with(tmp_path: Path, old: str, new: str) -> Path:
         ('"sage.rings.*:*gcd*"', '"sage.rings.*:*resultant*"'),
         ("depends_on = []", 'depends_on = ["euclidean.division"]'),
         ('components = ["mathlib.int-gcd"]', 'components = ["mathlib.nat-gcd"]'),
+        ('catalogue = ["mor.sets.gcd"]', 'catalogue = ["mor.sets.lcm"]'),
     ],
-    ids=["selector-matches-nothing", "unknown-dependency", "unknown-reuse-component"],
+    ids=["selector-matches-nothing", "unknown-dependency", "unknown-reuse-component", "unknown-catalogue-id"],
 )
 def test_coverage_rejects_records_that_refer_to_nothing(index: Path, tmp_path: Path, old: str, new: str) -> None:
     with pytest.raises(InventoryError):

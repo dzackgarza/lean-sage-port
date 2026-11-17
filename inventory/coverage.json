@@ -4,6 +4,7 @@
     "commit": "c00171e47d6e68d8148d7ee10c4dd77b71a97662"
   },
   "capabilities": 69,
+  "attached_to_catalogue": 14,
   "exclusions": 3,
   "public_entities": 38782,
   "by_capability": 329,

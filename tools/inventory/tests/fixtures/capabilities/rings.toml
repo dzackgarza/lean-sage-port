@@ -10,6 +10,7 @@ exactness = "exact"
 algorithms = [{ family = "Euclidean algorithm", sources = ["[Coh1993] Algorithm 1.3.6"] }]
 depends_on = []
 sage = ["sage.rings.fast_integer:FastInteger.xgcd", "sage.rings.*:*gcd*"]
+catalogue = ["mor.sets.gcd"]
 tests = ["Bezout identity g = s a + t b", "[Coh1993] section 1.3"]
 reuse = { status = "reusable", components = ["mathlib.int-gcd"], evidence = "Int.gcd reduces by kernel evaluation." }
 backends = ["gmp", "pari"]

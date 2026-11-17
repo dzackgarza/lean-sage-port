@@ -14,6 +14,7 @@ algorithms = [
 ]
 depends_on = ["integers.factorization", "integers.modular-power", "integers.multiplicative-functions"]
 sage = ["sage.rings.finite_rings.integer_mod:IntegerMod_abstract.multiplicative_order"]
+catalogue = []
 tests = [
   "a^e = 1 mod n and a^(e/q) != 1 mod n for each prime q dividing e",
   "The order divides phi(n); for a primitive root it equals phi(n)",

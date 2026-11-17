@@ -39,8 +39,8 @@ def index(baseline: Path, output: Path) -> None:
 def coverage(index: Path, capabilities: Path, reuse: Path, report: Path) -> None:
     """Validate the capability records and write the coverage report.
 
-    Fails when a record refers to an unknown capability or reuse component, or when a selector
-    matches nothing in the index.
+    Fails when a record refers to an unknown capability, reuse component or catalogue id, or when a
+    selector matches nothing in the index.
 
     Args:
         index: The index directory (`inventory/sage/index`).
@@ -56,6 +56,7 @@ def coverage(index: Path, capabilities: Path, reuse: Path, report: Path) -> None
     report.write_text(result.model_dump_json(indent=2) + "\n")
     print(f"Sage {result.revision.version} ({result.revision.commit[:12]}): {result.public_entities} documented public entities")
     print(f"  by capability {result.by_capability}  excluded {result.excluded}  unaccounted {result.unaccounted}")
+    print(f"  capabilities {result.capabilities}  attached to the catalogue {result.attached_to_catalogue}")
     for section in result.sections:
         print(
             f"  {section.section:34} {section.public_entities:6} "

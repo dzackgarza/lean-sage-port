@@ -16,6 +16,7 @@ algorithms = [
 ]
 depends_on = ["integers.arithmetic", "rationals.arithmetic"]
 sage = ["sage.matrix.matrix_integer_dense:Matrix_integer_dense.LLL"]
+catalogue = []
 tests = [
   "The output and the input generate the same lattice: each basis is an integer combination of the other",
   "The size-reduction and Lovasz inequalities, checked in exact rational arithmetic",

@@ -113,6 +113,9 @@ def measure(index: Path, capabilities_dir: Path, reuse_dir: Path) -> CoverageRep
         for component in capability.reuse.components:
             if component not in components:
                 problems.append(f"{capability.id} refers to unknown reuse component {component}")
+        for entry in capability.catalogue:
+            if f"catalogue.{entry}" not in components:
+                problems.append(f"{capability.id} refers to unknown catalogue id {entry}")
 
     by_capability: set[str] = set()
     excluded: set[str] = set()
@@ -164,6 +167,7 @@ def measure(index: Path, capabilities_dir: Path, reuse_dir: Path) -> CoverageRep
     return CoverageReport(
         revision=summary.revision,
         capabilities=len(capabilities),
+        attached_to_catalogue=sum(bool(capability.catalogue) for capability in capabilities),
         exclusions=len(exclusions),
         public_entities=sum(section.public_entities for section in sections),
         by_capability=sum(section.by_capability for section in sections),

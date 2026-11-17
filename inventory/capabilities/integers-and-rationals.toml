@@ -43,6 +43,7 @@ sage = [
   "sage.rings.integer:Integer.inverse_of_unit",
   "sage.rings.integer:Integer.canonical_associate",
 ]
+catalogue = ["obj.rings.integers", "obj.commutative_rings.integers", "op.rings.add", "op.rings.mul", "op.rings.neg"]
 tests = [
   "Ring identities on run-time inputs, for example (a + b)^2 = a^2 + 2ab + b^2 and (a - b)(a + b) = a^2 - b^2",
   "Agreement of a result modulo several primes with the same computation in Z/p",
@@ -81,6 +82,7 @@ sage = [
   "sage.rings.rational:Rational.mod_ui",
   "sage.rings.rational_field:frac",
 ]
+catalogue = ["obj.rings.rationals", "obj.fields.rationals", "op.rings.add", "op.rings.mul", "op.rings.neg", "mor.sets.divide"]
 tests = [
   "Field identities on run-time inputs, for example (a/b) + (c/d) = (ad + bc)/(bd) after reduction",
   "The result is in lowest terms: gcd(numerator, denominator) = 1 and denominator > 0",
@@ -102,6 +104,7 @@ algorithms = [
 ]
 depends_on = []
 sage = ["sage.arith.power:generic_power"]
+catalogue = ["mor.sets.monoid_power", "op.rings.pow", "op.semirings.pow"]
 tests = [
   "x^(m + n) = x^m x^n and (x^m)^n = x^(mn) on run-time inputs",
   "Agreement with the product of n copies of x for small n, in Z, in Z/m and in 2 x 2 integer matrices",
@@ -132,6 +135,7 @@ sage = [
   "sage.rings.integer:Integer.divide_knowing_divisible_by",
   "sage.rings.integer_ring:IntegerRing_class.parameter",
 ]
+catalogue = []
 tests = [
   "a = q b + r and 0 <= r < |b| on run-time inputs, both signs of a and b",
   "b divides a if and only if the remainder is 0; exact division returns q with q b = a",
@@ -158,6 +162,7 @@ sage = [
   "sage.rings.integer:GCD_list",
   "sage.rings.rational:Rational.content",
 ]
+catalogue = ["mor.sets.gcd"]
 tests = [
   "g divides a and b, and every common divisor of a and b divides g",
   "gcd(a, b) lcm(a, b) = |a b| in Z",
@@ -182,6 +187,7 @@ sage = [
   "sage.arith.misc:xgcd",
   "sage.rings.integer:Integer.xgcd",
 ]
+catalogue = []
 tests = [
   "The Bezout identity g = s a + t b, with g equal to the result of `euclidean.gcd`",
   "The minimality bounds on s and t",
@@ -214,6 +220,7 @@ sage = [
   "sage.arith.misc:integer_ceil",
   "sage.arith.misc:integer_trunc",
 ]
+catalogue = []
 tests = [
   "The defining inequalities floor(q) <= q < floor(q) + 1 and ceil(q) - 1 < q <= ceil(q)",
   "floor(q + n) = floor(q) + n for integers n; each tie rule on half-integers, [GKP1994] chapter 3",
@@ -241,6 +248,7 @@ sage = [
   "sage.arith.misc:inverse_mod",
   "sage.rings.integer:Integer.inverse_mod",
 ]
+catalogue = []
 tests = [
   "a b = 1 mod m and 0 <= b < m",
   "For a prime modulus p, agreement with a^(p - 2) mod p (Fermat's little theorem)",
@@ -264,6 +272,7 @@ sage = [
   "sage.arith.misc:power_mod",
   "sage.rings.integer:Integer.powermod",
 ]
+catalogue = []
 tests = [
   "Agreement with (a^n) mod m computed in Z for small n",
   "Euler's theorem a^phi(m) = 1 mod m for gcd(a, m) = 1",
@@ -291,6 +300,7 @@ sage = [
   "sage.rings.integer:Integer.crt",
   "sage.rings.integer_ring:crt_basis",
 ]
+catalogue = []
 tests = [
   "x = a_i mod m_i for every i and 0 <= x < lcm(m_i)",
   "Round trip: for a run-time x below the product of the moduli, the reconstruction of its residues is x",
@@ -312,6 +322,7 @@ algorithms = [
 ]
 depends_on = ["modular.crt", "integers.prime-search"]
 sage = ["sage.arith.multi_modular:*"]
+catalogue = []
 tests = [
   "Round trip for a run-time integer below the product of the basis",
   "After an extension to a height bound H the product of the basis exceeds H",
@@ -337,6 +348,7 @@ sage = [
   "sage.arith.misc:mqrr_rational_reconstruction",
   "sage.rings.integer:Integer.rational_reconstruction",
 ]
+catalogue = []
 tests = [
   "n = a d mod m and the bounds on |n| and d",
   "Round trip: for a run-time n/d with 2 |n| d < m, the reconstruction of n d^-1 mod m is n/d",
@@ -357,6 +369,7 @@ algorithms = [
 ]
 depends_on = ["integers.factorization", "integers.modular-power", "integers.multiplicative-functions"]
 sage = ["sage.arith.misc:primitive_root"]
+catalogue = []
 tests = [
   "The multiplicative order of g modulo n is phi(n)",
   "No smaller positive integer has order phi(n)",
@@ -381,6 +394,7 @@ sage = [
   "sage.arith.misc:quadratic_residues",
   "sage.rings.integer:Integer.coprime_integers",
 ]
+catalogue = []
 tests = [
   "For an odd prime p there are (p + 1)/2 quadratic residues in [0, p), and r != 0 is one exactly when the Legendre symbol (r/p) is 1",
   "The number of integers in [1, n] coprime to n is phi(n)",
@@ -422,6 +436,7 @@ sage = [
   "sage.rings.integer_ring:IntegerRing_class.from_bytes",
   "sage.rings.rational:Rational.str",
 ]
+catalogue = []
 tests = [
   "n = sum d_i b^i with every digit in range; the balanced digits lie in (-b/2, b/2]",
   "Round trips string -> integer -> string and bytes -> integer -> bytes on run-time inputs",
@@ -462,6 +477,7 @@ sage = [
   "sage.rings.rational:integer_rational_power",
   "sage.rings.rational:rational_power_parts",
 ]
+catalogue = []
 tests = [
   "r^k <= n < (r + 1)^k for the returned root r",
   "n is a square exactly when sqrtrem returns remainder 0; a^k is reported as a k-th power for run-time a",
@@ -483,6 +499,7 @@ algorithms = [
 ]
 depends_on = ["monoids.power"]
 sage = ["sage.rings.integer:Integer.exact_log"]
+catalogue = []
 tests = [
   "b^e <= n < b^(e + 1) on run-time inputs, including n = b^k - 1, b^k and b^k + 1",
 ]
@@ -508,6 +525,7 @@ sage = [
   "sage.rings.rational:Rational.valuation",
   "sage.rings.rational:Rational.val_unit",
 ]
+catalogue = ["mor.sets.nat_multiplicity"]
 tests = [
   "n = p^v u with p not dividing u",
   "For a prime p: v(m n) = v(m) + v(n) and v(m + n) >= min(v(m), v(n))",
@@ -539,6 +557,7 @@ sage = [
   "sage.rings.integer:Integer.odd_part",
   "sage.rings.rational:Rational.prime_to_S_part",
 ]
+catalogue = []
 tests = [
   "The two parts multiply to |n|; the first is coprime to m; every prime divisor of the second divides m",
   "Agreement with the parts read from the prime factorization of n",
@@ -571,6 +590,7 @@ sage = [
   "sage.rings.integer:Integer.is_prime",
   "sage.rings.integer:Integer.is_irreducible",
 ]
+catalogue = ["mor.sets.nat_is_prime"]
 tests = [
   "Agreement with trial division below 10^6",
   "Mersenne primes 2^p - 1 for p in the known list are prime; Carmichael numbers (561, 1105, 1729, ...) are composite",
@@ -597,6 +617,7 @@ sage = [
   "sage.arith.misc:is_pseudoprime",
   "sage.rings.integer:Integer.is_pseudoprime",
 ]
+catalogue = []
 tests = [
   "Every prime below 10^6 is reported true",
   "Agreement with `integers.primality-proving` on run-time inputs below 2^64",
@@ -624,6 +645,7 @@ sage = [
   "sage.rings.integer:Integer.is_prime_power",
   "sage.rings.integer:Integer.is_pseudoprime_power",
 ]
+catalogue = []
 tests = [
   "p^k is reported with (p, k) for run-time primes p and exponents k",
   "The number of prime powers up to x agrees with the sum of pi(x^(1/k)) over k >= 1",
@@ -653,6 +675,7 @@ sage = [
   "sage.rings.fast_arith:prime_range",
   "sage.rings.rational_field:RationalField.primes_of_bounded_norm_iter",
 ]
+catalogue = ["obj.sets.primes"]
 tests = [
   "Every listed number is prime by `integers.primality-proving`, and no prime of the interval is missing",
   "pi(10^k) = 4, 25, 168, 1229, 9592, 78498 for k = 1, ..., 6",
@@ -686,6 +709,7 @@ sage = [
   "sage.rings.integer:Integer.next_prime_power",
   "sage.rings.integer:Integer.previous_prime_power",
 ]
+catalogue = []
 tests = [
   "The result is prime and every integer strictly between n and the result is composite",
   "Iterating next_prime from 1 gives the list of `integers.prime-enumeration`",
@@ -708,6 +732,7 @@ algorithms = [
 ]
 depends_on = ["integers.primality-proving", "integers.probable-primality", "rings.random-sampling"]
 sage = ["sage.arith.misc:random_prime"]
+catalogue = []
 tests = [
   "The result is prime and lies in [a, b] for run-time bounds",
   "An interval with one prime returns that prime; an interval with no prime is rejected",
@@ -737,6 +762,7 @@ sage = [
   "sage.rings.integer:Integer.trial_division",
   "sage.rings.factorint:factor_trial_division",
 ]
+catalogue = []
 tests = [
   "The result divides n, is prime, and no smaller prime divides n",
   "For n with all prime divisors above B the result is n",
@@ -772,6 +798,7 @@ sage = [
   "sage.rings.factorint_flint:factor_using_flint",
   "sage.rings.factorint_pari:factor_using_pari",
 ]
+catalogue = ["mor.sets.nat_prime_factors", "mor.sets.nat_multiplicity"]
 tests = [
   "The product of the factorization is n and every base is prime by `integers.primality-proving`",
   "Factorizations from the Cunningham tables [BLS+2002], for example 2^67 - 1 = 193707721 x 761838257287",
@@ -798,6 +825,7 @@ sage = [
   "sage.rings.factorint:factor_aurifeuillian",
   "sage.rings.factorint:factor_cunningham",
 ]
+catalogue = []
 tests = [
   "The product of the returned factors is the input",
   "2^(4k + 2) + 1 = (2^(2k + 1) - 2^(k + 1) + 1)(2^(2k + 1) + 2^(k + 1) + 1) for run-time k",
@@ -826,6 +854,7 @@ sage = [
   "sage.rings.integer:Integer.squarefree_part",
   "sage.rings.rational:Rational.squarefree_part",
 ]
+catalogue = []
 tests = [
   "n / s is a perfect square and s has no square divisor above 1",
   "The number of squarefree integers up to x agrees with sum mu(d) floor(x / d^2)",
@@ -852,6 +881,7 @@ sage = [
   "sage.rings.integer:Integer.divisors",
   "sage.rings.integer:Integer.number_of_divisors",
 ]
+catalogue = []
 tests = [
   "Every listed d divides n, the list is sorted and has prod (e_i + 1) entries",
   "d -> n / d reverses the list",
@@ -884,6 +914,7 @@ sage = [
   "sage.rings.integer:Integer.euler_phi",
   "sage.rings.integer:Integer.moebius",
 ]
+catalogue = []
 tests = [
   "sum over d | n of phi(d) = n; sum over d | n of mu(d) = [n = 1]",
   "sigma_k(n) equals the sum of d^k over the list of `integers.divisors`",
@@ -916,6 +947,7 @@ sage = [
   "sage.rings.integer:Integer.jacobi",
   "sage.rings.integer:Integer.quadratic_residuocity_characterization",
 ]
+catalogue = []
 tests = [
   "Euler's criterion (a/p) = a^((p-1)/2) mod p for odd primes p",
   "Quadratic reciprocity (p/q)(q/p) = (-1)^((p-1)(q-1)/4) and the supplements for -1 and 2",
@@ -941,6 +973,7 @@ sage = [
   "sage.rings.integer:Integer.is_discriminant",
   "sage.rings.integer:Integer.is_fundamental_discriminant",
 ]
+catalogue = []
 tests = [
   "The result divides 4 D, differs from D by a rational square, and is fundamental",
   "The fundamental discriminants in [-20, 20] are -20, -19, -15, -11, -8, -7, -4, -3, 1, 5, 8, 12, 13, 17",
@@ -964,6 +997,7 @@ algorithms = [
 ]
 depends_on = ["quadratic.fundamental-discriminant", "number-theory.kronecker-symbol", "integers.factorization"]
 sage = ["sage.rings.integer:Integer.class_number"]
+catalogue = []
 tests = [
   "The imaginary quadratic discriminants of class number 1 are -3, -4, -7, -8, -11, -12, -16, -19, -27, -28, -43, -67, -163",
   "Agreement with a count of reduced forms for |D| below 10^4",
@@ -988,6 +1022,7 @@ sage = [
   "sage.rings.rational:Rational.is_padic_square",
   "sage.rings.rational_field:RationalField.quadratic_defect",
 ]
+catalogue = []
 tests = [
   "a = p^(2k) u^2 is a square for run-time k and unit u",
   "For odd p and a unit u: u is a square in Q_p exactly when (u/p) = 1; in Q_2 exactly when u = 1 mod 8",
@@ -1012,6 +1047,7 @@ sage = [
   "sage.arith.misc:hilbert_symbol",
   "sage.arith.misc:hilbert_conductor",
 ]
+catalogue = []
 tests = [
   "The product formula: the product of (a, b)_v over all places v is 1, [Ser1973] chapter III Theorem 3",
   "Bilinearity, symmetry, and (a, -a)_v = (a, 1 - a)_v = 1",
@@ -1036,6 +1072,7 @@ sage = [
   "sage.arith.misc:hilbert_conductor_inverse",
   "sage.rings.rational_field:RationalField.hilbert_symbol_negative_at_S",
 ]
+catalogue = []
 tests = [
   "The conductor of the returned pair, computed by `quadratic.hilbert-symbol`, is d",
   "The Hilbert symbols of the returned a against b are -1 on S and 1 at every other place",
@@ -1068,6 +1105,7 @@ sage = [
   "sage.rings.integer:Integer.factorial",
   "sage.rings.integer:Integer.multifactorial",
 ]
+catalogue = []
 tests = [
   "n! = n (n - 1)!; Legendre's formula for the exponent of each prime in n!",
   "Wilson's theorem (p - 1)! = -1 mod p for primes p",
@@ -1096,6 +1134,7 @@ sage = [
   "sage.arith.misc:multinomial_coefficients",
   "sage.rings.integer:Integer.binomial",
 ]
+catalogue = []
 tests = [
   "Pascal's rule C(n, k) = C(n - 1, k - 1) + C(n - 1, k) and the row sum 2^n",
   "Vandermonde's identity on run-time inputs",
@@ -1122,6 +1161,7 @@ sage = [
   "sage.arith.misc:bernoulli",
   "sage.rings.bernmm:bernmm_bern_rat",
 ]
+catalogue = []
 tests = [
   "The recurrence sum over k < n of C(n, k) B_k = 0 for n >= 2",
   "The von Staudt-Clausen theorem for the denominator",
@@ -1147,6 +1187,7 @@ sage = [
   "sage.rings.bernoulli_mod_p:*",
   "sage.rings.bernmm:bernmm_bern_modp",
 ]
+catalogue = []
 tests = [
   "Agreement with the reduction of the rational B_k of `number-theory.bernoulli-numbers`",
   "For p >= 5 and even k with 2 <= k <= p - 3: the sum of a^k over a = 1, ..., p - 1 is p B_k modulo p^2",
@@ -1168,6 +1209,7 @@ algorithms = [
 ]
 depends_on = ["euclidean.division", "rationals.arithmetic"]
 sage = ["sage.arith.misc:dedekind_sum"]
+catalogue = []
 tests = [
   "Agreement with the defining sum for small k",
   "The reciprocity law 12 (s(p, k) + s(k, p)) = p/k + k/p + 1/(p k) - 3 for coprime p, k > 0",
@@ -1189,6 +1231,7 @@ algorithms = [
 ]
 depends_on = ["modular.primitive-root"]
 sage = ["sage.arith.misc:gauss_sum"]
+catalogue = []
 tests = [
   "g(chi) g(chi^-1) = chi(-1) q for chi non-trivial",
   "For the quadratic character of F_p the square of the Gauss sum is (-1)^((p-1)/2) p",
@@ -1220,6 +1263,7 @@ sage = [
   "sage.arith.misc:sum_of_k_squares",
   "sage.rings.sum_of_squares:*",
 ]
+catalogue = []
 tests = [
   "The squares of the returned tuple sum to n",
   "The existence criteria of Fermat, Legendre and Lagrange on run-time inputs",
@@ -1241,6 +1285,7 @@ algorithms = [
 ]
 depends_on = []
 sage = ["sage.arith.misc:differences"]
+catalogue = []
 tests = [
   "The (d + 1)-th differences of the values of a polynomial of degree d are 0, and the d-th differences are d! times the leading coefficient",
   "Agreement with the binomial formula for the k-th difference",
@@ -1261,6 +1306,7 @@ algorithms = [
 ]
 depends_on = []
 sage = ["sage.arith.misc:continuant"]
+catalogue = []
 tests = [
   "K(a_1, ..., a_n) = K(a_n, ..., a_1)",
   "[a_1; a_2, ..., a_n] = K(a_1, ..., a_n) / K(a_2, ..., a_n) for positive integers",
@@ -1285,6 +1331,7 @@ sage = [
   "sage.rings.rational:Rational.continued_fraction",
   "sage.rings.rational:Rational.continued_fraction_list",
 ]
+catalogue = []
 tests = [
   "Round trip: the value of the returned continued fraction is q",
   "The convergents p_k/q_k satisfy p_k q_(k-1) - p_(k-1) q_k = (-1)^(k-1)",
@@ -1308,6 +1355,7 @@ algorithms = [
 ]
 depends_on = ["lattices.lll-reduction"]
 sage = ["sage.arith.misc:algebraic_dependency"]
+catalogue = []
 tests = [
   "For a run-time f in Z[x], irreducible with a real root computed to enough digits, the result is +-f",
   "sqrt(2) + sqrt(3) to 50 digits gives x^4 - 10 x^2 + 1",
@@ -1329,6 +1377,7 @@ algorithms = [
 ]
 depends_on = ["integers.coprime-splitting", "modular.multiplicative-order"]
 sage = ["sage.rings.rational:Rational.period"]
+catalogue = []
 tests = [
   "The period of 1/7 is 6, of 1/11 is 2, of 1/97 is 96",
   "Agreement with the period found by long division for denominators below 10^4",
@@ -1362,6 +1411,7 @@ sage = [
   "sage.rings.rational:Rational.local_height_arch",
   "sage.rings.integer:Integer.global_height",
 ]
+catalogue = []
 tests = [
   "h(q) = h(1/q), and h(q) is the sum of the local heights within the stated precision",
   "H(q) = max(|a|, |b|) exactly; h(n) = log |n| for a non-zero integer n",
@@ -1383,6 +1433,7 @@ algorithms = [
 ]
 depends_on = ["euclidean.gcd", "rationals.arithmetic"]
 sage = ["sage.rings.rational_field:RationalField.range_by_height"]
+catalogue = []
 tests = [
   "Every listed q satisfies the bound, no q is repeated, and the count for height h >= 2 is 4 phi(h)",
   "Agreement with a filter over all pairs (a, b) with |a|, b < B",
@@ -1406,6 +1457,7 @@ sage = [
   "sage.rings.rational:Rational.is_S_integral",
   "sage.rings.rational:Rational.is_S_unit",
 ]
+catalogue = []
 tests = [
   "q is an S-unit exactly when q and 1/q are S-integers",
   "A run-time product of powers of the primes of S, with either sign, is an S-unit; multiplied by a prime outside S it is not",
@@ -1431,6 +1483,7 @@ sage = [
   "sage.rings.rational_field:RationalField.selmer_group_iterator",
   "sage.rings.rational_field:RationalField.selmer_space",
 ]
+catalogue = []
 tests = [
   "|Q(S, m)| = m^|S| for m odd and 2 m^|S| for m even",
   "Every listed element has valuations divisible by m outside S; two listed elements differ by no m-th power",
@@ -1477,6 +1530,7 @@ sage = [
   "sage.rings.rational:Rational.charpoly",
   "sage.rings.rational:Rational.minpoly",
 ]
+catalogue = []
 tests = [
   "Agreement with the generic number field operations on the field Q[x]/(x - 1)",
   "The minimal polynomial x - q vanishes at q; norm and trace are q",
@@ -1501,6 +1555,7 @@ sage = [
   "sage.rings.rational:Rational.is_norm",
   "sage.rings.integer:Integer.is_norm",
 ]
+catalogue = []
 tests = [
   "A run-time norm N(x) of x in Q(sqrt d) is reported as a norm, and the returned witness has that norm",
   "-1 is not a norm from Q(i), because N(a + b i) = a^2 + b^2 >= 0; 5 = N(2 + i) is a norm",
@@ -1549,6 +1604,7 @@ sage = [
   "sage.rings.rational_field:RationalField.order",
   "sage.rings.rational_field:RationalField.zeta",
 ]
+catalogue = ["obj.rings.integers", "obj.commutative_rings.integers", "obj.rings.rationals", "obj.commutative_rings.rationals", "obj.fields.rationals"]
 tests = [
   "Z is initial: the unique ring map Z -> Z/n sends k to k mod n, for run-time n and k",
   "Q is the fraction field of Z: every non-zero integer is invertible in Q and every element is a quotient of integers",
@@ -1576,6 +1632,7 @@ sage = [
   "sage.rings.rational:Q_to_Z",
   "sage.rings.rational:Q_to_Z.section",
 ]
+catalogue = ["mor.commutative_rings.integer_coefficients"]
 tests = [
   "The map is a ring homomorphism on run-time inputs: it preserves sums, products and 1",
   "The partial inverse composed with the inclusion is the identity on Z, and it rejects 1/2",
@@ -1599,6 +1656,7 @@ sage = [
   "sage.rings.integer_ring:IntegerRing_class.fraction_field",
   "sage.rings.rational_field:RationalField.construction",
 ]
+catalogue = []
 tests = [
   "Frac(Z) with the map Z -> Frac(Z) is isomorphic to Q under the unique map given by the universal property, on run-time elements",
   "The field axioms in Frac(R) for R = Z and R = Q[x], on run-time inputs",
@@ -1620,6 +1678,7 @@ algorithms = [
 ]
 depends_on = ["euclidean.division"]
 sage = ["sage.rings.integer_ring:IntegerRing_class.quotient"]
+catalogue = ["obj.rings.integers_mod", "obj.commutative_rings.integers_mod"]
 tests = [
   "The projection Z -> Z/n is a surjective ring homomorphism with kernel nZ, on run-time n and elements",
   "The universal property: the map Z/12 -> Z/4 induced by reduction is well defined, and no ring map Z/4 -> Z/12 exists",
@@ -1644,6 +1703,7 @@ sage = [
   "sage.rings.integer_ring:IntegerRing_class.residue_field",
   "sage.rings.rational_field:RationalField.residue_field",
 ]
+catalogue = []
 tests = [
   "The reduction Z -> F_p is a ring homomorphism with kernel pZ; the lift composed with the reduction is the identity",
   "The reduction of a/b with p not dividing b equals a b^-1 in F_p; rationals with p in the denominator are rejected",
@@ -1669,6 +1729,7 @@ sage = [
   "sage.rings.integer_ring:IntegerRing_class.completion",
   "sage.rings.rational_field:RationalField.completion",
 ]
+catalogue = []
 tests = [
   "The image of n in Z_p to precision k is n mod p^k, and the map is a ring homomorphism",
   "The p-adic absolute value of the image of q equals p^(-v_p(q))",
@@ -1693,6 +1754,7 @@ sage = [
   "sage.rings.integer_ring:IntegerRing_class.extension",
   "sage.rings.rational_field:RationalField.extension",
 ]
+catalogue = ["obj.commutative_rings.polynomial_quotient"]
 tests = [
   "The distinguished root satisfies f, for a run-time monic f over Z",
   "The universal property: Z[x]/(x^2 + 1) -> Z/5 exists for each of the roots 2 and 3 of x^2 + 1, and sends the root to it",
@@ -1716,6 +1778,7 @@ algorithms = [
 ]
 depends_on = ["rings.extension-by-polynomial", "polynomials.univariate-arithmetic", "integers.factorization"]
 sage = ["sage.rings.rational_field:RationalField.algebraic_closure"]
+catalogue = []
 tests = [
   "sqrt(2) sqrt(3) = sqrt(6) and (sqrt(2) + sqrt(3))^4 - 10 (sqrt(2) + sqrt(3))^2 + 1 = 0, decided exactly",
   "Every run-time monic f in Z[x] of degree d has d roots counted with multiplicity, and their product is (-1)^d f(0)",
@@ -1740,6 +1803,7 @@ sage = [
   "sage.rings.integer_ring:IntegerRing_class.valuation",
   "sage.rings.rational_field:RationalField.valuation",
 ]
+catalogue = []
 tests = [
   "The valuation axioms on run-time rationals, with equality v(a + b) = min(v(a), v(b)) when v(a) != v(b)",
   "v(p) = 1; reduce is a ring homomorphism on the valuation ring with kernel {v > 0}; lift is a section of reduce",
@@ -1765,6 +1829,7 @@ sage = [
   "sage.rings.integer_ring:IntegerRing_class.random_element",
   "sage.rings.rational_field:RationalField.random_element",
 ]
+catalogue = []
 tests = [
   "Every sample lies in the requested interval or within the requested bounds",
   "Chi-squared test of uniformity on a small interval with a fixed seed sequence",
@@ -1794,6 +1859,7 @@ sage = [
   "sage.rings.rational:Rational.log",
   "sage.rings.rational:Rational.gamma",
 ]
+catalogue = ["mor.sets.real_exp"]
 tests = [
   "exp(log(q)) encloses q; log(a b) and log(a) + log(b) have intersecting enclosures",
   "Gamma(n) = (n - 1)! exactly; Gamma(1/2)^2 encloses pi",

@@ -183,6 +183,9 @@ class Capability(Strict):
     """Capability ids this one consumes."""
     sage: tuple[str, ...]
     """Selectors of the Sage entities this capability accounts for (see `coverage.select`)."""
+    catalogue: tuple[str, ...]
+    """Ids of the `lean-categories` catalogue objects and operations that this capability computes
+    (`obj.rings.integers`, `mor.sets.gcd`). Empty: the catalogue has none, a gap to report to its owner."""
     tests: tuple[str, ...]
     """Independent sources of expected values: citations, theorems, databases, second oracles."""
     reuse: Reuse
@@ -249,6 +252,8 @@ class CoverageReport(Strict):
 
     revision: Revision
     capabilities: int
+    attached_to_catalogue: int
+    """Capabilities that name at least one catalogue id."""
     exclusions: int
     public_entities: int
     by_capability: int

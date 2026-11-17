@@ -14,6 +14,7 @@ algorithms = [
 ]
 depends_on = []
 sage = ["sage.rings.polynomial.polynomial_element:Polynomial"]
+catalogue = ["obj.rings.polynomials", "obj.algebras.polynomials", "mor.sets.polynomial_degree", "mor.sets.polynomial_own_evaluation"]
 tests = [
   "f = q g + r with deg r < deg g on run-time inputs over Z, Q and Z/n",
   "Evaluation is a ring homomorphism: (f g)(a) = f(a) g(a) and (f + g)(a) = f(a) + g(a)",

@@ -6,3 +6,8 @@ url = "https://github.com/leanprover-community/mathlib4"
 id = "mathlib.int-gcd"
 capability = "Greatest common divisor of integers"
 declarations = ["Int.gcd", "Int.gcdA", "Int.gcdB"]
+
+[[component]]
+id = "catalogue.mor.sets.gcd"
+capability = "The greatest common divisor map Z x Z -> Z"
+declarations = ["CasCatalogue.Algebra.NumberSystems.gcd"]

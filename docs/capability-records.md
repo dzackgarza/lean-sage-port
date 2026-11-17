@@ -34,6 +34,7 @@ A record is an operation at its natural generality, not a Sage method.
 | `algorithms` | Algorithm families. `sources` names the function that Sage calls (`FLINT fmpz_factor`, `PARI qfbclassno`) and the literature. |
 | `depends_on` | Capabilities whose result the algorithm consumes. |
 | `sage` | Selectors of the Sage entities that this record accounts for. |
+| `catalogue` | Ids of the `lean-categories` catalogue objects and operations that the capability computes (`obj.rings.integers`, `mor.sets.gcd`). `[]` states that the catalogue has none. |
 | `tests` | Independent oracles, each a true mathematical statement: an identity or theorem, a published table (OEIS, LMFDB), a second algorithm. |
 | `reuse` | `status`, component ids from `inventory/reuse/*.toml`, and the evidence. |
 | `backends` | The engines that Sage delegates to. The index gives them per module (`modules.jsonl`, field `backends`). |
@@ -49,6 +50,13 @@ no mathematical content goes to an `[[exclusion]]` with its reason: `infrastruct
 **A selector names an entity that the record owns.** Do not select an unrelated entity to make a
 record valid. When an algorithm depends on an operation of another section, write that record in
 the file of its own section, with the selectors of its real Sage entities.
+
+**Attach the record to the catalogue.** The catalogue ids are the component ids of
+`inventory/reuse/lean-categories.toml` without the prefix `catalogue.`; each component states its
+mathematics in the field `capability`. Name every object and operation that the record computes,
+at any generality: `mor.sets.gcd` is the gcd on Z and attaches to `euclidean.gcd`. An empty list
+is a claim that you searched the map and found none. It is a gap that the owner of the catalogue
+receives.
 
 **Cite what you read.** Take citation keys from the Sage docstring (the index field `references`)
 or from the source that you opened. Give a section or algorithm number only when you read it;
@@ -80,4 +88,4 @@ uv run sage-inventory unaccounted ../../inventory/sage/index ../../inventory/cap
 ```
 
 `coverage` fails on a duplicate id, an unknown `depends_on` or `generalizes` id, an unknown reuse
-component, and a selector that matches no entity.
+component, an unknown catalogue id, and a selector that matches no entity.
