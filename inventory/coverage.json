@@ -3,13 +3,13 @@
     "version": "11.0.beta5",
     "commit": "c00171e47d6e68d8148d7ee10c4dd77b71a97662"
   },
-  "capabilities": 93,
-  "attached_to_catalogue": 19,
+  "capabilities": 110,
+  "attached_to_catalogue": 21,
   "exclusions": 3,
   "public_entities": 38782,
-  "by_capability": 400,
+  "by_capability": 433,
   "excluded": 25,
-  "unaccounted": 38357,
+  "unaccounted": 38324,
   "sections": [
     {
       "section": "algebras",
@@ -45,11 +45,11 @@
       "section": "arithmetic_curves",
       "group": "Mathematics / Algebraic and Arithmetic Geometry",
       "public_entities": 1189,
-      "by_capability": 0,
+      "by_capability": 11,
       "excluded": 0,
-      "unaccounted": 1189,
+      "unaccounted": 1178,
       "doctests": 12180,
-      "doctests_by_capability": 0
+      "doctests_by_capability": 197
     },
     {
       "section": "asymptotic",
@@ -325,11 +325,11 @@
       "section": "homology",
       "group": "Mathematics / Homological Algebra",
       "public_entities": 105,
-      "by_capability": 13,
+      "by_capability": 24,
       "excluded": 0,
-      "unaccounted": 92,
+      "unaccounted": 81,
       "doctests": 871,
-      "doctests_by_capability": 91
+      "doctests_by_capability": 210
     },
     {
       "section": "hyperbolic_geometry",
@@ -565,11 +565,11 @@
       "section": "polynomial_rings",
       "group": "Mathematics / Basic Rings and Fields",
       "public_entities": 1710,
-      "by_capability": 1,
+      "by_capability": 12,
       "excluded": 0,
-      "unaccounted": 1709,
+      "unaccounted": 1698,
       "doctests": 12802,
-      "doctests_by_capability": 6
+      "doctests_by_capability": 441
     },
     {
       "section": "power_series",
