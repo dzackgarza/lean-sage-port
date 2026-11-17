@@ -35,12 +35,32 @@ A record is an operation at its natural generality, not a Sage method.
 | `depends_on` | Capabilities whose result the algorithm consumes. |
 | `sage` | Selectors of the Sage entities that this record accounts for. |
 | `catalogue` | Ids of the `lean-categories` catalogue objects and operations that the capability computes (`obj.rings.integers`, `mor.sets.gcd`). `[]` states that the catalogue has none. |
-| `tests` | Independent oracles, each a true mathematical statement: an identity or theorem, a published table (OEIS, LMFDB), a second algorithm. |
+| `tests` | Relevant existing Sage doctests or test-suite cases, oracle comparison details, and any supplemental checks with the gap they cover. Source tests are located through `sage` selectors and the index; do not copy the test corpus into records. |
 | `reuse` | `status`, component ids from `inventory/reuse/*.toml`, and the evidence. |
 | `backends` | The engines that Sage delegates to. The index gives them per module (`modules.jsonl`, field `backends`). |
 | `license_notes` | Needed when the only reference implementation has a licence that restricts a translation. `inventory/references/` has the licences. |
 
 ## Rules
+
+**Reuse source tests and oracle computations.** Every capability inherits the baseline Sage
+doctests of its selected entities. Resolve `sage` selectors through `entities.jsonl.gz` for
+the qualified name and source line, and `modules.jsonl` for the source path. Keep their input
+conditions, optional-package requirements, expected failures, precision and assumptions.
+The indexed revision identifies the source of these tests. Related suite cases can be cited
+in `tests` by path and test name.
+
+For additional runtime inputs in the stated domain, compare the native result with the same
+operation in Sage or its reference engine. Use exact equality for canonical exact results.
+For bases, generators, factorizations and presentations, compare the represented mathematical
+object and retained maps rather than incidental ordering or representation. Numerical comparisons
+use the operation's precision, error-bound or error-estimate contract. Conditional and heuristic
+computations retain their assumptions and certification status.
+
+The `tests` field adds only source pointers and comparison details that the selectors do not
+already supply. A new mathematical check must identify a specific gap in the existing tests or
+oracle comparison. Reconnaissance records these reusable sources and comparison rules; executable
+test translation belongs with the operation's implementation. A source test count is not evidence
+that a native operation has passed those tests.
 
 **Account for every entity.** A section is complete when
 `sage-inventory unaccounted <index> <capabilities> <section>` prints nothing. A public entity with
