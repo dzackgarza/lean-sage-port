@@ -147,6 +147,20 @@ evidence = "#eval Nat.xgcd 240 46 = (-9, 47); #eval (Int.gcdA a60 b60, Int.gcdB 
 notes = "Structural Lean code, not GMP mpz_gcdext; adequate for CAS use."
 
 [[component]]
+id = "mathlib.euclidean.generic-algorithms"
+source = "mathlib"
+capability = "Generic Euclidean quotient and remainder, gcd and Bezout coefficients from an executable EuclideanDomain instance"
+domain = "EuclideanDomain R with DecidableEq R; normalization requires an additional selected unit convention"
+declarations = ["EuclideanDomain.quotient", "EuclideanDomain.remainder", "EuclideanDomain.gcd", "EuclideanDomain.xgcd", "EuclideanDomain.gcdA", "EuclideanDomain.gcdB"]
+paths = ["Mathlib/Algebra/EuclideanDomain/Defs.lean"]
+kind = "executable-algorithm"
+executable = "defined-computable"
+performance = "not measured"
+status = "adaptable"
+evidence = "Mathlib 6d97e8ad9c source read, not run: EuclideanDomain quotient and remainder are class fields at Defs.lean:68-99; generic gcd at :180 and xgcdAux/xgcd/gcdA/gcdB at :201-231 are `def`, using DecidableEq R and well-founded Euclidean remainder recursion. The generic gcd returns a non-unique associate; it is not automatically monic or otherwise unit-normalized."
+notes = "Reuse the same generic operations across executable EuclideanDomain instances. For Z, Lean core and Hex provide specialized compiled arithmetic; Hex DensePoly provides field-polynomial gcd/xgcd. The selected unit normalization and Sage-compatible integer remainder convention are additional contracts."
+
+[[component]]
 id = "lean-core.int.isqrt"
 source = "lean-core"
 capability = "Integer square root"

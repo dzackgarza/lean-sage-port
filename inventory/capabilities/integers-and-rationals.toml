@@ -137,10 +137,10 @@ sage = [
 ]
 catalogue = []
 tests = [
-  "a = q b + r and 0 <= r < |b| on run-time inputs, both signs of a and b",
+  "a = q b + r and |r| < |b| on run-time inputs; for Sage Integer.quo_rem, nonzero r has the sign of b, including negative b",
   "b divides a if and only if the remainder is 0; exact division returns q with q b = a",
 ]
-reuse = { status = "reusable", components = ["lean-core.int.bignum-arithmetic", "hex.HexArith.int-exact-div"], evidence = "`Int.ediv`, `Int.emod`, `Int.fdiv`, `Int.tdiv` are compiled; Hex supplies exact division." }
+reuse = { status = "adaptable", components = ["mathlib.euclidean.generic-algorithms", "lean-core.int.bignum-arithmetic", "hex.HexArith.int-exact-div", "hex.HexPoly.div-mod"], evidence = "Mathlib's EuclideanDomain class supplies generic quotient/remainder and Hex supplies field-polynomial divMod. Lean core Int.ediv/emod/fdiv/tdiv are compiled; choose the quotient/remainder convention explicitly for Sage Integer.quo_rem. Hex supplies exact integer division when divisibility is known." }
 backends = ["gmp"]
 references = ["Knu1997", "BZ2010"]
 
@@ -168,7 +168,7 @@ tests = [
   "gcd(a, b) lcm(a, b) = |a b| in Z",
   "Agreement with the gcd read from the prime factorizations of a and b",
 ]
-reuse = { status = "reusable", components = ["lean-core.int.gcd-lcm"], evidence = "`Nat.gcd`, `Int.gcd`, `Nat.lcm`, `Int.lcm` are compiled; `Nat.gcd` has a GMP implementation." }
+reuse = { status = "adaptable", components = ["mathlib.euclidean.generic-algorithms", "lean-core.int.gcd-lcm", "hex.HexPoly.gcd-xgcd"], evidence = "Mathlib EuclideanDomain.gcd is generic but returns a non-unique associate; the selected unit normalization remains required. Nat/Int gcd and lcm are compiled; Hex DensePoly supplies field-polynomial gcd/lcm and monicization. The source's list and rational conventions need explicit selection." }
 backends = ["gmp", "pari"]
 references = ["Knu1997", "Coh1993", "BZ2010"]
 
@@ -177,7 +177,7 @@ id = "euclidean.xgcd"
 title = "Extended greatest common divisor"
 statement = "Given a, b in a Euclidean domain R, return g, s, t with g = gcd(a, b) = s a + t b."
 domain = "Euclidean domains with a computable division and a unit-normal form."
-contract = "R x R -> R x R x R. For Z the cofactors are the minimal ones: |s| <= |b / (2g)| and |t| <= |a / (2g)| when both bounds are at least 1."
+contract = "R x R -> R x R x R, (a,b) -> (g,s,t) with g = s*a + t*b and g the normalized gcd under the selected unit convention. The integer and generic Sage xgcd sources do not guarantee minimal cofactors. The arith.misc list form returns (g,s_1,...,s_n) with g = sum s_i*a_i; its empty input returns (0,) and singleton input (a,1)."
 exactness = "exact"
 algorithms = [
   { family = "Extended Euclidean algorithm; Lehmer's extension; half-gcd", sources = ["[Knu1997] section 4.5.2 Algorithm X", "[Coh1993] section 1.3"] },
@@ -190,9 +190,9 @@ sage = [
 catalogue = []
 tests = [
   "The Bezout identity g = s a + t b, with g equal to the result of `euclidean.gcd`",
-  "The minimality bounds on s and t",
+  "Sage source doctests for arith.misc:xgcd list inputs, including empty and singleton cases; compare the Bezout identity and the source's normalization convention",
 ]
-reuse = { status = "reusable", components = ["mathlib.int.xgcd", "hex.HexArith.extended-gcd"], evidence = "Mathlib's `Nat.xgcd`, `Int.gcdA`, `Int.gcdB` and Hex's extended gcd are compiled, with the Bezout identity proved." }
+reuse = { status = "adaptable", components = ["mathlib.euclidean.generic-algorithms", "mathlib.int.xgcd", "hex.HexArith.extended-gcd", "hex.HexPoly.gcd-xgcd"], evidence = "Mathlib EuclideanDomain.xgcd gives generic Bezout coefficients from a computable EuclideanDomain instance but does not itself select a normalized gcd. Mathlib's Nat.xgcd and Int.gcdA/gcdB, Hex integer extended gcd, and Hex DensePoly xgcd are executable for their stated domains. Source list behavior and unit normalization remain to be composed." }
 backends = ["gmp"]
 references = ["Knu1997", "Coh1993"]
 
