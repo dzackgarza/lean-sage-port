@@ -64,6 +64,27 @@ def coverage(index: Path, capabilities: Path, reuse: Path, report: Path) -> None
 
 
 @app.command
+def unaccounted(index: Path, capabilities: Path, name: str) -> None:
+    """List the public entities of one section that no capability or exclusion selects.
+
+    Prints one line per entity: its id, its kind and the number of doctests in its docstring,
+    separated by tabs.
+
+    Args:
+        index: The index directory (`inventory/sage/index`).
+        capabilities: Directory of capability records (`inventory/capabilities`).
+        name: A manual section (`polynomial_rings`), or a package outside the manual as the coverage
+            report names it (`sage.rings`).
+    """
+    try:
+        entities = coverage_logic.unaccounted(index, capabilities, name)
+    except coverage_logic.InventoryError as error:
+        sys.exit(str(error))
+    for entity in entities:
+        print(f"{entity.id}\t{entity.kind.value}\t{entity.doctests}")
+
+
+@app.command
 def schema() -> None:
     """Print the JSON Schema of a capability record file (`inventory/capabilities/*.toml`)."""
     print(json.dumps(CapabilityFile.model_json_schema(), indent=2))

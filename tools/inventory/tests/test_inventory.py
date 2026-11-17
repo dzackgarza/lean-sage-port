@@ -16,7 +16,7 @@ import pytest
 import yaml
 
 from sage_inventory.cli import app
-from sage_inventory.coverage import InventoryError, measure
+from sage_inventory.coverage import InventoryError, measure, unaccounted
 from sage_inventory.index import CheckoutError, build_index, load_baseline
 from sage_inventory.scan import scan_file
 
@@ -187,6 +187,28 @@ def test_coverage_counts_documented_public_entities_by_capability_exclusion_and_
     # `sage.rings.unlisted:stray` is public, outside the manual, and selected by no record.
     (package,) = report.unlisted
     assert (package.package, package.public_entities, package.unaccounted) == ("sage.rings", 1, 1)
+
+
+def test_unaccounted_lists_the_entities_of_a_section_that_no_record_selects(index: Path) -> None:
+    # The capability selects xgcd, gcd_list and demo_gcd; the exclusion selects Element and Element.inverse.
+    listed = {entity.id for entity in unaccounted(index, FIXTURES / "capabilities", "rings_standard")}
+    assert listed == {
+        "sage.rings.fast_integer:FastInteger",
+        "sage.rings.fast_integer:FastInteger.double",
+        "sage.rings.fast_integer:fast_valuation",
+        "sage.rings.demo_ring:DemoRing",
+        "sage.rings.demo_ring:DemoRing.order",
+    }
+    # A module outside the manual is addressed by its package.
+    (stray,) = unaccounted(index, FIXTURES / "capabilities", "sage.rings")
+    assert stray.id == "sage.rings.unlisted:stray"
+    with pytest.raises(InventoryError):
+        unaccounted(index, FIXTURES / "capabilities", "no_such_section")
+
+
+def test_unaccounted_command_prints_one_line_per_entity(index: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    app(["unaccounted", str(index), str(FIXTURES / "capabilities"), "sage.rings"], result_action="return_value")
+    assert capsys.readouterr().out == "sage.rings.unlisted:stray\tfunction\t0\n"
 
 
 def _records_with(tmp_path: Path, old: str, new: str) -> Path:

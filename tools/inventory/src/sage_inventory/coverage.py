@@ -29,6 +29,7 @@ from sage_inventory.models import (
     Entity,
     Exclusion,
     IndexSummary,
+    Module,
     PackageCoverage,
     SectionCoverage,
 )
@@ -66,6 +67,30 @@ def select(selector: str, entities: list[Entity]) -> list[Entity]:
         for entity in entities
         if module.match(entity.module) and (name is None or name.match(entity.qualname))
     ]
+
+
+def partition(entity: Entity, modules: dict[str, Module]) -> str:
+    """The unit of the report that counts an entity: its manual section, or its package outside the manual."""
+    placement = modules[entity.module].manual
+    return ".".join(entity.module.split(".")[:2]) if placement is None else placement.section
+
+
+@validate_call
+def unaccounted(index: Path, capabilities_dir: Path, name: str) -> list[Entity]:
+    """The public entities of one manual section, or of one package outside the manual, that no record selects."""
+    entities = read_entities(index)
+    modules = {module.module: module for module in read_modules(index)}
+    members = [entity for entity in entities if entity.public and partition(entity, modules) == name]
+    if not members:
+        raise InventoryError(f"no manual section and no package outside the manual is named {name!r}")
+    capabilities, exclusions = load_records(capabilities_dir)
+    selected = {
+        entity.id
+        for record in (*capabilities, *exclusions)
+        for selector in record.sage
+        for entity in select(selector, members)
+    }
+    return [entity for entity in members if entity.id not in selected]
 
 
 @validate_call
@@ -110,10 +135,10 @@ def measure(index: Path, capabilities_dir: Path, reuse_dir: Path) -> CoverageRep
             continue
         placement = modules[entity.module].manual
         if placement is None:
-            row = unlisted[".".join(entity.module.split(".")[:2])]
+            row = unlisted[partition(entity, modules)]
         else:
             groups[placement.section] = placement.group
-            row = counts[placement.section]
+            row = counts[partition(entity, modules)]
         row["public_entities"] += 1
         row["doctests"] += entity.doctests
         if entity.id in by_capability:

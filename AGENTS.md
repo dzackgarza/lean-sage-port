@@ -20,7 +20,7 @@ object and operation. When the catalogue lacks one, the gap is reported to its o
 | --- | --- |
 | `inventory/sage/baseline.yaml` | The Sage checkout that defines the target, and the paths read from it. |
 | `inventory/sage/index/` | Generated index of that checkout: modules, entities, manual sections, packages, imports. |
-| `inventory/capabilities/` | Capability records: one intrinsic mathematical operation each, with the Sage entities it accounts for. |
+| `inventory/capabilities/` | Capability records: one intrinsic mathematical operation each, with the Sage entities it accounts for. `docs/capability-records.md` has the rules. |
 | `inventory/coverage.json` | Generated coverage report: public Sage entities by capability, by exclusion, and not yet accounted for, per manual section. |
 | `inventory/categories/` | Sage's category classes and their methods at the baseline, each joined to its id in the `lean-categories` catalogue. The Sage-side judgments come from the research inventories below. |
 | `inventory/reuse/` | Reuse maps: existing Lean components, with declarations, paths and a reuse status. |
@@ -87,3 +87,4 @@ time. A hard-coded special case is not evidence for a generic operation.
 | Rebuild the Sage index | `cd tools/inventory && uv run sage-inventory index ../../inventory/sage/baseline.yaml ../../inventory/sage/index` |
 | Print the record schema | `cd tools/inventory && uv run sage-inventory schema` |
 | Measure coverage | `cd tools/inventory && uv run sage-inventory coverage --help` |
+| List the entities of a section with no record | `cd tools/inventory && uv run sage-inventory unaccounted ../../inventory/sage/index ../../inventory/capabilities <section>` |
