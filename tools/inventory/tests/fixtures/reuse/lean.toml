@@ -1,0 +1,8 @@
+[[source]]
+id = "mathlib"
+url = "https://github.com/leanprover-community/mathlib4"
+
+[[component]]
+id = "mathlib.int-gcd"
+capability = "Greatest common divisor of integers"
+declarations = ["Int.gcd", "Int.gcdA", "Int.gcdB"]

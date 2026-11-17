@@ -1,0 +1,6 @@
+paths:
+  source: src/sage
+  manual: src/doc/en/reference
+  packages: build/pkgs
+  version: src/sage/version.py
+checkout: ~/gitclones/sage-dev-allopts-develop

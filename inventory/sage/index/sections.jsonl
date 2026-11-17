@@ -1,0 +1,80 @@
+{"section":"algebras","group":"Mathematics / Mathematical Structures","title":"Algebras","modules":99,"public_entities":1942,"doctests":19783}
+{"section":"anderson_motives","group":"Mathematics / Drinfeld modules and related topics","title":"Anderson Motives","modules":1,"public_entities":13,"doctests":236}
+{"section":"arithgroup","group":"Mathematics / Number Theory","title":"Arithmetic Subgroups of {\\rm SL}_2(\\ZZ)","modules":11,"public_entities":191,"doctests":1188}
+{"section":"arithmetic_curves","group":"Mathematics / Algebraic and Arithmetic Geometry","title":"Elliptic and Hyperelliptic Curves","modules":73,"public_entities":1189,"doctests":16549}
+{"section":"asymptotic","group":"Mathematics / Calculus and Analysis","title":"Asymptotic Expansions","modules":7,"public_entities":228,"doctests":4123}
+{"section":"calculus","group":"Mathematics / Calculus and Analysis","title":"Symbolic Calculus","modules":34,"public_entities":543,"doctests":8071}
+{"section":"categories","group":"Mathematics / Parents and Categories","title":"Categories","modules":232,"public_entities":2718,"doctests":17093}
+{"section":"coding","group":"Mathematics / Discrete Mathematics","title":"Coding Theory","modules":42,"public_entities":470,"doctests":5476}
+{"section":"coercion","group":"Mathematics / Parents and Categories","title":"Coercion","modules":5,"public_entities":55,"doctests":953}
+{"section":"combinat","group":"Mathematics / Discrete Mathematics","title":"Combinatorics","modules":390,"public_entities":8179,"doctests":71687}
+{"section":"constants","group":"Mathematics / Calculus and Analysis","title":"Mathematical Constants","modules":1,"public_entities":16,"doctests":248}
+{"section":"cpython","group":"Infrastructure / Programming Facilities","title":"Python Technicalities","modules":5,"public_entities":8,"doctests":116}
+{"section":"cryptography","group":"Mathematics / Discrete Mathematics","title":"Cryptography","modules":25,"public_entities":373,"doctests":3871}
+{"section":"curves","group":"Mathematics / Algebraic and Arithmetic Geometry","title":"Plane and Space Curves","modules":19,"public_entities":298,"doctests":3005}
+{"section":"data_structures","group":"Infrastructure / Programming Facilities","title":"Data Structures","modules":6,"public_entities":227,"doctests":2944}
+{"section":"databases","group":"Mathematics / Miscellaneous","title":"Databases","modules":14,"public_entities":256,"doctests":1415}
+{"section":"diophantine_approximation","group":"Mathematics / Number Theory","title":"Diophantine Approximation","modules":1,"public_entities":40,"doctests":437}
+{"section":"discrete_geometry","group":"Mathematics / Geometry and Topology","title":"Combinatorial and Discrete Geometry","modules":75,"public_entities":1246,"doctests":13969}
+{"section":"doctest","group":"Infrastructure / Programming Facilities","title":"Test Framework","modules":10,"public_entities":148,"doctests":1802}
+{"section":"documentation","group":"Infrastructure / Documentation System","title":"Documentation System","modules":0,"public_entities":0,"doctests":0}
+{"section":"drinfeld_modular","group":"Mathematics / Drinfeld modules and related topics","title":"Drinfeld Modular Forms","modules":4,"public_entities":31,"doctests":415}
+{"section":"drinfeld_modules","group":"Mathematics / Drinfeld modules and related topics","title":"Drinfeld Modules","modules":6,"public_entities":62,"doctests":1419}
+{"section":"dynamics","group":"Mathematics / Discrete Mathematics","title":"Discrete Dynamics","modules":9,"public_entities":292,"doctests":4262}
+{"section":"euclidean_spaces","group":"Mathematics / Geometry and Topology","title":"Euclidean Spaces and Vector Calculus","modules":2,"public_entities":21,"doctests":444}
+{"section":"finite_rings","group":"Mathematics / Basic Rings and Fields","title":"Finite Rings and Fields","modules":19,"public_entities":309,"doctests":3952}
+{"section":"function_fields","group":"Mathematics / Number Fields, Function Fields, and Valuations","title":"Function Fields","modules":31,"public_entities":434,"doctests":5234}
+{"section":"functions","group":"Mathematics / Calculus and Analysis","title":"Elementary and Special Functions","modules":20,"public_entities":266,"doctests":4582}
+{"section":"game_theory","group":"Mathematics / Discrete Mathematics","title":"Game Theory","modules":5,"public_entities":39,"doctests":1274}
+{"section":"games","group":"Mathematics / Miscellaneous","title":"Games","modules":4,"public_entities":29,"doctests":251}
+{"section":"graphs","group":"Mathematics / Discrete Mathematics","title":"Graph Theory","modules":84,"public_entities":1336,"doctests":19625}
+{"section":"groups","group":"Mathematics / Mathematical Structures","title":"Groups","modules":77,"public_entities":908,"doctests":10036}
+{"section":"hecke","group":"Mathematics / Number Theory","title":"General Hecke Algebras and Hecke Modules","modules":9,"public_entities":144,"doctests":724}
+{"section":"history_and_license","group":"General Information","title":"History and License","modules":0,"public_entities":0,"doctests":0}
+{"section":"homology","group":"Mathematics / Homological Algebra","title":"Chain Complexes and their Homology","modules":12,"public_entities":105,"doctests":1350}
+{"section":"hyperbolic_geometry","group":"Mathematics / Geometry and Topology","title":"Hyperbolic Geometry","modules":5,"public_entities":123,"doctests":1026}
+{"section":"interfaces","group":"Infrastructure / Subsystem Interfaces","title":"Interpreter Interfaces","modules":53,"public_entities":819,"doctests":7617}
+{"section":"knots","group":"Mathematics / Geometry and Topology","title":"Knot Theory","modules":4,"public_entities":118,"doctests":1357}
+{"section":"lfunctions","group":"Mathematics / Number Theory","title":"L-Functions","modules":5,"public_entities":64,"doctests":492}
+{"section":"libs","group":"Infrastructure / Subsystem Interfaces","title":"C/C++ Library Interfaces","modules":36,"public_entities":322,"doctests":3029}
+{"section":"logic","group":"Mathematics / Discrete Mathematics","title":"Symbolic Logic","modules":6,"public_entities":65,"doctests":496}
+{"section":"manifolds","group":"Mathematics / Geometry and Topology","title":"Manifolds and Differential Geometry","modules":66,"public_entities":862,"doctests":17878}
+{"section":"matrices","group":"Mathematics / Linear Algebra","title":"Matrices and Spaces of Matrices","modules":48,"public_entities":754,"doctests":12855}
+{"section":"matroids","group":"Mathematics / Discrete Mathematics","title":"Matroid Theory","modules":27,"public_entities":542,"doctests":5074}
+{"section":"misc","group":"Infrastructure / Programming Facilities","title":"Utilities","modules":99,"public_entities":876,"doctests":9196}
+{"section":"modabvar","group":"Mathematics / Number Theory","title":"Modular Abelian Varieties","modules":12,"public_entities":209,"doctests":1547}
+{"section":"modfrm","group":"Mathematics / Number Theory","title":"Modular Forms","modules":56,"public_entities":962,"doctests":9383}
+{"section":"modsym","group":"Mathematics / Number Theory","title":"Modular Symbols","modules":26,"public_entities":463,"doctests":3945}
+{"section":"modules","group":"Mathematics / Linear Algebra","title":"Vectors and Modules","modules":61,"public_entities":719,"doctests":10181}
+{"section":"monoids","group":"Mathematics / Mathematical Structures","title":"Monoids","modules":14,"public_entities":124,"doctests":1321}
+{"section":"noncommutative_polynomial_rings","group":"Mathematics / Basic Rings and Fields","title":"Noncommutative Polynomials","modules":9,"public_entities":179,"doctests":2736}
+{"section":"number_fields","group":"Mathematics / Number Fields, Function Fields, and Valuations","title":"Number Fields","modules":31,"public_entities":876,"doctests":11239}
+{"section":"numerical","group":"Mathematics / Calculus and Analysis","title":"Numerical Optimization","modules":22,"public_entities":555,"doctests":5656}
+{"section":"oremodules","group":"Mathematics / Linear Algebra","title":"Modules over Ore rings","modules":4,"public_entities":69,"doctests":1053}
+{"section":"padics","group":"Mathematics / Basic Rings and Fields","title":"p-adic Numbers","modules":31,"public_entities":535,"doctests":6458}
+{"section":"parallel","group":"Infrastructure / Programming Facilities","title":"Parallel Computing","modules":7,"public_entities":56,"doctests":520}
+{"section":"plot3d","group":"Graphics","title":"3D Graphics","modules":18,"public_entities":330,"doctests":2440}
+{"section":"plotting","group":"Graphics","title":"2D Graphics","modules":30,"public_entities":200,"doctests":2991}
+{"section":"polynomial_rings","group":"Mathematics / Basic Rings and Fields","title":"Commutative Polynomials","modules":68,"public_entities":1710,"doctests":20308}
+{"section":"power_series","group":"Mathematics / Basic Rings and Fields","title":"Power Series and Laurent Series","modules":14,"public_entities":456,"doctests":6990}
+{"section":"probability","group":"Mathematics / Probability and Statistics","title":"Probability","modules":2,"public_entities":46,"doctests":263}
+{"section":"quadratic_forms","group":"Mathematics / Number Theory","title":"Quadratic Forms","modules":14,"public_entities":183,"doctests":2120}
+{"section":"quat_algebras","group":"Mathematics / Basic Rings and Fields","title":"Quaternion Algebras","modules":2,"public_entities":26,"doctests":314}
+{"section":"quivers","group":"Mathematics / Discrete Mathematics","title":"Quivers","modules":8,"public_entities":146,"doctests":1814}
+{"section":"references","group":"General Information","title":"Bibliographic References","modules":0,"public_entities":0,"doctests":0}
+{"section":"repl","group":"User Interfaces","title":"Command Line Interface","modules":34,"public_entities":301,"doctests":2071}
+{"section":"resolutions","group":"Mathematics / Homological Algebra","title":"Resolutions","modules":2,"public_entities":15,"doctests":289}
+{"section":"riemannian_geometry","group":"Mathematics / Geometry and Topology","title":"Parametrized Surfaces","modules":2,"public_entities":44,"doctests":333}
+{"section":"rings","group":"Mathematics / Mathematical Structures","title":"Rings","modules":18,"public_entities":306,"doctests":4044}
+{"section":"rings_numerical","group":"Mathematics / Basic Rings and Fields","title":"Real and Complex Numbers","modules":12,"public_entities":826,"doctests":5872}
+{"section":"rings_standard","group":"Mathematics / Basic Rings and Fields","title":"Integers and Rational Numbers","modules":15,"public_entities":366,"doctests":3910}
+{"section":"sat","group":"Mathematics / Discrete Mathematics","title":"SAT solvers","modules":8,"public_entities":49,"doctests":531}
+{"section":"schemes","group":"Mathematics / Algebraic and Arithmetic Geometry","title":"Schemes","modules":56,"public_entities":689,"doctests":8779}
+{"section":"semirings","group":"Mathematics / Mathematical Structures","title":"Semirings","modules":3,"public_entities":14,"doctests":185}
+{"section":"sets","group":"Mathematics / Mathematical Structures","title":"Sets","modules":18,"public_entities":276,"doctests":3254}
+{"section":"spkg","group":"General Information","title":"External Packages","modules":39,"public_entities":184,"doctests":731}
+{"section":"stats","group":"Mathematics / Probability and Statistics","title":"Statistics","modules":11,"public_entities":114,"doctests":1081}
+{"section":"structure","group":"Mathematics / Parents and Categories","title":"Parents and Elements","modules":27,"public_entities":305,"doctests":4050}
+{"section":"tensor_free_modules","group":"Mathematics / Linear Algebra","title":"Tensors on Free Modules of Finite Rank","modules":18,"public_entities":179,"doctests":4553}
+{"section":"topology","group":"Mathematics / Geometry and Topology","title":"Cell Complexes, Simplicial Complexes, and Simplicial Sets","modules":14,"public_entities":365,"doctests":3764}
+{"section":"valuations","group":"Mathematics / Number Fields, Function Fields, and Valuations","title":"Discrete Valuations","modules":13,"public_entities":280,"doctests":2611}

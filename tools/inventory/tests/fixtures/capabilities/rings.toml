@@ -1,0 +1,22 @@
+domain = "rings"
+
+[[capability]]
+id = "euclidean.gcd"
+title = "Greatest common divisor in a Euclidean domain"
+statement = "Given a, b in a Euclidean domain R, return a generator g of the ideal (a, b), and optionally s, t with g = s a + t b."
+domain = "Euclidean domains with a computable division with remainder."
+contract = "R x R -> R, or R x R -> R x R x R for the extended form; g is normalized by the unit-normal form of R."
+exactness = "exact"
+algorithms = [{ family = "Euclidean algorithm", sources = ["[Coh1993] Algorithm 1.3.6"] }]
+depends_on = []
+sage = ["sage.rings.fast_integer:FastInteger.xgcd", "sage.rings.*:*gcd*"]
+tests = ["Bezout identity g = s a + t b", "[Coh1993] section 1.3"]
+reuse = { status = "reusable", components = ["mathlib.int-gcd"], evidence = "Int.gcd reduces by kernel evaluation." }
+backends = ["gmp", "pari"]
+references = ["Coh1993"]
+
+[[exclusion]]
+id = "rings.element-plumbing"
+reason = "infrastructure"
+rationale = "Element classes that only carry Sage's parent and element protocol."
+sage = ["sage.rings.demo_ring:DemoRing.Element*"]

@@ -1,0 +1,437 @@
+{"name":"4ti2","type":"optional","version":"1.6.10","license":"4ti2 is released under a GPL v2 license.","website":"https://4ti2.github.io/"}
+{"name":"_bootstrap","type":"optional","version":"","license":"","website":"https://github.com/tukaani-project/xz"}
+{"name":"_develop","type":"optional","version":"","license":"","website":""}
+{"name":"_gcc10","type":"optional","version":"","license":"","website":""}
+{"name":"_gcc11","type":"optional","version":"","license":"","website":""}
+{"name":"_gcc12","type":"optional","version":"","license":"","website":""}
+{"name":"_gcc8","type":"optional","version":"","license":"","website":""}
+{"name":"_gcc9","type":"optional","version":"","license":"","website":""}
+{"name":"_prereq","type":"standard","version":"","license":"","website":"https://github.com/donmccaughey/pkg-config_pkg"}
+{"name":"_recommended","type":"optional","version":"","license":"","website":""}
+{"name":"_sagemath","type":"optional","version":"","license":"","website":"https://github.com/sagemath/sage/wiki/Distribution"}
+{"name":"accessible_pygments","type":"standard","version":"0.0.5","license":"BSD-3-Clause","website":"https://pypi.org/project/accessible-pygments/"}
+{"name":"admcycles","type":"optional","version":"","license":"GPLv2+","website":"https://pypi.org/project/admcycles/"}
+{"name":"alabaster","type":"standard","version":"1.0.0","license":"","website":"https://alabaster.readthedocs.io/en/latest/"}
+{"name":"anyio","type":"standard","version":"4.13.0","license":"MIT","website":"https://pypi.org/project/anyio/"}
+{"name":"appdirs","type":"standard","version":"1.4.4","license":"MIT","website":"https://pypi.org/project/appdirs/"}
+{"name":"appnope","type":"standard","version":"0.1.4","license":"BSD","website":"https://pypi.org/project/appnope/"}
+{"name":"argon2_cffi","type":"standard","version":"25.1.0","license":"MIT","website":"https://pypi.org/project/argon2-cffi/"}
+{"name":"argon2_cffi_bindings","type":"standard","version":"25.1.0","license":"MIT","website":"https://pypi.org/project/argon2-cffi-bindings/"}
+{"name":"arrow","type":"standard","version":"1.4.0","license":"Apache 2.0","website":"https://pypi.org/project/arrow/"}
+{"name":"asttokens","type":"standard","version":"3.0.2","license":"Apache 2.0","website":"https://pypi.org/project/asttokens/"}
+{"name":"async_lru","type":"standard","version":"2.3.0","license":"MIT License","website":"https://pypi.org/project/async-lru/"}
+{"name":"attrs","type":"standard","version":"26.1.0","license":"MIT License","website":"https://www.attrs.org"}
+{"name":"auditwheel_or_delocate","type":"optional","version":"","license":"MIT BSD 2-clause","website":"https://pypi.org/project/auditwheel/"}
+{"name":"awali","type":"experimental","version":"1.0.2-190218","license":"-  GPL 3.0","website":"http://vaucanson-project.org/Awali/index.html"}
+{"name":"babel","type":"standard","version":"2.18.0","license":"BSD-3-Clause","website":"https://pypi.org/project/Babel/"}
+{"name":"barvinok","type":"experimental","version":"0.41.7","license":"GPL v2","website":"https://sourceforge.net/projects/barvinok/"}
+{"name":"beautifulsoup4","type":"standard","version":"4.14.3","license":"MIT","website":"https://pypi.org/project/beautifulsoup4/"}
+{"name":"beniget","type":"standard","version":"0.5.0","license":"BSD 3-Clause","website":"https://pypi.org/project/beniget/"}
+{"name":"benzene","type":"optional","version":"20130630","license":"Benzene is licensed under the GNU General Public License v2 or later (June 2007)","website":"http://www.grinvin.org/"}
+{"name":"biopython","type":"optional","version":"","license":"","website":"https://pypi.org/project/biopython/"}
+{"name":"bleach","type":"standard","version":"6.4.0","license":"Apache License v2","website":"https://github.com/mozilla/bleach"}
+{"name":"bliss","type":"optional","version":"0.77","license":"LGPL3","website":"https://users.aalto.fi/~tjunttil/bliss/index.html"}
+{"name":"brial","type":"standard","version":"1.2.15","license":"GPL version 2 or later","website":"https://github.com/BRiAl/BRiAl"}
+{"name":"buckygen","type":"optional","version":"1.1","license":"Buckygen is licensed under the GNU General Public License v3 (June 2007)","website":"http://caagt.ugent.be/buckygen/"}
+{"name":"cachetools","type":"standard","version":"7.0.5","license":"MIT","website":"https://pypi.org/project/cachetools/"}
+{"name":"calver","type":"standard","version":"2025.10.20","license":"","website":"https://pypi.org/project/calver/"}
+{"name":"cbc","type":"optional","version":"2.9.4.p0","license":"Eclipse Public License, Version 1.0 (EPL-1.0) (http://opensource.org/licenses/eclipse-1.0)","website":"http://opensource.org/licenses/eclipse-1.0"}
+{"name":"ccache","type":"optional","version":"4.10.2","license":"GNU General Public License version 3 or later","website":"http://ccache.samba.org/"}
+{"name":"cddlib","type":"standard","version":"0.94n","license":"GPL v2","website":"https://github.com/cddlib/cddlib"}
+{"name":"certifi","type":"standard","version":"2026.10.19","license":"MPL-2.0","website":"https://pypi.org/project/certifi/"}
+{"name":"cffi","type":"standard","version":"2.0.0","license":"MIT","website":"https://foss.heptapod.net/pypy/cffi"}
+{"name":"chardet","type":"standard","version":"7.4.0.post2","license":"LGPL","website":"https://pypi.org/project/chardet/"}
+{"name":"charset_normalizer","type":"standard","version":"3.4.6","license":"MIT","website":"https://pypi.org/project/charset-normalizer/"}
+{"name":"clarabel","type":"optional","version":"0.11.1","license":"Apache-2.0","website":"https://pypi.org/project/clarabel/"}
+{"name":"cliquer","type":"standard","version":"1.23","license":"GNU General Public License v2","website":"https://users.aalto.fi/~pat/cliquer.html"}
+{"name":"cmake","type":"standard","version":"3.31.9","license":"CMake is distributed under the OSI-approved BSD 3-clause License.","website":"https://cmake.org/"}
+{"name":"cocoalib","type":"experimental","version":"0.99564","license":"-  GPL v3","website":"http://cocoa.dima.unige.it/research/"}
+{"name":"colorama","type":"standard","version":"0.4.6","license":"","website":"https://pypi.org/project/colorama/"}
+{"name":"comm","type":"standard","version":"0.2.3","license":"BSD 3-Clause License","website":"https://pypi.org/project/comm/"}
+{"name":"configure","type":"base","version":"9760cb708152eca1b2d54ba191e9a1d1d2983d8a","license":"GPLv3+","website":""}
+{"name":"contourpy","type":"standard","version":"1.3.3","license":"BSD-3-Clause","website":"https://pypi.org/project/contourpy/"}
+{"name":"conway_polynomials","type":"standard","version":"0.10","license":"GPL version 3 or later","website":"http://files.sagemath.org/spkg/upstream/conway_polynomials/"}
+{"name":"coxeter3","type":"optional","version":"8ac9c71723c8ca57a836d6381aed125261e44e9e.p0","license":"GPL","website":"http://math.univ-lyon1.fr/~ducloux/coxeter/coxeter3/english/coxeter3_e.html"}
+{"name":"cppy","type":"standard","version":"1.3.1","license":"Modified BSD 3-Clause-License","website":"https://pypi.org/project/cppy/"}
+{"name":"csdp","type":"optional","version":"6.2.p1","license":"Common Public License Version 1.0","website":"https://projects.coin-or.org/Csdp"}
+{"name":"cunningham_tables","type":"optional","version":"1.0","license":"","website":"http://cage.ugent.be/~jdemeyer/cunningham/main.gz"}
+{"name":"curl","type":"standard","version":"8.16.0","license":"\"MIT style license\" : see file \"COPYING\" at the root of the source tarball, explanations at https://curl.haxx.se/docs/copyright.html.","website":"https://curl.haxx.se/docs/copyright.html"}
+{"name":"cvxopt","type":"standard","version":"1.3.3","license":"GPLv3 or later. Includes parts under GPLv2, GNU Lesser General Public License, v2.1. See src/LICENSE for more details. (Sage-compatible)","website":"https://cvxopt.org/"}
+{"name":"cvxpy","type":"optional","version":"1.8.2","license":"Apache License, Version 2.0","website":"https://pypi.org/project/cvxpy/"}
+{"name":"cycler","type":"standard","version":"0.12.1","license":"BSD","website":"https://github.com/matplotlib/cycler"}
+{"name":"cylp","type":"optional","version":"0.94.0","license":"Eclipse Public License (EPL) version 2 (without a Secondary Licenses Notice). Note: This license is incompatible with the GPL according to https://www.gnu.org/licenses/license-list.html#EPL2; see also the discussion in :issue:`26511`.","website":"https://www.gnu.org/licenses/license-list.html#EPL2;"}
+{"name":"cypari","type":"standard","version":"2.2.6","license":"GPL version 2 or later","website":"https://github.com/sagemath/cypari2"}
+{"name":"cysignals","type":"standard","version":"1.13.1","license":"LGPL version 3 or later","website":"https://github.com/sagemath/cysignals"}
+{"name":"cython","type":"standard","version":"3.2.4","license":"Apache License, Version 2.0","website":"http://www.cython.org/"}
+{"name":"d3js","type":"optional","version":"3.4.8","license":"BSD 3-Clause License","website":"http://bost.ocks.org/mike/"}
+{"name":"database_cremona_ellcurve","type":"optional","version":"20190911","license":"Public Domain","website":"https://github.com/JohnCremona/ecdata"}
+{"name":"database_cubic_hecke","type":"optional","version":"2022.4.4","license":"GPL","website":"https://pypi.org/project/database-cubic-hecke/"}
+{"name":"database_jones_numfield","type":"optional","version":"4","license":"GPLv2+","website":""}
+{"name":"database_knotinfo","type":"optional","version":"2026.3.1","license":"GPL","website":"https://pypi.org/project/database-knotinfo/"}
+{"name":"database_kohel","type":"optional","version":"20160724","license":"","website":""}
+{"name":"database_mutation_class","type":"optional","version":"1.0","license":"","website":""}
+{"name":"database_odlyzko_zeta","type":"optional","version":"20061209","license":"","website":""}
+{"name":"database_stein_watkins","type":"optional","version":"20110713","license":"Public Domain","website":"http://modular.math.washington.edu/papers/stein-watkins/"}
+{"name":"database_stein_watkins_mini","type":"optional","version":"20070827","license":"Public Domain","website":"http://modular.math.washington.edu/papers/stein-watkins/"}
+{"name":"database_symbolic_data","type":"optional","version":"20070206","license":"GNU General Public License","website":""}
+{"name":"dateutil","type":"standard","version":"2.9.0.post0","license":"Simplified BSD License","website":"http://labix.org/python-dateutil"}
+{"name":"debugpy","type":"standard","version":"1.8.20","license":"MIT","website":"https://pypi.org/project/debugpy/"}
+{"name":"decorator","type":"standard","version":"5.2.1","license":"","website":""}
+{"name":"deformation","type":"experimental","version":"20210503","license":"GLPv3","website":"https://github.com/sagemath/deformation"}
+{"name":"defusedxml","type":"standard","version":"0.7.1","license":"Python Software Foundation License (PSFL)","website":"https://pypi.org/project/defusedxml/"}
+{"name":"distlib","type":"standard","version":"0.4.4","license":"PSF-2.0","website":"https://pypi.org/project/distlib/"}
+{"name":"docutils","type":"standard","version":"0.22.4","license":"public domain, Python, 2-Clause BSD, GPL 3 (see COPYING.txt)","website":"https://pypi.org/project/docutils/"}
+{"name":"dot2tex","type":"optional","version":"","license":"-  MIT","website":"https://github.com/sagemath/dot2tex/"}
+{"name":"dsdp","type":"optional","version":"5.8","license":"Permissive open source license https://www.mcs.anl.gov/hs/software/DSDP/Copyright.txt","website":"https://www.mcs.anl.gov/hs/software/DSDP/Copyright.txt"}
+{"name":"e_antic","type":"optional","version":"2.1.0","license":"e-antic is licensed GPL v3.","website":"https://github.com/videlec/e-antic"}
+{"name":"ecl","type":"standard","version":"26.5.5","license":"-  LGPL V2+ or compatible - for details see https://common-lisp.net/project/ecl/static/manual/Copyrights.html#Copyright-of-ECL","website":"https://common-lisp.net/project/ecl/"}
+{"name":"eclib","type":"standard","version":"20250627","license":"eclib is licensed GPL v2+.","website":"https://johncremona.github.io/mwrank/index.html"}
+{"name":"ecm","type":"standard","version":"7.0.7","license":"LGPL V3+","website":"https://gitlab.inria.fr/zimmerma/ecm"}
+{"name":"ecos_python","type":"optional","version":"2.0.14","license":"GPLv3","website":"https://pypi.org/project/ecos/"}
+{"name":"elliptic_curves","type":"standard","version":"0.8.1","license":"","website":"http://johncremona.github.io/ecdata/"}
+{"name":"execnet","type":"standard","version":"2.1.2","license":"","website":"https://pypi.org/project/execnet/"}
+{"name":"executing","type":"standard","version":"2.2.1","license":"MIT","website":"https://pypi.org/project/executing/"}
+{"name":"fastjsonschema","type":"standard","version":"2.21.2","license":"BSD","website":"https://pypi.org/project/fastjsonschema/"}
+{"name":"fflas_ffpack","type":"standard","version":"2.5.0+sage-2026-10-18","license":"LGPL V2.1 or later","website":"http://linbox-team.github.io/fflas-ffpack/"}
+{"name":"ffmpeg","type":"optional","version":"","license":"\"FFmpeg is licensed under the GNU Lesser General Public License (LGPL) version 2.1 or later. However, FFmpeg incorporates several optional parts and optimizations that are covered by the GNU General Public License (GPL) version 2 or later. If those parts get used the GPL applies to all of FFmpeg.\" http://ffmpeg.org/legal.html","website":"http://ffmpeg.org/legal.html"}
+{"name":"filelock","type":"standard","version":"4.2.4","license":"Public Domain <http://unlicense.org>","website":"http://unlicense.org"}
+{"name":"flint","type":"standard","version":"3.4.0","license":"FLINT is licensed GPL v2+.","website":"http://www.flintlib.org"}
+{"name":"flit_core","type":"standard","version":"3.12.0","license":"","website":"https://pypi.org/project/flit-core/"}
+{"name":"fonttools","type":"standard","version":"4.62.1","license":"MIT","website":"https://pypi.org/project/fonttools/"}
+{"name":"fplll","type":"standard","version":"5.5.0","license":"-  LGPL V2.1+","website":"https://github.com/fplll/fplll"}
+{"name":"fpylll","type":"standard","version":"0.6.4","license":"GPL version 2 or later","website":"https://github.com/fplll/fplll"}
+{"name":"fqdn","type":"standard","version":"1.5.1","license":"MPL 2.0","website":"https://pypi.org/project/fqdn/"}
+{"name":"free_fonts","type":"optional","version":"","license":"GNU General Public License GPLv3+","website":"https://www.gnu.org/software/freefont/"}
+{"name":"freetype","type":"standard","version":"2.10.4","license":"-  FreeType (BSD-like) -  GNU Public License v2 From the documentation: FreeType is released under two open-source licenses: our own BSD-like FreeType License and the GNU Public License, Version 2. It can thus be used by any kind of projects, be they proprietary or not.","website":"https://www.freetype.org"}
+{"name":"fricas","type":"optional","version":"1.3.12","license":"Modified BSD license.","website":"http://fricas.sourceforge.net/"}
+{"name":"frobby","type":"optional","version":"0.9.0.p2","license":"-  GPL version 2.0 or later","website":"http://www.broune.com/frobby/"}
+{"name":"furo","type":"standard","version":"2025.12.19","license":"Copyright (c) 2020 Pradyun Gedam <mail@pradyunsg.me>  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.  THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.","website":"https://pypi.org/project/furo/"}
+{"name":"gap","type":"standard","version":"4.16.1","license":"","website":"https://www.gap-system.org"}
+{"name":"gap3","type":"experimental","version":"04jul17","license":"Most parts of the GAP distribution, including the core part of the GAP system, are distributed under the terms of the GNU General Public License (see http://www.gnu.org/licenses/gpl.html or the file GPL in the etc directory of the GAP installation).","website":"http://www.math.rwth-aachen.de/~Frank.Luebeck/gap/GAP3"}
+{"name":"gap_jupyter","type":"optional","version":"0.9","license":"3-Clause BSD License","website":"https://github.com/gap-packages/jupyter-gap"}
+{"name":"gap_packages","type":"optional","version":"4.16.1","license":"","website":"https://www.gap-system.org/Packages/packages.html"}
+{"name":"gast","type":"standard","version":"0.7.0","license":"BSD 3-Clause","website":"https://pypi.org/project/gast/"}
+{"name":"gc","type":"standard","version":"8.2.12","license":"-  MIT-style (https://github.com/bdwgc/bdwgc/blob/master/LICENSE)","website":"https://github.com/bdwgc/bdwgc/blob/master/LICENSE"}
+{"name":"gcc","type":"standard","version":"14.2.0","license":"GPL version 2 or version 3","website":"https://gcc.gnu.org/"}
+{"name":"gdb","type":"optional","version":"","license":"GPL v3+","website":"http://www.gnu.org/software/gdb/"}
+{"name":"gengetopt","type":"standard","version":"2.23","license":"GPL-3+ (https://www.gnu.org/software/gengetopt/LICENSE)","website":"https://www.gnu.org/software/gengetopt/"}
+{"name":"gf2x","type":"standard","version":"1.3.0","license":"-  GNU GPLv2+.","website":"https://gitlab.inria.fr/gf2x/gf2x"}
+{"name":"gfan","type":"standard","version":"0.6.2.p1","license":"-  GPL version 2 or version 3 (according to the gfan website)","website":"https://users-math.au.dk/jensen/software/gfan/gfan.html"}
+{"name":"gfortran","type":"standard","version":"14.2.0","license":"GPL version 2 or version 3","website":"https://gcc.gnu.org/"}
+{"name":"giac","type":"optional","version":"1.9.0.15p0","license":"","website":"http://www-fourier.ujf-grenoble.fr/~parisse/giac.html"}
+{"name":"git","type":"optional","version":"","license":"","website":"https://git-scm.com/"}
+{"name":"github_cli","type":"optional","version":"","license":"MIT","website":"https://github.com/cli/cli"}
+{"name":"gitpython","type":"optional","version":"","license":"BSD","website":"https://pypi.org/project/GitPython/"}
+{"name":"givaro","type":"standard","version":"4.2.1.p1","license":"-  GNU GPL","website":"https://casys.gricad-pages.univ-grenoble-alpes.fr/givaro/"}
+{"name":"glpk","type":"standard","version":"5.0.p1","license":"The GLPK package is GPL version 3.","website":"http://www.gnu.org/software/glpk/#maintainer"}
+{"name":"glucose","type":"optional","version":"4.1","license":"-  nonparallel glucose: MIT -  parallel glucose-syrup: MIT modified with: The parallel version of Glucose (all files modified since Glucose 3.0 releases, 2013) cannot be used in any competitive event (sat competitions/evaluations) without the express permission of the authors (Gilles Audemard / Laurent Simon). This is also the case for any competitive event using Glucose Parallel as an embedded SAT engine (single core or not).","website":"http://www.labri.fr/perso/lsimon/glucose/"}
+{"name":"gmp","type":"standard","version":"6.3.0","license":"-  LGPL V3","website":"http://gmplib.org"}
+{"name":"gmpy2","type":"standard","version":"2.3.0","license":"LGPL-3.0+","website":"https://pypi.org/project/gmpy2/"}
+{"name":"gnulib","type":"standard","version":"f9b39c4e337f1dc0dd07c4f3985c476fb875d799","license":"","website":"https://www.gnu.org/software/gnulib/"}
+{"name":"gnumake_tokenpool","type":"standard","version":"0.0.9","license":"MIT","website":"https://github.com/milahu/gnumake-tokenpool"}
+{"name":"gp2c","type":"optional","version":"0.0.14","license":"GPL version 2+","website":"http://pari.math.u-bordeaux.fr/"}
+{"name":"graph_genus","type":"optional","version":"","license":"GNU General Public License, version 2","website":"https://pypi.org/project/graph-genus/"}
+{"name":"graphs","type":"standard","version":"20210214.p0","license":"","website":"https://jasongrout.org/graph_database"}
+{"name":"graphviz","type":"optional","version":"","license":"Eclipse Public License 1.0","website":"https://graphviz.org/about/"}
+{"name":"gsl","type":"standard","version":"2.7.1","license":"-  GPL V3","website":"http://www.gnu.org/software/gsl/"}
+{"name":"h11","type":"standard","version":"0.16.0","license":"MIT","website":"https://pypi.org/project/h11/"}
+{"name":"hatch_readme","type":"standard","version":"25.1.0","license":"MIT","website":"https://pypi.org/project/hatch-vcs/"}
+{"name":"hatch_vcs","type":"standard","version":"0.5.0","license":"MIT","website":"https://pypi.org/project/hatch-vcs/"}
+{"name":"hatchling","type":"standard","version":"1.29.0","license":"MIT","website":"https://pypi.org/project/hatchling/"}
+{"name":"highs","type":"standard","version":"1.14.0","license":"- MIT License","website":"https://github.com/ERGO-Code/HiGHS"}
+{"name":"highspy","type":"optional","version":"1.13.1","license":"MIT","website":"https://github.com/ERGO-Code/HiGHS"}
+{"name":"httpcore","type":"standard","version":"1.0.9","license":"","website":"https://pypi.org/project/httpcore/"}
+{"name":"httpx","type":"standard","version":"0.28.1","license":"","website":"https://pypi.org/project/httpx/"}
+{"name":"hypothesis","type":"standard","version":"6.151.10","license":"MPL-2.0","website":"https://pypi.org/project/hypothesis/"}
+{"name":"iconv","type":"standard","version":"","license":"-  GPL 3 and LGPL 3. So we can safely link against the library in Sage.","website":"http://www.gnu.org/software/libiconv/"}
+{"name":"idna","type":"standard","version":"3.11","license":"BSD-3-Clause","website":"https://pypi.org/project/idna/"}
+{"name":"igraph","type":"optional","version":"1.0.1","license":"GPL version 2","website":"http://igraph.org/c/"}
+{"name":"imagemagick","type":"optional","version":"","license":"Copyright [yyyy] [name of copyright owner] Licensed under the ImageMagick License (the \"License\"); you may not use this file except in compliance with the License.  You may obtain a copy of the License at https://imagemagick.org/script/license.php Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the License for the specific language governing permissions and limitations under the License.","website":"https://imagemagick.org/script/license.php"}
+{"name":"imagesize","type":"standard","version":"2.0.0","license":"MIT","website":"https://pypi.org/project/imagesize/"}
+{"name":"iml","type":"standard","version":"1.0.4p2.p2","license":"-  GPLv2+","website":"https://www.cs.uwaterloo.ca/~astorjoh/iml.html"}
+{"name":"info","type":"standard","version":"7.2","license":"GPL-3+ (``info/*.c`` comments in the source repository)","website":"https://www.gnu.org/software/texinfo/manual/info-stnd/info-stnd.html"}
+{"name":"iniconfig","type":"standard","version":"2.3.0","license":"","website":"https://pypi.org/project/iniconfig/"}
+{"name":"ipykernel","type":"standard","version":"7.2.0","license":"","website":""}
+{"name":"ipympl","type":"standard","version":"0.10.0","license":"BSD License","website":"https://pypi.org/project/ipympl/"}
+{"name":"ipython","type":"standard","version":"9.16.0","license":"BSD","website":"http://ipython.org"}
+{"name":"ipython_genutils","type":"standard","version":"0.2.0","license":"","website":""}
+{"name":"ipython_pygments_lexers","type":"standard","version":"1.1.1","license":"BSD-3-Clause","website":"https://pypi.org/project/ipython-pygments-lexers/"}
+{"name":"ipywidgets","type":"standard","version":"8.1.8","license":"","website":""}
+{"name":"isl","type":"optional","version":"0.20","license":"isl is released under the MIT license, but depends on the LGPL GMP library.","website":"http://groups.google.com/group/isl-development"}
+{"name":"isoduration","type":"standard","version":"20.11.0","license":"","website":"https://pypi.org/project/isoduration/"}
+{"name":"jedi","type":"standard","version":"0.19.2","license":"","website":""}
+{"name":"jinja2","type":"standard","version":"3.1.6","license":"BSD-3-Clause","website":"https://pypi.org/project/Jinja2/"}
+{"name":"jmol","type":"optional","version":"14.29.52","license":"GPLv2+","website":"http://jmol.sourceforge.net"}
+{"name":"joblib","type":"optional","version":"1.5.3","license":"BSD-3-Clause","website":"https://pypi.org/project/joblib/"}
+{"name":"json5","type":"standard","version":"0.14.0","license":"Apache","website":"https://pypi.org/project/json5/"}
+{"name":"jsonpointer","type":"standard","version":"3.1.1","license":"Modified BSD License","website":"https://pypi.org/project/jsonpointer/"}
+{"name":"jsonschema","type":"standard","version":"4.26.0","license":"MIT License","website":"http://github.com/Julian/jsonschema"}
+{"name":"jsonschema_specifications","type":"standard","version":"2025.9.1","license":"MIT","website":"https://pypi.org/project/jsonschema-specifications/"}
+{"name":"jupymake","type":"optional","version":"0.9","license":"-  GPL v2","website":"https://github.com/polymake/JuPyMake"}
+{"name":"jupyter_client","type":"standard","version":"8.8.0","license":"BSD 3-Clause License","website":"https://pypi.org/project/jupyter-client/"}
+{"name":"jupyter_core","type":"standard","version":"5.9.1","license":"","website":""}
+{"name":"jupyter_events","type":"standard","version":"0.12.0","license":"BSD 3-Clause License","website":"https://pypi.org/project/jupyter-events/"}
+{"name":"jupyter_jsmol","type":"optional","version":"2022.1.0","license":"MIT","website":"https://pypi.org/project/jupyter-jsmol/"}
+{"name":"jupyter_lsp","type":"standard","version":"2.3.0","license":"BSD-3-Clause","website":"https://pypi.org/project/jupyter-lsp/"}
+{"name":"jupyter_server","type":"standard","version":"2.17.0","license":"BSD 3-Clause License","website":"https://pypi.org/project/jupyter-server/"}
+{"name":"jupyter_server_terminals","type":"standard","version":"0.5.4","license":"Modified BSD License (also known as New or Revised or 3-Clause BSD)","website":"https://pypi.org/project/jupyter-server-terminals/"}
+{"name":"jupyter_sphinx","type":"standard","version":"0.5.3.p0","license":"BSD","website":"https://pypi.org/project/jupyter-sphinx/"}
+{"name":"jupyterlab","type":"standard","version":"4.5.6","license":"Copyright (c) 2015-2022 Project Jupyter Contributors All rights reserved.  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:  1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.  2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.  3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. Semver File License:  The semver.py file is from https://github.com/podhmo/python-semver which is licensed under the \"MIT\" license.  See the semver.py file for details.","website":"https://github.com/podhmo/python-semver"}
+{"name":"jupyterlab_mathjax2","type":"standard","version":"4.0.0","license":"BSD 3-Clause License  Copyright (c) 2023, Project Jupyter All rights reserved.  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:  1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.  2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.  3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.","website":"https://pypi.org/project/jupyterlab-mathjax2/"}
+{"name":"jupyterlab_pygments","type":"standard","version":"0.3.0","license":"BSD","website":"https://pypi.org/project/jupyterlab-pygments/"}
+{"name":"jupyterlab_server","type":"standard","version":"2.28.0","license":"Copyright (c) 2015-2017, Project Jupyter Contributors All rights reserved.  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:  1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.  2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.  3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.","website":"https://pypi.org/project/jupyterlab-server/"}
+{"name":"jupyterlab_widgets","type":"standard","version":"3.0.16","license":"BSD-3-Clause","website":"https://pypi.org/project/jupyterlab-widgets/"}
+{"name":"kenzo","type":"optional","version":"1.1.10","license":"GPL","website":"https://github.com/gheber/kenzo"}
+{"name":"khoca","type":"optional","version":"1.4","license":"GPLv2+","website":"https://pypi.org/project/khoca/"}
+{"name":"kissat","type":"optional","version":"3.1.0","license":"MIT license.","website":"http://fmv.jku.at/kissat/"}
+{"name":"kiwisolver","type":"standard","version":"1.5.0","license":"Modified BSD License","website":"https://pypi.org/project/kiwisolver/"}
+{"name":"latte_int","type":"optional","version":"1.7.6","license":"GPLv2","website":""}
+{"name":"lcalc","type":"standard","version":"2.2.2","license":"-  LGPL V2+","website":"http://oto.math.uwaterloo.ca/~mrubinst/L_function_public/L.html"}
+{"name":"libatomic_ops","type":"standard","version":"7.10.0","license":"- MIT (core library) + GPL 2.0+ (gpl extension library)","website":"https://github.com/bdwgc/libatomic_ops/"}
+{"name":"libbraiding","type":"standard","version":"1.3.2","license":"GPLv3+","website":""}
+{"name":"libffi","type":"standard","version":"3.5.2","license":"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.","website":"https://sourceware.org/libffi/"}
+{"name":"libgd","type":"standard","version":"2.3.3","license":"-  Custom (BSD-ish)","website":"https://libgd.github.io"}
+{"name":"libgraphviz","type":"optional","version":"","license":"Eclipse Public License 1.0","website":"https://graphviz.org/about/"}
+{"name":"libhomfly","type":"standard","version":"1.04","license":"Public domain","website":""}
+{"name":"libjpeg","type":"optional","version":"","license":"","website":""}
+{"name":"libnauty","type":"optional","version":"","license":"Since version 2.6, nauty license is GPL-compatible, see http://users.cecs.anu.edu.au/~bdm/nauty/COPYRIGHT.txt (a copy of this file, called COPYRIGHT, is also present in the tarball)","website":"http://users.cecs.anu.edu.au/~bdm/nauty/COPYRIGHT.txt"}
+{"name":"libogg","type":"optional","version":"1.3.1.p0","license":"Copyright (c) 2002, Xiph.org Foundation Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: -  Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer. -  Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution. -  Neither the name of the Xiph.org Foundation nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.","website":"http://www.xiph.org/ogg"}
+{"name":"libpng","type":"standard","version":"1.6.59","license":"The libpng license - see http://www.libpng.org/pub/png/src/libpng-LICENSE.txt","website":"http://libpng.sourceforge.net/"}
+{"name":"libsemigroups","type":"optional","version":"3.6.1","license":"GPL-3.0","website":"http://james-d-mitchell.github.io/libsemigroups"}
+{"name":"libxml2","type":"optional","version":"","license":"MIT","website":"http://www.xmlsoft.org/index.html"}
+{"name":"lidia","type":"optional","version":"2.3.0+latte-patches-2019-05-02","license":"lidia is released under the GPL, or so it is claimed. See https://groups.google.com/forum/#!msg/sage-devel/kTxgPSqrbUM/5Txj3_IKhlQJ and https://lists.debian.org/debian-legal/2007/07/msg00120.html","website":"https://www.math.ucdavis.edu/~latte/software/packages/lidia/current/lidia-2.3.0+latte-patches-2014-10-04.tar.gz"}
+{"name":"lie","type":"experimental","version":"2.2.2","license":"GNU Lesser General Public License (LGPL), version unspecified","website":"http://www-math.univ-poitiers.fr/~maavl/LiE/description.html"}
+{"name":"linbox","type":"standard","version":"1.7.1","license":"LGPL V2 or later","website":"https://linalg.org/"}
+{"name":"llvm","type":"optional","version":"","license":"Apache 2.0 License with LLVM exceptions","website":"https://llvm.org/"}
+{"name":"lrcalc","type":"standard","version":"2.1","license":"GNU General Public License V2+","website":"http://sites.math.rutgers.edu/~asbuch/lrcalc/"}
+{"name":"lrcalc_python","type":"standard","version":"2.1","license":"GNU General Public License V3","website":"http://sites.math.rutgers.edu/~asbuch/lrcalc/"}
+{"name":"lrslib","type":"optional","version":"071b+autotools-2021-07-13","license":"lrslib is released under a GPL v2+ license.","website":"http://cgm.cs.mcgill.ca/~avis/C/lrs.html"}
+{"name":"m4ri","type":"standard","version":"20260122.p0","license":"-  GNU General Public License Version 2 or later (see src/COPYING)","website":"https://bitbucket.org/malb/m4ri"}
+{"name":"m4rie","type":"standard","version":"20250128","license":"-  GNU General Public License Version 2 or later (see src/COPYING)","website":"http://m4ri.sagemath.org"}
+{"name":"markupsafe","type":"standard","version":"3.0.3","license":"BSD-3-Clause","website":"https://pypi.org/project/MarkupSafe/"}
+{"name":"mathics","type":"optional","version":"","license":"GPL","website":"https://pypi.org/project/Mathics3/"}
+{"name":"mathjax","type":"standard","version":"3.2.0","license":"Apache License, version 2.0","website":"https://www.mathjax.org/"}
+{"name":"matplotlib","type":"standard","version":"3.10.8","license":"The Matplotlib license - see https://matplotlib.org/stable/users/project/license.html: Matplotlib only uses BSD compatible code, and its license is based on the PSF license. See the Open Source Initiative licenses page for details on individual licenses. Non-BSD compatible licenses (eg LGPL) are acceptable in matplotlib Toolkits. For a discussion of the motivations behind the licencing choice, see Licenses.","website":"https://matplotlib.org/stable/users/project/license.html:"}
+{"name":"matplotlib_inline","type":"standard","version":"0.2.1","license":"BSD 3-Clause","website":"https://pypi.org/project/matplotlib-inline/"}
+{"name":"matroid_database","type":"optional","version":"0.3","license":"GPL version 3 or later","website":"https://www-imai.is.s.u-tokyo.ac.jp/~ymatsu/matroid/index.html"}
+{"name":"maxima","type":"standard","version":"5.49.0","license":"Maxima is distributed under the GNU General Public License, with some export restrictions from the U.S. Department of Energy. See the file COPYING.","website":"http://maxima.sourceforge.net"}
+{"name":"mcqd","type":"optional","version":"1.0.p0","license":"GPL 3","website":"https://gitlab.com/janezkonc/mcqd"}
+{"name":"meataxe","type":"optional","version":"1.0.3","license":"","website":"http://users.minet.uni-jena.de/~king/SharedMeatAxe/"}
+{"name":"memory_allocator","type":"standard","version":"0.2.0","license":"GPL-3.0","website":"https://github.com/sagemath/memory_allocator"}
+{"name":"meson","type":"standard","version":"1.12.0","license":"Apache License, Version 2.0","website":"https://pypi.org/project/meson/"}
+{"name":"meson_python","type":"standard","version":"0.19.0","license":"","website":"https://pypi.org/project/meson-python/"}
+{"name":"mistune","type":"standard","version":"3.2.0","license":"BSD-3-Clause","website":"https://pypi.org/project/mistune/"}
+{"name":"modular_resolution","type":"optional","version":"1.1","license":"Copyright (C) 2018 Simon A. King <simon.king@uni-jena.de> Copyright (C) 2011 Simon A. King <simon.king@uni-jena.de> Copyright (C) 2009 Simon A. King <simon.king@nuigalway.ie> and David J. Green <david.green@uni-jena.de> Distributed under the terms of the GNU General Public License (GPL), version 2 or later (at your choice). This code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. The full text of the GPL is available at: http://www.gnu.org/licenses/ The package includes a data base of cohomology rings of the groups of order 64 and provides access to a data base of cohomology rings of the groups of order 128 and 243, located at http://cohomology.uni-jena.de/db/ These data bases are distributed under the Creative Commons Attribution-Share Alike 3.0 License. The full text of this licence is available at http://creativecommons.org/licenses/by-sa/3.0/","website":"http://users.fmi.uni-jena.de/cohomology/"}
+{"name":"mpc","type":"standard","version":"1.3.1","license":"LGPLv3+ for the code and GFDLv1.3+ (with no invariant sections) for the documentation.","website":"https://www.multiprecision.org/mpc:"}
+{"name":"mpfi","type":"standard","version":"1.5.2","license":"This version of MPFI is released under the GNU Lesser General Public License. It is permitted to link MPFI to non-free programs, as long as when distributing them the MPFI source code and a means to re-link with a modified MPFI is provided.","website":"http://perso.ens-lyon.fr/nathalie.revol/software.html"}
+{"name":"mpfr","type":"standard","version":"4.2.2","license":"MPFR is free. It is distributed under the GNU Lesser General Public License (GNU Lesser GPL), version 3 or later (2.1 or later for MPFR versions until 2.4.x). The library has been registered in France by the Agence de Protection des Programmes under the number IDDN FR 001 120020 00 R P 2000 000 10800, on 15 March 2000. This license guarantees your freedom to share and change MPFR, to make sure MPFR is free for all its users. Unlike the ordinary General Public License, the Lesser GPL enables developers of non-free programs to use MPFR in their programs. If you have written a new function for MPFR or improved an existing one, please share your work!","website":"http://mpfr.org/"}
+{"name":"mpfrcx","type":"optional","version":"0.6.3","license":"MPFRCX is distributed under the Gnu Lesser General Public License, either version 2.1 of the licence, or (at your option) any later version (LGPLv2.1+).","website":"http://www.multiprecision.org/mpfrcx"}
+{"name":"mpmath","type":"standard","version":"1.4.1","license":"","website":"https://mpmath.org"}
+{"name":"msolve","type":"optional","version":"0.9.5","license":"GPL v2+","website":"https://github.com/algebraic-solving/msolve"}
+{"name":"nauty","type":"standard","version":"2.9.3","license":"Since version 2.6, nauty license is GPL-compatible, see http://users.cecs.anu.edu.au/~bdm/nauty/COPYRIGHT.txt (a copy of this file, called COPYRIGHT, is also present in the tarball)","website":"http://users.cecs.anu.edu.au/~bdm/nauty/COPYRIGHT.txt"}
+{"name":"nbclient","type":"standard","version":"0.10.4","license":"BSD","website":"https://pypi.org/project/nbclient/"}
+{"name":"nbconvert","type":"standard","version":"7.17.2","license":"BSD","website":"https://pypi.org/project/nbconvert/"}
+{"name":"nbformat","type":"standard","version":"5.10.4","license":"BSD 3-Clause License","website":"https://pypi.org/project/nbformat/"}
+{"name":"ncurses","type":"standard","version":"6.6","license":"-  MIT-style","website":"http://invisible-island.net/ncurses"}
+{"name":"nest_asyncio","type":"standard","version":"1.6.0","license":"BSD","website":"https://pypi.org/project/nest-asyncio/"}
+{"name":"networkx","type":"standard","version":"3.7","license":"BSD","website":"https://networkx.github.io/"}
+{"name":"nibabel","type":"optional","version":"","license":"MIT License","website":"https://pypi.org/project/nibabel/"}
+{"name":"ninja_build","type":"standard","version":"1.13.1","license":"Apache License 2.0","website":"https://ninja-build.org/"}
+{"name":"normaliz","type":"optional","version":"3.11.1","license":"-  GPL v3","website":"http://www.mathematik.uni-osnabrueck.de/normaliz/"}
+{"name":"notebook","type":"standard","version":"7.5.5","license":"BSD 3-Clause License","website":"https://pypi.org/project/notebook/"}
+{"name":"notebook_shim","type":"standard","version":"0.2.4","license":"BSD 3-Clause License","website":"https://pypi.org/project/notebook-shim/"}
+{"name":"notedown","type":"optional","version":"1.5.1","license":"BSD 2-Clause License","website":"https://github.com/aaren/notedown"}
+{"name":"ntl","type":"standard","version":"11.6.0","license":"-  GNU LGPLv2.1+","website":"http://www.shoup.net/ntl/"}
+{"name":"numpy","type":"standard","version":"2.4.4","license":"","website":"https://numpy.org/"}
+{"name":"onetbb","type":"optional","version":"2021.12.0","license":"Apache License, Version 2.0","website":"https://github.com/oneapi-src/oneTBB"}
+{"name":"openblas","type":"standard","version":"0.3.28","license":"3-clause BSD license","website":"https://www.openblas.net"}
+{"name":"openssl","type":"standard","version":"3.5.5","license":"- Apache License v2 (considered compatible with GPL v3)","website":"http://openssl.org/"}
+{"name":"ore_algebra","type":"optional","version":"","license":"-  GPL-2.0+","website":"https://github.com/mkauers/ore_algebra/"}
+{"name":"osqp_python","type":"optional","version":"1.1.1","license":"Apache 2.0","website":"https://pypi.org/project/osqp/"}
+{"name":"overrides","type":"standard","version":"7.7.0","license":"Apache License, Version 2.0","website":"https://pypi.org/project/overrides/"}
+{"name":"p_group_cohomology","type":"optional","version":"3.3.3.p1","license":"Copyright (C) 2018 Simon A. King <simon.king@uni-jena.de> Copyright (C) 2011 Simon A. King <simon.king@uni-jena.de> Copyright (C) 2009 Simon A. King <simon.king@nuigalway.ie> and David J. Green <david.green@uni-jena.de> Distributed under the terms of the GNU General Public License (GPL), version 2 or later (at your choice). This code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. The full text of the GPL is available at: http://www.gnu.org/licenses/ The package includes a data base of cohomology rings of the groups of order 64 and provides access to a data base of cohomology rings of the groups of order 128 and 243, located at http://cohomology.uni-jena.de/db/ These data bases are distributed under the Creative Commons Attribution-Share Alike 3.0 License. The full text of this licence is available at http://creativecommons.org/licenses/by-sa/3.0/","website":"http://users.fmi.uni-jena.de/cohomology/"}
+{"name":"packaging","type":"standard","version":"26.3","license":"","website":"https://pypi.org/project/packaging/"}
+{"name":"palp","type":"standard","version":"2.21","license":"-  When released, GPL 2 was in force. -  There is a link to a web page, which now points to GPL 3, but would have pointed to GPL 2 at the time the package was released. -  Therefore one can deduce the authors were happy for this to be released under GPL 2 or a later version.","website":"http://hep.itp.tuwien.ac.at/~kreuzer/CY/CYpalp.html"}
+{"name":"pandoc","type":"optional","version":"","license":"","website":""}
+{"name":"pandoc_attributes","type":"optional","version":"8bc82f6d","license":"BSD 2-Clause License","website":"https://github.com/aaren/pandoc-attributes"}
+{"name":"pandocfilters","type":"standard","version":"1.5.1","license":"BSD 3-Clause License","website":"https://github.com/jgm/pandocfilters"}
+{"name":"papilo","type":"optional","version":"3.0.2","license":"LGPL 3.0","website":"https://github.com/scipopt/papilo/"}
+{"name":"pari","type":"standard","version":"2.17.1","license":"GPL version 2+","website":"http://pari.math.u-bordeaux.fr/"}
+{"name":"pari_elldata","type":"optional","version":"20161017","license":"GNU General Public License (GPL version 2 or any later version).","website":"http://pari.math.u-bordeaux.fr/"}
+{"name":"pari_galdata","type":"standard","version":"20080411.p0","license":"GPL version 2+","website":"http://pari.math.u-bordeaux.fr/"}
+{"name":"pari_galpol","type":"optional","version":"20180625","license":"GNU General Public License (GPL version 2 or any later version).","website":"http://pari.math.u-bordeaux.fr/"}
+{"name":"pari_jupyter","type":"optional","version":"1.4.3","license":"GPL version 3 or later","website":"https://github.com/sagemath/pari-jupyter"}
+{"name":"pari_nftables","type":"optional","version":"20080929","license":"GNU General Public License (GPL version 2 or any later version).","website":"http://pari.math.u-bordeaux.fr/"}
+{"name":"pari_seadata","type":"optional","version":"20090618","license":"GNU General Public License (GPL version 2 or any later version).","website":"http://pari.math.u-bordeaux.fr/"}
+{"name":"pari_seadata_small","type":"standard","version":"20090618.p0","license":"GPL version 2+","website":"http://pari.math.u-bordeaux.fr/"}
+{"name":"parso","type":"standard","version":"0.8.6","license":"MIT","website":"https://pypi.org/project/parso/"}
+{"name":"patchelf","type":"standard","version":"0.13.1","license":"GPL-3.0-or-later","website":"https://github.com/NixOS/patchelf"}
+{"name":"pathspec","type":"standard","version":"1.0.4","license":"MPL 2.0","website":"https://pypi.org/project/pathspec/"}
+{"name":"perl_cpan_polymake_prereq","type":"optional","version":"","license":"Various free software licenses","website":""}
+{"name":"perl_mongodb","type":"optional","version":"","license":"Various free software licenses","website":""}
+{"name":"perl_term_readline_gnu","type":"optional","version":"1.35","license":"The Perl 5 License (Artistic 1 & GPL 1)","website":""}
+{"name":"pexpect","type":"standard","version":"4.9.0","license":"ISC license: http://opensource.org/licenses/isc-license.txt This license is approved by the OSI and FSF as GPL-compatible.","website":"http://opensource.org/licenses/isc-license.txt"}
+{"name":"phitigra","type":"optional","version":"","license":"","website":"https://pypi.org/project/phitigra/"}
+{"name":"pickleshare","type":"standard","version":"0.7.5","license":"","website":""}
+{"name":"pillow","type":"standard","version":"13.0.0","license":"Standard PIL License","website":"https://python-pillow.org/"}
+{"name":"pip","type":"standard","version":"26.2.2","license":"MIT","website":"https://github.com/pypa/pip"}
+{"name":"pkgconfig","type":"standard","version":"1.6.0","license":"MIT License","website":"https://github.com/matze/pkgconfig"}
+{"name":"planarity","type":"standard","version":"4.0.0.0","license":"New BSD License","website":"http://dx.doi.org/10.7155/jgaa.00091"}
+{"name":"plantri","type":"optional","version":"5.8","license":"Plantri is distributed without a license.","website":"http://cs.anu.edu.au/~bdm/plantri"}
+{"name":"platformdirs","type":"standard","version":"4.9.4","license":"","website":"https://pypi.org/project/platformdirs/"}
+{"name":"pluggy","type":"standard","version":"1.6.0","license":"MIT license","website":"https://pypi.org/project/pluggy/"}
+{"name":"ply","type":"standard","version":"3.11","license":"BSD","website":"https://pypi.org/project/ply/"}
+{"name":"polylib","type":"experimental","version":"5.22.5","license":"GPL v3","website":"https://groups.google.com/forum/#!forum/isl-development"}
+{"name":"polymake","type":"optional","version":"4.14","license":"-  GPL v3","website":"https://polymake.org/"}
+{"name":"polytopes_db","type":"standard","version":"20170220.p0","license":"GPL","website":"http://hep.itp.tuwien.ac.at/~kreuzer/CY/CYpalp.html"}
+{"name":"polytopes_db_4d","type":"optional","version":"1.0","license":"GPL v2+","website":""}
+{"name":"ppl","type":"standard","version":"1.2.p1","license":"GPL v3+","website":"https://arxiv.org/abs/cs/0612085"}
+{"name":"pplpy","type":"standard","version":"0.9.0","license":"GPL version 3","website":"https://github.com/sagemath/pplpy"}
+{"name":"pplpy_doc","type":"standard","version":"0.9.0","license":"GPL version 3","website":"https://github.com/sagemath/pplpy"}
+{"name":"primecount","type":"standard","version":"8.6","license":"primecount is licensed BSD 2","website":"https://github.com/kimwalisch/primecount/"}
+{"name":"primecountpy","type":"standard","version":"0.2.1","license":"GPLv3","website":"https://pypi.org/project/primecountpy/"}
+{"name":"primesieve","type":"standard","version":"12.15","license":"BSD-2-clause","website":"https://github.com/kimwalisch/primesieve"}
+{"name":"prometheus_client","type":"standard","version":"0.24.1","license":"","website":"https://prometheus.io"}
+{"name":"prompt_toolkit","type":"standard","version":"3.0.52","license":"","website":"https://pypi.python.org/pypi/prompt_toolkit"}
+{"name":"psutil","type":"standard","version":"7.2.2","license":"BSD-3-Clause","website":"https://pypi.org/project/psutil/"}
+{"name":"ptyprocess","type":"standard","version":"0.7.0","license":"Ptyprocess is under the ISC license, as code derived from Pexpect. http://opensource.org/licenses/ISC","website":"http://opensource.org/licenses/ISC"}
+{"name":"pure_eval","type":"standard","version":"0.2.3","license":"MIT","website":"https://pypi.org/project/pure-eval/"}
+{"name":"py","type":"standard","version":"1.11.0","license":"MIT license","website":"https://pypi.org/project/py/"}
+{"name":"pybind11","type":"standard","version":"2.13.6","license":"pybind11 is provided under a BSD-style license that can be found in the ``LICENSE`` file. By using, distributing, or contributing to this project, you agree to the terms and conditions of this license.","website":"http://www.boost.org/doc/libs/1_58_0/libs/python/doc/"}
+{"name":"pybtex","type":"optional","version":"","license":"MIT","website":"https://pypi.org/project/pybtex/"}
+{"name":"pycosat","type":"optional","version":"0.6.3","license":"MIT","website":"http://fmv.jku.at/picosat/"}
+{"name":"pycparser","type":"standard","version":"3.0","license":"BSD","website":"https://github.com/eliben/pycparser"}
+{"name":"pycryptosat","type":"optional","version":"","license":"MIT License","website":"http://www.msoos.org/"}
+{"name":"pygments","type":"standard","version":"2.20.0","license":"BSD-2-Clause","website":"https://pypi.org/project/Pygments/"}
+{"name":"pygraphviz","type":"optional","version":"pygraphviz","license":"BSD","website":"https://pypi.org/project/pygraphviz/"}
+{"name":"pynormaliz","type":"optional","version":"2.24","license":"-  GPL v2 or later","website":"https://pypi.org/project/PyNormaliz/"}
+{"name":"pyparsing","type":"standard","version":"3.3.2","license":"MIT License","website":"https://pypi.org/project/pyparsing/"}
+{"name":"pyppeteer","type":"optional","version":"","license":"MIT","website":"https://pypi.org/project/pyppeteer/"}
+{"name":"pyproject_api","type":"standard","version":"1.10.0","license":"","website":"https://pypi.org/project/pyproject-api/"}
+{"name":"pyproject_hooks","type":"standard","version":"1.2.0","license":"","website":"https://pypi.org/project/pyproject_hooks/"}
+{"name":"pyproject_metadata","type":"standard","version":"0.11.0","license":"MIT","website":"https://pypi.org/project/pyproject-metadata/"}
+{"name":"pyscipopt","type":"optional","version":"6.1.0","license":"MIT","website":"https://pypi.org/project/PySCIPOpt/"}
+{"name":"pysingular","type":"optional","version":"0.9.7","license":"GPL version 2 or later","website":"https://github.com/sebasguts/SingularPython"}
+{"name":"pytest","type":"standard","version":"9.0.2","license":"MIT","website":"https://pypi.org/project/pytest/"}
+{"name":"pytest_mock","type":"standard","version":"3.15.1","license":"MIT","website":"https://pypi.org/project/pytest-mock/"}
+{"name":"pytest_xdist","type":"standard","version":"3.8.0","license":"MIT","website":"https://pypi.org/project/pytest-xdist/"}
+{"name":"python_build","type":"standard","version":"1.4.2","license":"MIT","website":"https://pypi.org/project/build/"}
+{"name":"python_discovery","type":"standard","version":"1.6.4","license":"MIT","website":"https://pypi.org/project/python-discovery/"}
+{"name":"python_flint","type":"optional","version":"0.9.0","license":"MIT","website":"https://pypi.org/project/python-flint/"}
+{"name":"python_igraph","type":"optional","version":"1.0.0","license":"GPL version 2","website":"http://igraph.org/python/"}
+{"name":"python_json_logger","type":"standard","version":"4.1.0","license":"BSD","website":"https://pypi.org/project/python-json-logger/"}
+{"name":"pythran","type":"standard","version":"0.18.1","license":"BSD 3-Clause","website":"https://pypi.org/project/pythran/"}
+{"name":"pytz","type":"standard","version":"2026.1.post1","license":"","website":"https://pypi.org/project/pytz/"}
+{"name":"pytz_deprecation_shim","type":"standard","version":"0.1.0.post0","license":"Apache-2.0","website":"https://pypi.org/project/pytz-deprecation-shim/"}
+{"name":"pyx","type":"optional","version":"","license":"","website":"https://pypi.python.org/pypi/PyX"}
+{"name":"pyyaml","type":"standard","version":"6.0.3","license":"MIT","website":"https://pypi.org/project/PyYAML/"}
+{"name":"pyzmq","type":"standard","version":"27.1.0","license":"LGPLv3+","website":"http://www.zeromq.org"}
+{"name":"qdldl_python","type":"optional","version":"0.1.9.post1","license":"Apache 2.0","website":"https://pypi.org/project/qdldl/"}
+{"name":"qepcad","type":"optional","version":"1.74","license":"ICS :wikipedia:`ISC_license`","website":"https://github.com/chriswestbrown/qepcad"}
+{"name":"qhull","type":"standard","version":"2020-src-8.0.2","license":"Not a standard license, but Sage compatible. See the COPYING.txt file in the source directory for details.","website":"http://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html"}
+{"name":"r","type":"optional","version":"","license":"-  GPL v2 or GPL v3","website":"http://www.r-project.org/"}
+{"name":"r_jupyter","type":"experimental","version":"","license":"MIT","website":"https://github.com/IRkernel/IRkernel"}
+{"name":"readline","type":"standard","version":"8.3","license":"-  GPL V3+","website":"http://tiswww.case.edu/php/chet/readline/rltop.html"}
+{"name":"referencing","type":"standard","version":"0.37.0","license":"MIT","website":"https://pypi.org/project/referencing/"}
+{"name":"regina","type":"optional","version":"","license":"GPLv2+","website":"https://regina-normal.github.io/"}
+{"name":"requests","type":"standard","version":"2.33.0","license":"Apache 2.0","website":"https://pypi.org/project/requests/"}
+{"name":"rfc3339_validator","type":"standard","version":"0.1.4","license":"MIT license","website":"https://pypi.org/project/rfc3339-validator/"}
+{"name":"rfc3986_validator","type":"standard","version":"0.1.1","license":"MIT license","website":"https://pypi.org/project/rfc3986-validator/"}
+{"name":"roman_numerals","type":"standard","version":"4.1.0","license":"This project is licenced under the terms of either the Zero-Clause BSD licence or the CC0 1.0 Universal licence","website":"https://pypi.org/project/roman-numerals/"}
+{"name":"rpds_py","type":"standard","version":"0.30.0","license":"MIT License","website":"https://github.com/crate-py/rpds"}
+{"name":"rpy2","type":"standard","version":"3.6.7","license":"-  GPL 2+","website":"https://github.com/rpy2/rpy2"}
+{"name":"rpy2_rinterface","type":"optional","version":"3.6.6","license":"GPL-2.0-or-later","website":"https://pypi.org/project/rpy2-rinterface/"}
+{"name":"rpy2_robjects","type":"optional","version":"3.6.5","license":"GPL-2.0-or-later","website":"https://pypi.org/project/rpy2-robjects/"}
+{"name":"rst2ipynb","type":"optional","version":"0.2.3","license":"BSD 3-Clause License","website":"https://github.com/nthiery/rst-to-ipynb"}
+{"name":"rubiks","type":"optional","version":"20070912.p21","license":"","website":"http://www.cflmath.com/~reid/Rubik/optimal_solver.html"}
+{"name":"rw","type":"standard","version":"0.10","license":"GPL version 2 or later","website":"https://sourceforge.net/projects/rankwidth/"}
+{"name":"saclib","type":"optional","version":"2.2.8","license":"ICS :wikipedia:`ISC_license`","website":"https://github.com/chriswestbrown/saclib"}
+{"name":"sage_docbuild","type":"standard","version":"11.0.beta5","license":"","website":"https://www.sagemath.org"}
+{"name":"sage_flatsurf","type":"optional","version":"","license":"GNU General Public License, version 2","website":"https://pypi.org/project/sage-flatsurf/"}
+{"name":"sage_numerical_backends_coin","type":"optional","version":"10.4","license":"GPLv2+","website":"https://pypi.org/project/sage-numerical-backends-coin/"}
+{"name":"sage_numerical_backends_cplex","type":"optional","version":"10.4","license":"GPLv2+","website":"https://pypi.org/project/sage-numerical-backends-cplex/"}
+{"name":"sage_numerical_backends_gurobi","type":"optional","version":"10.4","license":"GPLv2+","website":"https://pypi.org/project/sage-numerical-backends-gurobi/"}
+{"name":"sage_setup","type":"standard","version":"11.0.beta5","license":"","website":""}
+{"name":"sagelib","type":"standard","version":"11.0.beta5","license":"","website":""}
+{"name":"sagemath_categories","type":"optional","version":"11.0.beta5","license":"","website":"https://www.sagemath.org"}
+{"name":"sagemath_doc_html","type":"optional","version":"","license":"","website":""}
+{"name":"sagemath_doc_pdf","type":"optional","version":"","license":"","website":""}
+{"name":"sagemath_environment","type":"optional","version":"11.0.beta5","license":"","website":"https://www.sagemath.org"}
+{"name":"sagemath_giac","type":"optional","version":"0.1.3","license":"","website":"https://github.com/sagemath/sagemath-giac/"}
+{"name":"sagemath_objects","type":"optional","version":"11.0.beta5","license":"","website":"https://www.sagemath.org"}
+{"name":"sagemath_repl","type":"optional","version":"11.0.beta5","license":"","website":"https://www.sagemath.org"}
+{"name":"sagetex","type":"standard","version":"3.6.1","license":"The *source code* of the SageTeX package may be redistributed and/or modified under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version. To view a copy of this license, see http://www.gnu.org/licenses/ or send a letter to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. The *documentation* of the SageTeX package is licensed under the Creative Commons Attribution-Share Alike 3.0 License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.","website":"http://www.gnu.org/licenses/"}
+{"name":"sbcl","type":"optional","version":"","license":"- a mix of BSD-style and public domain","website":"https://www.sbcl.org/history.html"}
+{"name":"scikit_build_core","type":"standard","version":"0.12.2","license":"Apache-2.0","website":"https://github.com/scikit-build/scikit-build-core"}
+{"name":"scip","type":"optional","version":"9.0.1","license":"Apache 2.0","website":"https://scipopt.org/#scipoptsuite"}
+{"name":"scip_sdp","type":"optional","version":"4.3.0","license":"Apache 2.0","website":"http://www.opt.tu-darmstadt.de/scipsdp/"}
+{"name":"scipy","type":"standard","version":"1.17.1","license":"SciPy's license is free for both commercial and non-commercial use, under the BSD terms. See http://www.scipy.org/License_Compatibility","website":"http://www.scipy.org/License_Compatibility"}
+{"name":"scs","type":"optional","version":"3.2.11","license":"MIT","website":"https://pypi.org/project/scs/"}
+{"name":"semigroups","type":"optional","version":"5.7.0","license":"","website":"https://semigroups.github.io/Semigroups/"}
+{"name":"send2trash","type":"standard","version":"2.1.0","license":"BSD License","website":"https://pypi.org/project/Send2Trash/"}
+{"name":"setuptools","type":"standard","version":"84.2.1","license":"MIT License","website":"http://pypi.python.org/pypi/setuptools/"}
+{"name":"setuptools_scm","type":"standard","version":"10.0.5","license":"MIT","website":"https://pypi.org/project/setuptools-scm/"}
+{"name":"singular","type":"standard","version":"4.4.1","license":"GPLv2 or GPLv3","website":"https://www.singular.uni-kl.de/"}
+{"name":"singular_jupyter","type":"optional","version":"0.9.7","license":"GPL version 2 or later","website":"https://github.com/sebasguts/jupyter_kernel_singular"}
+{"name":"sirocco","type":"optional","version":"2.1.1","license":"GPLv3+","website":""}
+{"name":"six","type":"standard","version":"1.17.0","license":"MIT License","website":"http://pypi.python.org/pypi/six/"}
+{"name":"slabbe","type":"optional","version":"","license":"GPLv2+","website":"https://pypi.org/project/slabbe/"}
+{"name":"snappy","type":"optional","version":"","license":"GPLv2+","website":"https://pypi.org/project/snappy/"}
+{"name":"sniffio","type":"standard","version":"1.3.1","license":"MIT OR Apache-2.0","website":"https://pypi.org/project/sniffio/"}
+{"name":"snowballstemmer","type":"standard","version":"3.0.1","license":"BSD-3-Clause","website":"https://pypi.org/project/snowballstemmer/"}
+{"name":"soplex","type":"optional","version":"7.0.1","license":"Apache License, Version 2.0","website":"https://github.com/scipopt/soplex"}
+{"name":"sortedcontainers","type":"standard","version":"2.4.0","license":"Apache2","website":"https://pypi.org/project/sortedcontainers"}
+{"name":"soupsieve","type":"standard","version":"2.8.3","license":"","website":"https://pypi.org/project/soupsieve/"}
+{"name":"sphinx","type":"standard","version":"9.2.0","license":"Modified BSD; see e.g. its egg-info file for other options","website":"https://pypi.org/project/Sphinx/"}
+{"name":"sphinx_basic_ng","type":"standard","version":"1.0.0b2","license":"","website":"https://pypi.org/project/sphinx-basic-ng/"}
+{"name":"sphinx_copybutton","type":"standard","version":"0.5.2","license":"MIT License","website":"https://pypi.org/project/sphinx-copybutton/"}
+{"name":"sphinx_inline_tabs","type":"standard","version":"2025.12.21.14","license":"","website":"https://pypi.org/project/sphinx-inline-tabs/"}
+{"name":"sphinxcontrib_applehelp","type":"standard","version":"2.0.0","license":"BSD","website":""}
+{"name":"sphinxcontrib_devhelp","type":"standard","version":"2.0.0","license":"BSD","website":""}
+{"name":"sphinxcontrib_htmlhelp","type":"standard","version":"2.1.0","license":"BSD","website":""}
+{"name":"sphinxcontrib_jsmath","type":"standard","version":"1.0.1","license":"BSD","website":"https://pypi.org/project/sphinxcontrib-jsmath/"}
+{"name":"sphinxcontrib_qthelp","type":"standard","version":"2.0.0","license":"BSD","website":""}
+{"name":"sphinxcontrib_serializinghtml","type":"standard","version":"2.0.0","license":"BSD","website":""}
+{"name":"sphinxcontrib_websupport","type":"standard","version":"2.0.0","license":"BSD","website":""}
+{"name":"sqlalchemy","type":"optional","version":"","license":"MIT","website":"https://pypi.org/project/SQLAlchemy/"}
+{"name":"stack_data","type":"standard","version":"0.6.3","license":"MIT","website":"https://pypi.org/project/stack-data/"}
+{"name":"suitesparse","type":"standard","version":"7.8.0","license":"","website":"https://people.engr.tamu.edu/davis/suitesparse.html"}
+{"name":"surface_dynamics","type":"optional","version":"","license":"GPLv2+","website":"https://gitlab.com/videlec/surface_dynamics"}
+{"name":"symengine","type":"optional","version":"0.14.0","license":"BSD 3-clause","website":"https://github.com/symengine/symengine"}
+{"name":"symengine_py","type":"optional","version":"0.14.1","license":"symengine.py is MIT licensed and uses several LGPL, BSD-3 and MIT licensed libraries","website":"https://github.com/symengine/symengine.py"}
+{"name":"symmetrica","type":"standard","version":"3.1.0","license":"Public Domain (see the above web site)","website":"http://www.algorithm.uni-bayreuth.de/en/research/SYMMETRICA"}
+{"name":"sympow","type":"standard","version":"2.023.6","license":"-  See the file src/COPYING","website":"https://gitlab.com/rezozer/forks/sympow"}
+{"name":"sympy","type":"standard","version":"1.14.0","license":"New BSD: http://www.opensource.org/licenses/bsd-license.php","website":"https://sympy.org/"}
+{"name":"tachyon","type":"standard","version":"0.99.5.p0","license":"Copyright (c) 1994-2010 John E. Stone All rights reserved. Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer. 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution. 3. The name of the author may not be used to endorse or promote products derived from this software without specific prior written permission.","website":"http://jedi.ks.uiuc.edu/~johns/raytracer/"}
+{"name":"tdlib","type":"optional","version":"0.9.3.p0","license":"- GNU General Public License v2 - GNU General Public License v3","website":"https://gitlab.com/freetdi/treedec"}
+{"name":"terminado","type":"standard","version":"0.18.1","license":"","website":""}
+{"name":"texlive","type":"optional","version":"","license":"Various FSF-approved free software licenses. See https://www.tug.org/texlive/copying.html for details.","website":"https://www.tug.org/texlive/copying.html"}
+{"name":"texlive_luatex","type":"optional","version":"","license":"GNU General Public License version 2.0 (GPLv2)","website":"https://www.luatex.org/"}
+{"name":"texttable","type":"optional","version":"1.7.0","license":"MIT License (MIT)","website":"https://github.com/foutaise/texttable/"}
+{"name":"threejs","type":"standard","version":"r122.p0","license":"MIT License","website":"http://threejs.org"}
+{"name":"tides","type":"optional","version":"2.0.p0","license":"GPLv3+","website":""}
+{"name":"tinycss2","type":"standard","version":"1.5.1","license":"","website":"https://pypi.org/project/tinycss2/"}
+{"name":"tomli_w","type":"standard","version":"1.2.0","license":"MIT","website":"https://pypi.org/project/tomli-w/"}
+{"name":"topcom","type":"optional","version":"1.1.2","license":"GPL v2","website":"http://www.rambau.wm.uni-bayreuth.de"}
+{"name":"tornado","type":"standard","version":"6.6","license":"Apache License","website":"http://www.tornadoweb.org"}
+{"name":"tox","type":"standard","version":"4.51.0","license":"MIT","website":"https://pypi.org/project/tox/"}
+{"name":"traitlets","type":"standard","version":"5.14.3","license":"BSD","website":"https://pypi.org/project/traitlets/"}
+{"name":"trove_classifiers","type":"standard","version":"2026.1.14.14","license":"","website":"https://pypi.org/project/trove-classifiers/"}
+{"name":"types_python_dateutil","type":"standard","version":"2.9.0.20260323","license":"Apache-2.0 license","website":"https://pypi.org/project/types-python-dateutil/"}
+{"name":"typing_extensions","type":"standard","version":"4.15.0","license":"PSF","website":"https://pypi.org/project/typing-extensions/"}
+{"name":"tzdata","type":"standard","version":"2025.3","license":"Apache-2.0","website":"https://pypi.org/project/tzdata/"}
+{"name":"tzlocal","type":"standard","version":"5.3.1","license":"","website":""}
+{"name":"uri_template","type":"standard","version":"1.3.0","license":"MIT License","website":"https://pypi.org/project/uri-template/"}
+{"name":"urllib3","type":"standard","version":"2.8.0","license":"MIT","website":"https://pypi.org/project/urllib3/"}
+{"name":"valgrind","type":"optional","version":"","license":"Valgrind is Open Source / Free Software, and is freely available under the GNU General Public License, version 2.","website":"http://www.valgrind.org/"}
+{"name":"vcs_versioning","type":"standard","version":"1.1.1","license":"MIT","website":"https://pypi.org/project/vcs-versioning/"}
+{"name":"virtualenv","type":"standard","version":"21.14.13","license":"MIT","website":"https://pypi.org/project/virtualenv/"}
+{"name":"wcwidth","type":"standard","version":"0.6.0","license":"MIT","website":"https://pypi.org/project/wcwidth/"}
+{"name":"webcolors","type":"standard","version":"25.10.0","license":"BSD-3-Clause","website":"https://pypi.org/project/webcolors/"}
+{"name":"webencodings","type":"standard","version":"0.5.1","license":"BSD License","website":"https://github.com/gsnedders/python-webencodings"}
+{"name":"websocket_client","type":"standard","version":"1.9.0","license":"Apache-2.0","website":"https://pypi.org/project/websocket-client/"}
+{"name":"wheel","type":"standard","version":"0.46.3","license":"MIT","website":"https://pypi.org/project/wheel/"}
+{"name":"widgetsnbextension","type":"standard","version":"4.0.15","license":"BSD 3-Clause License","website":"https://pypi.org/project/widgetsnbextension/"}
+{"name":"xindy","type":"optional","version":"","license":"GNU General Public License version 2.0 (GPLv2)","website":"http://www.xindy.org/"}
+{"name":"zeromq","type":"standard","version":"4.3.5","license":"LGPLv3+","website":"http://www.crossroads.io"}
+{"name":"zipp","type":"standard","version":"3.23.0","license":"MIT License","website":"https://github.com/jaraco/zipp"}

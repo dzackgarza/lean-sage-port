@@ -1,0 +1,13 @@
+{
+  "revision": {
+    "version": "11.0.beta5",
+    "commit": "c00171e47d6e68d8148d7ee10c4dd77b71a97662"
+  },
+  "modules": 3041,
+  "manual_modules": 2400,
+  "entities": 66473,
+  "public_entities": 41052,
+  "manual_public_entities": 38818,
+  "doctests": 441010,
+  "packages": 437
+}

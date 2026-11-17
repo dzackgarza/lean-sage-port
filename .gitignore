@@ -1,0 +1,6 @@
+__pycache__/
+.pytest_cache/
+.venv/
+.lake/
+# The global ignore file drops Cython sources; the Sage-shaped test fixture is one.
+!tools/inventory/tests/fixtures/**/*.pyx
