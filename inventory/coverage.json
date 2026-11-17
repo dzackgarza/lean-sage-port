@@ -3,13 +3,13 @@
     "version": "11.0.beta5",
     "commit": "c00171e47d6e68d8148d7ee10c4dd77b71a97662"
   },
-  "capabilities": 69,
-  "attached_to_catalogue": 14,
+  "capabilities": 93,
+  "attached_to_catalogue": 19,
   "exclusions": 3,
   "public_entities": 38782,
-  "by_capability": 329,
+  "by_capability": 400,
   "excluded": 25,
-  "unaccounted": 38428,
+  "unaccounted": 38357,
   "sections": [
     {
       "section": "algebras",
@@ -65,11 +65,11 @@
       "section": "calculus",
       "group": "Mathematics / Calculus and Analysis",
       "public_entities": 543,
-      "by_capability": 0,
+      "by_capability": 1,
       "excluded": 0,
-      "unaccounted": 543,
+      "unaccounted": 542,
       "doctests": 5492,
-      "doctests_by_capability": 0
+      "doctests_by_capability": 42
     },
     {
       "section": "categories",
@@ -295,21 +295,21 @@
       "section": "graphs",
       "group": "Mathematics / Discrete Mathematics",
       "public_entities": 1336,
-      "by_capability": 0,
+      "by_capability": 19,
       "excluded": 0,
-      "unaccounted": 1336,
+      "unaccounted": 1317,
       "doctests": 17396,
-      "doctests_by_capability": 0
+      "doctests_by_capability": 605
     },
     {
       "section": "groups",
       "group": "Mathematics / Mathematical Structures",
       "public_entities": 908,
-      "by_capability": 0,
+      "by_capability": 10,
       "excluded": 0,
-      "unaccounted": 908,
+      "unaccounted": 898,
       "doctests": 6075,
-      "doctests_by_capability": 0
+      "doctests_by_capability": 146
     },
     {
       "section": "hecke",
@@ -325,11 +325,11 @@
       "section": "homology",
       "group": "Mathematics / Homological Algebra",
       "public_entities": 105,
-      "by_capability": 0,
+      "by_capability": 13,
       "excluded": 0,
-      "unaccounted": 105,
+      "unaccounted": 92,
       "doctests": 871,
-      "doctests_by_capability": 0
+      "doctests_by_capability": 91
     },
     {
       "section": "hyperbolic_geometry",
@@ -405,11 +405,11 @@
       "section": "matrices",
       "group": "Mathematics / Linear Algebra",
       "public_entities": 754,
-      "by_capability": 1,
+      "by_capability": 13,
       "excluded": 0,
-      "unaccounted": 753,
+      "unaccounted": 741,
       "doctests": 9062,
-      "doctests_by_capability": 62
+      "doctests_by_capability": 549
     },
     {
       "section": "matroids",
@@ -505,11 +505,11 @@
       "section": "numerical",
       "group": "Mathematics / Calculus and Analysis",
       "public_entities": 555,
-      "by_capability": 0,
+      "by_capability": 1,
       "excluded": 0,
-      "unaccounted": 555,
+      "unaccounted": 554,
       "doctests": 4629,
-      "doctests_by_capability": 0
+      "doctests_by_capability": 13
     },
     {
       "section": "oremodules",
@@ -665,11 +665,11 @@
       "section": "rings_numerical",
       "group": "Mathematics / Basic Rings and Fields",
       "public_entities": 825,
-      "by_capability": 0,
+      "by_capability": 15,
       "excluded": 0,
-      "unaccounted": 825,
+      "unaccounted": 810,
       "doctests": 3206,
-      "doctests_by_capability": 0
+      "doctests_by_capability": 102
     },
     {
       "section": "rings_standard",
