@@ -45,9 +45,56 @@ The surveyed `ObjectEntry` and `OperationEntry` contain semantic declaration nam
 binding data, not an algorithm registration field. `MonoLiftComputation` and
 `MonoLiftFactorComputation` are examples of callable computational obligations owned by
 `lean-categories`; they do not constitute a generic evaluator for all operations.
-The exact kernel mechanism for choosing a native implementation of an arbitrary
-catalogue operation remains to be identified in source and exercised. This is an
-integration contract gap, not an ownership contradiction.
+
+### Native selection at the DSL boundary
+
+At the surveyed DSL revision, `CasCatalogue/Realize.lean` has two execution paths.
+`Realize.evaluate` calls `discharge`, which uses `decideEvaluated` and Lean's kernel for
+closed propositions. An `.implemented` claim returns `none` from `discharge` and
+proceeds to `realizeClaim`. Values, properties, construction results and presentation
+applications ultimately use `Realize.send`. That function selects a manifest-admitted
+external registration by operation id and `Wire.formId`, then calls `Backend.call`.
+`Harness` contains external backends, admitted registrations and sessions; it has no
+native computation provider. Thus the current kernel can decide some native Lean
+propositions but cannot select a general native result for an arbitrary catalogue
+operation. The source path, rather than a leaf rule, identifies the missing interface.
+
+The DSL owner must add a native execution port at the existing `send` dispatch boundary
+or its replacement under `lean-cas-dsl` issue 85. Its minimal callable signature uses
+existing types:
+
+```lean
+abbrev NativeCompute := (operation : Operation) → (input : Wire) →
+  TermElabM (Option Json)
+```
+
+The kernel resolves `Operation` from the upstream `RegistryState.operation?` and checks
+`RegistryState.rejects` against the exact `Wire.form` before calling this port. It must
+not infer an operation from the representation or a backend method name. `none` means
+no native implementation for that admitted request; in native mode it produces the
+existing `noImplementation` outcome, without consulting an external leaf. The native
+adapter converts the selected `Wire` to the library's typed Lean inputs and its result
+to the same computational data shape that the current decoders validate. The adapter
+can live here and depend on both DSL and the core native library; the core mathematical
+algorithms depend on `lean-categories` and executable packages, not on the DSL.
+
+The current `send : Harness → String → Wire → TermElabM (Json × String)` returns an
+external backend name. A native result has no backend session, so the DSL owner must
+distinguish native portable results from backend-owned results in the dispatch return
+and in `receiveComputationalData`. The existing `ComputationData.inline`,
+`Wire.payload`, `Wire.presentationIsos`, `Wire.objectIso` and
+`StructuredResult.Result` supply the result and retention surfaces. `realize` caches
+results by the exact closed formal term. All `send` call sites, including methods,
+properties, constructions and presentation applications, must use the same native
+selection rule and existing type/data validation. An implementation-specific result
+or its own test never changes the upstream operation, expected mathematical answer or
+the DSL's independent acceptance corpus.
+
+This specifies the required owner change but does not claim that it exists at the
+surveyed revision. The current runtime probes validate native algorithms and maps
+outside the DSL; a DSL integration probe can pass only after the port and adapter
+execute a selected catalogue operation through `Realize.evaluate` and retain a result
+for a second operation.
 
 ## Computation contracts
 
