@@ -16,8 +16,13 @@ The reusable evidence is maintained in `inventory/reuse/`, `inventory/references
   evidence but do not universally gate acceptance.
 - Runtime quotient parameters must carry checked coefficient-domain and polynomial hypotheses.
   Invalid input must fail explicitly. Reducible polynomials define quotient rings, not fields.
-- The existing source index is a development snapshot. Release-baseline reconciliation remains
-  an explicit source-provenance obligation rather than a silent change to recorded references.
+- Official Sage `11.0.beta5` is tag object `cdddc7264af0690649227620b9a0d8af66b11237`
+  pointing to commit `36e49d91b0568f07ad4373362c15ce8970587e67`. The existing index
+  scanned fork commit `c00171e47d6e68d8148d7ee10c4dd77b71a97662`. Tree and file
+  comparison in `inventory/sage/release.toml` establishes equivalence of the indexed
+  Python/Cython files, manual and package metadata, so the index can be reused for the
+  release target without changing its recorded revision. The broader source tree differs
+  in one C++ header and two Meson files; runtime equivalence is not established.
 
 Primality has a complete trial-division route independent of full integer factorization
 (`Mathlib/Data/Nat/Prime/Defs.lean`, `Nat.minFac`). Factorization can therefore consume primality

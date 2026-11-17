@@ -4,6 +4,11 @@ A capability record states one mathematical operation or construction that the t
 compute. The records live in `inventory/capabilities/*.toml`. `sage-inventory schema` prints the
 fields. `inventory/capabilities/integers-and-rationals.toml` is the worked example.
 
+`inventory/sage/release.toml` pins the official Sage release and records why the existing index
+can serve that release for the files it scans. The index keeps the fork commit it actually read.
+This equivalence covers Python/Cython source, reference-manual placement and package metadata;
+it does not assert that the broader Sage source tree or a compiled Sage runtime is identical.
+
 ## What one record is
 
 A record is an operation at its natural generality, not a Sage method.

@@ -18,7 +18,8 @@ object and operation. When the catalogue lacks one, the gap is reported to its o
 
 | Path | Content |
 | --- | --- |
-| `inventory/sage/baseline.yaml` | The Sage checkout that defines the target, and the paths read from it. |
+| `inventory/sage/baseline.yaml` | The checkout and source paths used to build the current index. |
+| `inventory/sage/release.toml` | Official release identity and the indexed fork content comparison. |
 | `inventory/sage/index/` | Generated index of that checkout: modules, entities, manual sections, packages, imports. |
 | `inventory/capabilities/` | Capability records: one intrinsic mathematical operation each, with the Sage entities it accounts for. `docs/capability-records.md` has the rules. |
 | `inventory/coverage.json` | Generated coverage report: public Sage entities by capability, by exclusion, and not yet accounted for, per manual section. |
@@ -68,10 +69,14 @@ set and runs the inventory tests. Change versions only after CI establishes a co
 In `lakefile.toml`, Mathlib is the last `[[require]]`. Lake gives the last requirement precedence
 for shared dependencies, and Mathlib's build cache is valid only for Mathlib's own versions of them.
 
-### The Sage baseline is the local checkout
+### The Sage release and local index
 
-The target is the checkout named in `inventory/sage/baseline.yaml`. Do not clone, fetch or modify
-Sage. The index refuses a checkout with uncommitted source changes.
+The target is official Sage `11.0.beta5`, identified in `inventory/sage/release.toml`.
+`inventory/sage/baseline.yaml` names the local checkout that produced the existing index.
+The release record proves that the indexer's Python/Cython inputs, the manual tree and package
+metadata match the official release; it also names three different unindexed build/header files.
+Keep the scanned fork revision in the index provenance. Do not claim whole-runtime equivalence.
+Do not clone, fetch or modify Sage. The index refuses a checkout with uncommitted source changes.
 
 ### Tests assert mathematics
 

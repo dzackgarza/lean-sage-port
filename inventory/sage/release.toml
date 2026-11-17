@@ -1,0 +1,56 @@
+# Official target and provenance of the existing source index.
+# The index revision remains the commit it actually scanned.
+
+version = "11.0.beta5"
+official_repository = "https://github.com/sagemath/sage"
+official_tag = "11.0.beta5"
+official_tag_object = "cdddc7264af0690649227620b9a0d8af66b11237"
+official_commit = "36e49d91b0568f07ad4373362c15ce8970587e67"
+indexed_repository = "https://github.com/dzackgarza/sage"
+indexed_commit = "c00171e47d6e68d8148d7ee10c4dd77b71a97662"
+compared = "2026-11-17"
+
+[provenance]
+official_ref_api = "https://api.github.com/repos/sagemath/sage/git/ref/tags/11.0.beta5"
+official_tag_api = "https://api.github.com/repos/sagemath/sage/git/tags/cdddc7264af0690649227620b9a0d8af66b11237"
+official_commit_api = "https://api.github.com/repos/sagemath/sage/git/commits/36e49d91b0568f07ad4373362c15ce8970587e67"
+comparison_api = "https://api.github.com/repos/dzackgarza/sage/compare/36e49d91b0568f07ad4373362c15ce8970587e67...c00171e47d6e68d8148d7ee10c4dd77b71a97662"
+indexer = "tools/inventory/src/sage_inventory/index.py:86"
+method = "The official tag points to the official commit. Compare API reports 53 changed files across the fork, with only the three paths below under src/sage. Local git diff --name-status on the three indexed roots confirmed those paths. The indexer reads only *.py and *.pyx below src/sage, so its scanned source files are unchanged. The manual and package tree hashes match exactly."
+
+[[tree]]
+path = "src/sage"
+official = "3f2b54b2fe16ac030fd2d342b891418ddef99693"
+indexed = "526dc553d411f30b37e8e0673c138fd59373cf85"
+equal = false
+
+[[tree]]
+path = "src/doc/en/reference"
+official = "f07240b5809da88fcbf38c90ce1ea585915dc91e"
+indexed = "f07240b5809da88fcbf38c90ce1ea585915dc91e"
+equal = true
+
+[[tree]]
+path = "build/pkgs"
+official = "cfa019ac560de5074b1546cdfddbfbd9cfca79d5"
+indexed = "cfa019ac560de5074b1546cdfddbfbd9cfca79d5"
+equal = true
+
+[scanned_content]
+source_extensions = [".py", ".pyx"]
+source_files_equal = true
+manual_tree_equal = true
+package_tree_equal = true
+scope = "Equivalent for the existing index's Python/Cython source, reference-manual placement, and package metadata. This does not establish whole-source-tree or compiled Sage runtime equivalence."
+
+[[unindexed_difference]]
+path = "src/sage/graphs/bliss_cpp/bliss_find_automorphisms.h"
+kind = "C++ header"
+
+[[unindexed_difference]]
+path = "src/sage/graphs/meson.build"
+kind = "Meson build description"
+
+[[unindexed_difference]]
+path = "src/sage/libs/meson.build"
+kind = "Meson build description"

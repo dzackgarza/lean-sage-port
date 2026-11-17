@@ -131,10 +131,15 @@ Sage's existing source cases determine the concrete examples for each operation.
 
 ## Assumptions
 
-The current index identifies Sage 11.0.beta5 at c00171e47d6e68d8148d7ee10c4dd77b71a97662.
-The requested release baseline still requires reconciliation with that development snapshot;
-existing records retain their stated provenance. Current readiness and unresolved obligations
-are owned by [issue 1](https://github.com/dzackgarza/lean-sage-port/issues/1).
+The target release is official Sage tag `11.0.beta5` (commit
+`36e49d91b0568f07ad4373362c15ce8970587e67`). The existing index truthfully records
+the fork commit it scanned, `c00171e47d6e68d8148d7ee10c4dd77b71a97662`.
+`inventory/sage/release.toml` establishes that all Python/Cython source files read by the
+indexer, the reference-manual tree and the package tree match the official release. The
+broader `src/sage` tree differs in three unindexed build/header files; no compiled-runtime
+equivalence follows. Existing source records retain their scanned-commit provenance.
+Current readiness and unresolved obligations are owned by
+[issue 1](https://github.com/dzackgarza/lean-sage-port/issues/1).
 
 The source index, capability records and reuse maps are reusable evidence. Their presence does
 not assert completion of the inventory or success of the architecture probes.

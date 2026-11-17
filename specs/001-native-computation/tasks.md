@@ -11,8 +11,8 @@ the accepted contracts; their live work graph belongs in GitHub issues.
 **Acceptance**: Every manual section has complete source disposition and every intrinsic operation
 has its domain, output, reuse decision, actual prerequisites and existing test/oracle sources.
 
-- [ ] T001 [US1] Reconcile the immutable release baseline in `inventory/sage/baseline.yaml`
-  with the indexed source provenance, preserving the existing snapshot references.
+- [x] T001 [US1] Pin official Sage `11.0.beta5` and its indexed-content equivalence in
+  `inventory/sage/release.toml`; preserve the scanned fork revision in `inventory/sage/index/summary.json`.
 - [ ] T002 [US1] Complete `inventory/capabilities/` against every section in
   `inventory/domains.toml`; resolve each remaining entity reported by the existing unaccounted query.
 - [ ] T003 [P] [US1] Complete formal reuse decisions in `inventory/reuse/mathlib-core.toml`
