@@ -91,6 +91,12 @@ Sage's existing source cases determine the concrete examples for each operation.
   GitHub issues hold the dependency graph and work state; source documents hold the contracts.
 - **FR-010**: Builds and oracle environments record immutable dependency identities and run
   through reproducible commands. CI validates the architectural probes and acceptance infrastructure.
+- **FR-011**: A capability may be accepted through source tests and independent oracle comparisons
+  without a complete Lean correctness proof. Representation comparisons must still preserve the
+  mathematical object, defining maps and selected structure named in the contract.
+- **FR-012**: Native algorithms are exposed as a Lean library for formal-side use. The DSL's
+  external-leaf protocol does not define the native library interface. Kernel integration must
+  use the existing catalogue and owner-controlled operation-selection interface.
 
 ### Key Entities
 
