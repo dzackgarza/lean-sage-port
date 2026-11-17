@@ -26,6 +26,22 @@ object and operation. When the catalogue lacks one, the gap is reported to its o
 | `tools/inventory/` | The `sage-inventory` command: builds the index and measures coverage. |
 | `Probes/` | Executable Lean probes that test architectural decisions. |
 
+## Existing inventories in `dzackgarza/research`
+
+The research repository (`~/research` on the workstation) already holds curated tables of Sage
+functionality. Read them before you write a record for the same subject. Take their judgments and
+caveats, keyed by class, axiom or method name. This repository's index stays the list of what exists
+at the baseline, because those tables read older Sage versions.
+
+| Path in `research` | Content | Sage version read |
+| --- | --- | --- |
+| `docs/sage-inventory/` | Sage's category framework: each category class with its role (public, framework helper, wrapper constructor, test-only, example-only), the axiom registry with the meaning of each axiom, the functorial constructions, and the classes generated at run time. | 10.9 source, 10.10.beta0 run time |
+| `writing/data/sage-source-audit-10.9/`, `writing/data/sage-runtime-10.10.beta0/` | The same data as CSV and JSON. | 10.9, 10.10.beta0 |
+| `references/lattice-engines/method-inventories/` | Method lists for lattices and quadratic forms in Sage, Oscar and Hecke, GAP, PARI/GP, NTL, FLINT, fpylll, g6k and flatter, with the convention that each method uses. `lattice_wrapper_capability_checklist.md` groups the methods of all engines into capabilities. `method_ground_truth_tracker.csv` gives the source and test of each method. | per file |
+| `references/lattice-engines/system-references/` | Reference notes for each engine, with the definiteness and discriminant conventions. | per file |
+
+The wiki of `research` is retired. Each wiki page names the file under `docs/` that replaced it.
+
 ## Rules
 
 ### Lean compiles in CI, not on this machine
