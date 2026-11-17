@@ -1,50 +1,97 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# lean-sage-port Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Native mathematical computation
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+The product computes the mathematical operations documented by the Sage reference baseline
+through Lean implementations. External engines provide source references and test oracles.
+An executable obligation is satisfied by an operation on runtime inputs with its specified
+output and failure behavior. A declaration or theorem alone does not satisfy that obligation.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### II. Existing mathematical authority
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+Mathlib and lean-categories provide mathematical definitions and abstract obligations.
+lean-cas-dsl provides the language, kernel and catalogue interface. This repository supplies
+computations under those contracts. Missing semantics or catalogue entries go to their owner.
+A storage representation must not become a competing definition of the mathematical object.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### III. Reuse before new algorithms
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Each computational obligation must name the inspected Lean implementations and reference
+algorithms that could supply it. Record source revisions, declarations, executability evidence,
+supported domains and licences. Separate a source-level candidate from a tested reusable package.
+A failed name search does not authorize a replacement implementation.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### IV. Generality and composition
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Specify each operation at its intrinsic mathematical scope. Preserve coefficient domains,
+defining maps, chosen generators, embeddings, precision and other selected structure needed
+by later computations. Representation changes must preserve these data through explicit maps.
+A result is not complete when its printed value is correct but subsequent operations cannot use it.
+Extensions must use the existing mathematical and computational contracts.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. Acceptance from existing mathematics and computations
+
+Use baseline Sage doctests and its test suite as the primary acceptance corpus. Compare native
+results with the same-input Sage or reference-engine computations. Compare noncanonical outputs
+as mathematical objects and maps, not by incidental order or display. Numerical results retain
+their error and precision contracts; conditional and heuristic results retain their assumptions.
+Add independent identities, published examples or certificates only for an identified comparison
+gap. Formal verification is valuable evidence, but a complete proof is not a universal prerequisite.
+
+### VI. Functional scope before optimization
+
+Required operations and compositions determine priority and dependencies. Optimize after they
+work, except when the capability itself requires a stated computational bound or a small required
+case cannot complete. Construction should retain data cheaply and defer expensive queries.
+A timing failure does not redefine the product or license a narrower mathematical domain.
+
+## Product scope and specification
+
+The master specification identifies the target domains through the reference-manual taxonomy.
+Capability records attach intrinsic contracts to baseline entities. Source coverage measures
+entity disposition and must remain distinct from native implementation acceptance.
+
+Architecture contracts specify runtime domains, representation maps, operation selection and
+language integration. Domain specifications state supported hypotheses and compositions.
+Implementation specifications name reusable declarations, actual input dependencies, source
+tests and the public computation that closes the work.
+
+The readiness obligation is [issue 1](https://github.com/dzackgarza/lean-sage-port/issues/1).
+GitHub issues own current work and dependency state. Repository specifications own stable contracts.
+Reconnaissance completes only with full source accounting, justified reuse decisions, successful
+general architectural probes, executable acceptance infrastructure and corrected independent review.
+Completing reconnaissance is not a measure of CAS implementation coverage.
+
+## Development and evidence
+
+Use the Spec Kit sequence for substantive features: specification, clarification, design,
+requirements checklist, dependency tasks and consistency analysis. Resolve questions from sources
+before asking for a product decision. Independent review must challenge mathematical assumptions,
+reuse claims, representation loss, dependency cycles and acceptance that can pass without the
+required computation.
+
+Keep the compatible toolchain and dependency resolution reproducible. Validate Lean in CI.
+The workstation gate checks the inventory and source constraints without compiling Lean.
+
+Tier 1 tests exercise small public operations and meaningful branches with feedback in seconds
+or minutes. Higher tiers extend domain and input coverage through source tests and oracle runs.
+A Tier 1 feedback loop exceeding five minutes requires repair. Preserve test and computation logs,
+including revision, environment, inputs, setup and nested timing costs. For optimization, first
+record measured costs and their actual multiplicative factors; retain the measured remaining cost.
+Logging must expose application failures and computation context without leaking secrets.
+
+CONTRIBUTING.md carries stable policy identifiers and concrete lessons about contributions.
+Use mathematical assertions at the operation owner and public application paths for user flows.
+Support additional platforms only when explicitly required. Check source licences before translation.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+The constitution governs product invariants; AGENTS.md supplies operational instructions.
+Explicit project-direction changes require a forward amendment and corresponding changes at
+the contract owner. Record rationale in Git, not a parallel progress diary. Major versions change
+invariants, minor versions add obligations, and patches clarify their meaning. Review each feature
+against the constitution before implementation and again before acceptance.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-11-17 | **Last Amended**: 2026-11-17
