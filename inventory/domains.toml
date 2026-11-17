@@ -1,13 +1,12 @@
 # Sage reference-manual domain scope at the pinned baseline.
-# Counts are a snapshot; refresh with sage-inventory coverage and unaccounted.
+# Section routing is stable at this Sage baseline; live coverage is in inventory/coverage.json.
 
 baseline_version = "11.0.beta5"
 baseline_commit = "c00171e47d6e68d8148d7ee10c4dd77b71a97662"
 source_index = "inventory/sage/index/sections.jsonl"
-coverage_snapshot = "inventory/coverage.json"
+coverage_report = "inventory/coverage.json"
 capability_directory = "inventory/capabilities"
 reuse_directories = ["inventory/reuse", "inventory/references"]
-coverage_refresh = "cd tools/inventory && uv run sage-inventory coverage ../../inventory/sage/index ../../inventory/capabilities ../../inventory/reuse ../../inventory/coverage.json"
 unaccounted_query = "cd tools/inventory && uv run sage-inventory unaccounted ../../inventory/sage/index ../../inventory/capabilities <section-id>"
 
 [[section]]
@@ -15,10 +14,6 @@ id = "algebras"
 group = "Mathematics / Mathematical Structures"
 title = "Algebras"
 disposition = "mathematical"
-public_entities = 1942
-covered_by_capability = 0
-excluded = 0
-unaccounted = 1942
 capability_files = []
 
 [[section]]
@@ -26,10 +21,6 @@ id = "anderson_motives"
 group = "Mathematics / Drinfeld modules and related topics"
 title = "Anderson Motives"
 disposition = "mathematical"
-public_entities = 13
-covered_by_capability = 0
-excluded = 0
-unaccounted = 13
 capability_files = []
 
 [[section]]
@@ -37,10 +28,6 @@ id = "arithgroup"
 group = "Mathematics / Number Theory"
 title = "Arithmetic Subgroups of {\\rm SL}_2(\\ZZ)"
 disposition = "mathematical"
-public_entities = 191
-covered_by_capability = 0
-excluded = 0
-unaccounted = 191
 capability_files = []
 
 [[section]]
@@ -48,10 +35,6 @@ id = "arithmetic_curves"
 group = "Mathematics / Algebraic and Arithmetic Geometry"
 title = "Elliptic and Hyperelliptic Curves"
 disposition = "mathematical"
-public_entities = 1189
-covered_by_capability = 11
-excluded = 0
-unaccounted = 1178
 capability_files = ["inventory/capabilities/arithmetic-geometry.toml"]
 
 [[section]]
@@ -59,10 +42,6 @@ id = "asymptotic"
 group = "Mathematics / Calculus and Analysis"
 title = "Asymptotic Expansions"
 disposition = "mathematical"
-public_entities = 228
-covered_by_capability = 0
-excluded = 0
-unaccounted = 228
 capability_files = []
 
 [[section]]
@@ -70,10 +49,6 @@ id = "calculus"
 group = "Mathematics / Calculus and Analysis"
 title = "Symbolic Calculus"
 disposition = "mathematical"
-public_entities = 543
-covered_by_capability = 1
-excluded = 0
-unaccounted = 542
 capability_files = ["inventory/capabilities/numerical-analysis.toml"]
 
 [[section]]
@@ -81,10 +56,6 @@ id = "categories"
 group = "Mathematics / Parents and Categories"
 title = "Categories"
 disposition = "mathematical"
-public_entities = 2718
-covered_by_capability = 0
-excluded = 0
-unaccounted = 2718
 capability_files = []
 note = "Abstract categories and mathematical laws belong to lean-categories; native computations attach to its catalogue."
 
@@ -93,10 +64,6 @@ id = "coding"
 group = "Mathematics / Discrete Mathematics"
 title = "Coding Theory"
 disposition = "mathematical"
-public_entities = 470
-covered_by_capability = 0
-excluded = 0
-unaccounted = 470
 capability_files = []
 
 [[section]]
@@ -104,10 +71,6 @@ id = "coercion"
 group = "Mathematics / Parents and Categories"
 title = "Coercion"
 disposition = "implementation-support"
-public_entities = 55
-covered_by_capability = 0
-excluded = 0
-unaccounted = 55
 capability_files = []
 note = "Sage parent/coercion machinery is runtime support; mathematical maps must still be preserved by native computations."
 
@@ -116,10 +79,6 @@ id = "combinat"
 group = "Mathematics / Discrete Mathematics"
 title = "Combinatorics"
 disposition = "mathematical"
-public_entities = 8177
-covered_by_capability = 0
-excluded = 0
-unaccounted = 8177
 capability_files = []
 
 [[section]]
@@ -127,10 +86,6 @@ id = "constants"
 group = "Mathematics / Calculus and Analysis"
 title = "Mathematical Constants"
 disposition = "mathematical"
-public_entities = 16
-covered_by_capability = 0
-excluded = 0
-unaccounted = 16
 capability_files = []
 
 [[section]]
@@ -138,10 +93,6 @@ id = "cpython"
 group = "Infrastructure / Programming Facilities"
 title = "Python Technicalities"
 disposition = "implementation-support"
-public_entities = 8
-covered_by_capability = 0
-excluded = 0
-unaccounted = 8
 capability_files = []
 
 [[section]]
@@ -149,10 +100,6 @@ id = "cryptography"
 group = "Mathematics / Discrete Mathematics"
 title = "Cryptography"
 disposition = "mathematical"
-public_entities = 373
-covered_by_capability = 0
-excluded = 0
-unaccounted = 373
 capability_files = []
 
 [[section]]
@@ -160,10 +107,6 @@ id = "curves"
 group = "Mathematics / Algebraic and Arithmetic Geometry"
 title = "Plane and Space Curves"
 disposition = "mathematical"
-public_entities = 298
-covered_by_capability = 0
-excluded = 0
-unaccounted = 298
 capability_files = []
 
 [[section]]
@@ -171,10 +114,6 @@ id = "data_structures"
 group = "Infrastructure / Programming Facilities"
 title = "Data Structures"
 disposition = "implementation-support"
-public_entities = 227
-covered_by_capability = 0
-excluded = 0
-unaccounted = 227
 capability_files = []
 
 [[section]]
@@ -182,10 +121,6 @@ id = "databases"
 group = "Mathematics / Miscellaneous"
 title = "Databases"
 disposition = "reference-data"
-public_entities = 256
-covered_by_capability = 0
-excluded = 0
-unaccounted = 256
 capability_files = []
 note = "Published data can supply independent values but is not a native algorithm."
 
@@ -194,10 +129,6 @@ id = "diophantine_approximation"
 group = "Mathematics / Number Theory"
 title = "Diophantine Approximation"
 disposition = "mathematical"
-public_entities = 40
-covered_by_capability = 0
-excluded = 0
-unaccounted = 40
 capability_files = []
 
 [[section]]
@@ -205,10 +136,6 @@ id = "discrete_geometry"
 group = "Mathematics / Geometry and Topology"
 title = "Combinatorial and Discrete Geometry"
 disposition = "mathematical"
-public_entities = 1246
-covered_by_capability = 0
-excluded = 0
-unaccounted = 1246
 capability_files = []
 
 [[section]]
@@ -216,10 +143,6 @@ id = "doctest"
 group = "Infrastructure / Programming Facilities"
 title = "Test Framework"
 disposition = "implementation-support"
-public_entities = 146
-covered_by_capability = 0
-excluded = 0
-unaccounted = 146
 capability_files = []
 
 [[section]]
@@ -227,10 +150,6 @@ id = "documentation"
 group = "Infrastructure / Documentation System"
 title = "Documentation System"
 disposition = "implementation-support"
-public_entities = 0
-covered_by_capability = 0
-excluded = 0
-unaccounted = 0
 capability_files = []
 
 [[section]]
@@ -238,10 +157,6 @@ id = "drinfeld_modular"
 group = "Mathematics / Drinfeld modules and related topics"
 title = "Drinfeld Modular Forms"
 disposition = "mathematical"
-public_entities = 31
-covered_by_capability = 0
-excluded = 0
-unaccounted = 31
 capability_files = []
 
 [[section]]
@@ -249,10 +164,6 @@ id = "drinfeld_modules"
 group = "Mathematics / Drinfeld modules and related topics"
 title = "Drinfeld Modules"
 disposition = "mathematical"
-public_entities = 62
-covered_by_capability = 0
-excluded = 0
-unaccounted = 62
 capability_files = []
 
 [[section]]
@@ -260,10 +171,6 @@ id = "dynamics"
 group = "Mathematics / Discrete Mathematics"
 title = "Discrete Dynamics"
 disposition = "mathematical"
-public_entities = 292
-covered_by_capability = 0
-excluded = 0
-unaccounted = 292
 capability_files = []
 
 [[section]]
@@ -271,10 +178,6 @@ id = "euclidean_spaces"
 group = "Mathematics / Geometry and Topology"
 title = "Euclidean Spaces and Vector Calculus"
 disposition = "mathematical"
-public_entities = 21
-covered_by_capability = 0
-excluded = 0
-unaccounted = 21
 capability_files = []
 
 [[section]]
@@ -282,10 +185,6 @@ id = "finite_rings"
 group = "Mathematics / Basic Rings and Fields"
 title = "Finite Rings and Fields"
 disposition = "mathematical"
-public_entities = 309
-covered_by_capability = 1
-excluded = 0
-unaccounted = 308
 capability_files = ["inventory/capabilities/finite-rings.toml"]
 
 [[section]]
@@ -293,10 +192,6 @@ id = "function_fields"
 group = "Mathematics / Number Fields, Function Fields, and Valuations"
 title = "Function Fields"
 disposition = "mathematical"
-public_entities = 434
-covered_by_capability = 0
-excluded = 0
-unaccounted = 434
 capability_files = []
 
 [[section]]
@@ -304,10 +199,6 @@ id = "functions"
 group = "Mathematics / Calculus and Analysis"
 title = "Elementary and Special Functions"
 disposition = "mathematical"
-public_entities = 266
-covered_by_capability = 0
-excluded = 0
-unaccounted = 266
 capability_files = []
 
 [[section]]
@@ -315,10 +206,6 @@ id = "game_theory"
 group = "Mathematics / Discrete Mathematics"
 title = "Game Theory"
 disposition = "mathematical"
-public_entities = 39
-covered_by_capability = 0
-excluded = 0
-unaccounted = 39
 capability_files = []
 
 [[section]]
@@ -326,10 +213,6 @@ id = "games"
 group = "Mathematics / Miscellaneous"
 title = "Games"
 disposition = "mathematical"
-public_entities = 29
-covered_by_capability = 0
-excluded = 0
-unaccounted = 29
 capability_files = []
 
 [[section]]
@@ -337,10 +220,6 @@ id = "graphs"
 group = "Mathematics / Discrete Mathematics"
 title = "Graph Theory"
 disposition = "mathematical"
-public_entities = 1336
-covered_by_capability = 19
-excluded = 0
-unaccounted = 1317
 capability_files = ["inventory/capabilities/graphs.toml"]
 
 [[section]]
@@ -348,10 +227,6 @@ id = "groups"
 group = "Mathematics / Mathematical Structures"
 title = "Groups"
 disposition = "mathematical"
-public_entities = 908
-covered_by_capability = 10
-excluded = 0
-unaccounted = 898
 capability_files = ["inventory/capabilities/groups.toml"]
 
 [[section]]
@@ -359,10 +234,6 @@ id = "hecke"
 group = "Mathematics / Number Theory"
 title = "General Hecke Algebras and Hecke Modules"
 disposition = "mathematical"
-public_entities = 144
-covered_by_capability = 0
-excluded = 0
-unaccounted = 144
 capability_files = []
 
 [[section]]
@@ -370,10 +241,6 @@ id = "history_and_license"
 group = "General Information"
 title = "History and License"
 disposition = "implementation-support"
-public_entities = 0
-covered_by_capability = 0
-excluded = 0
-unaccounted = 0
 capability_files = []
 
 [[section]]
@@ -381,10 +248,6 @@ id = "homology"
 group = "Mathematics / Homological Algebra"
 title = "Chain Complexes and their Homology"
 disposition = "mathematical"
-public_entities = 105
-covered_by_capability = 24
-excluded = 0
-unaccounted = 81
 capability_files = ["inventory/capabilities/homological-algebra.toml"]
 
 [[section]]
@@ -392,10 +255,6 @@ id = "hyperbolic_geometry"
 group = "Mathematics / Geometry and Topology"
 title = "Hyperbolic Geometry"
 disposition = "mathematical"
-public_entities = 123
-covered_by_capability = 0
-excluded = 0
-unaccounted = 123
 capability_files = []
 
 [[section]]
@@ -403,10 +262,6 @@ id = "interfaces"
 group = "Infrastructure / Subsystem Interfaces"
 title = "Interpreter Interfaces"
 disposition = "implementation-support"
-public_entities = 819
-covered_by_capability = 0
-excluded = 0
-unaccounted = 819
 capability_files = []
 note = "External CAS interfaces are reference and oracle routes, not native runtime algorithms."
 
@@ -415,10 +270,6 @@ id = "knots"
 group = "Mathematics / Geometry and Topology"
 title = "Knot Theory"
 disposition = "mathematical"
-public_entities = 118
-covered_by_capability = 0
-excluded = 0
-unaccounted = 118
 capability_files = []
 
 [[section]]
@@ -426,10 +277,6 @@ id = "lfunctions"
 group = "Mathematics / Number Theory"
 title = "L-Functions"
 disposition = "mathematical"
-public_entities = 64
-covered_by_capability = 0
-excluded = 0
-unaccounted = 64
 capability_files = []
 
 [[section]]
@@ -437,10 +284,6 @@ id = "libs"
 group = "Infrastructure / Subsystem Interfaces"
 title = "C/C++ Library Interfaces"
 disposition = "implementation-support"
-public_entities = 322
-covered_by_capability = 0
-excluded = 0
-unaccounted = 322
 capability_files = []
 note = "C and C++ bindings identify algorithm provenance and licenses; native algorithms live in their mathematical sections."
 
@@ -449,10 +292,6 @@ id = "logic"
 group = "Mathematics / Discrete Mathematics"
 title = "Symbolic Logic"
 disposition = "mathematical"
-public_entities = 65
-covered_by_capability = 0
-excluded = 0
-unaccounted = 65
 capability_files = []
 
 [[section]]
@@ -460,10 +299,6 @@ id = "manifolds"
 group = "Mathematics / Geometry and Topology"
 title = "Manifolds and Differential Geometry"
 disposition = "mathematical"
-public_entities = 857
-covered_by_capability = 0
-excluded = 0
-unaccounted = 857
 capability_files = []
 
 [[section]]
@@ -471,10 +306,6 @@ id = "matrices"
 group = "Mathematics / Linear Algebra"
 title = "Matrices and Spaces of Matrices"
 disposition = "mathematical"
-public_entities = 754
-covered_by_capability = 13
-excluded = 0
-unaccounted = 741
 capability_files = ["inventory/capabilities/lattices.toml", "inventory/capabilities/linear-algebra.toml"]
 
 [[section]]
@@ -482,10 +313,6 @@ id = "matroids"
 group = "Mathematics / Discrete Mathematics"
 title = "Matroid Theory"
 disposition = "mathematical"
-public_entities = 542
-covered_by_capability = 0
-excluded = 0
-unaccounted = 542
 capability_files = []
 
 [[section]]
@@ -493,10 +320,6 @@ id = "misc"
 group = "Infrastructure / Programming Facilities"
 title = "Utilities"
 disposition = "implementation-support"
-public_entities = 866
-covered_by_capability = 0
-excluded = 0
-unaccounted = 866
 capability_files = []
 
 [[section]]
@@ -504,10 +327,6 @@ id = "modabvar"
 group = "Mathematics / Number Theory"
 title = "Modular Abelian Varieties"
 disposition = "mathematical"
-public_entities = 209
-covered_by_capability = 0
-excluded = 0
-unaccounted = 209
 capability_files = []
 
 [[section]]
@@ -515,10 +334,6 @@ id = "modfrm"
 group = "Mathematics / Number Theory"
 title = "Modular Forms"
 disposition = "mathematical"
-public_entities = 962
-covered_by_capability = 0
-excluded = 0
-unaccounted = 962
 capability_files = []
 
 [[section]]
@@ -526,10 +341,6 @@ id = "modsym"
 group = "Mathematics / Number Theory"
 title = "Modular Symbols"
 disposition = "mathematical"
-public_entities = 463
-covered_by_capability = 0
-excluded = 0
-unaccounted = 463
 capability_files = []
 
 [[section]]
@@ -537,10 +348,6 @@ id = "modules"
 group = "Mathematics / Linear Algebra"
 title = "Vectors and Modules"
 disposition = "mathematical"
-public_entities = 719
-covered_by_capability = 0
-excluded = 0
-unaccounted = 719
 capability_files = []
 
 [[section]]
@@ -548,10 +355,6 @@ id = "monoids"
 group = "Mathematics / Mathematical Structures"
 title = "Monoids"
 disposition = "mathematical"
-public_entities = 124
-covered_by_capability = 0
-excluded = 0
-unaccounted = 124
 capability_files = []
 
 [[section]]
@@ -559,10 +362,6 @@ id = "noncommutative_polynomial_rings"
 group = "Mathematics / Basic Rings and Fields"
 title = "Noncommutative Polynomials"
 disposition = "mathematical"
-public_entities = 179
-covered_by_capability = 0
-excluded = 0
-unaccounted = 179
 capability_files = []
 
 [[section]]
@@ -570,10 +369,6 @@ id = "number_fields"
 group = "Mathematics / Number Fields, Function Fields, and Valuations"
 title = "Number Fields"
 disposition = "mathematical"
-public_entities = 876
-covered_by_capability = 0
-excluded = 0
-unaccounted = 876
 capability_files = []
 
 [[section]]
@@ -581,10 +376,6 @@ id = "numerical"
 group = "Mathematics / Calculus and Analysis"
 title = "Numerical Optimization"
 disposition = "mathematical"
-public_entities = 555
-covered_by_capability = 1
-excluded = 0
-unaccounted = 554
 capability_files = ["inventory/capabilities/numerical-analysis.toml"]
 
 [[section]]
@@ -592,10 +383,6 @@ id = "oremodules"
 group = "Mathematics / Linear Algebra"
 title = "Modules over Ore rings"
 disposition = "mathematical"
-public_entities = 69
-covered_by_capability = 0
-excluded = 0
-unaccounted = 69
 capability_files = []
 
 [[section]]
@@ -603,10 +390,6 @@ id = "padics"
 group = "Mathematics / Basic Rings and Fields"
 title = "p-adic Numbers"
 disposition = "mathematical"
-public_entities = 535
-covered_by_capability = 0
-excluded = 0
-unaccounted = 535
 capability_files = []
 
 [[section]]
@@ -614,10 +397,6 @@ id = "parallel"
 group = "Infrastructure / Programming Facilities"
 title = "Parallel Computing"
 disposition = "implementation-support"
-public_entities = 56
-covered_by_capability = 0
-excluded = 0
-unaccounted = 56
 capability_files = []
 
 [[section]]
@@ -625,10 +404,6 @@ id = "plot3d"
 group = "Graphics"
 title = "3D Graphics"
 disposition = "presentation"
-public_entities = 330
-covered_by_capability = 0
-excluded = 0
-unaccounted = 330
 capability_files = []
 note = "Rendering and graphics are presentation; geometry computations used by plots remain mathematical capabilities."
 
@@ -637,10 +412,6 @@ id = "plotting"
 group = "Graphics"
 title = "2D Graphics"
 disposition = "presentation"
-public_entities = 200
-covered_by_capability = 0
-excluded = 0
-unaccounted = 200
 capability_files = []
 note = "Rendering and graphics are presentation; numerical computations used by plots remain mathematical capabilities."
 
@@ -649,10 +420,6 @@ id = "polynomial_rings"
 group = "Mathematics / Basic Rings and Fields"
 title = "Commutative Polynomials"
 disposition = "mathematical"
-public_entities = 1710
-covered_by_capability = 12
-excluded = 0
-unaccounted = 1698
 capability_files = ["inventory/capabilities/polynomial-algorithms.toml", "inventory/capabilities/polynomials.toml"]
 
 [[section]]
@@ -660,10 +427,6 @@ id = "power_series"
 group = "Mathematics / Basic Rings and Fields"
 title = "Power Series and Laurent Series"
 disposition = "mathematical"
-public_entities = 456
-covered_by_capability = 0
-excluded = 0
-unaccounted = 456
 capability_files = []
 
 [[section]]
@@ -671,10 +434,6 @@ id = "probability"
 group = "Mathematics / Probability and Statistics"
 title = "Probability"
 disposition = "mathematical"
-public_entities = 46
-covered_by_capability = 0
-excluded = 0
-unaccounted = 46
 capability_files = []
 
 [[section]]
@@ -682,10 +441,6 @@ id = "quadratic_forms"
 group = "Mathematics / Number Theory"
 title = "Quadratic Forms"
 disposition = "mathematical"
-public_entities = 183
-covered_by_capability = 0
-excluded = 0
-unaccounted = 183
 capability_files = []
 
 [[section]]
@@ -693,10 +448,6 @@ id = "quat_algebras"
 group = "Mathematics / Basic Rings and Fields"
 title = "Quaternion Algebras"
 disposition = "mathematical"
-public_entities = 26
-covered_by_capability = 0
-excluded = 0
-unaccounted = 26
 capability_files = []
 
 [[section]]
@@ -704,10 +455,6 @@ id = "quivers"
 group = "Mathematics / Discrete Mathematics"
 title = "Quivers"
 disposition = "mathematical"
-public_entities = 146
-covered_by_capability = 0
-excluded = 0
-unaccounted = 146
 capability_files = []
 
 [[section]]
@@ -715,10 +462,6 @@ id = "references"
 group = "General Information"
 title = "Bibliographic References"
 disposition = "implementation-support"
-public_entities = 0
-covered_by_capability = 0
-excluded = 0
-unaccounted = 0
 capability_files = []
 
 [[section]]
@@ -726,10 +469,6 @@ id = "repl"
 group = "User Interfaces"
 title = "Command Line Interface"
 disposition = "implementation-support"
-public_entities = 300
-covered_by_capability = 0
-excluded = 0
-unaccounted = 300
 capability_files = []
 
 [[section]]
@@ -737,10 +476,6 @@ id = "resolutions"
 group = "Mathematics / Homological Algebra"
 title = "Resolutions"
 disposition = "mathematical"
-public_entities = 15
-covered_by_capability = 0
-excluded = 0
-unaccounted = 15
 capability_files = []
 
 [[section]]
@@ -748,10 +483,6 @@ id = "riemannian_geometry"
 group = "Mathematics / Geometry and Topology"
 title = "Parametrized Surfaces"
 disposition = "mathematical"
-public_entities = 44
-covered_by_capability = 0
-excluded = 0
-unaccounted = 44
 capability_files = []
 
 [[section]]
@@ -759,10 +490,6 @@ id = "rings"
 group = "Mathematics / Mathematical Structures"
 title = "Rings"
 disposition = "mathematical"
-public_entities = 306
-covered_by_capability = 0
-excluded = 0
-unaccounted = 306
 capability_files = []
 
 [[section]]
@@ -770,10 +497,6 @@ id = "rings_numerical"
 group = "Mathematics / Basic Rings and Fields"
 title = "Real and Complex Numbers"
 disposition = "mathematical"
-public_entities = 825
-covered_by_capability = 15
-excluded = 0
-unaccounted = 810
 capability_files = ["inventory/capabilities/numerical-analysis.toml"]
 
 [[section]]
@@ -781,10 +504,6 @@ id = "rings_standard"
 group = "Mathematics / Basic Rings and Fields"
 title = "Integers and Rational Numbers"
 disposition = "mathematical"
-public_entities = 351
-covered_by_capability = 326
-excluded = 25
-unaccounted = 0
 capability_files = ["inventory/capabilities/integers-and-rationals.toml"]
 
 [[section]]
@@ -792,10 +511,6 @@ id = "sat"
 group = "Mathematics / Discrete Mathematics"
 title = "SAT solvers"
 disposition = "mathematical"
-public_entities = 49
-covered_by_capability = 0
-excluded = 0
-unaccounted = 49
 capability_files = []
 note = "Finite satisfiability is a mathematical computation used by logic and combinatorics."
 
@@ -804,10 +519,6 @@ id = "schemes"
 group = "Mathematics / Algebraic and Arithmetic Geometry"
 title = "Schemes"
 disposition = "mathematical"
-public_entities = 689
-covered_by_capability = 0
-excluded = 0
-unaccounted = 689
 capability_files = []
 
 [[section]]
@@ -815,10 +526,6 @@ id = "semirings"
 group = "Mathematics / Mathematical Structures"
 title = "Semirings"
 disposition = "mathematical"
-public_entities = 14
-covered_by_capability = 0
-excluded = 0
-unaccounted = 14
 capability_files = []
 
 [[section]]
@@ -826,10 +533,6 @@ id = "sets"
 group = "Mathematics / Mathematical Structures"
 title = "Sets"
 disposition = "mathematical"
-public_entities = 276
-covered_by_capability = 0
-excluded = 0
-unaccounted = 276
 capability_files = []
 
 [[section]]
@@ -837,10 +540,6 @@ id = "spkg"
 group = "General Information"
 title = "External Packages"
 disposition = "implementation-support"
-public_entities = 184
-covered_by_capability = 0
-excluded = 0
-unaccounted = 184
 capability_files = []
 
 [[section]]
@@ -848,10 +547,6 @@ id = "stats"
 group = "Mathematics / Probability and Statistics"
 title = "Statistics"
 disposition = "mathematical"
-public_entities = 114
-covered_by_capability = 0
-excluded = 0
-unaccounted = 114
 capability_files = []
 
 [[section]]
@@ -859,10 +554,6 @@ id = "structure"
 group = "Mathematics / Parents and Categories"
 title = "Parents and Elements"
 disposition = "implementation-support"
-public_entities = 305
-covered_by_capability = 0
-excluded = 0
-unaccounted = 305
 capability_files = []
 note = "Sage parent and element implementation is runtime support, not the mathematical ontology."
 
@@ -871,10 +562,6 @@ id = "tensor_free_modules"
 group = "Mathematics / Linear Algebra"
 title = "Tensors on Free Modules of Finite Rank"
 disposition = "mathematical"
-public_entities = 179
-covered_by_capability = 0
-excluded = 0
-unaccounted = 179
 capability_files = []
 
 [[section]]
@@ -882,19 +569,11 @@ id = "topology"
 group = "Mathematics / Geometry and Topology"
 title = "Cell Complexes, Simplicial Complexes, and Simplicial Sets"
 disposition = "mathematical"
-public_entities = 365
-covered_by_capability = 0
-excluded = 0
-unaccounted = 365
-capability_files = []
+capability_files = ["inventory/capabilities/topology.toml"]
 
 [[section]]
 id = "valuations"
 group = "Mathematics / Number Fields, Function Fields, and Valuations"
 title = "Discrete Valuations"
 disposition = "mathematical"
-public_entities = 280
-covered_by_capability = 0
-excluded = 0
-unaccounted = 280
 capability_files = []
