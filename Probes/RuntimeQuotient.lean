@@ -70,4 +70,13 @@ noncomputable def formalQuotientMap {p : Nat} [ZMod64.Bounds p] (g : FpPoly p) :
     Polynomial (ZMod p) →+* AdjoinRoot (HexPolyFpTheory.fpPolyEquiv g) :=
   AdjoinRoot.mk (HexPolyFpTheory.fpPolyEquiv g)
 
+/-- Candidate interpretation of Hex's canonical representative in the
+mathematical quotient. Its preservation of Hex quotient operations and of the
+selected constant and root maps is the outstanding bridge obligation. -/
+noncomputable def interpret {p : Nat} [ZMod64.Bounds p] [ZMod64.PrimeModulus p]
+    {g : FpPoly p} {hm : DensePoly.Monic g} {hd : 0 < g.natDegree}
+    (x : FpPoly.Quotient g hm hd) :
+    AdjoinRoot (HexPolyFpTheory.fpPolyEquiv g) :=
+  formalQuotientMap g (HexPolyFpTheory.fpPolyEquiv x.val)
+
 end Probes.RuntimeQuotient
