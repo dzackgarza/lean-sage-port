@@ -1621,16 +1621,30 @@ notes = "Todd-Coxeter / Knuth-Bendix are missing."
 [[component]]
 id = "mathlib.group.coset-enumeration"
 source = "mathlib"
-capability = "Todd-Coxeter coset enumeration and Schreier-Sims base and strong generating set"
-domain = "finitely presented groups; permutation groups"
+capability = "Todd-Coxeter coset enumeration from a finite group presentation and a subgroup presentation"
+domain = "finitely presented groups and finitely generated subgroups"
 declarations = []
 paths = []
 kind = "executable-algorithm"
 executable = "not-present"
 performance = "not measured"
 status = "missing"
-evidence = "grep -rln 'ToddCoxeter\\|Todd-Coxeter\\|SchreierSims\\|Schreier-Sims' Mathlib: no matches (Mathlib/GroupTheory/Schreier.lean is Schreier's lemma). Master check (Lean v4.36.0, Mathlib 6d97e8ad9c): read from source, not run."
-notes = "Hex supplies an executable implementation: hex.HexPermGroup.schreier-sims, hex.HexPermGroup.rank-enumerate-cosets."
+evidence = "Mathlib/GroupTheory at revision 6d97e8ad9c: case-insensitive search for Todd-Coxeter and coset enumeration returned no match; Mathlib/GroupTheory/PresentedGroup.lean defines presentations but no enumeration algorithm. Source search only, not a proof of absence outside the inspected tree."
+notes = "HexPermGroup/Rank.lean, Enumerate.lean and Coset.lean enumerate elements and cosets of an already constructed permutation group; they do not consume a finite presentation or implement Todd-Coxeter."
+
+[[component]]
+id = "mathlib.group.schreier-sims"
+source = "mathlib"
+capability = "Stabilizer chain and strong generating set for a finite permutation group"
+domain = "subgroups of Equiv.Perm (Fin n) given by generators"
+declarations = []
+paths = []
+kind = "executable-algorithm"
+executable = "not-present"
+performance = "not measured"
+status = "missing"
+evidence = "Mathlib/GroupTheory at revision 6d97e8ad9c: case-insensitive search for Schreier-Sims returned no match; Mathlib/GroupTheory/Schreier.lean proves Schreier's lemma. Source search only, not a proof of absence outside the inspected tree."
+notes = "Hex provides the executable algorithm and checked chain in hex.HexPermGroup.schreier-sims."
 
 [[component]]
 id = "mathlib.group.specific-groups"
