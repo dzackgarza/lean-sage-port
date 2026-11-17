@@ -13,7 +13,7 @@ algorithms = [{ family = "Euclidean remainder sequence and extended Euclid; prim
 depends_on = ["polynomials.univariate-arithmetic"]
 sage = ["sage.rings.polynomial.polynomial_element:Polynomial.gcd", "sage.rings.polynomial.polynomial_element:Polynomial.xgcd", "sage.rings.polynomial.polynomial_element_generic:Polynomial_generic_sparse.gcd"]
 catalogue = ["mor.sets.gcd"]
-tests = ["On run-time f,g in Q[x], verify d = uf+vg, divisibility and monic normalization independently by polynomial division", "For f=x^2-1 and g=x^2-2x+1 over Q, d=x-1 up to the stated normalization"]
+tests = ["src/sage/rings/polynomial/polynomial_element.pyx: Polynomial.gcd and Polynomial.xgcd doctests cover monic normalization and zero cases; compare gcd and Bezout witnesses with Sage over the same coefficient ring, including explicit unsupported-domain failures"]
 reuse = { status = "reusable", components = ["hex.HexPoly.gcd-xgcd", "hex.HexPoly.pseudo-division", "comppoly.division-xgcd"], evidence = "Hex DensePoly supplies executable gcd, extended gcd, Bezout and divisibility lemmas; its pseudo-division covers integral-domain coefficients. CompPoly has a Mathlib bridge for the field case." }
 backends = ["flint", "ntl"]
 references = []
@@ -29,7 +29,7 @@ algorithms = [{ family = "Square-free decomposition, finite-field splitting, Hen
 depends_on = ["polynomials.univariate-arithmetic", "polynomials.extended-gcd", "integers.factorization"]
 sage = ["sage.rings.polynomial.polynomial_element:Polynomial.factor", "sage.rings.polynomial.polynomial_integer_dense_ntl:Polynomial_integer_dense_ntl.factor"]
 catalogue = ["mor.sets.polynomial_factorization", "mor.sets.polynomial_factorization_unit", "mor.sets.polynomial_factorization_factors"]
-tests = ["Multiply the returned unit and factors with multiplicities to recover the run-time input exactly", "Check irreducibility independently with a distinct algorithm or a mathematical irreducibility criterion; product reconstruction alone is insufficient"]
+tests = ["src/sage/rings/polynomial/polynomial_element.pyx: Polynomial.factor doctests cover Q[x], Z[x] and GF(25)[x], including unit factors and parent-ring recovery; compare normalized factor multisets and units with Sage"]
 reuse = { status = "adaptable", components = ["hex.HexBerlekamp.berlekamp-factor", "hex.HexBerlekampZassenhaus.factorize", "hex.HexBerlekampZassenhausTheory.factorization-soundness"], evidence = "Released Hex has finite-prime-field splitting and certified Z[x] factorization. The surveyed components do not establish the full F_q and Q[x] output contract without adaptation; the catalogue owns factorization semantics." }
 backends = ["flint", "ntl", "pari"]
 references = []
@@ -45,7 +45,7 @@ algorithms = [{ family = "Sparse monomial map arithmetic", sources = ["Sage mult
 depends_on = []
 sage = ["sage.rings.polynomial.multi_polynomial_element:MPolynomial_polydict", "sage.rings.polynomial.multi_polynomial_element:MPolynomial_polydict.degree", "sage.rings.polynomial.multi_polynomial_element:MPolynomial_polydict.monomials"]
 catalogue = []
-tests = ["For run-time f,g and point a, evaluate f+g and fg both before and after polynomial arithmetic and compare in R", "The coefficient of a monomial in fg equals the finite convolution of coefficients of f and g"]
+tests = ["src/sage/rings/polynomial/multi_polynomial_element.py: MPolynomial_polydict arithmetic, coefficient and monomial doctests are inherited through the selectors; compare native sparse coefficients and evaluation with Sage at the same variable order"]
 reuse = { status = "reusable", components = ["hex.HexMvPoly.sparse-mvpoly", "hex.HexMvPoly.monomial-orders", "mathlib.poly.multivariate"], evidence = "Released Hex defines sparse executable MvPoly, ring operations and lawful lex/grlex/grevlex comparisons; Mathlib supplies the formal polynomial owner." }
 backends = ["singular"]
 references = []
@@ -61,7 +61,7 @@ algorithms = [{ family = "Buchberger S-pair completion or F4 linear algebra with
 depends_on = ["polynomials.multivariate-arithmetic"]
 sage = ["sage.rings.polynomial.multi_polynomial_ideal:MPolynomialIdeal.groebner_basis"]
 catalogue = []
-tests = ["Every input generator reduces to zero by G, every g in G belongs to the input ideal, and all S-polynomials reduce to zero", "For I=<x*y-1,y^2-y> in Q[x,y], compare the reduced basis to a second algorithm at the same monomial order"]
+tests = ["src/sage/rings/polynomial/multi_polynomial_ideal.py: MPolynomialIdeal.groebner_basis doctests specify reduced bases and algorithm options; compare reduced bases with Sage at the same coefficient field and monomial order"]
 reuse = { status = "adaptable", components = ["hex.HexGroebner.certified-basis", "hex.HexGroebnerTheory.groebner-soundness", "mathlib.poly.groebner-basis"], evidence = "Unreleased HexGroebner computes and checks a reduced basis over F_p for p < 2^31; its checked route has a soundness theorem, but general-field execution and completeness are not established by the map. Mathlib's Groebner theory is noncomputable." }
 backends = ["singular", "msolve"]
 references = []
@@ -77,7 +77,7 @@ algorithms = [{ family = "Multivariate leading-term division and certified remai
 depends_on = ["ideals.groebner-basis"]
 sage = ["sage.rings.polynomial.multi_polynomial_ideal:MPolynomialIdeal.reduce", "sage.rings.polynomial.multi_polynomial_element:MPolynomial_polydict.reduce"]
 catalogue = []
-tests = ["For I=<x^3+y,y> in Q[x,y], the normal forms of y and x^3 are zero while that of x-y is x", "For run-time f and basis G, independently reconstruct f-r as a combination of G and verify no remainder monomial is divisible by a leading monomial of G"]
+tests = ["src/sage/rings/polynomial/multi_polynomial_ideal.py: MPolynomialIdeal.reduce doctests include I=<x^3+y,y> with zero and nonzero remainders; compare the canonical remainder with Sage at the same monomial order and retain the ideal context"]
 reuse = { status = "adaptable", components = ["hex.HexGroebner.division-normal-form", "hex.HexGroebnerTheory.groebner-soundness"], evidence = "Unreleased HexGroebner implements division, remainder and membership for its finite-prime-field domain, with proof of the checked route. General exact fields require representation and algorithm adaptation." }
 backends = ["singular"]
 references = []

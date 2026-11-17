@@ -15,7 +15,7 @@ algorithms = [{ family = "Arbitrary-precision binary floating arithmetic and cor
 depends_on = []
 sage = ["sage.rings.real_mpfr:RealField", "sage.rings.real_mpfr:RealField_class.precision", "sage.rings.real_mpfr:RealField_class.to_prec", "sage.rings.real_mpfr:RealField_class.rounding_mode", "sage.rings.real_mpfr:RealNumber.precision"]
 catalogue = []
-tests = ["For rational inputs exactly representable at p bits, rounded addition agrees with rational addition when the result is representable", "For a positive rational between two adjacent p-bit values, rounding toward negative and positive infinity returns those respective neighbours"]
+tests = ["src/sage/rings/real_mpfr.pyx: RealField_class.__init__ doctests construct 17- and 100000-bit fields and each MPFR rounding mode; compare native results at the same precision and rounding mode against Sage/MPFR"]
 reuse = { status = "adaptable", components = ["FloatLib.binary-formats", "FloatLib.certified-transcendentals"], evidence = "FloatLib defines executable formats parameterized by a type-level precision, and a correctly rounded transcendental subset. A run-time p to typed-format representation and generic arithmetic composition remain unverified." }
 backends = ["mpfr"]
 references = []
@@ -32,7 +32,7 @@ algorithms = [{ family = "Directed endpoint rounding and interval evaluation", s
 depends_on = []
 sage = ["sage.rings.real_mpfi:RealIntervalField", "sage.rings.real_mpfi:RealIntervalFieldElement.lower", "sage.rings.real_mpfi:RealIntervalFieldElement.upper", "sage.rings.real_mpfi:RealIntervalFieldElement.intersection", "sage.rings.real_mpfi:RealIntervalFieldElement.union", "sage.rings.real_mpfi:RealIntervalFieldElement.sqrt", "sage.rings.real_mpfi:RealIntervalFieldElement.exp", "sage.rings.real_arb:RealBallField", "sage.rings.real_arb:RealBall.contains_exact", "sage.rings.real_arb:RealBall.sqrt"]
 catalogue = []
-tests = ["For rational x and y contained in input intervals X and Y, exact rational x+y and x*y lie in the corresponding output intervals", "For X = [2,3], the square-root enclosure contains sqrt(2) and sqrt(3), witnessed by squared endpoint inequalities", "Intersection of [1,2] and [3,4] reports failure; intersection of [1,2] and [3/2,3] contains 3/2 and 2"]
+tests = ["src/sage/rings/real_mpfi.pyx: RealIntervalFieldElement.intersection and union doctests cover overlap, disjoint failure and convex hull; compare containment and endpoint direction against Sage at the same precision"]
 reuse = { status = "adaptable", components = ["leancert.dyadic-interval", "leancert.rat-interval", "leancert.expr-eval-dyadic", "interval.floating", "interval.interval-special-functions"], evidence = "LeanCert supplies proved dyadic and rational containment; girving/interval supplies fixed-width outward-rounded transcendental intervals. Neither surveyed component supplies the full Sage run-time precision and ball contracts." }
 backends = ["mpfi", "arb"]
 references = []
@@ -49,7 +49,7 @@ algorithms = [{ family = "Brent bracketing", sources = ["Sage numerical/optimize
 depends_on = []
 sage = ["sage.numerical.optimize:find_root"]
 catalogue = []
-tests = ["For f(x)=x^2-2 on [1,2], compare the estimate with rational lower and upper bounds whose squares straddle 2 at the requested tolerance", "For f(x)=x^2+1 on [-1,1], an implementation must not return an unqualified real root estimate"]
+tests = ["src/sage/numerical/optimize.py: find_root doctests include polynomial roots, an undefined endpoint, a Brent failure and an all-NaN interval; compare native estimates and failure status with Sage at matching machine precision and tolerances"]
 reuse = { status = "adaptable", components = ["leancert.root-finding"], evidence = "LeanCert implements bisection with stronger interval guarantees, but the surveyed map does not show a compiled Brent implementation. Reuse requires a point-estimate interface with Sage's machine-precision stopping behavior." }
 backends = ["scipy"]
 references = []
@@ -66,7 +66,7 @@ algorithms = [{ family = "Adaptive and fixed Gauss-Kronrod quadrature", sources 
 depends_on = []
 sage = ["sage.calculus.integration:numerical_integral"]
 catalogue = []
-tests = ["For f(x)=x^2 on [0,1], compare the numerical estimate with the exact value 1/3 at the requested tolerance", "For a polynomial antiderivative F and run-time rational endpoints, compare the estimate with exact F(b)-F(a)"]
+tests = ["src/sage/calculus/integration.pyx: numerical_integral doctests cover the default and qags modes, a changed Gauss rule and the returned estimate/error-estimate pair; compare both outputs with Sage under matching rule and tolerances"]
 reuse = { status = "adaptable", components = ["leancert.integration"], evidence = "LeanCert provides certified uniform and adaptive interval integration, but its function representation and enclosure output differ from the GSL estimate and error estimate. Adaptation must preserve the stated output contract." }
 backends = ["gsl"]
 references = []
