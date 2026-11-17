@@ -1,0 +1,19 @@
+# Contributions
+
+Read the [constitution](.specify/memory/constitution.md), [AGENTS.md](AGENTS.md), the owning
+Spec Kit specification and the relevant [capability records](docs/capability-records.md).
+
+| Policy | Required contribution | Example |
+| --- | --- | --- |
+| SEM001 | Use the upstream mathematical object and operation. | A fast residue representation interprets into the existing quotient; it does not define a second quotient ontology. |
+| REUSE001 | Inspect the implementation before classifying reuse. | A package-name search is insufficient; cite its declaration, domain, revision and execution evidence. |
+| INV001 | Account only for source entities that the contract covers. | A scalar quadrature record cannot select a vector-valued integration operation. |
+| DEP001 | Distinguish alternative algorithms from mandatory inputs. | A primality algorithm using factorization does not make factorization a prerequisite for trial-division primality. |
+| TEST001 | Reuse Sage source tests and compare same-input oracle computations. | Link the selected doctests and compare subgroup membership, rather than require identical printed generators. |
+| TEST002 | Test the entire mathematical output through public operations. | Compare a computed integer kernel as a lattice, not merely verify that each returned vector is killed. |
+| EVID001 | Record the environment that actually ran. | Sage 10.10.beta8 oracle output is evidence from that version, not from the indexed 11.0.beta5 source. |
+| SPEC001 | Finish specification and architecture decisions before deriving implementation issues. | An unresolved kernel-selection interface stays open in its contract rather than becoming an implementer's hidden design task. |
+
+Use `just test` for local inventory checks. Lean builds and executable probes run in CI.
+Preserve the committed dependency locks and source provenance. Changes to mathematical behavior
+need the corresponding source-oracle acceptance; documentation changes need semantic and diff review.
