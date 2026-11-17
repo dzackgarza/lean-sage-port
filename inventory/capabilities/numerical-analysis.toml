@@ -25,14 +25,14 @@ id = "interval.real-enclosure-arithmetic"
 title = "Real interval arithmetic with guaranteed containment"
 statement = "Given bounded real intervals, compute enclosures of arithmetic, elementary functions, intersection and hull while retaining the precision and the containment guarantee."
 domain = "Real intervals with specified endpoint arithmetic; functions require their mathematical domains, for example square root on nonnegative inputs."
-contract = "Interval p x Interval p -> Interval p for binary operations; Interval p -> Interval p for unary functions; the output contains the set-theoretic image of all inputs. Intersection returns empty when disjoint; hull contains both operands. Endpoints are rounded outward at p bits."
+contract = "Interval p x Interval p -> Interval p for binary arithmetic; Interval p -> Interval p for unary functions; the output contains the set-theoretic image of all inputs. Intersection is a partial operation: it returns the common interval when the inputs overlap and reports failure when they are disjoint. Hull contains both operands. Endpoints are rounded outward at p bits."
 exactness = "approximate"
 exactness_notes = "The returned interval is a rigorous enclosure, not an estimate; width may exceed the best possible bound."
 algorithms = [{ family = "Directed endpoint rounding and interval evaluation", sources = ["Sage real_mpfi.pyx RealIntervalFieldElement", "Sage real_arb.pyx RealBall"] }]
 depends_on = []
 sage = ["sage.rings.real_mpfi:RealIntervalField", "sage.rings.real_mpfi:RealIntervalFieldElement.lower", "sage.rings.real_mpfi:RealIntervalFieldElement.upper", "sage.rings.real_mpfi:RealIntervalFieldElement.intersection", "sage.rings.real_mpfi:RealIntervalFieldElement.union", "sage.rings.real_mpfi:RealIntervalFieldElement.sqrt", "sage.rings.real_mpfi:RealIntervalFieldElement.exp", "sage.rings.real_arb:RealBallField", "sage.rings.real_arb:RealBall.contains_exact", "sage.rings.real_arb:RealBall.sqrt"]
 catalogue = []
-tests = ["For rational x and y contained in input intervals X and Y, exact rational x+y and x*y lie in the corresponding output intervals", "For X = [2,3], the square-root enclosure contains sqrt(2) and sqrt(3), witnessed by squared endpoint inequalities"]
+tests = ["For rational x and y contained in input intervals X and Y, exact rational x+y and x*y lie in the corresponding output intervals", "For X = [2,3], the square-root enclosure contains sqrt(2) and sqrt(3), witnessed by squared endpoint inequalities", "Intersection of [1,2] and [3,4] reports failure; intersection of [1,2] and [3/2,3] contains 3/2 and 2"]
 reuse = { status = "adaptable", components = ["leancert.dyadic-interval", "leancert.rat-interval", "leancert.expr-eval-dyadic", "interval.floating", "interval.interval-special-functions"], evidence = "LeanCert supplies proved dyadic and rational containment; girving/interval supplies fixed-width outward-rounded transcendental intervals. Neither surveyed component supplies the full Sage run-time precision and ball contracts." }
 backends = ["mpfi", "arb"]
 references = []
@@ -40,33 +40,33 @@ references = []
 [[capability]]
 id = "numerical.real-root-localization"
 title = "Locate a real root within a bounded interval"
-statement = "Given a continuous real function and a bracket with a sign change, return a root approximation with the requested stopping tolerance; optionally return a certified enclosing interval when an interval extension is available."
-domain = "A continuous function on [a,b] with f(a)f(b) <= 0; certification requires an interval extension and sufficient regularity for the selected interval method."
-contract = "(f, a, b, tolerance) -> approximation and convergence information for the ordinary numerical path. A certified path returns I subseteq [a,b] with a proved existence assertion and a width bound; a unique-root claim requires a separate uniqueness certificate. Failure to meet a tolerance is explicit."
+statement = "Given a real function and a bounded search interval, return a machine-precision root estimate when the numerical search converges."
+domain = "A real-valued function evaluable at machine precision on enough of the search interval for Brent's method; a sign-change bracket is the ordinary successful case."
+contract = "(f, a, b, absoluteTolerance, relativeTolerance, maxIterations) -> root estimate and optional convergence information. The result is a machine-precision point estimate; failure to meet convergence conditions or to find a usable bracket is explicit."
 exactness = "approximate"
-exactness_notes = "Sage find_root uses machine-precision Brent search and does not certify an exact root. The certified path is a distinct stronger result and cannot be inferred from a point estimate."
-algorithms = [{ family = "Brent bracketing and interval bisection or Newton contraction", sources = ["Sage numerical/optimize.py find_root", "LeanCert RootFinding/Bisection.lean and Newton.lean"] }]
-depends_on = ["interval.real-enclosure-arithmetic"]
+exactness_notes = "Sage find_root uses machine-precision Brent search. Its stopping tolerance and convergence information do not certify an exact root."
+algorithms = [{ family = "Brent bracketing", sources = ["Sage numerical/optimize.py find_root"] }]
+depends_on = []
 sage = ["sage.numerical.optimize:find_root"]
 catalogue = []
-tests = ["For f(x)=x^2-2 on [1,2], an enclosing result contains the positive square root of 2 by endpoint sign inequalities", "For a bracket with f(a)f(b)>0, a method requiring a sign-change proof returns a stated failure instead of a root claim"]
-reuse = { status = "adaptable", components = ["leancert.root-finding", "leancert.dyadic-interval"], evidence = "LeanCert proves root existence and exclusion for interval bisection and contraction; the Sage method's point-estimate result and the certified result need separate public contracts." }
+tests = ["For f(x)=x^2-2 on [1,2], compare the estimate with rational lower and upper bounds whose squares straddle 2 at the requested tolerance", "For f(x)=x^2+1 on [-1,1], an implementation must not return an unqualified real root estimate"]
+reuse = { status = "adaptable", components = ["leancert.root-finding"], evidence = "LeanCert implements bisection with stronger interval guarantees, but the surveyed map does not show a compiled Brent implementation. Reuse requires a point-estimate interface with Sage's machine-precision stopping behavior." }
 backends = ["scipy"]
 references = []
 
 [[capability]]
 id = "numerical.definite-integration"
-title = "Approximate or enclose a definite real integral"
-statement = "Given an integrable real function and bounds, return either a numerical estimate with a stated error estimate or a certified interval containing the integral."
-domain = "Real integrable functions on finite intervals; infinite endpoints and integrable singularities require separate convergence hypotheses and algorithms."
-contract = "(f, a, b, absoluteTolerance, relativeTolerance) -> (estimate, errorEstimate) for the Sage-style numerical path. A certified path returns I with integral_a^b f in I and an explicit width or termination condition. Reversing bounds negates the result."
+title = "Estimate a definite real integral"
+statement = "Given an integrable real function and bounds, return a numerical estimate with an error estimate."
+domain = "Real integrable functions on finite intervals; infinite endpoints and integrable singularities require the convergence hypotheses of the selected quadrature rule."
+contract = "(f, a, b, absoluteTolerance, relativeTolerance, rule) -> (estimate, errorEstimate). The second output is the quadrature algorithm's error estimate, not a certified bound. Reversing bounds negates the integral estimate."
 exactness = "approximate"
-exactness_notes = "Sage numerical_integral returns an error estimate from GSL quadrature, not a formal bound. LeanCert's interval integral has a containment theorem under its function hypotheses."
-algorithms = [{ family = "Adaptive and fixed Gauss-Kronrod quadrature; interval quadrature", sources = ["Sage calculus/integration.pyx numerical_integral", "LeanCert Engine/Integrate.lean"] }]
-depends_on = ["interval.real-enclosure-arithmetic"]
-sage = ["sage.calculus.integration:numerical_integral", "sage.numerical.gauss_legendre:integrate_vector"]
+exactness_notes = "Sage numerical_integral returns an error estimate from GSL quadrature, not a formal bound."
+algorithms = [{ family = "Adaptive and fixed Gauss-Kronrod quadrature", sources = ["Sage calculus/integration.pyx numerical_integral"] }]
+depends_on = []
+sage = ["sage.calculus.integration:numerical_integral"]
 catalogue = []
-tests = ["For f(x)=x^2 on [0,1], the certified interval contains 1/3 and meets its declared width bound", "For a polynomial antiderivative F, an integral enclosure contains exact F(b)-F(a) for run-time rational endpoints"]
-reuse = { status = "adaptable", components = ["leancert.integration", "leancert.expr-eval-dyadic"], evidence = "LeanCert has certified uniform and adaptive interval integration. Its accepted function representation and hypotheses must be reconciled with the Sage numerical integration domain; GSL's error estimate is not a containment certificate." }
+tests = ["For f(x)=x^2 on [0,1], compare the numerical estimate with the exact value 1/3 at the requested tolerance", "For a polynomial antiderivative F and run-time rational endpoints, compare the estimate with exact F(b)-F(a)"]
+reuse = { status = "adaptable", components = ["leancert.integration"], evidence = "LeanCert provides certified uniform and adaptive interval integration, but its function representation and enclosure output differ from the GSL estimate and error estimate. Adaptation must preserve the stated output contract." }
 backends = ["gsl"]
 references = []
