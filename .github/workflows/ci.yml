@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Check out repository
-      uses: actions/checkout@v7
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
     - name: Clone QC infrastructure
       run: git clone --depth 1 https://github.com/dzackgarza/ai-review-ci.git "$HOME/ai-review-ci"
     - name: Install ripgrep
@@ -39,7 +39,7 @@ jobs:
 
         '
     - name: Install just
-      uses: extractions/setup-just@v4
+      uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3
     - name: Install uv
       uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9
     - name: Build and scan
