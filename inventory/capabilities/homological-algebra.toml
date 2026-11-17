@@ -13,7 +13,7 @@ algorithms = [{ family = "Finite graded matrix assembly and composition checks",
 depends_on = ["matrices.arithmetic"]
 sage = ["sage.homology.chain_complex:ChainComplex", "sage.homology.chain_complex:ChainComplex_class.differential", "sage.homology.chain_complex:ChainComplex_class.grading_group", "sage.homology.chain_complex:ChainComplex_class.degree_of_differential", "sage.homology.chain_complex:ChainComplex_class.free_module_rank", "sage.homology.chain_complex:ChainComplex_class.free_module"]
 catalogue = []
-tests = ["For runtime matrices A and B with BA=0, recover the supplied maps and dimensions, including rectangular zero maps.", "For consecutive identity maps on a nonzero module over a nonzero ring, construction rejects the nonzero composite."]
+tests = ["Sage doctests: sage/homology/chain_complex.py:ChainComplex constructs from integer matrices, recovers differential(0), and preserves the shape of the absent differential(1) for a 3x4 input.", "Sage doctests: sage/homology/chain_complex.py:ChainComplex rejects matrices over incompatible coefficient rings.", "Supplemental contract check: reject a nonzero consecutive composite; the constructor doctests cited above chiefly cover accepted matrices and ring compatibility."]
 reuse = { status = "formalized-not-executable", components = ["mathlib.homology.complexes"], evidence = "The reuse map supplies HomologicalComplex and ChainComplex semantics. It does not establish an executable constructor from runtime matrices. No chain-complex catalogue entry was found in inventory/reuse/lean-categories.toml." }
 backends = []
 references = []
@@ -30,7 +30,7 @@ algorithms = [{ family = "Kernel coordinates followed by Smith reduction of the 
 depends_on = ["complexes.finite-free-construction", "matrices.kernel", "matrices.smith-normal-form", "matrices.hermite-normal-form"]
 sage = ["sage.homology.chain_complex:ChainComplex_class.homology", "sage.homology.chain_complex:ChainComplex_class.betti"]
 catalogue = []
-tests = ["For the two-term integer complex with differential multiplication by a runtime integer n>1, the cokernel is Z/n and the kernel is zero; the class of the target basis vector has order n, and class addition and equality agree with reduction modulo n.", "For a zero differential between free modules, homology has the original ranks and the chosen basis gives representatives; class addition agrees with vector addition.", "Each returned representative z satisfies dz=0; an invariant factor m gives a boundary witness for mz, and the Smith transformations establish generation and all relations.", "For a field complex, dim H_i = dim C_i - rank d_i - rank d_(i-degree)."]
+tests = ["Sage doctests: sage/homology/chain_complex.py:ChainComplex_class.homology computes Z x Z in degree 0 and Z x C3 in degree 1 for its displayed 2x3 integer matrix, then computes dimension 2 over GF(3).", "Sage doctests: the same method with generators=True returns the displayed torsion and free cycle representatives, including the Klein-bottle C2 and Z generators from issue 6100.", "Supplemental contract check: quotient-class addition and equality for the Z/n two-term complex; the Sage doctests return groups and representative cycles, but do not exercise later arithmetic on a class object."]
 reuse = { status = "adaptable", components = ["mathlib.homology.homology", "hex.HexSmith.snf", "hex.HexSmith.snf-certificate"], evidence = "Mathlib supplies homology semantics; the Hex map supplies integer Smith reduction and certificates as prerequisites, not an already implemented homology operation. Field kernels and coordinate transport remain separate obligations." }
 backends = ["pari"]
 references = ["DHSW2003"]
@@ -47,7 +47,7 @@ algorithms = [{ family = "Reindexing and scalar multiplication", sources = ["sag
 depends_on = ["complexes.finite-free-construction"]
 sage = ["sage.homology.chain_complex:ChainComplex_class.shift"]
 catalogue = []
-tests = ["C[a][b] has the same graded matrices as C[a+b] for runtime integers a,b.", "For delta=-1, C[n]_j=C_(j-n); consecutive shifted differentials still compose to zero.", "Shifting twice restores differential signs and shifts indices by twice delta."]
+tests = ["Sage doctests: sage/homology/chain_complex.py:ChainComplex_class.shift checks shift(1).differential(2) equals the negative original differential(1), shift(2).differential(3) equals the original, and shift(3) moves a sphere homology class to degree 4.", "Sage doctests: the same method shifts a torus cochain complex by 2 and moves its homology degrees downward."]
 reuse = { status = "formalized-not-executable", components = ["mathlib.homology.complexes"], evidence = "Reuse the complex semantics; executable reindexing and the comparison with the formal shift need inspection in a dedicated implementation specification." }
 backends = []
 references = ["Wei1994"]
@@ -64,7 +64,7 @@ algorithms = [{ family = "Degreewise matrix construction and multiplication with
 depends_on = ["complexes.finite-free-construction", "matrices.arithmetic"]
 sage = ["sage.homology.chain_complex_morphism:ChainComplexMorphism", "sage.homology.chain_complex_morphism:ChainComplexMorphism.in_degree", "sage.homology.chain_complex_morphism:ChainComplexMorphism.to_matrix", "sage.homology.chain_complex_morphism:ChainComplexMorphism.is_identity"]
 catalogue = []
-tests = ["For runtime rectangular component matrices F:C->D and G:D->E in zero-differential complexes, the composite has component GF; choose unequal ranks to detect reversed multiplication.", "A family with d_D F != F d_C is rejected.", "Composition preserves the chain-map equation, has the correct domain and codomain, and obeys identity and associativity laws."]
+tests = ["Sage doctests: sage/homology/chain_complex_morphism.py:ChainComplexMorphism.__init__ rejects a 1x2 matrix where a 2x1 component is required.", "Sage doctests: ChainComplexMorphism.__mul__ uses rectangular zero-differential complexes to check (f*g).in_degree(0)=[2], fixing composition order in issue 19065; another case composes maps whose middle degrees are absent.", "Supplemental contract check: reject a matrix family that violates d_D F=F d_C; the cited constructor examples check shape and composition but not every commuting square."]
 reuse = { status = "formalized-not-executable", components = ["mathlib.homology.complexes"], evidence = "HomologicalComplex supplies abstract morphisms; a runtime matrix realization must retain the same commuting-square obligation. The inspected catalogue map contains no chain-map entry." }
 backends = []
 references = []
@@ -81,7 +81,7 @@ algorithms = [{ family = "Transpose differential matrices and reverse their dire
 depends_on = ["complexes.finite-free-construction", "matrices.arithmetic"]
 sage = ["sage.homology.chain_complex:ChainComplex_class.dual", "sage.homology.chain_complex_morphism:ChainComplexMorphism.dual"]
 catalogue = []
-tests = ["The evaluation identity <d^dual phi,x>=<phi,dx> holds for runtime vectors and covectors.", "Double dualization recovers every differential matrix under the evaluation identification.", "Dualizing a composite chain map reverses its order; source and target are interchanged."]
+tests = ["Sage doctests: sage/homology/chain_complex.py:ChainComplex_class.dual transposes the displayed 2x3 integer differential and changes degree_of_differential from 1 to -1.", "Sage doctests: sage/homology/chain_complex_morphism.py:ChainComplexMorphism.dual supplies the corresponding dual chain-map examples.", "Supplemental contract check: evaluation pairing identifies a finite free complex with its double dual; the displayed source doctest checks one differential only."]
 reuse = { status = "formalized-not-executable", components = ["mathlib.homology.complexes"], evidence = "The formal complex representation is available; the surveyed map does not establish an executable dual-complex constructor with retained evaluation pairing." }
 backends = []
 references = []
@@ -97,7 +97,7 @@ algorithms = [{ family = "Block-diagonal differential assembly", sources = ["sag
 depends_on = ["complexes.finite-free-construction", "complexes.chain-maps"]
 sage = ["sage.homology.chain_complex:ChainComplex_class.cartesian_product"]
 catalogue = []
-tests = ["Projection_j after inclusion_i is identity for i=j and zero otherwise; the sum of inclusion_i after projection_i is identity.", "Each inclusion and projection satisfies the chain-map equation.", "The module rank in every degree is the sum of the input ranks, including degrees with zero differentials."]
+tests = ["Sage doctests: sage/homology/chain_complex.py:ChainComplex_class.cartesian_product displays the block-diagonal differentials for two polynomial-ring complexes and for three one-step complexes.", "Sage doctests: the same method rejects factors with differential degrees -1 and 1.", "Supplemental contract check: explicit inclusion and projection maps satisfy their direct-sum equations; Sage displays the resulting matrices but its examples do not supply those maps."]
 reuse = { status = "formalized-not-executable", components = ["mathlib.homology.complexes"], evidence = "Reuse the abstract complex semantics. The capability requires explicit computational inclusions and projections in addition to assembled matrices." }
 backends = []
 references = []
@@ -113,7 +113,7 @@ algorithms = [{ family = "Kronecker blocks and Koszul signs", sources = ["sage/h
 depends_on = ["complexes.finite-free-construction", "complexes.finite-direct-sum", "matrices.arithmetic"]
 sage = ["sage.homology.chain_complex:ChainComplex_class.tensor"]
 catalogue = []
-tests = ["For homogeneous runtime basis vectors x in degree a and y, the returned differential equals the signed Leibniz formula and its square is zero.", "For two one-step complexes with differentials multiplication by runtime scalars u and v, the middle differential has signed entries and consecutive tensor differentials compose to zero.", "Tensoring with the complex containing R only in degree zero yields a complex isomorphic to the original through the pure-tensor map."]
+tests = ["Sage doctests: sage/homology/chain_complex.py:ChainComplex_class.tensor displays signed differentials of two and three one-step complexes over QQ[x,y,z], including the negative y entry in degree two.", "Sage doctests: the same method computes the tensor square of a two-step polynomial complex and displays its differential matrices.", "Supplemental contract check: the pure-tensor map preserves selected bases and the original coefficient ring; the displayed matrices alone do not certify that retained map."]
 reuse = { status = "formalized-not-executable", components = ["mathlib.alg.tensor-product", "mathlib.homology.complexes", "mathlib.linalg.trace-kronecker"], evidence = "Mathlib supplies tensor-product semantics and computable matrix Kronecker operations. No surveyed component constructs the signed tensor complex with preserved factor maps." }
 backends = []
 references = []
@@ -130,7 +130,7 @@ algorithms = [{ family = "Degreewise matrix assembly and chain-homotopy equation
 depends_on = ["complexes.chain-maps", "matrices.arithmetic"]
 sage = ["sage.homology.chain_homotopy:ChainHomotopy", "sage.homology.chain_homotopy:ChainHomotopy.in_degree", "sage.homology.chain_homotopy:ChainHomotopy.dual"]
 catalogue = []
-tests = ["For runtime homotopy matrices H, compute f-g and d_D H+H d_C independently in every degree; reject a changed matrix that breaks the equality.", "For every cycle z, f(z)-g(z)=d_D H(z), so f and g return equal homology classes.", "Dualizing twice returns the original homotopy under evaluation and retains the reversed source and target maps."]
+tests = ["Sage doctests: sage/homology/chain_homotopy.py:ChainHomotopy.__init__ builds a homotopy from an identity matrix and rejects a zero replacement with 'the data do not define a valid chain homotopy'.", "Sage doctests: the same constructor retains the two maps and computes the second when it is omitted.", "Supplemental contract check: for a returned cycle z, f(z)-g(z)=d_D H(z); the cited doctests test the matrix equation but do not exercise the resulting homology class."]
 reuse = { status = "formalized-not-executable", components = ["mathlib.homology.complexes"], evidence = "Mathlib supplies the abstract homotopy equation. The surveyed map does not establish an executable construction on runtime matrix complexes." }
 backends = []
 references = []
@@ -146,7 +146,7 @@ algorithms = [{ family = "Matrix identity checks for a strong deformation retrac
 depends_on = ["complexes.chain-maps", "complexes.chain-homotopy"]
 sage = ["sage.homology.chain_homotopy:ChainContraction", "sage.homology.chain_homotopy:ChainContraction.pi", "sage.homology.chain_homotopy:ChainContraction.iota", "sage.homology.chain_homotopy:ChainContraction.dual"]
 catalogue = []
-tests = ["For runtime maps and homotopy, check all five contraction equations on component matrices in every degree.", "For an acyclic two-term summand with identity differential adjoined to a zero-differential complex, the projection and inclusion induce inverse homology maps and iota lifts each basis class to a cycle.", "A map with pi*iota different from identity is rejected even if the homotopy equation holds."]
+tests = ["Sage doctests: sage/homology/chain_homotopy.py:ChainContraction.__init__ rejects a wrong inclusion when pi*iota is not identity, wrong source and target maps, and homotopy data that are not an algebraic gradient vector field.", "Sage doctests: ChainContraction.pi and ChainContraction.iota display the projection and cycle-lifting matrices for a sphere model.", "Supplemental contract check: verify pi*H=0 and H*iota=0 as well as the homotopy equation; these are source constructor checks but are not all exercised by the cited doctest examples."]
 reuse = { status = "formalized-not-executable", components = ["mathlib.homology.complexes"], evidence = "The source map records formal chain homotopies, but no executable matrix contraction with retained pi and iota." }
 backends = []
 references = ["PR2015"]

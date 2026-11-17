@@ -14,7 +14,7 @@ algorithms = [{ family = "Entrywise addition and finite-sum multiplication", sou
 depends_on = []
 sage = ["sage.matrix.constructor:matrix", "sage.matrix.matrix_space:MatrixSpace"]
 catalogue = ["obj.rings.matrices", "mor.sets.matrix_rows", "mor.modules.matrix_linear_map"]
-tests = ["For every composable A, B, C, (AB)C = A(BC); the entries equal the defining finite sums", "The identity matrix acts on both sides and the zero matrix is additive identity"]
+tests = ["Sage doctests: sage/matrix/constructor.pyx:matrix constructs the displayed 2x3 rational matrices from rows, entries and a function, then checks their parent MatrixSpace; include its zero-size and finite-field examples.", "Supplemental contract check: compare entries of composable products with defining finite sums and verify identities over the retained coefficient ring; the constructor doctests cover matrix creation, not this full arithmetic contract."]
 reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "hex.HexMatrix.dense-matrix"], evidence = "Mathlib Matrix is a computable function representation, while Hex.Matrix is dense Vector data; inventory/reuse/mathlib-core.toml and hex.toml record their source declarations. Their representation bridge is a separate obligation." }
 backends = []
 references = []
@@ -30,7 +30,7 @@ algorithms = [{ family = "Gaussian elimination or modular rank reconstruction", 
 depends_on = ["matrices.arithmetic"]
 sage = ["sage.matrix.matrix_integer_dense:Matrix_integer_dense.rank", "sage.matrix.matrix_rational_dense:Matrix_rational_dense.rank"]
 catalogue = ["mor.sets.matrix_rank"]
-tests = ["rank(A) + nullity(A) = n for every m by n matrix over a field", "rank(A) equals the largest order of a nonzero minor"]
+tests = ["Sage doctests: sage/matrix/matrix_integer_dense.pyx:Matrix_integer_dense.rank computes rank 2 for the displayed 2x3 and singular 3x3 integer matrices, and for its 100x100 example.", "Supplemental mathematical check: compare rank with the largest order of a nonzero minor on independently generated small matrices; the cited doctests cover selected ranks only."]
 reuse = { status = "adaptable", components = ["mathlib.linalg.rank", "hex.HexRank.rank-producer"], evidence = "Mathlib Matrix.rank is noncomputable. HexRank produces a rank for its supported dense matrix domain; the catalogue rank map is a mathematical specification, not the producer." }
 backends = ["flint", "linbox", "pari"]
 references = []
@@ -46,7 +46,7 @@ algorithms = [{ family = "Row reduction over a field; unimodular normal-form tra
 depends_on = ["matrices.arithmetic", "matrices.rank"]
 sage = ["sage.matrix.matrix2:Matrix.right_kernel_matrix", "sage.matrix.matrix2:Matrix.left_kernel_matrix", "sage.matrix.matrix2:Matrix.right_kernel", "sage.matrix.matrix2:Matrix.left_kernel", "sage.matrix.matrix2:Matrix.integer_kernel"]
 catalogue = ["mor.sets.matrix_ker"]
-tests = ["Every returned basis vector v satisfies Av = 0, and the number of vectors is n - rank(A) over a field", "For an integral kernel basis B, AB=0, rank(B)=n-rank_Q(A), and the gcd of its maximal minors is 1 (with the empty minor equal to 1 at rank zero); these independent conditions certify that its span is the full saturated integer kernel.", "For a runtime one-row matrix [a b] with coprime nonzero entries, the integer kernel has primitive generator (b,-a) up to sign; rational-nullspace vectors with denominators are not accepted as an integer basis."]
+tests = ["Sage doctests: sage/matrix/matrix2.pyx:Matrix.integer_kernel returns the displayed rank-two integer kernel of MatrixSpace(QQ,4)(range(16)) and a rank-one kernel for a matrix with entry 1/2.", "Sage doctests: sage/matrix/matrix2.pyx:Matrix.right_kernel_matrix specifies that A*B.transpose() is zero for its returned row basis; run its field examples through the public method.", "Supplemental contract check: for integer kernel basis B, verify AB=0, rank(B)=n-rank_Q(A), and gcd of maximal minors 1; the displayed Sage examples alone do not establish saturation for every input."]
 reuse = { status = "adaptable", components = ["mathlib.linalg.bases-kernels", "hex.HexRowReduce.nullspace-span", "hex.HexHermite.lattice-membership-kernel"], evidence = "Mathlib defines kernels but does not produce finite bases. HexRowReduce provides a field nullspace span; the hex-dev Hermite library provides an integral kernel basis. The integral implementation is unreleased at the surveyed revision." }
 backends = ["flint", "linbox"]
 references = []
@@ -62,7 +62,7 @@ algorithms = [{ family = "Euclidean pivot reduction with elementary unimodular o
 depends_on = ["matrices.arithmetic", "euclidean.xgcd"]
 sage = ["sage.matrix.matrix2:Matrix.smith_form", "sage.matrix.matrix_integer_dense:Matrix_integer_dense.smith_form"]
 catalogue = []
-tests = ["UAV=D and det(U), det(V) are units in Z", "The product of the first k positive diagonal entries equals the gcd of the k by k minors for each k"]
+tests = ["Sage doctests: sage/matrix/matrix_integer_dense.pyx:Matrix_integer_dense.smith_form computes D,U,V for the 3x3 matrix built from range(9) and checks U*A*V=D; sage/matrix/matrix2.pyx:Matrix.smith_form includes a nonsquare 3x2 example.", "Supplemental contract check: compare invariant-factor products with gcds of minors to verify canonical diagonal entries independently of the returned transforms."]
 reuse = { status = "reusable", components = ["mathlib.linalg.smith-normal-form", "hex.HexSmith.snf", "hex.HexSmith.snf-certificate"], evidence = "Mathlib's Smith statement is noncomputable. HexSmith supplies executable data including unimodular transforms and inverses, with IsSNF proof; surveyed code is in hex-dev and unreleased, so release integration still needs validation." }
 backends = ["flint", "pari"]
 references = []
@@ -78,7 +78,7 @@ algorithms = [{ family = "Extended-gcd row elimination", sources = ["sage.matrix
 depends_on = ["matrices.arithmetic", "euclidean.xgcd"]
 sage = ["sage.matrix.matrix2:Matrix.hermite_form"]
 catalogue = []
-tests = ["UA=H and det(U) is a unit in Z", "The rows of H and A generate the same Z-submodule of Z^n, and H satisfies the canonical pivot conditions"]
+tests = ["Sage doctests: sage/matrix/matrix2.pyx:Matrix.hermite_form constructs a rank-deficient 2x3 example, requests transformation=True with both include_zero_rows settings, and checks U*A=H.", "Supplemental contract check: verify canonical row pivot conditions and unimodularity of U for full-size integer HNF; the cited generic PID example also permits a rectangular truncated transform."]
 reuse = { status = "adaptable", components = ["mathlib.linalg.hermite-normal-form", "hex.HexHermite.hnf", "hex.HexHermite.hnf-certificate"], evidence = "Mathlib map records no HNF algorithm. HexHermite produces HNF and transformations in hex-dev, but the library is unreleased at the surveyed revision." }
 backends = ["flint", "pari"]
 references = []
