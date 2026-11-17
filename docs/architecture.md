@@ -79,8 +79,9 @@ CLI takes a prime characteristic, a monic defining polynomial and an input
 polynomial as ascending coefficient lists, and prints a canonical result.
 The generic computation also runs over `Int`, `ZMod 7` and
 `Hex.DensePoly Int` without an operation-specific copy. The three sample
-outputs in the quotient probe were checked with Sage's
-`PolynomialRing(GF(p), 'x').quotient(f)` at the pinned local baseline. The
+outputs in the quotient probe were checked with the workstation's Sage
+10.10.beta8 using `PolynomialRing(GF(p), 'x').quotient(f)`. The indexed target
+is Sage 11.0.beta5, so this check does not establish baseline-version parity. The
 quotient experiment uses Hex's existing
 `FpPoly.Quotient`, the chosen characteristic and defining polynomial as run-time
 inputs, and one generic polynomial/matrix computation over its result. It also
