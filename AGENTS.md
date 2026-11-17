@@ -21,6 +21,8 @@ object and operation. When the catalogue lacks one, the gap is reported to its o
 | `inventory/sage/baseline.yaml` | The Sage checkout that defines the target, and the paths read from it. |
 | `inventory/sage/index/` | Generated index of that checkout: modules, entities, manual sections, packages, imports. |
 | `inventory/capabilities/` | Capability records: one intrinsic mathematical operation each, with the Sage entities it accounts for. |
+| `inventory/coverage.json` | Generated coverage report: public Sage entities by capability, by exclusion, and not yet accounted for, per manual section. |
+| `inventory/categories/` | Sage's category classes and their methods at the baseline, each joined to its id in the `lean-categories` catalogue. The Sage-side judgments come from the research inventories below. |
 | `inventory/reuse/` | Reuse maps: existing Lean components, with declarations, paths and a reuse status. |
 | `inventory/references/` | Non-Lean reference engines (FLINT, PARI, GAP, Singular and others) and their licences. |
 | `tools/inventory/` | The `sage-inventory` command: builds the index and measures coverage. |
