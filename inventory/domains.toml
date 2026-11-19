@@ -14,21 +14,21 @@ id = "algebras"
 group = "Mathematics / Mathematical Structures"
 title = "Algebras"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/algebras.toml", "inventory/capabilities/combinatorics.toml"]
 
 [[section]]
 id = "anderson_motives"
 group = "Mathematics / Drinfeld modules and related topics"
 title = "Anderson Motives"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/recon-anderson_motives.toml"]
 
 [[section]]
 id = "arithgroup"
 group = "Mathematics / Number Theory"
 title = "Arithmetic Subgroups of {\\rm SL}_2(\\ZZ)"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/recon-arithgroup.toml"]
 
 [[section]]
 id = "arithmetic_curves"
@@ -42,7 +42,7 @@ id = "asymptotic"
 group = "Mathematics / Calculus and Analysis"
 title = "Asymptotic Expansions"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/asymptotic.toml"]
 
 [[section]]
 id = "calculus"
@@ -56,7 +56,7 @@ id = "categories"
 group = "Mathematics / Parents and Categories"
 title = "Categories"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/categories/sage-categories.toml"]
 note = "Abstract categories and mathematical laws belong to lean-categories; native computations attach to its catalogue."
 
 [[section]]
@@ -64,7 +64,7 @@ id = "coding"
 group = "Mathematics / Discrete Mathematics"
 title = "Coding Theory"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/recon-coding.toml"]
 
 [[section]]
 id = "coercion"
@@ -79,14 +79,14 @@ id = "combinat"
 group = "Mathematics / Discrete Mathematics"
 title = "Combinatorics"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/combinatorics.toml"]
 
 [[section]]
 id = "constants"
 group = "Mathematics / Calculus and Analysis"
 title = "Mathematical Constants"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/calculus.toml"]
 
 [[section]]
 id = "cpython"
@@ -100,14 +100,14 @@ id = "cryptography"
 group = "Mathematics / Discrete Mathematics"
 title = "Cryptography"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/cryptography.toml"]
 
 [[section]]
 id = "curves"
 group = "Mathematics / Algebraic and Arithmetic Geometry"
 title = "Plane and Space Curves"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/curves.toml"]
 
 [[section]]
 id = "data_structures"
@@ -129,14 +129,14 @@ id = "diophantine_approximation"
 group = "Mathematics / Number Theory"
 title = "Diophantine Approximation"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/diophantine.toml"]
 
 [[section]]
 id = "discrete_geometry"
 group = "Mathematics / Geometry and Topology"
 title = "Combinatorial and Discrete Geometry"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/discrete_geometry.toml", "inventory/capabilities/polynomial-rings.toml"]
 
 [[section]]
 id = "doctest"
@@ -157,28 +157,28 @@ id = "drinfeld_modular"
 group = "Mathematics / Drinfeld modules and related topics"
 title = "Drinfeld Modular Forms"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/drinfeld_modular.toml"]
 
 [[section]]
 id = "drinfeld_modules"
 group = "Mathematics / Drinfeld modules and related topics"
 title = "Drinfeld Modules"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/recon-drinfeld_modules.toml"]
 
 [[section]]
 id = "dynamics"
 group = "Mathematics / Discrete Mathematics"
 title = "Discrete Dynamics"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/dynamics.toml"]
 
 [[section]]
 id = "euclidean_spaces"
 group = "Mathematics / Geometry and Topology"
 title = "Euclidean Spaces and Vector Calculus"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/euclidean-spaces.toml"]
 
 [[section]]
 id = "finite_rings"
@@ -192,28 +192,28 @@ id = "function_fields"
 group = "Mathematics / Number Fields, Function Fields, and Valuations"
 title = "Function Fields"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/function_fields.toml"]
 
 [[section]]
 id = "functions"
 group = "Mathematics / Calculus and Analysis"
 title = "Elementary and Special Functions"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/functions.toml"]
 
 [[section]]
 id = "game_theory"
 group = "Mathematics / Discrete Mathematics"
 title = "Game Theory"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/recon-game_theory.toml"]
 
 [[section]]
 id = "games"
 group = "Mathematics / Miscellaneous"
 title = "Games"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/recon-games.toml"]
 
 [[section]]
 id = "graphs"
@@ -234,7 +234,7 @@ id = "hecke"
 group = "Mathematics / Number Theory"
 title = "General Hecke Algebras and Hecke Modules"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/hecke.toml"]
 
 [[section]]
 id = "history_and_license"
@@ -255,7 +255,7 @@ id = "hyperbolic_geometry"
 group = "Mathematics / Geometry and Topology"
 title = "Hyperbolic Geometry"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/hyperbolic_geometry.toml"]
 
 [[section]]
 id = "interfaces"
@@ -270,14 +270,14 @@ id = "knots"
 group = "Mathematics / Geometry and Topology"
 title = "Knot Theory"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/knots.toml"]
 
 [[section]]
 id = "lfunctions"
 group = "Mathematics / Number Theory"
 title = "L-Functions"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/recon-lfunctions.toml"]
 
 [[section]]
 id = "libs"
@@ -292,14 +292,14 @@ id = "logic"
 group = "Mathematics / Discrete Mathematics"
 title = "Symbolic Logic"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/recon-logic.toml"]
 
 [[section]]
 id = "manifolds"
 group = "Mathematics / Geometry and Topology"
 title = "Manifolds and Differential Geometry"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/manifolds.toml"]
 
 [[section]]
 id = "matrices"
@@ -313,7 +313,7 @@ id = "matroids"
 group = "Mathematics / Discrete Mathematics"
 title = "Matroid Theory"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/matroids.toml"]
 
 [[section]]
 id = "misc"
@@ -327,49 +327,49 @@ id = "modabvar"
 group = "Mathematics / Number Theory"
 title = "Modular Abelian Varieties"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/modabvar.toml"]
 
 [[section]]
 id = "modfrm"
 group = "Mathematics / Number Theory"
 title = "Modular Forms"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/modfrm.toml"]
 
 [[section]]
 id = "modsym"
 group = "Mathematics / Number Theory"
 title = "Modular Symbols"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/modsym.toml"]
 
 [[section]]
 id = "modules"
 group = "Mathematics / Linear Algebra"
 title = "Vectors and Modules"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/modules.toml"]
 
 [[section]]
 id = "monoids"
 group = "Mathematics / Mathematical Structures"
 title = "Monoids"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/monoids.toml"]
 
 [[section]]
 id = "noncommutative_polynomial_rings"
 group = "Mathematics / Basic Rings and Fields"
 title = "Noncommutative Polynomials"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/noncommutative-polynomials.toml", "inventory/capabilities/polynomial-rings.toml"]
 
 [[section]]
 id = "number_fields"
 group = "Mathematics / Number Fields, Function Fields, and Valuations"
 title = "Number Fields"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/number-fields.toml"]
 
 [[section]]
 id = "numerical"
@@ -383,14 +383,14 @@ id = "oremodules"
 group = "Mathematics / Linear Algebra"
 title = "Modules over Ore rings"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/oremodules.toml", "inventory/capabilities/recon-oremodules.toml"]
 
 [[section]]
 id = "padics"
 group = "Mathematics / Basic Rings and Fields"
 title = "p-adic Numbers"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/padics.toml"]
 
 [[section]]
 id = "parallel"
@@ -427,21 +427,21 @@ id = "power_series"
 group = "Mathematics / Basic Rings and Fields"
 title = "Power Series and Laurent Series"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/power-series.toml"]
 
 [[section]]
 id = "probability"
 group = "Mathematics / Probability and Statistics"
 title = "Probability"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/probability.toml"]
 
 [[section]]
 id = "quadratic_forms"
 group = "Mathematics / Number Theory"
 title = "Quadratic Forms"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/quadratic-forms.toml"]
 
 [[section]]
 id = "quat_algebras"
@@ -455,7 +455,7 @@ id = "quivers"
 group = "Mathematics / Discrete Mathematics"
 title = "Quivers"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/quivers.toml"]
 
 [[section]]
 id = "references"
@@ -476,21 +476,21 @@ id = "resolutions"
 group = "Mathematics / Homological Algebra"
 title = "Resolutions"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/resolutions.toml"]
 
 [[section]]
 id = "riemannian_geometry"
 group = "Mathematics / Geometry and Topology"
 title = "Parametrized Surfaces"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/riemannian_geometry.toml"]
 
 [[section]]
 id = "rings"
 group = "Mathematics / Mathematical Structures"
 title = "Rings"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/rings.toml"]
 
 [[section]]
 id = "rings_numerical"
@@ -511,7 +511,7 @@ id = "sat"
 group = "Mathematics / Discrete Mathematics"
 title = "SAT solvers"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/recon-sat.toml"]
 note = "Finite satisfiability is a mathematical computation used by logic and combinatorics."
 
 [[section]]
@@ -519,7 +519,7 @@ id = "schemes"
 group = "Mathematics / Algebraic and Arithmetic Geometry"
 title = "Schemes"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/schemes.toml"]
 
 [[section]]
 id = "semirings"
@@ -533,7 +533,7 @@ id = "sets"
 group = "Mathematics / Mathematical Structures"
 title = "Sets"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/sets.toml"]
 
 [[section]]
 id = "spkg"
@@ -547,7 +547,7 @@ id = "stats"
 group = "Mathematics / Probability and Statistics"
 title = "Statistics"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/stats.toml"]
 
 [[section]]
 id = "structure"
@@ -562,7 +562,7 @@ id = "tensor_free_modules"
 group = "Mathematics / Linear Algebra"
 title = "Tensors on Free Modules of Finite Rank"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/tensor-free-modules.toml"]
 
 [[section]]
 id = "topology"
@@ -576,4 +576,4 @@ id = "valuations"
 group = "Mathematics / Number Fields, Function Fields, and Valuations"
 title = "Discrete Valuations"
 disposition = "mathematical"
-capability_files = []
+capability_files = ["inventory/capabilities/padics.toml", "inventory/capabilities/valuations-and-padics.toml"]

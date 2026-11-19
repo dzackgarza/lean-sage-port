@@ -145,10 +145,11 @@ def measure(
         if c.status is CapabilityStatus.SOURCE_RECONCILED
     ] + [(e, excluded) for e in exclusions]:
         for selector in record.sage:
-            matched = select(selector, entities)
+            matched = [entity for entity in select(selector, entities) if entity.public]
             if not matched:
                 problems.append(
-                    f"{record.id}: selector {selector!r} matches no entity of Sage {summary.revision.version}"
+                    f"{record.id}: selector {selector!r} matches no public entity of Sage "
+                    f"{summary.revision.version}"
                 )
             bucket.update(entity.id for entity in matched)
     if problems:

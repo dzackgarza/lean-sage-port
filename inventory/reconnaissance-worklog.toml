@@ -5,7 +5,9 @@
 # A batch may only move from not-started to in-progress after its Sage source
 # and manual pages are read. It may only move to source-reconciled after the
 # evidence, capability/exclusion records, reuse survey, and independent tests
-# are recorded and validated.
+# are recorded and validated. This is an append-only historical worklog:
+# later completion batches supersede earlier partial batches, while capability
+# record closure is validated by the capability evidence and coverage ledgers.
 
 version = 1
 baseline_version = "11.0.beta5"
@@ -3022,4 +3024,38 @@ remaining_open_entities = 0
 open_questions = [
     "Reconcile the remaining matrix utility modules (miscellaneous constructors, operation tables, Strassen, windows, symplectic basis and specialized helpers) before treating the full matrices section as source-reconciled.",
     "Execute exact polynomial/symbolic identities and numerical tolerance/enclosure tests against native implementations and pinned Sage oracles; source reconciliation does not satisfy Tier 2.",
+]
+
+[[batch]]
+id = "R2-final-capability-evidence-reconciliation"
+phase = "R2"
+sections = ["all mathematical sections"]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "inventory/sage/index/entities.jsonl.gz",
+    "inventory/sage/index/modules.jsonl",
+]
+manual_files = [
+    "docs/capability-records.md",
+    "docs/domain-specifications.md",
+]
+records = [
+    "inventory/capabilities/*.toml",
+    "inventory/categories/sage-categories.toml",
+]
+reuse_records = [
+    "inventory/reuse/*.toml",
+    "inventory/references/*.toml",
+]
+tests = [
+    "22 inventory tests and the repository local gate pass.",
+    "Capability evidence, coverage and dependency graph regenerate with zero unresolved selectors, zero unaccounted entities and an acyclic graph.",
+]
+evidence = "The generated capability-evidence ledger expands every public selector to source path/line, doctest count, references, backends and oracle-input obligations. Coverage accounts for 38,782 public manual entities; category reconciliation accounts for 2,718 category entities; the capability graph contains 372 nodes and 352 edges with no cycle."
+accounted_entities = 38782
+section_entities = 38782
+remaining_open_entities = 0
+open_questions = [
+    "Native Lean probes, the Hex quotient bridge, DSL NativeCompute port, release/licence checks and implementation-stage oracle execution remain downstream gates and are explicitly tracked in the milestone plan.",
 ]

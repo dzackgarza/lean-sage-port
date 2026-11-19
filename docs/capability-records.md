@@ -67,6 +67,14 @@ oracle comparison. Reconnaissance records these reusable sources and comparison 
 test translation belongs with the operation's implementation. A source test count is not evidence
 that a native operation has passed those tests.
 
+The generated `inventory/capability-evidence.json` report expands every selector into its matched
+public entities, source path and line, source doctest count, references and module backends. Its
+`oracle_inputs` entries are the concrete Sage inputs or independent mathematical comparisons that
+the native implementation must reproduce. A record with no source doctests must state those
+inputs explicitly from the source or contract; it must not claim that a selector alone supplies
+an oracle. The report also lists wildcard selectors and overlapping entity associations explicitly;
+these are review data, not hidden coverage.
+
 **Account for every entity.** A section is complete when
 `sage-inventory unaccounted <index> <capabilities> <section> <categories>` prints nothing. A public
 entity with no mathematical content goes to an `[[exclusion]]` with its reason: `infrastructure`,
@@ -76,9 +84,13 @@ section are accounted for by the category and operation records of
 `lean-categories` catalogue; pass that file so the measure counts them as `by_category_record`
 rather than as a remainder.
 
-**A selector names an entity that the record owns.** Do not select an unrelated entity to make a
-record valid. When an algorithm depends on an operation of another section, write that record in
-the file of its own section, with the selectors of its real Sage entities.
+**A selector names a public entity that the record accounts for.** Do not select an unrelated or
+private implementation entity to make a record valid. A source entity may be accounted for by
+more than one capability when Sage exposes the same operation family through multiple
+mathematical constructions; `inventory/capability-evidence.json` reports those overlaps and they
+must be resolved by the implementation's operation contract rather than silently ignored.
+When an algorithm depends on an operation of another section, write that record in the file of
+its own section, with the selectors of its real Sage entities.
 
 **Separate algorithm alternatives from mandatory prerequisites.** `depends_on` records the
 inputs needed by the selected complete computational route. Algorithm families can consume

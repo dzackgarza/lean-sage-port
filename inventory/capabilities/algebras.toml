@@ -478,7 +478,6 @@ depends_on = []
 sage = [
   "sage.algebras.group_algebra:GroupAlgebra",
   "sage.algebras.group_algebra:GroupAlgebra_class",
-  "sage.algebras.group_algebra:GroupAlgebra_class._coerce_map_from_",
 ]
 catalogue = []
 tests = [

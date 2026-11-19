@@ -11,6 +11,7 @@ from cyclopts import App
 
 from sage_inventory import categories as categories_logic
 from sage_inventory import coverage as coverage_logic
+from sage_inventory import evidence as evidence_logic
 from sage_inventory import graph as graph_logic
 from sage_inventory import index as index_logic
 from sage_inventory import reconnaissance as reconnaissance_logic
@@ -158,6 +159,23 @@ def reconnaissance_scope(index: Path, domains: Path, capabilities: Path, categor
     print(
         f"  entities {result['public_entities']}  accounted {result['accounted_entities']}  "
         f"open {result['open_entities']}  open modules {result['open_modules']}"
+    )
+
+
+@app.command
+def capability_evidence(index: Path, capabilities: Path, report: Path) -> None:
+    """Expand every capability selector into source evidence and oracle-input obligations.
+
+    The report makes broad selectors auditable: every selected entity has a source path and line,
+    doctest count, references and module backends. A source-reconciled capability must also have
+    at least one selected public entity and one independent oracle-input/test obligation.
+    """
+    result = evidence_logic.write(index, capabilities, report)
+    if result["unresolved"]:
+        sys.exit("capability evidence is incomplete:\n" + "\n".join(result["unresolved"]))
+    print(
+        f"Sage {result['revision']['version']} ({result['revision']['commit'][:12]}): "
+        f"{result['capabilities']} capabilities with expanded source evidence"
     )
 
 

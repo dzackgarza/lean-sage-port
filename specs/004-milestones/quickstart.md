@@ -97,13 +97,14 @@ else:
 ```sh
 cd tools/inventory
 
-# M2 owns univariate: should return only multivariate entities as unaccounted
-# (after univariate capability records are complete)
+# The capability evidence ledger must show that every polynomial selector resolves
+# to public source entities and that the M2/M3 selectors do not rely on an
+# unaccounted wildcard remainder.
 uv run sage-inventory unaccounted \
   ../../inventory/sage/index \
   ../../inventory/capabilities \
   polynomial_rings \
-  | grep "multi_polynomial\|polynomial_ideal\|polynomial_ring_homo" \
-  | wc -l
-# Should equal the total unaccounted count — confirming no univariate entities leak.
+  | grep "multi_polynomial\|polynomial_ideal\|polynomial_ring_homo" || true
+# The command is empty after coverage is complete; the evidence ledger is the
+# entity-level audit for the M2/M3 split.
 ```

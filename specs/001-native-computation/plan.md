@@ -75,18 +75,21 @@ The batch order follows computational prerequisites:
 | Phase | Batches | Gate before advancing |
 | --- | --- | --- |
 | R0 | Sage release/index, category framework, non-mathematical dispositions | Every indexed entity has a source disposition; category rows distinguish catalogue mappings from ownership gaps. |
-| R1 | `sets`, `monoids`, `groups`, `semirings`, `rings`, `finite_rings`, `modules`, `tensor_free_modules` | Core carriers, maps, constructors, and inherited operations have contracts and reuse owners. |
-| R2 | `polynomial_rings`, `power_series`, `noncommutative_polynomial_rings`, `algebras`, `quivers`, `homology`, `resolutions` | Polynomial, quotient, module, algebra, and chain-complex constructions compose over the R1 carriers. |
+| R1 | `sets`, `monoids`, `groups` (carrier subset), `semirings`, `rings`, `finite_rings`, `rings_standard`, `modules`, `tensor_free_modules` | Core carriers, maps, constructors, and inherited operations have contracts and reuse owners. |
+| R2 | `polynomial_rings`, `power_series`, `noncommutative_polynomial_rings`, `algebras`, `quat_algebras`, `quivers`, `homology`, `resolutions` | Polynomial, quotient, module, algebra, quaternion and chain-complex constructions have source-backed contracts. |
 | R3 | `matrices`, `linear_algebra`, `polynomial_algorithms`, `number_fields`, `function_fields`, `padics`, `valuations`, `quadratic_forms`, `lattices` | Exact linear and arithmetic primitives have executable algorithms and independent acceptance sources. |
-| R4 | `groups`, `combinat`, `graphs`, `matroids`, `coding`, `cryptography`, `logic`, `sat`, `game_theory` | Discrete capabilities are grouped by intrinsic operation, not Sage class names, and depend only on accepted R1–R3 contracts. |
-| R5 | `curves`, `arithmetic_curves`, `schemes`, `manifolds`, `topology`, `riemannian_geometry`, `hyperbolic_geometry`, `euclidean_spaces`, `knots` | Geometric objects retain maps, charts, base fields, and defining data through computation. |
+| R4 | `groups` (higher operations), `combinat`, `graphs`, `matroids`, `coding`, `cryptography`, `logic`, `sat`, `game_theory`, `games`, `oremodules` | Discrete capabilities are grouped by intrinsic operation, not Sage class names; their graph prerequisites remain explicit even when implementation follows later. |
+| R5 | `curves`, `arithmetic_curves`, `schemes`, `manifolds`, `topology`, `riemannian_geometry`, `hyperbolic_geometry`, `euclidean_spaces`, `knots`, `discrete_geometry` | Geometric objects retain maps, charts, base fields, and defining data through computation. |
 | R6 | `calculus`, `functions`, `numerical`, `rings_numerical`, `stats`, `probability`, `asymptotic`, `dynamics`, `constants` | Approximate and symbolic contracts state precision, error, convergence, and exactness explicitly. |
-| R7 | `modfrm`, `modsym`, `modabvar`, `drinfeld_modules`, `drinfeld_modular`, `anderson_motives`, `hecke`, `lfunctions` | Specialized arithmetic domains identify their mathematical owner, algorithmic source, and prerequisite path. |
+| R7 | `modfrm`, `modsym`, `modabvar`, `drinfeld_modules`, `drinfeld_modular`, `anderson_motives`, `hecke`, `lfunctions`, `arithgroup`, `diophantine_approximation` | Specialized arithmetic domains identify their mathematical owner, algorithmic source, and prerequisite path. |
 
-Within each phase, batches may run in parallel only after their prerequisite phase gates pass.
-The live progress measure is the number of source entities with an accepted capability/exclusion
-record plus the number of explicitly open source questions; generated counts alone never close a
-batch.
+The R-phase table is a source-reading and reconciliation grouping, not a second dependency
+graph. A capability may therefore name a prerequisite whose source batch is in a later R phase;
+that edge remains an explicit implementation gate in `inventory/dependency-graph.json` and must
+be satisfied before the dependent computation is implemented. Within a phase, batches may run in
+parallel only when their source and ownership questions are independent. The live progress
+measure is the number of source entities with an accepted capability/exclusion record plus the
+number of explicitly open source questions; generated counts alone never close a batch.
 
 ## Architectural validation
 

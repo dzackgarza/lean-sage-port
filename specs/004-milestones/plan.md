@@ -104,9 +104,10 @@ all existing capability files remain reconnaissance inputs
 entities after every category class, operation, or justified framework exclusion is recorded
 **Acceptance — reconnaissance**: SC-001 through SC-007 of
 `specs/001-native-computation/spec.md`, executed by its `tasks.md`
-**Current state**: In progress. Category inventory represents 1,551 of 2,718 entities; 1,167
-category entities remain to classify. Probes are written; CI pass is outstanding (T008–T011 of
-`001`).
+**Current state**: Coverage and reconciliation are complete: 2,718 category entities are
+accounted for with zero unaccounted and zero unmatched records; 2,031 explicit ownership gaps
+remain assigned to the upstream catalogue owner. Probes are written; CI execution is outstanding
+(T008–T011 of `001`).
 
 ---
 
@@ -388,6 +389,25 @@ M0 (foundation)
 - M8 ∥ M9 after their respective prerequisites
 - M12 ∥ M6, M12 ∥ M8 (M12 follows only M1, M2)
 - M13 begins after M1, M2, M4, M6 — independent of M5, M7, M8, M9, M10
+
+## Verification snapshot
+
+The following checks were run against Sage `11.0.beta5` at the indexed revision
+`c00171e47d6e68d8148d7ee10c4dd77b71a97662` on 2026-11-19:
+
+| Invariant | Evidence | Result |
+|---|---|---|
+| Capability dependency graph | `sage-inventory graph ../../inventory/capabilities ../../inventory/dependency-graph.json` | 372 capabilities, 352 edges, 11 topological levels; no cycle |
+| Full source accounting | `sage-inventory coverage ... ../../inventory/categories/sage-categories.toml` | 38,782 public entities; 0 unaccounted |
+| Capability source and oracle evidence | `sage-inventory capability-evidence ../../inventory/sage/index ../../inventory/capabilities ../../inventory/capability-evidence.json` | 372 capabilities; 2,380 selectors expanded to 32,844 distinct source entities (34,349 capability/entity associations); wildcard selectors and overlaps are enumerated; 371 source-doctest-backed and 1 explicit contract-input-backed record; 0 empty selectors or unresolved records |
+| Category reconciliation | `sage-inventory category-coverage ...` and `category-reconciliation ... /home/dzack/research/writing/data/sage-source-audit-10.9/sagemath-10.9-categories.csv ...` | 2,718 entities; 0 unaccounted and 0 unmatched; 2,031 ownership gaps are explicit upstream-owner items |
+| Declared parallel pairs | Capability-level `depends_on` query over all records | 0 cross-edges for M2 ∥ M4, M5 ∥ M6, M8 ∥ M9, M12 ∥ M6, M12 ∥ M8, and M13 against M5/M7/M8/M9/M10 |
+
+The milestone prerequisites are implementation gates, while the capability graph is the
+machine-derived operation dependency graph. A gate may therefore include a foundational
+architecture or ownership condition even when no individual capability consumes a named
+operation from that milestone. Such conditions are listed in the milestone's
+`**Open obligation**` or `**Note**` field and are not inferred from section order.
 
 ## Complexity tracking
 

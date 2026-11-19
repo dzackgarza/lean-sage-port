@@ -61,7 +61,10 @@ algorithms = [{ family = "Map finite values and preserve infinity", sources = ["
 depends_on = ["semirings.tropical-construction"]
 sage = ["sage.rings.semirings.tropical_semiring:TropicalToTropical"]
 catalogue = []
-tests = ["Sage doctests: sage.rings.semirings.tropical_semiring:TropicalToTropical, including Z-to-Q base change and infinity preservation; compare map composition on finite values."]
+tests = [
+  "Sage oracle input from `TropicalToTropical._call_`: construct `TZ = TropicalSemiring(ZZ)`, `TQ = TropicalSemiring(QQ)`, `f = TropicalToTropical(TZ, TQ)`, then compare `f(TZ(2)) = TQ(2)` and `f(TZ.infinity()) = TQ.infinity()`; this is the source example at `src/sage/rings/semirings/tropical_semiring.pyx:664-672`.",
+  "Check map composition on finite values for a second integer input and preservation of the selected infinity; compare the represented tropical values, not their printed forms.",
+]
 reuse = { status = "adaptable", components = ["mathlib.algebra.tropical-semiring"], evidence = "Mathlib WithTop.map and WithBot.map execute finite-value transport and preserve the selected infinity. A semiring-hom structure for an order-preserving additive base map, its composition law and owner catalogue operation remain to be supplied." }
 backends = []
 references = []

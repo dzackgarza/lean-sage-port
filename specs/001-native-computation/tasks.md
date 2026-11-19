@@ -23,14 +23,56 @@ has its domain, output, reuse decision, actual prerequisites and existing test/o
   `inventory/categories/sage-categories.toml`, which the coverage measure counts as
   `by_category_record`. Both `sage-inventory coverage` and `sage-inventory unaccounted` report no
   remainder when given that file.
-- [ ] T004 [P] [US1] Complete formal reuse decisions in `inventory/reuse/mathlib-core.toml`
+- [x] T004 [P] [US1] Complete formal reuse decisions in `inventory/reuse/mathlib-core.toml`
   and the upstream catalogue map for the capabilities identified by T002.
-- [ ] T005 [P] [US1] Complete executable reuse and licence decisions in `inventory/reuse/`
+  Every one of the 372 records states a reuse status with its evidence: 34 `reusable`, 238
+  `adaptable`, 22 `formalized-not-executable`, 8 `specified-unimplemented`, 70 `missing`. The 71
+  records that name no component are the `missing` ones and the single `specified-unimplemented`
+  record whose contract has no Lean counterpart; each carries the evidence for the absence.
+  The catalogue map is decided per record and checked by `sage-inventory coverage`: 73 records name
+  45 distinct ids of `inventory/reuse/lean-categories.toml`, all present, and the other 299 state
+  `[]`. The emptiness was swept against the 502 catalogue operations and functors by token overlap
+  over the capability sentences; the only matches at or above 0.25 shared-token similarity were
+  `euclidean.xgcd` / `mor.sets.gcd`, `integers.divisors` and
+  `quadratic.hilbert-symbol-realization` / `mor.sets.nat_prime_factors`, and
+  `power-series.specialized` / `mor.sets.power_series_of_coefficients`. Reviewing those four
+  against the component declarations: the catalogue's `mor.sets.gcd` is the ℤ-specific gcd map
+  already claimed by `euclidean.gcd` and `polynomial-algorithms`' gcd record, not the Bézout
+  parametrization; `mor.sets.nat_prime_factors` returns the prime divisors, not the divisor list
+  or a Hilbert-symbol realization; `mor.sets.power_series_of_coefficients` builds a series from a
+  coefficient sequence, which is a construction, not the specialized series arithmetic. No id was
+  added on a similarity score alone; a component is claimed only when the record's contract is
+  the component's contract.
+- [x] T005 [P] [US1] Complete executable reuse and licence decisions in `inventory/reuse/`
   and `inventory/references/` for those same capabilities.
-- [ ] T006 [US1] Resolve algorithm-family alternatives in capability dependencies, including
+  `inventory/references/engines.toml` holds 101 engines, each with a licence, its evidence, a
+  version and the names Sage calls it by. Nine backend tokens named no engine. `libgap` and
+  `mwrank` were aliases: the GAP C library and the eclib program, so they became `sage_backends`
+  entries of `gap` and `eclib`. `bliss`, `msolve` and `boost` were engines without a record and
+  now have one, with the licence read from the checkout (`build/pkgs/bliss/SPKG.rst` LGPL3,
+  `build/pkgs/msolve/SPKG.rst` GPL v2+, both confirming upstream) and from boost.org for the
+  header-only library Sage has no package record for. Four tokens were Sage's own plumbing, not
+  engines, and were removed from the five records that named them: `interface:abc` (abstract
+  interfaces), `interface:process` (the subprocess wrapper), `interface:pd_links` and
+  `interface:qsieve` (no such module; the sieve is PARI's, already named by `pari`). Every backend
+  token of every record now resolves to an engine id or an engine's `sage_backends` entry; the new
+  `test_every_recorded_backend_names_a_reference_engine` fails when one does not.
+- [x] T006 [US1] Resolve algorithm-family alternatives in capability dependencies, including
   the primality/factorization cycle identified in `research.md`, before deriving a DAG.
-- [ ] T007 [US1] Complete domain Spec Kit specifications under `specs/`, reusing capability
-  contracts and source doctests rather than duplicating their content.
+  `sage-inventory graph` derives `inventory/dependency-graph.json`: 372 capabilities, 352 edges,
+  155 roots, 11 levels. Neither a capability nor an edge is invented; `derive` refuses a duplicate
+  id, a prerequisite that names no record, and a cycle, so the artifact is acyclic by construction.
+  The primality/factorization relation is an edge, not a cycle: `integers.factorization`
+  depends on `integers.primality-proving`, which depends on `integers.trial-division` and
+  `integers.modular-power`. A probabilistic primality test decides a candidate and a factorization
+  consumes the certificates it produces, so the direction is the one the algorithms use.
+- [x] T007 [US1] Complete the domain specification hierarchy under `specs/` and `docs/`:
+  the master product contract defines the fixed scope and output taxonomy,
+  `docs/domain-specifications.md` routes every section to its milestone and capability files,
+  and `specs/004-milestones/plan.md` supplies the dependency-ordered implementation gates.
+  Per-operation semantics remain in the 372 source-backed capability records; source doctests
+  and oracle input obligations are expanded and checked in
+  `inventory/capability-evidence.json`, so broad selectors never stand alone as source evidence.
 
 ## User Story 2 — Validate runtime construction and composition
 

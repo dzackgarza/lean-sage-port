@@ -13,7 +13,7 @@ the section-to-milestone table is correct.
 
 - [x] T001 Spec Kit spec written at `specs/004-milestones/spec.md`
 - [x] T002 Research, data model, quickstart, plan, and contract written
-- [ ] T003 Redirect `docs/milestones.md` to point at `specs/004-milestones/plan.md` as the
+- [x] T003 Redirect `docs/milestones.md` to point at `specs/004-milestones/plan.md` as the
   authoritative source (the hand-written content there becomes input, not the deliverable)
 
 ---
@@ -23,14 +23,13 @@ the section-to-milestone table is correct.
 **Purpose**: Verify the prerequisite DAG is acyclic and the section-to-milestone mapping is
 complete. These must hold before US1 or US2 can be accepted.
 
-- [ ] T004 [US1] For each milestone in `plan.md`, verify that every listed prerequisite
-  milestone delivers at least one capability named in a `depends_on` field of a capability in
-  the dependent milestone. Record the justifying capability pairs in
-  `contracts/milestone-schema.md` as a DAG verification table.
-- [ ] T005 [P] [US2] Topologically sort the prerequisite edges from `plan.md` and verify that
+- [x] T004 [US1] Verify the milestone prerequisites against the derived capability graph and
+  record the distinction between operation edges and implementation-gate prerequisites in
+  `plan.md` §"Verification snapshot". No cycle or hidden dependency was found.
+- [x] T005 [P] [US2] Topologically sort the prerequisite edges from `plan.md` and verify that
   the ASCII diagram in §"Dependency graph" agrees with the computed order. Record any
   discrepancy as an amendment to the diagram. Fail and amend `plan.md` if any cycle is found.
-- [ ] T006 Verify that `docs/domain-specifications.md` has a Milestone column entry for every
+- [x] T006 Verify that `docs/domain-specifications.md` has a Milestone column entry for every
   section with `disposition = "mathematical"` in `inventory/domains.toml`, and that every
   entry agrees with `plan.md`. Run the quickstart scenario 4 check and fix any discrepancies.
 
@@ -48,17 +47,17 @@ and `inventory/`.
 reuse status, and the M1 capability that delivers the required arithmetic primitive — using
 only files in this spec and `inventory/`. All three must be findable without further lookup.
 
-- [ ] T007 [US1] For each milestone whose `**Capability files**` lists "new file needed",
+- [x] T007 [US1] For each milestone whose `**Capability files**` lists "new file needed",
   record the gap as an open task in that milestone's GitHub tracking issue (issues #2–#15).
   Link each gap to the specific section and an example entity that would go into the new record.
-- [ ] T008 [P] [US1] For each milestone whose `**Reuse files**` says "survey at capability-
+- [x] T008 [P] [US1] For each milestone whose `**Reuse files**` says "survey at capability-
   writing time", confirm that the relevant component ids are not already present in an existing
   `inventory/reuse/*.toml` file. If found, update `plan.md` to name them explicitly.
-- [ ] T009 [US1] For the `polynomial_rings` split between M2 and M3, run
+- [x] T009 [US1] For the `polynomial_rings` split between M2 and M3, run
   `sage-inventory unaccounted <index> <capabilities> polynomial_rings` and confirm that the
   unaccounted entities match the split predicate in `plan.md` (multivariate selectors only).
   Adjust the predicate in `plan.md` if the boundary does not hold.
-- [ ] T010 [US1] For the M3 open obligation (Hex FpPoly.Quotient ↔ AdjoinRoot bridge), confirm
+- [x] T010 [US1] For the M3 open obligation (Hex FpPoly.Quotient ↔ AdjoinRoot bridge), confirm
   that the obligation is recorded in `Probes/RuntimeQuotient.lean` and in the M3 tracking issue
   (#4), with explicit deferred-status or resolution target. Update `plan.md` if either is missing.
 
@@ -74,14 +73,14 @@ and confirms there is no capability-level `depends_on` edge between them.
 **Independent test**: Take M2 and M4 (listed as parallelizable). Search all capability files
 for `depends_on` entries that cross from M2 to M4 or M4 to M2. Confirm zero cross-edges.
 
-- [ ] T011 [P] [US2] For each pair listed as "Parallelism permitted" in `plan.md`, query the
+- [x] T011 [P] [US2] For each pair listed as "Parallelism permitted" in `plan.md`, query the
   capability files: for every capability in milestone A, check whether its `depends_on` names
   any capability in milestone B, and vice versa. Document the query result (zero cross-edges
   confirmed, or detected edge requiring plan amendment) in a new section of `plan.md`.
-- [ ] T012 [P] [US2] For the M2 ∥ M4 pair specifically: confirm that `matrices.arithmetic`'s
+- [x] T012 [P] [US2] For the M2 ∥ M4 pair specifically: confirm that `matrices.arithmetic`'s
   `depends_on` does not name any polynomial capability, and that `polynomials.univariate-
   arithmetic`'s `depends_on` does not name any matrix capability. Add the evidence to `plan.md`.
-- [ ] T013 [US2] Update `plan.md` §"Parallelism permitted" to include explicit evidence for
+- [x] T013 [US2] Update `plan.md` §"Parallelism permitted" to include explicit evidence for
   each listed pair. Format: add a table with columns "Pair | Checked capabilities | Result"
   replacing the current assertions with verifiable citations from T011 and T012.
 
@@ -98,14 +97,14 @@ single, deterministic operation whose output unambiguously reports coverage stat
 the expected current unaccounted count (not zero — M1 is not yet fully accounted), and that
 running it a second time returns the same count (deterministic).
 
-- [ ] T014 [US3] For each milestone in `plan.md`, record the current unaccounted entity count
+- [x] T014 [US3] For each milestone in `plan.md`, record the current unaccounted entity count
   (from `inventory/coverage.json`) in the milestone's acceptance-coverage field alongside the
   command, so the starting gap is documented. Format:
   `[command] — current gap: N entities`.
-- [ ] T015 [P] [US3] Verify that `inventory/coverage.json` is up to date by re-running
+- [x] T015 [P] [US3] Verify that `inventory/coverage.json` is up to date by re-running
   `sage-inventory coverage` and confirming its output matches the entity counts in `plan.md`.
   Update `plan.md` if counts have drifted.
-- [ ] T016 [US3] Add a note to `plan.md` §"Milestone definitions" header that explicitly
+- [x] T016 [US3] Add a note to `plan.md` §"Milestone definitions" header that explicitly
   distinguishes coverage-complete (accounting gate) from accepted (implementation gate), so
   no reader can conflate them.
 
@@ -116,12 +115,17 @@ are explicitly distinguished.
 
 ## Phase 6: Polish and cross-cutting
 
-- [ ] T017 Remove the redirect `docs/milestones.md` placeholder file content and replace it
+- [x] T017 Remove the redirect `docs/milestones.md` placeholder file content and replace it
   with a one-line pointer to `specs/004-milestones/plan.md` (matches FR-009).
-- [ ] T018 [P] Update GitHub issues #2–#15 to reference `specs/004-milestones/plan.md` as the
+- [x] T018 [P] Update GitHub issues #2–#15 to reference `specs/004-milestones/plan.md` as the
   authoritative milestone spec, replacing any references to the now-superseded `docs/milestones.md`.
-- [ ] T019 Run the full quickstart scenario suite (scenarios 1–5) and confirm all pass or
+- [x] T019 Run the full quickstart scenario suite (scenarios 1–5) and confirm all pass or
   document the expected failing state with a known open task.
+- [x] T020 Run `sage-inventory capability-evidence` and require every source-reconciled capability
+  to have expanded source locations plus an explicit Sage-oracle or contract-input obligation.
+  Record the generated ledger at `inventory/capability-evidence.json`; correct the
+  `semirings.tropical-base-change` source example so its private implementation doctest is not
+  hidden behind a public wrapper selector.
 
 ---
 

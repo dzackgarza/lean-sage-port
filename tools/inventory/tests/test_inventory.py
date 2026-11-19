@@ -18,6 +18,7 @@ import yaml
 
 from sage_inventory.cli import app
 from sage_inventory.coverage import InventoryError, measure, unaccounted
+from sage_inventory.evidence import build as build_evidence
 from sage_inventory.graph import GraphError, derive
 from sage_inventory.index import CheckoutError, build_index, load_baseline
 from sage_inventory.models import Algorithm, Capability, Exactness, Reuse, ReuseStatus
@@ -216,6 +217,18 @@ def test_coverage_counts_category_record_entities_separately_from_capabilities(
         "sage.rings.fast_integer:FastInteger.double",
         "sage.rings.demo_ring:DemoRing",
     }
+
+
+def test_capability_evidence_expands_selectors_to_source_and_oracle_rows(index: Path) -> None:
+    report = build_evidence(index, FIXTURES / "capabilities")
+    assert report["unresolved"] == []
+    (record,) = [row for row in report["records"] if row["id"] == "euclidean.gcd"]
+    assert record["source_entities"][0]["source_path"].startswith("src/sage/")
+    assert record["source_entities"][0]["source_line"] > 0
+    assert record["oracle_inputs"]
+    assert record["oracle_input_status"] in {"source-doctest-backed", "contract-input-backed"}
+    assert report["broad_selector_count"] >= 0
+    assert all(row["public_entities"] > 0 for row in report["broad_selectors"])
 
 
 def test_unaccounted_lists_the_entities_of_a_section_that_no_record_selects(index: Path) -> None:
