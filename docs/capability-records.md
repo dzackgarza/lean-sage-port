@@ -68,24 +68,45 @@ test translation belongs with the operation's implementation. A source test coun
 that a native operation has passed those tests.
 
 The generated `inventory/capability-evidence.json` report expands every selector into its matched
-public entities, source path and line, source doctest count, references and module backends. Its
+entities, source path and line, source doctest count, references and module backends. Its
 `oracle_inputs` entries are the concrete Sage inputs or independent mathematical comparisons that
 the native implementation must reproduce. A record with no source doctests must state those
 inputs explicitly from the source or contract; it must not claim that a selector alone supplies
 an oracle. The report also lists wildcard selectors and overlapping entity associations explicitly;
 these are review data, not hidden coverage.
 
-**Account for every entity.** A section is complete when
-`sage-inventory unaccounted <index> <capabilities> <section> <categories>` prints nothing. A public
-entity with no mathematical content goes to an `[[exclusion]]` with its reason: `infrastructure`,
-`external-interface`, `presentation`, `data` or `deprecated`. The entities of the `categories`
-section are accounted for by the category and operation records of
-`inventory/categories/sage-categories.toml`, which name each indexed entity against the
-`lean-categories` catalogue; pass that file so the measure counts them as `by_category_record`
-rather than as a remainder.
+**Account for every entity of the source.** The denominator is every entity of the index: each
+class, module-level function and `def` or `cpdef` method, public or underscore, of every module
+under `src/sage`. The reference manual is generated from the source and documents a subset of it;
+a module that the manual does not list is in scope like any other, and the ledger names the
+manual sections whose modules import it. Module-level aliases such as `ZZ = IntegerRing()` are
+instances, not entities: the class that they instantiate carries the functionality.
 
-**A selector names a public entity that the record accounts for.** Do not select an unrelated or
-private implementation entity to make a record valid. A source entity may be accounted for by
+Each entity has one state, computed by `sage-inventory coverage` and `sage-inventory
+reconnaissance`:
+
+| State | Condition |
+| --- | --- |
+| `unaccounted` | No record selects the entity. |
+| `scoped` | A record selects it, but no source-reconciled batch of `inventory/reconnaissance-worklog.toml` names its module, or the only record is `scope-only`. |
+| `reconciled` | A source-reconciled capability selects it, and a source-reconciled batch names its module. |
+| `excluded` | An `[[exclusion]]` selects it, and a source-reconciled batch names its module. |
+| `category-record` | A category or operation record of `inventory/categories/sage-categories.toml` names it. |
+
+A record is a claim about source; the worklog batch is the record that the source was read. A
+batch becomes `source-reconciled` only after each module that it names was read in full and every
+entity of that module was given to a capability, an exclusion or a category record. A batch names
+modules exactly; a package name or a pattern credits nothing. A part of the source is complete when
+`sage-inventory remaining <index> <capabilities> <categories> <worklog> <part>` prints nothing.
+
+An entity with no mathematical content goes to an `[[exclusion]]` with its reason:
+`infrastructure`, `external-interface`, `presentation`, `data` or `deprecated`. The rationale
+states what the module does, from its source. "Outside the manual" is a placement, not a reason.
+
+**A selector names the entities that the record accounts for.** Underscore methods are part of
+the operation: `_add_`, `_mul_` and `_richcmp_` implement the arithmetic and comparison that the
+public operators reach, and `_element_constructor_` implements conversion. Do not select an
+unrelated entity to make a record valid. A source entity may be accounted for by
 more than one capability when Sage exposes the same operation family through multiple
 mathematical constructions; `inventory/capability-evidence.json` reports those overlaps and they
 must be resolved by the implementation's operation contract rather than silently ignored.
@@ -131,9 +152,12 @@ method.
 
 ```bash
 cd tools/inventory
-uv run sage-inventory coverage ../../inventory/sage/index ../../inventory/capabilities ../../inventory/reuse ../../inventory/coverage.json ../../inventory/categories/sage-categories.toml
-uv run sage-inventory unaccounted ../../inventory/sage/index ../../inventory/capabilities <section> ../../inventory/categories/sage-categories.toml
+uv run sage-inventory coverage ../../inventory/sage/index ../../inventory/capabilities ../../inventory/reuse ../../inventory/categories/sage-categories.toml ../../inventory/reconnaissance-worklog.toml ../../inventory/coverage.json
+uv run sage-inventory reconnaissance ../../inventory/sage/index ../../inventory/capabilities ../../inventory/categories/sage-categories.toml ../../inventory/reconnaissance-worklog.toml ../../inventory/reconnaissance.json ../../inventory/reconnaissance-entities.jsonl.gz
+uv run sage-inventory remaining ../../inventory/sage/index ../../inventory/capabilities ../../inventory/categories/sage-categories.toml ../../inventory/reconnaissance-worklog.toml <section-or-package>
 ```
 
 `coverage` fails on a duplicate id, an unknown `depends_on` or `generalizes` id, an unknown reuse
-component, an unknown catalogue id, and a selector that matches no entity.
+component, an unknown catalogue id, a selector that matches no entity, a worklog entry that
+matches no module, a source-reconciled batch that names anything but exact modules, and a worklog
+for another commit.

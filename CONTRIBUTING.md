@@ -8,6 +8,8 @@ Spec Kit specification and the relevant [capability records](docs/capability-rec
 | SEM001 | Use the upstream mathematical object and operation. | A fast residue representation interprets into the existing quotient; it does not define a second quotient ontology. |
 | REUSE001 | Inspect the implementation before classifying reuse. | A package-name search is insufficient; cite its declaration, domain, revision and execution evidence. |
 | INV001 | Account only for source entities that the contract covers. | A scalar quadrature record cannot select a vector-valued integration operation. |
+| INV002 | The denominator is the whole source, not the reference manual. | An exclusion of "modules outside the documented manual sections" removes source by placement => read each such module and record its entities under the capability or exclusion reason that its source supports. |
+| INV003 | Close an entity only by recorded reading of its module. | A `sage.combinat.*:*` selector and a batch that names `sage.combinat` report the package closed => a source-reconciled batch names each module that was read, and the ledger closes only those modules. |
 | DEP001 | Distinguish alternative algorithms from mandatory inputs. | A primality algorithm using factorization does not make factorization a prerequisite for trial-division primality. |
 | TEST001 | Reuse Sage source tests and compare same-input oracle computations. | Link the selected doctests and compare subgroup membership, rather than require identical printed generators. |
 | TEST002 | Test the entire mathematical output through public operations. | Compare a computed integer kernel as a lattice, not merely verify that each returned vector is killed. |

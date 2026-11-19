@@ -18,7 +18,7 @@ object and operation. When the catalogue lacks one, the gap is reported to its o
 
 | Path | Content |
 | --- | --- |
-| `docs/constitution.md` | Permanent project scope, ten commitments, and ownership boundaries. |
+| `.specify/memory/constitution.md` | The constitution: product scope, principles and amendment procedure. `docs/constitution.md` points to it. |
 | `docs/milestones.md` | Pointer to `specs/004-milestones/plan.md`, the authoritative milestone roadmap. |
 | `specs/004-milestones/` | Spec Kit feature for the milestone roadmap: spec, research, data model, plan, tasks. |
 | `docs/architecture.md` | Source-checked architecture candidate; describes the native dispatch interface and composition mechanism. |
@@ -29,8 +29,10 @@ object and operation. When the catalogue lacks one, the gap is reported to its o
 | `inventory/sage/release.toml` | Official release identity and the indexed fork content comparison. |
 | `inventory/sage/index/` | Generated index of that checkout: modules, entities, manual sections, packages, imports. |
 | `inventory/capabilities/` | Capability records: one intrinsic mathematical operation each, with the Sage entities it accounts for. `docs/capability-records.md` has the rules. |
-| `inventory/coverage.json` | Generated coverage report: public Sage entities by capability, by exclusion, by category record, and not yet accounted for, per manual section. |
-| `inventory/reconnaissance.json` | Generated exhaustive entity-level ledger: source, section disposition, current accounting status, algorithms, references, and backends. |
+| `inventory/reconnaissance-worklog.toml` | Source-reading batches. A source-reconciled batch names the modules that were read; only those modules can close entities. |
+| `inventory/coverage.json` | Generated coverage report: every indexed entity by reconnaissance state, per manual section and per package outside the manual. |
+| `inventory/reconnaissance.json` | Generated module ledger: each module's part, state counts, crediting batches and, outside the manual, the importing manual sections. |
+| `inventory/reconnaissance-entities.jsonl.gz` | Generated entity ledger: each indexed entity's state and selecting records. Source facts stay in the index. |
 | `inventory/categories/` | Sage's category classes and their methods at the baseline, each joined to its id in the `lean-categories` catalogue. The Sage-side judgments come from the research inventories below. |
 | `inventory/categories/reconciliation.json` | Open category reconciliation ledger joining every indexed category entity to an existing record, a research role, or an unmatched state. |
 | `inventory/reuse/` | Reuse maps: existing Lean components, with declarations, paths and a reuse status. |
@@ -39,7 +41,7 @@ object and operation. When the catalogue lacks one, the gap is reported to its o
 | `Probes/` | Executable Lean probes that test architectural decisions. |
 | `specs/` | Spec Kit documents: reconnaissance master spec (`001`), and per-domain specs as milestones proceed. |
 | `specs/004-milestones/plan.md` | Authoritative dependency-ordered milestone roadmap (M0–M14). |
-| `specs/005-master-product-spec/plan.md` | Master product specification: scope table, output-contract taxonomy, completion condition, ownership boundaries. |
+| `specs/005-master-product-spec/product-spec.md` | Master product specification: scope table, output-contract taxonomy, completion condition, ownership boundaries. |
 
 ## Existing inventories in `dzackgarza/research`
 
@@ -90,6 +92,16 @@ metadata match the official release; it also names three different unindexed bui
 Keep the scanned fork revision in the index provenance. Do not claim whole-runtime equivalence.
 Do not clone, fetch or modify Sage. The index refuses a checkout with uncommitted source changes.
 
+### Reconnaissance covers the whole source
+
+The task is to index all Sage functionality by reading the pinned checkout, and to produce a
+ledger. The denominator is every entity of the index (66,424 at the baseline: classes,
+module-level functions, `def` and `cpdef` methods, public and underscore) in all 3,041 modules.
+The reference manual is generated from the source; it documents a subset (2,400 modules) and
+names the domains. It never bounds the scope, and "outside the manual" is never an exclusion
+reason. An entity closes only when a source-reconciled worklog batch names its module, so
+wildcard selectors cannot close unread source. `docs/capability-records.md` defines the states.
+
 ### Tests assert mathematics
 
 A test states a true mathematical fact about a public operation and checks it against an
@@ -104,4 +116,5 @@ time. A hard-coded special case is not evidence for a generic operation.
 | Rebuild the Sage index | `cd tools/inventory && uv run sage-inventory index ../../inventory/sage/baseline.yaml ../../inventory/sage/index` |
 | Print the record schema | `cd tools/inventory && uv run sage-inventory schema` |
 | Measure coverage | `cd tools/inventory && uv run sage-inventory coverage --help` |
-| List the entities of a section with no record | `cd tools/inventory && uv run sage-inventory unaccounted ../../inventory/sage/index ../../inventory/capabilities <section> ../../inventory/categories/sage-categories.toml` |
+| Write the reconnaissance ledger | `cd tools/inventory && uv run sage-inventory reconnaissance --help` |
+| List the open entities of a section or package | `cd tools/inventory && uv run sage-inventory remaining ../../inventory/sage/index ../../inventory/capabilities ../../inventory/categories/sage-categories.toml ../../inventory/reconnaissance-worklog.toml <section-or-package>` |

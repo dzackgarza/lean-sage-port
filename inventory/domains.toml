@@ -1,4 +1,5 @@
-# Sage reference-manual domain scope at the pinned baseline.
+# Sage reference-manual sections at the pinned baseline: the names of the mathematical domains.
+# The scope is the whole indexed source; modules outside the manual are counted by package.
 # Section routing is stable at this Sage baseline; live coverage is in inventory/coverage.json.
 
 baseline_version = "11.0.beta5"
@@ -7,7 +8,7 @@ source_index = "inventory/sage/index/sections.jsonl"
 coverage_report = "inventory/coverage.json"
 capability_directory = "inventory/capabilities"
 reuse_directories = ["inventory/reuse", "inventory/references"]
-unaccounted_query = "cd tools/inventory && uv run sage-inventory unaccounted ../../inventory/sage/index ../../inventory/capabilities <section-id>"
+remaining_query = "cd tools/inventory && uv run sage-inventory remaining ../../inventory/sage/index ../../inventory/capabilities ../../inventory/categories/sage-categories.toml ../../inventory/reconnaissance-worklog.toml <section-or-package>"
 
 [[section]]
 id = "algebras"

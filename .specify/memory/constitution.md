@@ -4,8 +4,8 @@
 
 ### I. Native mathematical computation
 
-The product computes the mathematical operations documented by the Sage reference baseline
-through Lean implementations. External engines provide source references and test oracles.
+The product computes the mathematical operations of the Sage baseline source through Lean
+implementations. External engines provide source references and test oracles.
 An executable obligation is satisfied by an operation on runtime inputs with its specified
 output and failure behavior. A declaration or theorem alone does not satisfy that obligation.
 
@@ -59,12 +59,22 @@ milestone MUST NOT introduce dependencies that violate it.
 
 ## Product scope and specification
 
-The target is complete: every mathematical domain in the Sage 11.0.beta5 reference manual is
-in scope. Implementation is partitioned into dependency-ordered milestones. "Complete" means
-every public Sage entity has either an implemented native computation or a justified exclusion
-(reason: `infrastructure`, `external-interface`, `presentation`, `data`, or `deprecated`) in a
-capability record. The ultimate completion condition is that `sage-inventory unaccounted` returns
-nothing for every mathematical section.
+The target is complete: all the functionality of the Sage 11.0.beta5 source is in scope. The
+unit of functionality is an entity of the index: a class, a module-level function, or a `def` or
+`cpdef` method, public or underscore, of a `.py` or `.pyx` module under `src/sage` at the pinned
+commit. The reference manual is generated from that source and documents a subset of it, so the
+manual is a placement attribute of a module, never the bound of the scope. Underscore methods such
+as `_add_`, `_mul_` and `_element_constructor_` carry the arithmetic and conversion of Sage objects
+and are in scope like public ones.
+
+Reconnaissance indexes that functionality and produces a ledger. An entity is closed when a
+capability record that is reconciled with read source selects it, when an exclusion (reason:
+`infrastructure`, `external-interface`, `presentation`, `data`, or `deprecated`) selects it after
+its module was read, or when a category record names it. A record without a recorded reading of
+the module does not close an entity. Reconnaissance is complete when `sage-inventory remaining`
+prints nothing for every manual section and every package outside the manual. Implementation is
+partitioned into dependency-ordered milestones; the product is complete when every capability
+has a native computation that passes its oracle comparisons.
 
 **Milestones** are defined in `specs/004-milestones/`. Each milestone names the Sage manual
 sections in scope, its mathematical prerequisites (prior milestones whose operations it depends
@@ -73,7 +83,9 @@ and acceptance conditions. No milestone may begin implementation until all its s
 prerequisites have passed their own acceptance. No percentage of full Sage coverage should be
 inferred from completing any single milestone.
 
-The master specification identifies the target domains through the reference-manual taxonomy.
+The master specification uses the reference-manual sections as the names of mathematical domains
+and assigns each module outside the manual to the manual sections whose modules import it, or,
+when no manual module imports it, to the manual sections that hold modules of its package.
 Capability records attach intrinsic contracts to baseline entities. Source coverage measures
 entity disposition and must remain distinct from native implementation acceptance.
 
@@ -131,4 +143,4 @@ Evidence or Governance sections that do not alter principles or scope are patch-
 Review each feature against the constitution before implementation and again before acceptance.
 Complexity violations MUST be justified in writing before the work begins.
 
-**Version**: 1.1.0 | **Ratified**: 2026-11-17 | **Last Amended**: 2026-11-17
+**Version**: 1.2.0 | **Ratified**: 2026-11-17 | **Last Amended**: 2026-11-19
