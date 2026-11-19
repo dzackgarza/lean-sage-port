@@ -1,0 +1,79 @@
+domain = "modabvar"
+
+[[capability]]
+status = "source-reconciled"
+id = "modabvar.modular-abelian-varieties"
+title = "Modular abelian varieties and their subgroups"
+statement = "Construct the modular abelian variety attached to a modular symbols space or newform, and compute its dimension, Hecke action, torsion and finite subgroups."
+domain = "A congruence subgroup and a modular symbols space, or a newform."
+contract = "(A) -> the abelian variety with its lattice and dimension, the Hecke operators acting on it, its rational and torsion subgroups with the group law, the cuspidal subgroup and the order computations for torsion points."
+exactness = "exact"
+algorithms = [{ family = "Hecke-stable lattice arithmetic", sources = ["sage.modular.abvar.abvar:*", "sage.modular.abvar.abvar_ambient_jacobian:*", "sage.modular.abvar.abvar_newform:*", "sage.modular.abvar.constructor:*", "sage.modular.abvar.cuspidal_subgroup:*", "sage.modular.abvar.finite_subgroup:*", "sage.modular.abvar.torsion_point:*", "sage.modular.abvar.torsion_subgroup:*"] }, { family = "Torsion and cuspidal subgroups", sources = ["sage.modular.abvar.abvar:*", "sage.modular.abvar.abvar_ambient_jacobian:*", "sage.modular.abvar.abvar_newform:*", "sage.modular.abvar.constructor:*", "sage.modular.abvar.cuspidal_subgroup:*", "sage.modular.abvar.finite_subgroup:*", "sage.modular.abvar.torsion_point:*", "sage.modular.abvar.torsion_subgroup:*"] }]
+depends_on = []
+sage = [
+  "sage.modular.abvar.abvar:*",
+  "sage.modular.abvar.abvar_ambient_jacobian:*",
+  "sage.modular.abvar.abvar_newform:*",
+  "sage.modular.abvar.constructor:*",
+  "sage.modular.abvar.cuspidal_subgroup:*",
+  "sage.modular.abvar.finite_subgroup:*",
+  "sage.modular.abvar.torsion_point:*",
+  "sage.modular.abvar.torsion_subgroup:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for modular abelian varieties.",
+  "The Hecke operators satisfy the Hecke relations on the rational homology lattice, and the order of a torsion point divides the exponent of its subgroup.",
+  "The cuspidal subgroup is annihilated by the appropriate Eisenstein ideal.",
+]
+reuse = { status = "adaptable", components = ["mathlib.nt.modular-forms", "mathlib.linalg.smith-normal-form"], evidence = "Mathlib supplies modular forms and Smith normal form; the modular abelian variety as a quotient of a modular Jacobian is not executable there." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "modabvar.homology-and-homspaces"
+title = "Homology of modular abelian varieties and Hecke morphisms"
+statement = "Compute the homology of a modular abelian variety in its rational, integral and mod-p models, and the spaces of homomorphisms between abelian varieties with their Hecke action and invariants."
+domain = "A modular abelian variety, and a second abelian variety for a hom-space."
+contract = "(A) -> the rational, integral and finite-field homology with the Hecke action and the boundary map; (A,B) -> the space of homomorphisms with its basis, the Hecke action, the kernel and cokernel invariants, and the induced maps on homology."
+exactness = "exact"
+algorithms = [{ family = "Homology with Hecke action", sources = ["sage.modular.abvar.homology:*", "sage.modular.abvar.homspace:*", "sage.modular.abvar.morphism:*"] }, { family = "Hom-space and morphism invariants", sources = ["sage.modular.abvar.homology:*", "sage.modular.abvar.homspace:*", "sage.modular.abvar.morphism:*"] }]
+depends_on = []
+sage = [
+  "sage.modular.abvar.homology:*",
+  "sage.modular.abvar.homspace:*",
+  "sage.modular.abvar.morphism:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for homology and hom-spaces.",
+  "The homology is a free module of rank twice the dimension, and the Hecke action respects the boundary map.",
+  "The kernel and cokernel of a morphism have invariants computed by Smith normal form that agree with a second computation on the homology.",
+]
+reuse = { status = "adaptable", components = ["mathlib.linalg.smith-normal-form", "mathlib.nt.modular-forms"], evidence = "Mathlib supplies Smith normal form and modular forms; Hecke-equivariant homology of modular abelian varieties is not executable there." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "modabvar.modular-abelian-variety-lseries"
+title = "L-series of modular abelian varieties"
+statement = "Compute the L-series of a modular abelian variety, its order of vanishing at the central point and its special value data."
+domain = "A modular abelian variety over Q."
+contract = "(A) -> the L-series as a product of newform L-series, the analytic order of vanishing, the leading coefficient and the special value normalised by the period lattice."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and backend behaviour follow the documented contract of each source module."
+algorithms = [{ family = "Newform L-series product and central value", sources = ["sage.modular.abvar.lseries:*"] }]
+depends_on = []
+sage = [
+  "sage.modular.abvar.lseries:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for L-series of modular abelian varieties.",
+  "The order of vanishing equals the sum of the newform orders, and the leading coefficient is the product of the newform leading coefficients.",
+]
+reuse = { status = "adaptable", components = ["mathlib.nt.l-series", "mathlib.nt.modular-forms"], evidence = "Mathlib supplies L-series and modular forms; numerical central-value computations for modular abelian varieties are not executable there." }
+backends = []
+references = []

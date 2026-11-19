@@ -1,0 +1,18 @@
+domain = "resolutions"
+
+[[capability]]
+id = "resolutions.free-and-graded"
+title = "Free and graded resolutions"
+statement = "Construct free and graded free resolutions of modules and compute their differentials, maps and homological invariants."
+domain = "A finitely presented module over a supported ring with resolution length and grading data."
+contract = "Module presentation -> exact free/graded resolution data, augmentation, differential compositions and derived Betti/rank information."
+exactness = "conditional"
+exactness_notes = "Exact over exact coefficient rings where the resolution algorithm's hypotheses hold."
+algorithms = [{ family = "Free and graded module resolutions", sources = ["sage.homology.free_resolution:*", "sage.homology.graded_resolution:*"] }]
+depends_on = ["homology.chain-complexes", "modules.fg-pid"]
+sage = ["sage.homology.free_resolution:*", "sage.homology.graded_resolution:*"]
+catalogue = []
+tests = ["Differential composition and augmentation identities.", "Exactness at each resolution degree.", "Betti/rank reconstruction from the resolution."]
+reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "mathlib.alg.module-quotients"], evidence = "Matrix and quotient foundations are reusable; Sage's free-resolution constructors and graded normal forms need native implementation." }
+backends = ["gmp"]
+references = []

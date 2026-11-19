@@ -1,0 +1,48 @@
+domain = "matrices"
+
+[[capability]]
+id = "matrices.core-and-backends"
+title = "Matrix construction, arithmetic, normal forms and specialized backends"
+statement = "Construct dense, sparse, symbolic, exact, modular and floating matrices and compute arithmetic, rank, kernels, normal forms, decompositions, windows and structured special matrices."
+domain = "A coefficient ring/field, matrix dimensions and entries or a structured matrix specification."
+contract = "Matrix data -> exact or documented approximate matrix operations, including arithmetic, rank, kernel/image, determinant, inverse, echelon, Smith/Hermite forms, decomposition and structured constructors."
+exactness = "conditional"
+exactness_notes = "Exact over exact coefficient domains; floating, symbolic and ball backends inherit their numerical or enclosure semantics."
+algorithms = [
+    { family = "Parent construction, coercion and dense/sparse backend selection", sources = ["sage.matrix.constructor:matrix", "sage.matrix.args:*", "sage.matrix.matrix_space:MatrixSpace", "sage.matrix.matrix_space:get_matrix_class"] },
+    { family = "Mutable/immutable matrix storage, indexing, row/column operations and block assembly", sources = ["sage.matrix.matrix0:Matrix", "sage.matrix.matrix1:Matrix"] },
+    { family = "Arithmetic, determinant, characteristic/minimal polynomial and matrix invariants", sources = ["sage.matrix.matrix0:Matrix", "sage.matrix.matrix2:Matrix"] },
+    { family = "Linear systems, kernels, images, rank and module decompositions", sources = ["sage.matrix.matrix2:Matrix"] },
+    { family = "Echelon, Hermite/Howell, Smith and backend-specific normal-form algorithms", sources = ["sage.matrix.matrix2:Matrix", "sage.matrix.echelon_matrix:reduced_echelon_matrix_iterator"] },
+    { family = "Eigenvalues/eigenspaces, decompositions, Pfaffians, permanents and structured operations", sources = ["sage.matrix.matrix2:Matrix"] },
+    { family = "Specialized exact, modular, integer, polynomial, symbolic, ball and floating implementations", sources = ["sage.matrix.matrix_*:*"] },
+    { family = "Integer matrices: multimodular determinant/rank, HNF/Smith form, saturation, LLL/BKZ and rational reconstruction", sources = ["sage.matrix.matrix_integer_dense:*", "sage.matrix.matrix_integer_dense_hnf:*", "sage.matrix.matrix_integer_dense_saturation:*", "sage.matrix.matrix_integer_sparse:*"] },
+    { family = "Rational matrices: FLINT/PARI/IML inversion, determinant, multimodular echelon and decomposition", sources = ["sage.matrix.matrix_rational_dense:*", "sage.matrix.matrix_rational_sparse:*"] },
+    { family = "Binary and modular matrices: M4RI/modular arithmetic, Howell/normal-form and LinBox floating/double/FLINT pathways", sources = ["sage.matrix.matrix_mod2_dense:*", "sage.matrix.matrix_modn_dense_double:*", "sage.matrix.matrix_modn_dense_float:*", "sage.matrix.matrix_modn_dense_flint:*", "sage.matrix.matrix_modn_sparse:*"] },
+    { family = "Polynomial matrices: degree/coefficient/shift operations, Popov/Hermite forms, polynomial division and approximant/interpolant/kernel/relation bases", sources = ["sage.matrix.matrix_polynomial_dense:*", "sage.matrix.matrix_mpolynomial_dense:*"] },
+    { family = "Symbolic matrices: Maxima-backed characteristic/minimal polynomials, eigen/Jordan forms, exponential and symbolic simplification", sources = ["sage.matrix.matrix_symbolic_dense:*", "sage.matrix.matrix_symbolic_sparse:*"] },
+    { family = "Floating and complex numerical matrices: NumPy/SciPy LU, QR, SVD, Schur, Cholesky, eigen and condition-number computations", sources = ["sage.matrix.matrix_double_dense:*", "sage.matrix.matrix_real_double_dense:*", "sage.matrix.matrix_complex_double_dense:*", "sage.matrix.matrix_numpy_dense:*"] },
+    { family = "Complex-ball and cyclotomic matrices: rigorous enclosures, overlap/containment, multimodular cyclotomic arithmetic and tensor products", sources = ["sage.matrix.matrix_complex_ball_dense:*", "sage.matrix.matrix_cyclo_dense:*"] },
+    { family = "Generic, sparse, GF(2^e) and window representations", sources = ["sage.matrix.matrix_dense:*", "sage.matrix.matrix_sparse:*", "sage.matrix.matrix_generic_dense:*", "sage.matrix.matrix_generic_sparse:*", "sage.matrix.matrix_gf2e_dense:*", "sage.matrix.matrix_window:*"] },
+    { family = "Matrix actions, base-ring conversion, Berlekamp–Massey and J-ideal computations", sources = ["sage.matrix.action:*", "sage.matrix.change_ring:*", "sage.matrix.berlekamp_massey:*", "sage.matrix.compute_J_ideal:*"] },
+]
+depends_on = ["rings.core", "modules.free-and-quotient"]
+sage = ["sage.matrix.*:*"]
+catalogue = []
+tests = [
+    "Construction from rows, columns, callables, dictionaries and indexed keys preserves dimensions, coercions, sparsity and immutability.",
+    "Arithmetic, transpose, powers, row/column operations and block assembly satisfy their defining identities.",
+    "For exact fields and domains, rank, left/right kernels, image, determinant, characteristic polynomial and minimal polynomial satisfy reconstruction and Cayley–Hamilton identities.",
+    "Echelon, Hermite/Howell and Smith forms reconstruct the input with their documented ring hypotheses; transformation matrices certify the result where returned.",
+    "Exact backend implementations agree on shared inputs; floating, symbolic, p-adic and ball implementations are tested with tolerance, precision or enclosure contracts rather than exact equality.",
+    "Berlekamp–Massey returns the minimal recurrence for generated sequences, and J-ideal computations satisfy the stated integer-valued-polynomial membership conditions.",
+    "Integer HNF/Smith/saturation and rational reconstruction identities hold, including transformation certificates and lattice-index checks.",
+    "Integer and rational LLL/BKZ outputs satisfy reducedness and lattice-span invariants; modular backends agree after coercion on exact shared inputs.",
+    "Polynomial Popov/Hermite and approximant-basis outputs satisfy unimodular transformation, degree, leading-position and truncated-product certificates.",
+    "Symbolic outputs satisfy characteristic/minimal-polynomial, Jordan-conjugacy and matrix-exponential identities after exact simplification.",
+    "Numerical LU/QR/SVD/Schur/Cholesky outputs reconstruct the input within tolerance and satisfy orthogonality/unitarity and spectral contracts.",
+    "Complex-ball outputs are validated by enclosure, overlap and containment relations; cyclotomic and extension-field backends agree after exact coercion.",
+]
+reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "mathlib.linalg.echelon-certificates"], evidence = "Mathlib supplies matrix arithmetic and certified echelon foundations; Sage's dense/sparse/Cython/FLINT/NTL/ball backends and parent APIs require native adapters." }
+backends = ["gmp", "flint", "linbox", "m4ri", "pari", "numpy", "scipy", "meataxe", "singular"]
+references = []

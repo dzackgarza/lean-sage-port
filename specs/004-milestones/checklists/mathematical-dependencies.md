@@ -66,9 +66,9 @@ satisfied. `[x]` does not mean implementation work is complete.
 - [ ] CHK016 Is the acceptance-implementation condition for each milestone specific enough to be
   machine-checkable (e.g., names the oracle, states "all selected entities pass"), or does any
   entry use vague language ("oracle comparisons pass" without specifying which oracle)? [Measurability, Spec §FR-005]
-- [ ] CHK017 For M14 (categories, infrastructure accounting), is "N/A for infrastructure entities"
-  as an implementation acceptance condition justified? Does it cover all entities, or only
-  those with `exclusion` entries? Are mathematical category operations (if any) covered?
+- [ ] CHK017 For M0 category accounting, is every category entity either represented by a
+  category/operation record or covered by an evidence-backed exclusion? Does M14 avoid claiming
+  ownership of the foundational `categories` section?
   [Measurability, Spec §FR-005]
 
 ## Scenario Coverage

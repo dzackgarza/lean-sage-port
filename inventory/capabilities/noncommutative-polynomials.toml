@@ -1,0 +1,53 @@
+domain = "noncommutative_polynomial_rings"
+
+[[capability]]
+id = "noncommutative-polynomials.ore-and-skew"
+title = "Ore and skew polynomial rings"
+statement = "Construct and compute with Ore and skew polynomial rings, elements and function-field extensions with noncommutative multiplication rules."
+domain = "A coefficient ring/field, endomorphism and derivation or finite-order twisting data."
+contract = "Twist data and polynomial inputs -> associative noncommutative multiplication, division where supported, evaluation, factorization and morphism operations respecting the Ore relation."
+exactness = "conditional"
+exactness_notes = "Exact over exact coefficient domains; division/factorization require the documented Euclidean or field hypotheses."
+algorithms = [
+    { family = "Ore construction from an endomorphism and twisted derivation", sources = ["sage.rings.polynomial.ore_polynomial_ring:OrePolynomialRing", "sage.rings.polynomial.ore_polynomial_element:OrePolynomial"] },
+    { family = "Left/right arithmetic, Euclidean division, gcd/lcm and evaluation", sources = ["sage.rings.polynomial.ore_polynomial_element:OrePolynomial_generic_dense"] },
+    { family = "Ore fraction fields with left-denominator normalization", sources = ["sage.rings.polynomial.ore_function_field:OreFunctionField", "sage.rings.polynomial.ore_function_element:OreFunction"] },
+    { family = "Skew evaluation, interpolation and finite-order centers", sources = ["sage.rings.polynomial.skew_polynomial_ring:SkewPolynomialRing", "sage.rings.polynomial.skew_polynomial_finite_order:SkewPolynomial_finite_order_dense"] },
+    { family = "Finite-field skew irreducibility and factorization", sources = ["sage.rings.polynomial.skew_polynomial_finite_field:SkewPolynomial_finite_field_dense"] },
+]
+depends_on = ["rings.core", "modules.free-and-quotient"]
+sage = ["sage.rings.polynomial.ore_polynomial_ring:*", "sage.rings.polynomial.ore_polynomial_element:*", "sage.rings.polynomial.ore_function_field:*", "sage.rings.polynomial.ore_function_element:*", "sage.rings.polynomial.skew_polynomial_ring:*", "sage.rings.polynomial.skew_polynomial_element:*", "sage.rings.polynomial.skew_polynomial_finite_field:*", "sage.rings.polynomial.skew_polynomial_finite_order:*"]
+catalogue = []
+tests = [
+    "The Ore relation X*a = sigma(a)*X + derivation(a) and associativity hold on the declared coefficient domain.",
+    "Left and right Euclidean division reconstruct the dividend with the documented degree and invertibility hypotheses.",
+    "Fraction normalization preserves the represented left fraction; bijective and non-bijective twisting cases retain their distinct simplification contracts.",
+    "Finite-order reduced trace/norm, center and characteristic-polynomial identities agree with the central polynomial computation.",
+    "Finite-field skew irreducibility and factorization examples reconstruct the input and agree with independent central-norm checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.poly.univariate-ring", "mathlib.poly.division"], evidence = "Mathlib supplies commutative polynomial foundations; Ore twists, skew multiplication and specialized factorization are native additions." }
+backends = ["gmp"]
+references = []
+
+[[capability]]
+id = "noncommutative-polynomials.plural"
+title = "Plural noncommutative polynomial algebras"
+statement = "Construct multivariate noncommutative polynomial algebras with specified commutation relations and compute normal forms."
+domain = "Generators, coefficient ring and a compatible set of commutation relations."
+contract = "Relations and expression -> associative normal form, arithmetic, degree/support and quotient-compatible operations."
+exactness = "exact"
+algorithms = [
+    { family = "Singular/Plural g-algebra construction from commutation matrices", sources = ["sage.rings.polynomial.plural:G_AlgFactory", "sage.rings.polynomial.plural:NCPolynomialRing_plural"] },
+    { family = "Noncommutative arithmetic and relation normal forms", sources = ["sage.rings.polynomial.plural:NCPolynomial_plural"] },
+]
+depends_on = ["noncommutative-polynomials.ore-and-skew"]
+sage = ["sage.rings.polynomial.plural:*"]
+catalogue = []
+tests = [
+    "Each defining commutation relation reduces to the declared normal form.",
+    "Associativity and relation-reduction confluence hold on the documented small g-algebra examples.",
+    "Arithmetic, degree/support and ideal normal-form results agree with the Singular/Plural backend on the same presentation.",
+]
+reuse = { status = "adaptable", components = ["mathlib.poly.multivariate", "mathlib.poly.monomial-orders"], evidence = "Multivariate monomial infrastructure is reusable; noncommutative relation reduction and Singular/Plural integration require native implementation." }
+backends = ["gmp"]
+references = []

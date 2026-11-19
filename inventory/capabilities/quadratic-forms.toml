@@ -1,0 +1,18 @@
+domain = "quadratic_forms"
+
+[[capability]]
+id = "quadratic-forms.arithmetic-and-genera"
+title = "Binary, ternary and general quadratic forms"
+statement = "Construct quadratic forms and compute evaluation, equivalence, reduction, local solvability, genera, class groups, representations and special values."
+domain = "A symmetric Gram matrix or form coefficients over integers, rationals or a supported local ring."
+contract = "Quadratic-form data -> exact evaluation and basis-change operations, reduction/equivalence, local invariants, genus/class data and representation solvers under stated definiteness and discriminant conventions."
+exactness = "conditional"
+exactness_notes = "Exact over exact coefficient domains; local and class-group algorithms require their documented arithmetic hypotheses."
+algorithms = [{ family = "Quadratic-form arithmetic, reduction and genera", sources = ["sage.quadratic_forms.*:*"] }]
+depends_on = ["matrices.core-and-backends", "modules.filtered-graded-and-quadratic"]
+sage = ["sage.quadratic_forms.*:*"]
+catalogue = []
+tests = ["Form evaluation and basis-change invariance.", "Reduction/equivalence and discriminant checks.", "Local solvability, genus and class-group identities.", "Representation counts on published examples."]
+reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "mathlib.int.factorization"], evidence = "Matrix and arithmetic foundations are reusable; Sage's reduction, genus, local-symbol and class-group algorithms require native implementations." }
+backends = ["gmp"]
+references = []

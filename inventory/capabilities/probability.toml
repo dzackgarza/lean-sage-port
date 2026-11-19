@@ -1,0 +1,27 @@
+domain = "probability"
+
+[[capability]]
+id = "probability.distributions"
+title = "Probability distributions and random variables"
+statement = "Construct documented discrete and continuous probability distributions and compute probabilities, moments, densities, cumulative functions and sampling semantics."
+domain = "Distribution parameters and measurable event/value data."
+contract = "Distribution input -> normalized probability law with documented support, probability/moment/density operations and reproducible or randomized sampling semantics."
+exactness = "conditional"
+exactness_notes = "Probability and moment identities are exact for the declared parameters; sampling and numerical distribution evaluation retain randomness, precision and convergence assumptions."
+algorithms = [
+    { family = "GSL-backed continuous and spherical sampling", sources = ["sage.probability.probability_distribution:RealDistribution", "sage.probability.probability_distribution:SphericalDistribution"] },
+    { family = "Finite discrete distributions and histogram sampling", sources = ["sage.probability.probability_distribution:GeneralDiscreteDistribution", "sage.probability.probability_distribution:ProbabilityDistribution.generate_histogram_data"] },
+    { family = "Discrete random-variable moments and dependence", sources = ["sage.probability.random_variable:DiscreteRandomVariable", "sage.probability.random_variable:DiscreteProbabilitySpace"] },
+]
+depends_on = ["functions.symbolic-and-special"]
+sage = ["sage.probability.*:*"]
+catalogue = []
+tests = [
+    "Normalization and support checks for each distribution family.",
+    "Expectation, variance, covariance, correlation and standard-deviation identities for finite discrete random variables.",
+    "CDF/PDF consistency and survival-function checks where the distribution exposes those operations.",
+    "Spherical samples have unit norm; seeded discrete sampling reproduces the documented empirical law within a stated statistical tolerance.",
+]
+reuse = { status = "adaptable", components = ["mathlib.interval.order-intervals"], evidence = "Mathlib supplies interval foundations; Sage's distribution registry, symbolic densities and sampling backends require native adapters." }
+backends = ["gmp"]
+references = []

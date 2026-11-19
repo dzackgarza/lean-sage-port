@@ -1,0 +1,253 @@
+domain = "modfrm"
+
+[[capability]]
+status = "source-reconciled"
+id = "modfrm.modular-forms"
+title = "Modular forms, their spaces and dimensions"
+statement = "Construct spaces of modular forms for a congruence subgroup, compute their dimensions, bases, Hecke action, Eisenstein and cuspidal decompositions, and the q-expansions of their elements; compute with eta products and cusps."
+domain = "A congruence subgroup, a weight and a character, possibly over a non-minimal base ring, and an eta-product data set."
+contract = "(Gamma,k,eps) -> the space of modular forms with its dimension, basis, the Eisenstein and cuspidal subspaces, Hecke operators with their matrices, and elements with their q-expansions, coefficients and Sturm bounds; eta products give elements of weight k/2 on Gamma_0(N), and cusps are represented in P^1(Q) or P^1(K)."
+exactness = "exact"
+algorithms = [{ family = "Dimension formulas and q-expansion arithmetic", sources = ["sage.modular.buzzard:*", "sage.modular.cusps:*", "sage.modular.cusps_nf:*", "sage.modular.dims:*", "sage.modular.etaproducts:*", "sage.modular.modform.ambient:*", "sage.modular.modform.ambient_R:*", "sage.modular.modform.ambient_eps:*", "sage.modular.modform.ambient_g0:*", "sage.modular.modform.ambient_g1:*", "sage.modular.modform.constructor:*", "sage.modular.modform.cuspidal_submodule:*", "sage.modular.modform.eis_series:*", "sage.modular.modform.eis_series_cython:*", "sage.modular.modform.eisenstein_submodule:*", "sage.modular.modform.element:*", "sage.modular.modform.half_integral:*", "sage.modular.modform.hecke_operator_on_qexp:*", "sage.modular.modform.j_invariant:*", "sage.modular.modform.l_series_gross_zagier_coeffs:*", "sage.modular.modform.numerical:*", "sage.modular.modform.ring:*", "sage.modular.modform.space:*", "sage.modular.modform.submodule:*", "sage.modular.modform.theta:*", "sage.modular.modform.vm_basis:*"] }, { family = "Hecke operators on modular forms", sources = ["sage.modular.buzzard:*", "sage.modular.cusps:*", "sage.modular.cusps_nf:*", "sage.modular.dims:*", "sage.modular.etaproducts:*", "sage.modular.modform.ambient:*", "sage.modular.modform.ambient_R:*", "sage.modular.modform.ambient_eps:*", "sage.modular.modform.ambient_g0:*", "sage.modular.modform.ambient_g1:*", "sage.modular.modform.constructor:*", "sage.modular.modform.cuspidal_submodule:*", "sage.modular.modform.eis_series:*", "sage.modular.modform.eis_series_cython:*", "sage.modular.modform.eisenstein_submodule:*", "sage.modular.modform.element:*", "sage.modular.modform.half_integral:*", "sage.modular.modform.hecke_operator_on_qexp:*", "sage.modular.modform.j_invariant:*", "sage.modular.modform.l_series_gross_zagier_coeffs:*", "sage.modular.modform.numerical:*", "sage.modular.modform.ring:*", "sage.modular.modform.space:*", "sage.modular.modform.submodule:*", "sage.modular.modform.theta:*", "sage.modular.modform.vm_basis:*"] }]
+depends_on = []
+sage = [
+  "sage.modular.buzzard:*",
+  "sage.modular.cusps:*",
+  "sage.modular.cusps_nf:*",
+  "sage.modular.dims:*",
+  "sage.modular.etaproducts:*",
+  "sage.modular.modform.ambient:*",
+  "sage.modular.modform.ambient_R:*",
+  "sage.modular.modform.ambient_eps:*",
+  "sage.modular.modform.ambient_g0:*",
+  "sage.modular.modform.ambient_g1:*",
+  "sage.modular.modform.constructor:*",
+  "sage.modular.modform.cuspidal_submodule:*",
+  "sage.modular.modform.eis_series:*",
+  "sage.modular.modform.eis_series_cython:*",
+  "sage.modular.modform.eisenstein_submodule:*",
+  "sage.modular.modform.element:*",
+  "sage.modular.modform.half_integral:*",
+  "sage.modular.modform.hecke_operator_on_qexp:*",
+  "sage.modular.modform.j_invariant:*",
+  "sage.modular.modform.l_series_gross_zagier_coeffs:*",
+  "sage.modular.modform.numerical:*",
+  "sage.modular.modform.ring:*",
+  "sage.modular.modform.space:*",
+  "sage.modular.modform.submodule:*",
+  "sage.modular.modform.theta:*",
+  "sage.modular.modform.vm_basis:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for modular forms.",
+  "The q-expansion of a modular form of weight k transforms correctly under the slash operator for each generator of the congruence subgroup.",
+  "The dimension computed from the Riemann-Roch formula agrees with the rank of the basis, and Hecke operators commute and satisfy the Hecke recursion.",
+]
+reuse = { status = "adaptable", components = ["mathlib.nt.modular-forms"], evidence = "Mathlib supplies modular forms for SL_2(Z) and basic theory; general congruence subgroups, dimension formulas, Hecke operators and eta products are not executable there." }
+backends = ["flint", "gmp", "pari", "scipy"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "modfrm.hecke-triangle-groups"
+title = "Modular forms for Hecke triangle groups"
+statement = "Construct the Hecke triangle group G(n) and its graded ring of modular forms, with analytic types, series construction, exact and numerical elements and the functorial spaces."
+domain = "An integer n >= 3, a weight, a multiplier and a base ring or numerical precision."
+contract = "(n,k) -> the Hecke triangle group with its elements and fundamental domain, and the space of modular forms of weight k for it with its basis, the graded ring of all such forms, elements given by their Fourier expansions or by series construction, and analytic-type data for meromorphic forms."
+exactness = "exact"
+algorithms = [{ family = "Graded ring construction for Hecke triangle groups", sources = ["sage.modular.modform_hecketriangle.abstract_ring:*", "sage.modular.modform_hecketriangle.abstract_space:*", "sage.modular.modform_hecketriangle.analytic_type:*", "sage.modular.modform_hecketriangle.constructor:*", "sage.modular.modform_hecketriangle.element:*", "sage.modular.modform_hecketriangle.functors:*", "sage.modular.modform_hecketriangle.graded_ring:*", "sage.modular.modform_hecketriangle.graded_ring_element:*", "sage.modular.modform_hecketriangle.hecke_triangle_group_element:*", "sage.modular.modform_hecketriangle.hecke_triangle_groups:*", "sage.modular.modform_hecketriangle.series_constructor:*", "sage.modular.modform_hecketriangle.space:*", "sage.modular.modform_hecketriangle.subspace:*"] }, { family = "Series and Fourier expansions", sources = ["sage.modular.modform_hecketriangle.abstract_ring:*", "sage.modular.modform_hecketriangle.abstract_space:*", "sage.modular.modform_hecketriangle.analytic_type:*", "sage.modular.modform_hecketriangle.constructor:*", "sage.modular.modform_hecketriangle.element:*", "sage.modular.modform_hecketriangle.functors:*", "sage.modular.modform_hecketriangle.graded_ring:*", "sage.modular.modform_hecketriangle.graded_ring_element:*", "sage.modular.modform_hecketriangle.hecke_triangle_group_element:*", "sage.modular.modform_hecketriangle.hecke_triangle_groups:*", "sage.modular.modform_hecketriangle.series_constructor:*", "sage.modular.modform_hecketriangle.space:*", "sage.modular.modform_hecketriangle.subspace:*"] }]
+depends_on = []
+sage = [
+  "sage.modular.modform_hecketriangle.abstract_ring:*",
+  "sage.modular.modform_hecketriangle.abstract_space:*",
+  "sage.modular.modform_hecketriangle.analytic_type:*",
+  "sage.modular.modform_hecketriangle.constructor:*",
+  "sage.modular.modform_hecketriangle.element:*",
+  "sage.modular.modform_hecketriangle.functors:*",
+  "sage.modular.modform_hecketriangle.graded_ring:*",
+  "sage.modular.modform_hecketriangle.graded_ring_element:*",
+  "sage.modular.modform_hecketriangle.hecke_triangle_group_element:*",
+  "sage.modular.modform_hecketriangle.hecke_triangle_groups:*",
+  "sage.modular.modform_hecketriangle.series_constructor:*",
+  "sage.modular.modform_hecketriangle.space:*",
+  "sage.modular.modform_hecketriangle.subspace:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for Hecke triangle groups.",
+  "The graded ring carries the expected weights and its elements transform correctly under the group action.",
+  "Series-constructed elements have the predicted Fourier coefficients and agree with a direct numerical evaluation.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for Hecke triangle groups and their modular forms; none exists." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "modfrm.quasimodular-forms"
+title = "Quasimodular forms"
+statement = "Construct the graded ring of quasimodular forms and compute its elements, their derivatives, the quasimodular correction terms and their q-expansions."
+domain = "A congruence subgroup and a base ring, with weights."
+contract = "(R) -> the graded ring of quasimodular forms with its derivatives, the weight filtration, elements with q-expansions, and the projection to modular forms."
+exactness = "exact"
+algorithms = [{ family = "Quasimodular ring arithmetic and derivative", sources = ["sage.modular.quasimodform.element:*", "sage.modular.quasimodform.ring:*"] }]
+depends_on = []
+sage = [
+  "sage.modular.quasimodform.element:*",
+  "sage.modular.quasimodform.ring:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for quasimodular forms.",
+  "The derivative of a quasimodular form raises the weight by two and the modular part agrees with the Serre derivative.",
+  "The q-expansion of a product of quasimodular forms equals the product of their expansions.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for quasimodular forms; Mathlib has modular forms but no quasimodular ring." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "modfrm.overconvergent-modular-forms"
+title = "Overconvergent p-adic modular forms"
+statement = "Construct spaces of overconvergent p-adic modular forms for small primes, their p-adic weights, and compute Atkin/Hecke series."
+domain = "A prime p and a level, and a p-adic weight."
+contract = "(p,k) -> the space of overconvergent p-adic modular forms with its basis and the action of the Hecke and U operators, the p-adic weight space with its characters, and truncated Atkin/Hecke series for overconvergent forms."
+exactness = "exact"
+algorithms = [{ family = "Overconvergent basis computation and Hecke series", sources = ["sage.modular.overconvergent.genus0:*", "sage.modular.overconvergent.hecke_series:*", "sage.modular.overconvergent.weightspace:*"] }]
+depends_on = []
+sage = [
+  "sage.modular.overconvergent.genus0:*",
+  "sage.modular.overconvergent.hecke_series:*",
+  "sage.modular.overconvergent.weightspace:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for overconvergent forms.",
+  "The U operator raises the p-adic valuation of the coefficients, and the dimension of the overconvergent space agrees with the classical dimension at large slope.",
+  "The Hecke series coefficients agree with the classical Hecke polynomial modulo p.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for overconvergent p-adic modular forms; none exists." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "modfrm.local-components-of-modular-forms"
+title = "Local components of modular forms"
+statement = "Compute the local components, type spaces and smooth characters attached to a newform at a prime, and lift between local types."
+domain = "A newform, a prime p, and optional local data for a type space."
+contract = "(f,p) -> the local component of the automorphic representation at p with its associated type space, its smooth characters, the liftings between local types and the conductor and ramification data."
+exactness = "exact"
+algorithms = [{ family = "Local representation type and lifting", sources = ["sage.modular.local_comp.liftings:*", "sage.modular.local_comp.local_comp:*", "sage.modular.local_comp.smoothchar:*", "sage.modular.local_comp.type_space:*"] }]
+depends_on = []
+sage = [
+  "sage.modular.local_comp.liftings:*",
+  "sage.modular.local_comp.local_comp:*",
+  "sage.modular.local_comp.smoothchar:*",
+  "sage.modular.local_comp.type_space:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for local components.",
+  "The product of the local conductors equals the level of the newform, and the local L-factor derived from the type agrees with the Hecke polynomial at p.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for local components of automorphic representations; none exists." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "modfrm.dirichlet-characters"
+title = "Dirichlet characters"
+statement = "Construct a Dirichlet character from its modulus and values, and compute its values, order, conductor, decomposition into primitive characters, Gauss sums and associated L-series data."
+domain = "A modulus and an integer or a group element specifying the character."
+contract = "(N,chi) -> the character with its values on units, its order, conductor, the primitive character inducing it, the Galois orbit, the Gauss sum, the Bernoulli numbers attached to it and its L-series values."
+exactness = "exact"
+algorithms = [{ family = "Character values and conductor", sources = ["sage.modular.dirichlet:*"] }, { family = "Gauss sums and L-values", sources = ["sage.modular.dirichlet:*"] }]
+depends_on = []
+sage = [
+  "sage.modular.dirichlet:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for Dirichlet characters.",
+  "The character is multiplicative on units and periodic modulo the conductor; the conductor divides the modulus and the character is primitive exactly at its conductor.",
+  "The Gauss sum of a primitive character has absolute value sqrt(N) and the functional equation of the attached L-series holds on sample values.",
+]
+reuse = { status = "adaptable", components = ["mathlib.nt.characters", "mathlib.zmod.units"], evidence = "Mathlib supplies Dirichlet characters and unit groups of Z/n; executable conductor, Gauss-sum and L-value computation is not packaged there." }
+backends = ["lcalc", "pari"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "modfrm.multiple-zeta-values"
+title = "Motivic multiple zeta values"
+statement = "Construct the algebra of motivic multiple zeta values, compute its products, the coproduct and the period map to real multiple zeta values."
+domain = "A word in two letters (or a composition) and a truncation or precision for the numerical period."
+contract = "(w) -> the motivic multiple zeta value with its weight, depth, product with another value, the coaction and coproduct, and the numerical period to the requested precision."
+exactness = "exact"
+algorithms = [{ family = "Motivic coaction and period evaluation", sources = ["sage.modular.multiple_zeta:*"] }]
+depends_on = []
+sage = [
+  "sage.modular.multiple_zeta:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for multiple zeta values.",
+  "The period map is an algebra homomorphism, so the period of a product equals the product of the periods.",
+  "The coaction satisfies coassociativity and the depth filtration relations on sample values.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for multiple zeta values and their motivic algebra; none exists." }
+backends = ["pari"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "modfrm.hypergeometric-motives"
+title = "Hypergeometric motives"
+statement = "Construct a hypergeometric motive from two parameter lists and compute its Hodge numbers, local L-factors, Frobenius traces and the associated elliptic curve or genus data."
+domain = "A field, two lists of rational parameters with disjoint fractional parts, and a prime or precision."
+contract = "(alpha,beta) -> the motive with its weight, Hodge numbers, the local L-factor and Frobenius trace at each prime, the trace formula data and the identification with a classical object where one exists."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and backend behaviour follow the documented contract of each source module."
+algorithms = [{ family = "Trace formula and Hodge data", sources = ["sage.modular.hypergeometric_misc:*", "sage.modular.hypergeometric_motive:*"] }]
+depends_on = []
+sage = [
+  "sage.modular.hypergeometric_misc:*",
+  "sage.modular.hypergeometric_motive:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for hypergeometric motives.",
+  "The degree of the local L-factor equals the rank of the motive and its roots have the expected complex absolute values.",
+  "The Frobenius traces agree with point counts on an identified elliptic curve for the classical parameters.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for hypergeometric motives; none exists." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "modfrm.brandt-modules"
+title = "Brandt modules and supersingular points"
+statement = "Construct a Brandt module of a quaternion order and compute its Hecke action and decomposition; compute the module of supersingular points on X_0(N)."
+domain = "A prime level N, an Eichler order level, and a base ring; a prime p for the supersingular module."
+contract = "(N) -> the Brandt module with its basis of ideals, the Hecke operators and their matrices, the decomposition into Hecke-stable summands, and the supersingular points module with its Hecke action and its relation to the Brandt module."
+exactness = "exact"
+algorithms = [{ family = "Hecke action on Brandt modules", sources = ["sage.modular.quatalg.brandt:*", "sage.modular.ssmod.ssmod:*"] }, { family = "Supersingular point enumeration", sources = ["sage.modular.quatalg.brandt:*", "sage.modular.ssmod.ssmod:*"] }]
+depends_on = []
+sage = [
+  "sage.modular.quatalg.brandt:*",
+  "sage.modular.ssmod.ssmod:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for Brandt modules.",
+  "The Brandt module dimension equals the class number data predicted by the Eichler mass formula, and the Hecke matrices commute.",
+  "The supersingular module is isomorphic to the Brandt module of the appropriate level, checked by comparing Hecke matrices.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for Brandt modules and supersingular modules; none exists." }
+backends = ["interface:magma", "pari"]
+references = []

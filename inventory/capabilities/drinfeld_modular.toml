@@ -1,0 +1,47 @@
+domain = "drinfeld_modular"
+
+[[capability]]
+status = "source-reconciled"
+id = "drinfeld-modular.drinfeld-modular-forms"
+title = "Rings of Drinfeld modular forms"
+statement = "Construct a graded ring of Drinfeld modular forms for a congruence subgroup of GL_2(F_q[t]), with its generators, weights and elements."
+domain = "A congruence subgroup Gamma_0(N) of GL_2(F_q[t]), a coefficient field and a list of generators with weights."
+contract = "(Gamma,generators) -> the graded ring with its generators, weights, grading, base ring, elements supporting arithmetic and series expansion, and the discriminant and Drinfeld modular invariants where defined."
+exactness = "exact"
+algorithms = [{ family = "Graded ring construction from generators", sources = ["sage.modular.drinfeld_modform.element:*", "sage.modular.drinfeld_modform.ring:*"] }]
+depends_on = []
+sage = [
+  "sage.modular.drinfeld_modform.element:*",
+  "sage.modular.drinfeld_modform.ring:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for Drinfeld modular forms.",
+  "Element arithmetic respects the grading, and the product of two homogeneous elements has the sum of their weights.",
+  "The constructed generators have the expected orders of vanishing at the cusp infinity.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for Drinfeld modular forms; none exists." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "drinfeld-modular.drinfeld-congruence-subgroups"
+title = "Congruence subgroups Gamma_0(N) of GL_2(F_q[t])"
+statement = "Construct the congruence subgroup Gamma_0(N) of GL_2(F_q[t]) and compute its index, generators and coset data."
+domain = "A polynomial modulus N in F_q[t]."
+contract = "(N) -> the congruence subgroup with its base ring, modulus, index in GL_2(F_q[t]) and generators."
+exactness = "exact"
+algorithms = [{ family = "Congruence subgroup index and generators", sources = ["sage.modular.drinfeld_modform.congroup_gamma0:*"] }]
+depends_on = []
+sage = [
+  "sage.modular.drinfeld_modform.congroup_gamma0:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for Drinfeld congruence subgroups.",
+  "The computed index agrees with N(q^deg(N) - 1) times the index of the level-one subgroup, and every returned generator reduces to a matrix congruent to the identity modulo N.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for congruence subgroups over function fields; none exists." }
+backends = []
+references = []

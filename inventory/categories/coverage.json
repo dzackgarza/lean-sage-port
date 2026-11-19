@@ -1,0 +1,18 @@
+{
+  "revision": {
+    "version": "11.0.beta5",
+    "commit": "c00171e47d6e68d8148d7ee10c4dd77b71a97662"
+  },
+  "public_entities": 2718,
+  "represented": 2718,
+  "reconciled": 2718,
+  "provisional": 0,
+  "catalogue_mapped": 350,
+  "ownership_gaps": 2031,
+  "unaccounted": 0,
+  "category_records": 985,
+  "operation_records": 1733,
+  "catalogue_categories": 268,
+  "catalogue_operations": 82,
+  "missing_entities": []
+}

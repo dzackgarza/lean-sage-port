@@ -1,0 +1,18 @@
+domain = "The documented mathematical objects, hypotheses and backend-qualified algorithms in the indexed oremodules source families."
+
+[[capability]]
+id = "recon-oremodules.documented-source-families"
+title = "Ore modules, morphisms and retractions"
+statement = "Represent Ore-module elements, hom-spaces, morphisms, sections and retractions over noncommutative polynomial operators, preserving skew multiplication and composition."
+domain = "The inputs and hypotheses documented by the indexed Sage source families."
+contract = "Ore ring/operator and module presentation -> exact element, homomorphism, section or retraction satisfying semilinear relations."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and external-backend behavior follow each source family's documented contract."
+algorithms = [{ family = "Indexed oremodules source families", sources = ["sage.modules.ore_module_element:*", "sage.modules.ore_module_homspace:*", "sage.modules.ore_module_morphism:*"] }]
+depends_on = []
+sage = ["sage.modules.ore_module_element:*", "sage.modules.ore_module_homspace:*", "sage.modules.ore_module_morphism:*"]
+catalogue = []
+tests = ["Independent mathematical assertions and published examples for the documented constructions, operations and invariants."]
+reuse = { status = "missing", components = [], evidence = "The reuse inventory contains no executable Ore-module element, morphism or homspace implementation; the skew-operator conventions are retained for a future adapter." }
+backends = ["gmp"]
+references = []

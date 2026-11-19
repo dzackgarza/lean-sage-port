@@ -1,0 +1,93 @@
+domain = "modsym"
+
+[[capability]]
+status = "source-reconciled"
+id = "modsym.modular-symbols"
+title = "Modular symbols and their Hecke action"
+statement = "Construct ambient spaces of modular symbols for a congruence subgroup and weight, with their Manin symbols, relation matrices, boundary map, subspaces and Hecke operators."
+domain = "A congruence subgroup, a weight and a sign, over a base ring."
+contract = "(Gamma,k,eps) -> the space of modular symbols with its Manin symbol list, the relation matrix and Heilbronn matrices defining it, the boundary map to boundary modular symbols, the cuspidal and Eisenstein subspaces, elements with their Manin symbol coordinates, and Hecke operators with their matrices."
+exactness = "exact"
+algorithms = [{ family = "Manin symbols and relation matrices", sources = ["sage.modular.modsym.ambient:*", "sage.modular.modsym.apply:*", "sage.modular.modsym.boundary:*", "sage.modular.modsym.element:*", "sage.modular.modsym.g1list:*", "sage.modular.modsym.ghlist:*", "sage.modular.modsym.hecke_operator:*", "sage.modular.modsym.heilbronn:*", "sage.modular.modsym.manin_symbol:*", "sage.modular.modsym.manin_symbol_list:*", "sage.modular.modsym.modsym:*", "sage.modular.modsym.modular_symbols:*", "sage.modular.modsym.p1list:*", "sage.modular.modsym.p1list_nf:*", "sage.modular.modsym.relation_matrix:*", "sage.modular.modsym.relation_matrix_pyx:*", "sage.modular.modsym.space:*", "sage.modular.modsym.subspace:*"] }, { family = "Hecke action on modular symbols", sources = ["sage.modular.modsym.ambient:*", "sage.modular.modsym.apply:*", "sage.modular.modsym.boundary:*", "sage.modular.modsym.element:*", "sage.modular.modsym.g1list:*", "sage.modular.modsym.ghlist:*", "sage.modular.modsym.hecke_operator:*", "sage.modular.modsym.heilbronn:*", "sage.modular.modsym.manin_symbol:*", "sage.modular.modsym.manin_symbol_list:*", "sage.modular.modsym.modsym:*", "sage.modular.modsym.modular_symbols:*", "sage.modular.modsym.p1list:*", "sage.modular.modsym.p1list_nf:*", "sage.modular.modsym.relation_matrix:*", "sage.modular.modsym.relation_matrix_pyx:*", "sage.modular.modsym.space:*", "sage.modular.modsym.subspace:*"] }]
+depends_on = []
+sage = [
+  "sage.modular.modsym.ambient:*",
+  "sage.modular.modsym.apply:*",
+  "sage.modular.modsym.boundary:*",
+  "sage.modular.modsym.element:*",
+  "sage.modular.modsym.g1list:*",
+  "sage.modular.modsym.ghlist:*",
+  "sage.modular.modsym.hecke_operator:*",
+  "sage.modular.modsym.heilbronn:*",
+  "sage.modular.modsym.manin_symbol:*",
+  "sage.modular.modsym.manin_symbol_list:*",
+  "sage.modular.modsym.modsym:*",
+  "sage.modular.modsym.modular_symbols:*",
+  "sage.modular.modsym.p1list:*",
+  "sage.modular.modsym.p1list_nf:*",
+  "sage.modular.modsym.relation_matrix:*",
+  "sage.modular.modsym.relation_matrix_pyx:*",
+  "sage.modular.modsym.space:*",
+  "sage.modular.modsym.subspace:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for modular symbols.",
+  "Every relation in the relation matrix is a Manin relation, and the quotient dimension agrees with the dimension formula for the space.",
+  "The Hecke operators satisfy the Hecke recursion and act compatibly with the boundary map.",
+]
+reuse = { status = "adaptable", components = ["mathlib.nt.modular-forms", "mathlib.linalg.smith-normal-form"], evidence = "Mathlib supplies modular forms and Smith normal form; Manin symbols, relation matrices and the Hecke action are not executable there." }
+backends = ["flint", "gmp"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "modsym.overconvergent-modular-symbols"
+title = "Overconvergent (Pollack-Stevens) modular symbols"
+statement = "Construct spaces of overconvergent modular symbols as distributions on P^1(Q_p), with the Manin map, the Hecke and U operators, the ordinary projection and the attached p-adic L-series."
+domain = "A prime p, a level, a weight and a coefficient ring."
+contract = "(p,N,k) -> the space of overconvergent modular symbols with its basis of distributions, the Manin relations and Manin map, the Hecke action, the ordinary projector, the specialisation to classical modular symbols, and the p-adic L-series attached to an eigensymbol."
+exactness = "exact"
+algorithms = [{ family = "Distribution-valued Manin relations", sources = ["sage.modular.pollack_stevens.distributions:*", "sage.modular.pollack_stevens.fund_domain:*", "sage.modular.pollack_stevens.manin_map:*", "sage.modular.pollack_stevens.modsym:*", "sage.modular.pollack_stevens.padic_lseries:*", "sage.modular.pollack_stevens.space:*"] }, { family = "Ordinary projection and p-adic L-series", sources = ["sage.modular.pollack_stevens.distributions:*", "sage.modular.pollack_stevens.fund_domain:*", "sage.modular.pollack_stevens.manin_map:*", "sage.modular.pollack_stevens.modsym:*", "sage.modular.pollack_stevens.padic_lseries:*", "sage.modular.pollack_stevens.space:*"] }]
+depends_on = []
+sage = [
+  "sage.modular.pollack_stevens.distributions:*",
+  "sage.modular.pollack_stevens.fund_domain:*",
+  "sage.modular.pollack_stevens.manin_map:*",
+  "sage.modular.pollack_stevens.modsym:*",
+  "sage.modular.pollack_stevens.padic_lseries:*",
+  "sage.modular.pollack_stevens.space:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for overconvergent modular symbols.",
+  "The Manin map is Hecke-equivariant, and specialising an overconvergent symbol gives the classical modular symbol at the corresponding weight.",
+  "The p-adic L-series interpolates the classical L-values at the expected characters.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for overconvergent modular symbols and p-adic L-series; none exists." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "modsym.bruhat-tits-quotients"
+title = "Quotients of the Bruhat-Tits tree and p-adic automorphic forms"
+statement = "Construct a quotient of the Bruhat-Tits tree by a p-adic uniformised Shimura curve, and compute its p-adic automorphic forms and Hecke action."
+domain = "A prime p, a quaternion algebra ramified at p and infinity, and a level."
+contract = "(p,N) -> the Bruhat-Tits quotient with its vertices, edges, fundamental domain, genus, the Hecke operators on its harmonic cochains, and spaces of p-adic automorphic forms with their Hecke action and the attached rigid-analytic curve data."
+exactness = "exact"
+algorithms = [{ family = "Tree quotient and harmonic cochain computation", sources = ["sage.modular.btquotients.btquotient:*", "sage.modular.btquotients.pautomorphicform:*"] }]
+depends_on = []
+sage = [
+  "sage.modular.btquotients.btquotient:*",
+  "sage.modular.btquotients.pautomorphicform:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for Bruhat-Tits quotients.",
+  "The quotient's Euler characteristic equals the expected value from the Shimura curve, and its harmonic cochains carry the Hecke action with the expected traces.",
+  "The Hecke operators satisfy the Eichler-Shimura relation on the cohomology.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for Bruhat-Tits tree quotients and p-adic automorphic forms; none exists." }
+backends = ["interface:magma", "pari"]
+references = []

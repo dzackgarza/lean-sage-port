@@ -19,6 +19,34 @@ backends = []
 references = []
 
 [[capability]]
+id = "topology.remaining-constructive"
+title = "Constructive topology and finite topological invariants"
+statement = "Construct finite topological spaces, cell complexes and simplicial sets, construct maps and realizations, and compute connectedness, Euler characteristics, chain-level maps and finite topological invariants."
+domain = "Finite cell, simplicial or topological data with the incidence, face and map compatibility conditions required by each construction."
+contract = "Finite topological presentation -> the corresponding space, map or chain object; face/incidence maps preserve source and target dimensions, and computed invariants are derived from the resulting finite structure."
+exactness = "conditional"
+exactness_notes = "Finite combinatorial operations are exact; coefficient and numerical behavior follows the selected backend."
+algorithms = [
+    { family = "Cell, simplicial, Delta and cubical incidence constructions", sources = ["sage.topology.cell_complex:GenericCellComplex", "sage.topology.simplicial_complex:SimplicialComplex", "sage.topology.delta_complex:DeltaComplex", "sage.topology.cubical_complex:CubicalComplex"] },
+    { family = "Simplicial-set faces, degeneracies and finite constructions", sources = ["sage.topology.simplicial_set:SimplicialSet_arbitrary", "sage.topology.simplicial_set:SimplicialSet_finite", "sage.topology.simplicial_set_constructions:*", "sage.topology.simplicial_set_morphism:SimplicialSetMorphism"] },
+    { family = "Finite maps and induced chain-level maps", sources = ["sage.topology.simplicial_complex_morphism:SimplicialComplexMorphism", "sage.topology.simplicial_complex_homset:SimplicialComplexHomset"] },
+    { family = "Persistent homology and moment-angle constructions", sources = ["sage.topology.filtered_simplicial_complex:FilteredSimplicialComplex", "sage.topology.moment_angle_complex:MomentAngleComplex"] },
+]
+depends_on = ["topology.finite-simplicial-complex"]
+sage = ["sage.topology.*:*"]
+catalogue = []
+tests = [
+    "Face and incidence maps preserve dimensions and compose as documented.",
+    "Identity and composition of finite maps are preserved by induced chain maps.",
+    "Euler, connected-component, f-vector and Betti invariants agree with direct finite enumeration.",
+    "Boundary matrices satisfy d_(n-1) composed with d_n = 0 over the selected coefficient ring; Smith-form and field-rank homology agree with independent calculations.",
+    "Persistent intervals and Betti numbers agree with the filtration's birth/death ordering, including zero-persistence strictness.",
+]
+reuse = { status = "adaptable", components = ["mathlib.topology.simplicial", "mathlib.homology.complexes"], evidence = "Mathlib supplies abstract topological and homological foundations; Sage's finite constructors and concrete invariants require native adapters." }
+backends = ["gmp"]
+references = []
+
+[[capability]]
 id = "topology.simplicial-chain-complex"
 title = "Chain complex of a finite simplicial complex"
 statement = "Compute free chain groups on oriented simplices and their signed boundary maps."

@@ -1,0 +1,18 @@
+domain = "asymptotic"
+
+[[capability]]
+id = "asymptotic.growth"
+title = "Asymptotic expansions and growth groups"
+statement = "Construct growth groups and asymptotic rings, combine monomials with coefficient series, and compute addition, multiplication, comparison, leading terms, limits and multivariate generating-function expansions."
+domain = "A specified asymptotic variable or filter, a growth group with its admissible relations, and coefficients in a ring supporting the requested expansion operations."
+contract = "Growth-group and coefficient data -> a normalized asymptotic expansion retaining growth exponents and coefficient terms; addition and multiplication combine compatible terms, comparison orders them under the declared growth relation, and limits/leading terms expose the dominant contribution."
+exactness = "conditional"
+exactness_notes = "Formal expansions are exact within the declared growth group and truncation/filter; operations requiring an ordering, convergence hypothesis or coefficient limit retain that hypothesis."
+algorithms = [{ family = "Growth-group arithmetic and asymptotic expansions", sources = ["sage.rings.asymptotic.asymptotic_ring:*", "sage.rings.asymptotic.growth_group:*", "sage.rings.asymptotic.growth_group_cartesian:*", "sage.rings.asymptotic.term_monoid:*", "sage.rings.asymptotic.asymptotic_expansion_generators:*", "sage.rings.asymptotic.asymptotics_multivariate_generating_functions:*"] }]
+depends_on = ["functions.symbolic-and-special"]
+sage = ["sage.rings.asymptotic.*:*"]
+catalogue = []
+tests = ["Expansion addition and multiplication agree after normalization.", "The leading term of a product is the product of leading terms when the declared growth hypotheses hold.", "Truncated generating-function coefficients agree with independent coefficient extraction."]
+reuse = { status = "adaptable", components = ["mathlib.data.finsupp", "mathlib.poly.power-series"], evidence = "Finite-support and algebraic-series foundations are reusable; Sage growth ordering, asymptotic normalization and multivariate truncation require native algorithms." }
+backends = []
+references = []

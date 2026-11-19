@@ -15,7 +15,7 @@ M4's lattice computations are done, which is an artificial block.
 - 7 workstreams (from the original plan brief): rejected because the workstream labels are not
   dependency edges; they are domain groupings. M8 combinatorics cannot begin until M6 group
   theory is done (Polya enumeration), but neither workstream captures this.
-- One milestone per Sage section: rejected because 65 milestones at the section level creates
+- One milestone per Sage section: rejected because 80 milestones at the section level creates
   unmanageable overhead and obscures the mathematical structure. Sections within a domain share
   prerequisites entirely.
 
@@ -60,9 +60,9 @@ under `sage.rings.polynomial.polynomial_element` or `sage.rings.polynomial.polyn
 
 ---
 
-## Decision: `categories` section placement in M14
+## Decision: `categories` section placement in M0
 
-**Decision**: M14 is primarily an accounting milestone, not a computation milestone.
+**Decision**: Category framework accounting belongs to M0 reconnaissance, not M14.
 
 **Rationale**: The `categories` section has 2,718 entities. The `lean-categories` repository
 owns the mathematical semantics of every category operation. Most `categories` entities either:
@@ -70,16 +70,17 @@ owns the mathematical semantics of every category operation. Most `categories` e
 accounted for when their associated domain milestone is complete, or
 (b) are framework helpers (`is_a_`, `_make_element_constructor_`, etc.) that go to `exclusion`
 with reason `implementation-support`.
-The work in M14 is running `sage-inventory unaccounted categories`, categorizing the residue, and
-filing gaps with `lean-categories`. This requires that the domain milestones (M1–M3 especially)
-have already attached their catalogue entries to their capability records.
+The work in M0 is running `sage-inventory category-coverage`, categorizing the residue, and
+filing gaps with `lean-categories`. Downstream domain milestones may reference the resulting
+catalogue evidence, but they do not postpone the foundational category ledger.
 
 ---
 
 ## Decision: Parallelism boundaries
 
 **Decision**: The following pairs are explicitly parallelizable after their shared prerequisites:
-- M1 and M14-accounting: M14's accounting work has no computational prerequisite on M1.
+- M1 and residual M14 work: M14's residual work has no computational prerequisite on M1, but
+  category accounting itself is already owned by M0.
 - M2 and M4: both follow M1; no M2 capability is in `depends_on` of any M4 capability (matrix
   arithmetic depends on ring arithmetic from M1, not on polynomial arithmetic).
 - M5 and M6: both follow M4; chain complex homology does not depend on group theory.

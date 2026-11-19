@@ -1,0 +1,18 @@
+domain = "euclidean_spaces"
+
+[[capability]]
+id = "euclidean-spaces.geometry"
+title = "Euclidean spaces and vector calculus"
+statement = "Construct Euclidean spaces with coordinate charts, metrics and frames, and compute gradients, divergences, curls, Laplacians and d'Alembertians of scalar and tensor fields."
+domain = "A Euclidean manifold of fixed dimension with a declared coordinate system, metric signature and differentiability class, together with a compatible scalar or tensor field."
+contract = "Space, coordinates and field -> the corresponding vector/tensor differential operator in the selected frame; coordinate changes preserve the geometric object and operator hypotheses are retained."
+exactness = "conditional"
+exactness_notes = "Coordinate formulas are exact over the declared symbolic coefficient domain; smoothness, chart compatibility and metric-signature hypotheses are required."
+algorithms = [{ family = "Euclidean-space constructions and coordinates", sources = ["sage.manifolds.differentiable.examples.euclidean:*", "sage.manifolds.operators:*"] }]
+depends_on = ["modules.free-and-quotient"]
+sage = ["sage.manifolds.differentiable.examples.euclidean:*", "sage.manifolds.operators:*"]
+catalogue = []
+tests = ["The gradient pairs with vector fields to produce the directional derivative.", "The divergence of a curl vanishes in compatible coordinates.", "The Euclidean Laplacian agrees with the coordinate second-derivative formula."]
+reuse = { status = "adaptable", components = ["mathlib.analysis.series-odes-optimization"], evidence = "Existing analysis foundations are reusable; Sage coordinate calculus and symbolic tensor operators require adapters." }
+backends = []
+references = []

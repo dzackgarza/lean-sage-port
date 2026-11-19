@@ -1,0 +1,18 @@
+domain = "drinfeld_modules"
+
+[[capability]]
+id = "recon-drinfeld-modules.documented-source-families"
+title = "Drinfeld modules, morphisms and finite-field invariants"
+statement = "Represent Drinfeld GF(q)[T]-modules as Ore-polynomial algebra morphisms, their actions and morphisms, and finite-field Frobenius/complex-multiplication invariants."
+domain = "Finite-field polynomial function rings, Ore polynomials with tau*lambda=lambda^q*tau, base morphisms and field extensions."
+contract = "Generator phi_T -> Drinfeld module; function-ring element -> Ore image; Ore polynomial -> validated morphism/isogeny; finite module -> Frobenius characteristic polynomial, trace, norm and ordinary/supersingular tests."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and external-backend behavior follow each source family's documented contract."
+algorithms = [{ family = "Drinfeld modules, morphisms and finite-field invariants", sources = ["sage.rings.function_field.drinfeld_modules.action:*", "sage.rings.function_field.drinfeld_modules.drinfeld_module:*", "sage.rings.function_field.drinfeld_modules.drinfeld_module_charzero:*", "sage.rings.function_field.drinfeld_modules.drinfeld_module_finite:*", "sage.rings.function_field.drinfeld_modules.homset:*", "sage.rings.function_field.drinfeld_modules.morphism:*"] }]
+depends_on = []
+sage = ["sage.rings.function_field.drinfeld_modules.action:*", "sage.rings.function_field.drinfeld_modules.drinfeld_module:*", "sage.rings.function_field.drinfeld_modules.drinfeld_module_charzero:*", "sage.rings.function_field.drinfeld_modules.drinfeld_module_finite:*", "sage.rings.function_field.drinfeld_modules.homset:*", "sage.rings.function_field.drinfeld_modules.morphism:*"]
+catalogue = []
+tests = ["Ore evaluation is multiplicative and agrees with the defining generator.", "Morphism intertwining f phi_T = psi_T f and composition identities.", "Frobenius characteristic polynomial annihilates the Frobenius endomorphism; trace/norm match coefficients."]
+reuse = { status = "missing", components = [], evidence = "The reuse inventory provides polynomial and finite-field foundations but no executable Drinfeld-module implementation." }
+backends = ["gmp"]
+references = []

@@ -1,0 +1,120 @@
+domain = "function_fields"
+
+[[capability]]
+status = "source-reconciled"
+id = "function-fields.function-fields"
+title = "Function fields and their elements"
+statement = "Construct a function field over a finite field as a rational or polynomial extension, with its elements, morphisms, derivations and valuation rings."
+domain = "A finite field, a transcendental generator, and an absolutely irreducible polynomial for the extension."
+contract = "(K) -> the function field with its base, constant field, genus, elements supporting field arithmetic and evaluation, morphisms between function fields, the Hasse derivative and the valuation ring of a place."
+exactness = "exact"
+algorithms = [{ family = "Field arithmetic in rational and polynomial models", sources = ["sage.rings.function_field.constructor:*", "sage.rings.function_field.derivations:*", "sage.rings.function_field.derivations_polymod:*", "sage.rings.function_field.derivations_rational:*", "sage.rings.function_field.element:*", "sage.rings.function_field.element_polymod:*", "sage.rings.function_field.element_rational:*", "sage.rings.function_field.extensions:*", "sage.rings.function_field.function_field:*", "sage.rings.function_field.function_field_polymod:*", "sage.rings.function_field.function_field_rational:*", "sage.rings.function_field.maps:*", "sage.rings.function_field.valuation_ring:*"] }, { family = "Derivations and extension construction", sources = ["sage.rings.function_field.constructor:*", "sage.rings.function_field.derivations:*", "sage.rings.function_field.derivations_polymod:*", "sage.rings.function_field.derivations_rational:*", "sage.rings.function_field.element:*", "sage.rings.function_field.element_polymod:*", "sage.rings.function_field.element_rational:*", "sage.rings.function_field.extensions:*", "sage.rings.function_field.function_field:*", "sage.rings.function_field.function_field_polymod:*", "sage.rings.function_field.function_field_rational:*", "sage.rings.function_field.maps:*", "sage.rings.function_field.valuation_ring:*"] }]
+depends_on = []
+sage = [
+  "sage.rings.function_field.constructor:*",
+  "sage.rings.function_field.derivations:*",
+  "sage.rings.function_field.derivations_polymod:*",
+  "sage.rings.function_field.derivations_rational:*",
+  "sage.rings.function_field.element:*",
+  "sage.rings.function_field.element_polymod:*",
+  "sage.rings.function_field.element_rational:*",
+  "sage.rings.function_field.extensions:*",
+  "sage.rings.function_field.function_field:*",
+  "sage.rings.function_field.function_field_polymod:*",
+  "sage.rings.function_field.function_field_rational:*",
+  "sage.rings.function_field.maps:*",
+  "sage.rings.function_field.valuation_ring:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for function-field arithmetic.",
+  "Elements satisfy the field axioms and reduce to zero at their defining polynomial; the Hasse derivative is a derivation and kills the constant field.",
+  "The genus computed from the different agrees with the Riemann-Hurwitz formula for the extension.",
+]
+reuse = { status = "adaptable", components = ["mathlib.nt.number-fields", "mathlib.ff.finite-field-theory"], evidence = "Mathlib supplies number fields and finite fields; function fields with rational and polynomial models are not implemented executably." }
+backends = ["interface:singular", "singular"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "function-fields.ideals-orders-and-places"
+title = "Ideals, orders and places of function fields"
+statement = "Compute with fractional ideals, orders and places of a function field: ideal arithmetic, factorization, the ideal class group data, order bases and the Hermite form used to represent them."
+domain = "A function field and generators, or a place of degree one given by a valuation."
+contract = "(K) -> fractional ideals with product, inverse, valuation and factorization, the orders of K with their bases and conductor, places with their degree, residue field and valuation, and the Hermite form of an integral basis."
+exactness = "exact"
+algorithms = [{ family = "Ideal and order arithmetic", sources = ["sage.rings.function_field.hermite_form_polynomial:*", "sage.rings.function_field.ideal:*", "sage.rings.function_field.ideal_polymod:*", "sage.rings.function_field.ideal_rational:*", "sage.rings.function_field.order:*", "sage.rings.function_field.order_basis:*", "sage.rings.function_field.order_polymod:*", "sage.rings.function_field.order_rational:*", "sage.rings.function_field.place:*", "sage.rings.function_field.place_polymod:*", "sage.rings.function_field.place_rational:*"] }, { family = "Place computation and Hermite forms", sources = ["sage.rings.function_field.hermite_form_polynomial:*", "sage.rings.function_field.ideal:*", "sage.rings.function_field.ideal_polymod:*", "sage.rings.function_field.ideal_rational:*", "sage.rings.function_field.order:*", "sage.rings.function_field.order_basis:*", "sage.rings.function_field.order_polymod:*", "sage.rings.function_field.order_rational:*", "sage.rings.function_field.place:*", "sage.rings.function_field.place_polymod:*", "sage.rings.function_field.place_rational:*"] }]
+depends_on = []
+sage = [
+  "sage.rings.function_field.hermite_form_polynomial:*",
+  "sage.rings.function_field.ideal:*",
+  "sage.rings.function_field.ideal_polymod:*",
+  "sage.rings.function_field.ideal_rational:*",
+  "sage.rings.function_field.order:*",
+  "sage.rings.function_field.order_basis:*",
+  "sage.rings.function_field.order_polymod:*",
+  "sage.rings.function_field.order_rational:*",
+  "sage.rings.function_field.place:*",
+  "sage.rings.function_field.place_polymod:*",
+  "sage.rings.function_field.place_rational:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for ideals and places.",
+  "The product of an ideal with its inverse is the unit ideal, and the valuation of a principal ideal is the divisor of its generator.",
+  "The order basis is an integral basis whose Hermite form is upper triangular with positive diagonal.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for function-field ideals, orders and places; none exists." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "function-fields.divisors-and-differentials"
+title = "Divisors and differentials of function fields"
+statement = "Compute with divisors and differentials of a function field: sums, supports, degrees, principal divisors, the Riemann-Roch spaces and the residue and trace of a differential."
+domain = "A function field with places of degree one, and a differential form."
+contract = "(K) -> divisors with addition, support, degree and the principal divisor of an element; the Riemann-Roch space of a divisor with its basis; differentials with their divisor, residue and trace, and the Cartier operator where the field is perfect."
+exactness = "exact"
+algorithms = [{ family = "Divisor arithmetic and Riemann-Roch spaces", sources = ["sage.rings.function_field.differential:*", "sage.rings.function_field.divisor:*"] }, { family = "Differentials and residues", sources = ["sage.rings.function_field.differential:*", "sage.rings.function_field.divisor:*"] }]
+depends_on = []
+sage = [
+  "sage.rings.function_field.differential:*",
+  "sage.rings.function_field.divisor:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for divisors and differentials.",
+  "The degree of a principal divisor is zero, and the residue theorem holds: the sum of the residues of a differential is zero.",
+  "The dimension of the Riemann-Roch space equals deg(D) - g + 1 + dim(D - K) for a canonical divisor K.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for function-field divisors and differentials; none exists." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "function-fields.function-field-jacobians"
+title = "Jacobians of function fields"
+statement = "Represent the Jacobian of a function field in the Hess, unique-Hess and Khuri-Makdisi models, with divisor arithmetic, group order and order computation."
+domain = "A function field over a finite field and a chosen Jacobian model."
+contract = "(K) -> the Jacobian with group order, addition and negation of ideal classes, multiplication by an integer, the Frobenius action and the order or trace of Frobenius computed from the zeta function."
+exactness = "exact"
+algorithms = [{ family = "Ideal-class arithmetic in Hess and Khuri-Makdisi models", sources = ["sage.rings.function_field.jacobian_base:*", "sage.rings.function_field.jacobian_hess:*", "sage.rings.function_field.jacobian_khuri_makdisi:*", "sage.rings.function_field.jacobian_unique_hess:*", "sage.rings.function_field.khuri_makdisi:*"] }]
+depends_on = []
+sage = [
+  "sage.rings.function_field.jacobian_base:*",
+  "sage.rings.function_field.jacobian_hess:*",
+  "sage.rings.function_field.jacobian_khuri_makdisi:*",
+  "sage.rings.function_field.jacobian_unique_hess:*",
+  "sage.rings.function_field.khuri_makdisi:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for Jacobian arithmetic.",
+  "Addition of ideal classes is associative and the class of the unit ideal is the identity.",
+  "The group order divides the order computed from the zeta function and matches it for small fields by direct enumeration.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for function-field Jacobians; Hex's elliptic-curve components do not cover genus > 1 ideal-class arithmetic." }
+backends = []
+references = []

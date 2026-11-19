@@ -1,0 +1,18 @@
+domain = "logic"
+
+[[capability]]
+id = "recon-logic.documented-source-families"
+title = "Boolean formula parsing, truth tables and propositional semantics"
+statement = "Parse formulas over Boolean operators into syntax trees, evaluate assignments, construct truth tables and classify satisfiability, contradiction, tautology and semantic equivalence."
+domain = "Formula strings with validated variable names and operators; finite Boolean assignments."
+contract = "Formula -> parsed syntax tree/semantic object; assignment -> Boolean value; formula -> truth table and satisfiability classification."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and external-backend behavior follow each source family's documented contract."
+algorithms = [{ family = "Boolean formula parsing, truth tables and propositional semantics", sources = ["sage.logic.booleval:*", "sage.logic.boolformula:*", "sage.logic.logic:*", "sage.logic.logicparser:*", "sage.logic.logictable:*", "sage.logic.propcalc:*"] }]
+depends_on = []
+sage = ["sage.logic.booleval:*", "sage.logic.boolformula:*", "sage.logic.logic:*", "sage.logic.logicparser:*", "sage.logic.logictable:*", "sage.logic.propcalc:*"]
+catalogue = []
+tests = ["Parser round trips recover the original semantics.", "Truth-table evaluation agrees with direct formula evaluation.", "Tautologies and contradictions classify correctly; semantic equivalence is symmetric and transitive."]
+reuse = { status = "missing", components = [], evidence = "The reuse inventory contains no executable parser, truth-table or SAT-semantics implementation matching Sage's public logic APIs." }
+backends = ["gmp"]
+references = []

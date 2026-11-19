@@ -12,7 +12,8 @@
 An implementer wants to start work on a mathematical domain. They need to know which
 prior milestones must be complete before theirs can begin, what capability records already
 exist, what reuse decisions are already established, and what acceptance conditions close the
-milestone — without re-doing the reconnaissance that M0 already performed.
+milestone — without re-doing the reconnaissance executed under
+`specs/001-native-computation/` and summarized by the M0 roadmap gate.
 
 **Why this priority**: Without a clear dependency order, implementers either block each other
 (by starting on something whose prerequisites aren't ready) or duplicate work (by re-surveying
@@ -63,9 +64,9 @@ the other.
    "level" (neither is a prerequisite of the other), **then** there is no capability-level
    `depends_on` edge between them.
 
-2. **Given** the M0 architecture probes passing CI, **when** M1 and M14 are started in
-   parallel, **then** M14's accounting work (categorizing `categories` entities) does not
-   require any computation delivered by M1.
+2. **Given** the M0 architecture probes passing CI, **when** M1 begins and M14 residual work
+   is scheduled, **then** M14 does not claim or defer the foundational `categories` ledger and
+   its remaining work does not require computation delivered by M1.
 
 ---
 
@@ -172,8 +173,8 @@ implementation measure.
   be satisfied before any M1+ implementation begins.
 - The `polynomial_rings` section is the only section that splits across milestones (univariate
   in M2, multivariate in M3). All other sections belong to exactly one milestone.
-- Section `categories` (2,718 entities) will primarily be accounted for through exclusions
-  and catalogue pointers rather than new capability records; M14's work is accounting, not
-  new computation.
+- Section `categories` (2,718 entities) is foundational M0 reconnaissance work. It is
+  accounted for through category records, catalogue pointers, or justified exclusions before
+  downstream implementation milestones begin. M14 does not own category accounting.
 - The milestone numbering (M0–M14) is stable. Adding a new milestone requires a spec amendment
   and a version bump to this feature's `plan.md`.

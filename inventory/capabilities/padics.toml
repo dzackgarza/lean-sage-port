@@ -1,0 +1,18 @@
+domain = "padics"
+
+[[capability]]
+id = "padics.arithmetic"
+title = "p-adic rings, fields and extensions"
+statement = "Construct and compute with documented p-adic rings, fields, extensions, elements, precision models and local arithmetic."
+domain = "A prime, precision and p-adic extension specification."
+contract = "p-adic data -> precision-aware local ring/field with arithmetic, valuation, residue and coercion operations."
+exactness = "conditional"
+exactness_notes = "Operations are exact relative to the selected p-adic precision model; truncation, completion and extension constructions retain their valuation and precision hypotheses."
+algorithms = [{ family = "p-adic arithmetic and extensions", sources = ["sage.rings.padics.*:*"] }]
+depends_on = ["rings.core"]
+sage = ["sage.rings.padics.*:*"]
+catalogue = []
+tests = ["p-adic valuation, residue and precision consistency.", "Arithmetic agreement under precision truncation."]
+reuse = { status = "adaptable", components = ["mathlib.padic.numbers", "mathlib.int.padic-valuation"], evidence = "Mathlib supplies p-adic and valuation foundations; Sage's precision-parent and local-field implementations require native adapters." }
+backends = ["gmp"]
+references = []

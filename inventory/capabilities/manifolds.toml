@@ -1,0 +1,134 @@
+domain = "manifolds"
+
+[[capability]]
+status = "source-reconciled"
+id = "manifolds.topological-manifolds"
+title = "Topological manifolds, charts and scalar fields"
+statement = "Construct a topological manifold with an atlas of charts, and compute with chart functions, scalar fields, continuous maps, local frames, vector bundles and their sections."
+domain = "A topological field, a dimension and a manifold structure (topological or smooth), with charts and transition maps."
+contract = "(M) -> the manifold with its atlas, the transition maps between charts, chart functions and scalar fields with their coordinate expressions and restrictions, continuous maps between manifolds with their coordinate expressions, local frames and trivializations, and vector bundles with their section modules."
+exactness = "exact"
+algorithms = [{ family = "Atlas, chart and scalar-field computation", sources = ["sage.manifolds.calculus_method:*", "sage.manifolds.catalog:*", "sage.manifolds.chart:*", "sage.manifolds.chart_func:*", "sage.manifolds.continuous_map:*", "sage.manifolds.continuous_map_image:*", "sage.manifolds.family:*", "sage.manifolds.local_frame:*", "sage.manifolds.manifold:*", "sage.manifolds.manifold_homset:*", "sage.manifolds.point:*", "sage.manifolds.scalarfield:*", "sage.manifolds.scalarfield_algebra:*", "sage.manifolds.section:*", "sage.manifolds.section_module:*", "sage.manifolds.structure:*", "sage.manifolds.subset:*", "sage.manifolds.subsets.closure:*", "sage.manifolds.subsets.pullback:*", "sage.manifolds.topological_submanifold:*", "sage.manifolds.trivialization:*", "sage.manifolds.utilities:*", "sage.manifolds.vector_bundle:*", "sage.manifolds.vector_bundle_fiber:*", "sage.manifolds.vector_bundle_fiber_element:*"] }, { family = "Bundles, frames and sections", sources = ["sage.manifolds.calculus_method:*", "sage.manifolds.catalog:*", "sage.manifolds.chart:*", "sage.manifolds.chart_func:*", "sage.manifolds.continuous_map:*", "sage.manifolds.continuous_map_image:*", "sage.manifolds.family:*", "sage.manifolds.local_frame:*", "sage.manifolds.manifold:*", "sage.manifolds.manifold_homset:*", "sage.manifolds.point:*", "sage.manifolds.scalarfield:*", "sage.manifolds.scalarfield_algebra:*", "sage.manifolds.section:*", "sage.manifolds.section_module:*", "sage.manifolds.structure:*", "sage.manifolds.subset:*", "sage.manifolds.subsets.closure:*", "sage.manifolds.subsets.pullback:*", "sage.manifolds.topological_submanifold:*", "sage.manifolds.trivialization:*", "sage.manifolds.utilities:*", "sage.manifolds.vector_bundle:*", "sage.manifolds.vector_bundle_fiber:*", "sage.manifolds.vector_bundle_fiber_element:*"] }]
+depends_on = []
+sage = [
+  "sage.manifolds.calculus_method:*",
+  "sage.manifolds.catalog:*",
+  "sage.manifolds.chart:*",
+  "sage.manifolds.chart_func:*",
+  "sage.manifolds.continuous_map:*",
+  "sage.manifolds.continuous_map_image:*",
+  "sage.manifolds.family:*",
+  "sage.manifolds.local_frame:*",
+  "sage.manifolds.manifold:*",
+  "sage.manifolds.manifold_homset:*",
+  "sage.manifolds.point:*",
+  "sage.manifolds.scalarfield:*",
+  "sage.manifolds.scalarfield_algebra:*",
+  "sage.manifolds.section:*",
+  "sage.manifolds.section_module:*",
+  "sage.manifolds.structure:*",
+  "sage.manifolds.subset:*",
+  "sage.manifolds.subsets.closure:*",
+  "sage.manifolds.subsets.pullback:*",
+  "sage.manifolds.topological_submanifold:*",
+  "sage.manifolds.trivialization:*",
+  "sage.manifolds.utilities:*",
+  "sage.manifolds.vector_bundle:*",
+  "sage.manifolds.vector_bundle_fiber:*",
+  "sage.manifolds.vector_bundle_fiber_element:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for manifolds and charts.",
+  "Transition maps compose to the identity on overlaps, and a scalar field's coordinate expression transforms by the transition map between charts.",
+  "Sections of a trivial bundle form a module over the scalars, and the frame matrices change by the structure-group cocycle on overlaps.",
+]
+reuse = { status = "adaptable", components = ["mathlib.analysis.derivative", "mathlib.alg.module-quotients"], evidence = "Mathlib supplies smooth maps and modules; coordinate atlases, chart functions and bundle sections are not packaged executably." }
+backends = ["ppl", "sympy"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "manifolds.differentiable-manifolds"
+title = "Differentiable manifolds, tensor fields and differential forms"
+statement = "Compute with smooth manifolds: vector frames and their structure coefficients, vector fields with their Lie bracket, tensor fields, differential forms with exterior derivative and interior product, mixed forms, and characteristic cohomology classes."
+domain = "A smooth manifold over R or C with a chosen frame, and tensor or form fields given by their components."
+contract = "(M) -> vector fields forming a module and a Lie algebra under the bracket, tensor fields with contraction, symmetrisation and index raising, differential forms with d, wedge, interior product and Lie derivative, the graded algebra of mixed forms, and characteristic classes of a manifold with a chosen connection."
+exactness = "exact"
+algorithms = [{ family = "Frame computation and Lie bracket", sources = ["sage.manifolds.differentiable.automorphismfield:*", "sage.manifolds.differentiable.automorphismfield_group:*", "sage.manifolds.differentiable.characteristic_cohomology_class:*", "sage.manifolds.differentiable.chart:*", "sage.manifolds.differentiable.curve:*", "sage.manifolds.differentiable.de_rham_cohomology:*", "sage.manifolds.differentiable.diff_form:*", "sage.manifolds.differentiable.diff_form_module:*", "sage.manifolds.differentiable.diff_map:*", "sage.manifolds.differentiable.differentiable_submanifold:*", "sage.manifolds.differentiable.examples.real_line:*", "sage.manifolds.differentiable.examples.sphere:*", "sage.manifolds.differentiable.examples.symplectic_space:*", "sage.manifolds.differentiable.manifold:*", "sage.manifolds.differentiable.manifold_homset:*", "sage.manifolds.differentiable.mixed_form:*", "sage.manifolds.differentiable.mixed_form_algebra:*", "sage.manifolds.differentiable.multivector_module:*", "sage.manifolds.differentiable.multivectorfield:*", "sage.manifolds.differentiable.poisson_tensor:*", "sage.manifolds.differentiable.scalarfield:*", "sage.manifolds.differentiable.scalarfield_algebra:*", "sage.manifolds.differentiable.symplectic_form:*", "sage.manifolds.differentiable.tangent_space:*", "sage.manifolds.differentiable.tangent_vector:*", "sage.manifolds.differentiable.tensorfield:*", "sage.manifolds.differentiable.tensorfield_module:*", "sage.manifolds.differentiable.tensorfield_paral:*", "sage.manifolds.differentiable.vector_bundle:*", "sage.manifolds.differentiable.vectorfield:*", "sage.manifolds.differentiable.vectorfield_module:*", "sage.manifolds.differentiable.vectorframe:*"] }, { family = "Exterior calculus on forms", sources = ["sage.manifolds.differentiable.automorphismfield:*", "sage.manifolds.differentiable.automorphismfield_group:*", "sage.manifolds.differentiable.characteristic_cohomology_class:*", "sage.manifolds.differentiable.chart:*", "sage.manifolds.differentiable.curve:*", "sage.manifolds.differentiable.de_rham_cohomology:*", "sage.manifolds.differentiable.diff_form:*", "sage.manifolds.differentiable.diff_form_module:*", "sage.manifolds.differentiable.diff_map:*", "sage.manifolds.differentiable.differentiable_submanifold:*", "sage.manifolds.differentiable.examples.real_line:*", "sage.manifolds.differentiable.examples.sphere:*", "sage.manifolds.differentiable.examples.symplectic_space:*", "sage.manifolds.differentiable.manifold:*", "sage.manifolds.differentiable.manifold_homset:*", "sage.manifolds.differentiable.mixed_form:*", "sage.manifolds.differentiable.mixed_form_algebra:*", "sage.manifolds.differentiable.multivector_module:*", "sage.manifolds.differentiable.multivectorfield:*", "sage.manifolds.differentiable.poisson_tensor:*", "sage.manifolds.differentiable.scalarfield:*", "sage.manifolds.differentiable.scalarfield_algebra:*", "sage.manifolds.differentiable.symplectic_form:*", "sage.manifolds.differentiable.tangent_space:*", "sage.manifolds.differentiable.tangent_vector:*", "sage.manifolds.differentiable.tensorfield:*", "sage.manifolds.differentiable.tensorfield_module:*", "sage.manifolds.differentiable.tensorfield_paral:*", "sage.manifolds.differentiable.vector_bundle:*", "sage.manifolds.differentiable.vectorfield:*", "sage.manifolds.differentiable.vectorfield_module:*", "sage.manifolds.differentiable.vectorframe:*"] }]
+depends_on = []
+sage = [
+  "sage.manifolds.differentiable.automorphismfield:*",
+  "sage.manifolds.differentiable.automorphismfield_group:*",
+  "sage.manifolds.differentiable.characteristic_cohomology_class:*",
+  "sage.manifolds.differentiable.chart:*",
+  "sage.manifolds.differentiable.curve:*",
+  "sage.manifolds.differentiable.de_rham_cohomology:*",
+  "sage.manifolds.differentiable.diff_form:*",
+  "sage.manifolds.differentiable.diff_form_module:*",
+  "sage.manifolds.differentiable.diff_map:*",
+  "sage.manifolds.differentiable.differentiable_submanifold:*",
+  "sage.manifolds.differentiable.examples.real_line:*",
+  "sage.manifolds.differentiable.examples.sphere:*",
+  "sage.manifolds.differentiable.examples.symplectic_space:*",
+  "sage.manifolds.differentiable.manifold:*",
+  "sage.manifolds.differentiable.manifold_homset:*",
+  "sage.manifolds.differentiable.mixed_form:*",
+  "sage.manifolds.differentiable.mixed_form_algebra:*",
+  "sage.manifolds.differentiable.multivector_module:*",
+  "sage.manifolds.differentiable.multivectorfield:*",
+  "sage.manifolds.differentiable.poisson_tensor:*",
+  "sage.manifolds.differentiable.scalarfield:*",
+  "sage.manifolds.differentiable.scalarfield_algebra:*",
+  "sage.manifolds.differentiable.symplectic_form:*",
+  "sage.manifolds.differentiable.tangent_space:*",
+  "sage.manifolds.differentiable.tangent_vector:*",
+  "sage.manifolds.differentiable.tensorfield:*",
+  "sage.manifolds.differentiable.tensorfield_module:*",
+  "sage.manifolds.differentiable.tensorfield_paral:*",
+  "sage.manifolds.differentiable.vector_bundle:*",
+  "sage.manifolds.differentiable.vectorfield:*",
+  "sage.manifolds.differentiable.vectorfield_module:*",
+  "sage.manifolds.differentiable.vectorframe:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for tensor fields and forms.",
+  "d^2 = 0 on differential forms, the wedge product is graded-commutative with the form degrees, and the Lie bracket satisfies antisymmetry and the Jacobi identity.",
+  "Component expressions transform correctly under a change of frame, and the Lie derivative satisfies the Cartan formula.",
+]
+reuse = { status = "adaptable", components = ["mathlib.analysis.derivative", "mathlib.alg.clifford-exterior"], evidence = "Mathlib supplies smooth maps, exterior powers and derivations; executable component-based exterior calculus on manifolds is not packaged there." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "manifolds.metrics-and-connections"
+title = "Pseudo-Riemannian metrics, connections and geodesics"
+statement = "Define a pseudo-Riemannian or degenerate metric, compute the Levi-Civita connection and its curvature, and integrate geodesics."
+domain = "A smooth manifold and a metric or connection given by their components in a frame."
+contract = "(g) -> the metric with its signature, inverse, Christoffel symbols, Riemann, Ricci and scalar curvature, the geodesic equation with numerically integrated geodesics, and submanifolds with their induced and extrinsic data; (nabla) -> a connection with its torsion and curvature."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and backend behaviour follow the documented contract of each source module."
+algorithms = [{ family = "Christoffel symbols and curvature", sources = ["sage.manifolds.differentiable.affine_connection:*", "sage.manifolds.differentiable.bundle_connection:*", "sage.manifolds.differentiable.degenerate:*", "sage.manifolds.differentiable.degenerate_submanifold:*", "sage.manifolds.differentiable.integrated_curve:*", "sage.manifolds.differentiable.levi_civita_connection:*", "sage.manifolds.differentiable.metric:*", "sage.manifolds.differentiable.pseudo_riemannian:*", "sage.manifolds.differentiable.pseudo_riemannian_submanifold:*"] }, { family = "Geodesic integration", sources = ["sage.manifolds.differentiable.affine_connection:*", "sage.manifolds.differentiable.bundle_connection:*", "sage.manifolds.differentiable.degenerate:*", "sage.manifolds.differentiable.degenerate_submanifold:*", "sage.manifolds.differentiable.integrated_curve:*", "sage.manifolds.differentiable.levi_civita_connection:*", "sage.manifolds.differentiable.metric:*", "sage.manifolds.differentiable.pseudo_riemannian:*", "sage.manifolds.differentiable.pseudo_riemannian_submanifold:*"] }]
+depends_on = []
+sage = [
+  "sage.manifolds.differentiable.affine_connection:*",
+  "sage.manifolds.differentiable.bundle_connection:*",
+  "sage.manifolds.differentiable.degenerate:*",
+  "sage.manifolds.differentiable.degenerate_submanifold:*",
+  "sage.manifolds.differentiable.integrated_curve:*",
+  "sage.manifolds.differentiable.levi_civita_connection:*",
+  "sage.manifolds.differentiable.metric:*",
+  "sage.manifolds.differentiable.pseudo_riemannian:*",
+  "sage.manifolds.differentiable.pseudo_riemannian_submanifold:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for metrics and curvature.",
+  "The Levi-Civita connection is torsion-free and metric-compatible: torsion vanishes and the covariant derivative of the metric is zero.",
+  "The Riemann tensor satisfies the first Bianchi identity, and geodesics conserve the metric norm.",
+]
+reuse = { status = "adaptable", components = ["mathlib.analysis.derivative", "scilean-ode-explicit"], evidence = "Mathlib supplies differential calculus; Christoffel symbols, curvature tensors and geodesic integration are not executable there, and SciLean covers generic ODE integration only." }
+backends = ["numpy", "scipy"]
+references = []

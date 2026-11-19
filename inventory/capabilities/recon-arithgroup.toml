@@ -1,0 +1,18 @@
+domain = "arithgroup"
+
+[[capability]]
+id = "recon-arithgroup.documented-source-families"
+title = "Arithmetic subgroups of SL2(Z) and congruence computations"
+statement = "Construct arithmetic subgroups of SL2(Z), congruence subgroups and permutation-coset models, and compute membership, generators, cusps, cosets, Farey symbols, index and modular-group structural data."
+domain = "Integral 2x2 determinant-one matrices, congruence level/subgroup data, finite permutation actions on right cosets, and subgroup-specific generator data."
+contract = "Subgroup specification -> an arithmetic subgroup object with validated SL2(Z) membership, element arithmetic, coset/permutation data, cusp/Farey structures and structural invariants."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and external-backend behavior follow each source family's documented contract."
+algorithms = [{ family = "Arithmetic-subgroup membership, congruence and coset algorithms", sources = ["sage.modular.arithgroup.arithgroup_element:*", "sage.modular.arithgroup.arithgroup_generic:*", "sage.modular.arithgroup.arithgroup_perm:*", "sage.modular.arithgroup.congroup:*", "sage.modular.arithgroup.congroup_gamma:*", "sage.modular.arithgroup.congroup_gamma0:*", "sage.modular.arithgroup.congroup_gamma1:*", "sage.modular.arithgroup.congroup_gammaH:*", "sage.modular.arithgroup.congroup_generic:*", "sage.modular.arithgroup.congroup_sl2z:*", "sage.modular.arithgroup.farey_symbol:*"] }]
+depends_on = []
+sage = ["sage.modular.arithgroup.arithgroup_element:*", "sage.modular.arithgroup.arithgroup_generic:*", "sage.modular.arithgroup.arithgroup_perm:*", "sage.modular.arithgroup.congroup:*", "sage.modular.arithgroup.congroup_gamma:*", "sage.modular.arithgroup.congroup_gamma0:*", "sage.modular.arithgroup.congroup_gamma1:*", "sage.modular.arithgroup.congroup_gammaH:*", "sage.modular.arithgroup.congroup_generic:*", "sage.modular.arithgroup.congroup_sl2z:*", "sage.modular.arithgroup.farey_symbol:*"]
+catalogue = []
+tests = ["Determinant-one membership and subgroup congruence tests.", "Coset permutation action and index checks.", "Farey-symbol, cusp and generator relations.", "SL2(Z) word-problem reconstruction on published matrices."]
+reuse = { status = "adaptable", components = ["mathlib.group.actions", "mathlib.group.coset-enumeration"], evidence = "Mathlib supplies finite actions and coset-enumeration foundations; Sage's SL2(Z) congruence, Farey and cusp algorithms require native adapters." }
+backends = ["gmp"]
+references = []

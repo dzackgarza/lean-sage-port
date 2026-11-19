@@ -1,0 +1,91 @@
+# Mathematical capabilities for the Sage manual section `rings`.
+
+domain = "rings"
+
+[[capability]]
+id = "rings.core"
+title = "Ring parents, elements, infinity and asymptotic big-O"
+statement = "Provide ring parent/element abstractions, generic ring algorithms, coercion-aware morphism foundations, signed and unsigned infinity rings, and formal big-O elements."
+domain = "A Sage ring parent or ring-like structure with its coercion and element operations."
+contract = "Ring data -> parent/element operations preserving addition, multiplication, coercion and comparison contracts; infinity and big-O constructions expose their documented extended arithmetic semantics."
+exactness = "conditional"
+exactness_notes = "Algebraic ring operations are exact; infinity and big-O use partial/extended arithmetic with explicit sign and dominance conventions."
+algorithms = [{ family = "Ring parent abstractions, generic CRT/product trees and extended arithmetic", sources = ["sage.rings.abc:*", "sage.rings.ring:*", "sage.rings.generic:*", "sage.rings.infinity:*", "sage.rings.big_oh:*"] }]
+depends_on = []
+sage = ["sage.rings.abc:*", "sage.rings.ring:*", "sage.rings.generic:*", "sage.rings.infinity:*", "sage.rings.big_oh:*"]
+catalogue = []
+tests = [
+  "Ring-law, coercion and parent/element construction checks.",
+  "Product-tree remainder, CRT-basis and interpolation checks.",
+  "Signed-infinity arithmetic and comparison edge-case checks.",
+  "Big-O multiplication, addition and dominance checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.ideals", "mathlib.poly.multivariate", "mathlib.order.lattices"], evidence = "Mathlib supplies ring and order abstractions plus polynomial infrastructure; Sage's parent/coercion framework and extended infinity/big-O semantics require native implementations." }
+backends = []
+references = []
+
+[[capability]]
+id = "rings.ideals-quotients-localization"
+title = "Ideals, quotient rings, noncommutative ideals and localizations"
+statement = "Construct ideals and ideal monoids, quotient rings/elements, noncommutative ideals and localizations with membership, reduction, radicals, decomposition, lifting and fraction operations."
+domain = "A commutative or supported noncommutative ring, ideal generators, and a multiplicative set for localization."
+contract = "Ring and generators -> ideal/quotient/localization objects; membership, reduction, quotient lifts/retracts, ideal arithmetic and localized fractions preserve the defining universal-property operations."
+exactness = "conditional"
+exactness_notes = "Formal parent and quotient operations are exact; primary decomposition, radicals, resolutions and noncommutative reductions depend on the ring algorithms and backend assumptions."
+algorithms = [{ family = "Ideal arithmetic, quotient normal forms, localization fractions and decomposition", sources = ["sage.rings.ideal:*", "sage.rings.ideal_monoid:*", "sage.rings.quotient_ring:*", "sage.rings.quotient_ring_element:*", "sage.rings.localization:*", "sage.rings.noncommutative_ideals:*"] }]
+depends_on = ["rings.core"]
+sage = ["sage.rings.ideal:*", "sage.rings.ideal_monoid:*", "sage.rings.quotient_ring:*", "sage.rings.quotient_ring_element:*", "sage.rings.localization:*", "sage.rings.noncommutative_ideals:*"]
+catalogue = []
+tests = [
+  "Ideal membership, reduction and ideal-sum/product checks.",
+  "Quotient lift/retract and defining-ideal checks.",
+  "Localization fraction equality, unit and inverse checks.",
+  "Radical/prime/maximal/primary and resolution checks where supported.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.ideals", "mathlib.alg.ideal-quotient", "mathlib.alg.localization", "mathlib.alg.module-quotients"], evidence = "Mathlib supplies ideal, quotient and localization theory; Sage's executable reductions, decomposition, noncommutative ideals and parent/element bridges require native implementations." }
+backends = ["singular", "macaulay2"]
+references = []
+
+[[capability]]
+id = "rings.extensions-and-morphisms"
+title = "Ring extensions, extension elements, homsets and morphisms"
+statement = "Construct ring extensions and extension elements, conversion maps, ring morphisms and homsets with coercions, images, sections, inverses and composition."
+domain = "A base ring and extension presentation with compatible generator images and homomorphism checks."
+contract = "Extension/presentation -> ring and element maps; morphisms preserve 0, 1, addition and multiplication, while homsets construct and compose maps satisfying the selected base/coercion constraints."
+exactness = "conditional"
+exactness_notes = "Map application and formal extension arithmetic are exact; conversion and inverse maps depend on the selected extension representation and existence assumptions."
+algorithms = [{ family = "Extension element arithmetic, conversion maps and ring homomorphism construction", sources = ["sage.rings.ring_extension:*", "sage.rings.ring_extension_element:*", "sage.rings.ring_extension_morphism:*", "sage.rings.morphism:*", "sage.rings.homset:*"] }]
+depends_on = ["rings.ideals-quotients-localization"]
+sage = ["sage.rings.ring_extension:*", "sage.rings.ring_extension_element:*", "sage.rings.ring_extension_morphism:*", "sage.rings.morphism:*", "sage.rings.homset:*"]
+catalogue = []
+tests = [
+  "Extension generator relations and coercion round trips.",
+  "Ring-homomorphism preservation of 0, 1, addition and multiplication.",
+  "Homset composition, equality, section and inverse-map checks.",
+  "Extension conversion maps agree on basis generators.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.adjoin-root", "mathlib.alg.localization", "mathlib.alg.module-quotients", "mathlib.category.basic"], evidence = "Mathlib supplies adjoin-root, localization, quotient and categorical morphism foundations; Sage's extension representations, conversion maps and executable homset protocols require native implementations." }
+backends = []
+references = []
+
+[[capability]]
+id = "rings.derivations"
+title = "Ring derivation modules and twisted derivations"
+statement = "Construct modules of ring derivations, twisted derivations, wrappers and quotient/fraction-field extensions, with brackets, constants and composition operations."
+domain = "A domain ring, codomain module/ring and optional twisting morphism satisfying the Leibniz or twisted-Leibniz contract."
+contract = "Domain/codomain/twist -> derivation module whose maps satisfy d(xy)=d(x)y+x d(y), or the selected twisted variant; constants, brackets, pre/postcomposition and extensions preserve the derivation structure."
+exactness = "conditional"
+exactness_notes = "Finite derivation evaluation and module operations are exact; extension to fraction fields or quotients requires the stated denominator and ideal-stability hypotheses."
+algorithms = [{ family = "Derivation module bases, evaluation, brackets and extensions", sources = ["sage.rings.derivation:*"] }]
+depends_on = ["rings.extensions-and-morphisms"]
+sage = ["sage.rings.derivation:*"]
+catalogue = []
+tests = [
+  "Leibniz and twisted-Leibniz identities on generators and products.",
+  "Ring-of-constants membership and derivation-bracket checks.",
+  "Precomposition/postcomposition and zero/wrapper derivation checks.",
+  "Fraction-field and quotient extension checks under valid hypotheses.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.lie-algebras", "mathlib.alg.module-quotients", "mathlib.alg.localization"], evidence = "Mathlib supplies Lie-bracket and quotient/localization foundations; Sage's executable derivation bases, twists, wrappers and extension maps require native implementations." }
+backends = []
+references = []

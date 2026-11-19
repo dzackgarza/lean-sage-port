@@ -10,6 +10,7 @@ import gzip
 import json
 import shutil
 import subprocess
+import tomllib
 from pathlib import Path
 
 import pytest
@@ -17,7 +18,10 @@ import yaml
 
 from sage_inventory.cli import app
 from sage_inventory.coverage import InventoryError, measure, unaccounted
+from sage_inventory.graph import GraphError, derive
 from sage_inventory.index import CheckoutError, build_index, load_baseline
+from sage_inventory.models import Algorithm, Capability, Exactness, Reuse, ReuseStatus
+from sage_inventory.reconnaissance import build as build_reconnaissance
 from sage_inventory.scan import scan_file
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -189,6 +193,31 @@ def test_coverage_counts_documented_public_entities_by_capability_exclusion_and_
     assert (package.package, package.public_entities, package.unaccounted) == ("sage.rings", 1, 1)
 
 
+def test_coverage_counts_category_record_entities_separately_from_capabilities(
+    index: Path, tmp_path: Path
+) -> None:
+    categories = tmp_path / "categories.toml"
+    categories.write_text(
+        '[[category]]\n'
+        'id = "sage.rings.fast_integer:fast_valuation"\n'
+        'sage = "sage.rings.fast_integer:fast_valuation"\n'
+        '\n'
+        '[[operation]]\n'
+        'id = "sage.rings.demo_ring:DemoRing.order"\n'
+        'sage = "sage.rings.demo_ring:DemoRing.order"\n'
+    )
+    report = measure(index, FIXTURES / "capabilities", FIXTURES / "reuse", categories)
+    # The two category-record entities leave the remainder; the capability and exclusion counts are unchanged.
+    assert (report.by_capability, report.excluded, report.by_category_record, report.unaccounted) == (3, 2, 2, 3)
+    (section,) = report.sections
+    assert (section.by_category_record, section.unaccounted) == (2, 3)
+    assert {entity.id for entity in unaccounted(index, FIXTURES / "capabilities", "rings_standard", categories)} == {
+        "sage.rings.fast_integer:FastInteger",
+        "sage.rings.fast_integer:FastInteger.double",
+        "sage.rings.demo_ring:DemoRing",
+    }
+
+
 def test_unaccounted_lists_the_entities_of_a_section_that_no_record_selects(index: Path) -> None:
     # The capability selects xgcd, gcd_list and demo_gcd; the exclusion selects Element and Element.inverse.
     listed = {entity.id for entity in unaccounted(index, FIXTURES / "capabilities", "rings_standard")}
@@ -247,6 +276,28 @@ def test_coverage_command_writes_the_report_and_fails_on_inconsistent_records(in
     assert stopped.value.code not in (0, None)
 
 
+def test_reconnaissance_ledger_preserves_public_entity_dispositions(index: Path, tmp_path: Path) -> None:
+    domains = tmp_path / "domains.toml"
+    domains.write_text(
+        '[[section]]\n'
+        'id = "rings_standard"\n'
+        'title = "Integers"\n'
+        'disposition = "mathematical"\n'
+        '\n'
+        '[[section]]\n'
+        'id = "references"\n'
+        'title = "References"\n'
+        'disposition = "reference-data"\n'
+    )
+    categories = tmp_path / "categories.toml"
+    categories.write_text("")
+    report = build_reconnaissance(index, domains, FIXTURES / "capabilities", categories)
+    assert report["public_entities"] == 10
+    assert report["indexed_sections"] == 2
+    assert report["populated_sections"] == 1
+    assert {row["accounting"] for row in report["entities"]} == {"capability", "exclusion", "unaccounted"}
+
+
 def test_cython_parser_reads_sage_integer_source() -> None:
     """`Integer` in the local Sage checkout: a `cdef class` over `EuclideanDomainElement`.
 
@@ -259,3 +310,69 @@ def test_cython_parser_reads_sage_integer_source() -> None:
     assert entities["Integer.xgcd"].kind == "method"
     assert "set_from_Integer" not in entities
     assert {"gmp", "flint", "pari"} <= set(scan.backends)
+
+
+def _capability(identifier: str, depends_on: tuple[str, ...]) -> Capability:
+    """A record whose only interesting field here is its prerequisites."""
+    return Capability(
+        id=identifier,
+        title=identifier,
+        statement="Return the value.",
+        domain="An integer.",
+        contract="Z -> Z.",
+        exactness=Exactness.EXACT,
+        algorithms=(Algorithm(family="Direct", sources=("fixture",)),),
+        depends_on=depends_on,
+        sage=(f"fixture:{identifier}",),
+        catalogue=(),
+        tests=("fixture",),
+        reuse=Reuse(status=ReuseStatus.MISSING, components=(), evidence="fixture"),
+        backends=(),
+        references=(),
+    )
+
+
+def test_dependency_graph_levels_are_a_build_order() -> None:
+    """A prerequisite edge puts the dependent one level above every one of its prerequisites.
+
+    `c` depends on `a` and `b`, `b` depends on `a`: the levels are `a`, then `b`, then `c`, and the
+    two roots that share no dependent stay at level 0.
+    """
+    dependencies = derive((_capability("fixture.a", ()), _capability("fixture.b", ("fixture.a",)),
+                           _capability("fixture.c", ("fixture.a", "fixture.b"))))
+    assert dependencies.levels == (("fixture.a",), ("fixture.b",), ("fixture.c",))
+    assert dependencies.edges == 3
+    assert dependencies.roots == ("fixture.a",)
+    assert dependencies.nodes[2].dependents == ()
+    assert dependencies.nodes[0].dependents == ("fixture.b", "fixture.c")
+
+
+def test_dependency_graph_rejects_a_cycle_and_an_unknown_prerequisite() -> None:
+    """A cycle means an alternative was recorded as a prerequisite; an unknown id is a typo."""
+    with pytest.raises(GraphError, match="cycle: fixture.a -> fixture.b -> fixture.a"):
+        derive((_capability("fixture.a", ("fixture.b",)), _capability("fixture.b", ("fixture.a",))))
+    with pytest.raises(GraphError, match="names no capability record: fixture.missing"):
+        derive((_capability("fixture.a", ("fixture.missing",)),))
+
+
+def test_every_recorded_backend_names_a_reference_engine() -> None:
+    """A backend token is a name another program answers to, so it resolves to a reference engine.
+
+    The engines manifest lists each engine's id and the names Sage calls it by; a capability record
+    that names neither is claiming an implementation without a source for its licence or version.
+    """
+    engines = tomllib.loads((REPOSITORY / "inventory/references/engines.toml").read_text())["engine"]
+    names = {engine["id"] for engine in engines}
+    names.update(name for engine in engines for name in engine["sage_backends"])
+    records = [
+        record
+        for path in sorted((REPOSITORY / "inventory/capabilities").glob("*.toml"))
+        for record in tomllib.loads(path.read_text()).get("capability", [])
+    ]
+    unresolved = {
+        (record["id"], backend)
+        for record in records
+        for backend in record.get("backends", [])
+        if backend not in names
+    }
+    assert not unresolved, sorted(unresolved)

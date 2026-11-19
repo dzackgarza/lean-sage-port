@@ -1,0 +1,18 @@
+domain = "diophantine_approximation"
+
+[[capability]]
+id = "diophantine.approximation"
+title = "Continued fractions and Diophantine approximation"
+statement = "Construct finite, periodic and real continued fractions, compute convergents and semiconvergents, recover rational intervals and use continued-fraction data for approximation and integer-relation computations."
+domain = "A rational, real, symbolic or interval input with the positivity, termination, periodicity and precision hypotheses required by the selected continued-fraction operation."
+contract = "Input number or interval -> normalized continued-fraction coefficients and convergents; finite rational inputs terminate, periodic quadratic inputs retain their period, and real/interval inputs expose the requested precision and approximation bounds."
+exactness = "conditional"
+exactness_notes = "Finite and periodic expansions are exact; real and interval approximation results depend on the declared precision, ordering and termination hypotheses."
+algorithms = [{ family = "Diophantine approximation and integer relations", sources = ["sage.rings.continued_fraction:*"] }]
+depends_on = ["integers.arithmetic"]
+sage = ["sage.rings.continued_fraction:*"]
+catalogue = []
+tests = ["Convergents satisfy the continued-fraction recurrence and the determinant identity.", "Consecutive convergents bracket the represented real input with the documented error bound.", "Periodic quadratic inputs reproduce their period after normalization."]
+reuse = { status = "adaptable", components = ["mathlib.int.continued-fractions"], evidence = "Mathlib supplies continued-fraction foundations; Sage's interval, symbolic and integer-relation interfaces require adapters." }
+backends = []
+references = []

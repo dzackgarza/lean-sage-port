@@ -1,0 +1,18 @@
+domain = "stats"
+
+[[capability]]
+id = "stats.documented"
+title = "Statistics, distributions and time series"
+statement = "Compute descriptive statistics, moments, empirical distributions, discrete Gaussian samples, hidden Markov models and time-series operations exposed by Sage's statistics modules."
+domain = "Finite numeric samples or a declared probability distribution/model, with precision and parameter constraints required by the selected operation."
+contract = "Sample or statistical model -> exact finite-sample statistic where applicable, or a sampled/approximate distributional quantity with its estimator, precision and randomness semantics retained."
+exactness = "approximate"
+exactness_notes = "Finite sums and exact summary statistics are exact; sampling, numerical distribution functions, HMM inference and time-series estimates are approximate and retain their precision or estimator assumptions."
+algorithms = [{ family = "Descriptive statistics and distribution models", sources = ["sage.stats.basic_stats:*", "sage.stats.distributions.catalog:*", "sage.stats.distributions.discrete_gaussian_integer:*", "sage.stats.distributions.discrete_gaussian_lattice:*", "sage.stats.distributions.discrete_gaussian_polynomial:*", "sage.stats.hmm.hmm:*", "sage.stats.hmm.chmm:*", "sage.stats.time_series:*"] }]
+depends_on = ["probability.distributions"]
+sage = ["sage.stats.*:*"]
+catalogue = []
+tests = ["Mean, variance and moments agree with direct finite-sum calculations.", "Distribution normalization and moment identities hold for supported parameters.", "HMM forward/backward probabilities agree with direct enumeration on finite examples."]
+reuse = { status = "adaptable", components = ["mathlib.data.finsupp"], evidence = "Finite-support and algebraic foundations are reusable; Sage's sampling kernels, HMM implementations and time-series containers require native adapters." }
+backends = ["numpy"]
+references = []

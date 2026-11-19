@@ -1,0 +1,5130 @@
+{
+  "capabilities": 372,
+  "edges": 352,
+  "roots": [
+    "algebras.ace-quantum-onsager",
+    "algebras.askey-wilson-algebra",
+    "algebras.associated-graded",
+    "algebras.baker-campbell-hausdorff",
+    "algebras.cellular-basis",
+    "algebras.clifford-algebra",
+    "algebras.descent-algebra",
+    "algebras.dga-cohomology",
+    "algebras.diagram-algebras",
+    "algebras.dual-pbw-basis",
+    "algebras.exterior-algebra",
+    "algebras.finite-dimensional",
+    "algebras.fock-space",
+    "algebras.free-associative-construction",
+    "algebras.free-dendriform-algebra",
+    "algebras.free-prelie-algebra",
+    "algebras.free-zinbiel-algebra",
+    "algebras.graded-commutative-algebra",
+    "algebras.grossman-larson",
+    "algebras.hall-algebra",
+    "algebras.incidence-algebra",
+    "algebras.invariant-algebra-of-an-arrangement",
+    "algebras.jordan-algebra",
+    "algebras.letterplace-groebner",
+    "algebras.lie-conformal-structure",
+    "algebras.lie-core-and-structure-coefficients",
+    "algebras.moebius-algebra",
+    "algebras.monoid-group-algebra",
+    "algebras.octonion",
+    "algebras.orlik-solomon",
+    "algebras.orlik-terao",
+    "algebras.potts-representation",
+    "algebras.q-numbers",
+    "algebras.q-system",
+    "algebras.quantum-clifford-algebra",
+    "algebras.quantum-group",
+    "algebras.quantum-group-modules",
+    "algebras.quantum-group-representations",
+    "algebras.quantum-matrix-coordinate-algebra",
+    "algebras.quaternion",
+    "algebras.rational-cherednik-algebra",
+    "algebras.schur-algebra",
+    "algebras.set-partition-algebras",
+    "algebras.shuffle-algebra",
+    "algebras.splitting-algebra",
+    "algebras.tensor-algebra",
+    "algebras.yangian",
+    "arithmetic-curves.elliptic-curve-arithmetic",
+    "arithmetic-curves.elliptic-curve-descent-and-modular-data",
+    "arithmetic-curves.elliptic-curve-heights-and-lseries",
+    "arithmetic-curves.elliptic-curve-local-arithmetic",
+    "arithmetic-curves.hyperelliptic-curves",
+    "continued-fractions.continuant",
+    "cryptography.block-ciphers",
+    "cryptography.classical-and-stream-ciphers",
+    "cryptography.multivariate-quadratic-systems",
+    "cryptography.public-key-schemes",
+    "cryptography.sboxes-and-boolean-functions",
+    "curves.jacobians",
+    "curves.plane-and-projective-curves",
+    "curves.plane-conics",
+    "curves.plane-quartics",
+    "curves.riemann-surfaces",
+    "curves.zariski-van-kampen",
+    "discrete-geometry.cones-fans-and-polyhedral-complexes",
+    "discrete-geometry.groebner-fans",
+    "discrete-geometry.hyperplane-arrangements",
+    "discrete-geometry.lattice-polytopes",
+    "discrete-geometry.polyhedra",
+    "discrete-geometry.ribbon-graphs",
+    "discrete-geometry.triangulations",
+    "drinfeld-modular.drinfeld-congruence-subgroups",
+    "drinfeld-modular.drinfeld-modular-forms",
+    "dynamics.arithmetic-dynamical-systems",
+    "dynamics.finite-dynamical-systems",
+    "dynamics.sandpiles",
+    "elliptic.local-reduction",
+    "elliptic.point-group-law",
+    "finite-rings.modular-integer-rings",
+    "floating.runtime-precision-real-arithmetic",
+    "function-fields.divisors-and-differentials",
+    "function-fields.function-field-jacobians",
+    "function-fields.function-fields",
+    "function-fields.ideals-orders-and-places",
+    "graphs.finite-construction",
+    "groups.free-and-indexed",
+    "groups.permutation-group",
+    "hyperbolic-geometry.hyperbolic-geodesics",
+    "hyperbolic-geometry.hyperbolic-isometries",
+    "hyperbolic-geometry.hyperbolic-models-and-points",
+    "integers.arithmetic",
+    "interval.real-enclosure-arithmetic",
+    "manifolds.differentiable-manifolds",
+    "manifolds.metrics-and-connections",
+    "manifolds.topological-manifolds",
+    "matrices.arithmetic",
+    "modabvar.homology-and-homspaces",
+    "modabvar.modular-abelian-varieties",
+    "modabvar.modular-abelian-variety-lseries",
+    "modfrm.brandt-modules",
+    "modfrm.dirichlet-characters",
+    "modfrm.hecke-triangle-groups",
+    "modfrm.hypergeometric-motives",
+    "modfrm.local-components-of-modular-forms",
+    "modfrm.modular-forms",
+    "modfrm.multiple-zeta-values",
+    "modfrm.overconvergent-modular-forms",
+    "modfrm.quasimodular-forms",
+    "modsym.bruhat-tits-quotients",
+    "modsym.modular-symbols",
+    "modsym.overconvergent-modular-symbols",
+    "monoids.free-and-indexed",
+    "monoids.hypoplactic-and-plactic-utilities",
+    "monoids.power",
+    "numerical.definite-integration",
+    "numerical.real-root-localization",
+    "polynomials.multivariate-arithmetic",
+    "polynomials.univariate-arithmetic",
+    "quaternions.coordinates",
+    "recon-anderson-motives.documented-source-families",
+    "recon-arithgroup.documented-source-families",
+    "recon-coding.documented-source-families",
+    "recon-drinfeld-modules.documented-source-families",
+    "recon-game-theory.documented-source-families",
+    "recon-games.documented-source-families",
+    "recon-lfunctions.documented-source-families",
+    "recon-logic.documented-source-families",
+    "recon-oremodules.documented-source-families",
+    "recon-sat.documented-source-families",
+    "riemannian-geometry.parametrized-surfaces",
+    "riemannian-geometry.surface-library",
+    "rings-numerical.complex-balls-and-intervals",
+    "rings-numerical.complex-numbers",
+    "rings-numerical.real-balls-and-intervals",
+    "rings-numerical.real-numbers",
+    "rings.core",
+    "schemes.affine-schemes",
+    "schemes.berkovich-spaces",
+    "schemes.cyclic-covers",
+    "schemes.generic-schemes",
+    "schemes.product-projective-schemes",
+    "schemes.projective-schemes",
+    "schemes.toric-varieties",
+    "schemes.weighted-projective-schemes",
+    "semirings.natural-numbers",
+    "semirings.tropical-construction",
+    "sequences.finite-differences",
+    "sets.disjoint-set-union-find",
+    "sets.finite-enumeration",
+    "sets.integer-progressions",
+    "sets.prime-subsets",
+    "sets.set-theoretic-boolean-operations",
+    "sets.typed-python-carriers",
+    "tensor-free-modules.free-rank-and-maps",
+    "topology.finite-simplicial-complex"
+  ],
+  "levels": [
+    [
+      "algebras.ace-quantum-onsager",
+      "algebras.askey-wilson-algebra",
+      "algebras.associated-graded",
+      "algebras.baker-campbell-hausdorff",
+      "algebras.cellular-basis",
+      "algebras.clifford-algebra",
+      "algebras.descent-algebra",
+      "algebras.dga-cohomology",
+      "algebras.diagram-algebras",
+      "algebras.dual-pbw-basis",
+      "algebras.exterior-algebra",
+      "algebras.finite-dimensional",
+      "algebras.fock-space",
+      "algebras.free-associative-construction",
+      "algebras.free-dendriform-algebra",
+      "algebras.free-prelie-algebra",
+      "algebras.free-zinbiel-algebra",
+      "algebras.graded-commutative-algebra",
+      "algebras.grossman-larson",
+      "algebras.hall-algebra",
+      "algebras.incidence-algebra",
+      "algebras.invariant-algebra-of-an-arrangement",
+      "algebras.jordan-algebra",
+      "algebras.letterplace-groebner",
+      "algebras.lie-conformal-structure",
+      "algebras.lie-core-and-structure-coefficients",
+      "algebras.moebius-algebra",
+      "algebras.monoid-group-algebra",
+      "algebras.octonion",
+      "algebras.orlik-solomon",
+      "algebras.orlik-terao",
+      "algebras.potts-representation",
+      "algebras.q-numbers",
+      "algebras.q-system",
+      "algebras.quantum-clifford-algebra",
+      "algebras.quantum-group",
+      "algebras.quantum-group-modules",
+      "algebras.quantum-group-representations",
+      "algebras.quantum-matrix-coordinate-algebra",
+      "algebras.quaternion",
+      "algebras.rational-cherednik-algebra",
+      "algebras.schur-algebra",
+      "algebras.set-partition-algebras",
+      "algebras.shuffle-algebra",
+      "algebras.splitting-algebra",
+      "algebras.tensor-algebra",
+      "algebras.yangian",
+      "arithmetic-curves.elliptic-curve-arithmetic",
+      "arithmetic-curves.elliptic-curve-descent-and-modular-data",
+      "arithmetic-curves.elliptic-curve-heights-and-lseries",
+      "arithmetic-curves.elliptic-curve-local-arithmetic",
+      "arithmetic-curves.hyperelliptic-curves",
+      "continued-fractions.continuant",
+      "cryptography.block-ciphers",
+      "cryptography.classical-and-stream-ciphers",
+      "cryptography.multivariate-quadratic-systems",
+      "cryptography.public-key-schemes",
+      "cryptography.sboxes-and-boolean-functions",
+      "curves.jacobians",
+      "curves.plane-and-projective-curves",
+      "curves.plane-conics",
+      "curves.plane-quartics",
+      "curves.riemann-surfaces",
+      "curves.zariski-van-kampen",
+      "discrete-geometry.cones-fans-and-polyhedral-complexes",
+      "discrete-geometry.groebner-fans",
+      "discrete-geometry.hyperplane-arrangements",
+      "discrete-geometry.lattice-polytopes",
+      "discrete-geometry.polyhedra",
+      "discrete-geometry.ribbon-graphs",
+      "discrete-geometry.triangulations",
+      "drinfeld-modular.drinfeld-congruence-subgroups",
+      "drinfeld-modular.drinfeld-modular-forms",
+      "dynamics.arithmetic-dynamical-systems",
+      "dynamics.finite-dynamical-systems",
+      "dynamics.sandpiles",
+      "elliptic.local-reduction",
+      "elliptic.point-group-law",
+      "finite-rings.modular-integer-rings",
+      "floating.runtime-precision-real-arithmetic",
+      "function-fields.divisors-and-differentials",
+      "function-fields.function-field-jacobians",
+      "function-fields.function-fields",
+      "function-fields.ideals-orders-and-places",
+      "graphs.finite-construction",
+      "groups.free-and-indexed",
+      "groups.permutation-group",
+      "hyperbolic-geometry.hyperbolic-geodesics",
+      "hyperbolic-geometry.hyperbolic-isometries",
+      "hyperbolic-geometry.hyperbolic-models-and-points",
+      "integers.arithmetic",
+      "interval.real-enclosure-arithmetic",
+      "manifolds.differentiable-manifolds",
+      "manifolds.metrics-and-connections",
+      "manifolds.topological-manifolds",
+      "matrices.arithmetic",
+      "modabvar.homology-and-homspaces",
+      "modabvar.modular-abelian-varieties",
+      "modabvar.modular-abelian-variety-lseries",
+      "modfrm.brandt-modules",
+      "modfrm.dirichlet-characters",
+      "modfrm.hecke-triangle-groups",
+      "modfrm.hypergeometric-motives",
+      "modfrm.local-components-of-modular-forms",
+      "modfrm.modular-forms",
+      "modfrm.multiple-zeta-values",
+      "modfrm.overconvergent-modular-forms",
+      "modfrm.quasimodular-forms",
+      "modsym.bruhat-tits-quotients",
+      "modsym.modular-symbols",
+      "modsym.overconvergent-modular-symbols",
+      "monoids.free-and-indexed",
+      "monoids.hypoplactic-and-plactic-utilities",
+      "monoids.power",
+      "numerical.definite-integration",
+      "numerical.real-root-localization",
+      "polynomials.multivariate-arithmetic",
+      "polynomials.univariate-arithmetic",
+      "quaternions.coordinates",
+      "recon-anderson-motives.documented-source-families",
+      "recon-arithgroup.documented-source-families",
+      "recon-coding.documented-source-families",
+      "recon-drinfeld-modules.documented-source-families",
+      "recon-game-theory.documented-source-families",
+      "recon-games.documented-source-families",
+      "recon-lfunctions.documented-source-families",
+      "recon-logic.documented-source-families",
+      "recon-oremodules.documented-source-families",
+      "recon-sat.documented-source-families",
+      "riemannian-geometry.parametrized-surfaces",
+      "riemannian-geometry.surface-library",
+      "rings-numerical.complex-balls-and-intervals",
+      "rings-numerical.complex-numbers",
+      "rings-numerical.real-balls-and-intervals",
+      "rings-numerical.real-numbers",
+      "rings.core",
+      "schemes.affine-schemes",
+      "schemes.berkovich-spaces",
+      "schemes.cyclic-covers",
+      "schemes.generic-schemes",
+      "schemes.product-projective-schemes",
+      "schemes.projective-schemes",
+      "schemes.toric-varieties",
+      "schemes.weighted-projective-schemes",
+      "semirings.natural-numbers",
+      "semirings.tropical-construction",
+      "sequences.finite-differences",
+      "sets.disjoint-set-union-find",
+      "sets.finite-enumeration",
+      "sets.integer-progressions",
+      "sets.prime-subsets",
+      "sets.set-theoretic-boolean-operations",
+      "sets.typed-python-carriers",
+      "tensor-free-modules.free-rank-and-maps",
+      "topology.finite-simplicial-complex"
+    ],
+    [
+      "algebras.cluster-algebras",
+      "algebras.commutative-dga",
+      "algebras.exterior-algebra-groebner",
+      "algebras.exterior-lie-algebra-differential",
+      "algebras.free-operadic-families",
+      "algebras.incidence-moebius",
+      "algebras.jordan",
+      "algebras.letterplace-bch",
+      "algebras.lie-enveloping-and-center",
+      "algebras.lie-standard-families",
+      "algebras.quantum-and-weyl",
+      "algebras.steenrod",
+      "calculus.documented-operations",
+      "combinatorics.enumeration-and-structures",
+      "combinatorics.factorial",
+      "complexes.finite-free-construction",
+      "diophantine.approximation",
+      "elliptic.finite-field-point-count",
+      "elliptic.global-minimal-model",
+      "elliptic.mordell-weil-point-search",
+      "euclidean.division",
+      "finite-rings.finite-field-realizations",
+      "graphs.connected-components",
+      "graphs.isomorphism",
+      "graphs.remaining-algorithms",
+      "graphs.shortest-path",
+      "groups.core-operations",
+      "groups.finitely-generated-abelian",
+      "groups.finitely-presented",
+      "groups.orbit",
+      "groups.order-and-membership",
+      "groups.permutation-named-and-cube",
+      "groups.presentation-coset-enumeration",
+      "hecke.documented-algorithms",
+      "ideals.groebner-basis",
+      "integers.integer-logarithm",
+      "matrices.rank",
+      "modules.free-and-quotient",
+      "monoids.string-words",
+      "monoids.trace",
+      "monoids.word-quotients",
+      "padics.arithmetic",
+      "polynomials.extended-gcd",
+      "power-series.formal-and-lazy",
+      "quaternions.conjugation",
+      "quaternions.rational-coordinate-transport",
+      "quaternions.regular-representation",
+      "quaternions.scalar-membership",
+      "rings.ideals-quotients-localization",
+      "semirings.tropical-base-change",
+      "semirings.tropical-cycle-mean",
+      "semirings.tropical-matrix-closure",
+      "semirings.tropical-multiplicative-order",
+      "sets.cartesian-and-disjoint-constructions",
+      "sets.finite-function-spaces",
+      "sets.indexed-families",
+      "sets.nonnegative-integer-carrier",
+      "sets.ordered-finite-carriers",
+      "sets.predicate-defined-subsets",
+      "sets.real-interval-union",
+      "tensor-free-modules.tensors-and-components",
+      "topology.remaining-constructive"
+    ],
+    [
+      "algebras.hecke-families",
+      "algebras.lie-modules-and-representations",
+      "algebras.orlik-solomon-terao",
+      "algebras.quantum-coordinate-yangian-shuffle",
+      "algebras.specialized-noncommutative",
+      "complexes.chain-maps",
+      "complexes.finite-free-dual",
+      "complexes.shift",
+      "euclidean-spaces.geometry",
+      "euclidean.gcd",
+      "euclidean.xgcd",
+      "finite-rings.extensions-and-homomorphisms",
+      "functions.symbolic-and-special",
+      "graphs.minimum-spanning-tree",
+      "groups.abelian-dual-and-automorphisms",
+      "groups.abelian-values",
+      "groups.additive-abelian",
+      "groups.argument-and-imaginary",
+      "groups.cosets",
+      "groups.matrix-generated",
+      "groups.named-presentations",
+      "groups.nilpotent-lie",
+      "groups.permutation-actions-and-structure",
+      "groups.semidirect-products-and-kernels",
+      "groups.stabilizer",
+      "ideals.polynomial-normal-form",
+      "integers.radix-representation",
+      "integers.valuation",
+      "matrices.core-and-backends",
+      "matrices.kernel",
+      "matroids.combinatorial",
+      "modules.fg-pid",
+      "modules.vector-backends",
+      "monoids.automatic-semigroup-closure",
+      "monoids.hecke",
+      "noncommutative-polynomials.ore-and-skew",
+      "numerical.analysis",
+      "oremodules.modules",
+      "power-series.specialized",
+      "quaternions.reduced-norm",
+      "quaternions.reduced-trace",
+      "rings.extensions-and-morphisms",
+      "rings.quotient-ring",
+      "sets.recursive-enumeration",
+      "tensor-free-modules.alternating-forms",
+      "topology.simplicial-chain-complex"
+    ],
+    [
+      "algebras.ariki-koike-specht",
+      "algebras.cubic-hecke",
+      "algebras.diagram-and-partition",
+      "algebras.fusion-rings-and-modular-data",
+      "algebras.quantum-groups-and-representations",
+      "asymptotic.growth",
+      "complexes.chain-homotopy",
+      "complexes.finite-direct-sum",
+      "groups.affine-and-euclidean",
+      "groups.cactus-and-raag",
+      "groups.classical-matrix",
+      "groups.conjugacy-and-class-functions",
+      "groups.coxeter-reflection",
+      "groups.pari-transitive-groups",
+      "groups.partition-refinement",
+      "groups.permutation-elements-and-morphisms",
+      "groups.semimonomial-transformations",
+      "groups.special-matrix-constructors",
+      "homology.chain-complexes",
+      "integers.coprime-splitting",
+      "integers.modular-inverse",
+      "integers.trial-division",
+      "matrices.hermite-normal-form",
+      "matrices.smith-normal-form",
+      "modular.crt",
+      "modular.rational-reconstruction",
+      "modules.filtered-graded-and-quadratic",
+      "modules.with-basis",
+      "noncommutative-polynomials.plural",
+      "number-theory.kronecker-symbol",
+      "probability.distributions",
+      "quaternions.reduced-characteristic-polynomial",
+      "quaternions.trace-pairing",
+      "quivers.representations-and-morphisms",
+      "rings.derivations",
+      "rings.extension-by-polynomial",
+      "rings.fraction-field"
+    ],
+    [
+      "algebras.hall-qsystem-schur",
+      "combinatorics.binomial",
+      "complexes.chain-contraction",
+      "complexes.homology-with-representatives",
+      "complexes.tensor-product",
+      "groups.artin-and-braid",
+      "groups.libgap-adapters",
+      "groups.symmetric-conjugacy-classes",
+      "integers.modular-power",
+      "integers.roots-and-perfect-powers",
+      "modules.fp-graded-and-matrix",
+      "polynomial-rings.commutative-and-quotient",
+      "quadratic-forms.arithmetic-and-genera",
+      "quadratic.padic-squares",
+      "quivers.ar-and-algebra",
+      "rationals.arithmetic",
+      "rationals.s-integrality",
+      "resolutions.free-and-graded",
+      "rings.canonical-map-z-to-q",
+      "stats.documented"
+    ],
+    [
+      "groups.abelian-gap-quotients",
+      "groups.cubic-braid",
+      "groups.libgap-carriers-and-elements",
+      "integers.primality-proving",
+      "integers.probable-primality",
+      "knots.invariants",
+      "lattices.lll-reduction",
+      "number-fields.core-and-arithmetic",
+      "number-fields.degree-one-case",
+      "number-theory.dedekind-sum",
+      "polynomial-rings.real-roots",
+      "rationals.enumeration-by-height",
+      "rationals.rounding",
+      "reals.elementary-functions",
+      "rings.integers-and-rationals-objects",
+      "rings.random-sampling",
+      "topology.simplicial-homology"
+    ],
+    [
+      "algebraic-numbers.algebraic-dependency",
+      "continued-fractions.expansion-of-rational",
+      "integers.factorization",
+      "integers.prime-enumeration",
+      "integers.prime-power-test",
+      "integers.random-prime",
+      "rings.residue-field",
+      "valuations.nonarchimedean"
+    ],
+    [
+      "diophantine.sums-of-squares",
+      "elliptic.conductor",
+      "fields.algebraic-closure",
+      "heights.rational-heights",
+      "integers.divisors",
+      "integers.multiplicative-functions",
+      "integers.prime-search",
+      "integers.squarefree",
+      "modular.residue-sets",
+      "number-fields.selmer-group",
+      "polynomials.univariate-factorization",
+      "quadratic.hilbert-symbol",
+      "valuations.padic-valuation-object"
+    ],
+    [
+      "elliptic.bounded-rational-points",
+      "integers.special-form-factorization",
+      "modular.multimodular-basis",
+      "modular.multiplicative-order",
+      "modular.primitive-root",
+      "number-fields.norm-equation",
+      "quadratic.fundamental-discriminant",
+      "quadratic.hilbert-symbol-realization",
+      "rings.completion"
+    ],
+    [
+      "number-theory.bernoulli-mod-p",
+      "number-theory.gauss-sum",
+      "quadratic.class-number",
+      "rationals.decimal-period"
+    ],
+    [
+      "number-theory.bernoulli-numbers"
+    ]
+  ],
+  "nodes": [
+    {
+      "id": "algebraic-numbers.algebraic-dependency",
+      "level": 6,
+      "depends_on": [
+        "lattices.lll-reduction"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "algebras.ace-quantum-onsager",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.ariki-koike-specht",
+      "level": 3,
+      "depends_on": [
+        "algebras.hecke-families"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.askey-wilson-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.associated-graded",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.baker-campbell-hausdorff",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.cellular-basis",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.clifford-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "algebras.quantum-coordinate-yangian-shuffle"
+      ],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 3
+    },
+    {
+      "id": "algebras.cluster-algebras",
+      "level": 1,
+      "depends_on": [
+        "algebras.free-associative-construction"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.commutative-dga",
+      "level": 1,
+      "depends_on": [
+        "algebras.free-associative-construction"
+      ],
+      "dependents": [
+        "algebras.orlik-solomon-terao"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.cubic-hecke",
+      "level": 3,
+      "depends_on": [
+        "algebras.hecke-families"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.descent-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.dga-cohomology",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.diagram-algebras",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.diagram-and-partition",
+      "level": 3,
+      "depends_on": [
+        "algebras.hecke-families"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.dual-pbw-basis",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.exterior-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "algebras.exterior-algebra-groebner",
+        "algebras.exterior-lie-algebra-differential"
+      ],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 3
+    },
+    {
+      "id": "algebras.exterior-algebra-groebner",
+      "level": 1,
+      "depends_on": [
+        "algebras.exterior-algebra"
+      ],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "algebras.exterior-lie-algebra-differential",
+      "level": 1,
+      "depends_on": [
+        "algebras.exterior-algebra"
+      ],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "algebras.finite-dimensional",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "algebras.hall-qsystem-schur",
+        "algebras.incidence-moebius",
+        "algebras.orlik-solomon-terao",
+        "algebras.specialized-noncommutative"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.fock-space",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.free-associative-construction",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "algebras.cluster-algebras",
+        "algebras.commutative-dga",
+        "algebras.free-operadic-families",
+        "algebras.letterplace-bch",
+        "algebras.quantum-and-weyl",
+        "algebras.steenrod",
+        "quivers.ar-and-algebra"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "algebras.free-dendriform-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.free-operadic-families",
+      "level": 1,
+      "depends_on": [
+        "algebras.free-associative-construction"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.free-prelie-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.free-zinbiel-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.fusion-rings-and-modular-data",
+      "level": 3,
+      "depends_on": [
+        "algebras.hecke-families",
+        "algebras.lie-standard-families"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.graded-commutative-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.grossman-larson",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.hall-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.hall-qsystem-schur",
+      "level": 4,
+      "depends_on": [
+        "algebras.finite-dimensional",
+        "algebras.quantum-groups-and-representations"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.hecke-families",
+      "level": 2,
+      "depends_on": [
+        "algebras.lie-standard-families"
+      ],
+      "dependents": [
+        "algebras.ariki-koike-specht",
+        "algebras.cubic-hecke",
+        "algebras.diagram-and-partition",
+        "algebras.fusion-rings-and-modular-data",
+        "algebras.quantum-groups-and-representations"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.incidence-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.incidence-moebius",
+      "level": 1,
+      "depends_on": [
+        "algebras.finite-dimensional"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.invariant-algebra-of-an-arrangement",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.jordan",
+      "level": 1,
+      "depends_on": [
+        "algebras.octonion"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.jordan-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.letterplace-bch",
+      "level": 1,
+      "depends_on": [
+        "algebras.free-associative-construction",
+        "algebras.lie-core-and-structure-coefficients"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.letterplace-groebner",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.lie-conformal-structure",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "algebras.lie-core-and-structure-coefficients",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "algebras.letterplace-bch",
+        "algebras.lie-enveloping-and-center",
+        "algebras.lie-standard-families"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.lie-enveloping-and-center",
+      "level": 1,
+      "depends_on": [
+        "algebras.lie-core-and-structure-coefficients"
+      ],
+      "dependents": [
+        "algebras.lie-modules-and-representations"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.lie-modules-and-representations",
+      "level": 2,
+      "depends_on": [
+        "algebras.lie-enveloping-and-center",
+        "algebras.lie-standard-families"
+      ],
+      "dependents": [
+        "modules.with-basis"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.lie-standard-families",
+      "level": 1,
+      "depends_on": [
+        "algebras.lie-core-and-structure-coefficients"
+      ],
+      "dependents": [
+        "algebras.fusion-rings-and-modular-data",
+        "algebras.hecke-families",
+        "algebras.lie-modules-and-representations",
+        "algebras.quantum-groups-and-representations"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.moebius-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.monoid-group-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.octonion",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "algebras.jordan"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.orlik-solomon",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.orlik-solomon-terao",
+      "level": 2,
+      "depends_on": [
+        "algebras.commutative-dga",
+        "algebras.finite-dimensional"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.orlik-terao",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.potts-representation",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.q-numbers",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.q-system",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.quantum-and-weyl",
+      "level": 1,
+      "depends_on": [
+        "algebras.free-associative-construction"
+      ],
+      "dependents": [
+        "algebras.quantum-coordinate-yangian-shuffle",
+        "algebras.specialized-noncommutative"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.quantum-clifford-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.quantum-coordinate-yangian-shuffle",
+      "level": 2,
+      "depends_on": [
+        "algebras.clifford-algebra",
+        "algebras.quantum-and-weyl"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.quantum-group",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.quantum-group-modules",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.quantum-group-representations",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.quantum-groups-and-representations",
+      "level": 3,
+      "depends_on": [
+        "algebras.hecke-families",
+        "algebras.lie-standard-families"
+      ],
+      "dependents": [
+        "algebras.hall-qsystem-schur"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.quantum-matrix-coordinate-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.quaternion",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.rational-cherednik-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.schur-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.set-partition-algebras",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.shuffle-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.specialized-noncommutative",
+      "level": 2,
+      "depends_on": [
+        "algebras.finite-dimensional",
+        "algebras.quantum-and-weyl"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.splitting-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.steenrod",
+      "level": 1,
+      "depends_on": [
+        "algebras.free-associative-construction"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "algebras.tensor-algebra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "algebras.yangian",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "arithmetic-curves.elliptic-curve-arithmetic",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "arithmetic-curves.elliptic-curve-descent-and-modular-data",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "arithmetic-curves.elliptic-curve-heights-and-lseries",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 3
+    },
+    {
+      "id": "arithmetic-curves.elliptic-curve-local-arithmetic",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "arithmetic-curves.hyperelliptic-curves",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "asymptotic.growth",
+      "level": 3,
+      "depends_on": [
+        "functions.symbolic-and-special"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "calculus.documented-operations",
+      "level": 1,
+      "depends_on": [
+        "rings.core"
+      ],
+      "dependents": [
+        "functions.symbolic-and-special",
+        "numerical.analysis"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "combinatorics.binomial",
+      "level": 4,
+      "depends_on": [
+        "combinatorics.factorial",
+        "euclidean.division",
+        "modular.crt"
+      ],
+      "dependents": [],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "combinatorics.enumeration-and-structures",
+      "level": 1,
+      "depends_on": [
+        "groups.permutation-group",
+        "sets.finite-enumeration"
+      ],
+      "dependents": [
+        "matroids.combinatorial"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "combinatorics.factorial",
+      "level": 1,
+      "depends_on": [
+        "integers.arithmetic"
+      ],
+      "dependents": [
+        "combinatorics.binomial",
+        "reals.elementary-functions"
+      ],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "complexes.chain-contraction",
+      "level": 4,
+      "depends_on": [
+        "complexes.chain-homotopy",
+        "complexes.chain-maps"
+      ],
+      "dependents": [],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "complexes.chain-homotopy",
+      "level": 3,
+      "depends_on": [
+        "complexes.chain-maps",
+        "matrices.arithmetic"
+      ],
+      "dependents": [
+        "complexes.chain-contraction"
+      ],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "complexes.chain-maps",
+      "level": 2,
+      "depends_on": [
+        "complexes.finite-free-construction",
+        "matrices.arithmetic"
+      ],
+      "dependents": [
+        "complexes.chain-contraction",
+        "complexes.chain-homotopy",
+        "complexes.finite-direct-sum"
+      ],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "complexes.finite-direct-sum",
+      "level": 3,
+      "depends_on": [
+        "complexes.chain-maps",
+        "complexes.finite-free-construction"
+      ],
+      "dependents": [
+        "complexes.tensor-product"
+      ],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "complexes.finite-free-construction",
+      "level": 1,
+      "depends_on": [
+        "matrices.arithmetic"
+      ],
+      "dependents": [
+        "complexes.chain-maps",
+        "complexes.finite-direct-sum",
+        "complexes.finite-free-dual",
+        "complexes.homology-with-representatives",
+        "complexes.shift",
+        "complexes.tensor-product",
+        "topology.simplicial-chain-complex"
+      ],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "complexes.finite-free-dual",
+      "level": 2,
+      "depends_on": [
+        "complexes.finite-free-construction",
+        "matrices.arithmetic"
+      ],
+      "dependents": [],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "complexes.homology-with-representatives",
+      "level": 4,
+      "depends_on": [
+        "complexes.finite-free-construction",
+        "matrices.hermite-normal-form",
+        "matrices.kernel",
+        "matrices.smith-normal-form"
+      ],
+      "dependents": [
+        "topology.simplicial-homology"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "complexes.shift",
+      "level": 2,
+      "depends_on": [
+        "complexes.finite-free-construction"
+      ],
+      "dependents": [],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "complexes.tensor-product",
+      "level": 4,
+      "depends_on": [
+        "complexes.finite-direct-sum",
+        "complexes.finite-free-construction",
+        "matrices.arithmetic"
+      ],
+      "dependents": [],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "continued-fractions.continuant",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "continued-fractions.expansion-of-rational",
+      "level": 6,
+      "depends_on": [
+        "euclidean.division",
+        "rationals.rounding"
+      ],
+      "dependents": [],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "cryptography.block-ciphers",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "cryptography.classical-and-stream-ciphers",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "cryptography.multivariate-quadratic-systems",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "cryptography.public-key-schemes",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "cryptography.sboxes-and-boolean-functions",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "curves.jacobians",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "curves.plane-and-projective-curves",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "curves.plane-conics",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "curves.plane-quartics",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "curves.riemann-surfaces",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "curves.zariski-van-kampen",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "diophantine.approximation",
+      "level": 1,
+      "depends_on": [
+        "integers.arithmetic"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "diophantine.sums-of-squares",
+      "level": 7,
+      "depends_on": [
+        "integers.factorization",
+        "integers.probable-primality",
+        "integers.roots-and-perfect-powers",
+        "number-theory.kronecker-symbol"
+      ],
+      "dependents": [],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "discrete-geometry.cones-fans-and-polyhedral-complexes",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "discrete-geometry.groebner-fans",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "discrete-geometry.hyperplane-arrangements",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "discrete-geometry.lattice-polytopes",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "discrete-geometry.polyhedra",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "discrete-geometry.ribbon-graphs",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "discrete-geometry.triangulations",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "drinfeld-modular.drinfeld-congruence-subgroups",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "drinfeld-modular.drinfeld-modular-forms",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "dynamics.arithmetic-dynamical-systems",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "dynamics.finite-dynamical-systems",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "dynamics.sandpiles",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "elliptic.bounded-rational-points",
+      "level": 8,
+      "depends_on": [
+        "elliptic.point-group-law",
+        "heights.rational-heights"
+      ],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "elliptic.conductor",
+      "level": 7,
+      "depends_on": [
+        "elliptic.local-reduction",
+        "integers.factorization"
+      ],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "elliptic.finite-field-point-count",
+      "level": 1,
+      "depends_on": [
+        "elliptic.point-group-law"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "elliptic.global-minimal-model",
+      "level": 1,
+      "depends_on": [
+        "elliptic.local-reduction"
+      ],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "elliptic.local-reduction",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "elliptic.conductor",
+        "elliptic.global-minimal-model"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "elliptic.mordell-weil-point-search",
+      "level": 1,
+      "depends_on": [
+        "elliptic.point-group-law"
+      ],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "elliptic.point-group-law",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "elliptic.bounded-rational-points",
+        "elliptic.finite-field-point-count",
+        "elliptic.mordell-weil-point-search"
+      ],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "euclidean-spaces.geometry",
+      "level": 2,
+      "depends_on": [
+        "modules.free-and-quotient"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "euclidean.division",
+      "level": 1,
+      "depends_on": [
+        "integers.arithmetic"
+      ],
+      "dependents": [
+        "combinatorics.binomial",
+        "continued-fractions.expansion-of-rational",
+        "euclidean.gcd",
+        "euclidean.xgcd",
+        "integers.radix-representation",
+        "integers.roots-and-perfect-powers",
+        "integers.trial-division",
+        "integers.valuation",
+        "number-theory.dedekind-sum",
+        "number-theory.kronecker-symbol",
+        "rationals.rounding",
+        "rings.quotient-ring"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "euclidean.gcd",
+      "level": 2,
+      "depends_on": [
+        "euclidean.division"
+      ],
+      "dependents": [
+        "integers.coprime-splitting",
+        "integers.factorization",
+        "modular.residue-sets",
+        "rationals.arithmetic",
+        "rationals.enumeration-by-height",
+        "rings.fraction-field"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "mor.sets.gcd"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "euclidean.xgcd",
+      "level": 2,
+      "depends_on": [
+        "euclidean.division"
+      ],
+      "dependents": [
+        "integers.modular-inverse",
+        "matrices.hermite-normal-form",
+        "matrices.smith-normal-form",
+        "modular.crt",
+        "modular.rational-reconstruction"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "fields.algebraic-closure",
+      "level": 7,
+      "depends_on": [
+        "integers.factorization",
+        "polynomials.univariate-arithmetic",
+        "rings.extension-by-polynomial"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "finite-rings.extensions-and-homomorphisms",
+      "level": 2,
+      "depends_on": [
+        "finite-rings.finite-field-realizations"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "finite-rings.finite-field-realizations",
+      "level": 1,
+      "depends_on": [
+        "finite-rings.modular-integer-rings"
+      ],
+      "dependents": [
+        "finite-rings.extensions-and-homomorphisms"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "finite-rings.modular-integer-rings",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "finite-rings.finite-field-realizations"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "floating.runtime-precision-real-arithmetic",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "function-fields.divisors-and-differentials",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "function-fields.function-field-jacobians",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "function-fields.function-fields",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "function-fields.ideals-orders-and-places",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "functions.symbolic-and-special",
+      "level": 2,
+      "depends_on": [
+        "calculus.documented-operations"
+      ],
+      "dependents": [
+        "asymptotic.growth",
+        "probability.distributions"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "graphs.connected-components",
+      "level": 1,
+      "depends_on": [
+        "graphs.finite-construction"
+      ],
+      "dependents": [
+        "graphs.minimum-spanning-tree"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "graphs.finite-construction",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "graphs.connected-components",
+        "graphs.isomorphism",
+        "graphs.minimum-spanning-tree",
+        "graphs.remaining-algorithms",
+        "graphs.shortest-path"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "graphs.isomorphism",
+      "level": 1,
+      "depends_on": [
+        "graphs.finite-construction"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "graphs.minimum-spanning-tree",
+      "level": 2,
+      "depends_on": [
+        "graphs.connected-components",
+        "graphs.finite-construction"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "graphs.remaining-algorithms",
+      "level": 1,
+      "depends_on": [
+        "graphs.finite-construction"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "graphs.shortest-path",
+      "level": 1,
+      "depends_on": [
+        "graphs.finite-construction"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.abelian-dual-and-automorphisms",
+      "level": 2,
+      "depends_on": [
+        "groups.finitely-generated-abelian"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.abelian-gap-quotients",
+      "level": 5,
+      "depends_on": [
+        "groups.finitely-generated-abelian",
+        "groups.libgap-adapters"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.abelian-values",
+      "level": 2,
+      "depends_on": [
+        "groups.finitely-generated-abelian"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.additive-abelian",
+      "level": 2,
+      "depends_on": [
+        "groups.finitely-generated-abelian"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.affine-and-euclidean",
+      "level": 3,
+      "depends_on": [
+        "groups.matrix-generated",
+        "groups.semidirect-products-and-kernels"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.argument-and-imaginary",
+      "level": 2,
+      "depends_on": [
+        "groups.core-operations"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.artin-and-braid",
+      "level": 4,
+      "depends_on": [
+        "groups.coxeter-reflection",
+        "groups.finitely-presented"
+      ],
+      "dependents": [
+        "groups.cubic-braid"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 2
+    },
+    {
+      "id": "groups.cactus-and-raag",
+      "level": 3,
+      "depends_on": [
+        "groups.finitely-presented",
+        "groups.semidirect-products-and-kernels"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.classical-matrix",
+      "level": 3,
+      "depends_on": [
+        "groups.matrix-generated"
+      ],
+      "dependents": [
+        "groups.cubic-braid"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.conjugacy-and-class-functions",
+      "level": 3,
+      "depends_on": [
+        "groups.matrix-generated"
+      ],
+      "dependents": [
+        "groups.libgap-adapters",
+        "groups.symmetric-conjugacy-classes"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.core-operations",
+      "level": 1,
+      "depends_on": [
+        "groups.free-and-indexed"
+      ],
+      "dependents": [
+        "groups.argument-and-imaginary",
+        "groups.matrix-generated",
+        "groups.nilpotent-lie",
+        "groups.semidirect-products-and-kernels"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.cosets",
+      "level": 2,
+      "depends_on": [
+        "groups.order-and-membership",
+        "groups.permutation-group"
+      ],
+      "dependents": [],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.coxeter-reflection",
+      "level": 3,
+      "depends_on": [
+        "groups.matrix-generated"
+      ],
+      "dependents": [
+        "groups.artin-and-braid"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.cubic-braid",
+      "level": 5,
+      "depends_on": [
+        "groups.artin-and-braid",
+        "groups.classical-matrix"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.finitely-generated-abelian",
+      "level": 1,
+      "depends_on": [
+        "groups.free-and-indexed"
+      ],
+      "dependents": [
+        "groups.abelian-dual-and-automorphisms",
+        "groups.abelian-gap-quotients",
+        "groups.abelian-values",
+        "groups.additive-abelian"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.finitely-presented",
+      "level": 1,
+      "depends_on": [
+        "groups.free-and-indexed",
+        "groups.permutation-group"
+      ],
+      "dependents": [
+        "groups.artin-and-braid",
+        "groups.cactus-and-raag",
+        "groups.named-presentations"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 2
+    },
+    {
+      "id": "groups.free-and-indexed",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "groups.core-operations",
+        "groups.finitely-generated-abelian",
+        "groups.finitely-presented"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.libgap-adapters",
+      "level": 4,
+      "depends_on": [
+        "groups.conjugacy-and-class-functions",
+        "groups.semidirect-products-and-kernels"
+      ],
+      "dependents": [
+        "groups.abelian-gap-quotients",
+        "groups.libgap-carriers-and-elements"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.libgap-carriers-and-elements",
+      "level": 5,
+      "depends_on": [
+        "groups.libgap-adapters"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.matrix-generated",
+      "level": 2,
+      "depends_on": [
+        "groups.core-operations"
+      ],
+      "dependents": [
+        "groups.affine-and-euclidean",
+        "groups.classical-matrix",
+        "groups.conjugacy-and-class-functions",
+        "groups.coxeter-reflection",
+        "groups.semimonomial-transformations",
+        "groups.special-matrix-constructors"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 2
+    },
+    {
+      "id": "groups.named-presentations",
+      "level": 2,
+      "depends_on": [
+        "groups.finitely-presented"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.nilpotent-lie",
+      "level": 2,
+      "depends_on": [
+        "groups.core-operations"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.orbit",
+      "level": 1,
+      "depends_on": [
+        "groups.permutation-group"
+      ],
+      "dependents": [
+        "groups.stabilizer"
+      ],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.order-and-membership",
+      "level": 1,
+      "depends_on": [
+        "groups.permutation-group"
+      ],
+      "dependents": [
+        "groups.cosets",
+        "groups.permutation-actions-and-structure"
+      ],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.pari-transitive-groups",
+      "level": 3,
+      "depends_on": [
+        "groups.permutation-actions-and-structure"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.partition-refinement",
+      "level": 3,
+      "depends_on": [
+        "groups.permutation-actions-and-structure"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.permutation-actions-and-structure",
+      "level": 2,
+      "depends_on": [
+        "groups.order-and-membership",
+        "groups.permutation-group"
+      ],
+      "dependents": [
+        "groups.pari-transitive-groups",
+        "groups.partition-refinement",
+        "groups.permutation-elements-and-morphisms"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 2
+    },
+    {
+      "id": "groups.permutation-elements-and-morphisms",
+      "level": 3,
+      "depends_on": [
+        "groups.permutation-actions-and-structure"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.permutation-group",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "combinatorics.enumeration-and-structures",
+        "groups.cosets",
+        "groups.finitely-presented",
+        "groups.orbit",
+        "groups.order-and-membership",
+        "groups.permutation-actions-and-structure",
+        "groups.permutation-named-and-cube",
+        "groups.presentation-coset-enumeration",
+        "groups.stabilizer"
+      ],
+      "reuse": "reusable",
+      "catalogue": [
+        "obj.groups.symmetric",
+        "obj.sets.permutations",
+        "obj.subgroups.subgroup"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.permutation-named-and-cube",
+      "level": 1,
+      "depends_on": [
+        "groups.permutation-group"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.presentation-coset-enumeration",
+      "level": 1,
+      "depends_on": [
+        "groups.permutation-group"
+      ],
+      "dependents": [],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.semidirect-products-and-kernels",
+      "level": 2,
+      "depends_on": [
+        "groups.core-operations"
+      ],
+      "dependents": [
+        "groups.affine-and-euclidean",
+        "groups.cactus-and-raag",
+        "groups.libgap-adapters"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.semimonomial-transformations",
+      "level": 3,
+      "depends_on": [
+        "groups.matrix-generated"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.special-matrix-constructors",
+      "level": 3,
+      "depends_on": [
+        "groups.matrix-generated"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.stabilizer",
+      "level": 2,
+      "depends_on": [
+        "groups.orbit",
+        "groups.permutation-group"
+      ],
+      "dependents": [],
+      "reuse": "reusable",
+      "catalogue": [
+        "obj.subgroups.action_stabilizer"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "groups.symmetric-conjugacy-classes",
+      "level": 4,
+      "depends_on": [
+        "groups.conjugacy-and-class-functions"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.groups"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "hecke.documented-algorithms",
+      "level": 1,
+      "depends_on": [
+        "rings.core"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "heights.rational-heights",
+      "level": 7,
+      "depends_on": [
+        "integers.factorization",
+        "integers.valuation",
+        "rationals.arithmetic",
+        "reals.elementary-functions"
+      ],
+      "dependents": [
+        "elliptic.bounded-rational-points"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "homology.chain-complexes",
+      "level": 3,
+      "depends_on": [
+        "matrices.kernel",
+        "modules.free-and-quotient"
+      ],
+      "dependents": [
+        "resolutions.free-and-graded"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "hyperbolic-geometry.hyperbolic-geodesics",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "hyperbolic-geometry.hyperbolic-isometries",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "hyperbolic-geometry.hyperbolic-models-and-points",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "ideals.groebner-basis",
+      "level": 1,
+      "depends_on": [
+        "polynomials.multivariate-arithmetic"
+      ],
+      "dependents": [
+        "ideals.polynomial-normal-form"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "ideals.polynomial-normal-form",
+      "level": 2,
+      "depends_on": [
+        "ideals.groebner-basis"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "integers.arithmetic",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "combinatorics.factorial",
+        "diophantine.approximation",
+        "euclidean.division",
+        "integers.roots-and-perfect-powers",
+        "lattices.lll-reduction",
+        "rationals.arithmetic",
+        "rings.integers-and-rationals-objects",
+        "rings.random-sampling"
+      ],
+      "reuse": "reusable",
+      "catalogue": [
+        "obj.rings.integers",
+        "obj.commutative_rings.integers",
+        "op.rings.add",
+        "op.rings.mul",
+        "op.rings.neg"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "integers.coprime-splitting",
+      "level": 3,
+      "depends_on": [
+        "euclidean.gcd",
+        "integers.valuation"
+      ],
+      "dependents": [
+        "rationals.decimal-period",
+        "rationals.s-integrality"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "integers.divisors",
+      "level": 7,
+      "depends_on": [
+        "integers.factorization"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "integers.factorization",
+      "level": 6,
+      "depends_on": [
+        "euclidean.gcd",
+        "integers.modular-power",
+        "integers.primality-proving",
+        "integers.roots-and-perfect-powers",
+        "integers.trial-division"
+      ],
+      "dependents": [
+        "diophantine.sums-of-squares",
+        "elliptic.conductor",
+        "fields.algebraic-closure",
+        "heights.rational-heights",
+        "integers.divisors",
+        "integers.multiplicative-functions",
+        "integers.special-form-factorization",
+        "integers.squarefree",
+        "modular.multiplicative-order",
+        "modular.primitive-root",
+        "modular.residue-sets",
+        "number-fields.norm-equation",
+        "number-fields.selmer-group",
+        "polynomials.univariate-factorization",
+        "quadratic.class-number",
+        "quadratic.hilbert-symbol"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "mor.sets.nat_prime_factors",
+        "mor.sets.nat_multiplicity"
+      ],
+      "algorithm_families": 4
+    },
+    {
+      "id": "integers.integer-logarithm",
+      "level": 1,
+      "depends_on": [
+        "monoids.power"
+      ],
+      "dependents": [
+        "reals.elementary-functions"
+      ],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "integers.modular-inverse",
+      "level": 3,
+      "depends_on": [
+        "euclidean.xgcd"
+      ],
+      "dependents": [
+        "integers.modular-power",
+        "number-theory.bernoulli-mod-p",
+        "rationals.arithmetic",
+        "rings.residue-field"
+      ],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "integers.modular-power",
+      "level": 4,
+      "depends_on": [
+        "integers.modular-inverse",
+        "monoids.power"
+      ],
+      "dependents": [
+        "integers.factorization",
+        "integers.primality-proving",
+        "integers.probable-primality",
+        "modular.multiplicative-order",
+        "modular.primitive-root",
+        "number-theory.bernoulli-mod-p"
+      ],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "integers.multiplicative-functions",
+      "level": 7,
+      "depends_on": [
+        "integers.factorization"
+      ],
+      "dependents": [
+        "modular.multiplicative-order",
+        "modular.primitive-root"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "integers.primality-proving",
+      "level": 5,
+      "depends_on": [
+        "integers.modular-power",
+        "integers.trial-division"
+      ],
+      "dependents": [
+        "integers.factorization",
+        "integers.prime-enumeration",
+        "integers.prime-power-test",
+        "integers.prime-search",
+        "integers.random-prime",
+        "rings.residue-field",
+        "valuations.padic-valuation-object"
+      ],
+      "reuse": "reusable",
+      "catalogue": [
+        "mor.sets.nat_is_prime"
+      ],
+      "algorithm_families": 4
+    },
+    {
+      "id": "integers.prime-enumeration",
+      "level": 6,
+      "depends_on": [
+        "integers.primality-proving",
+        "integers.roots-and-perfect-powers"
+      ],
+      "dependents": [
+        "number-theory.bernoulli-numbers"
+      ],
+      "reuse": "reusable",
+      "catalogue": [
+        "obj.sets.primes"
+      ],
+      "algorithm_families": 2
+    },
+    {
+      "id": "integers.prime-power-test",
+      "level": 6,
+      "depends_on": [
+        "integers.primality-proving",
+        "integers.probable-primality",
+        "integers.roots-and-perfect-powers"
+      ],
+      "dependents": [
+        "integers.prime-search"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "integers.prime-search",
+      "level": 7,
+      "depends_on": [
+        "integers.primality-proving",
+        "integers.prime-power-test",
+        "integers.probable-primality"
+      ],
+      "dependents": [
+        "modular.multimodular-basis",
+        "quadratic.hilbert-symbol-realization"
+      ],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "integers.probable-primality",
+      "level": 5,
+      "depends_on": [
+        "integers.modular-power",
+        "number-theory.kronecker-symbol"
+      ],
+      "dependents": [
+        "diophantine.sums-of-squares",
+        "integers.prime-power-test",
+        "integers.prime-search",
+        "integers.random-prime"
+      ],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "integers.radix-representation",
+      "level": 2,
+      "depends_on": [
+        "euclidean.division"
+      ],
+      "dependents": [],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "integers.random-prime",
+      "level": 6,
+      "depends_on": [
+        "integers.primality-proving",
+        "integers.probable-primality",
+        "rings.random-sampling"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "integers.roots-and-perfect-powers",
+      "level": 4,
+      "depends_on": [
+        "euclidean.division",
+        "integers.arithmetic",
+        "integers.trial-division"
+      ],
+      "dependents": [
+        "diophantine.sums-of-squares",
+        "integers.factorization",
+        "integers.prime-enumeration",
+        "integers.prime-power-test",
+        "integers.squarefree"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "integers.special-form-factorization",
+      "level": 8,
+      "depends_on": [
+        "integers.factorization",
+        "integers.squarefree"
+      ],
+      "dependents": [],
+      "reuse": "specified-unimplemented",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "integers.squarefree",
+      "level": 7,
+      "depends_on": [
+        "integers.factorization",
+        "integers.roots-and-perfect-powers"
+      ],
+      "dependents": [
+        "integers.special-form-factorization",
+        "quadratic.fundamental-discriminant"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "integers.trial-division",
+      "level": 3,
+      "depends_on": [
+        "euclidean.division",
+        "integers.valuation"
+      ],
+      "dependents": [
+        "integers.factorization",
+        "integers.primality-proving",
+        "integers.roots-and-perfect-powers"
+      ],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "integers.valuation",
+      "level": 2,
+      "depends_on": [
+        "euclidean.division"
+      ],
+      "dependents": [
+        "heights.rational-heights",
+        "integers.coprime-splitting",
+        "integers.trial-division",
+        "number-fields.selmer-group",
+        "number-theory.kronecker-symbol",
+        "quadratic.hilbert-symbol",
+        "quadratic.padic-squares",
+        "rationals.s-integrality",
+        "rings.completion",
+        "valuations.padic-valuation-object"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "mor.sets.nat_multiplicity"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "interval.real-enclosure-arithmetic",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "knots.invariants",
+      "level": 5,
+      "depends_on": [
+        "polynomial-rings.commutative-and-quotient"
+      ],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "lattices.lll-reduction",
+      "level": 5,
+      "depends_on": [
+        "integers.arithmetic",
+        "rationals.arithmetic"
+      ],
+      "dependents": [
+        "algebraic-numbers.algebraic-dependency"
+      ],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "manifolds.differentiable-manifolds",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "manifolds.metrics-and-connections",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "manifolds.topological-manifolds",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "matrices.arithmetic",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "complexes.chain-homotopy",
+        "complexes.chain-maps",
+        "complexes.finite-free-construction",
+        "complexes.finite-free-dual",
+        "complexes.tensor-product",
+        "matrices.hermite-normal-form",
+        "matrices.kernel",
+        "matrices.rank",
+        "matrices.smith-normal-form",
+        "quaternions.rational-coordinate-transport",
+        "quaternions.regular-representation",
+        "semirings.tropical-cycle-mean",
+        "semirings.tropical-matrix-closure",
+        "topology.simplicial-chain-complex"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "obj.rings.matrices",
+        "mor.sets.matrix_rows",
+        "mor.modules.matrix_linear_map"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "matrices.core-and-backends",
+      "level": 2,
+      "depends_on": [
+        "modules.free-and-quotient",
+        "rings.core"
+      ],
+      "dependents": [
+        "quadratic-forms.arithmetic-and-genera"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 16
+    },
+    {
+      "id": "matrices.hermite-normal-form",
+      "level": 3,
+      "depends_on": [
+        "euclidean.xgcd",
+        "matrices.arithmetic"
+      ],
+      "dependents": [
+        "complexes.homology-with-representatives"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "matrices.kernel",
+      "level": 2,
+      "depends_on": [
+        "matrices.arithmetic",
+        "matrices.rank"
+      ],
+      "dependents": [
+        "complexes.homology-with-representatives",
+        "homology.chain-complexes"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "mor.sets.matrix_ker"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "matrices.rank",
+      "level": 1,
+      "depends_on": [
+        "matrices.arithmetic"
+      ],
+      "dependents": [
+        "matrices.kernel"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "mor.sets.matrix_rank"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "matrices.smith-normal-form",
+      "level": 3,
+      "depends_on": [
+        "euclidean.xgcd",
+        "matrices.arithmetic"
+      ],
+      "dependents": [
+        "complexes.homology-with-representatives",
+        "polynomial-rings.commutative-and-quotient"
+      ],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "matroids.combinatorial",
+      "level": 2,
+      "depends_on": [
+        "combinatorics.enumeration-and-structures"
+      ],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "modabvar.homology-and-homspaces",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "modabvar.modular-abelian-varieties",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "modabvar.modular-abelian-variety-lseries",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "modfrm.brandt-modules",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "modfrm.dirichlet-characters",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "modfrm.hecke-triangle-groups",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "modfrm.hypergeometric-motives",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "modfrm.local-components-of-modular-forms",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "modfrm.modular-forms",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "modfrm.multiple-zeta-values",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "modfrm.overconvergent-modular-forms",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "modfrm.quasimodular-forms",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "modsym.bruhat-tits-quotients",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "modsym.modular-symbols",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "modsym.overconvergent-modular-symbols",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "modular.crt",
+      "level": 3,
+      "depends_on": [
+        "euclidean.xgcd"
+      ],
+      "dependents": [
+        "combinatorics.binomial",
+        "modular.multimodular-basis",
+        "number-theory.bernoulli-numbers"
+      ],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "modular.multimodular-basis",
+      "level": 8,
+      "depends_on": [
+        "integers.prime-search",
+        "modular.crt"
+      ],
+      "dependents": [],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "modular.multiplicative-order",
+      "level": 8,
+      "depends_on": [
+        "integers.factorization",
+        "integers.modular-power",
+        "integers.multiplicative-functions"
+      ],
+      "dependents": [
+        "rationals.decimal-period"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "modular.primitive-root",
+      "level": 8,
+      "depends_on": [
+        "integers.factorization",
+        "integers.modular-power",
+        "integers.multiplicative-functions"
+      ],
+      "dependents": [
+        "number-theory.bernoulli-mod-p",
+        "number-theory.gauss-sum"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "modular.rational-reconstruction",
+      "level": 3,
+      "depends_on": [
+        "euclidean.xgcd"
+      ],
+      "dependents": [],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "modular.residue-sets",
+      "level": 7,
+      "depends_on": [
+        "euclidean.gcd",
+        "integers.factorization"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "modules.fg-pid",
+      "level": 2,
+      "depends_on": [
+        "modules.free-and-quotient",
+        "rings.ideals-quotients-localization"
+      ],
+      "dependents": [
+        "resolutions.free-and-graded"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "modules.filtered-graded-and-quadratic",
+      "level": 3,
+      "depends_on": [
+        "modules.free-and-quotient",
+        "tensor-free-modules.alternating-forms"
+      ],
+      "dependents": [
+        "modules.fp-graded-and-matrix",
+        "quadratic-forms.arithmetic-and-genera"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "modules.fp-graded-and-matrix",
+      "level": 4,
+      "depends_on": [
+        "modules.filtered-graded-and-quadratic",
+        "modules.free-and-quotient"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "modules.free-and-quotient",
+      "level": 1,
+      "depends_on": [
+        "rings.core",
+        "tensor-free-modules.free-rank-and-maps"
+      ],
+      "dependents": [
+        "euclidean-spaces.geometry",
+        "homology.chain-complexes",
+        "matrices.core-and-backends",
+        "modules.fg-pid",
+        "modules.filtered-graded-and-quadratic",
+        "modules.fp-graded-and-matrix",
+        "modules.vector-backends",
+        "modules.with-basis",
+        "noncommutative-polynomials.ore-and-skew",
+        "oremodules.modules",
+        "quivers.representations-and-morphisms"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "modules.vector-backends",
+      "level": 2,
+      "depends_on": [
+        "modules.free-and-quotient"
+      ],
+      "dependents": [
+        "quivers.representations-and-morphisms"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "modules.with-basis",
+      "level": 3,
+      "depends_on": [
+        "algebras.lie-modules-and-representations",
+        "modules.free-and-quotient"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "monoids.automatic-semigroup-closure",
+      "level": 2,
+      "depends_on": [
+        "sets.indexed-families"
+      ],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [
+        "cat.monoids"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "monoids.free-and-indexed",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "monoids.string-words",
+        "monoids.trace",
+        "monoids.word-quotients"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.monoids"
+      ],
+      "algorithm_families": 2
+    },
+    {
+      "id": "monoids.hecke",
+      "level": 2,
+      "depends_on": [
+        "sets.finite-function-spaces"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.monoids"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "monoids.hypoplactic-and-plactic-utilities",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "monoids.power",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "integers.integer-logarithm",
+        "integers.modular-power"
+      ],
+      "reuse": "reusable",
+      "catalogue": [
+        "mor.sets.monoid_power",
+        "op.rings.pow",
+        "op.semirings.pow"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "monoids.string-words",
+      "level": 1,
+      "depends_on": [
+        "monoids.free-and-indexed"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.monoids"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "monoids.trace",
+      "level": 1,
+      "depends_on": [
+        "monoids.free-and-indexed"
+      ],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [
+        "cat.monoids"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "monoids.word-quotients",
+      "level": 1,
+      "depends_on": [
+        "monoids.free-and-indexed"
+      ],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [
+        "cat.monoids"
+      ],
+      "algorithm_families": 2
+    },
+    {
+      "id": "noncommutative-polynomials.ore-and-skew",
+      "level": 2,
+      "depends_on": [
+        "modules.free-and-quotient",
+        "rings.core"
+      ],
+      "dependents": [
+        "noncommutative-polynomials.plural"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 5
+    },
+    {
+      "id": "noncommutative-polynomials.plural",
+      "level": 3,
+      "depends_on": [
+        "noncommutative-polynomials.ore-and-skew"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "number-fields.core-and-arithmetic",
+      "level": 5,
+      "depends_on": [
+        "polynomial-rings.commutative-and-quotient",
+        "rings.core"
+      ],
+      "dependents": [
+        "valuations.nonarchimedean"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 7
+    },
+    {
+      "id": "number-fields.degree-one-case",
+      "level": 5,
+      "depends_on": [
+        "rationals.arithmetic"
+      ],
+      "dependents": [],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "number-fields.norm-equation",
+      "level": 8,
+      "depends_on": [
+        "integers.factorization",
+        "number-fields.selmer-group"
+      ],
+      "dependents": [],
+      "reuse": "specified-unimplemented",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "number-fields.selmer-group",
+      "level": 7,
+      "depends_on": [
+        "integers.factorization",
+        "integers.valuation"
+      ],
+      "dependents": [
+        "number-fields.norm-equation",
+        "quadratic.hilbert-symbol-realization"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "number-theory.bernoulli-mod-p",
+      "level": 9,
+      "depends_on": [
+        "integers.modular-inverse",
+        "integers.modular-power",
+        "modular.primitive-root"
+      ],
+      "dependents": [
+        "number-theory.bernoulli-numbers"
+      ],
+      "reuse": "specified-unimplemented",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "number-theory.bernoulli-numbers",
+      "level": 10,
+      "depends_on": [
+        "integers.prime-enumeration",
+        "modular.crt",
+        "number-theory.bernoulli-mod-p",
+        "rationals.arithmetic"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 3
+    },
+    {
+      "id": "number-theory.dedekind-sum",
+      "level": 5,
+      "depends_on": [
+        "euclidean.division",
+        "rationals.arithmetic"
+      ],
+      "dependents": [],
+      "reuse": "specified-unimplemented",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "number-theory.gauss-sum",
+      "level": 9,
+      "depends_on": [
+        "modular.primitive-root"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "number-theory.kronecker-symbol",
+      "level": 3,
+      "depends_on": [
+        "euclidean.division",
+        "integers.valuation"
+      ],
+      "dependents": [
+        "diophantine.sums-of-squares",
+        "integers.probable-primality",
+        "quadratic.class-number",
+        "quadratic.hilbert-symbol",
+        "quadratic.padic-squares"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "numerical.analysis",
+      "level": 2,
+      "depends_on": [
+        "calculus.documented-operations"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "numerical.definite-integration",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "numerical.real-root-localization",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "oremodules.modules",
+      "level": 2,
+      "depends_on": [
+        "modules.free-and-quotient"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "padics.arithmetic",
+      "level": 1,
+      "depends_on": [
+        "rings.core"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "polynomial-rings.commutative-and-quotient",
+      "level": 4,
+      "depends_on": [
+        "matrices.smith-normal-form",
+        "rings.core"
+      ],
+      "dependents": [
+        "knots.invariants",
+        "number-fields.core-and-arithmetic",
+        "polynomial-rings.real-roots"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "polynomial-rings.real-roots",
+      "level": 5,
+      "depends_on": [
+        "polynomial-rings.commutative-and-quotient"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "polynomials.extended-gcd",
+      "level": 1,
+      "depends_on": [
+        "polynomials.univariate-arithmetic"
+      ],
+      "dependents": [
+        "polynomials.univariate-factorization"
+      ],
+      "reuse": "reusable",
+      "catalogue": [
+        "mor.sets.gcd"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "polynomials.multivariate-arithmetic",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "ideals.groebner-basis"
+      ],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "polynomials.univariate-arithmetic",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "fields.algebraic-closure",
+        "polynomials.extended-gcd",
+        "polynomials.univariate-factorization",
+        "power-series.formal-and-lazy",
+        "quaternions.reduced-characteristic-polynomial",
+        "rings.extension-by-polynomial"
+      ],
+      "reuse": "reusable",
+      "catalogue": [
+        "obj.rings.polynomials",
+        "obj.algebras.polynomials",
+        "mor.sets.polynomial_degree",
+        "mor.sets.polynomial_own_evaluation"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "polynomials.univariate-factorization",
+      "level": 7,
+      "depends_on": [
+        "integers.factorization",
+        "polynomials.extended-gcd",
+        "polynomials.univariate-arithmetic"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "mor.sets.polynomial_factorization",
+        "mor.sets.polynomial_factorization_unit",
+        "mor.sets.polynomial_factorization_factors"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "power-series.formal-and-lazy",
+      "level": 1,
+      "depends_on": [
+        "polynomials.univariate-arithmetic",
+        "rings.core"
+      ],
+      "dependents": [
+        "power-series.specialized"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "power-series.specialized",
+      "level": 2,
+      "depends_on": [
+        "power-series.formal-and-lazy"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "probability.distributions",
+      "level": 3,
+      "depends_on": [
+        "functions.symbolic-and-special"
+      ],
+      "dependents": [
+        "stats.documented"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 3
+    },
+    {
+      "id": "quadratic-forms.arithmetic-and-genera",
+      "level": 4,
+      "depends_on": [
+        "matrices.core-and-backends",
+        "modules.filtered-graded-and-quadratic"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "quadratic.class-number",
+      "level": 9,
+      "depends_on": [
+        "integers.factorization",
+        "number-theory.kronecker-symbol",
+        "quadratic.fundamental-discriminant"
+      ],
+      "dependents": [],
+      "reuse": "specified-unimplemented",
+      "catalogue": [],
+      "algorithm_families": 3
+    },
+    {
+      "id": "quadratic.fundamental-discriminant",
+      "level": 8,
+      "depends_on": [
+        "integers.squarefree"
+      ],
+      "dependents": [
+        "quadratic.class-number"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "quadratic.hilbert-symbol",
+      "level": 7,
+      "depends_on": [
+        "integers.factorization",
+        "integers.valuation",
+        "number-theory.kronecker-symbol"
+      ],
+      "dependents": [
+        "quadratic.hilbert-symbol-realization"
+      ],
+      "reuse": "specified-unimplemented",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "quadratic.hilbert-symbol-realization",
+      "level": 8,
+      "depends_on": [
+        "integers.prime-search",
+        "number-fields.selmer-group",
+        "quadratic.hilbert-symbol"
+      ],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "quadratic.padic-squares",
+      "level": 4,
+      "depends_on": [
+        "integers.valuation",
+        "number-theory.kronecker-symbol"
+      ],
+      "dependents": [],
+      "reuse": "specified-unimplemented",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "quaternions.conjugation",
+      "level": 1,
+      "depends_on": [
+        "quaternions.coordinates"
+      ],
+      "dependents": [
+        "quaternions.reduced-norm",
+        "quaternions.reduced-trace",
+        "quaternions.trace-pairing"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "quaternions.coordinates",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "quaternions.conjugation",
+        "quaternions.rational-coordinate-transport",
+        "quaternions.regular-representation",
+        "quaternions.scalar-membership"
+      ],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "quaternions.rational-coordinate-transport",
+      "level": 1,
+      "depends_on": [
+        "matrices.arithmetic",
+        "quaternions.coordinates"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "quaternions.reduced-characteristic-polynomial",
+      "level": 3,
+      "depends_on": [
+        "polynomials.univariate-arithmetic",
+        "quaternions.reduced-norm",
+        "quaternions.reduced-trace"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "quaternions.reduced-norm",
+      "level": 2,
+      "depends_on": [
+        "quaternions.conjugation"
+      ],
+      "dependents": [
+        "quaternions.reduced-characteristic-polynomial"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "quaternions.reduced-trace",
+      "level": 2,
+      "depends_on": [
+        "quaternions.conjugation"
+      ],
+      "dependents": [
+        "quaternions.reduced-characteristic-polynomial",
+        "quaternions.trace-pairing"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "quaternions.regular-representation",
+      "level": 1,
+      "depends_on": [
+        "matrices.arithmetic",
+        "quaternions.coordinates"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "quaternions.scalar-membership",
+      "level": 1,
+      "depends_on": [
+        "quaternions.coordinates"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "quaternions.trace-pairing",
+      "level": 3,
+      "depends_on": [
+        "quaternions.conjugation",
+        "quaternions.reduced-trace"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "quivers.ar-and-algebra",
+      "level": 4,
+      "depends_on": [
+        "algebras.free-associative-construction",
+        "quivers.representations-and-morphisms"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "quivers.representations-and-morphisms",
+      "level": 3,
+      "depends_on": [
+        "modules.free-and-quotient",
+        "modules.vector-backends"
+      ],
+      "dependents": [
+        "quivers.ar-and-algebra"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rationals.arithmetic",
+      "level": 4,
+      "depends_on": [
+        "euclidean.gcd",
+        "integers.arithmetic",
+        "integers.modular-inverse"
+      ],
+      "dependents": [
+        "heights.rational-heights",
+        "lattices.lll-reduction",
+        "number-fields.degree-one-case",
+        "number-theory.bernoulli-numbers",
+        "number-theory.dedekind-sum",
+        "rationals.enumeration-by-height",
+        "rationals.rounding",
+        "reals.elementary-functions",
+        "rings.integers-and-rationals-objects",
+        "rings.random-sampling"
+      ],
+      "reuse": "reusable",
+      "catalogue": [
+        "obj.rings.rationals",
+        "obj.fields.rationals",
+        "op.rings.add",
+        "op.rings.mul",
+        "op.rings.neg",
+        "mor.sets.divide"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rationals.decimal-period",
+      "level": 9,
+      "depends_on": [
+        "integers.coprime-splitting",
+        "modular.multiplicative-order"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rationals.enumeration-by-height",
+      "level": 5,
+      "depends_on": [
+        "euclidean.gcd",
+        "rationals.arithmetic"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rationals.rounding",
+      "level": 5,
+      "depends_on": [
+        "euclidean.division",
+        "rationals.arithmetic"
+      ],
+      "dependents": [
+        "continued-fractions.expansion-of-rational"
+      ],
+      "reuse": "reusable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rationals.s-integrality",
+      "level": 4,
+      "depends_on": [
+        "integers.coprime-splitting",
+        "integers.valuation"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "reals.elementary-functions",
+      "level": 5,
+      "depends_on": [
+        "combinatorics.factorial",
+        "integers.integer-logarithm",
+        "rationals.arithmetic"
+      ],
+      "dependents": [
+        "heights.rational-heights"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "mor.sets.real_exp"
+      ],
+      "algorithm_families": 2
+    },
+    {
+      "id": "recon-anderson-motives.documented-source-families",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "recon-arithgroup.documented-source-families",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "recon-coding.documented-source-families",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "recon-drinfeld-modules.documented-source-families",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "recon-game-theory.documented-source-families",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "recon-games.documented-source-families",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "recon-lfunctions.documented-source-families",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "recon-logic.documented-source-families",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "recon-oremodules.documented-source-families",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "recon-sat.documented-source-families",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "resolutions.free-and-graded",
+      "level": 4,
+      "depends_on": [
+        "homology.chain-complexes",
+        "modules.fg-pid"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "riemannian-geometry.parametrized-surfaces",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "riemannian-geometry.surface-library",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rings-numerical.complex-balls-and-intervals",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rings-numerical.complex-numbers",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rings-numerical.real-balls-and-intervals",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rings-numerical.real-numbers",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "rings.canonical-map-z-to-q",
+      "level": 4,
+      "depends_on": [
+        "rings.fraction-field"
+      ],
+      "dependents": [],
+      "reuse": "reusable",
+      "catalogue": [
+        "mor.commutative_rings.integer_coefficients"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rings.completion",
+      "level": 8,
+      "depends_on": [
+        "integers.valuation",
+        "rings.quotient-ring",
+        "valuations.padic-valuation-object"
+      ],
+      "dependents": [],
+      "reuse": "specified-unimplemented",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rings.core",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "calculus.documented-operations",
+        "hecke.documented-algorithms",
+        "matrices.core-and-backends",
+        "modules.free-and-quotient",
+        "noncommutative-polynomials.ore-and-skew",
+        "number-fields.core-and-arithmetic",
+        "padics.arithmetic",
+        "polynomial-rings.commutative-and-quotient",
+        "power-series.formal-and-lazy",
+        "rings.ideals-quotients-localization",
+        "valuations.nonarchimedean"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rings.derivations",
+      "level": 3,
+      "depends_on": [
+        "rings.extensions-and-morphisms"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rings.extension-by-polynomial",
+      "level": 3,
+      "depends_on": [
+        "polynomials.univariate-arithmetic",
+        "rings.quotient-ring"
+      ],
+      "dependents": [
+        "fields.algebraic-closure"
+      ],
+      "reuse": "formalized-not-executable",
+      "catalogue": [
+        "obj.commutative_rings.polynomial_quotient"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rings.extensions-and-morphisms",
+      "level": 2,
+      "depends_on": [
+        "rings.ideals-quotients-localization"
+      ],
+      "dependents": [
+        "rings.derivations"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rings.fraction-field",
+      "level": 3,
+      "depends_on": [
+        "euclidean.gcd"
+      ],
+      "dependents": [
+        "rings.canonical-map-z-to-q"
+      ],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rings.ideals-quotients-localization",
+      "level": 1,
+      "depends_on": [
+        "rings.core"
+      ],
+      "dependents": [
+        "modules.fg-pid",
+        "rings.extensions-and-morphisms"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rings.integers-and-rationals-objects",
+      "level": 5,
+      "depends_on": [
+        "integers.arithmetic",
+        "rationals.arithmetic"
+      ],
+      "dependents": [],
+      "reuse": "reusable",
+      "catalogue": [
+        "obj.rings.integers",
+        "obj.commutative_rings.integers",
+        "obj.rings.rationals",
+        "obj.commutative_rings.rationals",
+        "obj.fields.rationals"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rings.quotient-ring",
+      "level": 2,
+      "depends_on": [
+        "euclidean.division"
+      ],
+      "dependents": [
+        "rings.completion",
+        "rings.extension-by-polynomial",
+        "rings.residue-field"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "obj.rings.integers_mod",
+        "obj.commutative_rings.integers_mod"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rings.random-sampling",
+      "level": 5,
+      "depends_on": [
+        "integers.arithmetic",
+        "rationals.arithmetic"
+      ],
+      "dependents": [
+        "integers.random-prime"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "rings.residue-field",
+      "level": 6,
+      "depends_on": [
+        "integers.modular-inverse",
+        "integers.primality-proving",
+        "rings.quotient-ring"
+      ],
+      "dependents": [
+        "valuations.padic-valuation-object"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "schemes.affine-schemes",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "schemes.berkovich-spaces",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "schemes.cyclic-covers",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "schemes.generic-schemes",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "schemes.product-projective-schemes",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "schemes.projective-schemes",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "schemes.toric-varieties",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 2
+    },
+    {
+      "id": "schemes.weighted-projective-schemes",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "semirings.natural-numbers",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "reusable",
+      "catalogue": [
+        "obj.semirings.naturals",
+        "op.semirings.add",
+        "op.semirings.mul",
+        "op.semirings.pow"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "semirings.tropical-base-change",
+      "level": 1,
+      "depends_on": [
+        "semirings.tropical-construction"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "semirings.tropical-construction",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "semirings.tropical-base-change",
+        "semirings.tropical-cycle-mean",
+        "semirings.tropical-matrix-closure",
+        "semirings.tropical-multiplicative-order"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "op.semirings.add",
+        "op.semirings.mul",
+        "op.semirings.pow"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "semirings.tropical-cycle-mean",
+      "level": 1,
+      "depends_on": [
+        "matrices.arithmetic",
+        "semirings.tropical-construction"
+      ],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "semirings.tropical-matrix-closure",
+      "level": 1,
+      "depends_on": [
+        "matrices.arithmetic",
+        "semirings.tropical-construction"
+      ],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "semirings.tropical-multiplicative-order",
+      "level": 1,
+      "depends_on": [
+        "semirings.tropical-construction"
+      ],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "sequences.finite-differences",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "sets.cartesian-and-disjoint-constructions",
+      "level": 1,
+      "depends_on": [
+        "sets.finite-enumeration"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.sets",
+        "cat.enumerated_sets"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "sets.disjoint-set-union-find",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "missing",
+      "catalogue": [
+        "cat.sets"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "sets.finite-enumeration",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "combinatorics.enumeration-and-structures",
+        "sets.cartesian-and-disjoint-constructions",
+        "sets.finite-function-spaces",
+        "sets.indexed-families",
+        "sets.ordered-finite-carriers"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.enumerated_sets"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "sets.finite-function-spaces",
+      "level": 1,
+      "depends_on": [
+        "sets.finite-enumeration",
+        "sets.integer-progressions"
+      ],
+      "dependents": [
+        "monoids.hecke"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.sets",
+        "cat.enumerated_sets"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "sets.indexed-families",
+      "level": 1,
+      "depends_on": [
+        "sets.finite-enumeration"
+      ],
+      "dependents": [
+        "monoids.automatic-semigroup-closure",
+        "sets.recursive-enumeration"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.sets",
+        "cat.enumerated_sets"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "sets.integer-progressions",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "sets.finite-function-spaces",
+        "sets.nonnegative-integer-carrier"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.enumerated_sets"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "sets.nonnegative-integer-carrier",
+      "level": 1,
+      "depends_on": [
+        "sets.integer-progressions"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.enumerated_sets"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "sets.ordered-finite-carriers",
+      "level": 1,
+      "depends_on": [
+        "sets.finite-enumeration"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.enumerated_sets"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "sets.predicate-defined-subsets",
+      "level": 1,
+      "depends_on": [
+        "sets.set-theoretic-boolean-operations"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.sets"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "sets.prime-subsets",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.sets"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "sets.real-interval-union",
+      "level": 1,
+      "depends_on": [
+        "sets.set-theoretic-boolean-operations"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.sets"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "sets.recursive-enumeration",
+      "level": 2,
+      "depends_on": [
+        "sets.indexed-families"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.enumerated_sets"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "sets.set-theoretic-boolean-operations",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "sets.predicate-defined-subsets",
+        "sets.real-interval-union"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.sets"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "sets.typed-python-carriers",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [
+        "cat.sets"
+      ],
+      "algorithm_families": 1
+    },
+    {
+      "id": "stats.documented",
+      "level": 4,
+      "depends_on": [
+        "probability.distributions"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "tensor-free-modules.alternating-forms",
+      "level": 2,
+      "depends_on": [
+        "tensor-free-modules.tensors-and-components"
+      ],
+      "dependents": [
+        "modules.filtered-graded-and-quadratic"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "tensor-free-modules.free-rank-and-maps",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "modules.free-and-quotient",
+        "tensor-free-modules.tensors-and-components"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "tensor-free-modules.tensors-and-components",
+      "level": 1,
+      "depends_on": [
+        "tensor-free-modules.free-rank-and-maps"
+      ],
+      "dependents": [
+        "tensor-free-modules.alternating-forms"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "topology.finite-simplicial-complex",
+      "level": 0,
+      "depends_on": [],
+      "dependents": [
+        "topology.remaining-constructive",
+        "topology.simplicial-chain-complex"
+      ],
+      "reuse": "formalized-not-executable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "topology.remaining-constructive",
+      "level": 1,
+      "depends_on": [
+        "topology.finite-simplicial-complex"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 4
+    },
+    {
+      "id": "topology.simplicial-chain-complex",
+      "level": 2,
+      "depends_on": [
+        "complexes.finite-free-construction",
+        "matrices.arithmetic",
+        "topology.finite-simplicial-complex"
+      ],
+      "dependents": [
+        "topology.simplicial-homology"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "topology.simplicial-homology",
+      "level": 5,
+      "depends_on": [
+        "complexes.homology-with-representatives",
+        "topology.simplicial-chain-complex"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "valuations.nonarchimedean",
+      "level": 6,
+      "depends_on": [
+        "number-fields.core-and-arithmetic",
+        "rings.core"
+      ],
+      "dependents": [],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    },
+    {
+      "id": "valuations.padic-valuation-object",
+      "level": 7,
+      "depends_on": [
+        "integers.primality-proving",
+        "integers.valuation",
+        "rings.residue-field"
+      ],
+      "dependents": [
+        "rings.completion"
+      ],
+      "reuse": "adaptable",
+      "catalogue": [],
+      "algorithm_families": 1
+    }
+  ]
+}

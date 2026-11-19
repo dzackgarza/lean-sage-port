@@ -1,0 +1,130 @@
+# Mathematical capabilities for the Sage manual section `modules`.
+
+domain = "modules"
+
+[[capability]]
+id = "modules.free-and-quotient"
+title = "Free modules, vector spaces, submodules, quotients and morphisms"
+statement = "Construct free modules and vector spaces over rings/fields with dense or sparse elements, spans, bases, submodules, quotient modules, homspaces, morphisms and pseudomorphisms."
+domain = "A base ring/field, finite rank or degree and generator vectors, with optional sparsity, inner-product and Ore-twist data."
+contract = "Base/rank/generators -> module with exact vector arithmetic, membership, coordinates, echelon/basis matrices, spans, quotients and maps; morphisms preserve module operations and pseudomorphisms preserve the selected twist."
+exactness = "conditional"
+exactness_notes = "Finite coordinate and echelon operations are exact over exact rings; numerical vector backends and Ore/pseudomorphism operations inherit their coefficient and twist assumptions."
+algorithms = [{ family = "Free-module construction, coordinate/echelon algorithms, quotient modules and homspaces", sources = ["sage.modules.free_module:*", "sage.modules.free_module_element:*", "sage.modules.free_module_morphism:*", "sage.modules.free_module_homspace:*", "sage.modules.module:*", "sage.modules.submodule:*", "sage.modules.quotient_module:*", "sage.modules.free_module_pseudomorphism:*", "sage.modules.free_module_pseudohomspace:*", "sage.modules.free_module_integer:*", "sage.modules.finite_submodule_iter:*", "sage.modules.misc:gram_schmidt"] }]
+depends_on = ["rings.core", "tensor-free-modules.free-rank-and-maps"]
+sage = ["sage.modules.free_module:*", "sage.modules.free_module_element:*", "sage.modules.free_module_morphism:*", "sage.modules.free_module_homspace:*", "sage.modules.module:*", "sage.modules.submodule:*", "sage.modules.quotient_module:*", "sage.modules.free_module_pseudomorphism:*", "sage.modules.free_module_pseudohomspace:*", "sage.modules.free_module_integer:*", "sage.modules.finite_submodule_iter:*", "sage.modules.misc:gram_schmidt"]
+catalogue = []
+tests = [
+  "Module/vector arithmetic, span, basis, coordinate and membership checks.",
+  "Echelonized-basis, rank/dimension and quotient-cover/lift checks.",
+  "Morphism/homspace composition and pseudomorphism twist checks.",
+  "Finite-submodule enumeration and integer-lattice invariants.",
+]
+reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "mathlib.linalg.echelon-certificates", "mathlib.alg.module-quotients", "mathlib.data.finsupp"], evidence = "Mathlib supplies matrix/echelon, quotient-module and finitely-supported-function foundations; Sage's executable parent/vector backends, sparse storage, echelonized submodules and Ore pseudomorphisms require native implementations." }
+backends = ["gmp", "numpy"]
+references = []
+
+[[capability]]
+id = "modules.with-basis"
+title = "Basis-indexed representations, invariant modules, cell modules and subquotients"
+statement = "Represent modules equipped with distinguished bases, indexed elements, invariant submodules, cell-module structures and basis-compatible subquotients."
+domain = "A module with a specified basis or indexing set, together with the action and optional invariant/cell data."
+contract = "Basis/action data -> exact basis coordinates, action matrices, invariant submodules, cell modules and subquotient constructions with the stated indexing conventions."
+exactness = "exact"
+algorithms = [{ family = "Basis-indexed module representations and subquotients", sources = ["sage.modules.with_basis.representation:*", "sage.modules.with_basis.morphism:*", "sage.modules.with_basis.indexed_element:*", "sage.modules.with_basis.invariant:*", "sage.modules.with_basis.cell_module:*", "sage.modules.with_basis.subquotient:*"] }]
+depends_on = ["modules.free-and-quotient", "algebras.lie-modules-and-representations"]
+sage = ["sage.modules.with_basis.representation:*", "sage.modules.with_basis.morphism:*", "sage.modules.with_basis.indexed_element:*", "sage.modules.with_basis.invariant:*", "sage.modules.with_basis.cell_module:*", "sage.modules.with_basis.subquotient:*"]
+catalogue = []
+tests = [
+  "Basis expansion/reconstruction and action-matrix checks.",
+  "Invariant-submodule closure and subquotient projection/lift checks.",
+  "Cell-module basis and defining-action relations.",
+]
+reuse = { status = "adaptable", components = ["mathlib.data.finsupp", "mathlib.alg.module-quotients"], evidence = "Mathlib provides finitely-supported coordinates and quotients; Sage's indexed basis conventions, triangular support, invariant/cell module APIs and parent objects remain native work." }
+backends = ["gmp"]
+references = []
+
+[[capability]]
+id = "modules.fg-pid"
+title = "Finitely generated modules over principal ideal domains"
+statement = "Construct and compute with finitely generated modules over a PID, including elements, morphisms, presentations, invariant factors and decomposition data."
+domain = "A principal ideal domain and a finite presentation or generator/relations matrix."
+contract = "PID presentation -> module object with element arithmetic, morphisms, kernels/cokernels and canonical invariant-factor or elementary-divisor data when the hypotheses hold."
+exactness = "exact"
+algorithms = [{ family = "Smith-normal-form module presentations", sources = ["sage.modules.fg_pid.fgp_module:*", "sage.modules.fg_pid.fgp_element:*", "sage.modules.fg_pid.fgp_morphism:*"] }]
+depends_on = ["modules.free-and-quotient", "rings.ideals-quotients-localization"]
+sage = ["sage.modules.fg_pid.fgp_module:*", "sage.modules.fg_pid.fgp_element:*", "sage.modules.fg_pid.fgp_morphism:*"]
+catalogue = []
+tests = [
+  "Presentation relations and element normal-form checks.",
+  "Smith/invariant-factor decomposition and reconstruction.",
+  "Kernel, image, cokernel and morphism-composition checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "mathlib.data.finsupp"], evidence = "Matrix and finitely-supported-coordinate foundations are reusable, but Sage's finitely generated PID parent and normal-form APIs need a native adapter." }
+backends = ["gmp"]
+references = []
+
+[[capability]]
+id = "modules.filtered-graded-and-quadratic"
+title = "Filtered, multigraded and quadratic/torsion modules"
+statement = "Construct filtered and multigraded vector spaces and quadratic modules, including torsion and integer symmetric forms with their induced arithmetic."
+domain = "A coefficient ring, filtration or grading index, and a bilinear/quadratic form or torsion specification."
+contract = "Filtered/graded or quadratic data -> module with degree/filtration access, compatible maps, form evaluation, Gram matrices, torsion operations and exact integer-form invariants."
+exactness = "conditional"
+exactness_notes = "Filtered and graded structures are exact over exact coefficients; quadratic numerical backends inherit coefficient exactness and definiteness assumptions."
+algorithms = [{ family = "Filtered/multigraded module operations", sources = ["sage.modules.filtered_vector_space:*", "sage.modules.multi_filtered_vector_space:*", "sage.modules.free_quadratic_module:*", "sage.modules.free_quadratic_module_integer_symmetric:*", "sage.modules.torsion_quadratic_module:*"] }]
+depends_on = ["modules.free-and-quotient", "tensor-free-modules.alternating-forms"]
+sage = ["sage.modules.filtered_vector_space:*", "sage.modules.multi_filtered_vector_space:*", "sage.modules.free_quadratic_module:*", "sage.modules.free_quadratic_module_integer_symmetric:*", "sage.modules.torsion_quadratic_module:*"]
+catalogue = []
+tests = [
+  "Filtration/gradation compatibility and associated-graded checks.",
+  "Quadratic-form evaluation, Gram-matrix and basis-change checks.",
+  "Torsion quotient and discriminant/invariant checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "mathlib.data.finsupp"], evidence = "Matrix and graded finite-support foundations are reusable; Sage's filtration parents, torsion quadratic modules and integer-form normal forms require native implementations." }
+backends = ["gmp"]
+references = []
+
+[[capability]]
+id = "modules.fp-graded-and-matrix"
+title = "Filtered/graded module presentations, matrix morphisms and tensor operations"
+statement = "Compute with finitely presented graded modules and morphisms, matrix-defined module maps, tensor operations and diamond-cutting combinatorics."
+domain = "A graded module presentation or matrix morphism over a coefficient ring, with optional tensor or diamond-cutting data."
+contract = "Presentation/matrix/tensor data -> module elements and maps with degree-aware operations, composition, homspaces, tensor actions and validated combinatorial cuts."
+exactness = "conditional"
+exactness_notes = "Exact over exact coefficient rings; diamond-cutting and numerical matrix behavior follow their documented coefficient assumptions."
+algorithms = [{ family = "Finitely presented graded modules and matrix/tensor maps", sources = ["sage.modules.fp_graded.module:*", "sage.modules.fp_graded.morphism:*", "sage.modules.fp_graded.element:*", "sage.modules.fp_graded.free_module:*", "sage.modules.fp_graded.free_element:*", "sage.modules.fp_graded.free_morphism:*", "sage.modules.fp_graded.homspace:*", "sage.modules.fp_graded.free_homspace:*", "sage.modules.fp_graded.steenrod.module:*", "sage.modules.fp_graded.steenrod.morphism:*", "sage.modules.matrix_morphism:*", "sage.modules.vector_space_morphism:*", "sage.modules.vector_space_homspace:*", "sage.modules.tensor_operations:*", "sage.modules.diamond_cutting:*"] }]
+depends_on = ["modules.free-and-quotient", "modules.filtered-graded-and-quadratic"]
+sage = ["sage.modules.fp_graded.module:*", "sage.modules.fp_graded.morphism:*", "sage.modules.fp_graded.element:*", "sage.modules.fp_graded.free_module:*", "sage.modules.fp_graded.free_element:*", "sage.modules.fp_graded.free_morphism:*", "sage.modules.fp_graded.homspace:*", "sage.modules.fp_graded.free_homspace:*", "sage.modules.fp_graded.steenrod.module:*", "sage.modules.fp_graded.steenrod.morphism:*", "sage.modules.matrix_morphism:*", "sage.modules.vector_space_morphism:*", "sage.modules.vector_space_homspace:*", "sage.modules.tensor_operations:*", "sage.modules.diamond_cutting:*"]
+catalogue = []
+tests = [
+  "Degree-preserving map and graded relation checks.",
+  "Matrix morphism composition, kernel/image and homspace checks.",
+  "Tensor-operation associativity and diamond-cutting identities.",
+  "Steenrod-module action relations on documented generators.",
+]
+reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "mathlib.data.finsupp"], evidence = "Matrix and finitely-supported-coordinate foundations are reusable; Sage's finitely presented graded normal forms, Steenrod wrappers and combinatorial tensor helpers need native adapters." }
+backends = ["gmp"]
+references = []
+
+[[capability]]
+id = "modules.vector-backends"
+title = "Dense, sparse, modular, rational, real and complex vector backends"
+statement = "Provide executable vector arithmetic over integer, modular, rational, real, complex, symbolic, NumPy and double-precision representations."
+domain = "A supported scalar domain and vector length, with dense/sparse or external numeric storage selected by the backend."
+contract = "Backend and length -> vector space with coordinatewise operations, coercions, equality and scalar products consistent with the scalar domain; approximate backends state their precision semantics."
+exactness = "conditional"
+exactness_notes = "Integer, rational and modular backends are exact; real, complex, symbolic and NumPy/double backends may be approximate or symbolic according to their scalar representation."
+algorithms = [{ family = "Specialized vector storage and arithmetic kernels", sources = ["sage.modules.vector_integer_dense:*", "sage.modules.vector_mod2_dense:*", "sage.modules.vector_modn_dense:*", "sage.modules.vector_rational_dense:*", "sage.modules.vector_real_double_dense:*", "sage.modules.vector_complex_double_dense:*", "sage.modules.vector_double_dense:*", "sage.modules.vector_numpy_dense:*", "sage.modules.vector_numpy_integer_dense:*", "sage.modules.vector_symbolic_dense:*", "sage.modules.vector_symbolic_sparse:*", "sage.modules.vector_callable_symbolic_dense:*", "sage.modules.numpy_util:*"] }]
+depends_on = ["modules.free-and-quotient"]
+sage = ["sage.modules.vector_integer_dense:*", "sage.modules.vector_mod2_dense:*", "sage.modules.vector_modn_dense:*", "sage.modules.vector_rational_dense:*", "sage.modules.vector_real_double_dense:*", "sage.modules.vector_complex_double_dense:*", "sage.modules.vector_double_dense:*", "sage.modules.vector_numpy_dense:*", "sage.modules.vector_numpy_integer_dense:*", "sage.modules.vector_symbolic_dense:*", "sage.modules.vector_symbolic_sparse:*", "sage.modules.vector_callable_symbolic_dense:*", "sage.modules.numpy_util:*"]
+catalogue = []
+tests = [
+  "Exact backend arithmetic and coercion round trips.",
+  "Modular vector arithmetic and finite-cardinality checks.",
+  "Dense/sparse conversion and coordinate equality checks.",
+  "Approximate backend error/precision behavior on documented operations.",
+]
+reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "lean-core.data.array"], evidence = "Mathlib/Lean supply array and matrix primitives; Sage's specialized vector storage, Cython kernels and NumPy/double interfaces require native implementations." }
+backends = ["gmp", "numpy"]
+references = []

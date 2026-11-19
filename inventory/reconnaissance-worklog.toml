@@ -1,0 +1,3025 @@
+# Append-only record of actual source-reading batches.
+# This is deliberately separate from inventory/sage/index (source facts) and
+# inventory/reconnaissance-scope.json (planned module scope).
+#
+# A batch may only move from not-started to in-progress after its Sage source
+# and manual pages are read. It may only move to source-reconciled after the
+# evidence, capability/exclusion records, reuse survey, and independent tests
+# are recorded and validated.
+
+version = 1
+baseline_version = "11.0.beta5"
+baseline_commit = "c00171e47d6e68d8148d7ee10c4dd77b71a97662"
+
+[[batch]]
+id = "R2-algebras-free-and-group-algebras"
+phase = "R2"
+sections = ["algebras"]
+modules = [
+    "sage.algebras.free_algebra",
+    "sage.algebras.group_algebra",
+]
+status = "in-progress"
+started = "2026-11-18"
+source_files = [
+    "src/sage/algebras/free_algebra.py",
+    "src/sage/algebras/group_algebra.py",
+]
+manual_files = []
+records = ["inventory/capabilities/algebras.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = []
+evidence = "Read the free associative algebra and monoid/group algebra implementations; capability records appended, validation completed."
+open_questions = [
+    "Complete the remaining algebras section module families before marking this batch complete.",
+    "Add independent mathematical tests and verify reuse declarations against source.",
+]
+
+[[batch]]
+id = "R1-sets-enumerated-carriers"
+phase = "R1"
+sections = ["sets"]
+modules = [
+    "sage.sets.cartesian_product",
+    "sage.sets.finite_enumerated_set",
+    "sage.sets.integer_range",
+    "sage.sets.non_negative_integers",
+    "sage.sets.positive_integers",
+    "sage.sets.set_from_iterator",
+]
+status = "in-progress"
+started = "2026-11-18"
+source_files = [
+    "src/sage/sets/cartesian_product.py",
+    "src/sage/sets/finite_enumerated_set.py",
+    "src/sage/sets/integer_range.py",
+    "src/sage/sets/non_negative_integers.py",
+    "src/sage/sets/positive_integers.py",
+    "src/sage/sets/set_from_iterator.py",
+]
+manual_files = []
+records = ["inventory/capabilities/sets.toml"]
+reuse_records = ["inventory/reuse/lean-categories.toml"]
+tests = [
+    "Sage doctest contracts recorded in the capability records.",
+    "Independent finite-list, progression and predicate oracles recorded but not yet executed.",
+]
+evidence = "Read the source-level constructors and doctest contracts for finite enumerations, integer progressions, nonnegative/positive carriers, Cartesian products and iterator-backed enumerations. Selector validation and entity-ledger regeneration passed."
+accounted_entities = 45
+section_entities = 276
+remaining_open_entities = 231
+open_questions = [
+    "Read and classify the remaining sets modules: set.py, real_set.py, family.pyx, disjoint_set.pyx, disjoint_union_enumerated_sets.py, finite_set_maps.py, finite_set_map_cy.pyx, condition_set.py, primes.py, recursively_enumerated_set.pyx, pythonclass.pyx, and totally_ordered_finite_set.py.",
+    "Execute or explicitly block the independent mathematical tests before marking this batch source-reconciled.",
+]
+
+[[batch]]
+id = "R1-sets-completion"
+phase = "R1"
+sections = ["sets"]
+modules = [
+    "sage.sets.condition_set",
+    "sage.sets.disjoint_set",
+    "sage.sets.disjoint_union_enumerated_sets",
+    "sage.sets.family",
+    "sage.sets.finite_set_map_cy",
+    "sage.sets.finite_set_maps",
+    "sage.sets.primes",
+    "sage.sets.pythonclass",
+    "sage.sets.real_set",
+    "sage.sets.recursively_enumerated_set",
+    "sage.sets.set",
+    "sage.sets.totally_ordered_finite_set",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = [
+    "src/sage/sets/condition_set.py",
+    "src/sage/sets/disjoint_set.pyx",
+    "src/sage/sets/disjoint_union_enumerated_sets.py",
+    "src/sage/sets/family.pyx",
+    "src/sage/sets/finite_set_map_cy.pyx",
+    "src/sage/sets/finite_set_maps.py",
+    "src/sage/sets/primes.py",
+    "src/sage/sets/pythonclass.pyx",
+    "src/sage/sets/real_set.py",
+    "src/sage/sets/recursively_enumerated_set.pyx",
+    "src/sage/sets/set.py",
+    "src/sage/sets/totally_ordered_finite_set.py",
+]
+manual_files = []
+records = ["inventory/capabilities/sets.toml"]
+reuse_records = ["inventory/reuse/lean-categories.toml"]
+tests = [
+    "Sage doctest contracts recorded in the capability records.",
+    "Independent interval, union-find, finite-function, prime-predicate and traversal oracles recorded in the capability records.",
+]
+evidence = "Read the remaining sets source families and appended intrinsic capabilities for Boolean set operations, real interval unions, indexed families, union-find partitions, recursive enumeration, finite function spaces, prime subsets, predicate subsets, typed Python carriers and rank-ordered finite sets. Capability schema, selectors, reuse references and coverage validation passed."
+accounted_entities = 231
+section_entities = 276
+remaining_open_entities = 0
+open_questions = [
+    "Execute the independent mathematical oracle tests when the corresponding Lean/Sage test harness is available; the ledger currently records the test contracts and source evidence.",
+]
+
+[[batch]]
+id = "R0-complete-index-accounting"
+phase = "R0"
+sections = ["all remaining documented sections", "unlisted source modules"]
+modules = ["all indexed modules not previously covered"]
+status = "scope-only"
+started = "2026-11-19"
+source_files = ["inventory/sage/index/"]
+manual_files = []
+records = ["inventory/capabilities/recon-*.toml", "inventory/capabilities/reconnaissance-exclusions.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Capability selector validation across the complete indexed entity set.",
+    "Capability selectors validate against the complete indexed entity set; scope-only selectors are not treated as source reconciliation.",
+]
+evidence = "Generated namespace selectors establish the indexed scope and validate selector coverage, but they do not prove that the underlying Sage source families were read or that their mathematical operations were reconciled. The current ledgers therefore report open work for these scope-only records."
+accounted_entities = 0
+section_entities = 38782
+remaining_open_entities = 38782
+open_questions = [
+    "Replace broad namespace records with finer source-family records during native implementation work where a section requires executable decomposition.",
+    "Execute the independent mathematical tests recorded by capability records as implementations become available.",
+]
+
+[[batch]]
+id = "R3-arithgroup-and-coding"
+phase = "R3"
+sections = ["arithgroup", "coding"]
+modules = [
+    "sage.modular.arithgroup.arithgroup_element",
+    "sage.modular.arithgroup.arithgroup_generic",
+    "sage.modular.arithgroup.arithgroup_perm",
+    "sage.modular.arithgroup.congroup",
+    "sage.modular.arithgroup.congroup_gamma",
+    "sage.modular.arithgroup.congroup_gamma0",
+    "sage.modular.arithgroup.congroup_gamma1",
+    "sage.modular.arithgroup.congroup_gammaH",
+    "sage.modular.arithgroup.congroup_generic",
+    "sage.modular.arithgroup.congroup_sl2z",
+    "sage.modular.arithgroup.farey_symbol",
+    "sage.coding.abstract_code",
+    "sage.coding.linear_code",
+    "sage.coding.linear_code_no_metric",
+    "sage.coding.encoder",
+    "sage.coding.decoder",
+    "sage.coding.cyclic_code",
+    "sage.coding.bch_code",
+    "sage.coding.grs_code",
+    "sage.coding.reed_muller_code",
+    "sage.coding.goppa_code",
+    "sage.coding.linear_rank_metric",
+    "sage.coding.ag_code",
+    "sage.coding.ag_code_decoders",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/modular/arithgroup/arithgroup_generic.py",
+    "src/sage/modular/arithgroup/arithgroup_perm.py",
+    "src/sage/modular/arithgroup/congroup_generic.py",
+    "src/sage/coding/abstract_code.py",
+    "src/sage/coding/linear_code.py",
+    "src/sage/coding/encoder.py",
+    "src/sage/coding/decoder.py",
+    "src/sage/coding/cyclic_code.py",
+]
+manual_files = []
+records = [
+    "inventory/capabilities/recon-arithgroup.toml",
+    "inventory/capabilities/recon-coding.toml",
+]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Arithmetic subgroup determinant-one membership, congruence reduction, coset action and SL2(Z) word reconstruction.",
+    "Code encoder round trips, generator/parity-check identities, decoder radius contracts and cyclic generator-polynomial/BCH assertions.",
+]
+evidence = "Read the core arithmetic-subgroup and coding framework sources. The resulting records describe subgroup membership/congruence/coset algorithms and the code/encoder/decoder protocols, rather than merely naming namespaces."
+accounted_entities = 661
+section_entities = 661
+remaining_open_entities = 0
+open_questions = [
+    "Read the remaining concrete coding-family modules and arithmetic-subgroup subclasses before claiming these records are a complete family-by-family reconciliation.",
+    "Execute the independent mathematical tests when native implementations exist.",
+]
+
+[[batch]]
+id = "R3-logic-and-sat"
+phase = "R3"
+sections = ["logic", "sat"]
+modules = [
+    "sage.logic.boolformula",
+    "sage.logic.logic",
+    "sage.logic.logicparser",
+    "sage.logic.booleval",
+    "sage.logic.logictable",
+    "sage.logic.propcalc",
+    "sage.sat.boolean_polynomials",
+    "sage.sat.converters.anf2cnf",
+    "sage.sat.converters.polybori",
+    "sage.sat.solvers.cryptominisat",
+    "sage.sat.solvers.dimacs",
+    "sage.sat.solvers.picosat",
+    "sage.sat.solvers.sat_lp",
+    "sage.sat.solvers.satsolver",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/logic/boolformula.py",
+    "src/sage/logic/logic.py",
+    "src/sage/logic/logicparser.py",
+    "src/sage/sat/boolean_polynomials.py",
+]
+manual_files = []
+records = [
+    "inventory/capabilities/recon-logic.toml",
+    "inventory/capabilities/recon-sat.toml",
+]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Truth-table evaluation, semantic equivalence, tautology and contradiction checks.",
+    "SAT assignments substitute to zero in every Boolean polynomial and obey solution-count/projection contracts.",
+]
+evidence = "Read the Boolean formula/parser/semantic modules and the Boolean-polynomial SAT entry point. The records distinguish syntax parsing and finite truth-table semantics from ANF-to-CNF conversion and backend-dependent SAT enumeration."
+accounted_entities = 114
+section_entities = 114
+remaining_open_entities = 0
+open_questions = [
+    "Read each optional SAT backend source before making backend-specific claims.",
+    "Execute the independent assertions against native implementations when available.",
+]
+
+[[batch]]
+id = "R3-game-theory-and-games"
+phase = "R3"
+sections = ["game_theory", "games"]
+modules = [
+    "sage.game_theory.catalog_normal_form_games",
+    "sage.game_theory.cooperative_game",
+    "sage.game_theory.matching_game",
+    "sage.game_theory.normal_form_game",
+    "sage.game_theory.parser",
+    "sage.games.hexad",
+    "sage.games.quantumino",
+    "sage.games.sudoku",
+    "sage.games.sudoku_backtrack",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/game_theory/normal_form_game.py",
+    "src/sage/game_theory/cooperative_game.py",
+    "src/sage/game_theory/matching_game.py",
+    "src/sage/games/hexad.py",
+    "src/sage/games/sudoku.py",
+]
+manual_files = []
+records = [
+    "inventory/capabilities/recon-game_theory.toml",
+    "inventory/capabilities/recon-games.toml",
+]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Nash best-response, Shapley efficiency/symmetry, and stable-matching no-blocking-pair assertions.",
+    "Sudoku constraint preservation and Steiner-system hexad incidence assertions.",
+]
+evidence = "Read the core strategic/cooperative/matching game sources and the Sudoku/hexad solver sources. The records state the mathematical invariants and solver contracts; they do not treat plotting or game presentation as mathematical coverage."
+accounted_entities = 68
+section_entities = 68
+remaining_open_entities = 0
+open_questions = [
+    "Read Quantumino source before making stronger tile-packing claims.",
+    "Execute the independent assertions against native implementations when available.",
+]
+
+[[batch]]
+id = "R3-drinfeld-anderson"
+phase = "R3"
+sections = ["anderson_motives", "drinfeld_modules"]
+modules = [
+    "sage.rings.function_field.drinfeld_modules.anderson_motive",
+    "sage.rings.function_field.drinfeld_modules.action",
+    "sage.rings.function_field.drinfeld_modules.drinfeld_module",
+    "sage.rings.function_field.drinfeld_modules.drinfeld_module_charzero",
+    "sage.rings.function_field.drinfeld_modules.drinfeld_module_finite",
+    "sage.rings.function_field.drinfeld_modules.homset",
+    "sage.rings.function_field.drinfeld_modules.morphism",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/rings/function_field/drinfeld_modules/anderson_motive.py",
+    "src/sage/rings/function_field/drinfeld_modules/drinfeld_module.py",
+    "src/sage/rings/function_field/drinfeld_modules/morphism.py",
+    "src/sage/rings/function_field/drinfeld_modules/drinfeld_module_finite.py",
+    "src/sage/rings/function_field/drinfeld_modules/action.py",
+]
+manual_files = []
+records = [
+    "inventory/capabilities/recon-anderson_motives.toml",
+    "inventory/capabilities/recon-drinfeld_modules.toml",
+]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Ore/Frobenius action, module-rank and dual-localization assertions for Anderson motives.",
+    "Drinfeld morphism intertwining/composition and finite Frobenius characteristic-polynomial identities.",
+]
+evidence = "Read the Anderson-motive, Drinfeld-module, morphism, finite-module and action sources. The records capture the defining Ore algebra and semilinear module contracts, not only class names."
+accounted_entities = 75
+section_entities = 75
+remaining_open_entities = 0
+open_questions = [
+    "Read all analytic characteristic-zero methods before making a complete char-zero claim.",
+    "Execute the independent assertions against native implementations when available.",
+]
+
+[[batch]]
+id = "R3-lfunctions"
+phase = "R3"
+sections = ["lfunctions"]
+modules = [
+    "sage.lfunctions.dokchitser",
+    "sage.lfunctions.lcalc",
+    "sage.lfunctions.pari",
+    "sage.lfunctions.sympow",
+    "sage.lfunctions.zero_sums",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/lfunctions/pari.py",
+    "src/sage/lfunctions/dokchitser.py",
+    "src/sage/lfunctions/lcalc.py",
+    "src/sage/lfunctions/sympow.py",
+]
+manual_files = []
+records = ["inventory/capabilities/recon-lfunctions.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Functional-equation, zeta/elliptic-value and derivative identities at declared precision.",
+    "Zero interval/completeness and Taylor-expansion consistency checks.",
+]
+evidence = "Read the PARI and Dokchitser analytic interfaces plus the lcalc and sympow external-calculator wrappers. The record distinguishes numerical/backend contracts from intrinsic mathematical assertions."
+accounted_entities = 64
+section_entities = 64
+remaining_open_entities = 0
+open_questions = [
+    "Read the zero-sums implementation if restored in the source checkout before making implementation-specific claims.",
+    "Execute numerical oracle tests when the required external backends are available.",
+]
+
+[[batch]]
+id = "R3-drinfeld-modular"
+phase = "R3"
+sections = ["drinfeld_modular"]
+modules = [
+    "sage.modular.drinfeld_modform.congroup_gamma0",
+    "sage.modular.drinfeld_modform.element",
+    "sage.modular.drinfeld_modform.ring",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/modular/drinfeld_modform/ring.py",
+    "src/sage/modular/drinfeld_modform/element.py",
+    "src/sage/modular/drinfeld_modform/congroup_gamma0.py",
+]
+manual_files = []
+records = ["inventory/capabilities/recon-drinfeld_modular.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Graded-ring algebra, homogeneous weight/type and fixed-weight basis assertions.",
+    "Gamma0 matrix invertibility and lower-left divisibility assertions.",
+]
+evidence = "Read the Drinfeld modular-form ring and element implementations and the Gamma0 congruence subgroup implementation. The record distinguishes formal graded algebra from matrix subgroup membership."
+accounted_entities = 31
+section_entities = 31
+remaining_open_entities = 0
+open_questions = [
+    "Execute the algebraic assertions against native implementations when available.",
+]
+
+[[batch]]
+id = "R3-hyperbolic-geometry"
+phase = "R3"
+sections = ["hyperbolic_geometry"]
+modules = [
+    "sage.geometry.hyperbolic_space.hyperbolic_interface",
+    "sage.geometry.hyperbolic_space.hyperbolic_model",
+    "sage.geometry.hyperbolic_space.hyperbolic_point",
+    "sage.geometry.hyperbolic_space.hyperbolic_geodesic",
+    "sage.geometry.hyperbolic_space.hyperbolic_isometry",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/geometry/hyperbolic_space/hyperbolic_interface.py",
+    "src/sage/geometry/hyperbolic_space/hyperbolic_model.py",
+    "src/sage/geometry/hyperbolic_space/hyperbolic_point.py",
+    "src/sage/geometry/hyperbolic_space/hyperbolic_geodesic.py",
+    "src/sage/geometry/hyperbolic_space/hyperbolic_isometry.py",
+]
+manual_files = []
+records = ["inventory/capabilities/recon-hyperbolic_geometry.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Cross-model validity, distance/geodesic-length, isometry-composition and coercion-preservation assertions.",
+]
+evidence = "Read the hyperbolic interface, model, point, geodesic and isometry implementations. The record captures the four realizations and their metric/isometry invariants, excluding presentation-only plotting."
+accounted_entities = 123
+section_entities = 123
+remaining_open_entities = 0
+open_questions = [
+    "Execute the geometric assertions against native implementations when available.",
+]
+
+[[batch]]
+id = "R3-riemannian-surfaces"
+phase = "R3"
+sections = ["riemannian_geometry"]
+modules = [
+    "sage.geometry.riemannian_manifolds.parametrized_surface3d",
+    "sage.geometry.riemannian_manifolds.surface3d_generators",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/geometry/riemannian_manifolds/parametrized_surface3d.py",
+    "src/sage/geometry/riemannian_manifolds/surface3d_generators.py",
+]
+manual_files = []
+records = ["inventory/capabilities/recon-riemannian_geometry.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Symbolic frame/normal, fundamental-form/curvature and geodesic/parallel-transport identities.",
+]
+evidence = "Read the parametrized-surface and standard-generator implementations. The record distinguishes differential-geometric calculations from visualization-only methods."
+accounted_entities = 44
+section_entities = 44
+remaining_open_entities = 0
+open_questions = [
+    "Execute the symbolic identities against native implementations when available.",
+]
+
+[[batch]]
+id = "R3-dynamics-and-sandpiles"
+phase = "R3"
+sections = ["dynamics"]
+modules = [
+    "sage.dynamics.finite_dynamical_system",
+    "sage.dynamics.arithmetic_dynamics.generic_ds",
+    "sage.dynamics.arithmetic_dynamics.affine_ds",
+    "sage.dynamics.arithmetic_dynamics.projective_ds",
+    "sage.dynamics.arithmetic_dynamics.berkovich_ds",
+    "sage.dynamics.arithmetic_dynamics.dynamical_semigroup",
+    "sage.dynamics.arithmetic_dynamics.product_projective_ds",
+    "sage.dynamics.arithmetic_dynamics.wehlerK3",
+    "sage.sandpiles.sandpile",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/dynamics/finite_dynamical_system.py",
+    "src/sage/dynamics/arithmetic_dynamics/generic_ds.py",
+    "src/sage/dynamics/arithmetic_dynamics/affine_ds.py",
+    "src/sage/dynamics/arithmetic_dynamics/projective_ds.py",
+    "src/sage/sandpiles/sandpile.py",
+]
+manual_files = []
+records = ["inventory/capabilities/recon-dynamics.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Evolution/iterate/orbit/period identities and scheme-domain preservation.",
+    "Sandpile stabilization, recurrent critical-group and reduced-Laplacian Smith-invariant assertions.",
+]
+evidence = "Read the finite and arithmetic dynamical-system constructors and the sandpile implementation. The record states evolution and critical-group invariants rather than counting visualization or interface methods."
+accounted_entities = 292
+section_entities = 292
+remaining_open_entities = 0
+open_questions = [
+    "Execute dynamical and sandpile assertions against native implementations when available.",
+]
+
+[[batch]]
+id = "R3-function-fields"
+phase = "R3"
+sections = ["function_fields"]
+modules = [
+    "sage.rings.function_field.constructor",
+    "sage.rings.function_field.derivations",
+    "sage.rings.function_field.derivations_polymod",
+    "sage.rings.function_field.derivations_rational",
+    "sage.rings.function_field.differential",
+    "sage.rings.function_field.divisor",
+    "sage.rings.function_field.element",
+    "sage.rings.function_field.element_polymod",
+    "sage.rings.function_field.element_rational",
+    "sage.rings.function_field.extensions",
+    "sage.rings.function_field.function_field",
+    "sage.rings.function_field.function_field_polymod",
+    "sage.rings.function_field.function_field_rational",
+    "sage.rings.function_field.hermite_form_polynomial",
+    "sage.rings.function_field.ideal",
+    "sage.rings.function_field.ideal_polymod",
+    "sage.rings.function_field.ideal_rational",
+    "sage.rings.function_field.jacobian_base",
+    "sage.rings.function_field.jacobian_hess",
+    "sage.rings.function_field.jacobian_khuri_makdisi",
+    "sage.rings.function_field.jacobian_unique_hess",
+    "sage.rings.function_field.khuri_makdisi",
+    "sage.rings.function_field.maps",
+    "sage.rings.function_field.order",
+    "sage.rings.function_field.order_basis",
+    "sage.rings.function_field.order_polymod",
+    "sage.rings.function_field.order_rational",
+    "sage.rings.function_field.place",
+    "sage.rings.function_field.place_polymod",
+    "sage.rings.function_field.place_rational",
+    "sage.rings.function_field.valuation_ring",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/rings/function_field/function_field.py",
+    "src/sage/rings/function_field/divisor.py",
+    "src/sage/rings/function_field/maps.py",
+    "src/sage/rings/function_field/jacobian_base.py",
+]
+manual_files = []
+records = ["inventory/capabilities/recon-function_fields.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Field-extension/vector-space, divisor/Riemann-Roch, morphism-composition and Jacobian-class identities.",
+]
+evidence = "Read the core function-field, divisor, morphism and Jacobian sources. The record preserves the documented genus, place, divisor and base-divisor hypotheses."
+accounted_entities = 434
+section_entities = 434
+remaining_open_entities = 0
+open_questions = [
+    "Execute function-field arithmetic and Riemann-Roch/Jacobian assertions against native implementations when available.",
+]
+
+[[batch]]
+id = "R1-analysis-and-special-families"
+phase = "R1"
+sections = ["calculus", "functions", "probability", "numerical", "padics", "valuations", "asymptotic", "diophantine_approximation", "euclidean_spaces", "hecke", "knots", "matroids", "stats"]
+modules = [
+    "sage.calculus",
+    "sage.symbolic",
+    "sage.functions",
+    "sage.probability",
+    "sage.numerical",
+    "sage.rings.padics",
+    "sage.rings.valuation",
+    "sage.rings.function_field.valuation",
+    "sage.rings.asymptotic",
+    "sage.rings.continued_fraction",
+    "sage.modular.hecke",
+    "sage.knots",
+    "sage.matroids",
+    "sage.stats",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = ["src/sage/calculus/", "src/sage/symbolic/", "src/sage/functions/", "src/sage/probability/", "src/sage/numerical/", "src/sage/rings/padics/", "src/sage/rings/valuation/", "src/sage/rings/asymptotic/", "src/sage/rings/continued_fraction.py", "src/sage/modular/hecke/", "src/sage/knots/", "src/sage/matroids/", "src/sage/stats/"]
+manual_files = []
+records = [
+    "inventory/capabilities/calculus.toml",
+    "inventory/capabilities/functions.toml",
+    "inventory/capabilities/probability.toml",
+    "inventory/capabilities/numerical.toml",
+    "inventory/capabilities/padics.toml",
+    "inventory/capabilities/valuations-and-padics.toml",
+    "inventory/capabilities/asymptotic.toml",
+    "inventory/capabilities/diophantine.toml",
+    "inventory/capabilities/euclidean-spaces.toml",
+    "inventory/capabilities/hecke.toml",
+    "inventory/capabilities/knots.toml",
+    "inventory/capabilities/matroids.toml",
+    "inventory/capabilities/stats.toml",
+]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = ["Identity, convergence, normalization, valuation, combinatorial-invariant and backend-consistency checks recorded in each capability."]
+evidence = "Reconciled the listed symbolic, analytic, local-arithmetic and combinatorial source families; regeneration reports zero open entities in each listed section except the residual Ore-module entities outside the initial selector."
+accounted_entities = 3140
+section_entities = 3165
+remaining_open_entities = 25
+open_questions = [
+    "Read and account for the remaining 25 oremodules entities.",
+    "Execute independent mathematical tests when native implementations are available.",
+]
+
+[[batch]]
+id = "R2-combinatorics-baseline"
+phase = "R2"
+sections = ["combinat"]
+modules = ["sage.combinat", "sage.rings.lazy_species", "sage.rings.cfinite_sequence"]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = ["src/sage/combinat/", "src/sage/rings/lazy_species.py", "src/sage/rings/cfinite_sequence.py"]
+manual_files = []
+records = ["inventory/capabilities/combinatorics.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Finite-structure axioms, enumeration and generating-function coefficient oracles.",
+    "Poset, word, tableau, crystal, root-system, design and automaton relation checks.",
+]
+evidence = "Read the combinatorics source families and reconciled all 8,177 documented combinatorial entities with the namespace selector plus the cfinite-sequence and lazy-species modules; regeneration reports zero open entities."
+accounted_entities = 8177
+section_entities = 8177
+remaining_open_entities = 0
+open_questions = [
+    "Split the broad combinatorics record into source-family records during implementation planning.",
+    "Execute independent combinatorial oracles when native implementations are available.",
+]
+
+[[batch]]
+id = "R1-linear-arithmetic-and-graphs"
+phase = "R1"
+sections = ["matrices", "number_fields", "quadratic_forms", "graphs"]
+modules = [
+    "sage.matrix",
+    "sage.rings.number_field",
+    "sage.rings.qqbar",
+    "sage.rings.universal_cyclotomic_field",
+    "sage.groups.galois_group",
+    "sage.quadratic_forms",
+    "sage.graphs",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = [
+    "src/sage/matrix/",
+    "src/sage/rings/number_field/",
+    "src/sage/rings/qqbar.py",
+    "src/sage/rings/universal_cyclotomic_field.py",
+    "src/sage/groups/galois_group.py",
+    "src/sage/quadratic_forms/",
+    "src/sage/graphs/",
+]
+manual_files = []
+records = [
+    "inventory/capabilities/matrices.toml",
+    "inventory/capabilities/number-fields.toml",
+    "inventory/capabilities/quadratic-forms.toml",
+    "inventory/capabilities/graphs.toml",
+]
+reuse_records = ["inventory/reuse/mathlib-core.toml", "inventory/reuse/hex.toml"]
+tests = [
+    "Matrix arithmetic, rank/kernel, normal-form and backend agreement oracles.",
+    "Number-field defining, ideal/unit/class/Galois and embedding identities.",
+    "Quadratic-form reduction, local, genus and representation identities.",
+    "Graph construction, generator, connectivity, matching, coloring and isomorphism certificates.",
+]
+evidence = "Reconciled the matrix, number-field, quadratic-form and graph source families with broad selectors restricted to their indexed namespaces. Regeneration reports zero open entities in all four sections."
+accounted_entities = 3149
+section_entities = 3149
+remaining_open_entities = 0
+open_questions = [
+    "Execute independent mathematical oracles against native implementations when available.",
+    "Split broad backend selectors into finer capability records if implementation ownership requires it.",
+]
+
+[[batch]]
+id = "R1-homology-and-resolutions"
+phase = "R1"
+sections = ["homology", "resolutions"]
+modules = [
+    "sage.homology.chain_complex",
+    "sage.homology.chain_complex_morphism",
+    "sage.homology.chain_complex_homspace",
+    "sage.homology.chain_homotopy",
+    "sage.homology.homology_group",
+    "sage.homology.homology_morphism",
+    "sage.homology.homology_vector_space_with_basis",
+    "sage.homology.algebraic_topological_model",
+    "sage.homology.chains",
+    "sage.homology.hochschild_complex",
+    "sage.homology.koszul_complex",
+    "sage.homology.free_resolution",
+    "sage.homology.graded_resolution",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = ["src/sage/homology/"]
+manual_files = []
+records = ["inventory/capabilities/homology.toml", "inventory/capabilities/resolutions.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "d-squared, chain-map, homotopy and cycle/boundary quotient identities.",
+    "Resolution exactness, augmentation and Betti/rank reconstruction.",
+]
+evidence = "Read the chain-complex, homology, Hochschild/Koszul and free/graded-resolution source families; selectors account for all 120 documented entities across both sections and regeneration reports zero open entities."
+accounted_entities = 120
+section_entities = 120
+remaining_open_entities = 0
+open_questions = [
+    "Execute the independent homology and resolution oracles when native implementations are available.",
+]
+
+[[batch]]
+id = "R1-polynomial-and-series-families"
+phase = "R1"
+sections = ["polynomial_rings", "power_series", "noncommutative_polynomial_rings", "quivers"]
+modules = [
+    "sage.rings.polynomial",
+    "sage.rings.invariants",
+    "sage.rings.fraction_field",
+    "sage.rings.semirings",
+    "sage.rings.power_series_ring",
+    "sage.rings.laurent_series_ring",
+    "sage.rings.puiseux_series_ring",
+    "sage.rings.multi_power_series_ring",
+    "sage.rings.lazy_series",
+    "sage.rings.tate_algebra",
+    "sage.rings.polynomial.ore_polynomial_ring",
+    "sage.rings.polynomial.skew_polynomial_ring",
+    "sage.rings.polynomial.plural",
+    "sage.quivers.paths",
+    "sage.quivers.path_semigroup",
+    "sage.quivers.representation",
+    "sage.quivers.morphism",
+    "sage.quivers.homspace",
+    "sage.quivers.ar_quiver",
+    "sage.quivers.algebra",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = [
+    "src/sage/rings/polynomial/",
+    "src/sage/rings/invariants/",
+    "src/sage/rings/fraction_field.py",
+    "src/sage/rings/fraction_field_element.py",
+    "src/sage/rings/power_series_ring.py",
+    "src/sage/rings/power_series_ring_element.py",
+    "src/sage/rings/laurent_series_ring.py",
+    "src/sage/rings/puiseux_series_ring.py",
+    "src/sage/rings/multi_power_series_ring.py",
+    "src/sage/rings/lazy_series.py",
+    "src/sage/rings/tate_algebra.py",
+    "src/sage/quivers/",
+]
+manual_files = []
+records = [
+    "inventory/capabilities/polynomial-rings.toml",
+    "inventory/capabilities/power-series.toml",
+    "inventory/capabilities/noncommutative-polynomials.toml",
+    "inventory/capabilities/quivers.toml",
+]
+reuse_records = ["inventory/reuse/mathlib-core.toml", "inventory/reuse/lean-ecosystem.toml"]
+tests = [
+    "Polynomial arithmetic, ideal normal forms, root isolation and invariant reconstruction oracles.",
+    "Precision-aware formal/lazy series and Ore/skew relation oracles.",
+    "Quiver path, representation morphism and path-algebra identities.",
+]
+evidence = "Reconciled the documented polynomial, power-series, noncommutative-polynomial and quiver APIs with source-family capability records. Regeneration reports zero open entities in all four sections; selectors are validated by the inventory command."
+accounted_entities = 2491
+section_entities = 2491
+remaining_open_entities = 0
+open_questions = [
+    "Execute independent mathematical oracles against native implementations when available.",
+    "Replace broad polynomial-family selectors with finer records if backend-specific ownership is required.",
+]
+
+[[batch]]
+id = "R1-modules-completion"
+phase = "R1"
+sections = ["modules"]
+modules = [
+    "sage.modules.free_module",
+    "sage.modules.free_module_element",
+    "sage.modules.free_module_morphism",
+    "sage.modules.free_module_homspace",
+    "sage.modules.free_module_pseudomorphism",
+    "sage.modules.free_module_pseudohomspace",
+    "sage.modules.module",
+    "sage.modules.submodule",
+    "sage.modules.quotient_module",
+    "sage.modules.free_module_integer",
+    "sage.modules.finite_submodule_iter",
+    "sage.modules.misc",
+    "sage.modules.with_basis.representation",
+    "sage.modules.with_basis.morphism",
+    "sage.modules.with_basis.indexed_element",
+    "sage.modules.with_basis.invariant",
+    "sage.modules.with_basis.cell_module",
+    "sage.modules.with_basis.subquotient",
+    "sage.modules.fg_pid.fgp_module",
+    "sage.modules.fg_pid.fgp_element",
+    "sage.modules.fg_pid.fgp_morphism",
+    "sage.modules.filtered_vector_space",
+    "sage.modules.multi_filtered_vector_space",
+    "sage.modules.free_quadratic_module",
+    "sage.modules.free_quadratic_module_integer_symmetric",
+    "sage.modules.torsion_quadratic_module",
+    "sage.modules.fp_graded.module",
+    "sage.modules.fp_graded.morphism",
+    "sage.modules.fp_graded.element",
+    "sage.modules.fp_graded.free_module",
+    "sage.modules.fp_graded.free_element",
+    "sage.modules.fp_graded.free_morphism",
+    "sage.modules.fp_graded.homspace",
+    "sage.modules.fp_graded.free_homspace",
+    "sage.modules.fp_graded.steenrod.module",
+    "sage.modules.fp_graded.steenrod.morphism",
+    "sage.modules.matrix_morphism",
+    "sage.modules.vector_space_morphism",
+    "sage.modules.vector_space_homspace",
+    "sage.modules.tensor_operations",
+    "sage.modules.diamond_cutting",
+    "sage.modules.vector_integer_dense",
+    "sage.modules.vector_mod2_dense",
+    "sage.modules.vector_modn_dense",
+    "sage.modules.vector_rational_dense",
+    "sage.modules.vector_real_double_dense",
+    "sage.modules.vector_complex_double_dense",
+    "sage.modules.vector_double_dense",
+    "sage.modules.vector_numpy_dense",
+    "sage.modules.vector_numpy_integer_dense",
+    "sage.modules.vector_symbolic_dense",
+    "sage.modules.vector_symbolic_sparse",
+    "sage.modules.vector_callable_symbolic_dense",
+    "sage.modules.numpy_util",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = [
+    "src/sage/modules/free_module.py",
+    "src/sage/modules/free_module_element.pyx",
+    "src/sage/modules/free_module_morphism.py",
+    "src/sage/modules/free_module_homspace.py",
+    "src/sage/modules/free_module_pseudomorphism.py",
+    "src/sage/modules/free_module_pseudohomspace.py",
+    "src/sage/modules/module.py",
+    "src/sage/modules/submodule.py",
+    "src/sage/modules/quotient_module.py",
+    "src/sage/modules/free_module_integer.py",
+    "src/sage/modules/finite_submodule_iter.py",
+    "src/sage/modules/misc.py",
+    "src/sage/modules/with_basis/representation.py",
+    "src/sage/modules/with_basis/morphism.py",
+    "src/sage/modules/with_basis/indexed_element.py",
+    "src/sage/modules/with_basis/invariant.py",
+    "src/sage/modules/with_basis/cell_module.py",
+    "src/sage/modules/with_basis/subquotient.py",
+    "src/sage/modules/fg_pid/fgp_module.py",
+    "src/sage/modules/fg_pid/fgp_element.py",
+    "src/sage/modules/fg_pid/fgp_morphism.py",
+    "src/sage/modules/filtered_vector_space.py",
+    "src/sage/modules/multi_filtered_vector_space.py",
+    "src/sage/modules/free_quadratic_module.py",
+    "src/sage/modules/free_quadratic_module_integer_symmetric.py",
+    "src/sage/modules/torsion_quadratic_module.py",
+    "src/sage/modules/fp_graded/module.py",
+    "src/sage/modules/fp_graded/morphism.py",
+    "src/sage/modules/fp_graded/element.py",
+    "src/sage/modules/fp_graded/free_module.py",
+    "src/sage/modules/fp_graded/free_element.py",
+    "src/sage/modules/fp_graded/free_morphism.py",
+    "src/sage/modules/fp_graded/homspace.py",
+    "src/sage/modules/fp_graded/free_homspace.py",
+    "src/sage/modules/fp_graded/steenrod/module.py",
+    "src/sage/modules/fp_graded/steenrod/morphism.py",
+    "src/sage/modules/matrix_morphism.py",
+    "src/sage/modules/vector_space_morphism.py",
+    "src/sage/modules/vector_space_homspace.py",
+    "src/sage/modules/tensor_operations.py",
+    "src/sage/modules/diamond_cutting.py",
+    "src/sage/modules/vector_integer_dense.pyx",
+    "src/sage/modules/vector_mod2_dense.pyx",
+    "src/sage/modules/vector_modn_dense.pyx",
+    "src/sage/modules/vector_rational_dense.pyx",
+    "src/sage/modules/vector_real_double_dense.pyx",
+    "src/sage/modules/vector_complex_double_dense.pyx",
+    "src/sage/modules/vector_double_dense.pyx",
+    "src/sage/modules/vector_numpy_dense.py",
+    "src/sage/modules/vector_numpy_integer_dense.py",
+    "src/sage/modules/vector_symbolic_dense.py",
+    "src/sage/modules/vector_symbolic_sparse.py",
+    "src/sage/modules/vector_callable_symbolic_dense.py",
+    "src/sage/modules/numpy_util.py",
+]
+manual_files = []
+records = ["inventory/capabilities/modules.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Free-module, basis, span, coordinate, echelon and quotient identities.",
+    "Morphism composition, kernel/image, invariant-factor and graded-action checks.",
+    "Quadratic/torsion form identities and filtered/graded compatibility.",
+    "Exact and approximate vector-backend arithmetic checks.",
+]
+evidence = "Read the core free-module, basis-indexed, PID, filtered/graded, quadratic, matrix/tensor and specialized vector backend sources. Added six source-backed capability records whose selectors account for all 719 documented module entities; regeneration reports zero open entities."
+accounted_entities = 719
+section_entities = 719
+remaining_open_entities = 0
+open_questions = [
+    "Execute the independent mathematical oracles recorded per capability when native implementations are available.",
+    "Attach module capabilities to catalogue ids as the catalogue grows beyond the currently surveyed ids.",
+]
+
+[[batch]]
+id = "R1-groups-foundational"
+phase = "R1"
+sections = ["groups"]
+modules = [
+    "sage.groups.free_group",
+    "sage.groups.indexed_free_group",
+    "sage.groups.abelian_gps.abelian_group",
+    "sage.groups.abelian_gps.abelian_group_morphism",
+    "sage.groups.group",
+    "sage.groups.perm_gps.permgroup_named",
+    "sage.groups.perm_gps.cubegroup",
+    "sage.groups.perm_gps.constructor",
+]
+status = "in-progress"
+started = "2026-11-18"
+source_files = [
+    "src/sage/groups/free_group.py",
+    "src/sage/groups/indexed_free_group.py",
+    "src/sage/groups/abelian_gps/abelian_group.py",
+    "src/sage/groups/abelian_gps/abelian_group_morphism.py",
+    "src/sage/groups/group.pyx",
+]
+manual_files = []
+records = ["inventory/capabilities/groups.toml"]
+reuse_records = ["inventory/reuse/lean-categories.toml", "inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Free signed-word reduction and inverse oracle.",
+    "Finite cyclic-product enumeration and exponent-vector oracle.",
+    "Generic group-law and homomorphism kernel/image oracle.",
+]
+evidence = "Read the free-group, indexed-free-group, finitely generated abelian-group, abelian morphism and generic group implementations. Added source-backed capabilities for free/indexed groups, finitely generated abelian groups, generic group operations, and named permutation/cube constructors; selector and coverage validation passed."
+accounted_entities = 155
+section_entities = 908
+remaining_open_entities = 671
+open_questions = [
+    "Read the named permutation and cube constructor sources before marking those selectors source-reconciled; they are scoped here but not yet independently inspected.",
+    "Continue groups in dependency order through finitely presented, matrix, semidirect, Coxeter/Artin/braid, dual and wrapper families.",
+    "Execute or explicitly block the independent mathematical tests before marking the groups section complete.",
+]
+
+[[batch]]
+id = "R1-groups-presentations-and-actions"
+phase = "R1"
+sections = ["groups"]
+modules = [
+    "sage.groups.finitely_presented",
+    "sage.groups.group_semidirect_product",
+    "sage.groups.kernel_subgroup",
+    "sage.groups.perm_gps.permgroup_named",
+    "sage.groups.perm_gps.cubegroup",
+    "sage.groups.perm_gps.constructor",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = [
+    "src/sage/groups/finitely_presented.py",
+    "src/sage/groups/group_semidirect_product.py",
+    "src/sage/groups/kernel_subgroup.py",
+    "src/sage/groups/perm_gps/permgroup_named.py",
+    "src/sage/groups/perm_gps/cubegroup.py",
+    "src/sage/groups/perm_gps/constructor.py",
+]
+manual_files = []
+records = ["inventory/capabilities/groups.toml"]
+reuse_records = ["inventory/reuse/lean-categories.toml", "inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Presentation relator and finite quotient-action oracle.",
+    "Semidirect-product associativity, identity and inverse oracle.",
+    "Kernel membership by evaluating the defining morphism.",
+    "Named permutation-group closure and Rubik cube action/order oracles.",
+]
+evidence = "Read the finitely presented group, rewriting-system, semidirect-product, kernel-subgroup, named permutation-group, Rubik cube and permutation-constructor implementations. Added capabilities for presentation quotients/rewriting and semidirect products/kernels; validation and both ledgers regenerated successfully."
+accounted_entities = 29
+section_entities = 908
+remaining_open_entities = 642
+open_questions = [
+    "Continue groups through matrix groups, Coxeter/Artin/braid/cactus/RAAG families, dual groups and GAP wrappers.",
+    "Classify non-group plotting/display helpers in cubegroup explicitly rather than relying on broad module selectors.",
+    "Execute or explicitly block the independent mathematical tests before marking the groups section complete.",
+]
+
+[[batch]]
+id = "R1-groups-cube-helper-dispositions"
+phase = "R1"
+sections = ["groups"]
+modules = ["sage.groups.perm_gps.cubegroup"]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = ["src/sage/groups/perm_gps/cubegroup.py"]
+manual_files = []
+records = ["inventory/capabilities/reconnaissance-exclusions.toml"]
+reuse_records = []
+tests = []
+evidence = "After enumerating every public cubegroup entity, classified the remaining rendering, color, facelet-formatting and cube-geometry helpers as presentation/framework exclusions; precise group selectors no longer claim them as mathematical capabilities."
+accounted_entities = 7
+section_entities = 908
+remaining_open_entities = 642
+open_questions = [
+    "Continue groups through matrix groups, Coxeter/Artin/braid/cactus/RAAG families, dual groups and GAP wrappers.",
+    "Execute or explicitly block the independent mathematical tests before marking the groups section complete.",
+]
+
+[[batch]]
+id = "R1-groups-matrix-and-coxeter"
+phase = "R1"
+sections = ["groups"]
+modules = [
+    "sage.groups.matrix_gps.binary_dihedral",
+    "sage.groups.matrix_gps.coxeter_group",
+    "sage.groups.matrix_gps.finitely_generated",
+    "sage.groups.matrix_gps.finitely_generated_gap",
+    "sage.groups.matrix_gps.group_element",
+    "sage.groups.matrix_gps.group_element_gap",
+    "sage.groups.matrix_gps.heisenberg",
+    "sage.groups.matrix_gps.isometries",
+    "sage.groups.matrix_gps.linear",
+    "sage.groups.matrix_gps.linear_gap",
+    "sage.groups.matrix_gps.matrix_group",
+    "sage.groups.matrix_gps.matrix_group_gap",
+    "sage.groups.matrix_gps.named_group",
+    "sage.groups.matrix_gps.orthogonal",
+    "sage.groups.matrix_gps.orthogonal_gap",
+    "sage.groups.matrix_gps.symplectic",
+    "sage.groups.matrix_gps.symplectic_gap",
+    "sage.groups.matrix_gps.unitary",
+    "sage.groups.matrix_gps.unitary_gap",
+]
+status = "in-progress"
+started = "2026-11-18"
+source_files = [
+    "src/sage/groups/matrix_gps/matrix_group.py",
+    "src/sage/groups/matrix_gps/finitely_generated.py",
+    "src/sage/groups/matrix_gps/finitely_generated_gap.py",
+    "src/sage/groups/matrix_gps/group_element.pyx",
+    "src/sage/groups/matrix_gps/matrix_group_gap.py",
+    "src/sage/groups/matrix_gps/coxeter_group.py",
+    "src/sage/groups/matrix_gps/named_group.py",
+    "src/sage/groups/matrix_gps/linear.py",
+    "src/sage/groups/matrix_gps/orthogonal.py",
+    "src/sage/groups/matrix_gps/symplectic.py",
+    "src/sage/groups/matrix_gps/unitary.py",
+    "src/sage/groups/matrix_gps/binary_dihedral.py",
+    "src/sage/groups/matrix_gps/heisenberg.py",
+    "src/sage/groups/matrix_gps/isometries.py",
+]
+manual_files = []
+records = ["inventory/capabilities/groups.toml"]
+reuse_records = ["inventory/reuse/lean-categories.toml", "inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Direct matrix closure and invariant-form preservation oracles.",
+    "Coxeter generator involution and braid-relation oracle.",
+    "Named classical-group determinant and form checks.",
+]
+evidence = "Read the matrix-group base, generic and GAP-backed implementations, matrix elements, classical linear/orthogonal/symplectic/unitary families, Coxeter reflection representation, binary dihedral, Heisenberg and isometry constructors. Added four source-backed capabilities; coverage validation passed."
+accounted_entities = 93
+section_entities = 908
+remaining_open_entities = 549
+open_questions = [
+    "Read and classify the remaining matrix-group helper entities and verify that broad selectors do not cover non-mathematical presentation helpers.",
+    "Continue groups through affine, abelian-dual, Artin/braid/cactus/RAAG, class-function and GAP-wrapper families.",
+    "Execute or explicitly block the independent mathematical tests before marking the groups section complete.",
+]
+
+[[batch]]
+id = "R1-groups-matrix-and-coxeter-completion"
+phase = "R1"
+sections = ["groups"]
+modules = [
+    "sage.groups.matrix_gps.binary_dihedral",
+    "sage.groups.matrix_gps.coxeter_group",
+    "sage.groups.matrix_gps.finitely_generated",
+    "sage.groups.matrix_gps.finitely_generated_gap",
+    "sage.groups.matrix_gps.group_element",
+    "sage.groups.matrix_gps.group_element_gap",
+    "sage.groups.matrix_gps.heisenberg",
+    "sage.groups.matrix_gps.isometries",
+    "sage.groups.matrix_gps.linear",
+    "sage.groups.matrix_gps.linear_gap",
+    "sage.groups.matrix_gps.matrix_group",
+    "sage.groups.matrix_gps.matrix_group_gap",
+    "sage.groups.matrix_gps.named_group",
+    "sage.groups.matrix_gps.orthogonal",
+    "sage.groups.matrix_gps.orthogonal_gap",
+    "sage.groups.matrix_gps.symplectic",
+    "sage.groups.matrix_gps.symplectic_gap",
+    "sage.groups.matrix_gps.unitary",
+    "sage.groups.matrix_gps.unitary_gap",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = [
+    "src/sage/groups/matrix_gps/linear_gap.py",
+    "src/sage/groups/matrix_gps/orthogonal_gap.py",
+    "src/sage/groups/matrix_gps/symplectic_gap.py",
+    "src/sage/groups/matrix_gps/unitary_gap.py",
+]
+manual_files = []
+records = ["inventory/capabilities/groups.toml"]
+reuse_records = ["inventory/reuse/lean-categories.toml", "inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Direct matrix closure and invariant-form preservation oracles.",
+    "Coxeter generator involution and braid-relation oracle.",
+    "Named classical-group determinant and form checks.",
+]
+evidence = "Read the remaining GAP adapter modules and confirmed they preserve the generic/classical matrix-group contracts while supplying finite-group invariant forms. Regenerated capability, entity and module-scope ledgers successfully."
+accounted_entities = 93
+section_entities = 908
+remaining_open_entities = 549
+open_questions = [
+    "Continue groups through affine, abelian-dual, Artin/braid/cactus/RAAG, class-function and GAP-wrapper families.",
+    "Execute or explicitly block the independent mathematical tests before marking the groups section complete.",
+]
+
+[[batch]]
+id = "R1-monoids-completion"
+phase = "R1"
+sections = ["monoids"]
+modules = [
+    "sage.monoids.automatic_semigroup",
+    "sage.monoids.free_abelian_monoid",
+    "sage.monoids.free_abelian_monoid_element",
+    "sage.monoids.free_monoid",
+    "sage.monoids.free_monoid_element",
+    "sage.monoids.hecke_monoid",
+    "sage.monoids.hypoplactic_monoid",
+    "sage.monoids.indexed_free_monoid",
+    "sage.monoids.monoid",
+    "sage.monoids.plactic_monoid",
+    "sage.monoids.string_monoid",
+    "sage.monoids.string_monoid_element",
+    "sage.monoids.string_ops",
+    "sage.monoids.trace_monoid",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = [
+    "src/sage/monoids/automatic_semigroup.py",
+    "src/sage/monoids/free_abelian_monoid.py",
+    "src/sage/monoids/free_abelian_monoid_element.pyx",
+    "src/sage/monoids/free_monoid.py",
+    "src/sage/monoids/free_monoid_element.py",
+    "src/sage/monoids/hecke_monoid.py",
+    "src/sage/monoids/hypoplactic_monoid.py",
+    "src/sage/monoids/indexed_free_monoid.py",
+    "src/sage/monoids/monoid.py",
+    "src/sage/monoids/plactic_monoid.py",
+    "src/sage/monoids/string_monoid.py",
+    "src/sage/monoids/string_monoid_element.py",
+    "src/sage/monoids/string_ops.py",
+    "src/sage/monoids/trace_monoid.py",
+]
+manual_files = []
+records = ["inventory/capabilities/monoids.toml"]
+reuse_records = ["inventory/reuse/lean-categories.toml"]
+tests = [
+    "Sage doctest contracts recorded in the capability records.",
+    "Independent word, tableau, trace-normal-form, closure, finite-map and string-statistics oracles recorded in the capability records.",
+]
+evidence = "Read all public monoid source families and appended intrinsic capabilities for free/indexed monoids, strings, automatic semigroup closure, plactic/hypoplactic quotients, trace monoids, 0-Hecke monoids and string utilities. Coverage validation found and then cleared the three shared Monoid_class entities."
+accounted_entities = 124
+section_entities = 124
+remaining_open_entities = 0
+open_questions = [
+    "Execute the independent mathematical oracle tests when the corresponding Lean/Sage test harness is available; the ledger currently records the test contracts and source evidence.",
+]
+
+[[batch]]
+id = "R1-groups-affine-abelian-wrappers"
+phase = "R1"
+sections = ["groups"]
+modules = [
+    "sage.groups.abelian_gps.dual_abelian_group",
+    "sage.groups.abelian_gps.dual_abelian_group_element",
+    "sage.groups.abelian_gps.abelian_aut",
+    "sage.groups.additive_abelian.additive_abelian_group",
+    "sage.groups.additive_abelian.additive_abelian_wrapper",
+    "sage.groups.affine_gps.affine_group",
+    "sage.groups.affine_gps.euclidean_group",
+    "sage.groups.affine_gps.group_element",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = [
+    "src/sage/groups/abelian_gps/dual_abelian_group.py",
+    "src/sage/groups/abelian_gps/dual_abelian_group_element.py",
+    "src/sage/groups/abelian_gps/abelian_aut.py",
+    "src/sage/groups/additive_abelian/additive_abelian_group.py",
+    "src/sage/groups/additive_abelian/additive_abelian_wrapper.py",
+    "src/sage/groups/affine_gps/affine_group.py",
+    "src/sage/groups/affine_gps/euclidean_group.py",
+    "src/sage/groups/affine_gps/group_element.py",
+]
+manual_files = []
+records = ["inventory/capabilities/groups.toml"]
+reuse_records = ["inventory/reuse/lean-categories.toml", "inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Dual character evaluation and automorphism-action matrix oracle.",
+    "Additive quotient-module, invariant-factor and wrapper discrete-log oracle.",
+    "Affine composition/inverse and Euclidean metric-preservation oracle.",
+]
+evidence = "Read the dual finite-abelian-group, abelian-automorphism, additive-abelian, additive-wrapper, affine-group, Euclidean-group and affine-element implementations. Recorded exact quotient/module, character/automorphism, affine and metric-preserving contracts with source selectors, reuse dispositions and independent mathematical oracles; capability, entity and module-scope ledgers regenerated successfully."
+accounted_entities = 66
+section_entities = 908
+remaining_open_entities = 483
+open_questions = [
+    "Continue groups through Artin, braid, cactus, cubic braid and right-angled Artin families, then class-function, conjugacy-class, LibGAP and remaining wrappers.",
+    "Execute or explicitly block the independent mathematical tests before marking the groups section complete.",
+]
+
+[[batch]]
+id = "R1-groups-artin-braid-cactus-raag"
+phase = "R1"
+sections = ["groups"]
+modules = [
+    "sage.groups.artin",
+    "sage.groups.braid",
+    "sage.groups.cactus_group",
+    "sage.groups.raag",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = [
+    "src/sage/groups/artin.py",
+    "src/sage/groups/braid.py",
+    "src/sage/groups/cactus_group.py",
+    "src/sage/groups/raag.py",
+]
+manual_files = []
+records = [
+    "inventory/capabilities/groups.toml",
+    "inventory/capabilities/reconnaissance-exclusions.toml",
+]
+reuse_records = ["inventory/reuse/lean-categories.toml", "inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Artin relation, braid normal-form and Coxeter-projection oracles.",
+    "Burau/LKB/Temperley-Lieb and link-invariant checks against standard small links.",
+    "Cactus interval-relation and pure-kernel checks.",
+    "RAAG graph-commutation, normal-form and cohomology checks.",
+]
+evidence = "Read the Artin, braid, cactus-group and right-angled-Artin implementations. Recorded presentation, finite-type normal-form, representation, link-invariant, geometric-representation, graph-product and cohomology contracts; explicitly excluded braid plotting methods; regenerated capability, entity and module-scope ledgers successfully."
+accounted_entities = 106
+section_entities = 908
+remaining_open_entities = 392
+open_questions = [
+    "Read and classify cubic braid, conjugacy/class-function and LibGAP wrapper families.",
+    "Continue remaining group wrappers and helper modules after these families.",
+    "Execute or explicitly block the independent mathematical tests before marking the groups section complete.",
+]
+
+[[batch]]
+id = "R1-groups-cubic-conjugacy-libgap"
+phase = "R1"
+sections = ["groups"]
+modules = [
+    "sage.groups.cubic_braid",
+    "sage.groups.class_function",
+    "sage.groups.conjugacy_classes",
+    "sage.groups.libgap_group",
+    "sage.groups.libgap_mixin",
+    "sage.groups.libgap_morphism",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = [
+    "src/sage/groups/cubic_braid.py",
+    "src/sage/groups/class_function.py",
+    "src/sage/groups/conjugacy_classes.py",
+    "src/sage/groups/libgap_group.py",
+    "src/sage/groups/libgap_mixin.py",
+    "src/sage/groups/libgap_morphism.py",
+]
+manual_files = []
+records = [
+    "inventory/capabilities/groups.toml",
+    "inventory/capabilities/reconnaissance-exclusions.toml",
+]
+reuse_records = ["inventory/reuse/lean-categories.toml", "inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Cubic braid defining-relation and attached-realization homomorphism checks.",
+    "Conjugacy-class partition, representative membership and character scalar-product checks.",
+    "LibGAP order, subgroup, center, centralizer and morphism kernel/preimage checks, including explicit conversion failures.",
+]
+evidence = "Read the cubic-braid, class-function, conjugacy-class, LibGAP group/mixin and LibGAP morphism implementations. Recorded realization, character, conjugacy and backend-boundary contracts with explicit failure semantics; regenerated capability, entity and module-scope ledgers successfully."
+accounted_entities = 87
+section_entities = 908
+remaining_open_entities = 288
+open_questions = [
+    "Continue groups through any remaining group modules and classify helpers not covered by intrinsic capabilities.",
+    "Execute or explicitly block the independent mathematical tests before marking the groups section complete.",
+]
+
+[[batch]]
+id = "R1-groups-permutation-and-abelian-backends"
+phase = "R1"
+sections = ["groups"]
+modules = [
+    "sage.groups.perm_gps.permgroup",
+    "sage.groups.perm_gps.permgroup_element",
+    "sage.groups.perm_gps.permgroup_morphism",
+    "sage.groups.finitely_presented_named",
+    "sage.groups.abelian_gps.abelian_group_gap",
+    "sage.groups.abelian_gps.values",
+    "sage.groups.libgap_wrapper",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = [
+    "src/sage/groups/perm_gps/permgroup.py",
+    "src/sage/groups/perm_gps/permgroup_element.py",
+    "src/sage/groups/perm_gps/permgroup_morphism.py",
+    "src/sage/groups/finitely_presented_named.py",
+    "src/sage/groups/abelian_gps/abelian_group_gap.py",
+    "src/sage/groups/abelian_gps/values.py",
+    "src/sage/groups/libgap_wrapper.pyx",
+]
+manual_files = []
+records = ["inventory/capabilities/groups.toml"]
+reuse_records = ["inventory/reuse/lean-categories.toml", "inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Permutation closure, orbit-stabilizer, subgroup/series and finite-invariant checks.",
+    "Permutation element cycle/sign/order and morphism kernel/image checks.",
+    "Named presentation relator and finite-order checks.",
+    "LibGAP abelian quotient/lift and value-embedding checks.",
+]
+evidence = "Read the remaining permutation-group, permutation-element/morphism, named-presentation, LibGAP-backed abelian, value-realized abelian and LibGAP carrier/element implementations. Added source-backed capabilities for all entities in these families; the previously covered permutation constructors are intentionally overlapped, while the independent named-matrix GAP adapter remains open. Regenerated capability, entity and module-scope ledgers successfully."
+accounted_entities = 188
+section_entities = 908
+remaining_open_entities = 100
+open_questions = [
+    "Read and classify sage.groups.matrix_gps.named_group_gap.NamedMatrixGroup_gap.",
+    "Continue remaining group families: argument/imaginary groups, nilpotent Lie groups, PARI groups, semimonomial transformations and partition-refinement helpers.",
+    "Execute or explicitly block the independent mathematical tests before marking the groups section complete.",
+]
+
+[[batch]]
+id = "R1-groups-final-families"
+phase = "R1"
+sections = ["groups"]
+modules = [
+    "sage.groups.matrix_gps.named_group_gap",
+    "sage.groups.misc_gps.argument_groups",
+    "sage.groups.misc_gps.imaginary_groups",
+    "sage.groups.lie_gps.nilpotent_lie_group",
+    "sage.groups.pari_group",
+    "sage.groups.perm_gps.partn_ref.data_structures",
+    "sage.groups.perm_gps.partn_ref.refinement_graphs",
+    "sage.groups.perm_gps.partn_ref.refinement_lists",
+    "sage.groups.perm_gps.partn_ref.refinement_matrices",
+    "sage.groups.perm_gps.partn_ref2.refinement_generic",
+    "sage.groups.perm_gps.symgp_conjugacy_class",
+    "sage.groups.semimonomial_transformations.semimonomial_transformation",
+    "sage.groups.semimonomial_transformations.semimonomial_transformation_group",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = [
+    "src/sage/groups/matrix_gps/named_group_gap.py",
+    "src/sage/groups/misc_gps/argument_groups.py",
+    "src/sage/groups/misc_gps/imaginary_groups.py",
+    "src/sage/groups/lie_gps/nilpotent_lie_group.py",
+    "src/sage/groups/pari_group.py",
+    "src/sage/groups/perm_gps/partn_ref/data_structures.py",
+    "src/sage/groups/perm_gps/partn_ref/refinement_graphs.py",
+    "src/sage/groups/perm_gps/partn_ref/refinement_lists.py",
+    "src/sage/groups/perm_gps/partn_ref/refinement_matrices.py",
+    "src/sage/groups/perm_gps/partn_ref2/refinement_generic.py",
+    "src/sage/groups/perm_gps/symgp_conjugacy_class.py",
+    "src/sage/groups/semimonomial_transformations/semimonomial_transformation.py",
+    "src/sage/groups/semimonomial_transformations/semimonomial_transformation_group.py",
+]
+manual_files = []
+records = ["inventory/capabilities/groups.toml"]
+reuse_records = ["inventory/reuse/lean-categories.toml", "inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Named matrix-group backend agreement with generic classical-group invariants.",
+    "Argument/root-of-unity normalization and imaginary additive arithmetic.",
+    "Nilpotent BCH exp/log, translation and adjoint checks.",
+    "PARI descriptor metadata and permutation conversion checks.",
+    "Partition-refinement canonical-form, isomorphism, transporter and automorphism checks.",
+    "Semimonomial component, inverse, order and vector/matrix-action checks.",
+]
+evidence = "Read the final open group source families: named matrix GAP adapters, argument/imaginary carriers, nilpotent Lie groups, PARI descriptors, partition-refinement algorithms, symmetric-group conjugacy classes and semimonomial transformations. Added source-backed capabilities, corrected exact submodule selectors for refinement implementations, regenerated capability/entity/module-scope ledgers, and reached zero unaccounted entities in the groups section."
+accounted_entities = 100
+section_entities = 908
+remaining_open_entities = 0
+open_questions = [
+    "Execute or explicitly block the independent mathematical tests recorded across the groups capability records.",
+    "Advance the full reconnaissance loop to the next R1/R2 section; the general ledger still has open entities outside groups.",
+]
+
+[[batch]]
+id = "R2-algebras-finite-clifford-quaternion"
+phase = "R2"
+sections = ["algebras"]
+modules = [
+    "sage.algebras.finite_dimensional_algebras.finite_dimensional_algebra",
+    "sage.algebras.finite_dimensional_algebras.finite_dimensional_algebra_element",
+    "sage.algebras.finite_dimensional_algebras.finite_dimensional_algebra_ideal",
+    "sage.algebras.finite_dimensional_algebras.finite_dimensional_algebra_morphism",
+    "sage.algebras.clifford_algebra",
+    "sage.algebras.clifford_algebra_element",
+    "sage.algebras.quatalg.quaternion_algebra",
+    "sage.algebras.octonion_algebra",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = [
+    "src/sage/algebras/finite_dimensional_algebras/finite_dimensional_algebra.py",
+    "src/sage/algebras/finite_dimensional_algebras/finite_dimensional_algebra_element.pyx",
+    "src/sage/algebras/finite_dimensional_algebras/finite_dimensional_algebra_ideal.py",
+    "src/sage/algebras/finite_dimensional_algebras/finite_dimensional_algebra_morphism.py",
+    "src/sage/algebras/clifford_algebra.py",
+    "src/sage/algebras/clifford_algebra_element.pyx",
+    "src/sage/algebras/quatalg/quaternion_algebra.py",
+    "src/sage/algebras/octonion_algebra.py",
+]
+manual_files = []
+records = ["inventory/capabilities/algebras.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Finite-dimensional multiplication-table, ideal and morphism checks.",
+    "Clifford/exterior quadratic, graded, differential and coalgebra identities.",
+    "Quaternion order, norm, discriminant, ideal and fractional-ideal checks.",
+    "Octonion conjugation, norm, alternativity and nonassociativity checks.",
+]
+evidence = "Read the finite-dimensional algebra, element/ideal/morphism, Clifford/exterior, quaternion/order/fractional-ideal and octonion implementations. Added four source-backed algebra capabilities with exact/conditional contracts, valid reuse identifiers and independent mathematical oracles; 200 source entities were reconciled in these modules, with 68 newly moving from open to capability accounting after overlap with earlier algebra records. Capability, entity and module-scope ledgers regenerated successfully."
+accounted_entities = 68
+section_entities = 1942
+remaining_open_entities = 1642
+open_questions = [
+    "Continue the algebra section through Lie, Hecke, quantum, fusion, cluster, diagram and combinatorial algebra families.",
+    "Execute or explicitly block the independent mathematical tests recorded in algebra capability records.",
+]
+
+[[batch]]
+id = "R2-algebras-lie-families"
+phase = "R2"
+sections = ["algebras"]
+modules = [
+    "sage.algebras.lie_algebras.abelian",
+    "sage.algebras.lie_algebras.affine_lie_algebra",
+    "sage.algebras.lie_algebras.bgg_dual_module",
+    "sage.algebras.lie_algebras.bgg_resolution",
+    "sage.algebras.lie_algebras.center_uea",
+    "sage.algebras.lie_algebras.classical_lie_algebra",
+    "sage.algebras.lie_algebras.examples",
+    "sage.algebras.lie_algebras.free_lie_algebra",
+    "sage.algebras.lie_algebras.heisenberg",
+    "sage.algebras.lie_algebras.lie_algebra",
+    "sage.algebras.lie_algebras.lie_algebra_element",
+    "sage.algebras.lie_algebras.morphism",
+    "sage.algebras.lie_algebras.nilpotent_lie_algebra",
+    "sage.algebras.lie_algebras.onsager",
+    "sage.algebras.lie_algebras.poincare_birkhoff_witt",
+    "sage.algebras.lie_algebras.quotient",
+    "sage.algebras.lie_algebras.rank_two_heisenberg_virasoro",
+    "sage.algebras.lie_algebras.representation",
+    "sage.algebras.lie_algebras.structure_coefficients",
+    "sage.algebras.lie_algebras.subalgebra",
+    "sage.algebras.lie_algebras.symplectic_derivation",
+    "sage.algebras.lie_algebras.verma_module",
+    "sage.algebras.lie_algebras.virasoro",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = [
+    "src/sage/algebras/lie_algebras/abelian.py",
+    "src/sage/algebras/lie_algebras/affine_lie_algebra.py",
+    "src/sage/algebras/lie_algebras/bgg_dual_module.py",
+    "src/sage/algebras/lie_algebras/bgg_resolution.py",
+    "src/sage/algebras/lie_algebras/center_uea.py",
+    "src/sage/algebras/lie_algebras/classical_lie_algebra.py",
+    "src/sage/algebras/lie_algebras/examples.py",
+    "src/sage/algebras/lie_algebras/free_lie_algebra.py",
+    "src/sage/algebras/lie_algebras/heisenberg.py",
+    "src/sage/algebras/lie_algebras/lie_algebra.py",
+    "src/sage/algebras/lie_algebras/lie_algebra_element.pyx",
+    "src/sage/algebras/lie_algebras/morphism.py",
+    "src/sage/algebras/lie_algebras/nilpotent_lie_algebra.py",
+    "src/sage/algebras/lie_algebras/onsager.py",
+    "src/sage/algebras/lie_algebras/poincare_birkhoff_witt.py",
+    "src/sage/algebras/lie_algebras/quotient.py",
+    "src/sage/algebras/lie_algebras/rank_two_heisenberg_virasoro.py",
+    "src/sage/algebras/lie_algebras/representation.py",
+    "src/sage/algebras/lie_algebras/structure_coefficients.py",
+    "src/sage/algebras/lie_algebras/subalgebra.py",
+    "src/sage/algebras/lie_algebras/symplectic_derivation.py",
+    "src/sage/algebras/lie_algebras/verma_module.py",
+    "src/sage/algebras/lie_algebras/virasoro.py",
+]
+manual_files = []
+records = ["inventory/capabilities/algebras.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Lie bilinearity, Jacobi, subalgebra/ideal closure, quotient and morphism checks.",
+    "Named-family checks for Heisenberg, free/nilpotent, classical/Chevalley and affine brackets.",
+    "PBW multiplication, Casimir/center commutation and lift/retract checks.",
+    "Representation, highest-weight, BGG, Virasoro and Onsager defining-relation checks.",
+]
+evidence = "Read the core Lie-algebra, element, structure-coefficient, subalgebra, quotient and morphism sources; named abelian/Heisenberg/free/nilpotent/classical/affine families; PBW and center; and representation/highest-weight/BGG/Virasoro/Onsager families. Added four source-backed capabilities with explicit exactness restrictions and independent mathematical oracles; 405 previously open entities moved to capability accounting. Capability, entity and module-scope ledgers regenerated successfully."
+accounted_entities = 405
+section_entities = 1942
+remaining_open_entities = 1237
+open_questions = [
+    "Continue algebra reconnaissance through Hecke, quantum, fusion, cluster, diagram, quaternion-adjacent and combinatorial algebra modules.",
+    "Execute or explicitly block the independent mathematical tests recorded in algebra capability records.",
+]
+
+[[batch]]
+id = "R2-algebras-hecke-cubic-quantum"
+phase = "R2"
+sections = ["algebras"]
+modules = [
+    "sage.algebras.iwahori_hecke_algebra",
+    "sage.algebras.hecke_algebras.cubic_hecke_algebra",
+    "sage.algebras.hecke_algebras.cubic_hecke_base_ring",
+    "sage.algebras.hecke_algebras.cubic_hecke_matrix_rep",
+    "sage.algebras.hecke_algebras.ariki_koike_algebra",
+    "sage.algebras.hecke_algebras.ariki_koike_specht_modules",
+    "sage.algebras.yokonuma_hecke_algebra",
+    "sage.algebras.nil_coxeter_algebra",
+    "sage.algebras.affine_nil_temperley_lieb",
+    "sage.algebras.down_up_algebra",
+    "sage.algebras.weyl_algebra",
+    "sage.algebras.quantum_oscillator",
+    "sage.algebras.q_commuting_polynomials",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = [
+    "src/sage/algebras/iwahori_hecke_algebra.py",
+    "src/sage/algebras/hecke_algebras/cubic_hecke_algebra.py",
+    "src/sage/algebras/hecke_algebras/cubic_hecke_base_ring.py",
+    "src/sage/algebras/hecke_algebras/cubic_hecke_matrix_rep.py",
+    "src/sage/algebras/hecke_algebras/ariki_koike_algebra.py",
+    "src/sage/algebras/hecke_algebras/ariki_koike_specht_modules.py",
+    "src/sage/algebras/yokonuma_hecke_algebra.py",
+    "src/sage/algebras/nil_coxeter_algebra.py",
+    "src/sage/algebras/affine_nil_temperley_lieb.py",
+    "src/sage/algebras/down_up_algebra.py",
+    "src/sage/algebras/weyl_algebra.py",
+    "src/sage/algebras/quantum_oscillator.py",
+    "src/sage/algebras/q_commuting_polynomials.py",
+]
+manual_files = []
+records = ["inventory/capabilities/algebras.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Hecke quadratic/braid, basis-product, involution and nil-Coxeter/Temperley-Lieb relation checks.",
+    "Cubic defining relation, braid-matrix representation, coefficient-ring and Markov-trace checks.",
+    "Ariki-Koike basis relations and Specht-module generator-action checks.",
+    "Yokonuma-Hecke generator relation and finite basis checks.",
+    "Weyl, down-up, quantum-oscillator and q-commuting normal-form relation checks.",
+]
+evidence = "Read the Iwahori-Hecke, cubic Hecke/base-ring/matrix-representation, Ariki-Koike/Specht, Yokonuma-Hecke, nil-Coxeter, affine nil-Temperley-Lieb, down-up, Weyl, quantum-oscillator and q-commuting polynomial sources. Added four source-backed capabilities with conditional exactness contracts, valid reuse identifiers and independent mathematical oracles; 253 previously open entities moved to capability accounting. Capability, entity and module-scope ledgers regenerated successfully."
+accounted_entities = 253
+section_entities = 1942
+remaining_open_entities = 984
+open_questions = [
+    "Continue algebra reconnaissance through fusion, cluster, diagram, Steenrod and remaining combinatorial algebra modules.",
+    "Execute or explicitly block the independent mathematical tests recorded in algebra capability records.",
+]
+
+[[batch]]
+id = "R2-algebras-fusion-cluster-steenrod"
+phase = "R2"
+sections = ["algebras"]
+modules = [
+    "sage.algebras.fusion_rings.fusion_ring",
+    "sage.algebras.fusion_rings.fusion_double",
+    "sage.algebras.fusion_rings.f_matrix",
+    "sage.algebras.fusion_rings.poly_tup_engine",
+    "sage.algebras.fusion_rings.fast_parallel_fmats_methods",
+    "sage.algebras.fusion_rings.fast_parallel_fusion_ring_braid_repn",
+    "sage.algebras.fusion_rings.shm_managers",
+    "sage.algebras.cluster_algebra",
+    "sage.algebras.steenrod.steenrod_algebra",
+    "sage.algebras.steenrod.steenrod_algebra_bases",
+    "sage.algebras.steenrod.steenrod_algebra_misc",
+    "sage.algebras.steenrod.steenrod_algebra_mult",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/algebras/fusion_rings/fusion_ring.py",
+    "src/sage/algebras/fusion_rings/fusion_double.py",
+    "src/sage/algebras/fusion_rings/f_matrix.py",
+    "src/sage/algebras/fusion_rings/poly_tup_engine.pyx",
+    "src/sage/algebras/fusion_rings/fast_parallel_fmats_methods.pyx",
+    "src/sage/algebras/fusion_rings/fast_parallel_fusion_ring_braid_repn.pyx",
+    "src/sage/algebras/fusion_rings/shm_managers.pyx",
+    "src/sage/algebras/cluster_algebra.py",
+    "src/sage/algebras/steenrod/steenrod_algebra.py",
+    "src/sage/algebras/steenrod/steenrod_algebra_bases.py",
+    "src/sage/algebras/steenrod/steenrod_algebra_misc.py",
+    "src/sage/algebras/steenrod/steenrod_algebra_mult.py",
+]
+manual_files = []
+records = ["inventory/capabilities/algebras.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Fusion associativity, Verlinde coefficients, duality and modular S/R/F-matrix identities.",
+    "Cluster seed mutation, exchange, Laurentness and c/g/d-vector identities.",
+    "Steenrod Adem/Milnor multiplication, coproduct/antipode Hopf identities and basis-conversion round trips.",
+]
+evidence = "Read the fusion-ring, fusion-double, F-matrix and parallel solver/representation sources; the cluster-algebra seed/mutation and canonical-basis implementation; and the generic Steenrod algebra, basis, conversion, profile and multiplication sources. Added three source-backed capabilities with conditional exactness contracts, valid reuse identifiers and independent mathematical oracles; 266 previously open entities moved to capability accounting. Capability, entity and module-scope ledgers regenerated successfully."
+accounted_entities = 266
+section_entities = 1942
+remaining_open_entities = 718
+open_questions = [
+    "Continue algebra reconnaissance through diagram/partition algebras, quantum groups, shuffle and remaining combinatorial algebra modules.",
+    "Execute or explicitly block the independent mathematical tests recorded in algebra capability records.",
+]
+
+[[batch]]
+id = "R2-algebras-quantum-groups-noncommutative"
+phase = "R2"
+sections = ["algebras"]
+modules = [
+    "sage.algebras.quantum_groups.quantum_group_gap",
+    "sage.algebras.quantum_groups.fock_space",
+    "sage.algebras.quantum_groups.representations",
+    "sage.algebras.quantum_groups.ace_quantum_onsager",
+    "sage.algebras.quantum_groups.q_numbers",
+    "sage.algebras.yangian",
+    "sage.algebras.quantum_matrix_coordinate_algebra",
+    "sage.algebras.shuffle_algebra",
+    "sage.algebras.quantum_clifford",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/algebras/quantum_groups/quantum_group_gap.py",
+    "src/sage/algebras/quantum_groups/fock_space.py",
+    "src/sage/algebras/quantum_groups/representations.py",
+    "src/sage/algebras/quantum_groups/ace_quantum_onsager.py",
+    "src/sage/algebras/quantum_groups/q_numbers.py",
+    "src/sage/algebras/yangian.py",
+    "src/sage/algebras/quantum_matrix_coordinate_algebra.py",
+    "src/sage/algebras/shuffle_algebra.py",
+    "src/sage/algebras/quantum_clifford.py",
+]
+manual_files = []
+records = ["inventory/capabilities/algebras.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Quantum Serre/Hopf identities, highest-weight actions, crystal/Fock checks and q-number identities.",
+    "Yangian filtered Hopf relations, quantum determinant/bialgebra identities and shuffle Hopf identities.",
+    "Quantum Clifford generic/root-of-unity relations, finite dimension and specialization checks.",
+]
+evidence = "Read the QuaGroup-backed quantum-group, Fock-space, representation, quantum Onsager and q-number sources; the Yangian, quantum matrix-coordinate, shuffle/PBW and quantum Clifford sources. Added two source-backed capabilities with conditional exactness contracts, valid reuse identifiers and independent mathematical oracles; 207 previously open entities moved to capability accounting. Capability, entity and module-scope ledgers regenerated successfully."
+accounted_entities = 207
+section_entities = 1942
+remaining_open_entities = 511
+open_questions = [
+    "Continue algebra reconnaissance through commutative differential graded, Jordan, Hall, q-system, Schur, rational Cherednik and remaining algebra modules.",
+    "Execute or explicitly block the independent mathematical tests recorded in algebra capability records.",
+]
+
+[[batch]]
+id = "R2-algebras-dga-jordan-specialized"
+phase = "R2"
+sections = ["algebras"]
+modules = [
+    "sage.algebras.commutative_dga",
+    "sage.algebras.jordan_algebra",
+    "sage.algebras.hall_algebra",
+    "sage.algebras.q_system",
+    "sage.algebras.schur_algebra",
+    "sage.algebras.askey_wilson",
+    "sage.algebras.rational_cherednik_algebra",
+    "sage.algebras.finite_gca",
+    "sage.algebras.cellular_basis",
+    "sage.algebras.splitting_algebra",
+    "sage.algebras.orlik_solomon",
+    "sage.algebras.orlik_terao",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/algebras/commutative_dga.py",
+    "src/sage/algebras/jordan_algebra.py",
+    "src/sage/algebras/hall_algebra.py",
+    "src/sage/algebras/q_system.py",
+    "src/sage/algebras/schur_algebra.py",
+    "src/sage/algebras/askey_wilson.py",
+    "src/sage/algebras/rational_cherednik_algebra.py",
+    "src/sage/algebras/finite_gca.py",
+    "src/sage/algebras/cellular_basis.py",
+    "src/sage/algebras/splitting_algebra.py",
+    "src/sage/algebras/orlik_solomon.py",
+    "src/sage/algebras/orlik_terao.py",
+]
+manual_files = []
+records = ["inventory/capabilities/algebras.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "DGA graded-Leibniz, differential-square-zero, cohomology and bounded minimal-model checks.",
+    "Jordan identity, special symmetrization, bilinear-form and exceptional-octonion checks.",
+    "Hall coproduct/antipode, Q-system recurrence and Schur basis/module checks.",
+    "Askey-Wilson/Cherednik relations, finite/cellular closure and splitting-root checks.",
+    "Orlik-Solomon/Terao circuit relations, invariant actions and Aomoto cohomology checks.",
+]
+evidence = "Read the commutative-DGA, Jordan, Hall, Q-system, Schur, Askey-Wilson, rational Cherednik, finite graded, cellular, splitting, Orlik-Solomon and Orlik-Terao sources. Added five source-backed capabilities with conditional/exact contracts, valid reuse identifiers and independent mathematical oracles; 195 previously open entities moved to capability accounting. Capability, entity and module-scope ledgers regenerated successfully."
+accounted_entities = 195
+section_entities = 1942
+remaining_open_entities = 316
+open_questions = [
+    "Finish the remaining algebra section modules, then advance to the unresolved combinat, rings, polynomial-rings and number-theory sections.",
+    "Execute or explicitly block the independent mathematical tests recorded in algebra capability records.",
+]
+
+[[batch]]
+id = "R2-algebras-combinatorial-completions"
+phase = "R2"
+sections = ["algebras"]
+modules = [
+    "sage.combinat.diagram_algebras",
+    "sage.combinat.partition_algebra",
+    "sage.combinat.descent_algebra",
+    "sage.combinat.posets.moebius_algebra",
+    "sage.combinat.posets.incidence_algebras",
+    "sage.combinat.free_prelie_algebra",
+    "sage.combinat.free_dendriform_algebra",
+    "sage.combinat.grossman_larson_algebras",
+    "sage.algebras.free_zinbiel_algebra",
+    "sage.algebras.letterplace.letterplace_ideal",
+    "sage.algebras.lie_algebras.bch",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/combinat/diagram_algebras.py",
+    "src/sage/combinat/partition_algebra.py",
+    "src/sage/combinat/descent_algebra.py",
+    "src/sage/combinat/posets/moebius_algebra.py",
+    "src/sage/combinat/posets/incidence_algebras.py",
+    "src/sage/combinat/free_prelie_algebra.py",
+    "src/sage/combinat/free_dendriform_algebra.py",
+    "src/sage/combinat/grossman_larson_algebras.py",
+    "src/sage/algebras/free_zinbiel_algebra.py",
+    "src/sage/algebras/letterplace/letterplace_ideal.pyx",
+    "src/sage/algebras/lie_algebras/bch.py",
+]
+manual_files = []
+records = ["inventory/capabilities/algebras.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Diagram/partition enumeration, composition associativity, generator and descent-basis checks.",
+    "Incidence convolution, Möbius inversion and quantum-basis checks.",
+    "Pre-Lie/dendriform/Zinbiel identities and rooted-tree Hopf identities.",
+    "Letterplace normal forms and BCH coefficient/truncation checks.",
+]
+evidence = "Read the diagram/partition/descent, incidence/Möbius, free pre-Lie/dendriform/Zinbiel, Grossman-Larson, letterplace and BCH sources. Added four source-backed capabilities with exact/conditional contracts, valid reuse identifiers and independent mathematical oracles; 316 previously open entities moved to capability accounting. The algebras section now has zero unaccounted entities; capability, entity and module-scope ledgers regenerated successfully."
+accounted_entities = 316
+section_entities = 1942
+remaining_open_entities = 0
+open_questions = [
+    "Advance to the next dependency-ordered section; execute or explicitly block the independent mathematical tests recorded in algebra capability records.",
+]
+
+[[batch]]
+id = "R1-finite-rings-completion"
+phase = "R1"
+sections = ["finite_rings"]
+modules = [
+    "sage.rings.finite_rings.integer_mod",
+    "sage.rings.finite_rings.integer_mod_ring",
+    "sage.rings.finite_rings.element_base",
+    "sage.rings.finite_rings.finite_field_base",
+    "sage.rings.finite_rings.finite_field_constructor",
+    "sage.rings.finite_rings.finite_field_prime_modn",
+    "sage.rings.finite_rings.finite_field_givaro",
+    "sage.rings.finite_rings.finite_field_ntl_gf2e",
+    "sage.rings.finite_rings.finite_field_pari_ffelt",
+    "sage.rings.finite_rings.element_givaro",
+    "sage.rings.finite_rings.element_ntl_gf2e",
+    "sage.rings.finite_rings.element_pari_ffelt",
+    "sage.rings.algebraic_closure_finite_field",
+    "sage.rings.finite_rings.residue_field",
+    "sage.rings.finite_rings.conway_polynomials",
+    "sage.rings.finite_rings.hom_finite_field",
+    "sage.rings.finite_rings.hom_finite_field_givaro",
+    "sage.rings.finite_rings.hom_prime_finite_field",
+    "sage.rings.finite_rings.homset",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/rings/finite_rings/integer_mod.pyx",
+    "src/sage/rings/finite_rings/integer_mod_ring.py",
+    "src/sage/rings/finite_rings/element_base.pyx",
+    "src/sage/rings/finite_rings/finite_field_base.pyx",
+    "src/sage/rings/finite_rings/finite_field_constructor.py",
+    "src/sage/rings/finite_rings/finite_field_prime_modn.py",
+    "src/sage/rings/finite_rings/finite_field_givaro.py",
+    "src/sage/rings/finite_rings/finite_field_ntl_gf2e.py",
+    "src/sage/rings/finite_rings/finite_field_pari_ffelt.py",
+    "src/sage/rings/finite_rings/element_givaro.pyx",
+    "src/sage/rings/finite_rings/element_ntl_gf2e.pyx",
+    "src/sage/rings/finite_rings/element_pari_ffelt.pyx",
+    "src/sage/rings/algebraic_closure_finite_field.py",
+    "src/sage/rings/finite_rings/residue_field.pyx",
+    "src/sage/rings/finite_rings/conway_polynomials.py",
+    "src/sage/rings/finite_rings/hom_finite_field.pyx",
+    "src/sage/rings/finite_rings/hom_finite_field_givaro.pyx",
+    "src/sage/rings/finite_rings/hom_prime_finite_field.pyx",
+    "src/sage/rings/finite_rings/homset.py",
+]
+manual_files = []
+records = ["inventory/capabilities/finite-rings.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Modular ring arithmetic, CRT, unit-group, order, valuation and root checks.",
+    "Finite-field cardinality, characteristic, backend-independent arithmetic and Frobenius checks.",
+    "Residue reduction/lift, homomorphism, fixed-field, Conway and algebraic-closure checks.",
+]
+evidence = "Read the modular-integer, finite-field factory/base/backend, residue-field, algebraic-closure, Conway-polynomial, homomorphism and homset sources. Added three source-backed finite-ring capabilities with exact/conditional contracts, valid reuse identifiers and independent mathematical oracles; all 308 previously open finite_rings entities moved to capability accounting. Capability, entity and module-scope ledgers regenerated successfully."
+accounted_entities = 308
+section_entities = 309
+remaining_open_entities = 0
+open_questions = [
+    "Advance to the remaining R1 rings, modules and tensor_free_modules sections; execute or explicitly block the independent mathematical tests recorded in finite-ring capability records.",
+]
+
+[[batch]]
+id = "R1-rings-completion"
+phase = "R1"
+sections = ["rings"]
+modules = [
+    "sage.rings.abc",
+    "sage.rings.big_oh",
+    "sage.rings.derivation",
+    "sage.rings.generic",
+    "sage.rings.homset",
+    "sage.rings.ideal",
+    "sage.rings.ideal_monoid",
+    "sage.rings.infinity",
+    "sage.rings.localization",
+    "sage.rings.morphism",
+    "sage.rings.noncommutative_ideals",
+    "sage.rings.quotient_ring",
+    "sage.rings.quotient_ring_element",
+    "sage.rings.ring",
+    "sage.rings.ring_extension",
+    "sage.rings.ring_extension_element",
+    "sage.rings.ring_extension_morphism",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/rings/abc.pyx",
+    "src/sage/rings/big_oh.py",
+    "src/sage/rings/derivation.py",
+    "src/sage/rings/generic.py",
+    "src/sage/rings/homset.py",
+    "src/sage/rings/ideal.py",
+    "src/sage/rings/ideal_monoid.py",
+    "src/sage/rings/infinity.py",
+    "src/sage/rings/localization.py",
+    "src/sage/rings/morphism.pyx",
+    "src/sage/rings/noncommutative_ideals.pyx",
+    "src/sage/rings/quotient_ring.py",
+    "src/sage/rings/quotient_ring_element.py",
+    "src/sage/rings/ring.pyx",
+    "src/sage/rings/ring_extension.pyx",
+    "src/sage/rings/ring_extension_element.pyx",
+    "src/sage/rings/ring_extension_morphism.pyx",
+]
+manual_files = []
+records = ["inventory/capabilities/rings.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Ring parent/coercion, product-tree/CRT, infinity and big-O contract checks.",
+    "Ideal membership/reduction, quotient lift/retract, localization fraction and decomposition checks.",
+    "Ring-extension generator, morphism/homset composition and conversion checks.",
+    "Leibniz/twisted-Leibniz, constants, brackets and fraction/quotient extension checks.",
+]
+evidence = "Read the ring/ABC/generic/infinity/big-O foundations; ideal, quotient, noncommutative ideal and localization implementations; ring extension, element, morphism and homset code; and derivation module/wrapper families. Added four source-backed capabilities with conditional contracts, valid reuse identifiers and independent mathematical oracles; all 306 previously open rings entities moved to capability accounting. Capability, entity and module-scope ledgers regenerated successfully."
+accounted_entities = 306
+section_entities = 306
+remaining_open_entities = 0
+open_questions = [
+    "Continue R1 through modules and tensor_free_modules; execute or explicitly block the independent mathematical tests recorded in ring capability records.",
+]
+
+[[batch]]
+id = "R1-tensor-free-modules-completion"
+phase = "R1"
+sections = ["tensor_free_modules"]
+modules = [
+    "sage.tensor.modules.alternating_contr_tensor",
+    "sage.tensor.modules.comp",
+    "sage.tensor.modules.ext_pow_free_module",
+    "sage.tensor.modules.finite_rank_free_module",
+    "sage.tensor.modules.format_utilities",
+    "sage.tensor.modules.free_module_alt_form",
+    "sage.tensor.modules.free_module_automorphism",
+    "sage.tensor.modules.free_module_basis",
+    "sage.tensor.modules.free_module_element",
+    "sage.tensor.modules.free_module_homset",
+    "sage.tensor.modules.free_module_linear_group",
+    "sage.tensor.modules.free_module_morphism",
+    "sage.tensor.modules.free_module_tensor",
+    "sage.tensor.modules.reflexive_module",
+    "sage.tensor.modules.tensor_free_module",
+    "sage.tensor.modules.tensor_free_submodule",
+    "sage.tensor.modules.tensor_free_submodule_basis",
+    "sage.tensor.modules.tensor_with_indices",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/tensor/modules/alternating_contr_tensor.py",
+    "src/sage/tensor/modules/comp.py",
+    "src/sage/tensor/modules/ext_pow_free_module.py",
+    "src/sage/tensor/modules/finite_rank_free_module.py",
+    "src/sage/tensor/modules/format_utilities.py",
+    "src/sage/tensor/modules/free_module_alt_form.py",
+    "src/sage/tensor/modules/free_module_automorphism.py",
+    "src/sage/tensor/modules/free_module_basis.py",
+    "src/sage/tensor/modules/free_module_element.py",
+    "src/sage/tensor/modules/free_module_homset.py",
+    "src/sage/tensor/modules/free_module_linear_group.py",
+    "src/sage/tensor/modules/free_module_morphism.py",
+    "src/sage/tensor/modules/free_module_tensor.py",
+    "src/sage/tensor/modules/reflexive_module.py",
+    "src/sage/tensor/modules/tensor_free_module.py",
+    "src/sage/tensor/modules/tensor_free_submodule.py",
+    "src/sage/tensor/modules/tensor_free_submodule_basis.py",
+    "src/sage/tensor/modules/tensor_with_indices.py",
+]
+manual_files = []
+records = ["inventory/capabilities/tensor-free-modules.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Finite-rank basis, dual, morphism, automorphism and matrix-invariant checks.",
+    "Tensor component, symmetry, contraction, trace and indexed-expression checks.",
+    "Exterior-power dimension, wedge, determinant and interior-product checks.",
+]
+evidence = "Read the finite-rank free-module, reflexive/dual, basis, morphism, automorphism, tensor/component, indexed-expression, submodule, exterior-power, alternating-tensor and alternating-form sources. Added three source-backed capabilities with exact contracts, valid reuse identifiers and independent mathematical oracles; all 179 previously open tensor_free_modules entities moved to capability accounting. Capability, entity and module-scope ledgers regenerated successfully."
+accounted_entities = 179
+section_entities = 179
+remaining_open_entities = 0
+open_questions = [
+    "Complete the remaining R1 modules section; execute or explicitly block the independent mathematical tests recorded in tensor capability records.",
+]
+
+
+[[batch]]
+id = "R2-algebras-tensor-exterior-free-elements"
+phase = "R2"
+sections = ["algebras"]
+modules = [
+    "sage.algebras.tensor_algebra",
+    "sage.algebras.associated_graded",
+    "sage.algebras.clifford_algebra",
+    "sage.algebras.clifford_algebra_element",
+    "sage.algebras.exterior_algebra_groebner",
+    "sage.algebras.free_algebra_element",
+    "sage.algebras.free_algebra_quotient",
+    "sage.algebras.free_algebra_quotient_element",
+    "sage.algebras.letterplace.free_algebra_element_letterplace",
+    "sage.algebras.letterplace.free_algebra_letterplace",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = [
+    "src/sage/algebras/tensor_algebra.py",
+    "src/sage/algebras/associated_graded.py",
+    "src/sage/algebras/clifford_algebra.py",
+    "src/sage/algebras/clifford_algebra_element.pyx",
+    "src/sage/algebras/exterior_algebra_groebner.pyx",
+    "src/sage/algebras/free_algebra_element.py",
+    "src/sage/algebras/free_algebra_quotient.py",
+    "src/sage/algebras/free_algebra_quotient_element.py",
+    "src/sage/algebras/letterplace/free_algebra_element_letterplace.pyx",
+    "src/sage/algebras/letterplace/free_algebra_letterplace.pyx",
+]
+manual_files = []
+records = ["inventory/capabilities/algebras.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Sage doctest contracts recorded in the capability records for tensor, Clifford, exterior, Groebner, differential and associated-graded operations.",
+    "Independent word, subset, shuffle, contraction, Hodge-dual, normal-form and filtration-degree oracles recorded in the capability records.",
+]
+evidence = "Read the tensor, associated-graded, Clifford/exterior, exterior-Groebner, free-algebra element/quotient and letterplace element source families. Added six source-grounded capabilities (tensor algebra; Clifford algebra; exterior algebra; exterior Groebner bases and normal forms; boundary/coboundary differentials with homology; associated graded algebra), extended the free-associative-construction selectors to the element, quotient and letterplace families, and added the Mathlib tensor-algebra reuse component. Coverage, selector matching and reuse identifiers validated; all 119 entities of these modules are accounted."
+accounted_entities = 119
+section_entities = 1942
+remaining_open_entities = 984
+open_questions = [
+    "Execute the independent mathematical oracle tests when a Lean/Sage harness is available; the records currently hold the test contracts and source evidence.",
+    "Continue the remaining algebras families: commutative differential graded algebras, cluster algebras, quantum groups, Steenrod, Hall, Schur, shuffle and Jordan algebras.",
+]
+
+[[batch]]
+id = "R2-algebras-completion-families"
+phase = "R2"
+sections = ["algebras"]
+modules = [
+    "sage.combinat.diagram_algebras",
+    "sage.combinat.partition_algebra",
+    "sage.combinat.descent_algebra",
+    "sage.combinat.posets.incidence_algebras",
+    "sage.combinat.posets.moebius_algebra",
+    "sage.combinat.grossman_larson_algebras",
+    "sage.combinat.free_prelie_algebra",
+    "sage.combinat.free_dendriform_algebra",
+    "sage.algebras.free_zinbiel_algebra",
+    "sage.algebras.shuffle_algebra",
+    "sage.algebras.commutative_dga",
+    "sage.algebras.finite_gca",
+    "sage.algebras.splitting_algebra",
+    "sage.algebras.quantum_groups.quantum_group_gap",
+    "sage.algebras.quantum_groups.fock_space",
+    "sage.algebras.quantum_groups.representations",
+    "sage.algebras.quantum_groups.ace_quantum_onsager",
+    "sage.algebras.quantum_groups.q_numbers",
+    "sage.algebras.quantum_clifford",
+    "sage.algebras.quantum_matrix_coordinate_algebra",
+    "sage.algebras.q_system",
+    "sage.algebras.yangian",
+    "sage.algebras.jordan_algebra",
+    "sage.algebras.hall_algebra",
+    "sage.algebras.askey_wilson",
+    "sage.algebras.orlik_solomon",
+    "sage.algebras.orlik_terao",
+    "sage.algebras.schur_algebra",
+    "sage.algebras.rational_cherednik_algebra",
+    "sage.algebras.cellular_basis",
+    "sage.algebras.letterplace.letterplace_ideal",
+    "sage.algebras.lie_algebras.bch",
+]
+status = "source-reconciled"
+started = "2026-11-18"
+source_files = [
+    "src/sage/combinat/diagram_algebras.py",
+    "src/sage/combinat/partition_algebra.py",
+    "src/sage/combinat/descent_algebra.py",
+    "src/sage/combinat/posets/incidence_algebras.py",
+    "src/sage/combinat/posets/moebius_algebra.py",
+    "src/sage/combinat/grossman_larson_algebras.py",
+    "src/sage/combinat/free_prelie_algebra.py",
+    "src/sage/combinat/free_dendriform_algebra.py",
+    "src/sage/algebras/free_zinbiel_algebra.py",
+    "src/sage/algebras/shuffle_algebra.py",
+    "src/sage/algebras/commutative_dga.py",
+    "src/sage/algebras/finite_gca.py",
+    "src/sage/algebras/splitting_algebra.py",
+    "src/sage/algebras/quantum_groups/quantum_group_gap.py",
+    "src/sage/algebras/quantum_groups/fock_space.py",
+    "src/sage/algebras/quantum_groups/representations.py",
+    "src/sage/algebras/quantum_groups/ace_quantum_onsager.py",
+    "src/sage/algebras/quantum_groups/q_numbers.py",
+    "src/sage/algebras/quantum_clifford.py",
+    "src/sage/algebras/quantum_matrix_coordinate_algebra.py",
+    "src/sage/algebras/q_system.py",
+    "src/sage/algebras/yangian.py",
+    "src/sage/algebras/jordan_algebra.py",
+    "src/sage/algebras/hall_algebra.py",
+    "src/sage/algebras/askey_wilson.py",
+    "src/sage/algebras/orlik_solomon.py",
+    "src/sage/algebras/orlik_terao.py",
+    "src/sage/algebras/schur_algebra.py",
+    "src/sage/algebras/rational_cherednik_algebra.py",
+    "src/sage/algebras/cellular_basis.py",
+    "src/sage/algebras/letterplace/letterplace_ideal.pyx",
+    "src/sage/algebras/lie_algebras/bch.py",
+]
+manual_files = []
+records = ["inventory/capabilities/algebras.toml", "inventory/capabilities/reconnaissance-exclusions.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "Sage doctests inherited through the selectors of every record: diagram composition and loop counts, descent-basis products, incidence convolution, Hall extension counts, crystal graphs, Orlik-Solomon/Terao relations, and PBW normal forms.",
+    "Independent oracles stated per record: Jacobi and Hopf axioms, zeta*mu = delta, q = 1 specialisation of q-binomials, d^2 = 0 and ker/im cohomology ranks, and Schur dimensions against weight multiplicities.",
+]
+evidence = "Reconciled the remaining 32 algebras modules after reading their sources and recorded 36 capabilities with selectors partitioning all 718 open entities, plus two presentation-only exclusions for diagram ASCII/LaTeX rendering. Each record cites the module's Sage docstring reference keys, its reuse status was taken from the reuse maps, backends from the index, and the oracle checks are stated per operation. The algebras section now reports 0 unaccounted entities."
+accounted_entities = 718
+section_entities = 1942
+remaining_open_entities = 0
+open_questions = [
+    "Execute the independent mathematical oracles recorded per capability when a Lean/Sage harness is available; no test has been run against a native implementation yet.",
+    "Attach the algebra capabilities to lean-categories catalogue ids where the catalogue gains the corresponding objects and operations; every record currently reports an empty catalogue with its search evidence in the reuse note.",
+]
+
+[[batch]]
+id = "R3-remaining-mathematical-families"
+phase = "R3"
+sections = ["arithmetic_curves", "discrete_geometry", "manifolds", "modfrm", "schemes", "rings_numerical", "cryptography", "curves", "modabvar", "modsym"]
+status = "source-reconciled"
+source_files = [
+    "src/sage/interfaces/genus2reduction.py",
+    "src/sage/schemes/elliptic_curves/",
+    "src/sage/geometry/",
+    "src/sage/manifolds/",
+    "src/sage/modular/",
+    "src/sage/schemes/",
+    "src/sage/rings/complex_*.py",
+    "src/sage/crypto/",
+]
+manual_files = []
+records = [
+    "inventory/capabilities/recon-arithmetic_curves.toml",
+    "inventory/capabilities/recon-discrete_geometry.toml",
+    "inventory/capabilities/recon-manifolds.toml",
+    "inventory/capabilities/recon-modfrm.toml",
+    "inventory/capabilities/recon-schemes.toml",
+    "inventory/capabilities/recon-rings_numerical.toml",
+    "inventory/capabilities/recon-cryptography.toml",
+    "inventory/capabilities/recon-curves.toml",
+    "inventory/capabilities/recon-modabvar.toml",
+    "inventory/capabilities/recon-modsym.toml",
+]
+tests = [
+    "Independent mathematical assertions and published examples for the documented constructions, operations and invariants.",
+]
+evidence = "Read representative core source modules in every remaining family, then replaced the family-wide scope-only selectors with source-reconciled mathematical contracts. The records retain backend, precision, field, normalization, smoothness and proof-status hypotheses rather than asserting unconditional equivalence."
+accounted_entities = 7032
+section_entities = 7032
+remaining_open_entities = 0
+open_questions = [
+    "Execute the independent mathematical assertions against native implementations when available.",
+    "Deepen backend-specific and subclass-level source notes before implementing each capability; family accounting is complete but implementation readiness is not.",
+]
+
+[[batch]]
+id = "R2-inventory-section-completion"
+phase = "R2"
+sections = [
+    "arithmetic_curves",
+    "cryptography",
+    "curves",
+    "discrete_geometry",
+    "dynamics",
+    "function_fields",
+    "hyperbolic_geometry",
+    "manifolds",
+    "modabvar",
+    "modfrm",
+    "modsym",
+    "riemannian_geometry",
+    "rings_numerical",
+    "schemes",
+    "drinfeld_modular",
+]
+modules = ["See the per-section capability files; each record's selectors name its modules."]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/schemes/elliptic_curves/",
+    "src/sage/schemes/hyperelliptic_curves/",
+    "src/sage/schemes/curves/",
+    "src/sage/schemes/plane_conics/",
+    "src/sage/geometry/polyhedron/",
+    "src/sage/geometry/cone.py",
+    "src/sage/geometry/fan.py",
+    "src/sage/geometry/lattice_polytope.py",
+    "src/sage/geometry/hyperplane_arrangement/",
+    "src/sage/geometry/triangulation/",
+    "src/sage/dynamics/",
+    "src/sage/sandpiles/sandpile.py",
+    "src/sage/rings/function_field/",
+    "src/sage/geometry/hyperbolic_space/",
+    "src/sage/manifolds/",
+    "src/sage/modular/abvar/",
+    "src/sage/modular/modform/",
+    "src/sage/modular/modsym/",
+    "src/sage/geometry/riemannian_manifolds/",
+    "src/sage/rings/real_arb.pyx",
+    "src/sage/rings/complex_arb.pyx",
+    "src/sage/schemes/toric/",
+    "src/sage/schemes/generic/",
+    "src/sage/schemes/projective/",
+    "src/sage/crypto/",
+    "src/sage/modular/drinfeld_modform/",
+]
+manual_files = []
+records = [
+    "inventory/capabilities/arithmetic_curves.toml",
+    "inventory/capabilities/cryptography.toml",
+    "inventory/capabilities/curves.toml",
+    "inventory/capabilities/discrete_geometry.toml",
+    "inventory/capabilities/dynamics.toml",
+    "inventory/capabilities/function_fields.toml",
+    "inventory/capabilities/hyperbolic_geometry.toml",
+    "inventory/capabilities/manifolds.toml",
+    "inventory/capabilities/modabvar.toml",
+    "inventory/capabilities/modfrm.toml",
+    "inventory/capabilities/modsym.toml",
+    "inventory/capabilities/riemannian_geometry.toml",
+    "inventory/capabilities/rings_numerical.toml",
+    "inventory/capabilities/schemes.toml",
+    "inventory/capabilities/drinfeld_modular.toml",
+]
+reuse_records = ["inventory/reuse/mathlib-core.toml", "inventory/reuse/hex.toml", "inventory/reuse/lean-ecosystem.toml", "inventory/reuse/lean-categories.toml"]
+tests = [
+    "Each record states independent mathematical assertions beside its inherited doctests: group and field axioms for curve and function-field arithmetic, d^2 = 0 and the graded-commutative sign for exterior calculus, zeta-function agreement with point counts for covers and Jacobians, enclosure containment for ball and interval arithmetic, Walsh-spectrum identities for S-boxes, and Euler-characteristic and Hecke-trace checks for tree quotients and modular symbols.",
+]
+evidence = "Partitioned each remaining manual section into its documented source families, read the corresponding Sage modules, and wrote 67 source-reconciled capability records with selectors that cover every public entity of the 15 sections. The superseded scope-only placeholders for these sections were removed, and docs/domain-specifications.md now links the owning capability file for every section. The inventory reports 0 unaccounted entities: 31,940 by capability, 4,124 by exclusion and 2,718 category entities by the category/operation records in inventory/categories."
+accounted_entities = 8035
+section_entities = 38782
+remaining_open_entities = 0
+open_questions = [
+    "Execute the oracle assertions recorded per capability once a native Lean implementation exists; no record has been validated against a native computation yet.",
+    "Attach these records to lean-categories catalogue ids as the catalogue gains the corresponding objects and operations; they currently report an empty catalogue with search evidence in the reuse note.",
+]
+
+[[batch]]
+id = "R3-substantive-capability-audit"
+phase = "R3"
+sections = ["algebras", "asymptotic", "calculus", "diophantine_approximation", "euclidean_spaces", "hecke", "knots", "matroids", "numerical", "stats", "topology"]
+status = "source-reconciled"
+source_files = [
+    "src/sage/rings/asymptotic/",
+    "src/sage/rings/continued_fraction.py",
+    "src/sage/manifolds/operators.py",
+    "src/sage/modular/hecke/",
+    "src/sage/knots/",
+    "src/sage/matroids/",
+    "src/sage/stats/",
+    "src/sage/topology/",
+]
+manual_files = []
+records = [
+    "inventory/capabilities/asymptotic.toml",
+    "inventory/capabilities/calculus.toml",
+    "inventory/capabilities/diophantine.toml",
+    "inventory/capabilities/euclidean-spaces.toml",
+    "inventory/capabilities/hecke.toml",
+    "inventory/capabilities/knots.toml",
+    "inventory/capabilities/matroids.toml",
+    "inventory/capabilities/numerical.toml",
+    "inventory/capabilities/stats.toml",
+    "inventory/capabilities/topology.toml",
+]
+tests = [
+    "Capability statements, hypotheses, exactness notes, algorithm families and independent mathematical checks were audited against representative source modules.",
+]
+evidence = "Replaced generic family-accounting prose in seven records with mathematical contracts, source-level algorithm families and operation-specific oracle tests; also filled all conditional exactness notes identified by the audit."
+accounted_entities = 0
+section_entities = 0
+remaining_open_entities = 0
+open_questions = [
+    "Run the listed mathematical oracle checks against native implementations when the corresponding Lean capabilities are implemented.",
+]
+
+[[batch]]
+id = "R3-record-integrity-audit"
+phase = "R3"
+sections = ["all mathematical sections"]
+status = "source-reconciled"
+source_files = [
+    "inventory/capabilities/*.toml",
+    "docs/capability-records.md",
+    "inventory/reuse/*.toml",
+]
+manual_files = []
+records = ["inventory/capabilities/*.toml"]
+tests = [
+    "Every capability has a nonempty mathematical statement, domain, contract, algorithm list, selector list, test contract and exactness classification.",
+    "Every conditional capability has explicit exactness notes; every reuse component resolves against the reuse inventory.",
+]
+evidence = "Audited the 371 capability records for generic placeholder prose, unresolved reuse ids and missing conditional hypotheses. Replaced the remaining generic family records with operation-specific contracts and source families, corrected reuse claims that used boilerplate finite-support evidence, and filled the final conditional exactness note."
+accounted_entities = 31940
+section_entities = 31940
+remaining_open_entities = 0
+open_questions = [
+    "Tier-2 native implementation and Sage-oracle execution remain separate from this reconnaissance ledger and must be completed capability by capability.",
+]
+
+[[batch]]
+id = "R2-coverage-category-accounting"
+phase = "R2"
+sections = ["categories"]
+modules = ["src/sage/categories/"]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = ["src/sage/categories/"]
+manual_files = []
+records = ["inventory/categories/sage-categories.toml"]
+reuse_records = ["inventory/reuse/lean-categories.toml"]
+tests = ["The category inventory's own reconciliations: each record names the indexed entity, its catalogue id or its explicit absent relation."]
+evidence = "The coverage measure now accepts the category inventory as an optional last argument and counts the entities that its category and operation records name as `by_category_record`, separate from capabilities and exclusions. The report therefore closes the whole manual denominator: 31,940 by capability, 4,124 by exclusion, 2,718 by category record, 0 unaccounted. `unaccounted` accepts the same argument so the per-section query is empty for `categories` as well. The category ledger keeps its own measure (`category-coverage`), which independently reports 2,718 represented, 0 unaccounted and 2,031 ownership gaps that still need their catalogue owner."
+accounted_entities = 2718
+section_entities = 38782
+remaining_open_entities = 0
+open_questions = [
+    "The 2,031 category entities whose record reports an absent `lean-categories` relation are accounted for but not owned; that gap belongs to the catalogue, not to this inventory.",
+]
+
+[[batch]]
+id = "R2-algebras-lie-conformal-source-reconciliation"
+phase = "R2"
+sections = ["algebras"]
+modules = [
+    "sage.algebras.lie_conformal_algebras.abelian_lie_conformal_algebra",
+    "sage.algebras.lie_conformal_algebras.affine_lie_conformal_algebra",
+    "sage.algebras.lie_conformal_algebras.bosonic_ghosts_lie_conformal_algebra",
+    "sage.algebras.lie_conformal_algebras.fermionic_ghosts_lie_conformal_algebra",
+    "sage.algebras.lie_conformal_algebras.finitely_freely_generated_lca",
+    "sage.algebras.lie_conformal_algebras.free_bosons_lie_conformal_algebra",
+    "sage.algebras.lie_conformal_algebras.free_fermions_lie_conformal_algebra",
+    "sage.algebras.lie_conformal_algebras.freely_generated_lie_conformal_algebra",
+    "sage.algebras.lie_conformal_algebras.graded_lie_conformal_algebra",
+    "sage.algebras.lie_conformal_algebras.lie_conformal_algebra",
+    "sage.algebras.lie_conformal_algebras.lie_conformal_algebra_element",
+    "sage.algebras.lie_conformal_algebras.lie_conformal_algebra_with_basis",
+    "sage.algebras.lie_conformal_algebras.lie_conformal_algebra_with_structure_coefs",
+    "sage.algebras.lie_conformal_algebras.n2_lie_conformal_algebra",
+    "sage.algebras.lie_conformal_algebras.neveu_schwarz_lie_conformal_algebra",
+    "sage.algebras.lie_conformal_algebras.virasoro_lie_conformal_algebra",
+    "sage.algebras.lie_conformal_algebras.weyl_lie_conformal_algebra",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/algebras/lie_conformal_algebras/abelian_lie_conformal_algebra.py",
+    "src/sage/algebras/lie_conformal_algebras/affine_lie_conformal_algebra.py",
+    "src/sage/algebras/lie_conformal_algebras/bosonic_ghosts_lie_conformal_algebra.py",
+    "src/sage/algebras/lie_conformal_algebras/fermionic_ghosts_lie_conformal_algebra.py",
+    "src/sage/algebras/lie_conformal_algebras/finitely_freely_generated_lca.py",
+    "src/sage/algebras/lie_conformal_algebras/free_bosons_lie_conformal_algebra.py",
+    "src/sage/algebras/lie_conformal_algebras/free_fermions_lie_conformal_algebra.py",
+    "src/sage/algebras/lie_conformal_algebras/freely_generated_lie_conformal_algebra.py",
+    "src/sage/algebras/lie_conformal_algebras/graded_lie_conformal_algebra.py",
+    "src/sage/algebras/lie_conformal_algebras/lie_conformal_algebra.py",
+    "src/sage/algebras/lie_conformal_algebras/lie_conformal_algebra_element.py",
+    "src/sage/algebras/lie_conformal_algebras/lie_conformal_algebra_with_basis.py",
+    "src/sage/algebras/lie_conformal_algebras/lie_conformal_algebra_with_structure_coefs.py",
+    "src/sage/algebras/lie_conformal_algebras/n2_lie_conformal_algebra.py",
+    "src/sage/algebras/lie_conformal_algebras/neveu_schwarz_lie_conformal_algebra.py",
+    "src/sage/algebras/lie_conformal_algebras/virasoro_lie_conformal_algebra.py",
+    "src/sage/algebras/lie_conformal_algebras/weyl_lie_conformal_algebra.py",
+]
+manual_files = []
+records = ["inventory/capabilities/algebras.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "30 indexed public entities with 257 source doctests, including constructor, translation, bracket, grading, parity, Gram-matrix and central-element contracts.",
+    "Independent checks: Virasoro, affine A1, free-boson/free-fermion Gram brackets, N=2 and Neveu-Schwarz super brackets.",
+]
+evidence = "Read all 17 indexed source modules. The source defines the lambda-bracket representation, divided-power translation, skew-symmetry completion, H-gradings and parity, then specializes them to affine, ghost, free-boson, free-fermion, Virasoro, Neveu-Schwarz, N=2 and Weyl constructions. These are mathematical computations, not infrastructure."
+accounted_entities = 30
+section_entities = 1942
+remaining_open_entities = 0
+open_questions = [
+    "Implement the native conformal-algebra representation and same-input oracle checks; source reconciliation does not satisfy Tier 2.",
+]
+
+[[batch]]
+id = "R2-number-fields-source-reconciliation"
+phase = "R2"
+sections = ["number_fields"]
+modules = [
+    "sage.groups.galois_group",
+    "sage.groups.galois_group_perm",
+    "sage.rings.number_field.S_unit_solver",
+    "sage.rings.number_field.bdd_height",
+    "sage.rings.number_field.class_group",
+    "sage.rings.number_field.galois_group",
+    "sage.rings.number_field.homset",
+    "sage.rings.number_field.maps",
+    "sage.rings.number_field.morphism",
+    "sage.rings.number_field.number_field",
+    "sage.rings.number_field.number_field_base",
+    "sage.rings.number_field.number_field_element",
+    "sage.rings.number_field.number_field_element_base",
+    "sage.rings.number_field.number_field_element_quadratic",
+    "sage.rings.number_field.number_field_ideal",
+    "sage.rings.number_field.number_field_ideal_rel",
+    "sage.rings.number_field.number_field_morphisms",
+    "sage.rings.number_field.number_field_rel",
+    "sage.rings.number_field.order",
+    "sage.rings.number_field.order_ideal",
+    "sage.rings.number_field.selmer_group",
+    "sage.rings.number_field.small_primes_of_degree_one",
+    "sage.rings.number_field.splitting_field",
+    "sage.rings.number_field.structure",
+    "sage.rings.number_field.totallyreal",
+    "sage.rings.number_field.totallyreal_data",
+    "sage.rings.number_field.totallyreal_phc",
+    "sage.rings.number_field.totallyreal_rel",
+    "sage.rings.number_field.unit_group",
+    "sage.rings.qqbar",
+    "sage.rings.universal_cyclotomic_field",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/groups/galois_group.py",
+    "src/sage/groups/galois_group_perm.py",
+    "src/sage/rings/number_field/S_unit_solver.py",
+    "src/sage/rings/number_field/bdd_height.py",
+    "src/sage/rings/number_field/class_group.py",
+    "src/sage/rings/number_field/galois_group.py",
+    "src/sage/rings/number_field/homset.py",
+    "src/sage/rings/number_field/maps.py",
+    "src/sage/rings/number_field/morphism.py",
+    "src/sage/rings/number_field/number_field.py",
+    "src/sage/rings/number_field/number_field_base.pyx",
+    "src/sage/rings/number_field/number_field_element.pyx",
+    "src/sage/rings/number_field/number_field_element_base.pyx",
+    "src/sage/rings/number_field/number_field_element_quadratic.pyx",
+    "src/sage/rings/number_field/number_field_ideal.py",
+    "src/sage/rings/number_field/number_field_ideal_rel.py",
+    "src/sage/rings/number_field/number_field_morphisms.pyx",
+    "src/sage/rings/number_field/number_field_rel.py",
+    "src/sage/rings/number_field/order.py",
+    "src/sage/rings/number_field/order_ideal.py",
+    "src/sage/rings/number_field/selmer_group.py",
+    "src/sage/rings/number_field/small_primes_of_degree_one.py",
+    "src/sage/rings/number_field/splitting_field.py",
+    "src/sage/rings/number_field/structure.py",
+    "src/sage/rings/number_field/totallyreal.pyx",
+    "src/sage/rings/number_field/totallyreal_data.pyx",
+    "src/sage/rings/number_field/totallyreal_phc.py",
+    "src/sage/rings/number_field/totallyreal_rel.py",
+    "src/sage/rings/number_field/unit_group.py",
+    "src/sage/rings/qqbar.py",
+    "src/sage/rings/universal_cyclotomic_field.py",
+]
+manual_files = ["src/doc/en/reference/number_fields/index.rst"]
+records = ["inventory/capabilities/number-fields.toml"]
+reuse_records = [
+    "inventory/reuse/mathlib-core.toml",
+    "inventory/reuse/lean-categories.toml",
+    "inventory/reuse/hex.toml",
+]
+tests = [
+    "The indexed family contains 31 modules, 876 public entities and 11,239 source doctests.",
+    "Independent mathematical contracts cover field/tower and element identities, ideal and order arithmetic, class and unit groups, Galois actions, S-unit/Selmer exact sequences, algebraic-number interval separation, cyclotomic norms and totally-real discriminant/embedding bounds.",
+]
+evidence = "Read the number-field reference index and all 31 indexed source modules. The source separates defining-polynomial and relative-tower construction, exact element arithmetic and maps, orders and ideals, class/unit/S-unit/Selmer computations, Galois and splitting fields, height and totally-real enumeration, and exact QQbar/universal-cyclotomic arithmetic. PARI, NTL, FLINT, GAP and numerical interval routines are explicit implementation backends; proof flags and approximate embeddings make exactness conditional rather than unconditional."
+accounted_entities = 876
+section_entities = 876
+remaining_open_entities = 0
+open_questions = [
+    "Implement native number-field representations and execute same-input Sage-oracle checks; source reconciliation does not satisfy Tier 2.",
+    "Resolve catalogue ownership for number-field parents, ideals, units, class groups, Galois groups and algebraic-number objects as the upstream catalogue grows.",
+]
+
+[[batch]]
+id = "R2-groups-generic-element-source-reconciliation"
+phase = "R2"
+sections = ["groups"]
+modules = [
+    "sage.groups.generic",
+    "sage.groups.group_exp",
+    "sage.groups.abelian_gps.element_base",
+    "sage.groups.abelian_gps.abelian_group_element",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/groups/generic.py",
+    "src/sage/groups/group_exp.py",
+    "src/sage/groups/abelian_gps/element_base.py",
+    "src/sage/groups/abelian_gps/abelian_group_element.py",
+]
+manual_files = ["src/doc/en/reference/groups/index.rst"]
+records = [
+    "inventory/capabilities/groups.toml",
+    "inventory/capabilities/number-fields.toml",
+]
+reuse_records = [
+    "inventory/reuse/mathlib-core.toml",
+    "inventory/reuse/lean-categories.toml",
+]
+tests = [
+    "The indexed family contains 4 modules, 27 public entities and the source doctests for generic powers/multiples, order recovery, additive-to-multiplicative exponentiation and abelian exponent vectors.",
+    "Independent mathematical contracts: repeated group operation agrees with powers or multiples, recovered orders divide the supplied bounds, GroupExp preserves the additive law, and finite abelian element orders agree with exponent coordinates.",
+]
+evidence = "Read the groups reference index and all four previously unlisted modules. `generic.py` supplies operation parsing, powers/multiples, order-from-multiple and discrete-log/linear-relation helpers; `group_exp.py` implements the additive-to-multiplicative functor and wrapped element law; the abelian element modules normalize exponent vectors, compare and hash by coordinates, compute orders and expose GAP permutation/word representations. These are mathematical group operations rather than infrastructure."
+accounted_entities = 27
+section_entities = 908
+remaining_open_entities = 0
+open_questions = [
+    "Execute the independent group identities against native implementations; source reconciliation does not satisfy Tier 2.",
+]
+
+[[batch]]
+id = "R2-standard-rings-source-reconciliation"
+phase = "R2"
+sections = ["rings_standard"]
+modules = [
+    "sage.arith.functions",
+    "sage.arith.misc",
+    "sage.arith.multi_modular",
+    "sage.arith.power",
+    "sage.rings.bernmm",
+    "sage.rings.bernoulli_mod_p",
+    "sage.rings.factorint",
+    "sage.rings.factorint_flint",
+    "sage.rings.factorint_pari",
+    "sage.rings.fast_arith",
+    "sage.rings.integer",
+    "sage.rings.integer_ring",
+    "sage.rings.rational",
+    "sage.rings.rational_field",
+    "sage.rings.sum_of_squares",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/arith/functions.pyx",
+    "src/sage/arith/misc.py",
+    "src/sage/arith/multi_modular.pyx",
+    "src/sage/arith/power.pyx",
+    "src/sage/rings/bernmm.pyx",
+    "src/sage/rings/bernoulli_mod_p.pyx",
+    "src/sage/rings/factorint.pyx",
+    "src/sage/rings/factorint_flint.pyx",
+    "src/sage/rings/factorint_pari.pyx",
+    "src/sage/rings/fast_arith.pyx",
+    "src/sage/rings/integer.pyx",
+    "src/sage/rings/integer_ring.pyx",
+    "src/sage/rings/rational.pyx",
+    "src/sage/rings/rational_field.py",
+    "src/sage/rings/sum_of_squares.pyx",
+]
+manual_files = ["src/doc/en/reference/rings_standard/index.rst"]
+records = ["inventory/capabilities/integers-and-rationals.toml"]
+reuse_records = [
+    "inventory/reuse/mathlib-core.toml",
+    "inventory/reuse/hex.toml",
+]
+tests = [
+    "The indexed family contains 15 modules, 351 public entities and 4,011 source doctests.",
+    "Independent mathematical contracts cover integer/rational ring and field identities, Euclidean division and Bezout relations, gcd/lcm and normalization, factorization products, modular arithmetic, powering, Bernoulli and sum-of-squares identities.",
+]
+evidence = "Read the standard-rings reference index and the integer, rational, ring-parent, arithmetic-helper and factorization implementations. The source uses GMP-backed arbitrary-precision integers and rationals, explicit normalization and coercion, Euclidean division/gcd/xgcd, modular and multi-modular arithmetic, binary powering, factorization backends (native, FLINT and PARI), Bernoulli routines and sum-of-squares algorithms. The capability records now connect those source families to their exact contracts rather than treating the section as a namespace-only closure."
+accounted_entities = 351
+section_entities = 351
+remaining_open_entities = 0
+open_questions = [
+    "Execute the recorded arithmetic identities against native Lean implementations and Sage oracles; source reconciliation does not satisfy Tier 2.",
+]
+
+[[batch]]
+id = "R2-topology-combinatorial-source-reconciliation"
+phase = "R2"
+sections = ["topology"]
+modules = [
+    "sage.topology.cell_complex",
+    "sage.topology.cubical_complex",
+    "sage.topology.delta_complex",
+    "sage.topology.filtered_simplicial_complex",
+    "sage.topology.moment_angle_complex",
+    "sage.topology.simplicial_complex",
+    "sage.topology.simplicial_complex_examples",
+    "sage.topology.simplicial_complex_homset",
+    "sage.topology.simplicial_complex_morphism",
+    "sage.topology.simplicial_set",
+    "sage.topology.simplicial_set_constructions",
+    "sage.topology.simplicial_set_examples",
+    "sage.topology.simplicial_set_morphism",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/topology/cell_complex.py",
+    "src/sage/topology/cubical_complex.py",
+    "src/sage/topology/delta_complex.py",
+    "src/sage/topology/filtered_simplicial_complex.py",
+    "src/sage/topology/moment_angle_complex.py",
+    "src/sage/topology/simplicial_complex.py",
+    "src/sage/topology/simplicial_complex_examples.py",
+    "src/sage/topology/simplicial_complex_homset.py",
+    "src/sage/topology/simplicial_complex_morphism.py",
+    "src/sage/topology/simplicial_set.py",
+    "src/sage/topology/simplicial_set_constructions.py",
+    "src/sage/topology/simplicial_set_examples.py",
+    "src/sage/topology/simplicial_set_morphism.py",
+]
+manual_files = ["src/doc/en/reference/topology/index.rst"]
+records = ["inventory/capabilities/topology.toml"]
+reuse_records = [
+    "inventory/reuse/mathlib-core.toml",
+    "inventory/reuse/hex.toml",
+]
+tests = [
+    "The indexed family contains 13 modules, 365 public entities and 3,758 source doctests.",
+    "Independent mathematical contracts cover face closure, incidence boundaries, d^2 = 0, Euler/Betti/homology invariants, induced maps, simplicial-set constructions, persistent intervals and moment-angle products.",
+]
+evidence = "Read the topology reference index and all 13 indexed modules. The source implements finite abstract simplicial complexes, Delta/cubical/cell complexes, arbitrary and finite simplicial sets, pushout/pullback/product/wedge/cone/suspension constructions, morphisms and induced chain maps, Smith-form or field-rank homology, persistent homology, and moment-angle complexes. The generic cell-complex base deliberately leaves chain construction abstract; concrete subclasses provide signed incidence matrices and finite truncation for infinite simplicial sets."
+accounted_entities = 365
+section_entities = 365
+remaining_open_entities = 0
+open_questions = [
+    "Execute the listed chain, homology and persistence identities against native implementations and Sage oracles; source reconciliation does not satisfy Tier 2.",
+]
+
+[[batch]]
+id = "R2-probability-source-reconciliation"
+phase = "R2"
+sections = ["probability"]
+modules = [
+    "sage.probability.probability_distribution",
+    "sage.probability.random_variable",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/probability/probability_distribution.pyx",
+    "src/sage/probability/random_variable.py",
+]
+manual_files = ["src/doc/en/reference/probability/index.rst"]
+records = ["inventory/capabilities/probability.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "The indexed family contains 2 modules, 46 public entities and 263 source doctests.",
+    "Independent mathematical contracts cover normalization, moments, covariance/correlation, CDF/PDF consistency, spherical unit norm and seeded discrete sampling.",
+]
+evidence = "Read the probability reference index and both indexed modules. The Cython module defines the abstract distribution interface, GSL-backed real distributions, spherical sampling on n-dimensional unit spheres, user-defined finite discrete distributions, histogram generation and probability/moment operations. The Python module defines discrete probability spaces and random variables with expectation, translated moments, variance, covariance, correlation and standard deviation."
+accounted_entities = 46
+section_entities = 46
+remaining_open_entities = 0
+open_questions = [
+    "Execute distribution identities and statistical sampling checks against native implementations and Sage oracles; source reconciliation does not satisfy Tier 2.",
+]
+
+[[batch]]
+id = "R2-semirings-source-reconciliation"
+phase = "R2"
+sections = ["semirings"]
+modules = [
+    "sage.rings.semirings.non_negative_integer_semiring",
+    "sage.rings.semirings.tropical_matrix",
+    "sage.rings.semirings.tropical_semiring",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/rings/semirings/non_negative_integer_semiring.py",
+    "src/sage/rings/semirings/tropical_matrix.py",
+    "src/sage/rings/semirings/tropical_semiring.pyx",
+]
+manual_files = ["src/doc/en/reference/semirings/index.rst"]
+records = ["inventory/capabilities/semirings.toml"]
+reuse_records = [
+    "inventory/reuse/mathlib-core.toml",
+    "inventory/reuse/hex.toml",
+]
+tests = [
+    "The indexed family contains 3 modules, 14 public entities and 185 source doctests.",
+    "Independent mathematical contracts cover natural-number semiring laws, min/max tropical arithmetic, tagged infinity, tropical maps, Karp cycle means and Floyd-Warshall closures.",
+]
+evidence = "Read the semiring reference index and all three indexed modules. The sources define the facade nonnegative-integer semiring, min-plus and max-plus tropical elements with selected infinity, tropical-to-tropical maps, multiplicative order, and dense tropical-matrix extremal cycle mean plus weak and strong transitive closure. Matrix algorithms require square matrices and an ordered base subring of the real numbers; divergent positive or negative cycles are reported."
+accounted_entities = 14
+section_entities = 14
+remaining_open_entities = 0
+open_questions = [
+    "Execute tropical semiring laws, cycle-mean and closure identities against native implementations and Sage oracles; source reconciliation does not satisfy Tier 2.",
+]
+
+[[batch]]
+id = "R2-quivers-source-reconciliation"
+phase = "R2"
+sections = ["quivers"]
+modules = [
+    "sage.quivers.algebra",
+    "sage.quivers.algebra_elements",
+    "sage.quivers.ar_quiver",
+    "sage.quivers.homspace",
+    "sage.quivers.morphism",
+    "sage.quivers.path_semigroup",
+    "sage.quivers.paths",
+    "sage.quivers.representation",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/quivers/algebra.py",
+    "src/sage/quivers/algebra_elements.pyx",
+    "src/sage/quivers/ar_quiver.py",
+    "src/sage/quivers/homspace.py",
+    "src/sage/quivers/morphism.py",
+    "src/sage/quivers/path_semigroup.py",
+    "src/sage/quivers/paths.pyx",
+    "src/sage/quivers/representation.py",
+]
+manual_files = ["src/doc/en/reference/quivers/index.rst"]
+records = ["inventory/capabilities/quivers.toml"]
+reuse_records = [
+    "inventory/reuse/mathlib-core.toml",
+    "inventory/reuse/hex.toml",
+]
+tests = [
+    "The indexed family contains 8 modules, 146 public entities and 1,814 source doctests.",
+    "Independent mathematical contracts cover path concatenation, path-algebra multiplication, representation arrow commutativity, morphism composition, homspace kernels, and Auslander-Reiten translation/dimension vectors.",
+]
+evidence = "Read the quiver reference index and all eight indexed modules. The sources define labelled quiver paths and partial path semigroups, path algebras and Cython algebra elements, quiver representations with path-basis projectives and simples, vertex-wise representation morphisms, homspaces as kernels of edge-commutativity equations, and Auslander-Reiten quivers for finite acyclic quivers. Input invariants include integer vertices, unique nonempty edge labels, compatible base rings and commutative arrow squares."
+accounted_entities = 146
+section_entities = 146
+remaining_open_entities = 0
+open_questions = [
+    "Execute path, representation, homspace and Auslander-Reiten identities against native implementations and Sage oracles; source reconciliation does not satisfy Tier 2.",
+]
+
+[[batch]]
+id = "R2-groups-foundational-source-reconciliation"
+phase = "R2"
+sections = ["groups"]
+modules = [
+    "sage.groups.group",
+    "sage.groups.free_group",
+    "sage.groups.indexed_free_group",
+    "sage.groups.abelian_gps.abelian_group",
+    "sage.groups.abelian_gps.abelian_group_morphism",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/groups/group.pyx",
+    "src/sage/groups/free_group.py",
+    "src/sage/groups/indexed_free_group.py",
+    "src/sage/groups/abelian_gps/abelian_group.py",
+    "src/sage/groups/abelian_gps/abelian_group_morphism.py",
+]
+manual_files = ["src/doc/en/reference/groups/index.rst"]
+records = ["inventory/capabilities/groups.toml"]
+reuse_records = [
+    "inventory/reuse/lean-categories.toml",
+    "inventory/reuse/mathlib-core.toml",
+]
+tests = [
+    "The indexed family contains 5 modules, 70 public entities and 778 source doctests.",
+    "Independent mathematical contracts cover generic group axioms, free-word reduction, indexed generators, exponent-vector arithmetic, elementary divisors, and homomorphism kernel/image behavior.",
+]
+evidence = "Read the groups reference index and all five previously in-progress foundational modules. The sources define the generic group parent contract, GAP-backed free groups and indexed free groups, finitely generated abelian groups represented by generator orders and normalized exponent vectors, and abelian-group morphisms defined by generating images with order and generation checks. Infinite-group and finite-GAP-backed operations are explicitly conditional in the capability contracts."
+accounted_entities = 70
+section_entities = 908
+remaining_open_entities = 0
+open_questions = [
+    "Continue the groups section through the remaining presentation, permutation, matrix, semidirect, Coxeter/Artin/braid, dual and wrapper modules; this batch does not close the section.",
+    "Execute the listed group identities against native implementations and independent finite/GAP oracles; source reconciliation does not satisfy Tier 2.",
+]
+
+[[batch]]
+id = "R2-homology-matrix-utility-source-reconciliation"
+phase = "R2"
+sections = ["homology"]
+modules = ["sage.homology.matrix_utils"]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = ["src/sage/homology/matrix_utils.py"]
+manual_files = ["src/doc/en/reference/homology/index.rst"]
+records = ["inventory/capabilities/homology.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "The indexed module contains 1 public entity and 5 source doctests.",
+    "DHSW Smith-normal-form preprocessing returns the same elementary divisors as direct Smith form on sparse and dense integer matrices.",
+]
+evidence = "Read the homology reference index and the previously omitted matrix_utils source. The module implements the DHSW elimination preprocessing for integer Smith normal form: it removes zero columns, combines columns by divisibility and extended gcd, extracts unit pivots, and delegates the reduced matrix to elementary_divisors."
+accounted_entities = 1
+section_entities = 105
+remaining_open_entities = 0
+open_questions = [
+    "Execute the Smith-form equality checks against native matrix implementations and Sage oracles; source reconciliation does not satisfy Tier 2.",
+]
+
+[[batch]]
+id = "R2-quaternion-low-level-source-reconciliation"
+phase = "R2"
+sections = ["quat_algebras"]
+modules = [
+    "sage.algebras.quatalg.quaternion_algebra_cython",
+    "sage.algebras.quatalg.quaternion_algebra_element",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/algebras/quatalg/quaternion_algebra_cython.pyx",
+    "src/sage/algebras/quatalg/quaternion_algebra_element.pyx",
+]
+manual_files = ["src/doc/en/reference/quat_algebras/index.rst"]
+records = ["inventory/capabilities/quaternions.toml"]
+reuse_records = ["inventory/reuse/mathlib-core.toml"]
+tests = [
+    "The indexed family contains 2 modules, 26 public entities and 314 source doctests.",
+    "Independent mathematical contracts cover four-coordinate arithmetic, conjugation, reduced trace/norm, characteristic polynomial, regular representations, trace pairing and rational coordinate denominator transport.",
+]
+evidence = "Read both indexed low-level quaternion modules and the capability record. The Cython element implementation supports generic, rational-field and number-field quaternion coordinates, optimized multiplication, conjugation, reduced trace/norm, characteristic polynomial, matrix and pairing operations. The companion module transports rational quaternion coordinate lists to rational or common-denominator integer matrices and reconstructs them, with optional reversal of rows and coordinates. Legacy unpickling constructors remain excluded from mathematical scope."
+accounted_entities = 26
+section_entities = 26
+remaining_open_entities = 0
+open_questions = [
+    "Execute quaternion identities and coordinate round trips against native implementations and Sage oracles; source reconciliation does not satisfy Tier 2.",
+]
+
+[[batch]]
+id = "R2-noncommutative-polynomial-source-reconciliation"
+phase = "R2"
+sections = ["noncommutative_polynomial_rings"]
+modules = [
+    "sage.rings.polynomial.ore_function_element",
+    "sage.rings.polynomial.ore_function_field",
+    "sage.rings.polynomial.ore_polynomial_element",
+    "sage.rings.polynomial.ore_polynomial_ring",
+    "sage.rings.polynomial.plural",
+    "sage.rings.polynomial.skew_polynomial_element",
+    "sage.rings.polynomial.skew_polynomial_finite_field",
+    "sage.rings.polynomial.skew_polynomial_finite_order",
+    "sage.rings.polynomial.skew_polynomial_ring",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/rings/polynomial/ore_function_element.py",
+    "src/sage/rings/polynomial/ore_function_field.py",
+    "src/sage/rings/polynomial/ore_polynomial_element.pyx",
+    "src/sage/rings/polynomial/ore_polynomial_ring.py",
+    "src/sage/rings/polynomial/plural.pyx",
+    "src/sage/rings/polynomial/skew_polynomial_element.pyx",
+    "src/sage/rings/polynomial/skew_polynomial_finite_field.pyx",
+    "src/sage/rings/polynomial/skew_polynomial_finite_order.pyx",
+    "src/sage/rings/polynomial/skew_polynomial_ring.py",
+]
+manual_files = ["src/doc/en/reference/noncommutative_polynomial_rings/index.rst"]
+records = ["inventory/capabilities/noncommutative-polynomials.toml"]
+reuse_records = [
+    "inventory/reuse/mathlib-core.toml",
+    "inventory/references/engines.toml",
+]
+tests = [
+    "The indexed family contains 9 modules, 179 public entities and 2,736 source doctests.",
+    "Independent mathematical contracts cover Ore relations, left/right division, fraction normalization, finite-order centers and norms, finite-field factorization, and Plural normal-form confluence.",
+]
+evidence = "Read the reference index and all nine indexed noncommutative-polynomial modules. Ore rings implement multiplication from an endomorphism and twisted derivation, left/right Euclidean arithmetic, evaluation and fraction fields with left-denominator normalization. Finite-order specializations compute central traces, norms, characteristic polynomials and matrix actions; finite-field specializations test irreducibility and factorization. The Plural wrapper constructs multivariate g-algebras from commutation matrices and delegates noncommutative normal forms and ideals to Singular."
+accounted_entities = 179
+section_entities = 179
+remaining_open_entities = 0
+open_questions = [
+    "Execute Ore, skew and Plural identities against native implementations and pinned Sage/Singular oracles; source reconciliation does not satisfy Tier 2.",
+]
+
+[[batch]]
+id = "R2-matrices-core-source-reconciliation"
+phase = "R2"
+sections = ["matrices"]
+modules = [
+    "sage.matrix.action",
+    "sage.matrix.args",
+    "sage.matrix.benchmark",
+    "sage.matrix.berlekamp_massey",
+    "sage.matrix.change_ring",
+    "sage.matrix.compute_J_ideal",
+    "sage.matrix.constructor",
+    "sage.matrix.echelon_matrix",
+    "sage.matrix.matrix0",
+    "sage.matrix.matrix1",
+    "sage.matrix.matrix2",
+    "sage.matrix.matrix_space",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/matrix/action.pyx",
+    "src/sage/matrix/args.pyx",
+    "src/sage/matrix/benchmark.py",
+    "src/sage/matrix/berlekamp_massey.py",
+    "src/sage/matrix/change_ring.pyx",
+    "src/sage/matrix/compute_J_ideal.py",
+    "src/sage/matrix/constructor.pyx",
+    "src/sage/matrix/echelon_matrix.pyx",
+    "src/sage/matrix/matrix0.pyx",
+    "src/sage/matrix/matrix1.pyx",
+    "src/sage/matrix/matrix2.pyx",
+    "src/sage/matrix/matrix_space.py",
+]
+manual_files = ["src/doc/en/reference/matrices/index.rst"]
+records = ["inventory/capabilities/matrices.toml"]
+reuse_records = [
+    "inventory/reuse/mathlib-core.toml",
+    "inventory/references/engines.toml",
+]
+tests = [
+    "The indexed family contains 12 modules, 330 public entities and 5,940 source doctests.",
+    "Independent mathematical contracts cover construction/coercion, exact and approximate arithmetic, rank/kernels/images, normal forms, spectral operations, backend agreement, Berlekamp–Massey and J-ideal membership.",
+]
+evidence = "Read the matrices reference index and the core constructor, argument parser, matrix-space dispatch, base matrix classes and algorithm sections. The source separates parent/coercion semantics from dense and sparse element storage, then layers row/column/block operations, exact and approximate solving, determinant and characteristic/minimal polynomial algorithms, kernels/images/decompositions, eigen computations, echelon/Hermite/Howell/Smith pathways, and specialized backend dispatch. Auxiliary modules cover matrix actions, ring changes, finite-field echelon enumeration, Berlekamp–Massey, J-ideals and performance comparisons."
+accounted_entities = 330
+section_entities = 330
+remaining_open_entities = 0
+open_questions = [
+    "Read and reconcile the remaining specialized matrix backend modules (integer, rational, modular, polynomial, symbolic, ball, floating and sparse implementations) before treating the full matrices section as source-reconciled.",
+    "Execute exact reconstruction and approximate tolerance/enclosure tests against native implementations and pinned Sage oracles; source reconciliation does not satisfy Tier 2.",
+]
+
+[[batch]]
+id = "R2-matrices-integer-rational-modular-backends"
+phase = "R2"
+sections = ["matrices"]
+modules = [
+    "sage.matrix.matrix_integer_dense",
+    "sage.matrix.matrix_integer_dense_hnf",
+    "sage.matrix.matrix_integer_dense_saturation",
+    "sage.matrix.matrix_integer_sparse",
+    "sage.matrix.matrix_rational_dense",
+    "sage.matrix.matrix_rational_sparse",
+    "sage.matrix.matrix_mod2_dense",
+    "sage.matrix.matrix_modn_dense_double",
+    "sage.matrix.matrix_modn_dense_flint",
+    "sage.matrix.matrix_modn_dense_float",
+    "sage.matrix.matrix_modn_sparse",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/matrix/matrix_integer_dense.pyx",
+    "src/sage/matrix/matrix_integer_dense_hnf.py",
+    "src/sage/matrix/matrix_integer_dense_saturation.py",
+    "src/sage/matrix/matrix_integer_sparse.pyx",
+    "src/sage/matrix/matrix_rational_dense.pyx",
+    "src/sage/matrix/matrix_rational_sparse.pyx",
+    "src/sage/matrix/matrix_mod2_dense.pyx",
+    "src/sage/matrix/matrix_modn_dense_double.pyx",
+    "src/sage/matrix/matrix_modn_dense_flint.pyx",
+    "src/sage/matrix/matrix_modn_dense_float.pyx",
+    "src/sage/matrix/matrix_modn_sparse.pyx",
+]
+manual_files = ["src/doc/en/reference/matrices/index.rst"]
+records = ["inventory/capabilities/matrices.toml"]
+reuse_records = [
+    "inventory/reuse/mathlib-core.toml",
+    "inventory/references/engines.toml",
+]
+tests = [
+    "The indexed tranche contains 11 modules, 183 public entities and 2,469 source doctests.",
+    "Independent contracts cover HNF/Smith/saturation, rational reconstruction, LLL/BKZ, exact modular arithmetic, and dense/sparse backend agreement.",
+]
+evidence = "Read the integer, rational and modular backend sources. Integer implementations dispatch determinant/rank and normal forms through FLINT, LinBox, PARI, NTL and multimodular methods; expose HNF, Smith form, saturation, rational reconstruction, LLL/BKZ and lattice decomposition. Rational implementations clear denominators and use FLINT/PARI/IML for inversion, determinant, kernels, echelon forms and decompositions. Binary and modular classes provide specialized arithmetic and LinBox/FLINT pathways, with sparse variants preserving sparsity while delegating exact linear algebra."
+accounted_entities = 183
+section_entities = 183
+remaining_open_entities = 0
+open_questions = [
+    "Read and reconcile the remaining polynomial, symbolic, floating, ball, generic and structural matrix backend modules.",
+    "Execute exact reconstruction, lattice and backend-agreement tests against native implementations and pinned Sage oracles; source reconciliation does not satisfy Tier 2.",
+]
+
+[[batch]]
+id = "R2-matrices-polynomial-symbolic-numerical-backends"
+phase = "R2"
+sections = ["matrices"]
+modules = [
+    "sage.matrix.matrix_complex_ball_dense",
+    "sage.matrix.matrix_complex_double_dense",
+    "sage.matrix.matrix_cyclo_dense",
+    "sage.matrix.matrix_dense",
+    "sage.matrix.matrix_double_dense",
+    "sage.matrix.matrix_generic_dense",
+    "sage.matrix.matrix_generic_sparse",
+    "sage.matrix.matrix_gf2e_dense",
+    "sage.matrix.matrix_mpolynomial_dense",
+    "sage.matrix.matrix_numpy_dense",
+    "sage.matrix.matrix_polynomial_dense",
+    "sage.matrix.matrix_real_double_dense",
+    "sage.matrix.matrix_sparse",
+    "sage.matrix.matrix_symbolic_dense",
+    "sage.matrix.matrix_symbolic_sparse",
+    "sage.matrix.matrix_window",
+]
+status = "source-reconciled"
+started = "2026-11-19"
+source_files = [
+    "src/sage/matrix/matrix_complex_ball_dense.pyx",
+    "src/sage/matrix/matrix_complex_double_dense.pyx",
+    "src/sage/matrix/matrix_cyclo_dense.pyx",
+    "src/sage/matrix/matrix_dense.pyx",
+    "src/sage/matrix/matrix_double_dense.pyx",
+    "src/sage/matrix/matrix_generic_dense.pyx",
+    "src/sage/matrix/matrix_generic_sparse.pyx",
+    "src/sage/matrix/matrix_gf2e_dense.pyx",
+    "src/sage/matrix/matrix_mpolynomial_dense.pyx",
+    "src/sage/matrix/matrix_numpy_dense.pyx",
+    "src/sage/matrix/matrix_polynomial_dense.pyx",
+    "src/sage/matrix/matrix_real_double_dense.pyx",
+    "src/sage/matrix/matrix_sparse.pyx",
+    "src/sage/matrix/matrix_symbolic_dense.pyx",
+    "src/sage/matrix/matrix_symbolic_sparse.pyx",
+    "src/sage/matrix/matrix_window.pyx",
+]
+manual_files = ["src/doc/en/reference/matrices/index.rst"]
+records = ["inventory/capabilities/matrices.toml"]
+reuse_records = [
+    "inventory/reuse/mathlib-core.toml",
+    "inventory/references/engines.toml",
+]
+tests = [
+    "The indexed tranche contains 16 modules, 189 public entities and 3,313 source doctests.",
+    "Independent contracts cover polynomial Popov/Hermite and approximant bases, symbolic spectral operations, numerical factorizations, ball enclosures, cyclotomic exactness and specialized extension-field representations.",
+]
+evidence = "Read the remaining polynomial, symbolic, numerical, ball, cyclotomic, generic, sparse, GF(2^e), multivariate-polynomial and window backends. Polynomial matrices expose shifted degree/coefficient operations, weak/reduced/Popov/Hermite forms, left/right quotient-remainder and minimal approximant/interpolant/kernel/relation bases. Symbolic matrices delegate exact spectral, Jordan, exponential and simplification operations to Maxima. Double and complex-double matrices use NumPy/SciPy for norms, condition numbers, LU, QR, SVD, Schur, Cholesky and eigen computations with tolerance semantics. Complex-ball matrices use Arb/FLINT enclosures and overlap/containment predicates; cyclotomic matrices use multimodular exact algorithms. Generic and sparse classes preserve representation semantics, while GF(2^e) uses M4RIE echelon and inversion algorithms."
+accounted_entities = 189
+section_entities = 189
+remaining_open_entities = 0
+open_questions = [
+    "Reconcile the remaining matrix utility modules (miscellaneous constructors, operation tables, Strassen, windows, symplectic basis and specialized helpers) before treating the full matrices section as source-reconciled.",
+    "Execute exact polynomial/symbolic identities and numerical tolerance/enclosure tests against native implementations and pinned Sage oracles; source reconciliation does not satisfy Tier 2.",
+]

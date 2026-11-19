@@ -1,0 +1,2370 @@
+# Algebra constructions read from Sage 11.0.beta5, c00171e47d6e68d8148d7ee10c4dd77b71a97662.
+
+domain = "algebras"
+
+[[capability]]
+id = "algebras.free-associative-construction"
+title = "Free associative algebra with basis and quotient construction"
+statement = "Construct the free associative unital algebra on named generators over a base ring, with optional positive degree weights and a letterplace implementation."
+domain = "A unital associative base ring R and a finite ordered generator set X; the letterplace implementation additionally requires a compatible Singular polynomial implementation and positive integral degrees when graded."
+contract = "(R,X,implementation,degrees) -> A with retained base ring, generator names, free-monoid basis, grading data and implementation choice. A quotient by a two-sided ideal preserves the quotient map and generator images. The generic implementation supports arbitrary ring coefficients; letterplace supports the documented homogeneous subdomain."
+exactness = "exact"
+algorithms = [
+  { family = "Free-monoid words with finitely supported coefficients", sources = ["sage.algebras.free_algebra:FreeAlgebraFactory", "sage.algebras.free_algebra:FreeAlgebra_generic", "sage.algebras.free_algebra_element:FreeAlgebraElement"] },
+  { family = "Letterplace polynomial representation and bounded noncommutative Groebner basis", sources = ["sage.algebras.letterplace.free_algebra_letterplace:FreeAlgebra_letterplace", "sage.algebras.free_algebra:FreeAlgebra_generic.quotient"] },
+]
+depends_on = []
+sage = [
+  "sage.algebras.free_algebra:FreeAlgebraFactory",
+  "sage.algebras.free_algebra:FreeAlgebraFactory.create_key",
+  "sage.algebras.free_algebra:FreeAlgebraFactory.create_object",
+  "sage.algebras.free_algebra:FreeAlgebra_generic",
+  "sage.algebras.free_algebra:FreeAlgebra_generic.construction",
+  "sage.algebras.free_algebra:FreeAlgebra_generic.one_basis",
+  "sage.algebras.free_algebra:FreeAlgebra_generic.is_field",
+  "sage.algebras.free_algebra:FreeAlgebra_generic.gen",
+  "sage.algebras.free_algebra:FreeAlgebra_generic.algebra_generators",
+  "sage.algebras.free_algebra:FreeAlgebra_generic.gens",
+  "sage.algebras.free_algebra:FreeAlgebra_generic.degree_on_basis",
+  "sage.algebras.free_algebra:FreeAlgebra_generic.product_on_basis",
+  "sage.algebras.free_algebra:FreeAlgebra_generic.quotient",
+  "sage.algebras.free_algebra:FreeAlgebra_generic.ngens",
+  "sage.algebras.free_algebra:FreeAlgebra_generic.monoid",
+  "sage.algebras.free_algebra:FreeAlgebra_generic.g_algebra",
+  "sage.algebras.free_algebra:FreeAlgebra_generic.poincare_birkhoff_witt_basis",
+  "sage.algebras.free_algebra:FreeAlgebra_generic.pbw_element",
+  "sage.algebras.free_algebra:FreeAlgebra_generic.lie_polynomial",
+  "sage.algebras.free_algebra:PBWBasisOfFreeAlgebra",
+  "sage.algebras.free_algebra:PBWBasisOfFreeAlgebra.one_basis",
+  "sage.algebras.free_algebra:PBWBasisOfFreeAlgebra.algebra_generators",
+  "sage.algebras.free_algebra:PBWBasisOfFreeAlgebra.gen",
+  "sage.algebras.free_algebra:PBWBasisOfFreeAlgebra.free_algebra",
+  "sage.algebras.free_algebra:PBWBasisOfFreeAlgebra.product",
+  "sage.algebras.free_algebra:PBWBasisOfFreeAlgebra.expansion",
+  "sage.algebras.free_algebra:PBWBasisOfFreeAlgebra.Element",
+  "sage.algebras.free_algebra:PBWBasisOfFreeAlgebra.Element.expand",
+  "sage.algebras.free_algebra:AssociativeFunctor",
+  "sage.algebras.free_algebra:AssociativeFunctor.merge",
+  "sage.algebras.free_algebra_element:FreeAlgebraElement",
+  "sage.algebras.free_algebra_element:FreeAlgebraElement.is_unit",
+  "sage.algebras.free_algebra_element:FreeAlgebraElement.variables",
+  "sage.algebras.free_algebra_element:FreeAlgebraElement.to_pbw_basis",
+  "sage.algebras.free_algebra_quotient:FreeAlgebraQuotient",
+  "sage.algebras.free_algebra_quotient:FreeAlgebraQuotient.gen",
+  "sage.algebras.free_algebra_quotient:FreeAlgebraQuotient.gens",
+  "sage.algebras.free_algebra_quotient:FreeAlgebraQuotient.ngens",
+  "sage.algebras.free_algebra_quotient:FreeAlgebraQuotient.dimension",
+  "sage.algebras.free_algebra_quotient:FreeAlgebraQuotient.matrix_action",
+  "sage.algebras.free_algebra_quotient:FreeAlgebraQuotient.monomial_basis",
+  "sage.algebras.free_algebra_quotient:FreeAlgebraQuotient.rank",
+  "sage.algebras.free_algebra_quotient:FreeAlgebraQuotient.module",
+  "sage.algebras.free_algebra_quotient:FreeAlgebraQuotient.monoid",
+  "sage.algebras.free_algebra_quotient:FreeAlgebraQuotient.free_algebra",
+  "sage.algebras.free_algebra_quotient:hamilton_quatalg",
+  "sage.algebras.free_algebra_quotient_element:FreeAlgebraQuotientElement",
+  "sage.algebras.free_algebra_quotient_element:FreeAlgebraQuotientElement.vector",
+  "sage.algebras.letterplace.free_algebra_element_letterplace:FreeAlgebraElement_letterplace",
+  "sage.algebras.letterplace.free_algebra_element_letterplace:FreeAlgebraElement_letterplace.degree",
+  "sage.algebras.letterplace.free_algebra_element_letterplace:FreeAlgebraElement_letterplace.letterplace_polynomial",
+  "sage.algebras.letterplace.free_algebra_element_letterplace:FreeAlgebraElement_letterplace.lm",
+  "sage.algebras.letterplace.free_algebra_element_letterplace:FreeAlgebraElement_letterplace.lt",
+  "sage.algebras.letterplace.free_algebra_element_letterplace:FreeAlgebraElement_letterplace.lc",
+  "sage.algebras.letterplace.free_algebra_element_letterplace:FreeAlgebraElement_letterplace.lm_divides",
+  "sage.algebras.letterplace.free_algebra_element_letterplace:FreeAlgebraElement_letterplace.reduce",
+  "sage.algebras.letterplace.free_algebra_element_letterplace:FreeAlgebraElement_letterplace.normal_form",
+  "sage.algebras.letterplace.free_algebra_letterplace:FreeAlgebra_letterplace",
+  "sage.algebras.letterplace.free_algebra_letterplace:FreeAlgebra_letterplace.ngens",
+  "sage.algebras.letterplace.free_algebra_letterplace:FreeAlgebra_letterplace.gen",
+  "sage.algebras.letterplace.free_algebra_letterplace:FreeAlgebra_letterplace.gens",
+  "sage.algebras.letterplace.free_algebra_letterplace:FreeAlgebra_letterplace.current_ring",
+  "sage.algebras.letterplace.free_algebra_letterplace:FreeAlgebra_letterplace.commutative_ring",
+  "sage.algebras.letterplace.free_algebra_letterplace:FreeAlgebra_letterplace.term_order_of_block",
+  "sage.algebras.letterplace.free_algebra_letterplace:FreeAlgebra_letterplace.generator_degrees",
+  "sage.algebras.letterplace.free_algebra_letterplace:FreeAlgebra_letterplace.is_field",
+  "sage.algebras.letterplace.free_algebra_letterplace:FreeAlgebra_letterplace.degbound",
+  "sage.algebras.letterplace.free_algebra_letterplace:FreeAlgebra_letterplace.set_degbound",
+  "sage.algebras.letterplace.free_algebra_letterplace:FreeAlgebra_letterplace.ideal_monoid",
+  "sage.algebras.letterplace.free_algebra_letterplace:FreeAlgebra_letterplace_libsingular",
+]
+catalogue = []
+tests = [
+  "Sage doctests in sage.algebras.free_algebra: construct generic and letterplace free algebras over ZZ, QQ and GF(5), compare generator names, products, degrees and quotient images.",
+  "Independent word-algebra checks: expand products into free-monoid words and compare multiplication, grading and the universal map on generators.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.free-algebra"], evidence = "Mathlib supplies FreeAlgebra and FreeMonoid with executable word multiplication, but Sage additionally retains implementation choice, weighted letterplace support, PBW conversion and quotient construction. These are explicit adaptation obligations." }
+backends = ["singular"]
+references = []
+
+[[capability]]
+id = "algebras.hecke-families"
+title = "Iwahori-Hecke, nil-Coxeter, Temperley-Lieb and Yokonuma-Hecke algebras"
+statement = "Construct Hecke-type algebras from Coxeter data, including standard bases, bar/hash/Goldman involutions, nil-Coxeter and affine nil-Temperley-Lieb specializations, and Yokonuma-Hecke variants."
+domain = "A Coxeter group or type, coefficient ring and Hecke parameters satisfying the family-specific invertibility and specialization conditions."
+contract = "Coxeter/type data -> algebra with basis indexed by group elements or diagram words, generator products, inverse generators, basis changes/involutions and specialized noncommutative symmetric functions where defined."
+exactness = "conditional"
+exactness_notes = "Basis multiplication is exact over suitable coefficient rings; normalization, inverses and specializations require documented parameter assumptions."
+algorithms = [{ family = "Coxeter basis multiplication and Hecke specializations", sources = ["sage.algebras.iwahori_hecke_algebra:*", "sage.algebras.nil_coxeter_algebra:*", "sage.algebras.affine_nil_temperley_lieb:*", "sage.algebras.yokonuma_hecke_algebra:*"] }]
+depends_on = ["algebras.lie-standard-families"]
+sage = ["sage.algebras.iwahori_hecke_algebra:*", "sage.algebras.nil_coxeter_algebra:*", "sage.algebras.affine_nil_temperley_lieb:*", "sage.algebras.yokonuma_hecke_algebra:*"]
+catalogue = []
+tests = [
+  "Hecke quadratic/braid relations and basis product checks.",
+  "Bar/hash/Goldman involution and basis-conversion round trips.",
+  "Nil-Coxeter nilpotence and affine nil-Temperley-Lieb braid/commutation checks.",
+  "Yokonuma generator relations and finite basis multiplication checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.group.coxeter", "mathlib.alg.free-algebra"], evidence = "Mathlib supplies Coxeter groups and algebra foundations; Sage's Hecke basis products, involutions and specialized diagram bases require native computations." }
+backends = []
+references = ["Geck and Pfeiffer, Characters of Finite Coxeter Groups and Iwahori-Hecke Algebras"]
+
+[[capability]]
+id = "algebras.cubic-hecke"
+title = "Cubic Hecke algebras, matrix representations and Markov traces"
+statement = "Construct cubic Hecke algebras and their coefficient/extension rings, finite matrix representations, braid-group images, involutions, characters, Schur elements and Markov-trace specializations."
+domain = "A strand count and cubic equation parameters/roots over a coefficient ring supporting the requested representation."
+contract = "Parameters -> cubic Hecke algebra with finite basis and generator multiplication; coefficient rings expose Galois/mirror/specialization maps, matrix spaces expose representation blocks, and trace/character operations preserve the documented braid and Markov structures."
+exactness = "conditional"
+exactness_notes = "Finite basis and formal coefficient operations are exact; file caches, specializations and representation data depend on the selected backend/data section and coefficient domain."
+algorithms = [{ family = "Cubic braid basis extension, matrix representations and Markov trace", sources = ["sage.algebras.hecke_algebras.cubic_hecke_algebra:*", "sage.algebras.hecke_algebras.cubic_hecke_base_ring:*", "sage.algebras.hecke_algebras.cubic_hecke_matrix_rep:*"] }]
+depends_on = ["algebras.hecke-families"]
+sage = ["sage.algebras.hecke_algebras.cubic_hecke_algebra:*", "sage.algebras.hecke_algebras.cubic_hecke_base_ring:*", "sage.algebras.hecke_algebras.cubic_hecke_matrix_rep:*"]
+catalogue = []
+tests = [
+  "Cubic defining relation, braid image and basis multiplication checks.",
+  "Coefficient-ring specialization, mirror/Galois involution and splitting-map checks.",
+  "Matrix representation block dimensions and generator multiplication checks.",
+  "Markov trace and Schur-element checks on standard small strands.",
+]
+reuse = { status = "adaptable", components = ["mathlib.group.coxeter", "mathlib.linalg.matrix-arithmetic"], evidence = "Mathlib supplies matrix and Coxeter foundations; cubic braid basis extension, coefficient rings, cached representation data and Markov traces require specialized native algorithms." }
+backends = ["gap"]
+references = ["Krammer, Braid groups are linear", "Lambropoulou and Turaev, Markov traces and cubic Hecke algebras"]
+
+[[capability]]
+id = "algebras.ariki-koike-specht"
+title = "Ariki-Koike algebras and Specht modules"
+statement = "Construct cyclotomic Hecke (Ariki-Koike) algebras with standard realizations and Specht-module representations."
+domain = "Rank, strand count, Hecke parameter and cyclotomic parameters over a supported coefficient ring."
+contract = "Parameters -> Ariki-Koike algebra with T/L or LT basis products and inverses; partition data -> Specht module whose generator action satisfies the algebra relations."
+exactness = "conditional"
+exactness_notes = "Finite basis actions are exact over suitable rings; fraction-field and semisimplicity assumptions govern available decomposition operations."
+algorithms = [{ family = "Cyclotomic Hecke basis and Specht representation", sources = ["sage.algebras.hecke_algebras.ariki_koike_algebra:*", "sage.algebras.hecke_algebras.ariki_koike_specht_modules:*"] }]
+depends_on = ["algebras.hecke-families"]
+sage = ["sage.algebras.hecke_algebras.ariki_koike_algebra:*", "sage.algebras.hecke_algebras.ariki_koike_specht_modules:*"]
+catalogue = []
+tests = [
+  "Ariki-Koike defining relations and T/L basis product checks.",
+  "Specht generator actions satisfy the algebra relations on tableaux bases.",
+]
+reuse = { status = "adaptable", components = ["mathlib.group.coxeter", "mathlib.comb.partitions"], evidence = "Mathlib supplies Coxeter and partition data; cyclotomic Hecke multiplication and tableau module actions require native implementations." }
+backends = []
+references = ["Ariki and Koike, A Hecke algebra of (Z/rZ) wr S_n"]
+
+[[capability]]
+id = "algebras.quantum-and-weyl"
+title = "Quantum, Weyl, down-up and q-commuting algebras"
+statement = "Construct differential Weyl, down-up, quantum oscillator, q-commuting polynomial/Laurent and related noncommutative algebras with their representations."
+domain = "A coefficient ring and parameters satisfying the defining commutation or oscillator relations."
+contract = "Parameters -> algebra with canonical monomial basis and relation-preserving multiplication; supported families expose differential action, Verma/Fock modules, q-grading and Laurent inverses."
+exactness = "conditional"
+exactness_notes = "Normal-form multiplication is exact over supported rings; representation and parameter-specialization behavior depends on nonzero/invertibility assumptions."
+algorithms = [{ family = "Relation rewriting and monomial-basis multiplication", sources = ["sage.algebras.weyl_algebra:*", "sage.algebras.down_up_algebra:*", "sage.algebras.quantum_oscillator:*", "sage.algebras.q_commuting_polynomials:*"] }]
+depends_on = ["algebras.free-associative-construction"]
+sage = ["sage.algebras.weyl_algebra:*", "sage.algebras.down_up_algebra:*", "sage.algebras.quantum_oscillator:*", "sage.algebras.q_commuting_polynomials:*"]
+catalogue = []
+tests = [
+  "Weyl commutation and differential-action checks.",
+  "Down-up defining relations and Verma-module weight checks.",
+  "Quantum oscillator/Fock vacuum and relation checks.",
+  "q-commuting monomial product, degree and Laurent-inverse checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.free-algebra", "mathlib.poly.multivariate"], evidence = "Mathlib supplies free/polynomial algebra foundations; relation normal forms and specialized modules/actions require native implementations." }
+backends = []
+references = ["Kassel, Quantum Groups"]
+
+[[capability]]
+id = "algebras.fusion-rings-and-modular-data"
+title = "Fusion rings, fusion doubles and modular tensor data"
+statement = "Construct fusion rings and Drinfeld doubles from Weyl-character and finite-group data, with fusion coefficients, duals, quantum dimensions, modular S/R matrices, F-matrices and braid representations."
+domain = "A supported root system/Weyl character ring or finite group, fusion level and coefficient field/parameter data."
+contract = "Input fusion data -> finite-rank based ring or fusion double with associative basis multiplication, duality and modular data; optional F-matrix solving and braid representations satisfy the corresponding pentagon, orthogonality and braid relations."
+exactness = "conditional"
+exactness_notes = "Fusion coefficients and character-based modular data are exact over supported coefficient fields; F-matrix solving, cached data and parallel braid computations depend on solver availability and selected parameters."
+algorithms = [{ family = "Verlinde fusion, character data, F-matrix solving and braid representations", sources = ["sage.algebras.fusion_rings.fusion_ring:*", "sage.algebras.fusion_rings.fusion_double:*", "sage.algebras.fusion_rings.f_matrix:*", "sage.algebras.fusion_rings.poly_tup_engine:*", "sage.algebras.fusion_rings.fast_parallel_fmats_methods:*", "sage.algebras.fusion_rings.fast_parallel_fusion_ring_braid_repn:*", "sage.algebras.fusion_rings.shm_managers:*"] }]
+depends_on = ["algebras.lie-standard-families", "algebras.hecke-families"]
+sage = ["sage.algebras.fusion_rings.fusion_ring:*", "sage.algebras.fusion_rings.fusion_double:*", "sage.algebras.fusion_rings.f_matrix:*", "sage.algebras.fusion_rings.poly_tup_engine:*", "sage.algebras.fusion_rings.fast_parallel_fmats_methods:*", "sage.algebras.fusion_rings.fast_parallel_fusion_ring_braid_repn:*", "sage.algebras.fusion_rings.shm_managers:*"]
+catalogue = []
+tests = [
+  "Fusion-ring basis products are associative and satisfy Verlinde formulas.",
+  "Duality, global quantum dimension, twists and modular S-matrix identities.",
+  "Fusion-double products and character-based S/R matrices agree with finite-group data.",
+  "Computed F-matrices satisfy pentagon/orthogonality and braid generators satisfy braid relations.",
+]
+reuse = { status = "adaptable", components = ["mathlib.group.coxeter", "mathlib.linalg.matrix-arithmetic", "mathlib.alg.lie-algebras"], evidence = "Mathlib supplies Coxeter/character, Lie and matrix foundations; Sage's fusion truncation, modular-data normalization, F-matrix solving and braid-representation machinery require native algorithms." }
+backends = []
+references = ["Verlinde, Fusion rules and modular transformations in 2D conformal field theory", "Bakalov and Kirillov, Lectures on Tensor Categories and Modular Functors"]
+
+[[capability]]
+id = "algebras.cluster-algebras"
+title = "Cluster algebras, seeds, mutations and canonical bases"
+statement = "Construct cluster algebras from exchange matrices, mutate seeds and compute cluster variables, c/g/d-vectors, F-polynomials, cluster fans, upper/lower bounds and greedy or theta basis elements."
+domain = "An integer exchange matrix and coefficient/scalar data supporting the requested mutation and polynomial operations."
+contract = "Exchange data -> cluster algebra with mutation-connected seeds; mutation preserves the exchange pattern, and basis/element constructors return Laurent-polynomial representatives with the documented vector and positivity invariants."
+exactness = "conditional"
+exactness_notes = "Finite-depth mutation and Laurent-polynomial computations are exact; unrestricted exploration, theta-basis decomposition and upper/lower algebra equality depend on termination and the selected algebra class."
+algorithms = [{ family = "Seed mutation, Laurent phenomenon data and canonical-basis computations", sources = ["sage.algebras.cluster_algebra:*"] }]
+depends_on = ["algebras.free-associative-construction"]
+sage = ["sage.algebras.cluster_algebra:*"]
+catalogue = []
+tests = [
+  "Seed mutation involution and exchange-matrix mutation checks.",
+  "Cluster variables satisfy exchange relations and Laurentness at finite depth.",
+  "c/g/d-vector and F-polynomial mutation identities.",
+  "Greedy/theta elements satisfy the documented positivity and basis checks in finite-rank examples.",
+]
+reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "mathlib.poly.multivariate", "mathlib.comb.finset-multiset-list"], evidence = "Mathlib supplies integer matrices, multivariate polynomials and finite combinatorial data; cluster mutation state, Laurent representatives and canonical-basis algorithms require native implementations." }
+backends = []
+references = ["Fomin and Zelevinsky, Cluster algebras I: Foundations"]
+
+[[capability]]
+id = "algebras.steenrod"
+title = "Steenrod algebras and admissible bases"
+statement = "Construct generic and mod-two Steenrod algebras in Milnor, Serre-Cartan, Wood, Wall, Arnon and related bases, with multiplication, coproduct, antipode, basis conversion, profiles and finite-degree structure."
+domain = "A prime p, basis specification and optional profile/truncation data satisfying the Steenrod admissibility conditions."
+contract = "Prime/basis/profile data -> graded Hopf algebra with admissible basis; multiplication, coproduct, counit and antipode satisfy the Hopf identities, while basis conversion is inverse on each finite homogeneous component."
+exactness = "conditional"
+exactness_notes = "Finite-degree operations are exact over the prime field and supported finite profiles; generic infinite-dimensional queries require finite-degree truncation."
+algorithms = [{ family = "Adem/Milnor multiplication, coproducts, basis enumeration and conversion", sources = ["sage.algebras.steenrod.steenrod_algebra:*", "sage.algebras.steenrod.steenrod_algebra_bases:*", "sage.algebras.steenrod.steenrod_algebra_misc:*", "sage.algebras.steenrod.steenrod_algebra_mult:*"] }]
+depends_on = ["algebras.free-associative-construction"]
+sage = ["sage.algebras.steenrod.steenrod_algebra:*", "sage.algebras.steenrod.steenrod_algebra_bases:*", "sage.algebras.steenrod.steenrod_algebra_misc:*", "sage.algebras.steenrod.steenrod_algebra_mult:*"]
+catalogue = []
+tests = [
+  "Adem and Milnor multiplication agree in finite degrees.",
+  "Coproduct, counit and antipode satisfy graded Hopf identities.",
+  "Basis conversion matrices compose to identity on each homogeneous component.",
+  "Profile validation, degree formulas and finite-dimensional truncation checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.zmod.arithmetic", "mathlib.comb.compositions", "mathlib.comb.partitions", "mathlib.alg.free-algebra"], evidence = "Mathlib supplies prime-field arithmetic, compositions/partitions and free algebra foundations; Steenrod admissibility, Adem/Milnor formulas, Hopf operations and basis conversions require native implementations." }
+backends = []
+references = ["Milnor, The Steenrod algebra and its dual", "McCleary, A User's Guide to Spectral Sequences"]
+
+[[capability]]
+id = "algebras.quantum-groups-and-representations"
+title = "Drinfeld-Jimbo quantum groups, Fock spaces and crystal representations"
+statement = "Construct quantum groups from Cartan data and compute generators, quantum Serre relations, coproduct, antipode, counit, highest-weight modules, tensor products, Fock-space realizations, crystal bases and quantum-group representations."
+domain = "A Cartan type, quantum parameter and supported coefficient field, with weights/Fock multicharges for representation constructions."
+contract = "Cartan/parameter data -> quantized enveloping algebra and modules whose generators satisfy quantum Serre and Hopf relations; representation and crystal operations preserve weights and the documented basis actions."
+exactness = "conditional"
+exactness_notes = "Formal generator, relation and finite-basis operations are exact over supported fields; the GAP QuaGroup backend, infinite Fock spaces and crystal exploration require backend availability or finite truncation."
+algorithms = [{ family = "Quantized enveloping algebras, highest-weight modules, crystals and Fock-space bases", sources = ["sage.algebras.quantum_groups.quantum_group_gap:*", "sage.algebras.quantum_groups.fock_space:*", "sage.algebras.quantum_groups.representations:*", "sage.algebras.quantum_groups.ace_quantum_onsager:*", "sage.algebras.quantum_groups.q_numbers:*"] }]
+depends_on = ["algebras.hecke-families", "algebras.lie-standard-families"]
+sage = ["sage.algebras.quantum_groups.quantum_group_gap:*", "sage.algebras.quantum_groups.fock_space:*", "sage.algebras.quantum_groups.representations:*", "sage.algebras.quantum_groups.ace_quantum_onsager:*", "sage.algebras.quantum_groups.q_numbers:*"]
+catalogue = []
+tests = [
+  "Quantum Serre relations, coproduct, counit and antipode identities.",
+  "Highest-weight and tensor-product weight-action checks.",
+  "Fock-space realization and crystal raising/lowering checks in finite degree.",
+  "Quantum Onsager defining relations and q-number identities.",
+]
+reuse = { status = "adaptable", components = ["mathlib.group.coxeter", "mathlib.alg.lie-algebras", "mathlib.comb.partitions", "mathlib.poly.multivariate"], evidence = "Mathlib supplies Cartan/Coxeter, Lie, partition and polynomial foundations; quantum deformation, crystal/Fock actions, highest-weight decomposition and backend adapters require native implementations." }
+backends = ["gap"]
+references = ["Jantzen, Lectures on Quantum Groups", "Kashiwara, On crystal bases"]
+
+[[capability]]
+id = "algebras.quantum-coordinate-yangian-shuffle"
+title = "Yangians, quantum coordinate, shuffle and quantum Clifford algebras"
+statement = "Construct Yangians and graded/filtered Hopf realizations, quantum matrix coordinate and quantum general linear algebras, shuffle algebras with dual PBW bases, and generic/root-of-unity quantum Clifford algebras."
+domain = "A coefficient ring/field and deformation parameter q where the selected coordinate, Yangian, shuffle or Clifford construction is defined."
+contract = "Parameters -> noncommutative algebra with canonical basis and relation-preserving multiplication; Hopf families expose coproduct/counit/antipode, coordinate algebras expose quantum determinants, and quantum Clifford families expose finite-dimensional specialized bases."
+exactness = "conditional"
+exactness_notes = "Finite basis normal forms and formal Hopf operations are exact over supported coefficient domains; root-of-unity branches, filtered completions and determinant/localization operations require their stated assumptions."
+algorithms = [{ family = "Noncommutative relation rewriting, Hopf operations and PBW/shuffle bases", sources = ["sage.algebras.yangian:*", "sage.algebras.quantum_matrix_coordinate_algebra:*", "sage.algebras.shuffle_algebra:*", "sage.algebras.quantum_clifford:*"] }]
+depends_on = ["algebras.quantum-and-weyl", "algebras.clifford-algebra"]
+sage = ["sage.algebras.yangian:*", "sage.algebras.quantum_matrix_coordinate_algebra:*", "sage.algebras.shuffle_algebra:*", "sage.algebras.quantum_clifford:*"]
+catalogue = []
+tests = [
+  "Yangian defining relations, filtration/degree and coproduct/counit checks.",
+  "Quantum matrix relations, quantum determinant centrality and bialgebra identities.",
+  "Shuffle associativity, deconcatenation coproduct and antipode identities.",
+  "Quantum Clifford generic/root-of-unity relations, dimension and specialization checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.free-algebra", "mathlib.poly.multivariate", "mathlib.linalg.matrix-arithmetic", "mathlib.alg.clifford-exterior"], evidence = "Mathlib supplies free/polynomial algebra, matrix and Clifford foundations; Yangian/quantum-coordinate relations, shuffle PBW duality and q-specialized normal forms require native implementations." }
+backends = []
+references = ["Drinfeld, Hopf algebras and the quantum Yang-Baxter equation", "FRT, Quantum groups", "Rosso, Quantum groups and quantum shuffles"]
+
+[[capability]]
+id = "algebras.lie-core-and-structure-coefficients"
+title = "Lie algebras, structure coefficients, subalgebras, quotients and morphisms"
+statement = "Construct Lie algebras from generators, associative algebras or structure coefficients, and compute brackets, subalgebras, ideals, quotients, basis coordinates and homomorphisms."
+domain = "A commutative base ring and a finitely or infinitely generated Lie algebra presentation, associative algebra, or validated structure-coefficient table."
+contract = "Input data -> Lie algebra with bilinear alternating bracket satisfying Jacobi when promised; structure-coefficient and matrix realizations retain basis/coordinate maps, while subalgebra, quotient and morphism constructors preserve bracket laws and explicit lift/retract maps."
+exactness = "exact"
+algorithms = [{ family = "Sparse Lie-basis arithmetic, structure coefficients and bracket-preserving maps", sources = ["sage.algebras.lie_algebras.lie_algebra:*", "sage.algebras.lie_algebras.lie_algebra_element:*", "sage.algebras.lie_algebras.structure_coefficients:*", "sage.algebras.lie_algebras.subalgebra:*", "sage.algebras.lie_algebras.quotient:*", "sage.algebras.lie_algebras.morphism:*"] }]
+depends_on = []
+sage = [
+  "sage.algebras.lie_algebras.lie_algebra:*",
+  "sage.algebras.lie_algebras.lie_algebra_element:*",
+  "sage.algebras.lie_algebras.structure_coefficients:*",
+  "sage.algebras.lie_algebras.subalgebra:*",
+  "sage.algebras.lie_algebras.quotient:*",
+  "sage.algebras.lie_algebras.morphism:*",
+]
+catalogue = []
+tests = [
+  "Bilinearity, antisymmetry and Jacobi checks on structure-coefficient examples.",
+  "Subalgebra/ideal closure, quotient lift/retract and coordinate reconstruction checks.",
+  "Morphism images preserve brackets and base maps.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.lie-algebras", "mathlib.linalg.bases-kernels"], evidence = "Mathlib supplies Lie rings/algebras and linear algebra, but Sage's executable sparse bases, structure coefficients, subalgebra/quotient carriers and morphism constructors need an adapted native layer." }
+backends = []
+references = ["Humphreys, Introduction to Lie Algebras and Representation Theory"]
+
+[[capability]]
+id = "algebras.lie-standard-families"
+title = "Standard, classical, affine, free and nilpotent Lie algebras"
+statement = "Construct named Lie algebras including abelian, Heisenberg, free/free-nilpotent, classical matrix, Chevalley and affine Kac-Moody families."
+domain = "Supported base ring and family parameters such as rank, Cartan type, nilpotency class or structure constants."
+contract = "Parameters -> Lie algebra with documented basis, bracket, generators, grading/root data, Killing form and affine embeddings/derived subalgebras where defined."
+exactness = "conditional"
+exactness_notes = "Bracket tables and finite-dimensional matrix models are exact over supported rings; affine/infinite families expose formal bases and may require coefficient or truncation restrictions."
+algorithms = [{ family = "Named Lie-family basis and bracket constructors", sources = ["sage.algebras.lie_algebras.abelian:*", "sage.algebras.lie_algebras.heisenberg:*", "sage.algebras.lie_algebras.free_lie_algebra:*", "sage.algebras.lie_algebras.nilpotent_lie_algebra:*", "sage.algebras.lie_algebras.classical_lie_algebra:*", "sage.algebras.lie_algebras.affine_lie_algebra:*", "sage.algebras.lie_algebras.examples:*"] }]
+depends_on = ["algebras.lie-core-and-structure-coefficients"]
+sage = [
+  "sage.algebras.lie_algebras.abelian:*",
+  "sage.algebras.lie_algebras.heisenberg:*",
+  "sage.algebras.lie_algebras.free_lie_algebra:*",
+  "sage.algebras.lie_algebras.nilpotent_lie_algebra:*",
+  "sage.algebras.lie_algebras.classical_lie_algebra:*",
+  "sage.algebras.lie_algebras.affine_lie_algebra:*",
+  "sage.algebras.lie_algebras.examples:*",
+]
+catalogue = []
+tests = [
+  "Heisenberg central-bracket and nilpotency-step checks.",
+  "Free-Lie graded dimensions and Lyndon/Hall basis bracket checks.",
+  "Classical/Chevalley root, Cartan, Killing-form and Serre-relation checks.",
+  "Affine derived-subalgebra and central/derivation bracket checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.lie-algebras", "mathlib.group.coxeter"], evidence = "Mathlib supplies abstract Lie-algebra and Coxeter infrastructure; named bases, root systems, affine presentations and executable graded dimensions require native constructions." }
+backends = []
+references = ["Kac, Infinite-Dimensional Lie Algebras", "Serre, Lie Algebras and Lie Groups"]
+
+[[capability]]
+id = "algebras.lie-enveloping-and-center"
+title = "Universal enveloping, PBW bases and Lie centers"
+statement = "Construct Poincare-Birkhoff-Witt bases and universal-enveloping-algebra products, Casimir/center elements and center retracts for Lie algebras."
+domain = "A Lie algebra with an ordered basis and, for semisimple operations, the required root/Killing-form data."
+contract = "Lie algebra -> PBW basis with multiplication, degree, algebra generators, Casimir and center; center constructions provide basis indices, lift/retract and central multiplication."
+exactness = "conditional"
+exactness_notes = "PBW products are exact over suitable coefficient rings; center and Casimir computations require finite-dimensional or semisimple hypotheses and may be computationally bounded."
+algorithms = [{ family = "PBW rewriting and central-element computation", sources = ["sage.algebras.lie_algebras.poincare_birkhoff_witt:*", "sage.algebras.lie_algebras.center_uea:*"] }]
+depends_on = ["algebras.lie-core-and-structure-coefficients"]
+sage = ["sage.algebras.lie_algebras.poincare_birkhoff_witt:*", "sage.algebras.lie_algebras.center_uea:*"]
+catalogue = []
+tests = [
+  "PBW ordered-monomial multiplication agrees with Lie commutator relations.",
+  "Casimir and center elements commute with generators.",
+  "Center lift/retract and degree/index operations are inverse on basis examples.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.lie-algebras", "mathlib.alg.tensor-algebra"], evidence = "Mathlib provides Lie and tensor/universal-algebra foundations, but executable PBW normal forms and center enumeration need specialized algorithms." }
+backends = []
+references = ["Dixmier, Enveloping Algebras"]
+
+[[capability]]
+id = "algebras.lie-modules-and-representations"
+title = "Lie algebra representations and highest-weight modules"
+statement = "Construct Lie-algebra representations, Verma/simple/BGG modules, PBW faithful representations and standard infinite-dimensional families such as Virasoro and Onsager algebras."
+domain = "A supported Lie algebra, weight, module basis and coefficient ring satisfying the family-specific highest-weight or representation hypotheses."
+contract = "Lie algebra and representation data -> module with basis, action matrices, weights, highest-weight vectors, duals, contravariant forms, singularity/simplicity tests and morphism images where defined; special Lie families retain their defining central extensions and graded brackets."
+exactness = "conditional"
+exactness_notes = "Module action and finite computations are exact; infinite-dimensional bases and representation algorithms are formal or degree-bounded, with explicit restrictions on unsupported computations."
+algorithms = [{ family = "PBW module actions, highest-weight bases and representation matrices", sources = ["sage.algebras.lie_algebras.representation:*", "sage.algebras.lie_algebras.verma_module:*", "sage.algebras.lie_algebras.bgg_dual_module:*", "sage.algebras.lie_algebras.bgg_resolution:*", "sage.algebras.lie_algebras.virasoro:*", "sage.algebras.lie_algebras.onsager:*", "sage.algebras.lie_algebras.rank_two_heisenberg_virasoro:*", "sage.algebras.lie_algebras.symplectic_derivation:*"] }]
+depends_on = ["algebras.lie-standard-families", "algebras.lie-enveloping-and-center"]
+sage = [
+  "sage.algebras.lie_algebras.representation:*",
+  "sage.algebras.lie_algebras.verma_module:*",
+  "sage.algebras.lie_algebras.bgg_dual_module:*",
+  "sage.algebras.lie_algebras.bgg_resolution:*",
+  "sage.algebras.lie_algebras.virasoro:*",
+  "sage.algebras.lie_algebras.onsager:*",
+  "sage.algebras.lie_algebras.rank_two_heisenberg_virasoro:*",
+  "sage.algebras.lie_algebras.symplectic_derivation:*",
+]
+catalogue = []
+tests = [
+  "Representation matrices preserve Lie brackets on generators.",
+  "Highest-weight and Verma-module action checks, including singular vectors and contravariant forms.",
+  "BGG differential composition checks on finite truncations.",
+  "Virasoro/Onsager defining relations and grading checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.lie-algebras", "mathlib.alg.module-quotients"], evidence = "Mathlib supplies Lie-algebra and module foundations, but PBW actions, highest-weight modules and BGG/Virasoro/Onsager computations require specialized native implementations." }
+backends = []
+references = ["Humphreys, Representations of Semisimple Lie Algebras in the BGG Category O", "Kac, Infinite-Dimensional Lie Algebras"]
+
+[[capability]]
+id = "algebras.finite-dimensional"
+title = "Finite-dimensional algebras, ideals and morphisms"
+statement = "Construct finite-dimensional algebras from multiplication tables, compute element and ideal invariants, and represent algebra homomorphisms."
+domain = "A finite-dimensional algebra over a base ring with a validated multiplication table."
+contract = "Base ring and table -> algebra with basis, multiplication, unit/associativity/commutativity predicates, ideals, quotients, element matrices and minimal/characteristic polynomials; morphisms preserve multiplication and unit when requested."
+exactness = "exact"
+algorithms = [{ family = "Multiplication-table linear algebra and ideal operations", sources = ["sage.algebras.finite_dimensional_algebras.finite_dimensional_algebra:*", "sage.algebras.finite_dimensional_algebras.finite_dimensional_algebra_element:*", "sage.algebras.finite_dimensional_algebras.finite_dimensional_algebra_ideal:*", "sage.algebras.finite_dimensional_algebras.finite_dimensional_algebra_morphism:*"] }]
+depends_on = []
+sage = [
+  "sage.algebras.finite_dimensional_algebras.finite_dimensional_algebra:*",
+  "sage.algebras.finite_dimensional_algebras.finite_dimensional_algebra_element:*",
+  "sage.algebras.finite_dimensional_algebras.finite_dimensional_algebra_ideal:*",
+  "sage.algebras.finite_dimensional_algebras.finite_dimensional_algebra_morphism:*",
+]
+catalogue = []
+tests = [
+  "Multiplication-table associativity/unit checks and direct basis multiplication.",
+  "Element matrix, inverse, zero-divisor, nilpotence and characteristic/minimal polynomial checks.",
+  "Ideal containment and morphism multiplication/unit preservation checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "mathlib.alg.ideals"], evidence = "Mathlib supplies finite-dimensional linear algebra and ideals; Sage's executable multiplication-table parent and morphism APIs need a native carrier." }
+backends = []
+references = ["Jacobson, Basic Algebra II"]
+
+[[capability]]
+id = "algebras.quaternion"
+title = "Quaternion algebras, orders and fractional ideals"
+statement = "Construct quaternion algebras and arithmetic in orders and fractional ideals, including splitting, ramification, norms, equivalence and theta-series operations."
+domain = "A base ring and quaternion parameters defining a supported quaternion algebra."
+contract = "Parameters -> quaternion algebra with basis, multiplication, norm/inner-product data, ramification/discriminant and splitting maps; orders and fractional ideals support ideal arithmetic, maximality, equivalence, principality, norm and theta-series operations."
+exactness = "conditional"
+exactness_notes = "Exact over supported number rings and fields; factorization, class and ideal algorithms depend on arithmetic backends and documented bounds."
+algorithms = [{ family = "Quaternion algebra/order/fractional-ideal arithmetic", sources = ["sage.algebras.quatalg.quaternion_algebra:*"] }]
+depends_on = []
+sage = ["sage.algebras.quatalg.quaternion_algebra:*"]
+catalogue = []
+tests = [
+  "Quaternion basis multiplication, conjugation, norm and reduced-trace identities.",
+  "Order closure, discriminant/maximality and left/right ideal arithmetic checks.",
+  "Fractional-ideal norm, equivalence/principality and theta-series checks against small published examples.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.quaternions", "mathlib.nt.quadratic-forms"], evidence = "Mathlib provides quaternion and quadratic-form infrastructure, but quaternion orders and ideal arithmetic need specialized native algorithms or backend calls." }
+backends = ["magma"]
+references = ["Voight, Quaternion Algebras"]
+
+[[capability]]
+id = "algebras.octonion"
+title = "Octonion algebras"
+statement = "Construct octonion algebras and compute conjugation, norm, quadratic form, real/imaginary parts and unit membership."
+domain = "A supported base ring for the octonion algebra."
+contract = "Base ring -> eight-dimensional nonassociative algebra with basis, unit, multiplication, conjugation and multiplicative norm identities."
+exactness = "exact"
+algorithms = [{ family = "Cayley-Dickson octonion arithmetic", sources = ["sage.algebras.octonion_algebra:*"] }]
+depends_on = []
+sage = ["sage.algebras.octonion_algebra:*"]
+catalogue = []
+tests = [
+  "Conjugation involution and norm multiplicativity checks.",
+  "Real/imaginary projections and unit membership checks.",
+  "Alternativity and explicit nonassociativity example checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.quaternions"], evidence = "The inspected reuse inventory provides related algebra infrastructure but no executable octonion carrier; the eight-dimensional multiplication and norm need a native implementation." }
+backends = []
+references = ["Baez, The Octonions"]
+
+[[capability]]
+id = "algebras.monoid-group-algebra"
+title = "Monoid and group algebra construction"
+statement = "Construct the algebra of finitely supported formal linear combinations of elements of a monoid or additive monoid over a coefficient ring, with multiplication extended bilinearly."
+domain = "A multiplicative or additive magma G and a coefficient ring R; Sage accepts the construction when G belongs to Magmas or AdditiveMagmas and R belongs to Rings."
+contract = "(G,R) -> R[G] with basis indexed by G, retained coefficient and basis parents, bilinear multiplication induced by G, and coercions induced by coefficient and basis maps when both exist. Additive groups use the explicitly selected additive interpretation and do not inherit ambiguous group coercions."
+exactness = "exact"
+algorithms = [{ family = "Finite-support convolution over the basis monoid", sources = ["sage.categories.algebra_functor:AlgebraFunctor", "sage.algebras.group_algebra:GroupAlgebra", "sage.algebras.group_algebra:GroupAlgebra_class"] }]
+depends_on = []
+sage = [
+  "sage.algebras.group_algebra:GroupAlgebra",
+  "sage.algebras.group_algebra:GroupAlgebra_class",
+  "sage.algebras.group_algebra:GroupAlgebra_class._coerce_map_from_",
+]
+catalogue = []
+tests = [
+  "Sage doctests in sage.algebras.group_algebra: compare the product of formal sums with independent finite-support convolution over a finite group.",
+  "Coercion checks: verify coefficient extension and subgroup inclusion maps, and verify that additive-group constructions do not register an ambiguous group coercion.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.monoid-algebra"], evidence = "Mathlib defines MonoidAlgebra and AddMonoidAlgebra through Finsupp, but the inspected component is noncomputable and does not provide Sage's executable parent construction or coercion policy. A native implementation must retain finite support and make the induced convolution executable." }
+backends = []
+references = []
+
+[[capability]]
+id = "algebras.diagram-and-partition"
+title = "Diagram, partition, Brauer and Temperley-Lieb algebras"
+statement = "Enumerate partition, planar, ideal, Brauer and Temperley-Lieb diagrams and construct their diagram algebras, orbit bases, generators, involutions and representations."
+domain = "A nonnegative rank/parameter and coefficient ring for the selected diagram family."
+contract = "Rank/parameter -> finite diagram set and based algebra; diagram composition is associative up to loop weights, basis products preserve the family, and orbit/generator constructions retain the stated diagram symmetries."
+exactness = "conditional"
+exactness_notes = "Finite diagram enumeration and formal basis products are exact; representation and parameter-specialization behavior follows the supplied coefficient and loop-weight assumptions."
+algorithms = [{ family = "Set-partition diagram enumeration, composition and diagram-basis multiplication", sources = ["sage.combinat.diagram_algebras:*", "sage.combinat.partition_algebra:*"] }]
+depends_on = ["algebras.hecke-families"]
+sage = ["sage.combinat.diagram_algebras:*", "sage.combinat.partition_algebra:*", "sage.combinat.descent_algebra:*"]
+catalogue = []
+tests = [
+  "Diagram enumeration cardinalities and planarity/propagation predicates.",
+  "Associativity of diagram composition and loop-weighted basis multiplication.",
+  "Partition/Brauer/Temperley-Lieb generator and involution relations.",
+  "Descent-algebra realization and basis-change identities.",
+]
+reuse = { status = "adaptable", components = ["mathlib.comb.partitions", "mathlib.linalg.matrix-arithmetic", "mathlib.alg.free-algebra"], evidence = "Mathlib supplies partition and matrix/free-algebra foundations; diagram composition, loop weights, planar restrictions, orbit bases and descent realizations require native implementations." }
+backends = []
+references = ["Martin, Potts models and related problems in statistical mechanics", "Jones, Planar algebras I"]
+
+[[capability]]
+id = "algebras.incidence-moebius"
+title = "Incidence, Möbius and quantum Möbius algebras"
+statement = "Construct incidence algebras and reduced incidence subalgebras of finite posets, together with Möbius, zeta, quantum Möbius and realization bases."
+domain = "A finite locally finite poset/lattice and coefficient ring, with an optional q parameter for quantum Möbius constructions."
+contract = "Poset -> convolution algebra of interval functions; zeta and Möbius elements are convolution inverses, and reduced/quantum realizations preserve the poset incidence and basis-change contracts."
+exactness = "exact"
+exactness_notes = "All operations are finite convolution and exact over the coefficient ring; quantum specializations require only the selected q coefficient."
+algorithms = [{ family = "Interval convolution, Möbius inversion and realization basis conversion", sources = ["sage.combinat.posets.incidence_algebras:*", "sage.combinat.posets.moebius_algebra:*"] }]
+depends_on = ["algebras.finite-dimensional"]
+sage = ["sage.combinat.posets.incidence_algebras:*", "sage.combinat.posets.moebius_algebra:*"]
+catalogue = []
+tests = [
+  "Associativity of interval convolution and identity-element checks.",
+  "Zeta/Möbius convolution inverse and reduced-algebra lift/retract checks.",
+  "Quantum Möbius basis products and q=1 specialization checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.order.lattices", "mathlib.comb.partitions", "mathlib.linalg.matrix-arithmetic"], evidence = "Mathlib supplies finite-order/lattice and combinatorial foundations; interval-function convolution, Möbius inversion and quantum realization bases require native implementations." }
+backends = []
+references = ["Rota, On the foundations of combinatorial theory I: Theory of Möbius functions"]
+
+[[capability]]
+id = "algebras.free-operadic-families"
+title = "Free pre-Lie, dendriform, Zinbiel and Grossman-Larson algebras"
+statement = "Construct free pre-Lie, dendriform and Zinbiel algebras and the Grossman-Larson rooted-tree Hopf algebra, with their products, coproducts, functors and induced Lie/associative structures."
+domain = "A coefficient ring and finite alphabet of generators; rooted-tree and word bases are finite in each degree."
+contract = "Generators -> graded free operadic algebra or rooted-tree Hopf algebra with basis products satisfying the defining pre-Lie/dendriform/Zinbiel identities; coproduct and antipode satisfy the Hopf contracts where defined."
+exactness = "exact"
+exactness_notes = "Finite word/tree basis operations are exact over the coefficient ring; unrestricted group-product series are evaluated only to the requested truncation."
+algorithms = [{ family = "Word/tree basis products, operadic identities and rooted-tree Hopf operations", sources = ["sage.combinat.free_prelie_algebra:*", "sage.combinat.free_dendriform_algebra:*", "sage.algebras.free_zinbiel_algebra:*", "sage.combinat.grossman_larson_algebras:*"] }]
+depends_on = ["algebras.free-associative-construction"]
+sage = ["sage.combinat.free_prelie_algebra:*", "sage.combinat.free_dendriform_algebra:*", "sage.algebras.free_zinbiel_algebra:*", "sage.combinat.grossman_larson_algebras:*"]
+catalogue = []
+tests = [
+  "Pre-Lie, dendriform and Zinbiel defining identities on basis elements.",
+  "Rooted-tree product, coproduct, counit and antipode identities.",
+  "Functor change-of-ring and induced universal-map checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.free-algebra", "mathlib.comb.partitions"], evidence = "Mathlib supplies free-algebra and finite combinatorial foundations; tree/word bases and operadic products/coproducts require native implementations." }
+backends = []
+references = ["Chapoton and Livernet, Pre-Lie algebras and the rooted trees operad", "Loday, Dialgebras"]
+
+[[capability]]
+id = "algebras.letterplace-bch"
+title = "Letterplace ideals and Baker-Campbell-Hausdorff series"
+statement = "Compute letterplace ideals and normal forms for free associative algebras, and enumerate successive Baker-Campbell-Hausdorff Lie terms."
+domain = "A free associative algebra/letterplace presentation or Lie algebra over a characteristic-zero coefficient ring; BCH output is finite only for nilpotent inputs or explicitly truncated."
+contract = "Letterplace relations -> quotient ideal operations and normal forms; Lie elements -> successive BCH homogeneous terms with rational Bernoulli coefficients and correct Lie-bracket grading."
+exactness = "conditional"
+exactness_notes = "Finite normal forms and each computed BCH term are exact; the BCH series is generally infinite and computational cost grows rapidly with degree."
+algorithms = [{ family = "Letterplace ideal operations and recursive BCH expansion", sources = ["sage.algebras.letterplace.letterplace_ideal:*", "sage.algebras.lie_algebras.bch:*"] }]
+depends_on = ["algebras.free-associative-construction", "algebras.lie-core-and-structure-coefficients"]
+sage = ["sage.algebras.letterplace.letterplace_ideal:*", "sage.algebras.lie_algebras.bch:*"]
+catalogue = []
+tests = [
+  "Letterplace ideal membership and normal-form checks.",
+  "BCH first terms agree with X+Y, [X,Y]/2 and the standard degree-three coefficients.",
+  "BCH truncation terminates at the nilpotency step for nilpotent Lie algebras.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.free-algebra", "mathlib.poly.multivariate", "mathlib.alg.lie-algebras"], evidence = "Mathlib supplies free/polynomial algebra and Lie foundations; letterplace quotient algorithms and Bernoulli-weighted BCH enumeration require native implementations." }
+backends = []
+references = ["Baker-Campbell-Hausdorff formula", "Reutenauer, Free Lie Algebras"]
+
+[[capability]]
+id = "algebras.commutative-dga"
+title = "Graded-commutative and differential graded algebras"
+statement = "Construct graded-commutative and multigraded differential graded algebras, morphisms, quotients, cohomology algebras, minimal models and formality invariants."
+domain = "A coefficient ring, generator degrees and a differential whose square is zero and satisfies the graded Leibniz rule."
+contract = "Generators/degrees/differential -> graded-commutative or differential graded algebra with finite-degree bases; cocycles modulo coboundaries form cohomology, and morphisms preserve grading and differential."
+exactness = "conditional"
+exactness_notes = "Finite-degree linear algebra and cohomology are exact over supported coefficient rings; minimal-model and formality searches are bounded algorithms controlled by degree and iteration limits."
+algorithms = [{ family = "Graded-commutative normal forms, differential matrices and cohomology", sources = ["sage.algebras.commutative_dga:*"] }]
+depends_on = ["algebras.free-associative-construction"]
+sage = ["sage.algebras.commutative_dga:*"]
+catalogue = []
+tests = [
+  "Graded commutativity, Leibniz and differential-square-zero checks.",
+  "Cocycle/coboundary quotient and cohomology-dimension checks in finite degree.",
+  "Morphism composition and induced-cohomology-map checks.",
+  "Minimal-model and formality invariants agree on standard finite examples.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.free-algebra", "mathlib.homology.complexes", "mathlib.linalg.matrix-arithmetic"], evidence = "Mathlib supplies free algebra, chain-complex and matrix foundations; graded-commutative quotient normal forms, DGA morphisms and bounded minimal-model algorithms require native implementations." }
+backends = []
+references = ["Sullivan, Infinitesimal computations in topology"]
+
+[[capability]]
+id = "algebras.jordan"
+title = "Special, symmetric-bilinear and exceptional Jordan algebras"
+statement = "Construct Jordan algebras from associative algebras, symmetric bilinear forms and octonions, with Jordan products, powers, norms and structural identities."
+domain = "An associative algebra, symmetric bilinear form or octonion algebra supplying the underlying Jordan construction."
+contract = "Underlying data -> commutative nonassociative algebra whose product satisfies the Jordan identity; special and exceptional constructors preserve their embedding/norm contracts."
+exactness = "exact"
+exactness_notes = "Products and finite-dimensional basis operations are exact over the underlying coefficient ring; exceptional constructions inherit the assumptions of the supplied octonion algebra."
+algorithms = [{ family = "Jordan product and finite-dimensional structural operations", sources = ["sage.algebras.jordan_algebra:*"] }]
+depends_on = ["algebras.octonion"]
+sage = ["sage.algebras.jordan_algebra:*"]
+catalogue = []
+tests = [
+  "Commutativity and Jordan identity checks.",
+  "Special Jordan symmetrization agrees with the associative embedding.",
+  "Bilinear-form and exceptional-octonion product/norm identities.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.quaternions", "mathlib.alg.clifford-exterior", "mathlib.linalg.matrix-arithmetic"], evidence = "Mathlib supplies composition-algebra and linear-algebra foundations; Jordan-specific products, exceptional construction and structural identities require native implementations." }
+backends = []
+references = ["McCrimmon, A Taste of Jordan Algebras"]
+
+[[capability]]
+id = "algebras.hall-qsystem-schur"
+title = "Hall algebras, Q-systems and Schur algebras"
+statement = "Construct Hall algebras and monomial realizations, Cartan-type Q-systems, finite Schur algebras and tensor modules/characters."
+domain = "A finite field parameter, Cartan type and level, or Schur parameters n and r over a supported coefficient ring."
+contract = "Input representation data -> based algebra with associative multiplication; Hall coproduct/antipode and Q-system recurrence preserve their defining identities, while Schur tensor modules realize the stated basis action."
+exactness = "conditional"
+exactness_notes = "Finite basis products and recurrences are exact; Hall counts depend on the finite-field parameter and character/module decompositions on the chosen coefficient ring."
+algorithms = [{ family = "Hall polynomial multiplication, Cartan Q-system recurrence and Schur basis actions", sources = ["sage.algebras.hall_algebra:*", "sage.algebras.q_system:*", "sage.algebras.schur_algebra:*"] }]
+depends_on = ["algebras.quantum-groups-and-representations", "algebras.finite-dimensional"]
+sage = ["sage.algebras.hall_algebra:*", "sage.algebras.q_system:*", "sage.algebras.schur_algebra:*"]
+catalogue = []
+tests = [
+  "Hall multiplication associativity, coproduct and antipode identities.",
+  "Q-system recurrence and Cartan-type index checks.",
+  "Schur basis multiplication, dimension and tensor-module action checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.group.coxeter", "mathlib.comb.partitions", "mathlib.alg.lie-algebras", "mathlib.linalg.matrix-arithmetic"], evidence = "Mathlib supplies Coxeter/partition, Lie and matrix foundations; Hall counts, Q-system recurrences and Schur algebra/module actions require native implementations." }
+backends = []
+references = ["Ringel, Hall algebras and quantum groups", "Green, Hall algebras, hereditary algebras and quantum groups"]
+
+[[capability]]
+id = "algebras.specialized-noncommutative"
+title = "Askey-Wilson, rational Cherednik, finite graded and splitting algebras"
+statement = "Construct Askey-Wilson, rational Cherednik, finite graded, cellular and splitting algebras with their canonical bases, automorphisms, idempotents and root/splitting operations."
+domain = "Parameters and coefficient rings satisfying the family-specific relation, invertibility and polynomial hypotheses."
+contract = "Parameters -> finite or filtered noncommutative algebra with relation-preserving basis multiplication; specialized APIs expose Casimir/automorphisms, deformed Euler elements, cellular bases, graded truncations and polynomial splitting roots."
+exactness = "conditional"
+exactness_notes = "Normal-form and finite-dimensional operations are exact over supported rings; splitting and specialized representation algorithms require separability, invertibility or backend assumptions documented by each family."
+algorithms = [{ family = "Relation rewriting, finite graded multiplication, cellular basis and polynomial splitting", sources = ["sage.algebras.askey_wilson:*", "sage.algebras.rational_cherednik_algebra:*", "sage.algebras.finite_gca:*", "sage.algebras.cellular_basis:*", "sage.algebras.splitting_algebra:*"] }]
+depends_on = ["algebras.quantum-and-weyl", "algebras.finite-dimensional"]
+sage = ["sage.algebras.askey_wilson:*", "sage.algebras.rational_cherednik_algebra:*", "sage.algebras.finite_gca:*", "sage.algebras.cellular_basis:*", "sage.algebras.splitting_algebra:*"]
+catalogue = []
+tests = [
+  "Askey-Wilson defining relations, Casimir centrality and automorphism checks.",
+  "Rational Cherednik defining relations and deformed-Euler identities.",
+  "Finite graded/cellular basis closure and degree/dimension checks.",
+  "Splitting-algebra roots, defining-polynomial factorization and lifting-map checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.group.coxeter", "mathlib.poly.multivariate", "mathlib.linalg.matrix-arithmetic", "mathlib.alg.free-algebra"], evidence = "Mathlib supplies Coxeter, polynomial, matrix and free-algebra foundations; family-specific relation normal forms, cellular data and splitting extensions require native implementations." }
+backends = []
+references = ["Etingof et al., Introduction to Representation Theory"]
+
+[[capability]]
+id = "algebras.orlik-solomon-terao"
+title = "Orlik-Solomon and Orlik-Terao arrangement algebras"
+statement = "Construct Orlik-Solomon and Orlik-Terao algebras of matroids/arrangements, invariant subalgebras, subset products, grading and Aomoto/cochain complexes."
+domain = "A matroid or hyperplane arrangement and a coefficient ring supporting the associated combinatorial relations."
+contract = "Matroid/arrangement -> finite graded algebra with relation-reduced basis and subset multiplication; invariant and Aomoto constructions preserve the induced group action and differential/cohomology contracts."
+exactness = "conditional"
+exactness_notes = "Finite combinatorial products and graded dimensions are exact; invariant subalgebra and Aomoto computations depend on the supplied finite group/action and coefficient ring."
+algorithms = [{ family = "Circuit-boundary quotient, Orlik-Terao relation and invariant/Aomoto computations", sources = ["sage.algebras.orlik_solomon:*", "sage.algebras.orlik_terao:*"] }]
+depends_on = ["algebras.commutative-dga", "algebras.finite-dimensional"]
+sage = ["sage.algebras.orlik_solomon:*", "sage.algebras.orlik_terao:*"]
+catalogue = []
+tests = [
+  "Circuit relations, graded basis dimensions and associative product checks.",
+  "Orlik-Terao defining relations and subset-image checks.",
+  "Group-action invariants and Aomoto differential-square-zero/cohomology checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.comb.matroid", "mathlib.alg.free-algebra", "mathlib.homology.complexes"], evidence = "Mathlib supplies matroid, free-algebra and homological foundations; arrangement-specific quotients, invariant modules and Aomoto computations require native implementations." }
+backends = []
+references = ["Orlik and Solomon, Combinatorics and topology of complements of hyperplanes", "Orlik and Terao, Arrangements of hyperplanes"]
+
+[[capability]]
+id = "algebras.tensor-algebra"
+title = "Tensor algebra of a module"
+statement = "Construct T(M) = the direct sum over n >= 0 of the n-fold tensor powers of a module M, with the concatenation product, and its connected graded Hopf structure: the deconcatenation coproduct, the counit onto degree 0, and the antipode reversing a word with sign (-1)^n."
+domain = "A commutative ring R and an R-module M with a chosen basis. Sage accepts any module with a basis, such as a combinatorial free module or a symmetric-function basis."
+contract = "(M) -> T(M), a graded R-algebra with basis the words of the free monoid on the basis of M, degree equal to word length, unit the empty word, and retained base module and generator family. It carries the counit given by the coefficient of 1, the antipode S(b_i1 ... b_in) = (-1)^n b_in ... b_i1, and the unique algebra coproduct with Delta(b_i) = b_i tensor 1 + 1 tensor b_i. The construction functor and the unit map R -> T(M) belong to the retained structure."
+exactness = "exact"
+algorithms = [
+  { family = "Free-monoid words with concatenation product", sources = ["sage.algebras.tensor_algebra:TensorAlgebra", "sage.algebras.tensor_algebra:TensorAlgebraFunctor", "sage.algebras.tensor_algebra:BaseRingLift"] },
+  { family = "Generatorwise coproduct extended multiplicatively; sign-reversing antipode", sources = ["sage.algebras.tensor_algebra:TensorAlgebra.coproduct_on_basis", "sage.algebras.tensor_algebra:TensorAlgebra.antipode_on_basis"] },
+]
+depends_on = []
+sage = [
+  "sage.algebras.tensor_algebra:TensorAlgebra",
+  "sage.algebras.tensor_algebra:TensorAlgebra.construction",
+  "sage.algebras.tensor_algebra:TensorAlgebra.degree_on_basis",
+  "sage.algebras.tensor_algebra:TensorAlgebra.base_module",
+  "sage.algebras.tensor_algebra:TensorAlgebra.one_basis",
+  "sage.algebras.tensor_algebra:TensorAlgebra.algebra_generators",
+  "sage.algebras.tensor_algebra:TensorAlgebra.product_on_basis",
+  "sage.algebras.tensor_algebra:TensorAlgebra.counit",
+  "sage.algebras.tensor_algebra:TensorAlgebra.antipode_on_basis",
+  "sage.algebras.tensor_algebra:TensorAlgebra.coproduct_on_basis",
+  "sage.algebras.tensor_algebra:TensorAlgebraFunctor",
+  "sage.algebras.tensor_algebra:BaseRingLift",
+]
+
+catalogue = []
+tests = [
+  "Sage doctests in sage.algebras.tensor_algebra: TensorAlgebra over a combinatorial free module and over symmetric functions; dimension, degree, generators, product of simple tensors, and the coproduct identity Delta(abc) = Delta(a) Delta(b) Delta(c).",
+  "Independent word checks: expand products and coproducts into free-monoid words, and compare the counit on the degree-zero part and the sign-reversing antipode with word reversal.",
+]
+reuse = { status = "formalized-not-executable", components = ["mathlib.alg.tensor-algebra", "mathlib.alg.free-algebra"], evidence = "Mathlib LinearAlgebra/TensorAlgebra/Basic.lean defines TensorAlgebra R M as a quotient of FreeAlgebra by the linearity relations, with the universal property and iota but no normal form or decidable equality; FreeAlgebra and FreeMonoid are recorded in a separate component. A native computation must retain the word basis, grading and Hopf maps." }
+backends = []
+references = ["wikipedia:Tensor_algebra"]
+
+[[capability]]
+id = "algebras.clifford-algebra"
+title = "Clifford algebra of a quadratic form"
+statement = "Construct the Clifford algebra Cl(V,Q) = T(V) modulo the two-sided ideal generated by v tensor v - Q(v), with the ordered-subset normal form, its filtration and superstructure, its center and supercenter, and the algebra morphisms induced by linear maps and isometries."
+domain = "A quadratic form Q on a free module V of finite rank n over a commutative ring R, together with a chosen basis and generator names."
+contract = "(Q,names) -> Cl(V,Q) with basis indexed by the subsets of the n basis vectors in increasing order and dimension 2^n; the product satisfies e_i e_j + e_j e_i = 2 B(e_i,e_j) for the associated bilinear form, in particular e_i^2 = Q(e_i). The construction retains the quadratic form, the ambient free module, the generators, the unit pseudoscalar e_1 ... e_n and the subset filtration degree; the Z/2-grading is exposed through the super degree. Every linear map j : V -> A with j(v)^2 = Q(v) lifts uniquely to an algebra morphism, a linear map m : W -> V lifts to Cl(m) : Cl(W, m(Q)) -> Cl(V,Q), and an invertible isometry lifts to an isomorphism. The associated graded algebra is the exterior algebra of V. Center and supercenter bases are kernels of the commutator and supercommutator matrices, so the base ring must admit kernels."
+exactness = "exact"
+generalizes = ["algebras.exterior-algebra"]
+algorithms = [
+  { family = "Ordered-subset normal form with signed shuffle reordering", sources = ["sage.algebras.clifford_algebra:CliffordAlgebra", "sage.algebras.clifford_algebra:CliffordAlgebraIndices", "sage.algebras.clifford_algebra_element:CliffordAlgebraElement"] },
+  { family = "Universal lifting of module morphisms and isometries", sources = ["sage.algebras.clifford_algebra:CliffordAlgebra.lift_module_morphism", "sage.algebras.clifford_algebra:CliffordAlgebra.lift_isometry"] },
+  { family = "Commutator and supercommutator kernels", sources = ["sage.algebras.clifford_algebra:CliffordAlgebra.center_basis", "sage.algebras.clifford_algebra:CliffordAlgebra.supercenter_basis"] },
+]
+depends_on = []
+sage = [
+  "sage.algebras.clifford_algebra:CliffordAlgebraIndices",
+  "sage.algebras.clifford_algebra:CliffordAlgebraIndices.cardinality",
+  "sage.algebras.clifford_algebra:CliffordAlgebra",
+  "sage.algebras.clifford_algebra:CliffordAlgebra.gen",
+  "sage.algebras.clifford_algebra:CliffordAlgebra.algebra_generators",
+  "sage.algebras.clifford_algebra:CliffordAlgebra.gens",
+  "sage.algebras.clifford_algebra:CliffordAlgebra.ngens",
+  "sage.algebras.clifford_algebra:CliffordAlgebra.one_basis",
+  "sage.algebras.clifford_algebra:CliffordAlgebra.quadratic_form",
+  "sage.algebras.clifford_algebra:CliffordAlgebra.degree_on_basis",
+  "sage.algebras.clifford_algebra:CliffordAlgebra.graded_algebra",
+  "sage.algebras.clifford_algebra:CliffordAlgebra.free_module",
+  "sage.algebras.clifford_algebra:CliffordAlgebra.dimension",
+  "sage.algebras.clifford_algebra:CliffordAlgebra.pseudoscalar",
+  "sage.algebras.clifford_algebra:CliffordAlgebra.lift_module_morphism",
+  "sage.algebras.clifford_algebra:CliffordAlgebra.lift_isometry",
+  "sage.algebras.clifford_algebra:CliffordAlgebra.center_basis",
+  "sage.algebras.clifford_algebra:CliffordAlgebra.supercenter_basis",
+  "sage.algebras.clifford_algebra_element:CliffordAlgebraElement",
+  "sage.algebras.clifford_algebra_element:CliffordAlgebraElement.list",
+  "sage.algebras.clifford_algebra_element:CliffordAlgebraElement.support",
+  "sage.algebras.clifford_algebra_element:CliffordAlgebraElement.reflection",
+  "sage.algebras.clifford_algebra_element:CliffordAlgebraElement.transpose",
+  "sage.algebras.clifford_algebra_element:CliffordAlgebraElement.conjugate",
+]
+
+catalogue = []
+tests = [
+  "Sage doctests in sage.algebras.clifford_algebra and sage.algebras.clifford_algebra_element: products of generators with nonzero quadratic form, reflection, transpose and conjugate involutions, pseudoscalar, lift_module_morphism and lift_isometry examples, and center and supercenter bases checked against every basis element.",
+  "Independent checks: compare each generator square with Q(e_i), each anticommutator with the associated bilinear form, the support and filtration degree with the subset data, and the associated graded algebra with the exterior algebra on the same generators.",
+  "Retained maps: check that a lifted morphism sends each generator to the image prescribed by the matrix and is multiplicative on all basis subsets.",
+]
+reuse = { status = "formalized-not-executable", components = ["mathlib.alg.clifford-exterior"], evidence = "Mathlib LinearAlgebra/CliffordAlgebra/Basic.lean defines CliffordAlgebra Q as a RingQuot of the tensor algebra with the universal property, and the directory supplies grading and conjugation files, but no ordered-subset normal form, basis or executable product. The reuse map classifies the component as formalized-not-executable." }
+backends = []
+references = ["wikipedia:Clifford_algebra", "wikipedia:Classification_of_Clifford_algebras#Unit_pseudoscalar"]
+
+[[capability]]
+id = "algebras.exterior-algebra"
+title = "Exterior algebra with wedge product, Hopf structure and contraction"
+statement = "Construct the exterior algebra of a free module with the wedge product and its Z-grading, its Hopf superalgebra structure, the interior product, the Hodge dual, the lifted bilinear form, and the algebra morphisms induced by linear maps."
+domain = "A free module V of rank n over a commutative ring R with a chosen ordered basis."
+contract = "(V) -> Lambda(V) with basis indexed by the subsets of the basis in increasing order; the wedge product is signed concatenation, so e_i^2 = 0 and e_i e_j = -e_j e_i, and the degree of a basis element is its subset size. The construction retains the generators and the volume form e_1 ... e_n. Hopf structure: the counit is the constant coefficient, the coproduct is the signed unshuffle sum and is a superalgebra morphism, and the antipode is S(omega) = (-1)^(deg omega) omega. Further structure: the interior product i_alpha is the degree -1 graded derivation determined by i_alpha(v) = alpha(v); the Hodge dual is i_alpha applied to the volume form; the lifted bilinear form of a matrix M is Lambda(f)(v,w) = det f(v_i,w_j) for equal degrees and 0 otherwise; a linear map lifts to an algebra morphism. The right-angled Artin cohomology element class specializes the multiplication to the cup product on H*(A)."
+exactness = "exact"
+algorithms = [
+  { family = "Ordered-subset normal form with signed shuffles", sources = ["sage.algebras.clifford_algebra:ExteriorAlgebra", "sage.algebras.clifford_algebra_element:ExteriorAlgebraElement"] },
+  { family = "Unshuffle expansion for the coproduct and sign antipode", sources = ["sage.algebras.clifford_algebra:ExteriorAlgebra.coproduct_on_basis", "sage.algebras.clifford_algebra:ExteriorAlgebra.antipode_on_basis"] },
+  { family = "Contraction and Hodge dual through the volume form", sources = ["sage.algebras.clifford_algebra_element:ExteriorAlgebraElement.interior_product", "sage.algebras.clifford_algebra_element:ExteriorAlgebraElement.hodge_dual"] },
+]
+depends_on = []
+sage = [
+  "sage.algebras.clifford_algebra:ExteriorAlgebra",
+  "sage.algebras.clifford_algebra:ExteriorAlgebra.lift_morphism",
+  "sage.algebras.clifford_algebra:ExteriorAlgebra.volume_form",
+  "sage.algebras.clifford_algebra:ExteriorAlgebra.degree_on_basis",
+  "sage.algebras.clifford_algebra:ExteriorAlgebra.coproduct_on_basis",
+  "sage.algebras.clifford_algebra:ExteriorAlgebra.antipode_on_basis",
+  "sage.algebras.clifford_algebra:ExteriorAlgebra.counit",
+  "sage.algebras.clifford_algebra:ExteriorAlgebra.interior_product_on_basis",
+  "sage.algebras.clifford_algebra:ExteriorAlgebra.lifted_bilinear_form",
+  "sage.algebras.clifford_algebra_element:ExteriorAlgebraElement",
+  "sage.algebras.clifford_algebra_element:ExteriorAlgebraElement.reduce",
+  "sage.algebras.clifford_algebra_element:ExteriorAlgebraElement.interior_product",
+  "sage.algebras.clifford_algebra_element:ExteriorAlgebraElement.hodge_dual",
+  "sage.algebras.clifford_algebra_element:ExteriorAlgebraElement.constant_coefficient",
+  "sage.algebras.clifford_algebra_element:ExteriorAlgebraElement.scalar",
+  "sage.algebras.clifford_algebra_element:CohomologyRAAGElement",
+]
+
+catalogue = []
+tests = [
+  "Sage doctests in sage.algebras.clifford_algebra and sage.algebras.clifford_algebra_element: wedge products of generators, the coproducts of (), (0,), (0,1) and (0,1,2), antipode signs, interior products, the double Hodge dual identity (-1)^(k(n-k)), lifted bilinear form determinants, and lift_morphism.",
+  "Independent checks: compare the wedge product with signed subset union that vanishes on repeated indices, the coproduct with the shuffle expansion, the interior product with contraction against a covector, and the Hodge dual with complement subsets and the stated sign.",
+  "Retained structure: check that lift_morphism sends generators to the prescribed images and preserves the wedge product, and that lifted_bilinear_form restricts to the given matrix in degree 1.",
+]
+reuse = { status = "formalized-not-executable", components = ["mathlib.alg.clifford-exterior"], evidence = "Mathlib LinearAlgebra/ExteriorAlgebra/Basic.lean builds ExteriorAlgebra as a quotient of the tensor algebra; Basis.lean and Grading.lean provide a noncomputable basis indexed by finite subsets and the graded decomposition, but multiplication, contraction and the Hopf maps have no executable normal form. The reuse map classifies the component as formalized-not-executable." }
+backends = []
+references = ["wikipedia:Exterior_algebra"]
+
+[[capability]]
+id = "algebras.exterior-algebra-groebner"
+title = "Grobner bases and normal forms in an exterior algebra"
+statement = "Compute a reduced or unreduced one-sided or two-sided Grobner basis of an ideal of the exterior algebra for a selected term order, and reduce elements modulo that ideal."
+domain = "An exterior algebra over a commutative ring that admits the required linear algebra, an ideal generated by exterior-algebra elements, a term order among neglex (right-to-left lexicographic, the default), degrevlex and deglex, and a side (left, right or two-sided; homogeneous ideals are forced two-sided)."
+contract = "(I,term_order,reduced) -> a finite Grobner basis of I, reduced when requested, as exterior-algebra elements; the strategy retains the basis, and reduce returns the normal form of an element modulo I, which is zero exactly on members of I. The selected term order is part of the retained data because the basis depends on it."
+exactness = "exact"
+algorithms = [
+  { family = "Critical-pair completion over ordered subsets with linear-algebra elimination", sources = ["sage.algebras.exterior_algebra_groebner:GroebnerStrategy", "sage.algebras.exterior_algebra_groebner:GroebnerStrategy.compute_groebner", "sage.algebras.exterior_algebra_groebner:GBElement"] },
+  { family = "Reduced-basis interreduction and normal-form reduction", sources = ["sage.algebras.exterior_algebra_groebner:GroebnerStrategy.reduce", "sage.algebras.exterior_algebra_groebner:GroebnerStrategy.reduce_computed_gb"] },
+]
+depends_on = ["algebras.exterior-algebra"]
+sage = [
+  "sage.algebras.clifford_algebra:ExteriorAlgebraIdeal",
+  "sage.algebras.clifford_algebra:ExteriorAlgebraIdeal.reduce",
+  "sage.algebras.clifford_algebra:ExteriorAlgebraIdeal.groebner_basis",
+  "sage.algebras.exterior_algebra_groebner:GBElement",
+  "sage.algebras.exterior_algebra_groebner:GroebnerStrategy",
+  "sage.algebras.exterior_algebra_groebner:GroebnerStrategy.compute_groebner",
+  "sage.algebras.exterior_algebra_groebner:GroebnerStrategy.reduce_computed_gb",
+  "sage.algebras.exterior_algebra_groebner:GroebnerStrategy.reduce",
+  "sage.algebras.exterior_algebra_groebner:GroebnerStrategy.sorted_monomials",
+  "sage.algebras.exterior_algebra_groebner:GroebnerStrategy.monomial_to_int",
+  "sage.algebras.exterior_algebra_groebner:GroebnerStrategyNegLex",
+  "sage.algebras.exterior_algebra_groebner:GroebnerStrategyDegRevLex",
+  "sage.algebras.exterior_algebra_groebner:GroebnerStrategyDegLex",
+]
+
+catalogue = []
+tests = [
+  "Sage doctests in sage.algebras.exterior_algebra_groebner and sage.algebras.clifford_algebra: explicit ideals reduced under neglex, degrevlex and deglex, reduction and containment examples, and left, right and two-sided bases.",
+  "Independent checks: verify that every computed basis element lies in the ideal, that each original generator reduces to zero, and that a reduced basis has distinct leading supports.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every file in inventory/reuse/ for exterior-algebra or Clifford-algebra Grobner bases and normal forms. Mathlib's clifford-exterior component is a quotient definition without normal forms; Hex Groebner computes commutative MvPoly bases (hex.HexGroebner.f4, hex.HexGroebner.division-normal-form) and does not implement the ordered-subset divisibility setting of the exterior algebra." }
+backends = ["gmp"]
+references = []
+
+[[capability]]
+id = "algebras.exterior-lie-algebra-differential"
+title = "Boundary and coboundary on the exterior algebra of a Lie algebra"
+statement = "Construct the boundary and coboundary operators on the exterior algebra of a Lie algebra from its structure constants, and compute the Lie algebra homology and cohomology of the resulting complex."
+domain = "An exterior algebra Lambda(L) of a free module L over a commutative ring, with structure constants mapping basis pairs to elements of L that encode the Lie bracket. Only one of each pair (i,j) and (j,i) may be supplied; the Jacobi identity is assumed and not checked."
+contract = "(E,s_coeff) -> a degree -1 boundary endomorphism with boundary(x_1 ... x_(k+1)) = the alternating sum over i < j of (-1)^(i+j+1) [x_i,x_j] x_1 ... (omit x_i) ... (omit x_j) ... x_(k+1), or the degree +1 coboundary with d(x_i) = the sum over j < k of s_jk^i x_j x_k. Both are module morphisms determined by linearity on basis wedges, retain the exterior algebra and the structure constants, and expose the homology or cohomology of the chain or cochain complex in each degree; chain_complex returns that complex. The identities boundary squared = 0 and d squared = 0 follow from Jacobi, which the construction does not verify."
+exactness = "exact"
+algorithms = [
+  { family = "Structure-constant expansion on basis wedges", sources = ["sage.algebras.clifford_algebra:ExteriorAlgebraBoundary", "sage.algebras.clifford_algebra:ExteriorAlgebraCoboundary"] },
+  { family = "Homology of the induced chain complex", sources = ["sage.algebras.clifford_algebra:ExteriorAlgebraDifferential.homology", "sage.algebras.clifford_algebra:ExteriorAlgebraBoundary.chain_complex"] },
+]
+depends_on = ["algebras.exterior-algebra"]
+sage = [
+  "sage.algebras.clifford_algebra:ExteriorAlgebra.boundary",
+  "sage.algebras.clifford_algebra:ExteriorAlgebra.coboundary",
+  "sage.algebras.clifford_algebra:ExteriorAlgebraDifferential",
+  "sage.algebras.clifford_algebra:ExteriorAlgebraDifferential.homology",
+  "sage.algebras.clifford_algebra:ExteriorAlgebraBoundary",
+  "sage.algebras.clifford_algebra:ExteriorAlgebraBoundary.chain_complex",
+  "sage.algebras.clifford_algebra:ExteriorAlgebraCoboundary",
+  "sage.algebras.clifford_algebra:ExteriorAlgebraCoboundary.chain_complex",
+]
+
+catalogue = []
+tests = [
+  "Sage doctests in sage.algebras.clifford_algebra: boundary and coboundary of the cross-product Lie algebra on the exterior algebra of rank 3 over the rationals, with the homology and cohomology outputs shown in the docstrings.",
+  "Independent checks: compare the boundary of a basis wedge with a direct structure-constant sum, verify boundary squared = 0 and d squared = 0 on a Jacobi-satisfying example, and compare the homology dimensions with a second computation for a small Lie algebra.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every file in inventory/reuse/ for Lie algebra homology, Lie algebra cohomology and Chevalley-Eilenberg differentials. mathlib.alg.lie-algebras records Lie rings and commutator brackets only, with no structure-constant expansion or chain complex, and no Hex component covers the Chevalley-Eilenberg differential." }
+backends = []
+references = []
+
+[[capability]]
+id = "algebras.associated-graded"
+title = "Associated graded algebra of a filtered algebra"
+statement = "Construct the associated graded algebra gr(A), the direct sum of the subquotients F_i/F_(i-1), of a filtered algebra or module with basis, with the multiplication induced by the filtration."
+domain = "A filtered R-algebra or R-module A with basis over a commutative ring, filtered by a totally ordered index set, whose basis partition is compatible with the filtration."
+contract = "A -> gr(A), a graded algebra with the same basis index set as A and degree equal to the filtration degree. For basis elements x in G_i and y in G_j, the product is the degree-(i+j) part of xy. The construction retains the R-module isomorphism A -> gr(A), its inverse, and the projections F_i -> G_i."
+exactness = "exact"
+algorithms = [
+  { family = "Filtration-degree decomposition of basis products", sources = ["sage.algebras.associated_graded:AssociatedGradedAlgebra", "sage.algebras.associated_graded:AssociatedGradedAlgebra.product_on_basis"] },
+]
+depends_on = []
+sage = [
+  "sage.algebras.associated_graded:AssociatedGradedAlgebra",
+  "sage.algebras.associated_graded:AssociatedGradedAlgebra.gen",
+  "sage.algebras.associated_graded:AssociatedGradedAlgebra.algebra_generators",
+  "sage.algebras.associated_graded:AssociatedGradedAlgebra.degree_on_basis",
+  "sage.algebras.associated_graded:AssociatedGradedAlgebra.one_basis",
+  "sage.algebras.associated_graded:AssociatedGradedAlgebra.product_on_basis",
+]
+
+catalogue = []
+tests = [
+  "Sage doctests in sage.algebras.associated_graded: the associated graded algebra of the filtered algebra example and of a filtered module, with degree, generators and basis products compared with the filtration.",
+  "Independent checks: compare gr(A) with the graded algebra obtained by discarding the lower filtration terms of basis products, and verify that the module isomorphism and its inverse preserve basis indices and degrees.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every file in inventory/reuse/ for an associated-graded construction. mathlib.alg.direct-sum records DirectSum as DFinsupp for graded objects, but no component constructs the subquotients F_i/F_(i-1) or the induced graded product; the pinned Mathlib source has no AssociatedGraded declaration." }
+backends = []
+references = []
+
+[[capability]]
+id = "algebras.diagram-algebras"
+title = "Partition, Brauer, Temperley-Lieb and planar diagram algebras"
+statement = "Construct the algebra spanned by set-partition diagrams of a 2k-element set, with the diagram product given by stacking and deleting closed loops, and its orbit-basis, Brauer, Temperley-Lieb, planar and propagating-ideal subalgebras."
+domain = "A commutative ring R, an even number 2k of vertices, and a chosen diagram family (all set-partition diagrams, Brauer pairings, planar diagrams, or Temperley-Lieb diagrams)."
+contract = "(R,k,family) -> the free R-module on the admissible diagrams with the composition product of stacked diagrams, unit the identity diagram, and the number of closed loops in the product. Elements expose their diagram, its propagating number, number of blocks of a size, planarity, dual diagram and orbit-basis image. The orbit basis and the diagram basis are interchangeable bases of the same algebra, and PlanarAlgebra/TemperleyLiebAlgebra/BrauerAlgebra are the indicated subalgebras."
+exactness = "exact"
+algorithms = [{ family = "Diagram composition by stacking set partitions with loop counting", sources = ["sage.combinat.diagram_algebras:AbstractPartitionDiagram.compose", "sage.combinat.diagram_algebras:DiagramBasis.product_on_basis", "sage.combinat.diagram_algebras:PartitionAlgebra"] }]
+depends_on = []
+sage = [
+  "sage.combinat.diagram_algebras:AbstractPartitionDiagram",
+  "sage.combinat.diagram_algebras:AbstractPartitionDiagram.base_diagram",
+  "sage.combinat.diagram_algebras:AbstractPartitionDiagram.check",
+  "sage.combinat.diagram_algebras:AbstractPartitionDiagram.compose",
+  "sage.combinat.diagram_algebras:AbstractPartitionDiagram.count_blocks_of_size",
+  "sage.combinat.diagram_algebras:AbstractPartitionDiagram.dual",
+  "sage.combinat.diagram_algebras:AbstractPartitionDiagram.is_planar",
+  "sage.combinat.diagram_algebras:AbstractPartitionDiagram.order",
+  "sage.combinat.diagram_algebras:AbstractPartitionDiagram.propagating_number",
+  "sage.combinat.diagram_algebras:AbstractPartitionDiagram.set_partition",
+  "sage.combinat.diagram_algebras:AbstractPartitionDiagrams",
+  "sage.combinat.diagram_algebras:BrauerAlgebra",
+  "sage.combinat.diagram_algebras:BrauerAlgebra.jucys_murphy",
+  "sage.combinat.diagram_algebras:BrauerDiagram",
+  "sage.combinat.diagram_algebras:BrauerDiagram.bijection_on_free_nodes",
+  "sage.combinat.diagram_algebras:BrauerDiagram.check",
+  "sage.combinat.diagram_algebras:BrauerDiagram.involution_permutation_triple",
+  "sage.combinat.diagram_algebras:BrauerDiagram.is_elementary_symmetric",
+  "sage.combinat.diagram_algebras:BrauerDiagram.options",
+  "sage.combinat.diagram_algebras:BrauerDiagram.perm",
+  "sage.combinat.diagram_algebras:BrauerDiagrams",
+  "sage.combinat.diagram_algebras:BrauerDiagrams.cardinality",
+  "sage.combinat.diagram_algebras:BrauerDiagrams.from_involution_permutation_triple",
+  "sage.combinat.diagram_algebras:BrauerDiagrams.symmetric_diagrams",
+  "sage.combinat.diagram_algebras:DiagramAlgebra",
+  "sage.combinat.diagram_algebras:DiagramAlgebra.Element",
+  "sage.combinat.diagram_algebras:DiagramAlgebra.Element.diagram",
+  "sage.combinat.diagram_algebras:DiagramAlgebra.Element.diagrams",
+  "sage.combinat.diagram_algebras:DiagramAlgebra.order",
+  "sage.combinat.diagram_algebras:DiagramAlgebra.set_partitions",
+  "sage.combinat.diagram_algebras:DiagramBasis",
+  "sage.combinat.diagram_algebras:DiagramBasis.product_on_basis",
+  "sage.combinat.diagram_algebras:HalfTemperleyLiebDiagrams",
+  "sage.combinat.diagram_algebras:HalfTemperleyLiebDiagrams.Element",
+  "sage.combinat.diagram_algebras:HalfTemperleyLiebDiagrams.Element.check",
+  "sage.combinat.diagram_algebras:HalfTemperleyLiebDiagrams.Element.defects",
+  "sage.combinat.diagram_algebras:HalfTemperleyLiebDiagrams.cardinality",
+  "sage.combinat.diagram_algebras:IdealDiagram",
+  "sage.combinat.diagram_algebras:IdealDiagram.check",
+  "sage.combinat.diagram_algebras:IdealDiagrams",
+  "sage.combinat.diagram_algebras:OrbitBasis",
+  "sage.combinat.diagram_algebras:OrbitBasis.Element",
+  "sage.combinat.diagram_algebras:OrbitBasis.Element.to_diagram_basis",
+  "sage.combinat.diagram_algebras:OrbitBasis.diagram_basis",
+  "sage.combinat.diagram_algebras:OrbitBasis.one",
+  "sage.combinat.diagram_algebras:OrbitBasis.product_on_basis",
+  "sage.combinat.diagram_algebras:PartitionAlgebra",
+  "sage.combinat.diagram_algebras:PartitionAlgebra.Element",
+  "sage.combinat.diagram_algebras:PartitionAlgebra.Element.dual",
+  "sage.combinat.diagram_algebras:PartitionAlgebra.Element.to_orbit_basis",
+  "sage.combinat.diagram_algebras:PartitionAlgebra.a",
+  "sage.combinat.diagram_algebras:PartitionAlgebra.e",
+  "sage.combinat.diagram_algebras:PartitionAlgebra.jucys_murphy_element",
+  "sage.combinat.diagram_algebras:PartitionAlgebra.orbit_basis",
+  "sage.combinat.diagram_algebras:PartitionAlgebra.potts_representation",
+  "sage.combinat.diagram_algebras:PartitionAlgebra.s",
+  "sage.combinat.diagram_algebras:PartitionAlgebra.sigma",
+  "sage.combinat.diagram_algebras:PartitionDiagram",
+  "sage.combinat.diagram_algebras:PartitionDiagrams",
+  "sage.combinat.diagram_algebras:PartitionDiagrams.cardinality",
+  "sage.combinat.diagram_algebras:PlanarAlgebra",
+  "sage.combinat.diagram_algebras:PlanarDiagram",
+  "sage.combinat.diagram_algebras:PlanarDiagram.check",
+  "sage.combinat.diagram_algebras:PlanarDiagrams",
+  "sage.combinat.diagram_algebras:PlanarDiagrams.cardinality",
+  "sage.combinat.diagram_algebras:PropagatingIdeal",
+  "sage.combinat.diagram_algebras:PropagatingIdeal.Element",
+  "sage.combinat.diagram_algebras:SubPartitionAlgebra",
+  "sage.combinat.diagram_algebras:SubPartitionAlgebra.Element",
+  "sage.combinat.diagram_algebras:SubPartitionAlgebra.Element.to_orbit_basis",
+  "sage.combinat.diagram_algebras:SubPartitionAlgebra.ambient",
+  "sage.combinat.diagram_algebras:SubPartitionAlgebra.lift",
+  "sage.combinat.diagram_algebras:SubPartitionAlgebra.retract",
+  "sage.combinat.diagram_algebras:TL_diagram_ascii_art",
+  "sage.combinat.diagram_algebras:TemperleyLiebAlgebra",
+  "sage.combinat.diagram_algebras:TemperleyLiebAlgebra.cell_module_indices",
+  "sage.combinat.diagram_algebras:TemperleyLiebAlgebra.cell_poset",
+  "sage.combinat.diagram_algebras:TemperleyLiebAlgebra.cellular_involution",
+  "sage.combinat.diagram_algebras:TemperleyLiebDiagram",
+  "sage.combinat.diagram_algebras:TemperleyLiebDiagram.check",
+  "sage.combinat.diagram_algebras:TemperleyLiebDiagrams",
+  "sage.combinat.diagram_algebras:TemperleyLiebDiagrams.cardinality",
+  "sage.combinat.diagram_algebras:UnitDiagramMixin",
+  "sage.combinat.diagram_algebras:UnitDiagramMixin.one_basis",
+  "sage.combinat.diagram_algebras:brauer_diagrams",
+  "sage.combinat.diagram_algebras:diagram_latex",
+  "sage.combinat.diagram_algebras:ideal_diagrams",
+  "sage.combinat.diagram_algebras:identity_set_partition",
+  "sage.combinat.diagram_algebras:is_planar",
+  "sage.combinat.diagram_algebras:pair_to_graph",
+  "sage.combinat.diagram_algebras:partition_diagrams",
+  "sage.combinat.diagram_algebras:planar_diagrams",
+  "sage.combinat.diagram_algebras:planar_partitions_rec",
+  "sage.combinat.diagram_algebras:propagating_number",
+  "sage.combinat.diagram_algebras:temperley_lieb_diagrams",
+  "sage.combinat.diagram_algebras:to_Brauer_partition",
+  "sage.combinat.diagram_algebras:to_graph",
+  "sage.combinat.diagram_algebras:to_set_partition",
+]
+catalogue = []
+tests = [
+  "Sage doctests for diagram composition, propagating number and planarity; independent comparison of the product with set-partition composition and loop count.",
+]
+reuse = { status = "adaptable", components = ["mathlib.comb.finpartition", "mathlib.comb.partitions", "mathlib.linalg.matrix-arithmetic"], evidence = "Mathlib supplies finite set partitions and finite-dimensional linear algebra, but no diagram-stacking algebra or orbit basis." }
+backends = []
+references = ["BH2017", "Cre2020", "Eny2012", "Eny2013", "GrLe1996", "HR2005", "MR1998", "Naz96"]
+
+[[capability]]
+id = "algebras.potts-representation"
+title = "Potts representation of a diagram algebra"
+statement = "Construct the linear representation of the diagram algebra on tensor powers of a module by assigning to each diagram the operator induced by its vertex colourings and pairings."
+domain = "A diagram algebra over a commutative ring, a positive number of colours, and optionally a non-zero magnetic-field direction vector."
+contract = "(algebra, number_of_colors, magnetic_field_direction) -> a representation with the symmetric group induced by the Temperley-Lieb generators, a matrix for every algebra element, and the retained partition algebra and factor count."
+exactness = "exact"
+algorithms = [{ family = "Colouring-sum action of a diagram on a tensor power", sources = ["sage.combinat.diagram_algebras:PottsRepresentation", "sage.combinat.diagram_algebras:PottsRepresentation.representation_matrix"] }]
+depends_on = []
+sage = [
+  "sage.combinat.diagram_algebras:PottsRepresentation",
+  "sage.combinat.diagram_algebras:PottsRepresentation.Element",
+  "sage.combinat.diagram_algebras:PottsRepresentation.magnetic_field_direction",
+  "sage.combinat.diagram_algebras:PottsRepresentation.number_of_colors",
+  "sage.combinat.diagram_algebras:PottsRepresentation.number_of_factors",
+  "sage.combinat.diagram_algebras:PottsRepresentation.partition_algebra",
+  "sage.combinat.diagram_algebras:PottsRepresentation.representation_matrix",
+  "sage.combinat.diagram_algebras:PottsRepresentation.symmetric_group",
+]
+catalogue = []
+tests = [
+  "Sage doctests for representation matrices; independent check that the map is multiplicative on diagrams and that the Temperley-Lieb generators act as the symmetric-group transpositions.",
+]
+reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "mathlib.comb.finpartition"], evidence = "Mathlib supplies matrices and finite set partitions, but no Potts representation of a diagram algebra." }
+backends = []
+references = ["BH2017", "MR1998"]
+
+[[capability]]
+id = "algebras.set-partition-algebras"
+title = "Set-partition algebras of kinds A, B, S, I, P, T and R"
+statement = "Construct the algebra on set partitions of a signed or unsigned 2k-element set for each partition kind, with the set-partition composition product, and compute the cardinality of each partition family."
+domain = "A commutative ring R, a positive k, and a partition kind (A, B, S, I, P, T, R, PR, each with the k or k+1/2 variant)."
+contract = "(R,k,kind) -> the free R-module on the set partitions of the kind with the composition product and unit, the cardinality of the underlying family, and the map to the matching diagram algebra. The kind selects which blocks (signed, planar, non-crossing, propagating) are admitted."
+exactness = "exact"
+algorithms = [{ family = "Set-partition composition and per-kind enumeration", sources = ["sage.combinat.partition_algebra:set_partition_composition", "sage.combinat.partition_algebra:PartitionAlgebra_generic.product_on_basis"] }]
+depends_on = []
+sage = [
+  "sage.combinat.partition_algebra:PartitionAlgebraElement_ak",
+  "sage.combinat.partition_algebra:PartitionAlgebraElement_bk",
+  "sage.combinat.partition_algebra:PartitionAlgebraElement_generic",
+  "sage.combinat.partition_algebra:PartitionAlgebraElement_pk",
+  "sage.combinat.partition_algebra:PartitionAlgebraElement_prk",
+  "sage.combinat.partition_algebra:PartitionAlgebraElement_rk",
+  "sage.combinat.partition_algebra:PartitionAlgebraElement_sk",
+  "sage.combinat.partition_algebra:PartitionAlgebraElement_tk",
+  "sage.combinat.partition_algebra:PartitionAlgebra_ak",
+  "sage.combinat.partition_algebra:PartitionAlgebra_bk",
+  "sage.combinat.partition_algebra:PartitionAlgebra_generic",
+  "sage.combinat.partition_algebra:PartitionAlgebra_generic.one_basis",
+  "sage.combinat.partition_algebra:PartitionAlgebra_generic.product_on_basis",
+  "sage.combinat.partition_algebra:PartitionAlgebra_pk",
+  "sage.combinat.partition_algebra:PartitionAlgebra_prk",
+  "sage.combinat.partition_algebra:PartitionAlgebra_rk",
+  "sage.combinat.partition_algebra:PartitionAlgebra_sk",
+  "sage.combinat.partition_algebra:PartitionAlgebra_tk",
+  "sage.combinat.partition_algebra:SetPartitionsAk",
+  "sage.combinat.partition_algebra:SetPartitionsAk_k",
+  "sage.combinat.partition_algebra:SetPartitionsAkhalf_k",
+  "sage.combinat.partition_algebra:SetPartitionsBk",
+  "sage.combinat.partition_algebra:SetPartitionsBk_k",
+  "sage.combinat.partition_algebra:SetPartitionsBk_k.cardinality",
+  "sage.combinat.partition_algebra:SetPartitionsBkhalf_k",
+  "sage.combinat.partition_algebra:SetPartitionsBkhalf_k.cardinality",
+  "sage.combinat.partition_algebra:SetPartitionsIk",
+  "sage.combinat.partition_algebra:SetPartitionsIk_k",
+  "sage.combinat.partition_algebra:SetPartitionsIk_k.cardinality",
+  "sage.combinat.partition_algebra:SetPartitionsIkhalf_k",
+  "sage.combinat.partition_algebra:SetPartitionsIkhalf_k.cardinality",
+  "sage.combinat.partition_algebra:SetPartitionsPRk",
+  "sage.combinat.partition_algebra:SetPartitionsPRk_k",
+  "sage.combinat.partition_algebra:SetPartitionsPRk_k.cardinality",
+  "sage.combinat.partition_algebra:SetPartitionsPRkhalf_k",
+  "sage.combinat.partition_algebra:SetPartitionsPRkhalf_k.cardinality",
+  "sage.combinat.partition_algebra:SetPartitionsPk",
+  "sage.combinat.partition_algebra:SetPartitionsPk_k",
+  "sage.combinat.partition_algebra:SetPartitionsPk_k.cardinality",
+  "sage.combinat.partition_algebra:SetPartitionsPkhalf_k",
+  "sage.combinat.partition_algebra:SetPartitionsPkhalf_k.cardinality",
+  "sage.combinat.partition_algebra:SetPartitionsRk",
+  "sage.combinat.partition_algebra:SetPartitionsRk_k",
+  "sage.combinat.partition_algebra:SetPartitionsRk_k.cardinality",
+  "sage.combinat.partition_algebra:SetPartitionsRkhalf_k",
+  "sage.combinat.partition_algebra:SetPartitionsRkhalf_k.cardinality",
+  "sage.combinat.partition_algebra:SetPartitionsSk",
+  "sage.combinat.partition_algebra:SetPartitionsSk_k",
+  "sage.combinat.partition_algebra:SetPartitionsSk_k.cardinality",
+  "sage.combinat.partition_algebra:SetPartitionsSkhalf_k",
+  "sage.combinat.partition_algebra:SetPartitionsSkhalf_k.cardinality",
+  "sage.combinat.partition_algebra:SetPartitionsTk",
+  "sage.combinat.partition_algebra:SetPartitionsTk_k",
+  "sage.combinat.partition_algebra:SetPartitionsTk_k.cardinality",
+  "sage.combinat.partition_algebra:SetPartitionsTkhalf_k",
+  "sage.combinat.partition_algebra:SetPartitionsTkhalf_k.cardinality",
+  "sage.combinat.partition_algebra:SetPartitionsXkElement",
+  "sage.combinat.partition_algebra:SetPartitionsXkElement.check",
+  "sage.combinat.partition_algebra:identity",
+  "sage.combinat.partition_algebra:is_planar",
+  "sage.combinat.partition_algebra:pair_to_graph",
+  "sage.combinat.partition_algebra:propagating_number",
+  "sage.combinat.partition_algebra:set_partition_composition",
+  "sage.combinat.partition_algebra:to_graph",
+  "sage.combinat.partition_algebra:to_set_partition",
+]
+catalogue = []
+tests = [
+  "Sage doctests for per-kind cardinalities and basis products; independent comparison of products with set-partition composition and with the corresponding diagram algebra.",
+]
+reuse = { status = "adaptable", components = ["mathlib.comb.partitions", "mathlib.comb.finpartition"], evidence = "Mathlib supplies set partitions and their enumeration, but no set-partition algebra with a composition product." }
+backends = []
+references = []
+
+[[capability]]
+id = "algebras.descent-algebra"
+title = "Descent algebra in the B, I and D bases"
+statement = "Construct the descent algebra of the symmetric group with the B (subset), I (idempotent) and D (descent-set) bases, their products, and the algebra morphism to the symmetric group algebra."
+domain = "A commutative ring R and a positive integer n."
+contract = "(R,n,basis) -> the descent algebra with the chosen basis, product table, unit, idempotents in the I basis, and basis-change maps between B, I and D. The map to the symmetric group algebra sends a basis element to the sum of permutations with that descent set, and is a morphism of algebras."
+exactness = "exact"
+algorithms = [{ family = "Descent-set convolution and Möbius inversion between bases", sources = ["sage.combinat.descent_algebra:DescentAlgebra.B.product_on_basis", "sage.combinat.descent_algebra:DescentAlgebra.I.product_on_basis", "sage.combinat.descent_algebra:DescentAlgebra.D.product_on_basis"] }]
+depends_on = []
+sage = [
+  "sage.combinat.descent_algebra:DescentAlgebra",
+  "sage.combinat.descent_algebra:DescentAlgebra.B",
+  "sage.combinat.descent_algebra:DescentAlgebra.B.one_basis",
+  "sage.combinat.descent_algebra:DescentAlgebra.B.product_on_basis",
+  "sage.combinat.descent_algebra:DescentAlgebra.B.to_D_basis",
+  "sage.combinat.descent_algebra:DescentAlgebra.B.to_I_basis",
+  "sage.combinat.descent_algebra:DescentAlgebra.B.to_nsym",
+  "sage.combinat.descent_algebra:DescentAlgebra.D",
+  "sage.combinat.descent_algebra:DescentAlgebra.D.one_basis",
+  "sage.combinat.descent_algebra:DescentAlgebra.D.product_on_basis",
+  "sage.combinat.descent_algebra:DescentAlgebra.D.to_B_basis",
+  "sage.combinat.descent_algebra:DescentAlgebra.D.to_symmetric_group_algebra_on_basis",
+  "sage.combinat.descent_algebra:DescentAlgebra.I",
+  "sage.combinat.descent_algebra:DescentAlgebra.I.idempotent",
+  "sage.combinat.descent_algebra:DescentAlgebra.I.one",
+  "sage.combinat.descent_algebra:DescentAlgebra.I.one_basis",
+  "sage.combinat.descent_algebra:DescentAlgebra.I.product_on_basis",
+  "sage.combinat.descent_algebra:DescentAlgebra.I.to_B_basis",
+  "sage.combinat.descent_algebra:DescentAlgebra.a_realization",
+  "sage.combinat.descent_algebra:DescentAlgebraBases",
+  "sage.combinat.descent_algebra:DescentAlgebraBases.ElementMethods",
+  "sage.combinat.descent_algebra:DescentAlgebraBases.ElementMethods.to_symmetric_group_algebra",
+  "sage.combinat.descent_algebra:DescentAlgebraBases.ParentMethods",
+  "sage.combinat.descent_algebra:DescentAlgebraBases.ParentMethods.to_symmetric_group_algebra",
+  "sage.combinat.descent_algebra:DescentAlgebraBases.ParentMethods.to_symmetric_group_algebra_on_basis",
+  "sage.combinat.descent_algebra:DescentAlgebraBases.super_categories",
+]
+catalogue = []
+tests = [
+  "Sage doctests for basis products and basis changes; independent check that the I-basis elements are orthogonal idempotents and that the symmetric-group-algebra image is multiplicative.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.monoid-algebra", "mathlib.comb.compositions"], evidence = "Mathlib supplies monoid algebras and compositions, but no descent algebra or descent-set convolution." }
+backends = []
+references = ["At1992", "GR1989", "MR1995", "Sch2004"]
+
+[[capability]]
+id = "algebras.incidence-algebra"
+title = "Incidence algebra of a finite poset"
+statement = "Construct the incidence algebra of a finite poset with its convolution product, zeta and Möbius elements, the reduced subalgebra, and the unit test for elements."
+domain = "A finite poset and a commutative ring."
+contract = "(P,R) -> the algebra of functions on comparable pairs of P with convolution (f*g)(x,z) = sum_{x<=y<=z} f(x,y)g(y,z), unit the diagonal delta, zeta and Möbius elements with zeta*mu = delta, matrix representation, the reduced subalgebra on non-reflexive pairs, and a decision procedure for invertibility."
+exactness = "exact"
+algorithms = [{ family = "Interval convolution with Möbius inversion", sources = ["sage.combinat.posets.incidence_algebras:IncidenceAlgebra.product_on_basis", "sage.combinat.posets.incidence_algebras:IncidenceAlgebra.moebius"] }]
+depends_on = []
+sage = [
+  "sage.combinat.posets.incidence_algebras:IncidenceAlgebra",
+  "sage.combinat.posets.incidence_algebras:IncidenceAlgebra.Element",
+  "sage.combinat.posets.incidence_algebras:IncidenceAlgebra.Element.is_unit",
+  "sage.combinat.posets.incidence_algebras:IncidenceAlgebra.Element.to_matrix",
+  "sage.combinat.posets.incidence_algebras:IncidenceAlgebra.moebius",
+  "sage.combinat.posets.incidence_algebras:IncidenceAlgebra.one",
+  "sage.combinat.posets.incidence_algebras:IncidenceAlgebra.poset",
+  "sage.combinat.posets.incidence_algebras:IncidenceAlgebra.product_on_basis",
+  "sage.combinat.posets.incidence_algebras:IncidenceAlgebra.reduced_subalgebra",
+  "sage.combinat.posets.incidence_algebras:IncidenceAlgebra.some_elements",
+  "sage.combinat.posets.incidence_algebras:IncidenceAlgebra.zeta",
+  "sage.combinat.posets.incidence_algebras:ReducedIncidenceAlgebra",
+  "sage.combinat.posets.incidence_algebras:ReducedIncidenceAlgebra.Element",
+  "sage.combinat.posets.incidence_algebras:ReducedIncidenceAlgebra.Element.is_unit",
+  "sage.combinat.posets.incidence_algebras:ReducedIncidenceAlgebra.Element.lift",
+  "sage.combinat.posets.incidence_algebras:ReducedIncidenceAlgebra.Element.to_matrix",
+  "sage.combinat.posets.incidence_algebras:ReducedIncidenceAlgebra.delta",
+  "sage.combinat.posets.incidence_algebras:ReducedIncidenceAlgebra.lift",
+  "sage.combinat.posets.incidence_algebras:ReducedIncidenceAlgebra.moebius",
+  "sage.combinat.posets.incidence_algebras:ReducedIncidenceAlgebra.one_basis",
+  "sage.combinat.posets.incidence_algebras:ReducedIncidenceAlgebra.poset",
+  "sage.combinat.posets.incidence_algebras:ReducedIncidenceAlgebra.some_elements",
+  "sage.combinat.posets.incidence_algebras:ReducedIncidenceAlgebra.zeta",
+]
+catalogue = []
+tests = [
+  "Sage doctests for convolution, zeta/moebius and unit tests; independent check of zeta*mu = delta and of the matrix representation.",
+]
+reuse = { status = "adaptable", components = ["mathlib.order.lattices", "mathlib.linalg.matrix-arithmetic"], evidence = "Mathlib supplies posets and matrices, but no incidence algebra with convolution." }
+backends = []
+references = []
+
+[[capability]]
+id = "algebras.moebius-algebra"
+title = "Möbius algebra and quantum Möbius algebra of a lattice"
+statement = "Construct the Möbius algebra and the quantum Möbius algebra of a finite lattice in the E, I, C and KL bases with their products."
+domain = "A finite lattice and a commutative ring; the quantum version also takes a q in the base ring."
+contract = "(L,R[,q]) -> the algebra with the E (idempotent), I, C and quantum KL bases, unit, and per-basis product. The quantum Möbius algebra specialises to the classical one at q = 1, and the KL basis carries the Kazhdan-Lusztig product."
+exactness = "exact"
+algorithms = [{ family = "Lattice join/meet convolution and Kazhdan-Lusztig basis product", sources = ["sage.combinat.posets.moebius_algebra:MoebiusAlgebra.E.product_on_basis", "sage.combinat.posets.moebius_algebra:QuantumMoebiusAlgebra.E.product_on_basis"] }]
+depends_on = []
+sage = [
+  "sage.combinat.posets.moebius_algebra:BasisAbstract",
+  "sage.combinat.posets.moebius_algebra:MoebiusAlgebra",
+  "sage.combinat.posets.moebius_algebra:MoebiusAlgebra.E",
+  "sage.combinat.posets.moebius_algebra:MoebiusAlgebra.E.one",
+  "sage.combinat.posets.moebius_algebra:MoebiusAlgebra.E.product_on_basis",
+  "sage.combinat.posets.moebius_algebra:MoebiusAlgebra.I",
+  "sage.combinat.posets.moebius_algebra:MoebiusAlgebra.I.one",
+  "sage.combinat.posets.moebius_algebra:MoebiusAlgebra.I.product_on_basis",
+  "sage.combinat.posets.moebius_algebra:MoebiusAlgebra.a_realization",
+  "sage.combinat.posets.moebius_algebra:MoebiusAlgebra.lattice",
+  "sage.combinat.posets.moebius_algebra:MoebiusAlgebraBases",
+  "sage.combinat.posets.moebius_algebra:MoebiusAlgebraBases.ElementMethods",
+  "sage.combinat.posets.moebius_algebra:MoebiusAlgebraBases.ParentMethods",
+  "sage.combinat.posets.moebius_algebra:MoebiusAlgebraBases.ParentMethods.one",
+  "sage.combinat.posets.moebius_algebra:MoebiusAlgebraBases.ParentMethods.product_on_basis",
+  "sage.combinat.posets.moebius_algebra:MoebiusAlgebraBases.super_categories",
+  "sage.combinat.posets.moebius_algebra:QuantumMoebiusAlgebra",
+  "sage.combinat.posets.moebius_algebra:QuantumMoebiusAlgebra.C",
+  "sage.combinat.posets.moebius_algebra:QuantumMoebiusAlgebra.E",
+  "sage.combinat.posets.moebius_algebra:QuantumMoebiusAlgebra.E.one",
+  "sage.combinat.posets.moebius_algebra:QuantumMoebiusAlgebra.E.product_on_basis",
+  "sage.combinat.posets.moebius_algebra:QuantumMoebiusAlgebra.KL",
+  "sage.combinat.posets.moebius_algebra:QuantumMoebiusAlgebra.a_realization",
+  "sage.combinat.posets.moebius_algebra:QuantumMoebiusAlgebra.lattice",
+]
+catalogue = []
+tests = [
+  "Sage doctests for per-basis products; independent check of the E-basis multiplication by lattice join and the q = 1 specialisation.",
+]
+reuse = { status = "adaptable", components = ["mathlib.order.lattices"], evidence = "Mathlib supplies finite lattices, but no Möbius or quantum Möbius algebra with these bases." }
+backends = []
+references = ["EPW14", "Etienne98", "Greene73", "Solomon67"]
+
+[[capability]]
+id = "algebras.grossman-larson"
+title = "Grossman-Larson Hopf algebra of rooted trees"
+statement = "Construct the Grossman-Larson algebra of rooted trees with the grafting product and its Hopf structure: counit, coproduct and antipode."
+domain = "A finite set of vertices and a commutative ring."
+contract = "(vertices,R) -> the free R-module on rooted trees with the Grossman-Larson grafting product, unit the single-vertex tree, grading by vertex count, and the Grossman-Larson coproduct, counit and antipode making it a graded connected Hopf algebra."
+exactness = "exact"
+algorithms = [{ family = "Rooted-tree grafting with admissible cuts coproduct", sources = ["sage.combinat.grossman_larson_algebras:GrossmanLarsonAlgebra.product_on_basis", "sage.combinat.grossman_larson_algebras:GrossmanLarsonAlgebra.coproduct_on_basis"] }]
+depends_on = []
+sage = [
+  "sage.combinat.grossman_larson_algebras:GrossmanLarsonAlgebra",
+  "sage.combinat.grossman_larson_algebras:GrossmanLarsonAlgebra.antipode_on_basis",
+  "sage.combinat.grossman_larson_algebras:GrossmanLarsonAlgebra.change_ring",
+  "sage.combinat.grossman_larson_algebras:GrossmanLarsonAlgebra.coproduct_on_basis",
+  "sage.combinat.grossman_larson_algebras:GrossmanLarsonAlgebra.counit_on_basis",
+  "sage.combinat.grossman_larson_algebras:GrossmanLarsonAlgebra.degree_on_basis",
+  "sage.combinat.grossman_larson_algebras:GrossmanLarsonAlgebra.one_basis",
+  "sage.combinat.grossman_larson_algebras:GrossmanLarsonAlgebra.product_on_basis",
+  "sage.combinat.grossman_larson_algebras:GrossmanLarsonAlgebra.single_vertex",
+  "sage.combinat.grossman_larson_algebras:GrossmanLarsonAlgebra.single_vertex_all",
+  "sage.combinat.grossman_larson_algebras:GrossmanLarsonAlgebra.some_elements",
+  "sage.combinat.grossman_larson_algebras:GrossmanLarsonAlgebra.variable_names",
+]
+catalogue = []
+tests = [
+  "Sage doctests for the grafting product and coproduct; independent check of the Hopf axioms on small trees and of the grading.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for rooted trees, grafting products and combinatorial Hopf algebras; Mathlib has free algebras and tensor products but no tree Hopf algebra." }
+backends = []
+references = ["Pana2002"]
+
+[[capability]]
+id = "algebras.shuffle-algebra"
+title = "Shuffle algebra on words"
+statement = "Construct the shuffle algebra of words over an ordered alphabet with the shuffle product and its graded connected Hopf structure."
+domain = "A commutative ring and a finite ordered alphabet."
+contract = "(R,alphabet) -> the free R-module on words with the shuffle product, unit the empty word, grading by word length, counit, the deconcatenation coproduct and antipode, and the map to the dual PBW basis."
+exactness = "exact"
+algorithms = [{ family = "Word shuffles with deconcatenation coproduct", sources = ["sage.algebras.shuffle_algebra:ShuffleAlgebra.product_on_basis", "sage.algebras.shuffle_algebra:ShuffleAlgebra.coproduct_on_basis"] }]
+depends_on = []
+sage = [
+  "sage.algebras.shuffle_algebra:ShuffleAlgebra",
+  "sage.algebras.shuffle_algebra:ShuffleAlgebra.algebra_generators",
+  "sage.algebras.shuffle_algebra:ShuffleAlgebra.antipode_on_basis",
+  "sage.algebras.shuffle_algebra:ShuffleAlgebra.coproduct_on_basis",
+  "sage.algebras.shuffle_algebra:ShuffleAlgebra.counit",
+  "sage.algebras.shuffle_algebra:ShuffleAlgebra.degree_on_basis",
+  "sage.algebras.shuffle_algebra:ShuffleAlgebra.dual_pbw_basis",
+  "sage.algebras.shuffle_algebra:ShuffleAlgebra.gen",
+  "sage.algebras.shuffle_algebra:ShuffleAlgebra.one_basis",
+  "sage.algebras.shuffle_algebra:ShuffleAlgebra.product_on_basis",
+  "sage.algebras.shuffle_algebra:ShuffleAlgebra.some_elements",
+  "sage.algebras.shuffle_algebra:ShuffleAlgebra.to_dual_pbw_element",
+  "sage.algebras.shuffle_algebra:ShuffleAlgebra.variable_names",
+]
+catalogue = []
+tests = [
+  "Sage doctests for the shuffle product and coproduct; independent enumeration of shuffles of two words and check of the Hopf axioms.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.free-algebra", "mathlib.comb.sym"], evidence = "Mathlib supplies free algebras and symmetric powers, but no shuffle algebra with this coproduct." }
+backends = []
+references = ["Reu1993"]
+
+[[capability]]
+id = "algebras.dual-pbw-basis"
+title = "Dual PBW basis of the shuffle algebra"
+statement = "Construct the dual PBW basis of the free associative algebra inside its shuffle dual, with the dual product, coproduct, antipode and expansion in the word basis."
+domain = "A commutative ring and a finite ordered alphabet."
+contract = "(R,alphabet) -> the subalgebra of the shuffle algebra spanned by dual PBW elements, with its product, counit, unit, grading, generators, and the expansion of an element in the word basis of the shuffle algebra."
+exactness = "exact"
+algorithms = [{ family = "Lyndon-word PBW expansion and dual product", sources = ["sage.algebras.shuffle_algebra:DualPBWBasis.product", "sage.algebras.shuffle_algebra:DualPBWBasis.expansion_on_basis"] }]
+depends_on = []
+sage = [
+  "sage.algebras.shuffle_algebra:DualPBWBasis",
+  "sage.algebras.shuffle_algebra:DualPBWBasis.Element",
+  "sage.algebras.shuffle_algebra:DualPBWBasis.Element.expand",
+  "sage.algebras.shuffle_algebra:DualPBWBasis.algebra_generators",
+  "sage.algebras.shuffle_algebra:DualPBWBasis.antipode",
+  "sage.algebras.shuffle_algebra:DualPBWBasis.coproduct",
+  "sage.algebras.shuffle_algebra:DualPBWBasis.counit",
+  "sage.algebras.shuffle_algebra:DualPBWBasis.degree_on_basis",
+  "sage.algebras.shuffle_algebra:DualPBWBasis.expansion",
+  "sage.algebras.shuffle_algebra:DualPBWBasis.expansion_on_basis",
+  "sage.algebras.shuffle_algebra:DualPBWBasis.gen",
+  "sage.algebras.shuffle_algebra:DualPBWBasis.one_basis",
+  "sage.algebras.shuffle_algebra:DualPBWBasis.product",
+  "sage.algebras.shuffle_algebra:DualPBWBasis.shuffle_algebra",
+  "sage.algebras.shuffle_algebra:DualPBWBasis.some_elements",
+]
+catalogue = []
+tests = [
+  "Sage doctests for expansions and products; independent check that expansion is a linear isomorphism onto its image and that the dual product matches the transpose of the coproduct.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for Poincare-Birkhoff-Witt bases and Lyndon words; Mathlib has free algebras but no dual PBW basis of the shuffle algebra." }
+backends = []
+references = ["Reu1993"]
+
+[[capability]]
+id = "algebras.free-prelie-algebra"
+title = "Free pre-Lie algebra and its tree presentation"
+statement = "Construct the free pre-Lie algebra on generators with the pre-Lie product, the associated Lie bracket and the free NAP product, on rooted-tree and corolla bases."
+domain = "A commutative ring and a finite ordered generating set."
+contract = "(R,X) -> the free pre-Lie algebra with basis the rooted trees with leaves labelled by X, the pre-Lie product, its antisymmetrisation as a Lie bracket, the NAP product, the corolla generators, the group product, a lift of a map from generators, and a valuation."
+exactness = "exact"
+algorithms = [{ family = "Rooted-tree grafting for the pre-Lie product", sources = ["sage.combinat.free_prelie_algebra:FreePreLieAlgebra.pre_Lie_product", "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.bracket_on_basis"] }]
+depends_on = []
+sage = [
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra",
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.Element",
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.Element.lift",
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.Element.valuation",
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.algebra_generators",
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.bracket_on_basis",
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.change_ring",
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.construction",
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.corolla",
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.degree_on_basis",
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.gen",
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.gens",
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.group_product",
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.nap_product",
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.nap_product_on_basis",
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.pre_Lie_product",
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.product_on_basis",
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.some_elements",
+  "sage.combinat.free_prelie_algebra:FreePreLieAlgebra.variable_names",
+  "sage.combinat.free_prelie_algebra:PreLieFunctor",
+  "sage.combinat.free_prelie_algebra:PreLieFunctor.merge",
+  "sage.combinat.free_prelie_algebra:corolla_gen",
+  "sage.combinat.free_prelie_algebra:tree_from_sortkey",
+]
+catalogue = []
+tests = [
+  "Sage doctests for the pre-Lie and bracket products; independent check of the pre-Lie identity on small trees and of the Jacobi identity for the bracket.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for pre-Lie algebras, operads and rooted-tree products; none exists in the Lean inventories." }
+backends = []
+references = ["Liv2006"]
+
+[[capability]]
+id = "algebras.free-dendriform-algebra"
+title = "Free dendriform algebra on binary trees"
+statement = "Construct the free dendriform algebra on generators with the left and right products, their sum as the associative product, the over and under operations, and the coproduct on planar binary trees."
+domain = "A commutative ring and a finite ordered generating set."
+contract = "(R,X) -> the free dendriform algebra with basis the planar binary trees with leaves labelled by X, the succ (left) and prec (right) products, their sum, the over and under products, the corolla generators, grading, and the dendriform coproduct."
+exactness = "exact"
+algorithms = [{ family = "Tree splicing for the dendriform products", sources = ["sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.succ_product_on_basis", "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.prec_product_on_basis"] }]
+depends_on = []
+sage = [
+  "sage.combinat.free_dendriform_algebra:DendriformFunctor",
+  "sage.combinat.free_dendriform_algebra:DendriformFunctor.merge",
+  "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra",
+  "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.algebra_generators",
+  "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.change_ring",
+  "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.construction",
+  "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.coproduct_on_basis",
+  "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.degree_on_basis",
+  "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.gen",
+  "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.gens",
+  "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.one_basis",
+  "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.over",
+  "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.prec",
+  "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.prec_product_on_basis",
+  "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.product_on_basis",
+  "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.some_elements",
+  "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.succ",
+  "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.succ_product_on_basis",
+  "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.under",
+  "sage.combinat.free_dendriform_algebra:FreeDendriformAlgebra.variable_names",
+]
+catalogue = []
+tests = [
+  "Sage doctests for the succ and prec products; independent check of the dendriform axioms and that succ + prec is associative.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for dendriform algebras and planar binary trees; none exists in the Lean inventories." }
+backends = []
+references = ["LR1998"]
+
+[[capability]]
+id = "algebras.free-zinbiel-algebra"
+title = "Free Zinbiel (dual Leibniz) algebra"
+statement = "Construct the free Zinbiel algebra with its left and right products, the right product as the sum of permuted left products, and the shuffle coproduct."
+domain = "A commutative ring and a finite ordered generating set; a side selects the left or right convention."
+contract = "(R,X,side) -> the free Zinbiel algebra with basis the words on X, the left product, the right product, the shuffle coproduct, counit, grading, and the change of base ring. The two sides are opposite algebra structures."
+exactness = "exact"
+algorithms = [{ family = "Word shuffles for the Zinbiel products", sources = ["sage.algebras.free_zinbiel_algebra:FreeZinbielAlgebra.product_on_basis_left", "sage.algebras.free_zinbiel_algebra:FreeZinbielAlgebra.product_on_basis_right"] }]
+depends_on = []
+sage = [
+  "sage.algebras.free_zinbiel_algebra:FreeZinbielAlgebra",
+  "sage.algebras.free_zinbiel_algebra:FreeZinbielAlgebra.algebra_generators",
+  "sage.algebras.free_zinbiel_algebra:FreeZinbielAlgebra.change_ring",
+  "sage.algebras.free_zinbiel_algebra:FreeZinbielAlgebra.construction",
+  "sage.algebras.free_zinbiel_algebra:FreeZinbielAlgebra.coproduct_on_basis",
+  "sage.algebras.free_zinbiel_algebra:FreeZinbielAlgebra.counit",
+  "sage.algebras.free_zinbiel_algebra:FreeZinbielAlgebra.degree_on_basis",
+  "sage.algebras.free_zinbiel_algebra:FreeZinbielAlgebra.gens",
+  "sage.algebras.free_zinbiel_algebra:FreeZinbielAlgebra.product_on_basis_left",
+  "sage.algebras.free_zinbiel_algebra:FreeZinbielAlgebra.product_on_basis_right",
+  "sage.algebras.free_zinbiel_algebra:FreeZinbielAlgebra.side",
+  "sage.algebras.free_zinbiel_algebra:ZinbielFunctor",
+  "sage.algebras.free_zinbiel_algebra:ZinbielFunctor.merge",
+]
+catalogue = []
+tests = [
+  "Sage doctests for the left and right products; independent check of the Zinbiel identity and the compatibility of the coproduct with the product.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.free-algebra"], evidence = "Mathlib supplies free associative algebras, but no Zinbiel algebra with left/right products." }
+backends = []
+references = ["LV2012", "Lod1995"]
+
+[[capability]]
+id = "algebras.graded-commutative-algebra"
+title = "Graded-commutative algebra from generators and degrees"
+statement = "Construct a graded-commutative algebra over a field from a list of generators with degrees and a list of homogeneous relations, with its monomial basis and element degree information."
+domain = "A field, a finite list of generator names with non-negative degrees, and homogeneous relations of matching degree."
+contract = "(F,gens,degrees,relations) -> the quotient of the graded-commutative polynomial algebra with basis the admissible monomials, degree, homogeneous decomposition, monomial and basis coefficients, and the quotient by further homogeneous relations. The finite variant enumerates generators and the maximal degree explicitly."
+exactness = "exact"
+algorithms = [{ family = "Graded-commutative monomial reduction", sources = ["sage.algebras.commutative_dga:GCAlgebra", "sage.algebras.finite_gca:FiniteGCAlgebra.product_on_basis"] }]
+depends_on = []
+sage = [
+  "sage.algebras.commutative_dga:GCAlgebra",
+  "sage.algebras.commutative_dga:GCAlgebra.Element",
+  "sage.algebras.commutative_dga:GCAlgebra.Element.basis_coefficients",
+  "sage.algebras.commutative_dga:GCAlgebra.Element.degree",
+  "sage.algebras.commutative_dga:GCAlgebra.Element.homogeneous_parts",
+  "sage.algebras.commutative_dga:GCAlgebra.Element.is_homogeneous",
+  "sage.algebras.commutative_dga:GCAlgebra.Element.monomial_coefficients",
+  "sage.algebras.commutative_dga:GCAlgebra.basis",
+  "sage.algebras.commutative_dga:GCAlgebra.quotient",
+  "sage.algebras.commutative_dga:GCAlgebraHomset",
+  "sage.algebras.commutative_dga:GCAlgebraHomset.identity",
+  "sage.algebras.commutative_dga:GCAlgebraHomset.zero",
+  "sage.algebras.commutative_dga:GCAlgebraMorphism",
+  "sage.algebras.commutative_dga:GCAlgebraMorphism.is_graded",
+  "sage.algebras.commutative_dga:GCAlgebra_multigraded",
+  "sage.algebras.commutative_dga:GCAlgebra_multigraded.Element",
+  "sage.algebras.commutative_dga:GCAlgebra_multigraded.Element.degree",
+  "sage.algebras.commutative_dga:GCAlgebra_multigraded.basis",
+  "sage.algebras.commutative_dga:GCAlgebra_multigraded.quotient",
+  "sage.algebras.commutative_dga:GradedCommutativeAlgebra",
+  "sage.algebras.commutative_dga:exterior_algebra_basis",
+  "sage.algebras.commutative_dga:sorting_keys",
+  "sage.algebras.commutative_dga:total_degree",
+  "sage.algebras.finite_gca:FiniteGCAlgebra",
+  "sage.algebras.finite_gca:FiniteGCAlgebra.algebra_generators",
+  "sage.algebras.finite_gca:FiniteGCAlgebra.degree_on_basis",
+  "sage.algebras.finite_gca:FiniteGCAlgebra.gen",
+  "sage.algebras.finite_gca:FiniteGCAlgebra.gens",
+  "sage.algebras.finite_gca:FiniteGCAlgebra.maximal_degree",
+  "sage.algebras.finite_gca:FiniteGCAlgebra.ngens",
+  "sage.algebras.finite_gca:FiniteGCAlgebra.one_basis",
+  "sage.algebras.finite_gca:FiniteGCAlgebra.product_on_basis",
+]
+catalogue = []
+tests = [
+  "Sage doctests for graded-commutative relations and degrees; independent check that x*y = (-1)^{deg x deg y} y*x and that relations reduce to zero.",
+]
+reuse = { status = "adaptable", components = ["mathlib.poly.multivariate", "mathlib.alg.ideals"], evidence = "Mathlib supplies multivariate polynomials and ideals, but no graded-commutative quotient with sign conventions." }
+backends = []
+references = ["Fel2001", "Man2019"]
+
+[[capability]]
+id = "algebras.dga-cohomology"
+title = "Cohomology of a differential graded-commutative algebra"
+statement = "Compute the differential, (co)boundaries, (co)cycles, cohomology groups and cohomology algebra of a differential graded-commutative algebra, and decide formality."
+domain = "A graded-commutative algebra over a field with a differential of odd degree squaring to zero, possibly multigraded."
+contract = "(A,d) -> the differential matrix in each degree, the cocycle and coboundary subspaces, the cohomology in each degree as a vector space with raw ambient representatives, cohomology generators, the multiplicative cohomology algebra, numerical invariants (Betti numbers and a minimal model) and a formality decision. Elements decide being a coboundary, cohomologous to another element, and give their cohomology class."
+exactness = "exact"
+algorithms = [{ family = "Linear algebra on the differential matrix", sources = ["sage.algebras.commutative_dga:Differential.differential_matrix", "sage.algebras.commutative_dga:DifferentialGCAlgebra.cohomology"] }]
+depends_on = []
+sage = [
+  "sage.algebras.commutative_dga:CohomologyClass",
+  "sage.algebras.commutative_dga:CohomologyClass.representative",
+  "sage.algebras.commutative_dga:Differential",
+  "sage.algebras.commutative_dga:Differential.coboundaries",
+  "sage.algebras.commutative_dga:Differential.cocycles",
+  "sage.algebras.commutative_dga:Differential.cohomology",
+  "sage.algebras.commutative_dga:Differential.cohomology_raw",
+  "sage.algebras.commutative_dga:Differential.differential_matrix",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra.Element",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra.Element.cohomology_class",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra.Element.differential",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra.Element.is_coboundary",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra.Element.is_cohomologous_to",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra.cdg_algebra",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra.coboundaries",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra.cocycles",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra.cohomology",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra.cohomology_algebra",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra.cohomology_generators",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra.cohomology_raw",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra.differential",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra.graded_commutative_algebra",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra.is_formal",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra.minimal_model",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra.numerical_invariants",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra.quotient",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra_multigraded",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra_multigraded.Element",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra_multigraded.coboundaries",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra_multigraded.cocycles",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra_multigraded.cohomology",
+  "sage.algebras.commutative_dga:DifferentialGCAlgebra_multigraded.cohomology_raw",
+  "sage.algebras.commutative_dga:Differential_multigraded",
+  "sage.algebras.commutative_dga:Differential_multigraded.coboundaries",
+  "sage.algebras.commutative_dga:Differential_multigraded.cocycles",
+  "sage.algebras.commutative_dga:Differential_multigraded.cohomology",
+  "sage.algebras.commutative_dga:Differential_multigraded.cohomology_raw",
+  "sage.algebras.commutative_dga:Differential_multigraded.differential_matrix_multigraded",
+  "sage.algebras.commutative_dga:GCAlgebra.cdg_algebra",
+  "sage.algebras.commutative_dga:GCAlgebra.differential",
+  "sage.algebras.commutative_dga:GCAlgebra_multigraded.cdg_algebra",
+  "sage.algebras.commutative_dga:GCAlgebra_multigraded.differential",
+]
+catalogue = []
+tests = [
+  "Sage doctests for cohomology ranks and minimal models; independent check of d^2 = 0, of ker/im dimensions, and of the multiplicative structure against the cohomology algebra of a known space.",
+]
+reuse = { status = "adaptable", components = ["mathlib.homology.complexes", "mathlib.linalg.bases-kernels", "mathlib.poly.multivariate"], evidence = "Mathlib supplies cochain complexes and kernels/images, but no executable cohomology-algebra or minimal-model computation." }
+backends = []
+references = ["Fel2001", "Man2019"]
+
+[[capability]]
+id = "algebras.splitting-algebra"
+title = "Splitting algebra of a polynomial and root solving with an extension"
+statement = "Construct an algebra in which a given monic polynomial splits into linear factors, solve equations over that extension, and test complete splitting and unit membership."
+domain = "A commutative ring, a monic polynomial over it, and a chosen construction (direct or iterative)."
+contract = "(R,f) -> an R-algebra with the roots of f adjoined, the defining polynomial, the splitting roots, a homomorphism to a target in which f splits, the lifting map, the scalar base ring, and a decision whether the algebra is completely split or an element is a unit. solve_with_extension finds the roots of an equation system over the extended ring."
+exactness = "exact"
+algorithms = [{ family = "Iterated root adjunction for a monic polynomial", sources = ["sage.algebras.splitting_algebra:SplittingAlgebra", "sage.algebras.splitting_algebra:solve_with_extension"] }]
+depends_on = []
+sage = [
+  "sage.algebras.splitting_algebra:SplittingAlgebra",
+  "sage.algebras.splitting_algebra:SplittingAlgebra.defining_polynomial",
+  "sage.algebras.splitting_algebra:SplittingAlgebra.hom",
+  "sage.algebras.splitting_algebra:SplittingAlgebra.is_completely_split",
+  "sage.algebras.splitting_algebra:SplittingAlgebra.lifting_map",
+  "sage.algebras.splitting_algebra:SplittingAlgebra.scalar_base_ring",
+  "sage.algebras.splitting_algebra:SplittingAlgebra.splitting_roots",
+  "sage.algebras.splitting_algebra:SplittingAlgebraElement",
+  "sage.algebras.splitting_algebra:SplittingAlgebraElement.is_unit",
+  "sage.algebras.splitting_algebra:SplittingAlgebraElement.monomial_coefficients",
+  "sage.algebras.splitting_algebra:solve_with_extension",
+]
+catalogue = []
+tests = [
+  "Sage doctests for splitting roots and the universal property; independent check that f factors into linear terms over the splitting algebra and that the lifting map is a ring homomorphism.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.adjoin-root", "mathlib.poly.roots", "mathlib.poly.univariate-ring"], evidence = "Mathlib supplies root adjunction and polynomial roots, but no splitting algebra carrying a universal splitting map." }
+backends = []
+references = ["EL2002", "LT2012", "Lak2010", "Tho2011"]
+
+[[capability]]
+id = "algebras.quantum-group"
+title = "Quantum group of a Cartan type"
+statement = "Construct the quantised enveloping algebra of a finite Cartan type at a root of unity or generic q, with generators E, F, K, their coproduct, counit and antipode, and the lower-half and representation operations."
+domain = "A finite Cartan type and a quantum parameter q in a field (a root of unity for the small quantum group)."
+contract = "(cartan_type,q) -> the quantum group with generators E_alpha, F_alpha, K_lambda and their inverses, the algebra generators, the coproduct, counit, antipode, the bar involution, omega and tau automorphisms, the braid-group action, highest-weight modules, the lower half with its canonical basis, and morphisms that preserve these structures."
+exactness = "exact"
+exactness_notes = "The algebra presentation is exact; the module category and canonical bases are computed through GAP's quantum-group implementation."
+algorithms = [{ family = "GAP quantum-group presentation and module algorithms", sources = ["sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup", "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.coproduct", "sage.algebras.quantum_groups.quantum_group_gap:LowerHalfQuantumGroup"] }]
+depends_on = []
+sage = [
+  "sage.algebras.quantum_groups.quantum_group_gap:LowerHalfQuantumGroup",
+  "sage.algebras.quantum_groups.quantum_group_gap:LowerHalfQuantumGroup.Element",
+  "sage.algebras.quantum_groups.quantum_group_gap:LowerHalfQuantumGroup.Element.bar",
+  "sage.algebras.quantum_groups.quantum_group_gap:LowerHalfQuantumGroup.Element.braid_group_action",
+  "sage.algebras.quantum_groups.quantum_group_gap:LowerHalfQuantumGroup.Element.monomial_coefficients",
+  "sage.algebras.quantum_groups.quantum_group_gap:LowerHalfQuantumGroup.Element.tau",
+  "sage.algebras.quantum_groups.quantum_group_gap:LowerHalfQuantumGroup.algebra_generators",
+  "sage.algebras.quantum_groups.quantum_group_gap:LowerHalfQuantumGroup.ambient",
+  "sage.algebras.quantum_groups.quantum_group_gap:LowerHalfQuantumGroup.basis",
+  "sage.algebras.quantum_groups.quantum_group_gap:LowerHalfQuantumGroup.canonical_basis_elements",
+  "sage.algebras.quantum_groups.quantum_group_gap:LowerHalfQuantumGroup.highest_weight_vector",
+  "sage.algebras.quantum_groups.quantum_group_gap:LowerHalfQuantumGroup.lift",
+  "sage.algebras.quantum_groups.quantum_group_gap:LowerHalfQuantumGroup.retract",
+  "sage.algebras.quantum_groups.quantum_group_gap:LowerHalfQuantumGroup.zero",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.E",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.E_simple",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.Element",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.Element.bar",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.Element.braid_group_action",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.Element.omega",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.Element.tau",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.F",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.F_simple",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.K",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.K_inverse",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.algebra_generators",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.antipode",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.cartan_type",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.coproduct",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.counit",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.gens",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.highest_weight_module",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.lower_half",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.one",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.q",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.some_elements",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroup.zero",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroupHomset",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroupMorphism",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroupMorphism.im_gens",
+  "sage.algebras.quantum_groups.quantum_group_gap:projection_lower_half",
+]
+catalogue = []
+tests = [
+  "Sage doctests for the quantum-group presentation; independent check of the q-Serre relations and of the Hopf axioms at small rank.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for quantised enveloping algebras and canonical bases; Mathlib has Lie algebras and universal enveloping algebras but no quantum group." }
+backends = ["libgap"]
+references = []
+
+[[capability]]
+id = "algebras.quantum-group-modules"
+title = "Highest-weight modules and crystal graphs of a quantum group"
+statement = "Construct highest-weight and tensor-product modules of a quantum group, compute their crystal bases, crystal graphs and R-matrices, and decompose tensor products."
+domain = "A quantum group over a Cartan type, a highest weight, and optionally a tensor product of such modules."
+contract = "(quantum_group, weights) -> a module with basis and crystal basis, the action of the generators and their divided powers, the crystal graph, the R-matrix, highest-weight vectors and the decomposition of a tensor product into highest-weight modules; submodules retain ambient, lift and retract maps."
+exactness = "exact"
+exactness_notes = "Computed through GAP's quantum-group and crystal-graph algorithms."
+algorithms = [{ family = "Crystal basis and tensor-product decomposition", sources = ["sage.algebras.quantum_groups.quantum_group_gap:QuantumGroupModule", "sage.algebras.quantum_groups.quantum_group_gap:TensorProductOfHighestWeightModules.highest_weight_decomposition"] }]
+depends_on = []
+sage = [
+  "sage.algebras.quantum_groups.quantum_group_gap:CrystalGraphVertex",
+  "sage.algebras.quantum_groups.quantum_group_gap:HighestWeightModule",
+  "sage.algebras.quantum_groups.quantum_group_gap:HighestWeightModule.highest_weight_vector",
+  "sage.algebras.quantum_groups.quantum_group_gap:HighestWeightModule.tensor",
+  "sage.algebras.quantum_groups.quantum_group_gap:HighestWeightSubmodule",
+  "sage.algebras.quantum_groups.quantum_group_gap:HighestWeightSubmodule.ambient",
+  "sage.algebras.quantum_groups.quantum_group_gap:HighestWeightSubmodule.crystal_graph",
+  "sage.algebras.quantum_groups.quantum_group_gap:HighestWeightSubmodule.highest_weight_vector",
+  "sage.algebras.quantum_groups.quantum_group_gap:HighestWeightSubmodule.lift",
+  "sage.algebras.quantum_groups.quantum_group_gap:HighestWeightSubmodule.retract",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuaGroupModuleElement",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuaGroupModuleElement.e_tilde",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuaGroupModuleElement.f_tilde",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuaGroupRepresentationElement",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuaGroupRepresentationElement.monomial_coefficients",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroupModule",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroupModule.R_matrix",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroupModule.basis",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroupModule.crystal_basis",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroupModule.crystal_graph",
+  "sage.algebras.quantum_groups.quantum_group_gap:QuantumGroupModule.zero",
+  "sage.algebras.quantum_groups.quantum_group_gap:TensorProductOfHighestWeightModules",
+  "sage.algebras.quantum_groups.quantum_group_gap:TensorProductOfHighestWeightModules.highest_weight_decomposition",
+  "sage.algebras.quantum_groups.quantum_group_gap:TensorProductOfHighestWeightModules.highest_weight_vectors",
+  "sage.algebras.quantum_groups.quantum_group_gap:TensorProductOfHighestWeightModules.tensor_factors",
+]
+catalogue = []
+tests = [
+  "Sage doctests for crystal graphs and tensor decompositions; independent check of the crystal axioms and of dimensions against Weyl character formulas.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for crystals and quantum-group representations; none exists in the Lean inventories." }
+backends = ["libgap"]
+references = []
+
+[[capability]]
+id = "algebras.quantum-group-representations"
+title = "Adjoint, cyclic and minuscule representations by matrices"
+statement = "Construct explicit matrix representations of a quantum group: the adjoint representation, cyclic representations from a highest-weight vector, and minuscule representations."
+domain = "A quantum group of a finite Cartan type and a chosen representation family with its data."
+contract = "(quantum_group,family,data) -> a representation with a basis, the action matrices of K, E and F on basis elements, the cyclic generator for a cyclic representation, and the quantum-group action law."
+exactness = "exact"
+algorithms = [{ family = "Explicit generator actions on a chosen basis", sources = ["sage.algebras.quantum_groups.representations:QuantumGroupRepresentation.K_on_basis", "sage.algebras.quantum_groups.representations:AdjointRepresentation.e_on_basis"] }]
+depends_on = []
+sage = [
+  "sage.algebras.quantum_groups.representations:AdjointRepresentation",
+  "sage.algebras.quantum_groups.representations:AdjointRepresentation.e_on_basis",
+  "sage.algebras.quantum_groups.representations:AdjointRepresentation.f_on_basis",
+  "sage.algebras.quantum_groups.representations:CyclicRepresentation",
+  "sage.algebras.quantum_groups.representations:CyclicRepresentation.module_generator",
+  "sage.algebras.quantum_groups.representations:MinusculeRepresentation",
+  "sage.algebras.quantum_groups.representations:MinusculeRepresentation.e_on_basis",
+  "sage.algebras.quantum_groups.representations:MinusculeRepresentation.f_on_basis",
+  "sage.algebras.quantum_groups.representations:QuantumGroupRepresentation",
+  "sage.algebras.quantum_groups.representations:QuantumGroupRepresentation.K_on_basis",
+  "sage.algebras.quantum_groups.representations:QuantumGroupRepresentation.cartan_type",
+]
+catalogue = []
+tests = [
+  "Sage doctests for the generator actions; independent check of the q-Serre relations on the representation matrices.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for quantum-group representation matrices; none exists in the Lean inventories." }
+backends = []
+references = ["OS2018"]
+
+[[capability]]
+id = "algebras.fock-space"
+title = "Fock space of a quantum group and its F, A and G bases"
+statement = "Construct the Fock space of a quantum group as a direct sum of highest-weight modules with multicharge, with the F, A and G bases, the e/f/h/d actions and the truncated variant."
+domain = "A quantum group at a root of unity, a multicharge, and optionally an energy truncation level."
+contract = "(quantum_group,multicharge) -> the Fock space with its highest-weight vector, the F basis of partitions and its e, f, h, h_inverse and d actions, the A and G bases, the q parameter, and the truncated Fock space up to a level; shorthands are injectable into the namespace."
+exactness = "exact"
+algorithms = [{ family = "LLT/Ariki Fock-space action on multipartitions", sources = ["sage.algebras.quantum_groups.fock_space:FockSpace.F.Element.e", "sage.algebras.quantum_groups.fock_space:FockSpace.F.Element.f"] }]
+depends_on = []
+sage = [
+  "sage.algebras.quantum_groups.fock_space:FockSpace",
+  "sage.algebras.quantum_groups.fock_space:FockSpace.A",
+  "sage.algebras.quantum_groups.fock_space:FockSpace.F",
+  "sage.algebras.quantum_groups.fock_space:FockSpace.F.Element",
+  "sage.algebras.quantum_groups.fock_space:FockSpace.F.Element.d",
+  "sage.algebras.quantum_groups.fock_space:FockSpace.F.Element.e",
+  "sage.algebras.quantum_groups.fock_space:FockSpace.F.Element.f",
+  "sage.algebras.quantum_groups.fock_space:FockSpace.F.Element.h",
+  "sage.algebras.quantum_groups.fock_space:FockSpace.F.Element.h_inverse",
+  "sage.algebras.quantum_groups.fock_space:FockSpace.G",
+  "sage.algebras.quantum_groups.fock_space:FockSpace.a_realization",
+  "sage.algebras.quantum_groups.fock_space:FockSpace.highest_weight_vector",
+  "sage.algebras.quantum_groups.fock_space:FockSpace.inject_shorthands",
+  "sage.algebras.quantum_groups.fock_space:FockSpace.multicharge",
+  "sage.algebras.quantum_groups.fock_space:FockSpace.q",
+  "sage.algebras.quantum_groups.fock_space:FockSpaceBases",
+  "sage.algebras.quantum_groups.fock_space:FockSpaceBases.ParentMethods",
+  "sage.algebras.quantum_groups.fock_space:FockSpaceBases.ParentMethods.highest_weight_vector",
+  "sage.algebras.quantum_groups.fock_space:FockSpaceBases.ParentMethods.multicharge",
+  "sage.algebras.quantum_groups.fock_space:FockSpaceBases.ParentMethods.q",
+  "sage.algebras.quantum_groups.fock_space:FockSpaceBases.ParentMethods.some_elements",
+  "sage.algebras.quantum_groups.fock_space:FockSpaceBases.super_categories",
+  "sage.algebras.quantum_groups.fock_space:FockSpaceOptions",
+  "sage.algebras.quantum_groups.fock_space:FockSpaceTruncated",
+  "sage.algebras.quantum_groups.fock_space:FockSpaceTruncated.A",
+  "sage.algebras.quantum_groups.fock_space:FockSpaceTruncated.F",
+  "sage.algebras.quantum_groups.fock_space:FockSpaceTruncated.F.Element",
+  "sage.algebras.quantum_groups.fock_space:FockSpaceTruncated.G",
+]
+catalogue = []
+tests = [
+  "Sage doctests for the Fock-space actions; independent check of the U_q(sl_2) relations on two-component multicharges and of the truncation boundary.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for Fock spaces and KLR actions; none exists in the Lean inventories." }
+backends = []
+references = ["Ariki1996", "Fayers2010", "GW1999", "LLT1996"]
+
+[[capability]]
+id = "algebras.ace-quantum-onsager"
+title = "ACE quantum Onsager algebra"
+statement = "Construct the ACE quantum Onsager algebra with its PBW generators, product, grading, sigma and dagger anti-automorphisms."
+domain = "A field, a quantum parameter q, and a positive rank parameter."
+contract = "(F,q,n) -> the algebra with PBW generators W_{a,b}, their product, degree, unit, the sigma and dagger maps, and the quantum Onsager PBW generator map, together with the algebra generators and some elements."
+exactness = "exact"
+algorithms = [{ family = "PBW basis multiplication from the diamond relations", sources = ["sage.algebras.quantum_groups.ace_quantum_onsager:ACEQuantumOnsagerAlgebra.product_on_basis", "sage.algebras.quantum_groups.ace_quantum_onsager:ACEQuantumOnsagerAlgebra.quantum_onsager_pbw_generator"] }]
+depends_on = []
+sage = [
+  "sage.algebras.quantum_groups.ace_quantum_onsager:ACEQuantumOnsagerAlgebra",
+  "sage.algebras.quantum_groups.ace_quantum_onsager:ACEQuantumOnsagerAlgebra.algebra_generators",
+  "sage.algebras.quantum_groups.ace_quantum_onsager:ACEQuantumOnsagerAlgebra.dagger",
+  "sage.algebras.quantum_groups.ace_quantum_onsager:ACEQuantumOnsagerAlgebra.degree_on_basis",
+  "sage.algebras.quantum_groups.ace_quantum_onsager:ACEQuantumOnsagerAlgebra.one_basis",
+  "sage.algebras.quantum_groups.ace_quantum_onsager:ACEQuantumOnsagerAlgebra.product_on_basis",
+  "sage.algebras.quantum_groups.ace_quantum_onsager:ACEQuantumOnsagerAlgebra.q",
+  "sage.algebras.quantum_groups.ace_quantum_onsager:ACEQuantumOnsagerAlgebra.quantum_onsager_pbw_generator",
+  "sage.algebras.quantum_groups.ace_quantum_onsager:ACEQuantumOnsagerAlgebra.sigma",
+  "sage.algebras.quantum_groups.ace_quantum_onsager:ACEQuantumOnsagerAlgebra.some_elements",
+]
+catalogue = []
+tests = [
+  "Sage doctests for the diamond relations; independent check of associativity and of the sigma/dagger anti-automorphism properties.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for Onsager algebras and diamond Lie algebras; none exists in the Lean inventories." }
+backends = []
+references = ["BK2005", "BS2010", "Ter2021"]
+
+[[capability]]
+id = "algebras.q-numbers"
+title = "Quantum integers, factorials and binomials"
+statement = "Compute the q-integer [n]_q, the q-factorial and the q-binomial coefficient."
+domain = "A commutative ring, an element q, and non-negative integers n and k."
+contract = "(q,n) -> 1 + q + ... + q^{n-1}; (q,n) -> the q-factorial as the product of q-integers; (q,n,k) -> the Gaussian binomial coefficient as the q-factorial quotient, all in the base ring."
+exactness = "exact"
+algorithms = [{ family = "Direct q-analogue products", sources = ["sage.algebras.quantum_groups.q_numbers:q_int", "sage.algebras.quantum_groups.q_numbers:q_factorial", "sage.algebras.quantum_groups.q_numbers:q_binomial"] }]
+depends_on = []
+sage = [
+  "sage.algebras.quantum_groups.q_numbers:q_binomial",
+  "sage.algebras.quantum_groups.q_numbers:q_factorial",
+  "sage.algebras.quantum_groups.q_numbers:q_int",
+]
+catalogue = []
+tests = [
+  "Sage doctests for q-integers and q-binomials; independent check of the Pascal recurrence and of the q = 1 specialisation to ordinary binomials.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for Gaussian binomial coefficients; Mathlib has ordinary binomials and partitions but no q-analogues." }
+backends = []
+references = []
+
+[[capability]]
+id = "algebras.quantum-clifford-algebra"
+title = "Quantum Clifford algebra at a root of unity"
+statement = "Construct the quantum Clifford algebra with its quadratic relations, twist, rank, dimension, generators and element inverses, both generically and at a root of unity."
+domain = "A field, a symmetric bilinear form or its Gram data, and a quantum parameter q that is either generic or a root of unity."
+contract = "(F,form,q) -> the algebra with generators and their quadratic relations, unit, dimension, rank, the twist automorphism, and inverses of elements in the generic and root-of-unity variants."
+exactness = "exact"
+algorithms = [{ family = "Basis multiplication from the q-deformed quadratic relations", sources = ["sage.algebras.quantum_clifford:QuantumCliffordAlgebraGeneric.product_on_basis", "sage.algebras.quantum_clifford:QuantumCliffordAlgebraRootUnity.product_on_basis"] }]
+depends_on = []
+sage = [
+  "sage.algebras.quantum_clifford:QuantumCliffordAlgebra",
+  "sage.algebras.quantum_clifford:QuantumCliffordAlgebra.algebra_generators",
+  "sage.algebras.quantum_clifford:QuantumCliffordAlgebra.dimension",
+  "sage.algebras.quantum_clifford:QuantumCliffordAlgebra.gens",
+  "sage.algebras.quantum_clifford:QuantumCliffordAlgebra.one_basis",
+  "sage.algebras.quantum_clifford:QuantumCliffordAlgebra.q",
+  "sage.algebras.quantum_clifford:QuantumCliffordAlgebra.rank",
+  "sage.algebras.quantum_clifford:QuantumCliffordAlgebra.twist",
+  "sage.algebras.quantum_clifford:QuantumCliffordAlgebraGeneric",
+  "sage.algebras.quantum_clifford:QuantumCliffordAlgebraGeneric.Element",
+  "sage.algebras.quantum_clifford:QuantumCliffordAlgebraGeneric.Element.inverse",
+  "sage.algebras.quantum_clifford:QuantumCliffordAlgebraGeneric.product_on_basis",
+  "sage.algebras.quantum_clifford:QuantumCliffordAlgebraRootUnity",
+  "sage.algebras.quantum_clifford:QuantumCliffordAlgebraRootUnity.Element",
+  "sage.algebras.quantum_clifford:QuantumCliffordAlgebraRootUnity.Element.inverse",
+  "sage.algebras.quantum_clifford:QuantumCliffordAlgebraRootUnity.product_on_basis",
+]
+catalogue = []
+tests = [
+  "Sage doctests for the quadratic relations; independent check of the q-commutation relations and of the root-of-unity dimension formula.",
+]
+reuse = { status = "formalized-not-executable", components = ["mathlib.alg.clifford-exterior"], evidence = "Mathlib defines Clifford algebras and their basis theory, but has no q-deformed Clifford algebra or root-of-unity variant." }
+backends = []
+references = ["Hayashi1990", "Kwon2014"]
+
+[[capability]]
+id = "algebras.quantum-matrix-coordinate-algebra"
+title = "Quantum matrix coordinate algebra and quantum GL_n"
+statement = "Construct the quantum matrix coordinate algebra generated by entries with q-commutation relations, its bialgebra structure, quantum determinant and the quantum general linear group."
+domain = "A field, a size n, and a non-zero quantum parameter q."
+contract = "(F,n,q) -> the algebra on entries x_ij with q-commutation relations, unit, generators, the quantum determinant, the counit and coproduct on basis elements, the bar involution, and the localisation QuantumGL with its generators, product, coproduct and antipode."
+exactness = "exact"
+algorithms = [{ family = "q-commuting monomial normal form and quantum determinant", sources = ["sage.algebras.quantum_matrix_coordinate_algebra:QuantumMatrixCoordinateAlgebra_abstract.product_on_basis", "sage.algebras.quantum_matrix_coordinate_algebra:QuantumMatrixCoordinateAlgebra.coproduct_on_basis"] }]
+depends_on = []
+sage = [
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumGL",
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumGL.algebra_generators",
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumGL.antipode_on_basis",
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumGL.coproduct_on_basis",
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumGL.product_on_basis",
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumMatrixCoordinateAlgebra",
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumMatrixCoordinateAlgebra.algebra_generators",
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumMatrixCoordinateAlgebra.coproduct_on_basis",
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumMatrixCoordinateAlgebra.m",
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumMatrixCoordinateAlgebra_abstract",
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumMatrixCoordinateAlgebra_abstract.Element",
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumMatrixCoordinateAlgebra_abstract.Element.bar",
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumMatrixCoordinateAlgebra_abstract.counit_on_basis",
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumMatrixCoordinateAlgebra_abstract.gens",
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumMatrixCoordinateAlgebra_abstract.n",
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumMatrixCoordinateAlgebra_abstract.one_basis",
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumMatrixCoordinateAlgebra_abstract.product_on_basis",
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumMatrixCoordinateAlgebra_abstract.q",
+  "sage.algebras.quantum_matrix_coordinate_algebra:QuantumMatrixCoordinateAlgebra_abstract.quantum_determinant",
+]
+catalogue = []
+tests = [
+  "Sage doctests for q-commutation and the quantum determinant; independent check of the bialgebra axioms and of the determinant's centrality.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for quantum matrix algebras and quantum determinants; none exists in the Lean inventories." }
+backends = []
+references = ["DD1991", "FRT1990", "Kar1993", "ZZ2005"]
+
+[[capability]]
+id = "algebras.q-system"
+title = "Q-system of a tamely-laced Cartan type"
+statement = "Construct the Q-system of a tamely-laced quantum affine Cartan type with its generators and their relations, dimension, level and element operations; decide tamely-lacedness."
+domain = "A tamely-laced finite or affine Cartan type, a level, and a field."
+contract = "(cartan_type,level,F) -> the Q-system algebra with generators Q_i, their relations, the Cartan type, index set, level, dimension, unit and element structure."
+exactness = "exact"
+algorithms = [{ family = "Q-system relation normal form", sources = ["sage.algebras.q_system:QSystem", "sage.algebras.q_system:QSystem.Q"] }]
+depends_on = []
+sage = [
+  "sage.algebras.q_system:QSystem",
+  "sage.algebras.q_system:QSystem.Element",
+  "sage.algebras.q_system:QSystem.Q",
+  "sage.algebras.q_system:QSystem.algebra_generators",
+  "sage.algebras.q_system:QSystem.cartan_type",
+  "sage.algebras.q_system:QSystem.dimension",
+  "sage.algebras.q_system:QSystem.gens",
+  "sage.algebras.q_system:QSystem.index_set",
+  "sage.algebras.q_system:QSystem.level",
+  "sage.algebras.q_system:QSystem.one_basis",
+  "sage.algebras.q_system:is_tamely_laced",
+]
+catalogue = []
+tests = [
+  "Sage doctests for Q-system relations; independent check of the relation ideal on a small rank and of the tamely-laced predicate.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for Q-systems; none exists in the Lean inventories." }
+backends = []
+references = ["HKOTY1999", "KNS2011", "Wil2013"]
+
+[[capability]]
+id = "algebras.yangian"
+title = "Yangian and graded Yangian of a semisimple Lie algebra"
+statement = "Construct the Yangian (and its level truncations) of a semisimple Lie algebra from its structure constants, and the graded Yangian with its loop and natural variants, including the coproduct, counit and antipode."
+domain = "A semisimple Lie algebra over a field presented for finite (Yangian) or loop (graded Yangian) filtration."
+contract = "(g[,level]) -> the Yangian with PBW-basis generators, grading, product on generators and on basis, coproduct, counit, dimension, defining polynomial, quantum determinant, and the graded Yangian variants with antipode and coproduct on basis elements."
+exactness = "exact"
+algorithms = [{ family = "PBW normal form from filtered generator relations", sources = ["sage.algebras.yangian:Yangian.product_on_basis", "sage.algebras.yangian:GradedYangianNatural.product_on_basis"] }]
+depends_on = []
+sage = [
+  "sage.algebras.yangian:GradedYangianBase",
+  "sage.algebras.yangian:GradedYangianLoop",
+  "sage.algebras.yangian:GradedYangianLoop.antipode_on_basis",
+  "sage.algebras.yangian:GradedYangianLoop.coproduct_on_basis",
+  "sage.algebras.yangian:GradedYangianLoop.counit_on_basis",
+  "sage.algebras.yangian:GradedYangianNatural",
+  "sage.algebras.yangian:GradedYangianNatural.product_on_basis",
+  "sage.algebras.yangian:Yangian",
+  "sage.algebras.yangian:Yangian.algebra_generators",
+  "sage.algebras.yangian:Yangian.coproduct_on_basis",
+  "sage.algebras.yangian:Yangian.counit_on_basis",
+  "sage.algebras.yangian:Yangian.degree_on_basis",
+  "sage.algebras.yangian:Yangian.dimension",
+  "sage.algebras.yangian:Yangian.gen",
+  "sage.algebras.yangian:Yangian.graded_algebra",
+  "sage.algebras.yangian:Yangian.one_basis",
+  "sage.algebras.yangian:Yangian.product_on_basis",
+  "sage.algebras.yangian:Yangian.product_on_gens",
+  "sage.algebras.yangian:YangianLevel",
+  "sage.algebras.yangian:YangianLevel.defining_polynomial",
+  "sage.algebras.yangian:YangianLevel.gen",
+  "sage.algebras.yangian:YangianLevel.gens",
+  "sage.algebras.yangian:YangianLevel.level",
+  "sage.algebras.yangian:YangianLevel.product_on_gens",
+  "sage.algebras.yangian:YangianLevel.quantum_determinant",
+]
+catalogue = []
+tests = [
+  "Sage doctests for the PBW products and coproducts; independent check of the Yangian relations and of the Hopf axioms on small rank.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for Yangians and filtered PBW algebras; none exists in the Lean inventories." }
+backends = []
+references = ["MNO1994", "Mol2007"]
+
+[[capability]]
+id = "algebras.jordan-algebra"
+title = "Jordan algebras: special, symmetric-bilinear and exceptional"
+statement = "Construct the Jordan algebra of a bilinear form under the symmetrised product x*y = (xy+yx)/2, including the special Jordan algebra of an associative algebra and the exceptional Albert algebra."
+domain = "A commutative ring and a bilinear form or an associative algebra, with the symmetrised product defined where 2 is invertible or the form admits a symmetric-bilinear construction."
+contract = "(A,form) -> the Jordan algebra with the symmetrised product, basis, zero, unit, generators, monomial coefficients, and for the symmetric-bilinear form also trace, norm and bar involution; the exceptional model is the 27-dimensional Albert algebra."
+exactness = "exact"
+algorithms = [{ family = "Symmetrised bilinear product", sources = ["sage.algebras.jordan_algebra:SpecialJordanAlgebra", "sage.algebras.jordan_algebra:JordanAlgebraSymmetricBilinear", "sage.algebras.jordan_algebra:ExceptionalJordanAlgebra"] }]
+depends_on = []
+sage = [
+  "sage.algebras.jordan_algebra:ExceptionalJordanAlgebra",
+  "sage.algebras.jordan_algebra:ExceptionalJordanAlgebra.Element",
+  "sage.algebras.jordan_algebra:ExceptionalJordanAlgebra.Element.monomial_coefficients",
+  "sage.algebras.jordan_algebra:ExceptionalJordanAlgebra.basis",
+  "sage.algebras.jordan_algebra:ExceptionalJordanAlgebra.one",
+  "sage.algebras.jordan_algebra:ExceptionalJordanAlgebra.some_elements",
+  "sage.algebras.jordan_algebra:ExceptionalJordanAlgebra.zero",
+  "sage.algebras.jordan_algebra:JordanAlgebra",
+  "sage.algebras.jordan_algebra:JordanAlgebraSymmetricBilinear",
+  "sage.algebras.jordan_algebra:JordanAlgebraSymmetricBilinear.Element",
+  "sage.algebras.jordan_algebra:JordanAlgebraSymmetricBilinear.Element.bar",
+  "sage.algebras.jordan_algebra:JordanAlgebraSymmetricBilinear.Element.monomial_coefficients",
+  "sage.algebras.jordan_algebra:JordanAlgebraSymmetricBilinear.Element.norm",
+  "sage.algebras.jordan_algebra:JordanAlgebraSymmetricBilinear.Element.trace",
+  "sage.algebras.jordan_algebra:JordanAlgebraSymmetricBilinear.basis",
+  "sage.algebras.jordan_algebra:JordanAlgebraSymmetricBilinear.one",
+  "sage.algebras.jordan_algebra:JordanAlgebraSymmetricBilinear.zero",
+  "sage.algebras.jordan_algebra:SpecialJordanAlgebra",
+  "sage.algebras.jordan_algebra:SpecialJordanAlgebra.Element",
+  "sage.algebras.jordan_algebra:SpecialJordanAlgebra.Element.monomial_coefficients",
+  "sage.algebras.jordan_algebra:SpecialJordanAlgebra.basis",
+  "sage.algebras.jordan_algebra:SpecialJordanAlgebra.gens",
+  "sage.algebras.jordan_algebra:SpecialJordanAlgebra.one",
+  "sage.algebras.jordan_algebra:SpecialJordanAlgebra.zero",
+]
+catalogue = []
+tests = [
+  "Sage doctests for the Jordan identities; independent check of the Jordan axiom on generators and of trace/norm compatibility.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for Jordan algebras; Mathlib has associative and Lie algebras but no Jordan algebra." }
+backends = []
+references = ["Al1947", "Ch2012", "Ja1971", "McC1978"]
+
+[[capability]]
+id = "algebras.hall-algebra"
+title = "Hall algebra of a finite-dimensional algebra and its monomial basis"
+statement = "Construct the Hall algebra of representations of a finite-dimensional algebra over a finite field, with the Hall product, coproduct, counit and antipode, and its monomial-basis variant."
+domain = "A finite-dimensional algebra over a finite field, with the class of modules to enumerate."
+contract = "(A,modules) -> the Hall algebra with basis the isomorphism classes of modules, the Hall product counting extensions, unit, coproduct, counit, antipode, scalar extraction, and the monomial-basis algebra with the same Hopf structure."
+exactness = "exact"
+algorithms = [{ family = "Extension counting over a finite field", sources = ["sage.algebras.hall_algebra:HallAlgebra.product_on_basis", "sage.algebras.hall_algebra:HallAlgebra.coproduct_on_basis"] }]
+depends_on = []
+sage = [
+  "sage.algebras.hall_algebra:HallAlgebra",
+  "sage.algebras.hall_algebra:HallAlgebra.Element",
+  "sage.algebras.hall_algebra:HallAlgebra.Element.scalar",
+  "sage.algebras.hall_algebra:HallAlgebra.antipode_on_basis",
+  "sage.algebras.hall_algebra:HallAlgebra.coproduct_on_basis",
+  "sage.algebras.hall_algebra:HallAlgebra.counit",
+  "sage.algebras.hall_algebra:HallAlgebra.monomial_basis",
+  "sage.algebras.hall_algebra:HallAlgebra.one_basis",
+  "sage.algebras.hall_algebra:HallAlgebra.product_on_basis",
+  "sage.algebras.hall_algebra:HallAlgebraMonomials",
+  "sage.algebras.hall_algebra:HallAlgebraMonomials.Element",
+  "sage.algebras.hall_algebra:HallAlgebraMonomials.Element.scalar",
+  "sage.algebras.hall_algebra:HallAlgebraMonomials.antipode_on_basis",
+  "sage.algebras.hall_algebra:HallAlgebraMonomials.coproduct_on_basis",
+  "sage.algebras.hall_algebra:HallAlgebraMonomials.counit",
+  "sage.algebras.hall_algebra:HallAlgebraMonomials.one_basis",
+  "sage.algebras.hall_algebra:HallAlgebraMonomials.product_on_basis",
+  "sage.algebras.hall_algebra:transpose_cmp",
+]
+catalogue = []
+tests = [
+  "Sage doctests for Hall products on small modules; independent enumeration of extensions and check of the Hopf axioms.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for Hall algebras and module extension counts; none exists in the Lean inventories." }
+backends = []
+references = ["Mac1995", "Sch2006"]
+
+[[capability]]
+id = "algebras.askey-wilson-algebra"
+title = "Askey-Wilson algebra and its automorphisms"
+statement = "Construct the Askey-Wilson algebra with its three generators and relations, the Casimir element, the reflection and permutation automorphisms, and the loop representation."
+domain = "A commutative ring, a parameter q, and three structure constants."
+contract = "(R,q,alpha,beta,gamma) -> the algebra with generators, their relations, unit, product on the PBW basis, the Casimir element, the reflection and permutation algebra morphisms, some elements, and the loop representation matrices."
+exactness = "exact"
+algorithms = [{ family = "PBW rewriting from the Askey-Wilson relations", sources = ["sage.algebras.askey_wilson:AskeyWilsonAlgebra.product_on_basis", "sage.algebras.askey_wilson:AskeyWilsonAlgebra.casimir_element"] }]
+depends_on = []
+sage = [
+  "sage.algebras.askey_wilson:AlgebraMorphism",
+  "sage.algebras.askey_wilson:AskeyWilsonAlgebra",
+  "sage.algebras.askey_wilson:AskeyWilsonAlgebra.algebra_generators",
+  "sage.algebras.askey_wilson:AskeyWilsonAlgebra.casimir_element",
+  "sage.algebras.askey_wilson:AskeyWilsonAlgebra.gens",
+  "sage.algebras.askey_wilson:AskeyWilsonAlgebra.loop_representation",
+  "sage.algebras.askey_wilson:AskeyWilsonAlgebra.one_basis",
+  "sage.algebras.askey_wilson:AskeyWilsonAlgebra.permutation_automorphism",
+  "sage.algebras.askey_wilson:AskeyWilsonAlgebra.product_on_basis",
+  "sage.algebras.askey_wilson:AskeyWilsonAlgebra.q",
+  "sage.algebras.askey_wilson:AskeyWilsonAlgebra.reflection_automorphism",
+  "sage.algebras.askey_wilson:AskeyWilsonAlgebra.some_elements",
+]
+catalogue = []
+tests = [
+  "Sage doctests for the Askey-Wilson relations; independent check that the Casimir element is central and that the automorphisms preserve the relations.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for Askey-Wilson algebras and their representations; none exists in the Lean inventories." }
+backends = []
+references = ["Terwilliger2011", "Zhedanov1991"]
+
+[[capability]]
+id = "algebras.orlik-solomon"
+title = "Orlik-Solomon algebra of an arrangement"
+statement = "Construct the Orlik-Solomon algebra of a matroid or hyperplane arrangement as a quotient of the exterior algebra, with its graded-commutative presentation, differential and Aomoto complex."
+domain = "A matroid or a central hyperplane arrangement over a field."
+contract = "(arrangement) -> the Orlik-Solomon algebra with basis the NBC sets, degree, product on basis elements, generators, the subset image, the graded-commutative and differential-graded presentations, and the Aomoto complex for a weight vector."
+exactness = "exact"
+algorithms = [{ family = "NBC basis and exterior-algebra quotient", sources = ["sage.algebras.orlik_solomon:OrlikSolomonAlgebra.product_on_basis", "sage.algebras.orlik_solomon:OrlikSolomonAlgebra.aomoto_complex"] }]
+depends_on = []
+sage = [
+  "sage.algebras.orlik_solomon:OrlikSolomonAlgebra",
+  "sage.algebras.orlik_solomon:OrlikSolomonAlgebra.algebra_generators",
+  "sage.algebras.orlik_solomon:OrlikSolomonAlgebra.aomoto_complex",
+  "sage.algebras.orlik_solomon:OrlikSolomonAlgebra.as_cdga",
+  "sage.algebras.orlik_solomon:OrlikSolomonAlgebra.as_gca",
+  "sage.algebras.orlik_solomon:OrlikSolomonAlgebra.degree_on_basis",
+  "sage.algebras.orlik_solomon:OrlikSolomonAlgebra.one_basis",
+  "sage.algebras.orlik_solomon:OrlikSolomonAlgebra.product_on_basis",
+  "sage.algebras.orlik_solomon:OrlikSolomonAlgebra.subset_image",
+]
+catalogue = []
+tests = [
+  "Sage doctests for NBC bases and products; independent check that the Orlik-Solomon relations vanish and that the Aomoto differential squares to zero.",
+]
+reuse = { status = "adaptable", components = ["mathlib.comb.matroid", "mathlib.alg.clifford-exterior", "mathlib.homology.complexes"], evidence = "Mathlib supplies matroids, exterior algebras and complexes, but no Orlik-Solomon quotient or Aomoto complex." }
+backends = []
+references = ["BY2016", "CE2001"]
+
+[[capability]]
+id = "algebras.orlik-terao"
+title = "Orlik-Terao algebra of an arrangement"
+statement = "Construct the Orlik-Terao algebra of a matroid or arrangement as a quadratic algebra on circuits, with its product and subset image."
+domain = "A matroid or a central hyperplane arrangement and a coefficient ring."
+contract = "(arrangement) -> the Orlik-Terao algebra with basis the NBC sets, degree, product on basis elements, generators and the subset image, presented as a quotient of the symmetric algebra by circuit relations."
+exactness = "exact"
+algorithms = [{ family = "Circuit-relation quadratic-algebra normal form", sources = ["sage.algebras.orlik_terao:OrlikTeraoAlgebra.product_on_basis", "sage.algebras.orlik_terao:OrlikTeraoAlgebra.subset_image"] }]
+depends_on = []
+sage = [
+  "sage.algebras.orlik_terao:OrlikTeraoAlgebra",
+  "sage.algebras.orlik_terao:OrlikTeraoAlgebra.algebra_generators",
+  "sage.algebras.orlik_terao:OrlikTeraoAlgebra.degree_on_basis",
+  "sage.algebras.orlik_terao:OrlikTeraoAlgebra.one_basis",
+  "sage.algebras.orlik_terao:OrlikTeraoAlgebra.product_on_basis",
+  "sage.algebras.orlik_terao:OrlikTeraoAlgebra.subset_image",
+]
+catalogue = []
+tests = [
+  "Sage doctests for circuit relations; independent check that every circuit relation vanishes and that the NBC monomials span.",
+]
+reuse = { status = "adaptable", components = ["mathlib.comb.matroid", "mathlib.poly.multivariate", "mathlib.alg.ideals"], evidence = "Mathlib supplies matroids, polynomial rings and ideals, but no Orlik-Terao algebra." }
+backends = []
+references = ["CF2005", "FL2001", "OT1994"]
+
+[[capability]]
+id = "algebras.invariant-algebra-of-an-arrangement"
+title = "Invariant subalgebra of an Orlik-Solomon or Orlik-Terao algebra"
+statement = "Construct the subalgebra of an Orlik-Solomon or Orlik-Terao algebra fixed by a finite group of arrangement automorphisms, with its basis and product."
+domain = "An Orlik-Solomon or Orlik-Terao algebra of an arrangement and a finite group acting on its ground set by permutations."
+contract = "(algebra,G) -> the invariant subalgebra with a basis of orbit sums, the product induced from the ambient algebra, and the lifted/retracted generators."
+exactness = "exact"
+algorithms = [{ family = "Orbit-sum basis of a finite-group fixed subalgebra", sources = ["sage.algebras.orlik_solomon:OrlikSolomonInvariantAlgebra", "sage.algebras.orlik_terao:OrlikTeraoInvariantAlgebra"] }]
+depends_on = []
+sage = [
+  "sage.algebras.orlik_solomon:OrlikSolomonInvariantAlgebra",
+  "sage.algebras.orlik_solomon:OrlikSolomonInvariantAlgebra.construction",
+  "sage.algebras.orlik_terao:OrlikTeraoInvariantAlgebra",
+  "sage.algebras.orlik_terao:OrlikTeraoInvariantAlgebra.construction",
+]
+catalogue = []
+tests = [
+  "Sage doctests for invariant bases; independent check that every basis element is fixed by the group and that the basis spans the fixed subspace.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for invariant subalgebras of arrangement algebras; the group-action components supply orbits but no fixed-subalgebra construction." }
+backends = []
+references = ["BY2016", "CF2005"]
+
+[[capability]]
+id = "algebras.schur-algebra"
+title = "Schur algebra and Schur tensor module"
+statement = "Construct the Schur algebra S(n,r) with its basis of double cosets, product, dimension and unit, the Schur tensor module, and the irreducible character of GL_n."
+domain = "A commutative ring, positive integers n and r, and a partition of r for the character."
+contract = "(R,n,r) -> the Schur algebra with basis indexed by triples (i,j,lambda) of weight-r words modulo the symmetric-group action, its product and dimension; the Schur tensor module with its construction and elements; and the irreducible character of GL_n of a given partition evaluated on a permutation."
+exactness = "exact"
+algorithms = [{ family = "Double-coset basis multiplication in the Schur algebra", sources = ["sage.algebras.schur_algebra:SchurAlgebra.product_on_basis", "sage.algebras.schur_algebra:SchurTensorModule", "sage.algebras.schur_algebra:GL_irreducible_character"] }]
+depends_on = []
+sage = [
+  "sage.algebras.schur_algebra:GL_irreducible_character",
+  "sage.algebras.schur_algebra:SchurAlgebra",
+  "sage.algebras.schur_algebra:SchurAlgebra.dimension",
+  "sage.algebras.schur_algebra:SchurAlgebra.one",
+  "sage.algebras.schur_algebra:SchurAlgebra.product_on_basis",
+  "sage.algebras.schur_algebra:SchurTensorModule",
+  "sage.algebras.schur_algebra:SchurTensorModule.Element",
+  "sage.algebras.schur_algebra:SchurTensorModule.construction",
+  "sage.algebras.schur_algebra:schur_representative_from_index",
+  "sage.algebras.schur_algebra:schur_representative_indices",
+]
+catalogue = []
+tests = [
+  "Sage doctests for Schur products and dimensions; independent check of S(n,r) dimension against the sum of squares of weight multiplicities and of characters against the symmetric-group character table.",
+]
+reuse = { status = "adaptable", components = ["mathlib.comb.young-diagrams", "mathlib.alg.monoid-algebra", "mathlib.group.perm-basic"], evidence = "Mathlib supplies Young diagrams, symmetric-group permutations and monoid algebras, but no Schur algebra or Schur tensor module." }
+backends = []
+references = ["Gr2007"]
+
+[[capability]]
+id = "algebras.rational-cherednik-algebra"
+title = "Rational Cherednik algebra of a finite reflection group"
+statement = "Construct the rational Cherednik algebra of a complex reflection group with its triangular decomposition, product on basis, grading, trivial idempotent and deformed Euler element."
+domain = "A complex reflection group, its reflection representation, and a parameter function on reflections."
+contract = "(W,V,c) -> the rational Cherednik algebra with basis the ordered products of polynomial, group and dual-polynomial parts, the product, degree, unit, trivial idempotent and deformed Euler element; the PBW property holds under the stated parameter conditions."
+exactness = "exact"
+algorithms = [{ family = "PBW normal form from the triangular decomposition", sources = ["sage.algebras.rational_cherednik_algebra:RationalCherednikAlgebra.product_on_basis", "sage.algebras.rational_cherednik_algebra:RationalCherednikAlgebra.deformed_euler"] }]
+depends_on = []
+sage = [
+  "sage.algebras.rational_cherednik_algebra:RationalCherednikAlgebra",
+  "sage.algebras.rational_cherednik_algebra:RationalCherednikAlgebra.algebra_generators",
+  "sage.algebras.rational_cherednik_algebra:RationalCherednikAlgebra.deformed_euler",
+  "sage.algebras.rational_cherednik_algebra:RationalCherednikAlgebra.degree_on_basis",
+  "sage.algebras.rational_cherednik_algebra:RationalCherednikAlgebra.one_basis",
+  "sage.algebras.rational_cherednik_algebra:RationalCherednikAlgebra.product_on_basis",
+  "sage.algebras.rational_cherednik_algebra:RationalCherednikAlgebra.some_elements",
+  "sage.algebras.rational_cherednik_algebra:RationalCherednikAlgebra.trivial_idempotent",
+]
+catalogue = []
+tests = [
+  "Sage doctests for the PBW products; independent check of the commutation relations and of the Euler-element action on basis degrees.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for rational Cherednik algebras and triangular-decomposition PBW algebras; none exists in the Lean inventories." }
+backends = []
+references = ["EM2001", "GGOR2003"]
+
+[[capability]]
+id = "algebras.cellular-basis"
+title = "Cellular basis and cell modules of a cellular algebra"
+statement = "Compute a cellular basis, the cell poset, the cell-module indices and the corresponding cell modules of a cellular algebra."
+domain = "An algebra with a known cellular structure (for example a diagram or Temperley-Lieb algebra)."
+contract = "(A) -> the cellular basis, the cell poset with its order, the indices of the cell modules, and the cell module attached to an index, with the algebra product in the cellular basis."
+exactness = "exact"
+algorithms = [{ family = "Cellular data extraction from the algebra's basis", sources = ["sage.algebras.cellular_basis:CellularBasis", "sage.algebras.cellular_basis:CellularBasis.cellular_basis_of"] }]
+depends_on = []
+sage = [
+  "sage.algebras.cellular_basis:CellularBasis",
+  "sage.algebras.cellular_basis:CellularBasis.cell_module_indices",
+  "sage.algebras.cellular_basis:CellularBasis.cell_poset",
+  "sage.algebras.cellular_basis:CellularBasis.cellular_basis",
+  "sage.algebras.cellular_basis:CellularBasis.cellular_basis_of",
+  "sage.algebras.cellular_basis:CellularBasis.one",
+  "sage.algebras.cellular_basis:CellularBasis.product_on_basis",
+]
+catalogue = []
+tests = [
+  "Sage doctests for cellular bases of Temperley-Lieb algebras; independent check that the cellular involution and the basis property hold.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for cellular algebras and cell modules; none exists in the Lean inventories." }
+backends = []
+references = ["GrLe1996"]
+
+[[capability]]
+id = "algebras.letterplace-groebner"
+title = "Two-sided Groebner bases in the letterplace algebra"
+statement = "Compute a two-sided Groebner basis and normal form of an ideal in the letterplace algebra, with the shift and contraction operations that encode two-sided reduction."
+domain = "A letterplace algebra over a field with respect to a degree-compatible monomial order, and a two-sided ideal."
+contract = "(I) -> a Groebner basis of the two-sided ideal, a normal form of an element modulo it, and the decision whether an element lies in the ideal."
+exactness = "exact"
+algorithms = [{ family = "Letterplace Buchberger with shift and contraction", sources = ["sage.algebras.letterplace.letterplace_ideal:LetterplaceIdeal.groebner_basis", "sage.algebras.letterplace.letterplace_ideal:LetterplaceIdeal.reduce"] }]
+depends_on = []
+sage = [
+  "sage.algebras.letterplace.letterplace_ideal:LetterplaceIdeal",
+  "sage.algebras.letterplace.letterplace_ideal:LetterplaceIdeal.groebner_basis",
+  "sage.algebras.letterplace.letterplace_ideal:LetterplaceIdeal.reduce",
+]
+catalogue = []
+tests = [
+  "Sage doctests for letterplace Groebner bases; independent check that each basis element reduces to zero modulo the ideal and that normal forms are unique.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for Groebner bases; Mathlib's Groebner basis component is commutative, so no two-sided noncommutative reduction exists." }
+backends = ["singular"]
+references = []
+
+[[capability]]
+id = "algebras.baker-campbell-hausdorff"
+title = "Baker-Campbell-Hausdorff formula iterator"
+statement = "Iterate the Baker-Campbell-Hausdorff series term by term in the free Lie algebra generated by two symbols."
+domain = "A positive maximum degree and a base ring containing the required rational coefficients."
+contract = "(max_degree) -> an iterator yielding the homogeneous BCH terms expressed in the free Lie algebra on two generators, so that log(exp(X)exp(Y)) agrees with the series up to the requested degree."
+exactness = "exact"
+algorithms = [{ family = "Iterated commutator expansion of the BCH series", sources = ["sage.algebras.lie_algebras.bch:bch_iterator"] }]
+depends_on = []
+sage = [
+  "sage.algebras.lie_algebras.bch:bch_iterator",
+]
+catalogue = []
+tests = [
+  "Sage doctests for the first BCH terms; independent comparison with the known degree-2 term [X,Y]/2 and the Jacobi identity.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for the Baker-Campbell-Hausdorff formula; Mathlib has Lie algebras but no BCH series." }
+backends = []
+references = ["Var1984"]
+
+[[capability]]
+id = "algebras.lie-conformal-structure"
+title = "Lie conformal algebras, super brackets, and named conformal families"
+statement = "Construct Lie conformal algebras from generator structure coefficients and central extensions, apply the translation operator and divided-power derivatives, evaluate lambda brackets and n-th products, and construct the named H-graded and super families implemented by Sage."
+domain = "A commutative base ring in the characteristic-zero regime required by the source, finitely or freely generated conformal generators, central elements, structure coefficients, nonnegative rational weights, and optional generator parity."
+contract = "Structure coefficients and generator data -> a Lie conformal algebra with its basis, central extension, grading and parity; elements support exact divided-power translation, lambda brackets and n-th products. Named constructors preserve their declared bracket matrices: affine, free-boson, free-fermion, bosonic-ghost, fermionic-ghost, Virasoro, Neveu-Schwarz, N=2 and Weyl families."
+exactness = "conditional"
+exactness_notes = "The coefficient arithmetic and bracket identities are exact when the base ring satisfies the source constructors' assumptions (in particular the required inverses and characteristic-zero behavior); the source declares behavior undefined outside those hypotheses."
+algorithms = [
+  { family = "Structure-coefficient normalization, skew-symmetry completion, translation and lambda-bracket evaluation", sources = [
+    "sage.algebras.lie_conformal_algebras.lie_conformal_algebra:LieConformalAlgebra",
+    "sage.algebras.lie_conformal_algebras.lie_conformal_algebra_with_structure_coefs:LieConformalAlgebraWithStructureCoefficients",
+    "sage.algebras.lie_conformal_algebras.lie_conformal_algebra_element:LCAStructureCoefficientsElement._bracket_",
+    "sage.algebras.lie_conformal_algebras.lie_conformal_algebra_element:LCAWithGeneratorsElement.T",
+  ] },
+  { family = "Named conformal and super-conformal constructions", sources = [
+    "sage.algebras.lie_conformal_algebras.abelian_lie_conformal_algebra:AbelianLieConformalAlgebra",
+    "sage.algebras.lie_conformal_algebras.affine_lie_conformal_algebra:AffineLieConformalAlgebra",
+    "sage.algebras.lie_conformal_algebras.bosonic_ghosts_lie_conformal_algebra:BosonicGhostsLieConformalAlgebra",
+    "sage.algebras.lie_conformal_algebras.fermionic_ghosts_lie_conformal_algebra:FermionicGhostsLieConformalAlgebra",
+    "sage.algebras.lie_conformal_algebras.free_bosons_lie_conformal_algebra:FreeBosonsLieConformalAlgebra",
+    "sage.algebras.lie_conformal_algebras.free_fermions_lie_conformal_algebra:FreeFermionsLieConformalAlgebra",
+    "sage.algebras.lie_conformal_algebras.n2_lie_conformal_algebra:N2LieConformalAlgebra",
+    "sage.algebras.lie_conformal_algebras.neveu_schwarz_lie_conformal_algebra:NeveuSchwarzLieConformalAlgebra",
+    "sage.algebras.lie_conformal_algebras.virasoro_lie_conformal_algebra:VirasoroLieConformalAlgebra",
+    "sage.algebras.lie_conformal_algebras.weyl_lie_conformal_algebra:WeylLieConformalAlgebra",
+  ] },
+]
+depends_on = []
+sage = [
+  "sage.algebras.lie_conformal_algebras.abelian_lie_conformal_algebra:*",
+  "sage.algebras.lie_conformal_algebras.affine_lie_conformal_algebra:*",
+  "sage.algebras.lie_conformal_algebras.bosonic_ghosts_lie_conformal_algebra:*",
+  "sage.algebras.lie_conformal_algebras.fermionic_ghosts_lie_conformal_algebra:*",
+  "sage.algebras.lie_conformal_algebras.finitely_freely_generated_lca:*",
+  "sage.algebras.lie_conformal_algebras.free_bosons_lie_conformal_algebra:*",
+  "sage.algebras.lie_conformal_algebras.free_fermions_lie_conformal_algebra:*",
+  "sage.algebras.lie_conformal_algebras.freely_generated_lie_conformal_algebra:*",
+  "sage.algebras.lie_conformal_algebras.graded_lie_conformal_algebra:*",
+  "sage.algebras.lie_conformal_algebras.lie_conformal_algebra:*",
+  "sage.algebras.lie_conformal_algebras.lie_conformal_algebra_element:*",
+  "sage.algebras.lie_conformal_algebras.lie_conformal_algebra_with_basis:*",
+  "sage.algebras.lie_conformal_algebras.lie_conformal_algebra_with_structure_coefs:*",
+  "sage.algebras.lie_conformal_algebras.n2_lie_conformal_algebra:*",
+  "sage.algebras.lie_conformal_algebras.neveu_schwarz_lie_conformal_algebra:*",
+  "sage.algebras.lie_conformal_algebras.virasoro_lie_conformal_algebra:*",
+  "sage.algebras.lie_conformal_algebras.weyl_lie_conformal_algebra:*",
+]
+catalogue = []
+tests = [
+  "Source doctests for each named constructor and the element translation/bracket examples in the 17 selected modules.",
+  "Independent checks: Virasoro [L_lambda L] = T L + 2 lambda L + lambda^3 C/2; affine A1 brackets reproduce [e,f]=h and the central lambda term; free-boson and free-fermion brackets reproduce their Gram matrices; N=2 and Neveu-Schwarz super brackets preserve the stated weights and parity.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.lie-algebras"], evidence = "Mathlib supplies Lie-algebra structure and bracket foundations; the conformal translation operator, divided-power lambda-bracket calculus, central extensions and super/graded named families are not present as a matching executable component." }
+backends = []
+references = ["Kac1997", "DSK2006"]

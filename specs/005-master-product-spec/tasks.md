@@ -1,123 +1,88 @@
+---
+description: "Task list for the master product specification"
+---
+
 # Tasks: Master product specification
 
-**Input**: [spec.md](spec.md), [plan.md](plan.md), [research.md](research.md),
-[data-model.md](data-model.md), [contracts/product-spec-schema.md](contracts/product-spec-schema.md)
+**Input**: Design documents from `specs/005-master-product-spec/`
 
-**Organization**: US1 (scope completeness), US2 (completion condition), and US3 (ownership
-boundaries) can proceed in parallel after Phase 2. Each story closes when its independent
-test passes.
+**Prerequisites**: `plan.md`, `spec.md`, `research.md`, `data-model.md`,
+`contracts/product-spec-schema.md`, `quickstart.md`
+
+**Scope**: This feature writes the master product contract. The reconnaissance program is
+owned by `specs/001-native-computation/`; the dependency-ordered implementation roadmap is
+owned by `specs/004-milestones/`. This task list must not duplicate either program.
 
 ## Phase 1: Setup
 
-- [x] T001 Spec, research, data model, quickstart, plan, and contract written at
-  `specs/005-master-product-spec/`
+- [x] T001 Confirm the master-product design documents and active feature directory in `specs/005-master-product-spec/`.
 
----
+## Phase 2: Foundational validation
 
-## Phase 2: Foundational
+**Purpose**: Verify the source views used by the master document before assembling it.
 
-**Purpose**: Verify the input sources are consistent before writing `product-spec.md`.
+- [x] T002 Run the scope-table completeness check from `specs/005-master-product-spec/quickstart.md`
+  against `inventory/domains.toml` and `docs/domain-specifications.md`; repair missing section
+  assignments in the owning roadmap before continuing.
+- [x] T003 [P] Run the output-contract validation from
+  `specs/005-master-product-spec/quickstart.md`; repair any capability record using an
+  undefined exactness category.
+- [x] T004 [P] Run the ownership-boundary validation from
+  `specs/005-master-product-spec/quickstart.md`; record unknown catalogue ids as upstream
+  gaps rather than inventing local mathematical objects.
 
-- [ ] T002 Run quickstart scenario 1 (`python3` scope table completeness check). If any
-  sections are missing from `docs/domain-specifications.md`, add them before proceeding.
-  Record the result in this task's checklist note.
-- [ ] T003 [P] Run quickstart scenario 2 (output-contract category validation). Confirm all
-  existing capability records use only the four defined categories. If any use an undefined
-  value, file a correction in the relevant capability file.
-- [ ] T004 [P] Run quickstart scenario 4 (ownership boundary verification). Confirm every
-  `catalogue` field in every capability record references a known component in
-  `inventory/reuse/lean-categories.toml`. Record any unknown ids as gaps to file with
-  `lean-categories`.
+**Checkpoint**: The master document can assemble existing scope, taxonomy, completion, and
+ownership views without becoming a second capability or milestone ledger.
 
-**Checkpoint**: All three scenarios pass before writing `product-spec.md`.
+## Phase 3: Master product document (P1)
 
----
+**Goal**: Produce `product-spec.md` as the stable product-level contract above domain specs,
+capability records, and the milestone roadmap.
 
-## Phase 3: User Story 1 — Know exactly what this product computes (P1)
+**Independent Test**: The schema contract and all quickstart scenarios pass against
+`specs/005-master-product-spec/product-spec.md`.
 
-**Goal**: Write the scope table (§plan.md §"Scope table") into `product-spec.md` as the
-definitive statement of what is in scope, excluded, or deferred. Every section must have
-a row; every in-scope section must have a milestone.
+- [x] T005 Create `specs/005-master-product-spec/product-spec.md` with product identity,
+  fixed Sage baseline, and the complete 80-section scope table assembled from
+  `inventory/domains.toml` and `docs/domain-specifications.md`.
+- [x] T006 [P] Add the four output-contract categories, definitions, and representative
+  examples to `specs/005-master-product-spec/product-spec.md`.
+- [x] T007 [P] Add the two-tier completion condition and explicitly distinguish source
+  accounting from native implementation acceptance in `specs/005-master-product-spec/product-spec.md`.
+- [x] T008 [P] Add ownership boundaries and routing rules for `lean-categories`,
+  `lean-cas-dsl`, Mathlib, Hex, reference engines, and this repository in
+  `specs/005-master-product-spec/product-spec.md`.
+- [x] T009 Add the four cross-product obligations from
+  `specs/004-milestones/plan.md` and the specification hierarchy links to
+  `specs/005-master-product-spec/product-spec.md`.
 
-**Independent test**: Run quickstart scenario 1 against `product-spec.md` after it is
-written, substituting `product-spec.md` as the target. Zero missing sections.
+**Checkpoint**: The master product document is complete and references, rather than duplicates,
+the reconnaissance ledger, capability records, and milestone roadmap.
 
-- [ ] T005 [US1] Create `specs/005-master-product-spec/product-spec.md` with the Product
-  Identity section (name, baseline version, scope statement) and the Scope Table copied from
-  `plan.md` §"Scope table".
-- [ ] T006 [P] [US1] Add the Output-Contract Taxonomy section to `product-spec.md`, using
-  the definitions from `plan.md` §"Output-contract taxonomy" and adding one example per
-  category drawn from an existing capability record in `inventory/capabilities/`.
-- [ ] T007 [US1] Add the Specification Hierarchy section to `product-spec.md` as a pointer
-  table (do not duplicate content — reference only). Confirm every link in the table resolves
-  to an existing file.
+## Phase 4: Validation and polish
 
-**Checkpoint**: `product-spec.md` sections 1–3 and 7 complete; scope table has zero missing rows.
-
----
-
-## Phase 4: User Story 2 — Know what "done" means for the full product (P1)
-
-**Goal**: Write the Completion Condition section with an exact Tier 1 shell command and an
-exact Tier 2 oracle specification. Both must be runnable as written.
-
-**Independent test**: Run quickstart scenario 3 (`sage-inventory coverage`) and confirm the
-command it runs matches the Tier 1 command in `product-spec.md` word for word.
-
-- [ ] T008 [US2] Add the Completion Condition section to `product-spec.md`. Tier 1: exact
-  shell command. Tier 2: exact oracle image SHA and comparison rule. Include the "what does
-  not count" list from `plan.md`.
-- [ ] T009 [US2] Add the Cross-Product Obligations section to `product-spec.md` by copying
-  the four rows from `specs/004-milestones/plan.md` §"Cross-milestone obligations". Do not
-  paraphrase; use the same obligation text and owner assignments.
-
-**Checkpoint**: `product-spec.md` sections 4–5 complete; Tier 1 command is runnable.
-
----
-
-## Phase 5: User Story 3 — Determine the scope boundary for any mathematical operation (P2)
-
-**Goal**: Write the Ownership Boundaries section with the decision-rule table such that any
-proposed new capability can be routed to the correct owner by following the rules.
-
-**Independent test**: Apply the decision rules to three test cases: (a) a new matrix operation
-type, (b) a new primality certificate format, (c) a new language binding. Each must route
-deterministically to one owner.
-
-- [ ] T010 [US3] Add the Ownership Boundaries section to `product-spec.md`. Include the
-  component-type-to-owner table from `plan.md` and the five decision rules. Add one worked
-  example per rule drawn from existing capability records.
-- [ ] T011 [US3] Apply the decision rules to the three test cases in the independent test above
-  and record the results in `checklists/mathematical-dependencies.md` as a note.
-
-**Checkpoint**: `product-spec.md` section 5 complete; all three test cases route deterministically.
-
----
-
-## Phase 6: Polish and cross-cutting
-
-- [ ] T012 Validate `product-spec.md` against `contracts/product-spec-schema.md`: confirm all
-  seven required sections are present, the scope table has the right row count (65), no
-  output-contract categories beyond the four, Tier 1 command is runnable, and all hierarchy
-  links resolve.
-- [ ] T013 [P] Run the full quickstart scenario suite (scenarios 1–4) with `product-spec.md`
-  as the target where applicable. Document pass/fail for each.
-- [ ] T014 Update `AGENTS.md` layout table to include
-  `specs/005-master-product-spec/product-spec.md` as the master product specification entry.
-
----
+- [x] T010 Validate `product-spec.md` against
+  `specs/005-master-product-spec/contracts/product-spec-schema.md`.
+- [x] T011 [P] Run all scenarios in `specs/005-master-product-spec/quickstart.md` and record
+  their results in `specs/005-master-product-spec/checklists/requirements.md`.
+- [x] T012 [P] Verify every link in `product-spec.md` resolves to an existing repository
+  document or the named upstream owner.
+- [x] T013 Update `AGENTS.md` only if the master-product document's canonical path is missing
+  from the repository layout table.
+- [x] T014 Run `speckit-analyze` on `spec.md`, `plan.md`, and this `tasks.md`; resolve any
+  contradiction before marking the feature ready.
 
 ## Dependencies and execution order
 
-- **Phase 1**: T001 complete.
-- **Phase 2**: T002, T003, T004 can run in parallel. All must pass before Phase 3.
-- **Phase 3**: T005 first (creates the file); T006, T007 can run in parallel after T005.
-- **Phase 4**: T008 and T009 can run in parallel after Phase 2 (they add to an existing file).
-- **Phase 5**: T010 after Phase 2. T011 after T010.
-- **Phase 6**: T012, T013, T014 can run in parallel after Phases 3–5.
+- **Phase 1** has no dependencies.
+- **Phase 2** depends on Phase 1; T003 and T004 can run in parallel with T002.
+- **Phase 3** depends on Phase 2; T006–T008 can run in parallel after T005 creates the file,
+  while T009 follows the assembled sections.
+- **Phase 4** depends on Phase 3; T010–T013 can run in parallel, and T014 is last.
 
 ## Completion rule
 
-The master product spec feature closes when T012 validates without failures and quickstart
-scenarios 1–3 pass. `product-spec.md` is then the authoritative document at the top of the
-specification hierarchy.
+This feature closes when `product-spec.md` passes its schema and quickstart checks, all links
+resolve, and `speckit-analyze` reports no unresolved contradiction between this feature's
+specification, plan, and tasks. Completion of reconnaissance or any CAS implementation is
+tracked by `specs/001-native-computation/` and `specs/004-milestones/`, not here.

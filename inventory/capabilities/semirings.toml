@@ -10,7 +10,7 @@ domain = "Nonnegative integers."
 contract = "N as a commutative semiring with additive generator 1; elements remain natural numbers under subsequent arithmetic."
 exactness = "exact"
 algorithms = [{ family = "Reuse natural-number arithmetic", sources = ["sage.rings.semirings.non_negative_integer_semiring:NonNegativeIntegerSemiring"] }]
-depends_on = ["integers.arithmetic"]
+depends_on = []
 sage = ["sage.rings.semirings.non_negative_integer_semiring:NonNegativeIntegerSemiring", "sage.rings.semirings.non_negative_integer_semiring:NonNegativeIntegerSemiring.additive_semigroup_generators"]
 catalogue = ["obj.semirings.naturals", "op.semirings.add", "op.semirings.mul", "op.semirings.pow"]
 tests = ["Sage doctests: sage.rings.semirings.non_negative_integer_semiring:NonNegativeIntegerSemiring; compare natural-number results through the catalogue operations."]
@@ -62,7 +62,7 @@ depends_on = ["semirings.tropical-construction"]
 sage = ["sage.rings.semirings.tropical_semiring:TropicalToTropical"]
 catalogue = []
 tests = ["Sage doctests: sage.rings.semirings.tropical_semiring:TropicalToTropical, including Z-to-Q base change and infinity preservation; compare map composition on finite values."]
-reuse = { status = "missing", components = [], evidence = "The inspected reuse maps identify no executable tropical-base-change map; the owner of mathematical morphisms must supply its catalogue operation." }
+reuse = { status = "adaptable", components = ["mathlib.algebra.tropical-semiring"], evidence = "Mathlib WithTop.map and WithBot.map execute finite-value transport and preserve the selected infinity. A semiring-hom structure for an order-preserving additive base map, its composition law and owner catalogue operation remain to be supplied." }
 backends = []
 references = []
 
@@ -87,13 +87,13 @@ id = "semirings.tropical-cycle-mean"
 title = "Extremal cycle mean of a tropical matrix"
 statement = "Return the minimum or maximum mean weight of directed cycles represented by a square tropical matrix."
 domain = "Square tropical matrices over an exact ordered subgroup of Q, with min-plus or max-plus convention."
-contract = "A -> the extremal cycle mean in the selected convention, or the corresponding infinity when no finite cycle exists."
+contract = "A -> the extremal cycle mean in the selected convention. Sage returns the selected infinity for an all-infinity matrix; the mathematical empty-extremum extension returns it for any matrix without a finite directed cycle."
 exactness = "exact"
 algorithms = [{ family = "Karp cycle-mean algorithm", sources = ["sage.rings.semirings.tropical_matrix:Matrix_tropical_dense.extremum_cycle_mean", "[But2010] Section 1.6.1"] }]
 depends_on = ["semirings.tropical-construction", "matrices.arithmetic"]
 sage = ["sage.rings.semirings.tropical_matrix:Matrix_tropical_dense.extremum_cycle_mean"]
 catalogue = []
-tests = ["Sage doctests: sage.rings.semirings.tropical_matrix:Matrix_tropical_dense.extremum_cycle_mean; compare exact rational cycle means and the empty-matrix convention.", "For a small matrix, enumerate directed cycles independently and compare their mean weights."]
+tests = ["Sage doctests: sage.rings.semirings.tropical_matrix:Matrix_tropical_dense.extremum_cycle_mean; compare exact rational cycle means and the empty-matrix convention.", "Supplemental contract check for a source gap: enumerate directed cycles of a small nonzero acyclic matrix independently. The selected infinity is the empty extremum; the baseline source raises an empty-extremum error for this case."]
 reuse = { status = "missing", components = [], evidence = "No executable tropical cycle-mean producer was identified in the inspected Mathlib, Hex, or broader Lean reuse maps." }
 backends = []
 references = ["But2010"]

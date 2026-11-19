@@ -182,7 +182,7 @@ exactness = "exact"
 algorithms = [
   { family = "Extended Euclidean algorithm; Lehmer's extension; half-gcd", sources = ["[Knu1997] section 4.5.2 Algorithm X", "[Coh1993] section 1.3"] },
 ]
-depends_on = ["euclidean.gcd"]
+depends_on = ["euclidean.division"]
 sage = [
   "sage.arith.misc:xgcd",
   "sage.rings.integer:Integer.xgcd",
@@ -803,7 +803,7 @@ tests = [
   "Run-time products of two primes of equal size are split",
 ]
 reuse = { status = "adaptable", components = ["hex.HexIntFactor.certified-factorization", "hex.HexIntFactor.ecm", "hex.HexPrimality.factor-finders", "mathlib.int.factorization"], evidence = "Hex has complete and partial factorization with checked certificates over Pollard rho, p - 1, SQUFOF and ECM. A quadratic sieve and a number field sieve are absent, so inputs with two large prime divisors are out of reach." }
-backends = ["pari", "flint", "interface:ecm", "interface:qsieve"]
+backends = ["pari", "flint", "interface:ecm"]
 references = ["Coh1993", "CP2005", "BLS+2002"]
 
 [[capability]]

@@ -61,6 +61,44 @@ porting = "permissive-portable"
 porting_note = "Not shipped by Sage; the interface calls an installed axiom binary."
 
 [[engine]]
+id = "bliss"
+name = "bliss"
+kind = "library"
+provides = "Graph automorphism group and canonical labelling, hence graph isomorphism and automorphism counts"
+upstream = "https://www.tcs.hut.fi/Software/bliss/"
+sage_package = "bliss"
+sage_type = "optional"
+sage_version = "0.77"
+sage_backends = ["bliss"]
+sage_modules = 2
+sage_states = "bliss is licensed LGPL3."
+licence = "LGPL-3.0-or-later"
+licence_evidence = "build/pkgs/bliss/SPKG.rst in the Sage 11.0.beta5 checkout: 'License: LGPL3' (read 2026-11-19)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = "The indexed modules are sage.graphs.bliss (the binding) and sage.features.bliss; the canonical labelling is a backtracking search that the binding exposes directly."
+
+[[engine]]
+id = "boost"
+name = "Boost (Boost Graph Library)"
+kind = "library"
+provides = "Graph algorithms: Dijkstra and Yen shortest paths, minimum spanning tree, matching, components"
+upstream = "https://github.com/boostorg/boost"
+sage_package = ""
+sage_type = ""
+sage_version = ""
+sage_backends = ["boost"]
+sage_modules = 1
+sage_states = ""
+licence = "BSL-1.0"
+licence_evidence = "boost.org/LICENSE_1_0.txt: 'Boost Software License - Version 1.0 - August 17th, 2003' (read 2026-11-19)"
+verified = true
+agrees_with_sage = "no-sage-package"
+porting = "reference-only"
+porting_note = "Sage has no boost package: the C++ binding src/sage/graphs/base/boost_interface.cpp includes the header-only library, so the package metadata does not record it."
+
+[[engine]]
 id = "brial"
 name = "BRiAl"
 kind = "library"
@@ -221,7 +259,7 @@ upstream = "https://github.com/JohnCremona/eclib"
 sage_package = "eclib"
 sage_type = "standard"
 sage_version = "20250627"
-sage_backends = ["eclib", "interface:mwrank"]
+sage_backends = ["eclib", "interface:mwrank", "mwrank"]
 sage_modules = 11
 sage_states = "eclib is licensed GPL v2+."
 licence = "GPL-2.0-or-later"
@@ -392,7 +430,7 @@ upstream = "https://github.com/gap-system/gap"
 sage_package = "gap"
 sage_type = "standard"
 sage_version = "4.16.1"
-sage_backends = ["gap", "interface:gap"]
+sage_backends = ["gap", "interface:gap", "libgap"]
 sage_modules = 101
 sage_states = ""
 licence = "GPL-2.0-or-later"
@@ -1142,6 +1180,25 @@ verified = true
 agrees_with_sage = "no-sage-statement"
 porting = "permissive-portable"
 porting_note = ""
+
+[[engine]]
+id = "msolve"
+name = "msolve"
+kind = "library"
+provides = "Multivariate polynomial system solving: Groebner bases, real root isolation, solution set dimension and degree"
+upstream = "https://github.com/algebraic-solving/msolve"
+sage_package = "msolve"
+sage_type = "optional"
+sage_version = "0.9.5"
+sage_backends = ["msolve"]
+sage_modules = 2
+sage_states = "msolve is licensed GPL v2+."
+licence = "GPL-2.0-or-later"
+licence_evidence = "build/pkgs/msolve/SPKG.rst 'License: GPL v2+' and msolve.lip6.fr 'distributed under the license GPLv2+' (read 2026-11-19)"
+verified = true
+agrees_with_sage = "yes"
+porting = "reference-only"
+porting_note = "The indexed modules are sage.rings.polynomial.msolve (the binding) and sage.features.msolve."
 
 [[engine]]
 id = "mupad"

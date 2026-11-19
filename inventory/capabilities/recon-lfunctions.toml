@@ -1,0 +1,18 @@
+domain = "lfunctions"
+
+[[capability]]
+id = "recon-lfunctions.documented-source-families"
+title = "L-functions, analytic evaluation and zero computations"
+statement = "Represent motivic and elliptic-curve L-functions through PARI/Dokchitser and external lcalc/sympow calculators, with analytic evaluation, derivatives, Taylor expansions, functional-equation checks and zero computations."
+domain = "Conductor, gamma factors, weight, functional-equation sign, poles/residues or elliptic-curve data, coefficient series and requested precision."
+contract = "L-function data -> numerical values/derivatives/Taylor coefficients or zeros subject to precision, pole and external-backend contracts; calculator wrappers preserve their backend semantics and failures."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and external-backend behavior follow each source family's documented contract."
+algorithms = [{ family = "L-functions, analytic evaluation and zero computations", sources = ["sage.lfunctions.dokchitser:*", "sage.lfunctions.lcalc:*", "sage.lfunctions.pari:*", "sage.lfunctions.sympow:*", "sage.lfunctions.zero_sums:*"] }]
+depends_on = []
+sage = ["sage.lfunctions.dokchitser:*", "sage.lfunctions.lcalc:*", "sage.lfunctions.pari:*", "sage.lfunctions.sympow:*", "sage.lfunctions.zero_sums:*"]
+catalogue = []
+tests = ["Functional-equation checks agree to the declared numerical precision.", "Values and derivatives agree with independent zeta/elliptic-curve examples away from poles.", "Returned zeros lie in the declared interval and satisfy the calculator completeness contract.", "Taylor coefficients differentiate the evaluated L-function consistently."]
+reuse = { status = "adaptable", components = ["mathlib.nt.l-series"], evidence = "Mathlib supplies formal L-series foundations; executable analytic evaluation, derivatives, zeros and external calculator wrappers require native adapters." }
+backends = ["gmp"]
+references = []

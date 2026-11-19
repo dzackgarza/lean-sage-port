@@ -1,0 +1,18 @@
+domain = "sat"
+
+[[capability]]
+id = "recon-sat.documented-source-families"
+title = "Boolean-polynomial to SAT solving"
+statement = "Convert Boolean polynomial systems to CNF and enumerate satisfying assignments through the configured SAT solver, with optional target-variable projection and bounded/all-solution enumeration."
+domain = "Boolean polynomial sequences, ANF-to-CNF converters, SAT solver backends and requested solution count."
+contract = "Polynomial system -> assignments whose substitutions vanish, subject to converter/solver capabilities and n/target-variable semantics."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and external-backend behavior follow each source family's documented contract."
+algorithms = [{ family = "Boolean-polynomial to SAT solving", sources = ["sage.sat.boolean_polynomials:*", "sage.sat.converters.anf2cnf:*", "sage.sat.converters.polybori:*", "sage.sat.solvers.cryptominisat:*", "sage.sat.solvers.dimacs:*", "sage.sat.solvers.picosat:*", "sage.sat.solvers.sat_lp:*", "sage.sat.solvers.satsolver:*"] }]
+depends_on = []
+sage = ["sage.sat.boolean_polynomials:*", "sage.sat.converters.anf2cnf:*", "sage.sat.converters.polybori:*", "sage.sat.solvers.cryptominisat:*", "sage.sat.solvers.dimacs:*", "sage.sat.solvers.picosat:*", "sage.sat.solvers.sat_lp:*", "sage.sat.solvers.satsolver:*"]
+catalogue = []
+tests = ["Every returned assignment zeros every input polynomial.", "Returned assignments are distinct under target-variable projection.", "n bounds the number of returned solutions and infinity enumerates all solutions when the backend supports it."]
+reuse = { status = "missing", components = [], evidence = "The reuse inventory contains no executable Boolean-polynomial-to-SAT translation and solution-enumeration implementation matching Sage's public API." }
+backends = ["gmp"]
+references = []

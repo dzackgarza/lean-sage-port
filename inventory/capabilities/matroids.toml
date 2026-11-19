@@ -1,0 +1,17 @@
+domain = "matroids"
+
+[[capability]]
+id = "matroids.combinatorial"
+title = "Matroid construction and invariants"
+statement = "Construct matroids from bases, circuits, rank functions, graphs, matrices, transversal systems and extensions, and compute rank, closure, flats, minors, duals, independence, bases, circuits and representability data."
+domain = "A finite ground set with a valid matroid presentation or a construction satisfying the matroid axioms."
+contract = "Matroid presentation -> a matroid with a canonical ground-set representation; rank, closure, bases, circuits, flats, minors, dual and direct-sum operations preserve the matroid axioms and the represented independence system."
+exactness = "exact"
+algorithms = [{ family = "Matroid constructions, minors and invariants", sources = ["sage.matroids.matroid:*", "sage.matroids.constructor:*", "sage.matroids.basis_matroid:*", "sage.matroids.circuits_matroid:*", "sage.matroids.flats_matroid:*", "sage.matroids.graphic_matroid:*", "sage.matroids.linear_matroid:*", "sage.matroids.transversal_matroid:*", "sage.matroids.union_matroid:*", "sage.matroids.dual_matroid:*", "sage.matroids.minor_matroid:*", "sage.matroids.rank_matroid:*", "sage.matroids.gammoid:*", "sage.matroids.chow_ring:*", "sage.matroids.chow_ring_ideal:*"] }]
+depends_on = ["combinatorics.enumeration-and-structures"]
+sage = ["sage.matroids.*:*"]
+catalogue = []
+tests = ["Every listed basis has the same rank and satisfies basis exchange.", "Duality exchanges bases and circuits and preserves the Tutte polynomial relations.", "Graphic and linear constructions agree with independent rank computations."]
+reuse = { status = "missing", components = [], evidence = "The reuse inventory has finite-set and linear-algebra foundations but no executable general matroid implementation." }
+backends = []
+references = []

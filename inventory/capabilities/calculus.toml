@@ -1,0 +1,18 @@
+domain = "calculus"
+
+[[capability]]
+id = "calculus.documented-operations"
+title = "Symbolic calculus, limits, derivatives, integrals and series"
+statement = "Differentiate and integrate symbolic expressions, evaluate limits, construct Taylor and formal series, simplify sums and products, and apply symbolic transformations while retaining assumptions."
+domain = "Symbolic expressions over declared variables, functions and assumptions, with convergence, differentiability and branch hypotheses required by each operation."
+contract = "Expression and calculus operation -> an exact symbolic expression, series or conditional result; derivatives and integrals preserve variable dependence, limits retain side/branch assumptions, and series retain order and remainder semantics."
+exactness = "conditional"
+exactness_notes = "Symbolic results are exact under the declared differentiability, convergence, side-limit and branch assumptions; otherwise the operation retains its conditional status."
+algorithms = [{ family = "Symbolic calculus operations", sources = ["sage.calculus.*:*", "sage.symbolic.*:*"] }]
+depends_on = ["rings.core"]
+sage = ["sage.calculus.*:*", "sage.symbolic.*:*"]
+catalogue = []
+tests = ["Derivative and integral inverse identities on expressions satisfying the documented hypotheses.", "Limit values agree with independent substitutions or bounds.", "Taylor coefficients and truncation orders agree with direct coefficient extraction."]
+reuse = { status = "adaptable", components = ["mathlib.poly.derivative", "mathlib.poly.power-series"], evidence = "Mathlib supplies polynomial derivatives and series foundations; Sage's symbolic expression engine and assumption-sensitive calculus require native adapters." }
+backends = ["gmp"]
+references = []

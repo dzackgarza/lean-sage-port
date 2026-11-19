@@ -1,0 +1,72 @@
+domain = "hyperbolic_geometry"
+
+[[capability]]
+status = "source-reconciled"
+id = "hyperbolic-geometry.hyperbolic-models-and-points"
+title = "Hyperbolic space: models and points"
+statement = "Represent hyperbolic n-space in the upper half-space, Poincare disk, Klein and hyperboloid models, convert points between models, and compute distances and boundaries."
+domain = "A dimension n and a model, with coordinates for a point."
+contract = "(model,p) -> the point in every model with conversion maps preserving the model isometries, the distance between two points, the boundary point of a geodesic ray, and the ideal boundary and its topology."
+exactness = "exact"
+algorithms = [{ family = "Model conversion and hyperbolic distance", sources = ["sage.geometry.hyperbolic_space.hyperbolic_interface:*", "sage.geometry.hyperbolic_space.hyperbolic_model:*", "sage.geometry.hyperbolic_space.hyperbolic_point:*"] }]
+depends_on = []
+sage = [
+  "sage.geometry.hyperbolic_space.hyperbolic_interface:*",
+  "sage.geometry.hyperbolic_space.hyperbolic_model:*",
+  "sage.geometry.hyperbolic_space.hyperbolic_point:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for model conversion.",
+  "Conversion between models is inverse to itself on sample points, and the distance is invariant under the isometry group of the model.",
+  "The triangle inequality holds and the distance from a point to itself is zero.",
+]
+reuse = { status = "adaptable", components = ["mathlib.analysis.derivative", "mathlib.linalg.special-groups"], evidence = "Mathlib supplies real analysis and matrix groups; hyperbolic models with cross-model point conversion are not packaged there." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "hyperbolic-geometry.hyperbolic-geodesics"
+title = "Hyperbolic geodesics"
+statement = "Construct a geodesic through two points or a point and a direction, and compute its endpoints, midpoint, distance parametrisation and intersection with other geodesics."
+domain = "A hyperbolic model and a pair of points or a point with a direction."
+contract = "(p,q) -> the geodesic with its ideal endpoints, midpoint, parametrisation by arc length, the points at a given distance, and intersection data with another geodesic."
+exactness = "exact"
+algorithms = [{ family = "Geodesic construction and parametrisation", sources = ["sage.geometry.hyperbolic_space.hyperbolic_geodesic:*"] }]
+depends_on = []
+sage = [
+  "sage.geometry.hyperbolic_space.hyperbolic_geodesic:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for geodesics.",
+  "A geodesic's endpoints lie on the ideal boundary and the point at distance t from the start is at distance |t - s| from the point at distance s.",
+  "Two distinct geodesics meet in at most one point, and coincident geodesics have the same endpoints.",
+]
+reuse = { status = "adaptable", components = ["mathlib.analysis.derivative"], evidence = "Mathlib supplies metric and derivative theory but no hyperbolic geodesic constructions." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "hyperbolic-geometry.hyperbolic-isometries"
+title = "Isometries of hyperbolic space"
+statement = "Construct and compose isometries of hyperbolic space in each model, classify them as elliptic, parabolic, hyperbolic or loxodromic, and compute fixed points and the translation length."
+domain = "A hyperbolic model and an isometry given by a matrix or by its action on points."
+contract = "(g) -> the isometry acting on points of every model, its classification, fixed points on the closure, the displacement and translation length, and composition and inverse as isometries."
+exactness = "exact"
+algorithms = [{ family = "Matrix representatives and isometry classification", sources = ["sage.geometry.hyperbolic_space.hyperbolic_isometry:*"] }]
+depends_on = []
+sage = [
+  "sage.geometry.hyperbolic_space.hyperbolic_isometry:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for isometries.",
+  "An isometry preserves hyperbolic distance, composition is associative, and the classification agrees with the trace of the matrix representative.",
+  "Fixed points of the isometry are fixed by the action on every model.",
+]
+reuse = { status = "adaptable", components = ["mathlib.linalg.special-groups"], evidence = "Mathlib supplies matrix groups and their actions; hyperbolic isometry classification is not packaged there." }
+backends = []
+references = []

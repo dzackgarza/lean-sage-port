@@ -1,0 +1,18 @@
+domain = "oremodules"
+
+[[capability]]
+id = "oremodules.modules"
+title = "Ore modules, elements and morphism homspaces"
+statement = "Represent a module over an Ore polynomial ring by a finite base-ring module with twisted action, and compute immutable elements, action images, morphisms, kernels, images, cokernels, coimages and homspaces."
+domain = "A coefficient ring R, Ore endomorphism/derivation data, a finite-rank module presentation and compatible generator images or matrices."
+contract = "Ore action and module data -> finite-coordinate module arithmetic whose morphisms commute with the Ore action; kernel/image/cokernel and coimage constructions preserve exact sequence maps and the selected twisting maps."
+exactness = "conditional"
+exactness_notes = "Operations are exact for the declared Ore relation, coefficient ring and finite presentation; kernels, cokernels and homspaces require the stated module finiteness hypotheses."
+algorithms = [{ family = "Ore module construction and twisted-linear algebra", sources = ["sage.modules.ore_module:*", "sage.modules.ore_module_element:*", "sage.modules.ore_module_morphism:*", "sage.modules.ore_module_homspace:*"] }]
+depends_on = ["modules.free-and-quotient"]
+sage = ["sage.modules.ore_module:*", "sage.modules.ore_module_element:*", "sage.modules.ore_module_morphism:*", "sage.modules.ore_module_homspace:*"]
+catalogue = []
+tests = ["Ore action relation and immutable coordinate-vector checks.", "Morphism composition and twist-commutation checks.", "Exact-sequence kernel/image/cokernel and coimage-image isomorphism checks."]
+reuse = { status = "adaptable", components = ["mathlib.data.finsupp"], evidence = "Mathlib finite-support and algebraic foundations are reusable; Sage source-family parents, coercions and specialized algorithms require native adapters." }
+backends = ["gmp"]
+references = []

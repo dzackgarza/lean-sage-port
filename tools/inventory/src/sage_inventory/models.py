@@ -150,6 +150,11 @@ class ReuseStatus(StrEnum):
     MISSING = "missing"
 
 
+class CapabilityStatus(StrEnum):
+    SOURCE_RECONCILED = "source-reconciled"
+    SCOPE_ONLY = "scope-only"
+
+
 class Algorithm(Strict):
     family: str
     sources: tuple[str, ...]
@@ -167,6 +172,7 @@ class Capability(Strict):
     """One mathematical capability: an intrinsic operation or construction, not a Sage method name."""
 
     id: str = Field(pattern=r"^[a-z0-9-]+(\.[a-z0-9-]+)+$")
+    status: CapabilityStatus = CapabilityStatus.SOURCE_RECONCILED
     title: str
     statement: str
     """The operation or construction, stated mathematically."""
@@ -232,6 +238,8 @@ class SectionCoverage(Strict):
     public_entities: int
     by_capability: int
     excluded: int
+    by_category_record: int = 0
+    """Entities that a category or operation record of `inventory/categories/` accounts for."""
     unaccounted: int
     doctests: int
     doctests_by_capability: int
@@ -258,6 +266,37 @@ class CoverageReport(Strict):
     public_entities: int
     by_capability: int
     excluded: int
+    by_category_record: int = 0
     unaccounted: int
     sections: tuple[SectionCoverage, ...]
     unlisted: tuple[PackageCoverage, ...]
+
+
+# --- dependency graph (inventory/dependency-graph.json) ----------------------------------------
+
+
+class GraphNode(Strict):
+    """One capability, with the edges the derivation resolved from its `depends_on` field."""
+
+    id: str
+    level: int
+    """Longest path length from a capability with no prerequisite; 0 for a root."""
+    depends_on: tuple[str, ...]
+    dependents: tuple[str, ...]
+    reuse: ReuseStatus
+    catalogue: tuple[str, ...]
+    algorithm_families: int
+
+
+class DependencyGraph(Strict):
+    """The edge set is the mandatory prerequisites only, never an algorithm alternative.
+
+    A capability whose algorithm family consumes an additional input records that input in the
+    algorithm's own specification, so the graph stays acyclic and the levels are a build order.
+    """
+
+    capabilities: int
+    edges: int
+    roots: tuple[str, ...]
+    levels: tuple[tuple[str, ...], ...]
+    nodes: tuple[GraphNode, ...]

@@ -8,11 +8,11 @@
 
 - **Language/build**: Lean 4 and Lake, using the repository's `lean-toolchain` and `lakefile.toml`.
 - **Mathematical owners**: Mathlib and `lean-categories` for semiring objects and operations; `lean-cas-dsl` for catalogue ids and user language. This repository owns executable realizations.
-- **Existing computation**: Lean core `Nat` arithmetic and Mathlib's `MinTropical (WithTop R)` / `MaxTropical (WithBot R)` semiring operations are reusable. Mathlib's matrix operations and Hex dense matrices are candidates for `matrices.arithmetic`; the representation relation remains an integration obligation.
+- **Existing computation**: Lean core `Nat` arithmetic and Mathlib's `MinTropical (WithTop R)` / `MaxTropical (WithBot R)` semiring operations are reusable. `WithTop.map` and `WithBot.map` already lift finite/infinity values. Mathlib's matrix operations and Hex dense matrices are candidates for the separately owned `matrices.arithmetic` capability; the representation relation remains an integration obligation.
 - **Reference baseline**: Sage 11.0.beta5 at `c00171e47d6e68d8148d7ee10c4dd77b71a97662`; exact source selectors and acceptance doctests are in `inventory/capabilities/semirings.toml`.
 - **Testing**: Source doctests and same-input Sage oracle comparisons through `docs/oracles.md`; small mathematical assertions through public Lean operations. Lean builds run in CI per `AGENTS.md`.
 - **Performance**: Functional correctness first. Closure and cycle mean must complete on the small matrices in their selected source doctests; later optimization requires measurements.
-- **Domain boundary**: Exact tropical values over an ordered additive commutative group with decidable order. Cycle means require exact division by positive path lengths, supplied by the rational-base scope.
+- **Domain boundary**: Exact tropical values over a linearly ordered additive commutative group with decidable order. Cycle means require exact division by positive path lengths, supplied by the rational-base scope.
 
 ## Constitution check
 
@@ -41,11 +41,10 @@ LeanSagePort/Semirings/Natural.lean
 LeanSagePort/Semirings/Tropical.lean
 LeanSagePort/Semirings/TropicalMap.lean
 LeanSagePort/Semirings/TropicalMatrix.lean
-LeanSagePort/Matrix/SemiringArithmetic.lean
 Acceptance/Semirings.lean
 ```
 
-These are target paths for work at the native computational owner. `Tropical.lean` should realize Mathlib's existing min/max tropical types under the runtime object contract; it must not define a second tagged tropical arithmetic. The existing package currently builds `Probes`; the implementing change will add the library and acceptance executable to Lake only when they have real callers. The generic matrix operation belongs to `matrices.arithmetic`, so that component is an external capability dependency.
+These are target paths for work at the native computational owner. `Tropical.lean` should realize Mathlib's existing min/max tropical types under the runtime object contract; it must not define a second tagged tropical arithmetic. The existing package currently builds `Probes`; the implementing change will add the library and acceptance executable to Lake only when they have real callers. The generic matrix operation belongs to `matrices.arithmetic` in `inventory/capabilities/linear-algebra.toml`; semiring matrices consume that capability.
 
 ## Dependencies and public completion
 

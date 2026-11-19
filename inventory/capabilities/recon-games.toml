@@ -1,0 +1,18 @@
+domain = "games"
+
+[[capability]]
+id = "recon-games.documented-source-families"
+title = "Combinatorial games and exact puzzle solvers"
+statement = "Provide exact constructions and solvers for Sudoku, Steiner-system hexads and Quantumino tile puzzles, including conversion and validation of puzzle representations."
+domain = "Finite puzzle instances with documented dimensions and constraints."
+contract = "Puzzle instance -> valid solution or exhaustive/first-solution behavior under the documented solver contract; combinatorial input -> object satisfying the relevant incidence constraints."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and external-backend behavior follow each source family's documented contract."
+algorithms = [{ family = "Combinatorial games and exact puzzle solvers", sources = ["sage.games.hexad:*", "sage.games.quantumino:*", "sage.games.sudoku:*", "sage.games.sudoku_backtrack:*"] }]
+depends_on = []
+sage = ["sage.games.hexad:*", "sage.games.quantumino:*", "sage.games.sudoku:*", "sage.games.sudoku_backtrack:*"]
+catalogue = []
+tests = ["Sudoku solutions preserve givens and satisfy row/column/box constraints.", "Found hexads contain the requested 5-set and satisfy the S(5,6,12) incidence condition.", "Quantumino solutions use each tile exactly as documented and cover the board."]
+reuse = { status = "adaptable", components = ["mathlib.comb.finset-multiset-list"], evidence = "Finite combinatorial foundations are reusable; Sage's puzzle state spaces, exact solvers and game-specific invariants require native adapters." }
+backends = ["gmp"]
+references = []

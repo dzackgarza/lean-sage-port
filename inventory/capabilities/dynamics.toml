@@ -1,0 +1,75 @@
+domain = "dynamics"
+
+[[capability]]
+status = "source-reconciled"
+id = "dynamics.arithmetic-dynamical-systems"
+title = "Arithmetic dynamical systems on schemes"
+statement = "Construct affine, projective, product-projective and Berkovich dynamical systems and semigroups from self-maps, and compute orbit data, preimages, periods, multiplier spectra and canonical heights."
+domain = "A projective, affine or product-projective space over a field, or Berkovich space over C_p, and a self-morphism or a family of them."
+contract = "(f) -> the dynamical system with its map, degree, preimages of a point, forward and backward orbits, period and preperiod data, multiplier spectra, critical points, the canonical height of a point, and, for a dynamical semigroup, the semigroup of maps it generates."
+exactness = "exact"
+algorithms = [{ family = "Iteration, preimages and periodic points", sources = ["sage.dynamics.arithmetic_dynamics.affine_ds:*", "sage.dynamics.arithmetic_dynamics.berkovich_ds:*", "sage.dynamics.arithmetic_dynamics.dynamical_semigroup:*", "sage.dynamics.arithmetic_dynamics.generic_ds:*", "sage.dynamics.arithmetic_dynamics.product_projective_ds:*", "sage.dynamics.arithmetic_dynamics.projective_ds:*", "sage.dynamics.arithmetic_dynamics.wehlerK3:*"] }, { family = "Canonical heights and multipliers", sources = ["sage.dynamics.arithmetic_dynamics.affine_ds:*", "sage.dynamics.arithmetic_dynamics.berkovich_ds:*", "sage.dynamics.arithmetic_dynamics.dynamical_semigroup:*", "sage.dynamics.arithmetic_dynamics.generic_ds:*", "sage.dynamics.arithmetic_dynamics.product_projective_ds:*", "sage.dynamics.arithmetic_dynamics.projective_ds:*", "sage.dynamics.arithmetic_dynamics.wehlerK3:*"] }]
+depends_on = []
+sage = [
+  "sage.dynamics.arithmetic_dynamics.affine_ds:*",
+  "sage.dynamics.arithmetic_dynamics.berkovich_ds:*",
+  "sage.dynamics.arithmetic_dynamics.dynamical_semigroup:*",
+  "sage.dynamics.arithmetic_dynamics.generic_ds:*",
+  "sage.dynamics.arithmetic_dynamics.product_projective_ds:*",
+  "sage.dynamics.arithmetic_dynamics.projective_ds:*",
+  "sage.dynamics.arithmetic_dynamics.wehlerK3:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for dynamical systems.",
+  "Preimages of a point satisfy f(P') = P and their number equals the degree of the map, counted with multiplicity.",
+  "The canonical height is the limit of deg(f)^-n h(f^n(P)) and satisfies the functional equation h(f(P)) = deg(f) h(P) to the requested precision.",
+]
+reuse = { status = "adaptable", components = ["mathlib.nt.elliptic-curves-advanced", "mathlib.analysis.fun-prop"], evidence = "Mathlib supplies algebraic-geometry foundations and function iteration; dynamical systems, canonical heights and multiplier spectra are not executable there." }
+backends = ["pari"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "dynamics.sandpiles"
+title = "Sandpile groups of graphs"
+statement = "Construct a sandpile on a graph from a configuration of grains, and compute stabilisation, the sandpile group, its order, the recurrent configurations and the identity element."
+domain = "A loopless graph and a non-negative integer configuration on its vertices."
+contract = "(G,config) -> the stabilised configuration under toppling, the sandpile group with its order and structure, the recurrent configurations, the identity and the inverse of a configuration under the group law."
+exactness = "exact"
+algorithms = [{ family = "Abelian sandpile stabilisation and group law", sources = ["sage.sandpiles.sandpile:*"] }]
+depends_on = []
+sage = [
+  "sage.sandpiles.sandpile:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for sandpiles.",
+  "The stabilised configuration has each vertex below its degree and is reached by the unique legal toppling sequence, and the number of recurrent configurations equals the order of the sandpile group.",
+  "The determinant of the reduced Laplacian equals the order of the sandpile group.",
+]
+reuse = { status = "adaptable", components = ["mathlib.graph.simple-graph-basic", "mathlib.linalg.determinant"], evidence = "Mathlib supplies simple graphs and determinants; sandpile stabilisation and the sandpile-group structure are not executable there." }
+backends = ["interface:singular", "singular"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "dynamics.finite-dynamical-systems"
+title = "Finite discrete dynamical systems"
+statement = "Construct a finite dynamical system from a map on a finite set and compute its cycles, predecessors, periodic points and functional graph."
+domain = "A finite set with an explicit self-map."
+contract = "(S,f) -> the dynamical system with its cycles, the set of periodic and preperiodic points, the predecessors of a point, and the orbit of a point as a functional graph."
+exactness = "exact"
+algorithms = [{ family = "Functional-graph orbit analysis", sources = ["sage.dynamics.finite_dynamical_system:*"] }]
+depends_on = []
+sage = [
+  "sage.dynamics.finite_dynamical_system:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for finite systems.",
+  "Every point is preperiodic, and the sum of cycle lengths and tree sizes equals the size of the set.",
+]
+reuse = { status = "adaptable", components = ["mathlib.graph.connectivity", "mathlib.comb.fintype-card"], evidence = "Mathlib supplies finite types and graphs; explicit cycle and predecessor analysis of a finite map is not packaged there." }
+backends = []
+references = []

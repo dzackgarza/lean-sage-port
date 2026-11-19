@@ -68,9 +68,13 @@ test translation belongs with the operation's implementation. A source test coun
 that a native operation has passed those tests.
 
 **Account for every entity.** A section is complete when
-`sage-inventory unaccounted <index> <capabilities> <section>` prints nothing. A public entity with
-no mathematical content goes to an `[[exclusion]]` with its reason: `infrastructure`,
-`external-interface`, `presentation`, `data` or `deprecated`.
+`sage-inventory unaccounted <index> <capabilities> <section> <categories>` prints nothing. A public
+entity with no mathematical content goes to an `[[exclusion]]` with its reason: `infrastructure`,
+`external-interface`, `presentation`, `data` or `deprecated`. The entities of the `categories`
+section are accounted for by the category and operation records of
+`inventory/categories/sage-categories.toml`, which name each indexed entity against the
+`lean-categories` catalogue; pass that file so the measure counts them as `by_category_record`
+rather than as a remainder.
 
 **A selector names an entity that the record owns.** Do not select an unrelated entity to make a
 record valid. When an algorithm depends on an operation of another section, write that record in
@@ -115,8 +119,8 @@ method.
 
 ```bash
 cd tools/inventory
-uv run sage-inventory coverage ../../inventory/sage/index ../../inventory/capabilities ../../inventory/reuse ../../inventory/coverage.json
-uv run sage-inventory unaccounted ../../inventory/sage/index ../../inventory/capabilities <section>
+uv run sage-inventory coverage ../../inventory/sage/index ../../inventory/capabilities ../../inventory/reuse ../../inventory/coverage.json ../../inventory/categories/sage-categories.toml
+uv run sage-inventory unaccounted ../../inventory/sage/index ../../inventory/capabilities <section> ../../inventory/categories/sage-categories.toml
 ```
 
 `coverage` fails on a duplicate id, an unknown `depends_on` or `generalizes` id, an unknown reuse

@@ -1,0 +1,69 @@
+# Mathematical capabilities for the Sage manual section `tensor_free_modules`.
+
+domain = "tensor_free_modules"
+
+[[capability]]
+id = "tensor-free-modules.free-rank-and-maps"
+title = "Finite-rank free modules, bases, morphisms and automorphisms"
+statement = "Construct finite-rank free modules and duals with named bases, change-of-basis maps, linear morphisms, endomorphism invariants, automorphisms and general linear groups."
+domain = "A commutative base ring and finite rank, with basis indices and matrix representations."
+contract = "Ring/rank -> free module and dual; bases, morphisms and automorphisms retain component matrices, composition, inverse and characteristic invariants."
+exactness = "exact"
+exactness_notes = "Finite coordinate and matrix operations are exact over the base ring; invertibility and characteristic-polynomial operations require the stated determinant or ring hypotheses."
+algorithms = [{ family = "Basis coordinates, change-of-basis, matrix morphisms and automorphism invariants", sources = ["sage.tensor.modules.finite_rank_free_module:*", "sage.tensor.modules.reflexive_module:*", "sage.tensor.modules.free_module_basis:*", "sage.tensor.modules.free_module_element:*", "sage.tensor.modules.free_module_morphism:*", "sage.tensor.modules.free_module_homset:*", "sage.tensor.modules.free_module_automorphism:*", "sage.tensor.modules.free_module_linear_group:*"] }]
+depends_on = []
+sage = ["sage.tensor.modules.finite_rank_free_module:*", "sage.tensor.modules.reflexive_module:*", "sage.tensor.modules.free_module_basis:*", "sage.tensor.modules.free_module_element:*", "sage.tensor.modules.free_module_morphism:*", "sage.tensor.modules.free_module_homset:*", "sage.tensor.modules.free_module_automorphism:*", "sage.tensor.modules.free_module_linear_group:*"]
+catalogue = []
+tests = [
+  "Basis cardinality, coordinate and change-of-basis inverse checks.",
+  "Morphism composition, injectivity/surjectivity and matrix checks.",
+  "Automorphism inverse, determinant, trace and characteristic/minimal polynomial checks.",
+  "Dual/reflexive module evaluation and tensor-type consistency checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "mathlib.linalg.inverse", "mathlib.linalg.charpoly", "mathlib.alg.direct-sum"], evidence = "Mathlib supplies executable matrix arithmetic/inverses/characteristic polynomials and direct sums; Sage's named-basis, component and parent/coercion framework requires native implementations." }
+backends = []
+references = []
+
+[[capability]]
+id = "tensor-free-modules.tensors-and-components"
+title = "Tensor modules, components, symmetries and indexed contractions"
+statement = "Construct tensor modules and submodules with component arrays, symmetry/antisymmetry, tensor products, contractions, traces, indexed expressions and basis-aware display."
+domain = "A finite-rank free module, tensor type and optional symmetry/antisymmetry constraints."
+contract = "Module/tensor type -> tensor object with basis components; addition, scalar multiplication, tensor product, contraction, trace and index permutation preserve component and symmetry contracts."
+exactness = "exact"
+exactness_notes = "Finite component-array operations are exact over the base ring; indexed expressions require valid variance and contraction positions."
+algorithms = [{ family = "Sparse/dense component storage, tensor products, contractions and symmetrization", sources = ["sage.tensor.modules.free_module_tensor:*", "sage.tensor.modules.tensor_free_module:*", "sage.tensor.modules.tensor_free_submodule:*", "sage.tensor.modules.tensor_free_submodule_basis:*", "sage.tensor.modules.comp:*", "sage.tensor.modules.format_utilities:*", "sage.tensor.modules.tensor_with_indices:*"] }]
+depends_on = ["tensor-free-modules.free-rank-and-maps"]
+sage = ["sage.tensor.modules.free_module_tensor:*", "sage.tensor.modules.tensor_free_module:*", "sage.tensor.modules.tensor_free_submodule:*", "sage.tensor.modules.tensor_free_submodule_basis:*", "sage.tensor.modules.comp:*", "sage.tensor.modules.format_utilities:*", "sage.tensor.modules.tensor_with_indices:*"]
+catalogue = []
+tests = [
+  "Component assignment/display and basis-change consistency checks.",
+  "Tensor product rank/type and symmetry-coarsening checks.",
+  "Contraction/trace and index-permutation agreement with direct finite sums.",
+  "Submodule lift/reduce/retract and indexed-expression evaluation checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "mathlib.alg.tensor-product", "mathlib.alg.direct-sum"], evidence = "Mathlib supplies matrices, tensor products and direct sums; Sage's mutable component storage, variance-aware indices and symmetry reduction require native implementations." }
+backends = []
+references = []
+
+[[capability]]
+id = "tensor-free-modules.alternating-forms"
+title = "Exterior powers, alternating tensors and alternating forms"
+statement = "Construct exterior powers and dual exterior powers, alternating contravariant tensors, alternating forms, wedge products and interior contractions."
+domain = "A finite-rank free module and exterior degree within the rank."
+contract = "Module/degree -> exterior-power module with alternating basis; wedge, alternating tensor, form evaluation and interior product satisfy the antisymmetry and degree contracts."
+exactness = "exact"
+exactness_notes = "Finite exterior-basis and determinant/sign computations are exact over the base ring."
+algorithms = [{ family = "Exterior-power bases, wedge products and interior contractions", sources = ["sage.tensor.modules.ext_pow_free_module:*", "sage.tensor.modules.alternating_contr_tensor:*", "sage.tensor.modules.free_module_alt_form:*"] }]
+depends_on = ["tensor-free-modules.tensors-and-components"]
+sage = ["sage.tensor.modules.ext_pow_free_module:*", "sage.tensor.modules.alternating_contr_tensor:*", "sage.tensor.modules.free_module_alt_form:*"]
+catalogue = []
+tests = [
+  "Exterior-power dimension and alternating-basis checks.",
+  "Wedge antisymmetry, repeated-index vanishing and degree checks.",
+  "Alternating-form evaluation agrees with determinant expansion.",
+  "Interior-product graded derivation and contraction checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.clifford-exterior", "mathlib.linalg.determinant", "mathlib.alg.tensor-product"], evidence = "Mathlib supplies exterior-algebra, determinant and tensor-product foundations; Sage's executable component-based exterior powers and alternating tensor/form APIs require native implementations." }
+backends = []
+references = []

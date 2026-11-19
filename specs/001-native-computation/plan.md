@@ -54,6 +54,40 @@ A dependency edge must name the output the dependent operation consumes. Treat i
 domains as parallel only after shared interfaces and construction dependencies are resolved.
 The graph must include the public operation and its composition path, not merely supporting types.
 
+## Reconnaissance loop and execution order
+
+The reconnaissance is executed as an append-only sequence of source batches, not as ad hoc
+module selection. A batch is one Sage manual section or one tightly coupled group of sections.
+For every batch, the agent must:
+
+1. Read the section entry in `inventory/domains.toml`, its `modules.jsonl` rows, the public
+   entity rows, the corresponding Sage source files, and the reference-manual pages.
+2. Partition the public entities into intrinsic mathematical capabilities, framework operations,
+   implementation support, presentation, reference data, or unresolved source questions.
+3. Append capability/exclusion records with exact Sage selectors; append unresolved questions to
+   an explicit open-work record rather than inventing a capability or silently dropping an entity.
+4. For every capability, append its algorithm families, mathematical prerequisites, independent
+   tests, reuse decisions, and ownership/catalogue relationship.
+5. Run the selector/schema checks and regenerate coverage before beginning the next batch.
+
+The batch order follows computational prerequisites:
+
+| Phase | Batches | Gate before advancing |
+| --- | --- | --- |
+| R0 | Sage release/index, category framework, non-mathematical dispositions | Every indexed entity has a source disposition; category rows distinguish catalogue mappings from ownership gaps. |
+| R1 | `sets`, `monoids`, `groups`, `semirings`, `rings`, `finite_rings`, `modules`, `tensor_free_modules` | Core carriers, maps, constructors, and inherited operations have contracts and reuse owners. |
+| R2 | `polynomial_rings`, `power_series`, `noncommutative_polynomial_rings`, `algebras`, `quivers`, `homology`, `resolutions` | Polynomial, quotient, module, algebra, and chain-complex constructions compose over the R1 carriers. |
+| R3 | `matrices`, `linear_algebra`, `polynomial_algorithms`, `number_fields`, `function_fields`, `padics`, `valuations`, `quadratic_forms`, `lattices` | Exact linear and arithmetic primitives have executable algorithms and independent acceptance sources. |
+| R4 | `groups`, `combinat`, `graphs`, `matroids`, `coding`, `cryptography`, `logic`, `sat`, `game_theory` | Discrete capabilities are grouped by intrinsic operation, not Sage class names, and depend only on accepted R1–R3 contracts. |
+| R5 | `curves`, `arithmetic_curves`, `schemes`, `manifolds`, `topology`, `riemannian_geometry`, `hyperbolic_geometry`, `euclidean_spaces`, `knots` | Geometric objects retain maps, charts, base fields, and defining data through computation. |
+| R6 | `calculus`, `functions`, `numerical`, `rings_numerical`, `stats`, `probability`, `asymptotic`, `dynamics`, `constants` | Approximate and symbolic contracts state precision, error, convergence, and exactness explicitly. |
+| R7 | `modfrm`, `modsym`, `modabvar`, `drinfeld_modules`, `drinfeld_modular`, `anderson_motives`, `hecke`, `lfunctions` | Specialized arithmetic domains identify their mathematical owner, algorithmic source, and prerequisite path. |
+
+Within each phase, batches may run in parallel only after their prerequisite phase gates pass.
+The live progress measure is the number of source entities with an accepted capability/exclusion
+record plus the number of explicitly open source questions; generated counts alone never close a
+batch.
+
 ## Architectural validation
 
 Use the three experiments specified in `docs/architecture.md`: runtime quotient and extension

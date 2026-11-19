@@ -1,0 +1,23 @@
+domain = "combinat"
+
+[[capability]]
+id = "combinatorics.enumeration-and-structures"
+title = "Combinatorial structures, enumeration, posets, words, tableaux, crystals and designs"
+statement = "Construct and compute with Sage's documented combinatorial structures and algorithms: permutations, partitions, words, tableaux, posets/lattices, designs, automata, root systems, crystals, species, symmetric functions, finite-state objects and enumerative sequences."
+domain = "A finite combinatorial object or family parameters, with optional weights, labels, actions or coefficient ring."
+contract = "Combinatorial input -> canonical structure operations, enumeration/statistics, generation, bijections, order relations, actions and certified invariants according to the object's documented axioms."
+exactness = "conditional"
+exactness_notes = "Finite combinatorial operations are exact; symbolic generating functions and coefficient-backed structures inherit their coefficient semantics."
+algorithms = [{ family = "Combinatorial structures and enumeration algorithms", sources = ["sage.combinat.*:*", "sage.rings.lazy_species:*", "sage.rings.cfinite_sequence:*"] }]
+depends_on = ["sets.finite-enumeration", "groups.permutation-group"]
+sage = ["sage.combinat.*:*", "sage.rings.lazy_species:*", "sage.rings.cfinite_sequence:*"]
+catalogue = []
+tests = [
+  "Structure axioms, canonicalization and inverse/bijection checks.",
+  "Enumeration and generating-function coefficient checks.",
+  "Poset/lattice, tableau, word, crystal and root-system relation checks.",
+  "Design incidence and automaton transition invariants.",
+]
+reuse = { status = "adaptable", components = ["mathlib.data.finsupp", "mathlib.data.dfinsupp", "mathlib.group.order-of"], evidence = "Mathlib supplies finite-support maps and group-action arithmetic; Sage's large combinatorial class hierarchy, generators, coercions and specialized algorithms require native implementations." }
+backends = ["gmp"]
+references = []

@@ -7,7 +7,7 @@
 ## Summary
 
 Partition the full Sage 11.0.beta5 reference manual (38,782 public mathematical entities across
-65 sections) into 15 dependency-ordered milestones (M0–M14). Each milestone groups Sage manual
+80 indexed sections) into 15 dependency-ordered milestones (M0–M14). Each milestone groups Sage manual
 sections by shared mathematical prerequisites, names the capability records and reuse evidence
 already established, and states machine-checkable acceptance conditions. The prerequisite
 structure is derived from `depends_on` fields in the capability inventory, not from Sage's
@@ -15,8 +15,8 @@ Python module layout.
 
 ## Technical Context
 
-**Language/Version**: Lean 4 (v4.35.0-rc3 pinned in `lean-toolchain`)
-**Primary Dependencies**: Mathlib 6b7abb3c, Hex v0.10.0 f4b180c, lean-categories, lean-cas-dsl
+**Language/Version**: Lean 4 (v4.36.0 pinned in `lean-toolchain`)
+**Primary Dependencies**: Mathlib `9fdc1827`, Hex `f4b180cf`, lean-categories, lean-cas-dsl
 **Storage**: `inventory/capabilities/*.toml`, `inventory/reuse/*.toml`, `docs/domain-specifications.md`
 **Testing**: `sage-inventory unaccounted` (coverage gate); Sage docker oracle (implementation gate)
 **Target Platform**: Repository documentation + CI-enforced coverage invariants
@@ -24,7 +24,7 @@ Python module layout.
 **Performance Goals**: `sage-inventory unaccounted` completes in under 60 seconds for any section
 **Constraints**: No section may appear in two milestones without an explicit split predicate;
   the prerequisite DAG must be acyclic
-**Scale/Scope**: 15 milestones, 65 sections, ~38,782 entities
+**Scale/Scope**: 15 milestones, 80 indexed sections, ~38,782 entities
 
 ## Constitution Check
 
@@ -83,21 +83,30 @@ inventory/
 
 ## Milestone definitions
 
-**Global prerequisite**: M0 must fully satisfy SC-001–SC-007 of `specs/001-native-computation/spec.md`
-before *implementation* work begins in any milestone M1–M14. Capability-writing (coverage work)
-may begin in M1 and M14 once M0 SC-002 (reuse decisions) and SC-003 (probes pass) are met.
+**Global prerequisite**: `specs/001-native-computation/` owns the bounded reconnaissance
+assignment and must satisfy SC-001–SC-007 before *implementation* work begins in any milestone
+M1–M14. Category accounting is M0 reconnaissance evidence; downstream capability-writing may
+begin once the relevant reuse and architecture evidence exists.
 See `data-model.md` §"State transitions" for the coverage-complete vs. accepted distinction.
 
-### M0 — Reconnaissance and foundation
+### M0 — Reconnaissance gate and foundation
 
-**Sections**: All (meta-level; no entities assigned exclusively to M0)
+**Authority**: The reconnaissance execution plan and task ledger are
+`specs/001-native-computation/`; this milestone entry is the roadmap gate and status view.
+**Sections**: No exclusive mathematical section assignment; the category framework ledger
+(`categories`) is the first foundational acceptance tranche.
 **Prerequisites**: None
-**Capability files**: All existing files are M0 outputs; no new files needed
+**Capability files**: `inventory/categories/sage-categories.toml` and its coverage report;
+all existing capability files remain reconnaissance inputs
 **Reuse files**: All existing `inventory/reuse/*.toml`
-**Entity count**: 0 (entities are owned by content milestones M1–M14)
-**Acceptance — coverage**: n/a (M0 delivers infrastructure, not entity accounting)
-**Acceptance — implementation**: SC-001 through SC-007 of `specs/001-native-computation/spec.md`
-**Current state**: In progress. Probes written; CI pass outstanding (T008–T011 of `001`).
+**Entity count**: 2,718 public `sage.categories` entities for the foundational category ledger
+**Acceptance — coverage**: `sage-inventory category-coverage` reports zero unaccounted category
+entities after every category class, operation, or justified framework exclusion is recorded
+**Acceptance — reconnaissance**: SC-001 through SC-007 of
+`specs/001-native-computation/spec.md`, executed by its `tasks.md`
+**Current state**: In progress. Category inventory represents 1,551 of 2,718 entities; 1,167
+category entities remain to classify. Probes are written; CI pass is outstanding (T008–T011 of
+`001`).
 
 ---
 
@@ -325,27 +334,22 @@ See `data-model.md` §"State transitions" for the coverage-complete vs. accepted
 
 ---
 
-### M14 — Categories, sets, monoids, and infrastructure accounting
+### M14 — Sets, monoids, and residual infrastructure
 
-**Sections**: `categories`, `sets`, `monoids`, `structure` (mathematical content only),
+**Sections**: `sets`, `monoids`, `structure` (mathematical content only),
   `coercion` (mathematical map obligations only)
-**Prerequisites**: M0–M3 (categories reference operations from these milestones)
-**Capability files**: None new expected in a new M14-specific file. Any `categories` entity
-  that is mathematical rather than a framework helper MUST have a capability record in an
-  earlier domain milestone's capability file (M1–M13), not in M14. M14 closes only after
-  every remaining entity is either accounted for by an earlier milestone's capability selector
-  or carries a justified `[[exclusion]]` with reason `implementation-support` or `presentation`.
-  Filing the exclusion is M14's work; writing the capability record is the domain milestone's.
+**Prerequisites**: M0–M3 (category contracts and the operations they generalize are foundational)
+**Capability files**: None new expected in a new M14-specific file. Any mathematical operation
+  discovered while accounting for `sets` or `monoids` belongs in the relevant earlier domain
+  capability file, not in M14.
 **Reuse files**: `lean-categories.toml` (all 500+ catalogue components)
 **Entity count**: ~3,100
-**Note**: This is primarily an accounting milestone. The work is running
-  `sage-inventory unaccounted categories`, categorizing residual entities as `exclusion`
-  (framework helpers) or filing gaps with `lean-categories`. Very few new capability records
-  are expected. Per Constitution Principle III, any entity with a mathematical content cannot
-  be silently excluded — it must either have a capability record in a domain milestone or an
-  explicit exclusion with justification.
+**Note**: This milestone does not own the `categories` section. Category-framework accounting
+is M0 reconnaissance work. M14 handles residual `sets`, `monoids`, and infrastructure entities
+whose mathematical disposition is not already assigned to an earlier domain milestone. Per
+Constitution Principle III, mathematical content cannot be silently excluded.
 **Acceptance — coverage**: `sage-inventory unaccounted <index> <capabilities>` returns nothing
-  for `categories`, `sets`, `monoids`, `structure`, `coercion`
+for `sets`, `monoids`, `structure`, `coercion`
 **Acceptance — implementation**: N/A for entities with justified `exclusion` entries. For any
   entity with a capability selector (owned by a domain milestone), oracle comparison applies
   in that milestone, not in M14.
@@ -373,11 +377,12 @@ M0 (foundation)
 │                                                                           │
 │           M11 (modfrm, lfunctions, ...) ◄── M6,M7,M10 ◄─────────────────┘
 │
-└── M14 (categories, sets, monoids) ◄── M0,M1,M2,M3
+└── M14 (sets, monoids, residual infrastructure) ◄── M0,M1,M2,M3
 ```
 
 **Parallelism permitted**:
-- M1 ∥ M14-accounting after M0
+- M14 residual work follows its stated M0–M3 prerequisites and may proceed independently of
+  later domain implementation
 - M2 ∥ M4 after M1
 - M5 ∥ M6 after M4
 - M8 ∥ M9 after their respective prerequisites

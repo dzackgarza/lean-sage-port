@@ -19,6 +19,22 @@ backends = []
 references = []
 
 [[capability]]
+id = "graphs.remaining-algorithms"
+title = "Graph generators and advanced algorithms"
+statement = "Generate standard and random graph families and compute connectivity, paths, matchings, colorings, decompositions, isomorphisms and graph polynomials."
+domain = "A finite graph or digraph and algorithm/family parameters."
+contract = "Graph input -> exact finite graph algorithm outputs with documented certificates and backend semantics."
+exactness = "exact"
+algorithms = [{ family = "Finite graph generators and algorithms", sources = ["sage.graphs.*:*"] }]
+depends_on = ["graphs.finite-construction"]
+sage = ["sage.graphs.*:*"]
+catalogue = []
+tests = ["Generator parameter checks.", "Connectivity, matching, coloring and decomposition certificates.", "Isomorphism and graph-polynomial identities."]
+reuse = { status = "adaptable", components = ["mathlib.graph.simple-graph-basic", "hex.HexGraph.graphs"], evidence = "Finite graph foundations are reusable; Sage's labeled/multigraph backends, generators and advanced algorithms require native adapters." }
+backends = []
+references = []
+
+[[capability]]
 id = "graphs.connected-components"
 title = "Connected components of a finite graph"
 statement = "Partition vertices by mutual path reachability."

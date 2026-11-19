@@ -17,6 +17,655 @@ tests = ["Baseline doctests: sage/groups/perm_gps/permgroup.py, PermutationGroup
 reuse = { status = "reusable", components = ["hex.HexPermGroup.perm", "hex.HexPermGroup.schreier-sims", "hex.HexPermGroupTheory.group-bridge"], evidence = "HexPermGroup builds a checked stabilizer chain from an Array of Perm n; its theory bridge relates the result to Mathlib permutation groups. A runtime finite domain still needs a chosen equivalence with Fin n and transport of the action." }
 backends = ["gap"]
 references = []
+
+[[capability]]
+id = "groups.argument-and-imaginary"
+title = "Argument, roots-of-unity and imaginary additive groups"
+statement = "Represent unit-circle arguments, roots of unity, signs and purely imaginary additive elements with exact normalization and arithmetic over supported bases."
+domain = "A compatible exact or symbolic base ring/field for unit-circle arguments, roots of unity, signs or imaginary additive values."
+contract = "Constructors normalize equivalent arguments and values; multiplicative argument groups expose products, powers, inverses and symbolic forms, while imaginary groups expose addition, subtraction, negation and real/imaginary projections."
+exactness = "conditional"
+exactness_notes = "Rational arguments and algebraic roots of unity are exact; symbolic or analytic coercions depend on the base implementation."
+algorithms = [{ family = "Normalized argument and imaginary-value arithmetic", sources = ["sage.groups.misc_gps.argument_groups:*", "sage.groups.misc_gps.imaginary_groups:*"] }]
+depends_on = ["groups.core-operations"]
+sage = ["sage.groups.misc_gps.argument_groups:*", "sage.groups.misc_gps.imaginary_groups:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Argument normalization, product, powers and inverse agree modulo one.",
+  "Roots-of-unity orders and sign identities are verified exactly.",
+  "Imaginary addition/subtraction/negation and projections agree with the base ring.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies group operations; normalized unit-circle and imaginary carriers require specialized scalar representations." }
+backends = []
+references = []
+
+[[capability]]
+id = "groups.nilpotent-lie"
+title = "Nilpotent Lie groups and exponential coordinates"
+statement = "Construct nilpotent Lie groups from nilpotent Lie algebras and expose exponential/logarithmic coordinates, translations, invariant frames, conjugation and adjoint actions."
+domain = "A finite-dimensional nilpotent Lie algebra over a field supporting the required exponential and Baker-Campbell-Hausdorff computations."
+contract = "Lie algebra -> group with exact identity, generators, exp/log charts, left/right translations, invariant vector fields, conjugation and adjoint representation."
+exactness = "conditional"
+exactness_notes = "For nilpotent algebras the truncated BCH/exponential formulas are exact over suitable characteristic-zero or documented coefficient fields; manifold/chart semantics require the supported differential structure."
+algorithms = [{ family = "Nilpotent BCH coordinates and invariant differential geometry", sources = ["sage.groups.lie_gps.nilpotent_lie_group:*"] }]
+depends_on = ["groups.core-operations"]
+sage = ["sage.groups.lie_gps.nilpotent_lie_group:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "exp/log round trip and BCH multiplication checks.",
+  "Left/right translation composition and invariant-frame checks.",
+  "Conjugation and adjoint action agree with Lie-bracket computation.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies abstract group operations; Lie-algebra charts and differential-manifold actions require native integration." }
+backends = []
+references = ["Hall, Lie Groups, Lie Algebras, and Representations"]
+
+[[capability]]
+id = "groups.pari-transitive-groups"
+title = "PARI transitive-group descriptors"
+statement = "Represent PARI transitive-group identifiers and convert them to permutation groups with degree, signature, label and order metadata."
+domain = "A valid PARI transitive-group descriptor."
+contract = "PARI descriptor -> validated group metadata and permutation-group conversion; invalid descriptors are rejected."
+exactness = "conditional"
+exactness_notes = "Metadata and permutation conversion inherit PARI's installed transitive-group database."
+algorithms = [{ family = "PARI transitive-group database wrapper", sources = ["sage.groups.pari_group:*"] }]
+depends_on = ["groups.permutation-actions-and-structure"]
+sage = ["sage.groups.pari_group:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Degree, signature, label and order agree with the PARI descriptor.",
+  "Converted permutation group has the declared degree and order.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies permutation groups; PARI database identity and conversion need an external backend boundary." }
+backends = ["pari"]
+references = []
+
+[[capability]]
+id = "groups.semimonomial-transformations"
+title = "Semimonomial transformation groups"
+statement = "Construct finite semimonomial transformation groups and their actions on vectors and matrices from coordinate scalings, permutations and field automorphisms."
+domain = "A finite base ring/field and degree with supported automorphism and permutation data."
+contract = "Parameters -> finite group with checked elements, generators, order and exact actions on vectors/matrices; component extraction and inversion preserve the semimonomial law."
+exactness = "conditional"
+exactness_notes = "Finite field/ring operations are exact; automorphism availability and action coercions are restricted to supported bases."
+algorithms = [{ family = "Semimonomial coordinate/permutation/automorphism composition", sources = ["sage.groups.semimonomial_transformations.semimonomial_transformation:*", "sage.groups.semimonomial_transformations.semimonomial_transformation_group:*"] }]
+depends_on = ["groups.matrix-generated"]
+sage = ["sage.groups.semimonomial_transformations.semimonomial_transformation:*", "sage.groups.semimonomial_transformations.semimonomial_transformation_group:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Component extraction and inverse reconstruct the identity.",
+  "Group order and generator closure agree with direct finite enumeration.",
+  "Vector/matrix actions agree with explicit coordinate application.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies groups and actions; finite field automorphism and semimonomial matrix carriers require native implementation." }
+backends = []
+references = []
+
+[[capability]]
+id = "groups.partition-refinement"
+title = "Permutation partition-refinement and automorphism search"
+statement = "Refine labelled partitions and search graph/matrix automorphisms, canonical forms, isomorphisms, transporters and automorphism orders."
+domain = "Finite labelled graphs, matrices, permutations or partition-refinement instances."
+contract = "Input structure -> equitable/canonical refinement with verified isomorphism decisions, automorphism generators/order and transporter when found; negative decisions are explicit."
+exactness = "exact"
+algorithms = [{ family = "Partition-refinement and labelled automorphism search", sources = ["sage.groups.perm_gps.partn_ref:*", "sage.groups.perm_gps.partn_ref2:*"] }]
+depends_on = ["groups.permutation-actions-and-structure"]
+sage = [
+  "sage.groups.perm_gps.partn_ref.data_structures:*",
+  "sage.groups.perm_gps.partn_ref.refinement_graphs:*",
+  "sage.groups.perm_gps.partn_ref.refinement_lists:*",
+  "sage.groups.perm_gps.partn_ref.refinement_matrices:*",
+  "sage.groups.perm_gps.partn_ref2.refinement_generic:*",
+]
+catalogue = ["cat.groups"]
+tests = [
+  "Graph and matrix isomorphism decisions checked against brute-force relabellings on small inputs.",
+  "Returned automorphism generators and orders checked by direct action.",
+  "Canonical forms and transporters are invariant under relabelling.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies permutation actions; partition-refinement and canonical-label algorithms are specialized finite combinatorics." }
+backends = []
+references = ["McKay and Piperno, Practical Graph Isomorphism II"]
+
+[[capability]]
+id = "groups.symmetric-conjugacy-classes"
+title = "Conjugacy classes in symmetric groups"
+statement = "Represent symmetric-group conjugacy classes by cycle partitions and enumerate their representatives."
+domain = "A finite symmetric group or permutation model with a valid cycle-type partition."
+contract = "Partition/cycle type -> conjugacy class with representative, set enumeration and membership; class cardinality agrees with the standard centralizer formula."
+exactness = "exact"
+algorithms = [{ family = "Cycle-type conjugacy classification", sources = ["sage.groups.perm_gps.symgp_conjugacy_class:*"] }]
+depends_on = ["groups.conjugacy-and-class-functions"]
+sage = ["sage.groups.perm_gps.symgp_conjugacy_class:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Representative cycle type and class membership checks.",
+  "Class size agrees with n! divided by the cycle-type centralizer factor.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies permutation groups; cycle-partition class enumeration is a native finite combinatorics layer." }
+backends = []
+references = ["James and Kerber, The Representation Theory of the Symmetric Group"]
+
+[[capability]]
+id = "groups.permutation-actions-and-structure"
+title = "Permutation groups, actions and finite structural invariants"
+statement = "Construct finite permutation groups and compute their actions, subgroup structure, cosets, series, finite invariants, cohomology and character data."
+domain = "A finite domain with permutations acting on it, with GAP or Schreier-Sims support for the requested operation."
+contract = "Generators -> subgroup of Sym(X), with exact elements, iteration, order, orbits, stabilizers, bases, strong generating systems, subgroups, products, quotients, series, Sylow/normal structures, cohomology and character APIs where supported."
+exactness = "conditional"
+exactness_notes = "Permutation action and Schreier-Sims operations are exact; finite structural, homological and character computations may delegate to GAP and are domain/algorithm dependent."
+algorithms = [
+  { family = "Permutation closure, orbit-stabilizer and Schreier-Sims", sources = ["sage.groups.perm_gps.permgroup:*"] },
+  { family = "Finite-group structural and representation invariants", sources = ["sage.groups.perm_gps.permgroup:PermutationGroup_generic.*"] },
+]
+depends_on = ["groups.permutation-group", "groups.order-and-membership"]
+sage = ["sage.groups.perm_gps.permgroup:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Direct closure, orbit-stabilizer and order checks on finite labelled domains.",
+  "Subgroup, coset, series, Sylow and quotient invariants checked against independent finite enumeration or GAP.",
+  "Character/cohomology outputs checked on standard small finite groups.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups", "hex.HexPermGroup.schreier-sims"], evidence = "Hex supplies checked permutation-group closure and stabilizer chains; the broader Sage structural and backend APIs require additional native or LibGAP adapters." }
+backends = ["gap"]
+references = ["Seress, Permutation Group Algorithms"]
+
+[[capability]]
+id = "groups.permutation-elements-and-morphisms"
+title = "Permutation elements and group morphisms"
+statement = "Represent permutation elements with cycle, sign, matrix and word operations, and construct checked morphisms with kernels and images."
+domain = "Permutations on a fixed finite domain and homomorphisms between permutation groups."
+contract = "Permutation -> exact action, inverse, order, cycle decomposition, sign, orbit, matrix and constructive word operations; homomorphism -> checked evaluation, kernel and image."
+exactness = "exact"
+algorithms = [{ family = "Permutation element and morphism operations", sources = ["sage.groups.perm_gps.permgroup_element:*", "sage.groups.perm_gps.permgroup_morphism:*"] }]
+depends_on = ["groups.permutation-actions-and-structure"]
+sage = ["sage.groups.perm_gps.permgroup_element:*", "sage.groups.perm_gps.permgroup_morphism:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Cycle decomposition, sign, inverse and order agree with direct finite action.",
+  "Returned word evaluates to the queried permutation.",
+  "Morphism evaluation, kernel and image satisfy the homomorphism laws.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups", "hex.HexPermGroup.perm"], evidence = "Hex supplies permutation carriers and checked operations; Sage's word, matrix and morphism wrappers need integration with the catalogue." }
+backends = ["gap"]
+references = []
+
+[[capability]]
+id = "groups.named-presentations"
+title = "Named finite-group presentations"
+statement = "Construct standard finite-group presentations for cyclic, abelian, Heisenberg, dihedral, dicyclic, symmetric, quaternion, alternating, Klein-four, binary-dihedral and cactus groups."
+domain = "Parameters satisfying the named presentation's order, parity or prime restrictions."
+contract = "Parameters -> finitely presented group whose generators and relators match the named mathematical group; invalid parameters are rejected."
+exactness = "exact"
+algorithms = [{ family = "Named finite presentations", sources = ["sage.groups.finitely_presented_named:*"] }]
+depends_on = ["groups.finitely-presented"]
+sage = ["sage.groups.finitely_presented_named:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Every defining relator evaluates to identity.",
+  "For finite named groups, compare order and standard invariants against independent constructions.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies presented-group semantics; named generator/relator tables are small native constructors." }
+backends = []
+references = ["Hall, The Theory of Groups"]
+
+[[capability]]
+id = "groups.abelian-gap-quotients"
+title = "LibGAP-backed abelian groups and quotients"
+statement = "Represent finite abelian groups through LibGAP, including element exponents/orders, subgroups, automorphisms, quotients and natural lift/retraction maps."
+domain = "Finite abelian group data represented by LibGAP, with generators and compatible subgroup/quotient conversions."
+contract = "LibGAP abelian group -> exact Sage group wrapper with elementary divisors, exponent, subgroup/quotient constructors, automorphism group and checked lift/retract/natural maps."
+exactness = "conditional"
+exactness_notes = "Finite abelian operations are exact when conversions succeed; GAP-backed conversion failures must remain explicit."
+algorithms = [{ family = "LibGAP abelian-group and quotient delegation", sources = ["sage.groups.abelian_gps.abelian_group_gap:*"] }]
+depends_on = ["groups.libgap-adapters", "groups.finitely-generated-abelian"]
+sage = ["sage.groups.abelian_gps.abelian_group_gap:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Elementary-divisor, exponent, element-order and subgroup checks against direct finite products.",
+  "Quotient natural-map and lift/retract round trips.",
+  "Automorphism action preserves orders and group operation.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies finite abelian groups and quotients; LibGAP element conversion and quotient wrappers require a backend boundary." }
+backends = ["gap"]
+references = []
+
+[[capability]]
+id = "groups.abelian-values"
+title = "Abelian groups with value embeddings"
+statement = "Construct abelian groups whose generators are realized by values in a multiplicative target group, with checked embeddings and value-aware element arithmetic."
+domain = "Finite abelian generator orders and target values satisfying the prescribed relations."
+contract = "Generator values -> abelian group with value map, generator values, multiplication/division/powers/inversion and a checked embedding into the target."
+exactness = "conditional"
+exactness_notes = "Exponent arithmetic is exact; target value semantics determine whether the embedding is exact or approximate."
+algorithms = [{ family = "Value-realized abelian group arithmetic", sources = ["sage.groups.abelian_gps.values:*"] }]
+depends_on = ["groups.finitely-generated-abelian"]
+sage = ["sage.groups.abelian_gps.values:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Generator relations and value embedding preserve multiplication, powers and inverses.",
+  "Value map is injective on finite examples when the documented assumptions hold.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies abelian groups and morphisms; target-specific value embeddings require native wrappers." }
+backends = []
+references = []
+
+[[capability]]
+id = "groups.libgap-carriers-and-elements"
+title = "LibGAP carrier and element boundary"
+statement = "Wrap LibGAP parents and elements with checked construction, conversion, subgroup, order, conjugacy, normalizer and root operations."
+domain = "LibGAP parent/element values with a reversible conversion to the Sage-side group carrier."
+contract = "Parent wrapper exposes generators, identity, subgroups and GAP values; element wrapper exposes identity, powers, inverse, order, conjugacy, normalizer and nth roots, with explicit conversion tests."
+exactness = "conditional"
+exactness_notes = "Results inherit LibGAP semantics and are exact for supported finite groups; failed reconstruction or unsupported roots must be reported."
+algorithms = [{ family = "LibGAP parent and element wrappers", sources = ["sage.groups.libgap_wrapper:*"] }]
+depends_on = ["groups.libgap-adapters"]
+sage = ["sage.groups.libgap_wrapper:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Parent/element round-trip and identity/order checks.",
+  "Conjugacy and normalizer results verified by direct finite-group membership.",
+  "Unsupported conversion and root cases are explicit failures rather than success-shaped fallbacks.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies group carriers; the LibGAP boundary needs explicit conversion and failure handling." }
+backends = ["gap"]
+references = []
+
+[[capability]]
+id = "groups.abelian-dual-and-automorphisms"
+title = "Duals and automorphism groups of finite abelian groups"
+statement = "Construct character groups of finite abelian groups and groups of automorphisms acting on abelian-group elements."
+domain = "A finitely generated finite abelian group, with an exact cyclotomic or compatible scalar base ring for characters."
+contract = "G -> G^* with character evaluation, generators, exponents, orders and word operations; finite G -> Aut(G) with action on elements, integer exponent matrices, subgroups and finite structural operations."
+exactness = "conditional"
+exactness_notes = "Character evaluation is exact over cyclotomic fields; approximate scalar bases are subject to numerical semantics. Automorphism-group structural computations may delegate to GAP."
+algorithms = [{ family = "Cyclotomic character evaluation and GAP abelian automorphism groups", sources = ["sage.groups.abelian_gps.dual_abelian_group:*", "sage.groups.abelian_gps.dual_abelian_group_element:*", "sage.groups.abelian_gps.abelian_aut:*"] }]
+depends_on = ["groups.finitely-generated-abelian"]
+sage = [
+  "sage.groups.abelian_gps.dual_abelian_group:*",
+  "sage.groups.abelian_gps.dual_abelian_group_element:*",
+  "sage.groups.abelian_gps.abelian_aut:*",
+]
+catalogue = ["cat.groups"]
+tests = [
+  "Sage doctests for dual generators, character evaluation, exponent arithmetic and automorphism action matrices.",
+  "Independent character oracle: evaluate products of characters on generators and compare roots of unity; verify automorphism matrices preserve cyclic orders.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies abelian groups and morphisms; cyclotomic character evaluation and finite automorphism-group enumeration need native arithmetic or a verified backend." }
+backends = ["gap"]
+references = ["Serre, Linear Representations of Finite Groups"]
+
+[[capability]]
+id = "groups.additive-abelian"
+title = "Additive finitely generated abelian groups and wrappers"
+statement = "Construct finitely generated additive abelian groups as integer-module quotients and wrap independent additive groups with explicit generators, invariants and discrete logarithms."
+domain = "Nonnegative invariant factors, a finitely generated integer-module presentation, or an additive ambient parent with independent generators."
+contract = "invariants -> direct sum of Z/nZ with exact quotient arithmetic, Smith/Hermite normal forms, generators and element coercions; ambient group wrapper preserves embedding and underlying element operations."
+exactness = "exact"
+algorithms = [{ family = "Integer-module quotient and Smith/Hermite normal-form arithmetic", sources = ["sage.groups.additive_abelian.additive_abelian_group:*", "sage.groups.additive_abelian.additive_abelian_wrapper:*"] }]
+depends_on = ["groups.finitely-generated-abelian"]
+sage = ["sage.groups.additive_abelian.additive_abelian_group:*", "sage.groups.additive_abelian.additive_abelian_wrapper:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Sage doctests for invariant construction, generator conventions, quotient arithmetic, Smith-form generators and ambient wrappers.",
+  "Independent module oracle: compare addition and reduction modulo invariant factors, and verify wrapper embedding/discrete-log reconstruction.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies additive group laws; exact quotient-module and Smith/Hermite normal-form representations require native integer linear algebra." }
+backends = []
+references = ["Cohen, A Course in Computational Algebraic Number Theory"]
+
+[[capability]]
+id = "groups.affine-and-euclidean"
+title = "Affine and Euclidean transformation groups"
+statement = "Construct affine transformations as invertible linear parts with translations, and Euclidean transformations preserving the Euclidean metric."
+domain = "A finite-dimensional affine/vector space over a ring, with invertible linear matrix part and translation vector."
+contract = "(A,b) -> x ↦ Ax+b with exact composition, inverse, homogeneous matrix conversion and linear/translation constructors; Euclidean subgroup additionally validates orthogonality or the documented metric condition."
+exactness = "conditional"
+exactness_notes = "Affine matrix/vector operations are exact over the base ring; Euclidean membership depends on exact metric arithmetic and the supported ring."
+algorithms = [{ family = "Affine semidirect-product representation and Euclidean form checks", sources = ["sage.groups.affine_gps.affine_group:*", "sage.groups.affine_gps.euclidean_group:*", "sage.groups.affine_gps.group_element:*"] }]
+depends_on = ["groups.matrix-generated", "groups.semidirect-products-and-kernels"]
+sage = ["sage.groups.affine_gps.affine_group:*", "sage.groups.affine_gps.euclidean_group:*", "sage.groups.affine_gps.group_element:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Sage doctests for affine composition, inverse, homogeneous matrices, translations and Euclidean reflections.",
+  "Independent affine oracle: verify (A,b)(C,d)=(AC,Ad+b), inverse, and metric preservation for Euclidean elements.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies group operations; affine carriers, matrix/vector coercions and metric validation need native linear-algebra integration." }
+backends = []
+references = ["https://en.wikipedia.org/wiki/Affine_group", "https://en.wikipedia.org/wiki/Euclidean_group"]
+
+[[capability]]
+id = "groups.artin-and-braid"
+title = "Artin and braid groups"
+statement = "Construct Artin groups from Coxeter data and braid groups as finite-type Artin groups, with normal forms, permutation and Coxeter projections, braid representations, conjugacy algorithms and link-polynomial computations."
+domain = "A Coxeter matrix or a positive strand count, with coefficient rings suitable for the requested representation or polynomial."
+contract = "Coxeter data -> finitely presented Artin group; braid generators support exact word/group operations, finite-type normal forms, permutation/Coxeter maps, Burau/LKB/Temperley-Lieb/Links-Gould representations, conjugacy invariants and documented link or homological invariants."
+exactness = "conditional"
+exactness_notes = "Group words, presentations and normal forms are exact; representation and polynomial outputs require exact coefficient rings, and some invariant algorithms are finite-type or backend-dependent."
+algorithms = [
+  { family = "Artin presentation and finite-type normal forms", sources = ["sage.groups.artin:*", "sage.groups.braid:*"] },
+  { family = "Burau, LKB, Temperley-Lieb and link-invariant representations", sources = ["sage.groups.braid:Braid.burau_matrix", "sage.groups.braid:Braid.LKB_matrix", "sage.groups.braid:Braid.TL_matrix", "sage.groups.braid:Braid.links_gould_polynomial"] },
+]
+depends_on = ["groups.finitely-presented", "groups.coxeter-reflection"]
+sage = [
+  "sage.groups.artin:ArtinGroupElement",
+  "sage.groups.artin:ArtinGroupElement.exponent_sum",
+  "sage.groups.artin:ArtinGroupElement.coxeter_group_element",
+  "sage.groups.artin:ArtinGroupElement.burau_matrix",
+  "sage.groups.artin:FiniteTypeArtinGroupElement",
+  "sage.groups.artin:FiniteTypeArtinGroupElement.left_normal_form",
+  "sage.groups.artin:ArtinGroup",
+  "sage.groups.artin:ArtinGroup.cardinality",
+  "sage.groups.artin:ArtinGroup.as_permutation_group",
+  "sage.groups.artin:ArtinGroup.coxeter_type",
+  "sage.groups.artin:ArtinGroup.coxeter_matrix",
+  "sage.groups.artin:ArtinGroup.coxeter_group",
+  "sage.groups.artin:ArtinGroup.index_set",
+  "sage.groups.artin:ArtinGroup.some_elements",
+  "sage.groups.artin:FiniteTypeArtinGroup",
+  "sage.groups.artin:FiniteTypeArtinGroup.delta",
+  "sage.groups.braid:Braid",
+  "sage.groups.braid:Braid.strands",
+  "sage.groups.braid:Braid.components_in_closure",
+  "sage.groups.braid:Braid.burau_matrix",
+  "sage.groups.braid:Braid.alexander_polynomial",
+  "sage.groups.braid:Braid.permutation",
+  "sage.groups.braid:Braid.LKB_matrix",
+  "sage.groups.braid:Braid.TL_matrix",
+  "sage.groups.braid:Braid.links_gould_matrix",
+  "sage.groups.braid:Braid.links_gould_polynomial",
+  "sage.groups.braid:Braid.tropical_coordinates",
+  "sage.groups.braid:Braid.markov_trace",
+  "sage.groups.braid:Braid.jones_polynomial",
+  "sage.groups.braid:Braid.annular_khovanov_complex",
+  "sage.groups.braid:Braid.annular_khovanov_homology",
+  "sage.groups.braid:Braid.left_normal_form",
+  "sage.groups.braid:Braid.right_normal_form",
+  "sage.groups.braid:Braid.centralizer",
+  "sage.groups.braid:Braid.super_summit_set",
+  "sage.groups.braid:Braid.gcd",
+  "sage.groups.braid:Braid.lcm",
+  "sage.groups.braid:Braid.conjugating_braid",
+  "sage.groups.braid:Braid.is_conjugated",
+  "sage.groups.braid:Braid.pure_conjugating_braid",
+  "sage.groups.braid:Braid.ultra_summit_set",
+  "sage.groups.braid:Braid.thurston_type",
+  "sage.groups.braid:Braid.is_reducible",
+  "sage.groups.braid:Braid.is_periodic",
+  "sage.groups.braid:Braid.is_pseudoanosov",
+  "sage.groups.braid:Braid.rigidity",
+  "sage.groups.braid:Braid.sliding_circuits",
+  "sage.groups.braid:Braid.mirror_image",
+  "sage.groups.braid:Braid.reverse",
+  "sage.groups.braid:Braid.deformed_burau_matrix",
+  "sage.groups.braid:Braid.colored_jones_polynomial",
+  "sage.groups.braid:Braid.super_summit_set_element",
+  "sage.groups.braid:Braid.ultra_summit_set_element",
+  "sage.groups.braid:Braid.sliding_circuits_element",
+  "sage.groups.braid:Braid.trajectory",
+  "sage.groups.braid:Braid.cyclic_slidings",
+  "sage.groups.braid:RightQuantumWord",
+  "sage.groups.braid:RightQuantumWord.tuples",
+  "sage.groups.braid:RightQuantumWord.reduced_word",
+  "sage.groups.braid:RightQuantumWord.eps",
+  "sage.groups.braid:BraidGroup_class",
+  "sage.groups.braid:BraidGroup_class.cardinality",
+  "sage.groups.braid:BraidGroup_class.as_permutation_group",
+  "sage.groups.braid:BraidGroup_class.strands",
+  "sage.groups.braid:BraidGroup_class.some_elements",
+  "sage.groups.braid:BraidGroup_class.dimension_of_TL_space",
+  "sage.groups.braid:BraidGroup_class.TL_basis_with_drain",
+  "sage.groups.braid:BraidGroup_class.TL_representation",
+  "sage.groups.braid:BraidGroup_class.mapping_class_action",
+  "sage.groups.braid:BraidGroup_class.mirror_involution",
+  "sage.groups.braid:BraidGroup_class.presentation_two_generators",
+  "sage.groups.braid:BraidGroup_class.epimorphisms",
+  "sage.groups.braid:BraidGroup",
+  "sage.groups.braid:MappingClassGroupAction",
+]
+catalogue = ["cat.groups"]
+tests = [
+  "Artin relation and braid normal-form oracle; verify Coxeter projection and permutation action.",
+  "Independent Burau/LKB matrix multiplication and braid-relation oracle.",
+  "Braid closure component and Alexander/Jones polynomial checks against standard small links.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies presented groups and actions; finite-type normal forms, braid representations and link invariants require specialized native algorithms." }
+backends = ["gap"]
+references = ["Birman, Braids, Links, and Mapping Class Groups", "Kassel and Turaev, Braid Groups"]
+
+[[capability]]
+id = "groups.cactus-and-raag"
+title = "Cactus and right-angled Artin groups"
+statement = "Construct cactus groups and their pure subgroups, and construct right-angled Artin groups from defining graphs with normal forms and cohomology modules."
+domain = "A positive integer for cactus groups or a finite simple graph for a right-angled Artin group."
+contract = "n -> cactus group with interval generators, permutation/geometric representations and pure kernel; graph -> RAAG with commuting relations exactly on graph edges, canonical normal form and graph-indexed cohomology."
+exactness = "conditional"
+exactness_notes = "Presentations and normal forms are exact; cohomology computations require the documented coefficient ring and finite graph."
+algorithms = [{ family = "Interval-generator cactus presentations and graph-product normal forms", sources = ["sage.groups.cactus_group:*", "sage.groups.raag:*"] }]
+depends_on = ["groups.finitely-presented", "groups.semidirect-products-and-kernels"]
+sage = [
+  "sage.groups.cactus_group:*",
+  "sage.groups.raag:*",
+]
+catalogue = ["cat.groups"]
+tests = [
+  "Cactus generator involution, interval relation and pure-kernel oracle.",
+  "RAAG commutation and normal-form oracle from the defining graph.",
+  "Cohomology basis and degree checks for finite graph examples.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies groups and kernels; graph-product normal forms, cactus geometric representations and RAAG cohomology need native implementations." }
+backends = []
+references = ["Charney, An introduction to right-angled Artin groups", "Henriques and Kamnitzer, Crystals and coboundary categories"]
+
+[[capability]]
+id = "groups.cubic-braid"
+title = "Cubic braid groups and realizations"
+statement = "Construct cubic braid groups and expose their braid, matrix, permutation, classical and reflection-group realizations together with finite-order and centralizer operations."
+domain = "A supported strand count and cubic-braid type with coefficient data for the requested realization."
+contract = "Parameters -> finitely presented cubic braid group; realization maps preserve multiplication and defining relations, and finite cases expose order and centralizing elements."
+exactness = "conditional"
+exactness_notes = "Presentation and exact matrix maps are exact over supported rings; finite/order and realization algorithms are restricted to documented types and parameters."
+algorithms = [{ family = "Cubic braid presentation and attached-group realizations", sources = ["sage.groups.cubic_braid:*"] }]
+depends_on = ["groups.artin-and-braid", "groups.classical-matrix"]
+sage = ["sage.groups.cubic_braid:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Defining cubic relation and realization-homomorphism oracle.",
+  "Compare braid, matrix, permutation, classical and reflection images on generators.",
+  "Finite order and centralizing-element checks for supported small types.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies group and morphism semantics; cubic-braid-specific presentations and realizations require native algorithms." }
+backends = []
+references = []
+
+[[capability]]
+id = "groups.conjugacy-and-class-functions"
+title = "Conjugacy classes and finite-group class functions"
+statement = "Represent conjugacy classes and class functions of finite groups, including class arithmetic, character operations, restriction/induction and decomposition."
+domain = "A finite group with enumerated conjugacy classes and a coefficient ring supporting the requested character operations."
+contract = "Group element -> conjugacy class with representative, membership, cardinality and reality/rationality predicates; class-function values -> arithmetic, tensor/symmetric/exterior powers, scalar products, constituents, restriction and induction."
+exactness = "conditional"
+exactness_notes = "Class and character computations are exact over supported coefficient rings; finite enumeration and irreducible decomposition may delegate to LibGAP."
+algorithms = [{ family = "Conjugacy-class enumeration and character-table arithmetic", sources = ["sage.groups.conjugacy_classes:*", "sage.groups.class_function:*"] }]
+depends_on = ["groups.matrix-generated"]
+sage = ["sage.groups.conjugacy_classes:*", "sage.groups.class_function:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Conjugacy-class partition and representative-membership oracle.",
+  "Character scalar-product, degree, tensor-product and restriction/induction checks.",
+  "Reality/rationality predicates checked against class inversion and Galois action on values.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies groups and actions; class enumeration, character tables and decomposition require finite-group algorithms or a verified LibGAP adapter." }
+backends = ["gap"]
+references = ["Serre, Linear Representations of Finite Groups"]
+
+[[capability]]
+id = "groups.libgap-adapters"
+title = "LibGAP group and morphism adapters"
+statement = "Expose finite-group invariants, subgroups, conjugacy and character operations, and group morphisms through a checked LibGAP-backed group interface."
+domain = "A group represented by LibGAP with conversions for elements, subgroups and morphisms."
+contract = "LibGAP group -> checked Sage group wrapper with structural predicates, enumeration, subgroup/intersection, conjugacy/character APIs and morphism kernel, image/preimage, lift and section operations."
+exactness = "conditional"
+exactness_notes = "The wrapper preserves LibGAP results subject to the backend's finite-group domain and conversion checks; unsupported groups or failed conversions must be explicit."
+algorithms = [{ family = "LibGAP group and morphism wrapper delegation", sources = ["sage.groups.libgap_group:*", "sage.groups.libgap_mixin:*", "sage.groups.libgap_morphism:*"] }]
+depends_on = ["groups.conjugacy-and-class-functions", "groups.semidirect-products-and-kernels"]
+sage = ["sage.groups.libgap_group:*", "sage.groups.libgap_mixin:*", "sage.groups.libgap_morphism:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Backend agreement for finite-group order, subgroup, center, centralizer and conjugacy operations.",
+  "Morphism kernel/preimage/lift/section oracle by direct evaluation.",
+  "Explicit negative tests for unsupported or failed element conversions.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies abstract groups and morphisms; LibGAP conversion and delegated finite-group algorithms need a backend boundary with explicit failure behavior." }
+backends = ["gap"]
+references = []
+
+[[capability]]
+id = "groups.matrix-generated"
+title = "Finitely generated matrix groups"
+statement = "Construct and compute groups generated by invertible matrices over a common ring, including matrix elements, subgroups, ambient groups, order, membership, permutation actions and GAP-backed finite-group operations."
+domain = "A finite family of square invertible matrices over a common ring, or a subgroup of a matrix group."
+contract = "Generators -> subgroup of GL(n,R), with exact matrix multiplication/inverse, membership and subgroup inclusion; finite supported cases expose order, conjugacy, composition factors and permutation representations."
+exactness = "conditional"
+exactness_notes = "Matrix algebra and subgroup construction are exact; finite structural operations may delegate to GAP and unsupported infinite or analytic rings may intentionally lack algorithms."
+algorithms = [
+  { family = "Matrix-group normalization and generator closure", sources = ["sage.groups.matrix_gps.finitely_generated:MatrixGroup", "sage.groups.matrix_gps.matrix_group:MatrixGroup_base", "sage.groups.matrix_gps.group_element:MatrixGroupElement_generic"] },
+  { family = "Finite matrix-group operations through LibGAP", sources = ["sage.groups.matrix_gps.finitely_generated_gap:*", "sage.groups.matrix_gps.group_element_gap:*", "sage.groups.matrix_gps.matrix_group_gap:*"] },
+]
+depends_on = ["groups.core-operations"]
+sage = [
+  "sage.groups.matrix_gps.matrix_group:*",
+  "sage.groups.matrix_gps.finitely_generated:*",
+  "sage.groups.matrix_gps.finitely_generated_gap:*",
+  "sage.groups.matrix_gps.group_element:*",
+  "sage.groups.matrix_gps.group_element_gap:*",
+  "sage.groups.matrix_gps.matrix_group_gap:*",
+]
+catalogue = ["cat.groups"]
+tests = [
+  "Sage doctests for matrix-group construction, normalization, subgroup ambient tracking, order and permutation conversion.",
+  "Independent matrix oracle: verify generator invertibility, closure identities and subgroup membership by direct matrix multiplication on finite examples.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies abstract group operations; matrix carriers, ring-dependent invertibility and GAP finite-group adapters require native matrix-group implementations." }
+backends = ["gap"]
+references = []
+
+[[capability]]
+id = "groups.classical-matrix"
+title = "Classical matrix groups"
+statement = "Construct general, special linear, orthogonal, symplectic and unitary matrix groups preserving determinant or specified bilinear, alternating or hermitian forms."
+domain = "A degree, base ring or finite field, and optionally a nondegenerate invariant form satisfying the family-specific conditions."
+contract = "Parameters -> exact matrix subgroup with validated membership, invariant form, generators where supported, determinant/special status, order for finite fields and inherited matrix-group operations."
+exactness = "conditional"
+exactness_notes = "Form checks and matrix operations are exact; finite-field generator/order calculations may use GAP and arbitrary-ring generator availability is implementation-dependent."
+algorithms = [{ family = "Classical group constructors and invariant-form checks", sources = ["sage.groups.matrix_gps.named_group:*", "sage.groups.matrix_gps.linear:*", "sage.groups.matrix_gps.linear_gap:*", "sage.groups.matrix_gps.orthogonal:*", "sage.groups.matrix_gps.orthogonal_gap:*", "sage.groups.matrix_gps.symplectic:*", "sage.groups.matrix_gps.symplectic_gap:*", "sage.groups.matrix_gps.unitary:*", "sage.groups.matrix_gps.unitary_gap:*"] }]
+depends_on = ["groups.matrix-generated"]
+sage = [
+  "sage.groups.matrix_gps.named_group:*",
+  "sage.groups.matrix_gps.linear:*",
+  "sage.groups.matrix_gps.linear_gap:*",
+  "sage.groups.matrix_gps.orthogonal:*",
+  "sage.groups.matrix_gps.orthogonal_gap:*",
+  "sage.groups.matrix_gps.symplectic:*",
+  "sage.groups.matrix_gps.symplectic_gap:*",
+  "sage.groups.matrix_gps.unitary:*",
+  "sage.groups.matrix_gps.unitary_gap:*",
+  "sage.groups.matrix_gps.named_group_gap:*",
+]
+catalogue = ["cat.groups"]
+tests = [
+  "Sage doctests for GL/SL, GO/SO, Sp and GU/SU constructors, invariant forms and finite orders.",
+  "Independent form-preservation oracle: check determinant and the relevant transpose/conjugate-transpose form equation for generated elements.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies group laws; exact matrix forms and classical-family constructors require native linear algebra plus optional finite-group backend integration." }
+backends = ["gap"]
+references = ["Cameron, Finite Groups and Finite-Dimensional Algebras", "Taylor, The Geometry of the Classical Groups"]
+
+[[capability]]
+id = "groups.coxeter-reflection"
+title = "Coxeter groups by reflection representation"
+statement = "Construct Coxeter groups from Coxeter matrices, graphs or Cartan data using their faithful reflection representation as matrix groups."
+domain = "A Coxeter matrix or equivalent graph/Cartan type and a base ring containing the required values 2 cos(pi/m)."
+contract = "Coxeter data -> matrix group with indexed simple reflections, Coxeter matrix/diagram, faithful reflection action, generator relations, length and standard Coxeter operations."
+exactness = "conditional"
+exactness_notes = "The reflection representation is mathematically exact over a suitable exact base ring; numerical or insufficient base rings can lose exactness or reject the construction."
+algorithms = [{ family = "Faithful geometric reflection representation", sources = ["sage.groups.matrix_gps.coxeter_group:CoxeterMatrixGroup"] }]
+depends_on = ["groups.matrix-generated"]
+sage = ["sage.groups.matrix_gps.coxeter_group:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Sage doctests for Coxeter matrices, graphs, Cartan types, generator braid relations and diagram round trips.",
+  "Independent relation oracle: verify each simple reflection squares to one and each pair satisfies the prescribed Coxeter relation.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies group structure; reflection matrices, exact cyclotomic coefficients and Coxeter-specific metadata require native implementation." }
+backends = []
+references = ["Humphreys, Reflection Groups and Coxeter Groups (1990)"]
+
+[[capability]]
+id = "groups.special-matrix-constructors"
+title = "Special matrix-group constructors"
+statement = "Construct named matrix realizations such as binary dihedral, Heisenberg, isometry and related special matrix groups."
+domain = "The documented degree, ring, form or parameter data for each special constructor."
+contract = "Parameters -> a matrix group with exact defining generators and inherited matrix-group operations; invalid degrees, rings or forms are rejected."
+exactness = "conditional"
+exactness_notes = "The matrix presentation is exact when the base ring and parameter constraints satisfy the named group construction; singular or unsupported parameters are rejected."
+algorithms = [{ family = "Named special matrix-group constructors", sources = ["sage.groups.matrix_gps.binary_dihedral:*", "sage.groups.matrix_gps.heisenberg:*", "sage.groups.matrix_gps.isometries:*"] }]
+depends_on = ["groups.matrix-generated"]
+sage = [
+  "sage.groups.matrix_gps.binary_dihedral:*",
+  "sage.groups.matrix_gps.heisenberg:*",
+  "sage.groups.matrix_gps.isometries:*",
+]
+catalogue = ["cat.groups"]
+tests = [
+  "Sage doctests for binary dihedral, Heisenberg and isometry constructors and their defining relations.",
+  "Independent matrix oracle: verify each returned generator satisfies the constructor's defining equations.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies group carriers; constructor-specific matrix formulas and parameter checks need native implementations." }
+backends = []
+references = []
+
+[[capability]]
+id = "groups.finitely-presented"
+title = "Finitely presented groups and rewriting"
+statement = "Construct finitely presented groups as quotients of free groups, manipulate Tietze words and relations, and compute presentation-based invariants or permutation actions when the underlying algorithm terminates."
+domain = "A finite free generating set with a finite list of relators, optionally equipped with a confluent rewriting system."
+contract = "(F, R) -> F / normal_closure(R), with exact quotient generators and relations, element word representation, relation-preserving evaluation, rewriting, abelian invariants, homomorphisms and bounded presentation-to-permutation conversion."
+exactness = "conditional"
+exactness_notes = "Group construction and word operations are exact; word-problem, confluence, cardinality and coset-enumeration procedures may not terminate for arbitrary presentations."
+algorithms = [
+  { family = "Free-group quotient and Tietze presentation operations", sources = ["sage.groups.finitely_presented:FinitelyPresentedGroup", "sage.groups.finitely_presented:FinitelyPresentedGroupElement"] },
+  { family = "Knuth-Bendix rewriting and Todd-Coxeter conversion", sources = ["sage.groups.finitely_presented:RewritingSystem", "sage.groups.finitely_presented:FinitelyPresentedGroup.as_permutation_group"] },
+]
+depends_on = ["groups.free-and-indexed", "groups.permutation-group"]
+sage = ["sage.groups.finitely_presented:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Sage doctests for quotient construction, Tietze words, rewriting systems, abelianization and permutation conversion.",
+  "Independent presentation oracle: verify every relator evaluates to identity and compare finite quotient actions up to relabelling.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "Mathlib supplies presentation semantics and group quotients; the audited reusable components do not provide the full Sage rewriting and coset-enumeration algorithms." }
+backends = ["gap"]
+references = ["https://en.wikipedia.org/wiki/Presentation_of_a_group", "https://en.wikipedia.org/wiki/Word_problem_for_groups"]
+
+[[capability]]
+id = "groups.semidirect-products-and-kernels"
+title = "Semidirect products and kernel subgroups"
+statement = "Construct semidirect products from group actions and represent kernels of group homomorphisms as subgroups with ambient lifts and retractions."
+domain = "Groups G and H with an action homomorphism into automorphisms of the acted-on factor, or a group morphism whose kernel is being represented."
+contract = "Action data -> G ⋉ H or G ⋊ H with exact multiplication, identity, inverse, generators and opposite product; morphism -> normal kernel subgroup with defining morphism, ambient group, finite generators and validated element coercions."
+exactness = "exact"
+algorithms = [{ family = "Cartesian semidirect-product law and kernel subgroup wrapper", sources = ["sage.groups.group_semidirect_product:GroupSemidirectProduct", "sage.groups.group_semidirect_product:GroupSemidirectProductElement", "sage.groups.kernel_subgroup:KernelSubgroup"] }]
+depends_on = ["groups.core-operations"]
+sage = ["sage.groups.group_semidirect_product:*", "sage.groups.kernel_subgroup:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Sage doctests for left/right semidirect multiplication, inverse, opposite products and finite kernels.",
+  "Independent action oracle: verify associativity, identity, inverse and kernel membership by evaluating the defining morphism.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue expresses group products and morphisms; the action-dependent multiplication and finite kernel enumeration need native implementations." }
+backends = []
+references = []
 license_notes = "Sage source is GPL-2.0-or-later; Hex source is Apache-2.0. Inspect the license before translating Sage code."
 
 [[capability]]
@@ -100,3 +749,115 @@ reuse = { status = "formalized-not-executable", components = ["mathlib.group.pre
 backends = ["gap"]
 references = []
 license_notes = "Sage source is GPL-2.0-or-later; GAP algorithm and license must be checked before any source translation."
+
+[[capability]]
+id = "groups.free-and-indexed"
+title = "Free and indexed free groups"
+statement = "Construct free and free abelian groups on finite or indexed generators with reduced words, inverses, multiplication, substitution and generator families."
+domain = "A finite generator list or arbitrary index set, with optional commutativity."
+contract = "I -> G with identity, generators, reduced group words or exponent data, multiplication, inverses, powers, substitution into target structures and rank/order metadata."
+exactness = "exact"
+algorithms = [{ family = "Free-group word reduction and indexed group operations", sources = ["sage.groups.free_group:FreeGroup", "sage.groups.free_group:FreeGroupElement", "sage.groups.indexed_free_group:IndexedFreeGroup", "sage.groups.indexed_free_group:IndexedGroup"] }]
+depends_on = []
+sage = ["sage.groups.free_group:*", "sage.groups.indexed_free_group:*"]
+catalogue = ["cat.groups"]
+tests = [
+  "Sage doctests for generator construction, signed words, reduction, inverses, substitution and indexed/free-abelian rank.",
+  "Independent free-word oracle: freely reduce generated signed words and compare multiplication and inverse.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies group carriers and laws; executable reduced-word and indexed representations require native implementation or a verified GAP boundary." }
+backends = ["gap"]
+references = []
+
+[[capability]]
+id = "groups.finitely-generated-abelian"
+title = "Finitely generated abelian groups and homomorphisms"
+statement = "Construct finitely generated abelian groups as products of infinite and finite cyclic factors, with exponent-vector elements, invariants, subgroups and homomorphisms."
+domain = "A finite list of cyclic orders, where zero denotes an infinite cyclic factor."
+contract = "orders -> G with exact product decomposition, generators, element orders, elementary divisors, subgroup generation and compatible group homomorphisms."
+exactness = "exact"
+algorithms = [{ family = "Cyclic-factor abelian-group and generator-image algorithms", sources = ["sage.groups.abelian_gps.abelian_group:AbelianGroup", "sage.groups.abelian_gps.abelian_group_element:AbelianGroupElement", "sage.groups.abelian_gps.abelian_group_morphism:AbelianGroupMorphism"] }]
+depends_on = ["groups.free-and-indexed"]
+sage = [
+  "sage.groups.abelian_gps.abelian_group:*",
+  "sage.groups.abelian_gps.abelian_group_element:*",
+  "sage.groups.abelian_gps.abelian_group_morphism:*",
+  "sage.groups.abelian_gps.element_base:*",
+]
+catalogue = ["cat.groups"]
+tests = [
+  "Sage doctests for cyclic products, element orders, elementary divisors, subgroup generation and homomorphism images/kernels.",
+  "Independent finite-product oracle: enumerate small finite groups and compare cardinality, orders and exponent-vector multiplication.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies groups; exact cyclic-factor arithmetic and subgroup/invariant algorithms require native matrix arithmetic or an accepted backend." }
+backends = ["gap"]
+references = ["[Cohen1]", "[Cohen2]", "[Rotman]"]
+
+[[capability]]
+id = "groups.core-operations"
+title = "Generic group operations and products"
+statement = "Provide common group predicates and constructions including semidirect products, kernels, exponent conversion and generic group-element behavior."
+domain = "Groups and homomorphisms satisfying the relevant Sage category contracts."
+contract = "Group data -> exact generic operations such as order/finite/abelian predicates, semidirect products, kernel subgroups, additive-to-multiplicative conversion and compatible element coercions."
+exactness = "conditional"
+exactness_notes = "Each operation is exact on the group classes satisfying its source-level hypotheses; generic base classes intentionally raise when no implementation is available."
+algorithms = [{ family = "Category-driven group constructions and wrappers", sources = ["sage.groups.group:Group", "sage.groups.group_exp:*", "sage.groups.group_semidirect_product:*", "sage.groups.kernel_subgroup:*", "sage.groups.generic:*"] }]
+depends_on = ["groups.free-and-indexed"]
+sage = [
+  "sage.groups.group:*",
+  "sage.groups.group_exp:*",
+  "sage.groups.group_semidirect_product:*",
+  "sage.groups.kernel_subgroup:*",
+  "sage.groups.generic:*",
+]
+catalogue = ["cat.groups"]
+tests = [
+  "Sage doctests for generic group predicates, semidirect products, kernels and additive/multiplicative conversions.",
+  "Independent law oracle: verify identity, inverse, associativity and homomorphism kernel/image conditions on generated finite examples.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies group laws and morphisms; generic constructions and coercion policies require native adapters around accepted group objects." }
+backends = []
+references = []
+
+[[capability]]
+id = "groups.permutation-named-and-cube"
+title = "Named permutation groups and Rubik cube group"
+statement = "Construct standard named finite permutation groups and the Rubik cube group, retaining their permutation actions and group operations."
+domain = "Finite permutation domains with the documented named-group parameters."
+contract = "parameters -> finite permutation group with exact generators, action, order and standard group operations; Rubik cube constructors retain the facelet permutation action."
+exactness = "exact"
+algorithms = [{ family = "Named permutation-group constructors and cube actions", sources = ["sage.groups.perm_gps.permgroup_named:*", "sage.groups.perm_gps.cubegroup:*", "sage.groups.perm_gps.constructor:*"] }]
+depends_on = ["groups.permutation-group"]
+sage = [
+  "sage.groups.perm_gps.permgroup_named:*",
+  "sage.groups.perm_gps.cubegroup:CubeGroup",
+  "sage.groups.perm_gps.cubegroup:CubeGroup.gen_names",
+  "sage.groups.perm_gps.cubegroup:CubeGroup.B",
+  "sage.groups.perm_gps.cubegroup:CubeGroup.D",
+  "sage.groups.perm_gps.cubegroup:CubeGroup.F",
+  "sage.groups.perm_gps.cubegroup:CubeGroup.L",
+  "sage.groups.perm_gps.cubegroup:CubeGroup.R",
+  "sage.groups.perm_gps.cubegroup:CubeGroup.U",
+  "sage.groups.perm_gps.cubegroup:CubeGroup.parse",
+  "sage.groups.perm_gps.cubegroup:CubeGroup.facets",
+  "sage.groups.perm_gps.cubegroup:CubeGroup.faces",
+  "sage.groups.perm_gps.cubegroup:CubeGroup.move",
+  "sage.groups.perm_gps.cubegroup:CubeGroup.legal",
+  "sage.groups.perm_gps.cubegroup:CubeGroup.solve",
+  "sage.groups.perm_gps.cubegroup:RubiksCube",
+  "sage.groups.perm_gps.cubegroup:RubiksCube.move",
+  "sage.groups.perm_gps.cubegroup:RubiksCube.undo",
+  "sage.groups.perm_gps.cubegroup:RubiksCube.facets",
+  "sage.groups.perm_gps.cubegroup:RubiksCube.cubie",
+  "sage.groups.perm_gps.cubegroup:RubiksCube.solve",
+  "sage.groups.perm_gps.cubegroup:RubiksCube.scramble",
+  "sage.groups.perm_gps.constructor:*",
+]
+catalogue = ["cat.groups"]
+tests = [
+  "Sage doctests for symmetric, alternating, cyclic, dihedral and Rubik cube constructors and their orders.",
+  "Independent permutation closure oracle: compare generated action and group cardinality with direct permutation composition.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.groups"], evidence = "The catalogue supplies group carriers; named constructors and cube-specific actions require native constructors or a verified GAP boundary." }
+backends = ["gap"]
+references = []

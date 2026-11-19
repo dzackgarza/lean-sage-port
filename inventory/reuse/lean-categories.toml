@@ -2,7 +2,7 @@
 # Snapshot: surveyed 2026-11-17 at the revisions below (main HEADs, fresh shallow clones).
 # One component per export record of lean-cas-dsl-leaf-contracts/api/declared-ports.json: categories, objects,
 # functors, operations with entries, and derived operations (ids with no entry: action:..., #map, #component and
-# similar), each listed separately. id, declarations, paths, kind and evidence are generated from the export and a
+# similar), and the classifier entries (clf.*), each listed separately. id, declarations, paths, kind and evidence are generated from the export and a
 # declaration index of the clones; capability, domain, executable, correctness and notes were written from the Lean
 # declarations and docs (derived operations: templated from their parent). Nothing was built or evaluated.
 
@@ -14201,3 +14201,539 @@ correctness = "none"
 status = "formalized-not-executable"
 evidence = "declared-ports.json operations record lift.bilin_module.restrict#factor; CasCatalogue.Modules.Bilinear.Valued.Kernels.forgetMonoLift at LeanCategories/Catalogue/Semantics/Modules/Bilinear/Valued/Kernels.lean:148; CasCatalogue.Modules.Bilinear.Valued.Kernels.forgetMonoLiftComputation at LeanCategories/Catalogue/Semantics/Modules/Bilinear/Valued/Kernels.lean:192"
 notes = "Derived operation: the export lists this id under operations with no entry of its own. Its capability is generated from the parent (lift.bilin_module.restrict) and the id form; the declarations are the parent's."
+
+[[component]]
+id = "catalogue.clf.sets.finite"
+source = "lean-categories"
+capability = "The finiteness classifier on sets: its total category is FintypeCat (finite types with all functions), with the forgetful functor to Type."
+domain = "host cat.sets"
+declarations = [
+    "LeanCategories.Foundation.Mathlib.finite",
+    "CasCatalogue.Foundation.CatalogueRegistration.finiteRealization",
+]
+paths = [
+    "LeanCategories/Foundation/Mathlib.lean",
+    "LeanCategories/Catalogue/Semantics/Foundation/CatalogueRegistration.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.sets.finite; LeanCategories.Foundation.Mathlib.finite at LeanCategories/Foundation/Mathlib.lean:81; CasCatalogue.Foundation.CatalogueRegistration.finiteRealization at LeanCategories/Catalogue/Semantics/Foundation/CatalogueRegistration.lean:25"
+notes = "Export doc 'Finite classifier: FintypeCat -> Type'. Total category of the classifier is the category of finite sets."
+
+[[component]]
+id = "catalogue.clf.sets.graded"
+source = "lean-categories"
+capability = "The grading classifier on sets: its total category is Z-graded types (GradedObject Z Type) with the functor that takes the coproduct of the grades."
+domain = "host cat.sets"
+declarations = [
+    "LeanCategories.Foundation.Mathlib.graded",
+    "CasCatalogue.Foundation.CatalogueRegistration.gradedRealization",
+]
+paths = [
+    "LeanCategories/Foundation/Mathlib.lean",
+    "LeanCategories/Catalogue/Semantics/Foundation/CatalogueRegistration.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.sets.graded; LeanCategories.Foundation.Mathlib.graded at LeanCategories/Foundation/Mathlib.lean:95; CasCatalogue.Foundation.CatalogueRegistration.gradedRealization at LeanCategories/Catalogue/Semantics/Foundation/CatalogueRegistration.lean:30"
+notes = "Export doc 'Graded classifier: GradedObject Z (Type) -> Type via coproduct of grades'. The grading is chosen structure, not a property."
+
+[[component]]
+id = "catalogue.clf.sets.binary_operation"
+source = "lean-categories"
+capability = "The binary-operation classifier on sets: its total category is MagmaCat (a set with a binary operation, and operation-preserving maps), with the forgetful functor to Type."
+domain = "host cat.sets"
+declarations = [
+    "LeanCategories.Foundation.Mathlib.binaryOperation",
+    "CasCatalogue.Foundation.CatalogueRegistration.binaryOperationRealization",
+]
+paths = [
+    "LeanCategories/Foundation/Mathlib.lean",
+    "LeanCategories/Catalogue/Semantics/Foundation/CatalogueRegistration.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.sets.binary_operation; LeanCategories.Foundation.Mathlib.binaryOperation at LeanCategories/Foundation/Mathlib.lean:76; CasCatalogue.Foundation.CatalogueRegistration.binaryOperationRealization at LeanCategories/Catalogue/Semantics/Foundation/CatalogueRegistration.lean:35"
+notes = "Export doc 'BinaryOperation classifier: MagmaCat -> Type'. Structure classifier: morphisms must preserve the operation."
+
+[[component]]
+id = "catalogue.clf.sets.countable"
+source = "lean-categories"
+capability = "The countability classifier on sets: a property classifier whose total category has the countable types as objects and all functions as morphisms."
+domain = "host cat.sets"
+declarations = [
+    "LeanCategories.Foundation.countableSets",
+    "CasCatalogue.Foundation.CatalogueRegistration.countableRealization",
+]
+paths = [
+    "LeanCategories/Foundation/Sets.lean",
+    "LeanCategories/Catalogue/Semantics/Foundation/CatalogueRegistration.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.sets.countable; LeanCategories.Foundation.countableSets at LeanCategories/Foundation/Sets.lean:225; CasCatalogue.Foundation.CatalogueRegistration.countableRealization at LeanCategories/Catalogue/Semantics/Foundation/CatalogueRegistration.lean:40"
+notes = "Export doc: countability as a property classifier on sets."
+
+[[component]]
+id = "catalogue.clf.sets.enumerated"
+source = "lean-categories"
+capability = "The enumeration classifier on sets: a structure classifier whose objects are sets with a chosen partial-inverse enumeration by the natural numbers."
+domain = "host cat.sets"
+declarations = [
+    "LeanCategories.Foundation.enumeratedSets",
+    "CasCatalogue.Foundation.CatalogueRegistration.enumeratedRealization",
+]
+paths = [
+    "LeanCategories/Foundation/Sets.lean",
+    "LeanCategories/Catalogue/Semantics/Foundation/CatalogueRegistration.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.sets.enumerated; LeanCategories.Foundation.enumeratedSets at LeanCategories/Foundation/Sets.lean:230; CasCatalogue.Foundation.CatalogueRegistration.enumeratedRealization at LeanCategories/Catalogue/Semantics/Foundation/CatalogueRegistration.lean:45"
+notes = "Export doc: a chosen partial-inverse enumeration as a structure classifier on sets. The enumeration is chosen data."
+
+[[component]]
+id = "catalogue.clf.magmas.associative"
+source = "lean-categories"
+capability = "The associativity classifier on magmas: its total category is the semigroups, a full subcategory of magmas."
+domain = "host: total of clf.sets.binary_operation (magmas)"
+declarations = [
+    "LeanCategories.Algebra.associative",
+    "CasCatalogue.Algebra.CatalogueRegistration.associativeRealization",
+]
+paths = [
+    "LeanCategories/Algebra/Concrete/Magmas.lean",
+    "LeanCategories/Catalogue/Semantics/Algebra/CatalogueRegistration.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.magmas.associative; LeanCategories.Algebra.associative at LeanCategories/Algebra/Concrete/Magmas.lean:165; CasCatalogue.Algebra.CatalogueRegistration.associativeRealization at LeanCategories/Catalogue/Semantics/Algebra/CatalogueRegistration.lean:73"
+notes = "Export doc 'Associative classifier'. Declaration LeanCategories.Algebra.associative."
+
+[[component]]
+id = "catalogue.clf.magmas.commutative"
+source = "lean-categories"
+capability = "The commutativity classifier on magmas: its total category is the commutative magmas, a full subcategory of magmas (property classifier)."
+domain = "host: total of clf.sets.binary_operation (magmas)"
+declarations = [
+    "LeanCategories.Algebra.commutative",
+    "CasCatalogue.Algebra.CatalogueRegistration.commutativeRealization",
+]
+paths = [
+    "LeanCategories/Algebra/Concrete/Magmas.lean",
+    "LeanCategories/Catalogue/Semantics/Algebra/CatalogueRegistration.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.magmas.commutative; LeanCategories.Algebra.commutative at LeanCategories/Algebra/Concrete/Magmas.lean:170; CasCatalogue.Algebra.CatalogueRegistration.commutativeRealization at LeanCategories/Catalogue/Semantics/Algebra/CatalogueRegistration.lean:77"
+notes = "Export doc 'Commutative classifier (property: full subcategory)'."
+
+[[component]]
+id = "catalogue.clf.magmas.unital"
+source = "lean-categories"
+capability = "The unit classifier on magmas: its total category is the unital magmas with unit-preserving morphisms; a structure classifier, not a full subcategory."
+domain = "host: total of clf.sets.binary_operation (magmas)"
+declarations = [
+    "LeanCategories.Algebra.unital",
+    "CasCatalogue.Algebra.CatalogueRegistration.unitalRealization",
+]
+paths = [
+    "LeanCategories/Algebra/Concrete/Magmas.lean",
+    "LeanCategories/Catalogue/Semantics/Algebra/CatalogueRegistration.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.magmas.unital; LeanCategories.Algebra.unital at LeanCategories/Algebra/Concrete/Magmas.lean:175; CasCatalogue.Algebra.CatalogueRegistration.unitalRealization at LeanCategories/Catalogue/Semantics/Algebra/CatalogueRegistration.lean:81"
+notes = "Export doc 'Unital classifier: unit-preserving morphisms (structure, not full)'."
+
+[[component]]
+id = "catalogue.clf.magmas.inverse"
+source = "lean-categories"
+capability = "The inverse classifier on unital magmas: its total category is the unital magmas with a two-sided inverse for every element (both group inverse equations)."
+domain = "host: total of clf.magmas.unital"
+declarations = [
+    "LeanCategories.Algebra.inverse",
+    "CasCatalogue.Algebra.CatalogueRegistration.inverseRealization",
+]
+paths = [
+    "LeanCategories/Algebra/Concrete/Magmas.lean",
+    "LeanCategories/Catalogue/Semantics/Algebra/CatalogueRegistration.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.magmas.inverse; LeanCategories.Algebra.inverse at LeanCategories/Algebra/Concrete/Magmas.lean:183; CasCatalogue.Algebra.CatalogueRegistration.inverseRealization at LeanCategories/Catalogue/Semantics/Algebra/CatalogueRegistration.lean:85"
+notes = "Export doc 'Inverse classifier on unital magmas, with both group inverse equations'."
+
+[[component]]
+id = "catalogue.clf.magmas.additive"
+source = "lean-categories"
+capability = "The additive-role classifier on magmas: the binary operation is written additively, and the categorical objects keep that operation role."
+domain = "host: total of clf.sets.binary_operation (magmas)"
+declarations = [
+    "LeanCategories.Algebra.additive",
+    "CasCatalogue.Algebra.CatalogueRegistration.additiveRealization",
+]
+paths = [
+    "LeanCategories/Algebra/Concrete/Magmas.lean",
+    "LeanCategories/Catalogue/Semantics/Algebra/CatalogueRegistration.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.magmas.additive; LeanCategories.Algebra.additive at LeanCategories/Algebra/Concrete/Magmas.lean:188; CasCatalogue.Algebra.CatalogueRegistration.additiveRealization at LeanCategories/Catalogue/Semantics/Algebra/CatalogueRegistration.lean:89"
+notes = "Export doc 'Magmas.Additive retains the operation role in its categorical objects'. Notation role, mathematically equivalent to magmas."
+
+[[component]]
+id = "catalogue.clf.magmas.multiplicative"
+source = "lean-categories"
+capability = "The multiplicative-role classifier on magmas: the binary operation is written multiplicatively, and the categorical objects keep that operation role."
+domain = "host: total of clf.sets.binary_operation (magmas)"
+declarations = [
+    "LeanCategories.Algebra.multiplicative",
+    "CasCatalogue.Algebra.CatalogueRegistration.multiplicativeRealization",
+]
+paths = [
+    "LeanCategories/Algebra/Concrete/Magmas.lean",
+    "LeanCategories/Catalogue/Semantics/Algebra/CatalogueRegistration.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.magmas.multiplicative; LeanCategories.Algebra.multiplicative at LeanCategories/Algebra/Concrete/Magmas.lean:193; CasCatalogue.Algebra.CatalogueRegistration.multiplicativeRealization at LeanCategories/Catalogue/Semantics/Algebra/CatalogueRegistration.lean:93"
+notes = "Export doc 'Magmas.Multiplicative retains the operation role in its categorical objects'. Notation role, mathematically equivalent to magmas."
+
+[[component]]
+id = "catalogue.clf.magmaswithtwooperations.distributive"
+source = "lean-categories"
+capability = "The distributivity classifier on sets with two binary operations: its total category holds the structures where multiplication distributes over addition on both sides."
+domain = "host cat.magmaswithtwooperations"
+declarations = [
+    "LeanCategories.Exceptional.Mathlib.distributive",
+    "CasCatalogue.Exceptional.CatalogueRegistration.distributiveRealization",
+]
+paths = [
+    "LeanCategories/Exceptional/Mathlib.lean",
+    "LeanCategories/Catalogue/Semantics/Exceptional/CatalogueRegistration.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.magmaswithtwooperations.distributive; LeanCategories.Exceptional.Mathlib.distributive at LeanCategories/Exceptional/Mathlib.lean:72; CasCatalogue.Exceptional.CatalogueRegistration.distributiveRealization at LeanCategories/Catalogue/Semantics/Exceptional/CatalogueRegistration.lean:33"
+notes = "Export doc 'Distributivity classifier on MagmasWithTwoOperations'."
+
+[[component]]
+id = "catalogue.clf.division"
+source = "lean-categories"
+capability = "The division-ring classifier on rings: its total category is DivisionRingCat, the full subcategory of rings in which every non-zero element is a unit (ObjectProperty.ι IsDivisionRing)."
+domain = "host cat.rings"
+declarations = [
+    "LeanCategories.Algebra.divisionOnRings",
+    "CasCatalogue.Algebra.CatalogueRegistration.divisionRealization",
+]
+paths = [
+    "LeanCategories/Algebra/Concrete/Rings.lean",
+    "LeanCategories/Catalogue/Semantics/Algebra/CatalogueRegistration.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.division; LeanCategories.Algebra.divisionOnRings at LeanCategories/Algebra/Concrete/Rings.lean:129; CasCatalogue.Algebra.CatalogueRegistration.divisionRealization at LeanCategories/Catalogue/Semantics/Algebra/CatalogueRegistration.lean:97"
+notes = "No export doc; read LeanCategories/Algebra/Concrete/Rings.lean:129 (divisionOnRings, total Cat.of DivisionRingCat)."
+
+[[component]]
+id = "catalogue.clf.modules_free"
+source = "lean-categories"
+capability = "The freeness classifier on R-modules: its total category holds the free R-modules (Module.Free)."
+domain = "R : RingCat; host Modules(R)"
+declarations = [
+    "LeanCategories.Modules.Mathlib.free",
+    "CasCatalogue.Modules.CatalogueRegistration.freeRealization",
+]
+paths = [
+    "LeanCategories/Modules/Mathlib.lean",
+    "LeanCategories/Catalogue/Semantics/Modules/CatalogueRegistration.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.modules_free; LeanCategories.Modules.Mathlib.free at LeanCategories/Modules/Mathlib.lean:230; CasCatalogue.Modules.CatalogueRegistration.freeRealization at LeanCategories/Catalogue/Semantics/Modules/CatalogueRegistration.lean:377"
+notes = "Export doc 'Free classifier on Modules(R)'."
+
+[[component]]
+id = "catalogue.clf.modules_finitelygenerated"
+source = "lean-categories"
+capability = "The finite-generation classifier on R-modules (Module.Finite): its total category holds the finitely generated R-modules. Finite generation is not finite rank."
+domain = "R : RingCat; host Modules(R)"
+declarations = [
+    "LeanCategories.Modules.Mathlib.finitelyGenerated",
+    "CasCatalogue.Modules.CatalogueRegistration.finitelyGeneratedRealization",
+]
+paths = [
+    "LeanCategories/Modules/Mathlib.lean",
+    "LeanCategories/Catalogue/Semantics/Modules/CatalogueRegistration.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.modules_finitelygenerated; LeanCategories.Modules.Mathlib.finitelyGenerated at LeanCategories/Modules/Mathlib.lean:236; CasCatalogue.Modules.CatalogueRegistration.finitelyGeneratedRealization at LeanCategories/Catalogue/Semantics/Modules/CatalogueRegistration.lean:381"
+notes = "Export doc 'Finitely-generated classifier (Module.Finite). Not finite rank.'"
+
+[[component]]
+id = "catalogue.clf.modules_finiterank"
+source = "lean-categories"
+capability = "The finite-free-rank classifier on R-modules: its total category holds the modules of finite free rank."
+domain = "R : RingCat; host Modules(R)"
+declarations = [
+    "LeanCategories.Modules.Mathlib.finiteRank",
+    "CasCatalogue.Modules.CatalogueRegistration.finiteRankRealization",
+]
+paths = [
+    "LeanCategories/Modules/Mathlib.lean",
+    "LeanCategories/Catalogue/Semantics/Modules/CatalogueRegistration.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.modules_finiterank; LeanCategories.Modules.Mathlib.finiteRank at LeanCategories/Modules/Mathlib.lean:242; CasCatalogue.Modules.CatalogueRegistration.finiteRankRealization at LeanCategories/Catalogue/Semantics/Modules/CatalogueRegistration.lean:385"
+notes = "Export doc 'Finite free rank classifier'."
+
+[[component]]
+id = "catalogue.clf.bilin_forms.values"
+source = "lean-categories"
+capability = "The value-module classifier on modules over rings: its total category is the bilinear forms over rings, with the functor that sends a form to its module and value module."
+domain = "host cat.modules_over_rings_ext"
+declarations = [
+    "CasCatalogue.Catalogue.FibrationRegistration.valuesClassifierDeclaration",
+    "CasCatalogue.Catalogue.FibrationRegistration.valuesClassifierRealization",
+]
+paths = [
+    "LeanCategories/Catalogue/Semantics/FibrationRegistration.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.bilin_forms.values; CasCatalogue.Catalogue.FibrationRegistration.valuesClassifierDeclaration at LeanCategories/Catalogue/Semantics/FibrationRegistration.lean:151; CasCatalogue.Catalogue.FibrationRegistration.valuesClassifierRealization at LeanCategories/Catalogue/Semantics/FibrationRegistration.lean:155"
+notes = "No export doc; read LeanCategories/Catalogue/Semantics/FibrationRegistration.lean:151 (total bilinFormsOverRingsCategory, forget bilinFormsValuesDeclaration)."
+
+[[component]]
+id = "catalogue.clf.bilin_forms.lattice"
+source = "lean-categories"
+capability = "The lattice classifier on bilinear forms over rings: its total category is the lattices over rings, a full and faithful property classifier (bilIsLattice)."
+domain = "host cat.bilin_forms_over_rings"
+declarations = [
+    "CasCatalogue.Catalogue.FibrationRegistration.latticeClassifierDeclaration",
+    "CasCatalogue.Catalogue.FibrationRegistration.latticeClassifierRealization",
+]
+paths = [
+    "LeanCategories/Catalogue/Semantics/FibrationRegistration.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.bilin_forms.lattice; CasCatalogue.Catalogue.FibrationRegistration.latticeClassifierDeclaration at LeanCategories/Catalogue/Semantics/FibrationRegistration.lean:105; CasCatalogue.Catalogue.FibrationRegistration.latticeClassifierRealization at LeanCategories/Catalogue/Semantics/FibrationRegistration.lean:108"
+notes = "No export doc; read LeanCategories/Lattices/Valued/BilRefinements.lean:49 (latticeClassifier, total LatticesOverRings, full and faithful)."
+
+[[component]]
+id = "catalogue.clf.commutative_rings.field"
+source = "lean-categories"
+capability = "The field classifier on commutative rings: its total category holds the fields, keeping the chosen commutative ring structure."
+domain = "host cat.commutative_rings"
+declarations = [
+    "CasCatalogue.Algebra.Fields.fieldClassifier",
+    "CasCatalogue.Algebra.Fields.fieldRealization",
+]
+paths = [
+    "LeanCategories/Catalogue/Semantics/Algebra/Fields.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.commutative_rings.field; CasCatalogue.Algebra.Fields.fieldClassifier at LeanCategories/Catalogue/Semantics/Algebra/Fields.lean:42; CasCatalogue.Algebra.Fields.fieldRealization at LeanCategories/Catalogue/Semantics/Algebra/Fields.lean:49"
+notes = "Export doc 'Fields retain the chosen commutative ring structure'."
+
+[[component]]
+id = "catalogue.clf.bilin_forms.finite"
+source = "lean-categories"
+capability = "The finite-projectivity property classifier on bilinear forms over rings (bilIsFinite); reindexed along lattices it gives the finite projective lattices."
+domain = "host cat.bilin_forms_over_rings"
+declarations = [
+    "CasCatalogue.Catalogue.FibrationRegistration.finiteClassifierDeclaration",
+    "CasCatalogue.Catalogue.FibrationRegistration.finiteClassifierRealization",
+]
+paths = [
+    "LeanCategories/Catalogue/Semantics/LatticeRefinements.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.bilin_forms.finite; CasCatalogue.Catalogue.FibrationRegistration.finiteClassifierDeclaration at LeanCategories/Catalogue/Semantics/LatticeRefinements.lean:91; CasCatalogue.Catalogue.FibrationRegistration.finiteClassifierRealization at LeanCategories/Catalogue/Semantics/LatticeRefinements.lean:94"
+notes = "No export doc; read LeanCategories/Lattices/Valued/BilRefinements.lean:80 and Catalogue/Semantics/LatticeRefinements.lean (finiteProjectiveLatticesCategory)."
+
+[[component]]
+id = "catalogue.clf.bilin_forms.free"
+source = "lean-categories"
+capability = "The freeness property classifier on bilinear forms over rings (bilIsFree); reindexed along finite projective lattices it gives the finite free lattices."
+domain = "host cat.bilin_forms_over_rings"
+declarations = [
+    "CasCatalogue.Catalogue.FibrationRegistration.freeClassifierDeclaration",
+    "CasCatalogue.Catalogue.FibrationRegistration.freeClassifierRealization",
+]
+paths = [
+    "LeanCategories/Catalogue/Semantics/LatticeRefinements.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.bilin_forms.free; CasCatalogue.Catalogue.FibrationRegistration.freeClassifierDeclaration at LeanCategories/Catalogue/Semantics/LatticeRefinements.lean:99; CasCatalogue.Catalogue.FibrationRegistration.freeClassifierRealization at LeanCategories/Catalogue/Semantics/LatticeRefinements.lean:102"
+notes = "No export doc; read LeanCategories/Lattices/Valued/BilRefinements.lean:81 and Catalogue/Semantics/LatticeRefinements.lean (finiteFreeLatticesCategory)."
+
+[[component]]
+id = "catalogue.clf.bilin_forms.even"
+source = "lean-categories"
+capability = "The evenness property classifier on bilinear forms over rings (bilIsEven): b(x, x) lies in 2R for every x."
+domain = "host cat.bilin_forms_over_rings"
+declarations = [
+    "CasCatalogue.Catalogue.FibrationRegistration.evenClassifierDeclaration",
+    "CasCatalogue.Catalogue.FibrationRegistration.evenClassifierRealization",
+]
+paths = [
+    "LeanCategories/Catalogue/Semantics/LatticeRefinements.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.bilin_forms.even; CasCatalogue.Catalogue.FibrationRegistration.evenClassifierDeclaration at LeanCategories/Catalogue/Semantics/LatticeRefinements.lean:107; CasCatalogue.Catalogue.FibrationRegistration.evenClassifierRealization at LeanCategories/Catalogue/Semantics/LatticeRefinements.lean:110"
+notes = "No export doc; read LeanCategories/Lattices/Valued/BilRefinements.lean:82 and the lemma exists_two_smul_iff_mem_span at :86."
+
+[[component]]
+id = "catalogue.clf.bilin_forms.unimodular"
+source = "lean-categories"
+capability = "The unimodularity property classifier on bilinear forms over rings (bilIsUnimodular)."
+domain = "host cat.bilin_forms_over_rings"
+declarations = [
+    "CasCatalogue.Catalogue.FibrationRegistration.unimodularClassifierDeclaration",
+    "CasCatalogue.Catalogue.FibrationRegistration.unimodularClassifierRealization",
+]
+paths = [
+    "LeanCategories/Catalogue/Semantics/LatticeRefinements.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.bilin_forms.unimodular; CasCatalogue.Catalogue.FibrationRegistration.unimodularClassifierDeclaration at LeanCategories/Catalogue/Semantics/LatticeRefinements.lean:115; CasCatalogue.Catalogue.FibrationRegistration.unimodularClassifierRealization at LeanCategories/Catalogue/Semantics/LatticeRefinements.lean:118"
+notes = "No export doc; read LeanCategories/Lattices/Valued/BilRefinements.lean:83."
+
+[[component]]
+id = "catalogue.clf.bilin_module.lattice"
+source = "lean-categories"
+capability = "The lattice property classifier on formed modules with fixed scalars R and value module W (Classifier.ofProperty isLattice)."
+domain = "R a commutative ring, W an R-module; host bilinModuleCategory R W"
+declarations = [
+    "CasCatalogue.Lattices.Valued.Property.latticeClassifier",
+    "CasCatalogue.Lattices.Valued.Property.latticeClassifierRealization",
+]
+paths = [
+    "LeanCategories/Catalogue/Semantics/Lattices/Valued/Property.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.bilin_module.lattice; CasCatalogue.Lattices.Valued.Property.latticeClassifier at LeanCategories/Catalogue/Semantics/Lattices/Valued/Property.lean:38; CasCatalogue.Lattices.Valued.Property.latticeClassifierRealization at LeanCategories/Catalogue/Semantics/Lattices/Valued/Property.lean:42"
+notes = "Export doc 'The classifier of the lattice property on formed modules'; read Catalogue/Semantics/Lattices/Valued/Property.lean:38."
+
+[[component]]
+id = "catalogue.clf.bilin_module.alternating"
+source = "lean-categories"
+capability = "The alternation property classifier on formed modules with fixed scalars R and value module W: b(x, x) = 0 for every x."
+domain = "R a commutative ring, W an R-module; host bilinModuleCategory R W"
+declarations = [
+    "CasCatalogue.Modules.Bilinear.Valued.Alternating.alternatingClassifier",
+    "CasCatalogue.Modules.Bilinear.Valued.Alternating.alternatingRealization",
+]
+paths = [
+    "LeanCategories/Catalogue/Semantics/Modules/Bilinear/Valued/Alternating.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.bilin_module.alternating; CasCatalogue.Modules.Bilinear.Valued.Alternating.alternatingClassifier at LeanCategories/Catalogue/Semantics/Modules/Bilinear/Valued/Alternating.lean:30; CasCatalogue.Modules.Bilinear.Valued.Alternating.alternatingRealization at LeanCategories/Catalogue/Semantics/Modules/Bilinear/Valued/Alternating.lean:35"
+notes = "Export doc 'The classifier of alternation for the actual selected scalar and value modules'."
+
+[[component]]
+id = "catalogue.clf.modules.torsion_free"
+source = "lean-categories"
+capability = "The torsion-freeness classifier on R-modules: its total category holds the torsion-free R-modules."
+domain = "R : RingCat; host Modules(R)"
+declarations = [
+    "CasCatalogue.Modules.TorsionFree.torsionFree",
+    "CasCatalogue.Modules.TorsionFree.torsionFreeRealization",
+]
+paths = [
+    "LeanCategories/Catalogue/Semantics/Modules/TorsionFree.lean",
+]
+kind = "classifier"
+depends_on_mathlib = true
+executable = "specification-only"
+correctness = "none"
+status = "formalized-not-executable"
+evidence = "declared-ports.json entries record clf.modules.torsion_free; CasCatalogue.Modules.TorsionFree.torsionFree at LeanCategories/Catalogue/Semantics/Modules/TorsionFree.lean:31; CasCatalogue.Modules.TorsionFree.torsionFreeRealization at LeanCategories/Catalogue/Semantics/Modules/TorsionFree.lean:39"
+notes = "Export doc 'The torsion-free property on R-modules'."

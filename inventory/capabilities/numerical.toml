@@ -1,0 +1,17 @@
+domain = "numerical"
+
+[[capability]]
+id = "numerical.analysis"
+title = "Numerical approximation, root finding and integration"
+statement = "Approximate roots, extrema, integrals and solutions of numerical problems, including interval/root localization, optimization, quadrature and precision-controlled arithmetic."
+domain = "A numerical function, interval or finite-dimensional objective with declared precision, tolerance, domain and convergence assumptions."
+contract = "Numerical input and tolerance -> an approximation, enclosure or optimizer result carrying its residual, error estimate or convergence status; failure to meet the declared conditions is not converted into an exact result."
+exactness = "approximate"
+algorithms = [{ family = "Numerical analysis", sources = ["sage.numerical.*:*", "sage.functions.*:*"] }]
+depends_on = ["calculus.documented-operations"]
+sage = ["sage.numerical.*:*"]
+catalogue = []
+tests = ["Returned roots satisfy the requested residual and interval enclosure.", "Quadrature agrees with an independent high-precision reference within the declared error.", "Optimization results satisfy the documented stationarity or bound checks."]
+reuse = { status = "adaptable", components = ["lean-core.float.ieee754", "mathlib.real.cauchy-reals"], evidence = "Lean/Mathlib supply floating and real foundations; Sage's numerical backends and error-control APIs require native adapters." }
+backends = ["numpy"]
+references = []

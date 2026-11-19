@@ -1,0 +1,150 @@
+domain = "curves"
+
+[[capability]]
+status = "source-reconciled"
+id = "curves.plane-and-projective-curves"
+title = "Affine, projective and weighted projective curves"
+statement = "Construct affine, projective and weighted projective plane curves, compute their singularities, rational and closed points, and the arrangement of their irreducible components."
+domain = "A field and homogeneous or affine defining polynomials."
+contract = "(C) -> the curve with its ambient space, function field, genus, singular points, local rings, normalization map, rational points over a finite field, closed points with their residue fields, and the arrangement of its components with the intersection poset and characteristic polynomial."
+exactness = "exact"
+algorithms = [{ family = "Curve construction and point enumeration", sources = ["sage.schemes.curves.affine_curve:*", "sage.schemes.curves.closed_point:*", "sage.schemes.curves.constructor:*", "sage.schemes.curves.curve:*", "sage.schemes.curves.plane_curve_arrangement:*", "sage.schemes.curves.point:*", "sage.schemes.curves.projective_curve:*", "sage.schemes.curves.weighted_projective_curve:*"] }, { family = "Singularities and normalization", sources = ["sage.schemes.curves.affine_curve:*", "sage.schemes.curves.closed_point:*", "sage.schemes.curves.constructor:*", "sage.schemes.curves.curve:*", "sage.schemes.curves.plane_curve_arrangement:*", "sage.schemes.curves.point:*", "sage.schemes.curves.projective_curve:*", "sage.schemes.curves.weighted_projective_curve:*"] }]
+depends_on = []
+sage = [
+  "sage.schemes.curves.affine_curve:*",
+  "sage.schemes.curves.closed_point:*",
+  "sage.schemes.curves.constructor:*",
+  "sage.schemes.curves.curve:*",
+  "sage.schemes.curves.plane_curve_arrangement:*",
+  "sage.schemes.curves.point:*",
+  "sage.schemes.curves.projective_curve:*",
+  "sage.schemes.curves.weighted_projective_curve:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for curve arithmetic and points.",
+  "Every returned rational point satisfies the defining equation and the count over a small finite field agrees with the Hasse-Weil bound check.",
+  "The normalization map is birational and the genus computed from the singularity data matches the function-field genus.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.ideals", "mathlib.poly.multivariate"], evidence = "Mathlib supplies polynomial ideals and quotient rings; curves, their point sets and normalizations are not implemented executably." }
+backends = ["interface:singular", "singular"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "curves.plane-conics"
+title = "Projective plane conics"
+statement = "Construct a projective plane conic over a field and compute its rational points, parametrisation, hasse principle data and isomorphism class."
+domain = "A field, including Q, number fields, finite fields and rational function fields, and a ternary quadratic form."
+contract = "(C) -> the conic with its base ring, discriminant, hasse_invariant and the local invariants at each place; a rational point yields a parametrisation of the conic by P^1; over Q and number fields, decide local solubility and compute the isomorphism class."
+exactness = "exact"
+algorithms = [{ family = "Local-global solubility and parametrisation", sources = ["sage.schemes.plane_conics.con_field:*", "sage.schemes.plane_conics.con_finite_field:*", "sage.schemes.plane_conics.con_number_field:*", "sage.schemes.plane_conics.con_rational_field:*", "sage.schemes.plane_conics.con_rational_function_field:*", "sage.schemes.plane_conics.constructor:*"] }]
+depends_on = []
+sage = [
+  "sage.schemes.plane_conics.con_field:*",
+  "sage.schemes.plane_conics.con_finite_field:*",
+  "sage.schemes.plane_conics.con_number_field:*",
+  "sage.schemes.plane_conics.con_rational_field:*",
+  "sage.schemes.plane_conics.con_rational_function_field:*",
+  "sage.schemes.plane_conics.constructor:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for conic solubility and parametrisation.",
+  "A returned point satisfies the conic equation, and the parametrisation map is a birational equivalence over the base field.",
+  "The Hasse principle conclusion agrees with the product of local invariants at the tested places.",
+]
+reuse = { status = "adaptable", components = ["mathlib.nt.quadratic-forms", "mathlib.alg.quaternions"], evidence = "Mathlib supplies quadratic forms and quaternion algebras over fields, which underpin conic classification, but no executable conic solubility or parametrisation." }
+backends = ["interface:magma"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "curves.plane-quartics"
+title = "Plane quartic curves"
+statement = "Construct a plane quartic curve over a general ring and compute its invariants and its bitangents."
+domain = "A commutative ring and a ternary quartic form."
+contract = "(Q) -> the quartic curve with its invariants, its bitangent lines and the associated Igusa data where the base field permits."
+exactness = "exact"
+algorithms = [{ family = "Quartic invariants and bitangents", sources = ["sage.schemes.plane_quartics.quartic_constructor:*", "sage.schemes.plane_quartics.quartic_generic:*"] }]
+depends_on = []
+sage = [
+  "sage.schemes.plane_quartics.quartic_constructor:*",
+  "sage.schemes.plane_quartics.quartic_generic:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for quartic invariants.",
+  "The invariants are unchanged by linear changes of coordinates, and each returned bitangent meets the quartic with multiplicity at least two.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for plane-quartic invariants and bitangent computations; none exists." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "curves.jacobians"
+title = "Jacobians of curves"
+statement = "Construct the Jacobian of a curve with its base point and its structure as an abelian variety."
+domain = "A curve over a field together with a rational base point."
+contract = "(C,P0) -> the Jacobian with its base point, dimension equal to the genus, and the induced maps and group structure available from the curve model."
+exactness = "exact"
+algorithms = [{ family = "Jacobian construction from a curve", sources = ["sage.schemes.jacobians.abstract_jacobian:*"] }]
+depends_on = []
+sage = [
+  "sage.schemes.jacobians.abstract_jacobian:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for Jacobian construction.",
+  "The dimension of the Jacobian equals the genus of the curve, and the Jacobian of a genus-one curve is isomorphic to the curve itself.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for Jacobian varieties; Mathlib has elliptic curves but no curve Jacobian." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "curves.zariski-van-kampen"
+title = "Zariski-van Kampen fundamental groups of curve complements"
+statement = "Compute a presentation of the fundamental group of the complement of a plane curve from its braid monodromy, and decide whether the complement is a classifying space."
+domain = "A reduced plane projective curve over Q with a chosen base point and a braid-monodromy computation."
+contract = "(C) -> the fundamental group presentation with its generators and relations, the braid monodromy data, and a decision whether the complement is aspherical; tools construct a simplified presentation."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and backend behaviour follow the documented contract of each source module."
+algorithms = [{ family = "Braid monodromy and group presentation", sources = ["sage.schemes.curves.zariski_vankampen:*"] }]
+depends_on = []
+sage = [
+  "sage.schemes.curves.zariski_vankampen:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for presentations of known curve complements.",
+  "The computed presentation abelianises to H_1 of the complement, and for a known curve (for example a line arrangement) it agrees with the published presentation.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for braid monodromy and fundamental-group presentations of curve complements; none exists." }
+backends = ["braiding", "sirocco"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "curves.riemann-surfaces"
+title = "Riemann matrices and endomorphism rings of Riemann surfaces"
+statement = "Compute a Riemann matrix of an algebraic Riemann surface from a plane model, together with its endomorphism ring and the homology of the surface."
+domain = "A plane algebraic curve over an algebraic number field and a numerical precision."
+contract = "(C) -> a period (Riemann) matrix of the associated Riemann surface, the homology basis, the endomorphism ring with its basis of matrices, and derived invariants such as the lattice and the theta data."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and backend behaviour follow the documented contract of each source module."
+algorithms = [{ family = "Numerical period computation and endomorphism detection", sources = ["sage.schemes.riemann_surfaces.riemann_surface:*"] }]
+depends_on = []
+sage = [
+  "sage.schemes.riemann_surfaces.riemann_surface:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for period matrices of known curves.",
+  "The computed period matrix is symmetric with positive-definite imaginary part, and the endomorphism ring contains the identity and is closed under composition.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for Riemann matrices and endomorphism rings of curves; none exists." }
+backends = ["mpmath", "scipy", "singular"]
+references = []

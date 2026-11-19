@@ -1,0 +1,18 @@
+domain = "homology"
+
+[[capability]]
+id = "homology.chain-complexes"
+title = "Chain complexes, chain maps, homotopies and homology"
+statement = "Construct finite chain complexes and chain maps, compute homology groups with representatives, homotopies, contractions and related algebraic-topological models."
+domain = "A graded family of modules/vector spaces with differentials satisfying d squared equals zero."
+contract = "Chain data -> validated complex, maps and homology with cycles, boundaries, representatives, induced maps and homotopy/contraction operations."
+exactness = "conditional"
+exactness_notes = "Exact over exact coefficient domains; numerical rank and decomposition results inherit coefficient assumptions."
+algorithms = [{ family = "Chain-complex and homology computations", sources = ["sage.homology.chain_complex:*", "sage.homology.chain_complex_morphism:*", "sage.homology.chain_complex_homspace:*", "sage.homology.chain_homotopy:*", "sage.homology.homology_group:*", "sage.homology.homology_morphism:*", "sage.homology.homology_vector_space_with_basis:*", "sage.homology.algebraic_topological_model:*", "sage.homology.chains:*", "sage.homology.hochschild_complex:*", "sage.homology.koszul_complex:*", "sage.homology.matrix_utils:*"] }]
+depends_on = ["modules.free-and-quotient", "matrices.kernel"]
+sage = ["sage.homology.chain_complex:*", "sage.homology.chain_complex_morphism:*", "sage.homology.chain_complex_homspace:*", "sage.homology.chain_homotopy:*", "sage.homology.homology_group:*", "sage.homology.homology_morphism:*", "sage.homology.homology_vector_space_with_basis:*", "sage.homology.algebraic_topological_model:*", "sage.homology.chains:*", "sage.homology.hochschild_complex:*", "sage.homology.koszul_complex:*", "sage.homology.matrix_utils:*"]
+catalogue = []
+tests = ["d squared equals zero and chain-map commutativity.", "Cycle/boundary quotient and representative checks.", "Homotopy and contraction identities.", "Hochschild/Koszul differential identities."]
+reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "mathlib.alg.module-quotients"], evidence = "Matrix and quotient foundations are reusable; Sage's concrete chain-complex, homology, basis-representative and specialized-complex APIs require native adapters." }
+backends = ["gmp"]
+references = []

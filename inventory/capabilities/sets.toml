@@ -1,0 +1,270 @@
+# Set constructions and enumerated-set carriers read from Sage 11.0.beta5,
+# c00171e47d6e68d8148d7ee10c4dd77b71a97662.
+
+domain = "sets"
+
+[[capability]]
+id = "sets.finite-enumeration"
+title = "Finite enumerated set construction"
+statement = "Construct a finite enumerated carrier from a finite iterable while retaining its ordered enumeration, membership, cardinality, first and last elements, and parent structure."
+domain = "A finite iterable of elements."
+contract = "X -> S, where S is a finite enumerated parent whose iteration and list preserve the supplied order, membership tests the stored elements, and cardinality is the number of entries including repeated entries when Sage models a multiset."
+exactness = "exact"
+algorithms = [{ family = "Materialized finite enumeration", sources = ["sage.sets.finite_enumerated_set:FiniteEnumeratedSet", "sage.sets.set_from_iterator:EnumeratedSetFromIterator"] }]
+depends_on = []
+sage = ["sage.sets.finite_enumerated_set:*", "sage.sets.set_from_iterator:*"]
+catalogue = ["cat.enumerated_sets"]
+tests = [
+  "Sage doctests for FiniteEnumeratedSet: order-sensitive iteration, membership, cardinality, first/last and empty-set behavior.",
+  "Independent finite-list oracle: compare list, membership and cardinality with the input tuple for runtime-generated inputs.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.enumerated_sets"], evidence = "The catalogue has the enumerated-sets carrier; the ordered-parent and repeated-entry behavior requires a native finite enumeration representation." }
+backends = []
+references = []
+
+[[capability]]
+id = "sets.integer-progressions"
+title = "Finite and infinite integer progression sets"
+statement = "Construct finite or infinite arithmetic progressions of integers with inclusive lower and exclusive upper bounds, signed step, optional middle-point enumeration, membership, ranking and unranking."
+domain = "Integer bounds in Z or infinities, nonzero integer step, and an optional middle point lying in the progression."
+contract = "(begin,end,step,middle_point) -> S with exact progression membership, finite cardinality when bounded, lazy enumeration when unbounded, and rank/unrank on the documented enumerated-set interface."
+exactness = "exact"
+algorithms = [{ family = "Normalized arithmetic progression enumeration", sources = ["sage.sets.integer_range:IntegerRange", "sage.sets.integer_range:IntegerRangeFinite", "sage.sets.integer_range:IntegerRangeInfinite"] }]
+depends_on = []
+sage = ["sage.sets.integer_range:*", "sage.sets.positive_integers:*"]
+catalogue = ["cat.enumerated_sets"]
+tests = [
+  "Sage doctests compare finite IntegerRange iteration with Python range for positive and negative steps and test infinite iteration.",
+  "Independent progression oracle: for generated finite bounds, compare membership, sorted elements and cardinality with the integer arithmetic definition.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.enumerated_sets"], evidence = "The enumerated-set carrier is available; exact integer progression normalization, infinite lazy iteration and rank/unrank are native obligations." }
+backends = []
+references = []
+
+[[capability]]
+id = "sets.nonnegative-integer-carrier"
+title = "Nonnegative integer enumerated carrier"
+statement = "Provide the enumerated set of nonnegative integers as a facade over integer elements, with exact membership, coercion and lazy enumeration."
+domain = "The integer ring Z."
+contract = "NN -> S whose elements are exactly integers n >= 0, whose constructor rejects negative or nonintegral values, and whose enumeration begins 0,1,2,... without materializing the infinite set."
+exactness = "exact"
+algorithms = [{ family = "Predicate-backed lazy integer enumeration", sources = ["sage.sets.non_negative_integers:NonNegativeIntegers"] }]
+depends_on = ["sets.integer-progressions"]
+sage = ["sage.sets.non_negative_integers:*"]
+catalogue = ["cat.enumerated_sets"]
+tests = [
+  "Sage doctests test membership, coercion rejection, cardinality, first element and the first several iterator values.",
+  "Independent predicate oracle: generated integer inputs satisfy membership exactly when n >= 0.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.enumerated_sets"], evidence = "The catalogue supplies the enumerated-set carrier; the facade-to-Z coercion and nonnegative predicate are explicit native behavior." }
+backends = []
+references = []
+
+[[capability]]
+id = "sets.cartesian-and-disjoint-constructions"
+title = "Cartesian and disjoint set constructions"
+statement = "Construct Cartesian products and disjoint unions of sets while retaining component membership, enumeration and canonical tagged elements."
+domain = "A finite family of sets, or a family of sets with the documented enumeration assumptions."
+contract = "(S_i) -> product/disjoint-union carrier with canonical tuple or tagged-sum elements, componentwise membership and exact finite cardinality when all factors are finite."
+exactness = "exact"
+algorithms = [{ family = "Tuple and tagged-union enumeration", sources = ["sage.sets.cartesian_product:CartesianProduct", "sage.sets.disjoint_union_enumerated_sets:DisjointUnionEnumeratedSets"] }]
+depends_on = ["sets.finite-enumeration"]
+sage = ["sage.sets.cartesian_product:*", "sage.sets.disjoint_union_enumerated_sets:*"]
+catalogue = ["cat.sets", "cat.enumerated_sets"]
+tests = [
+  "Sage doctests for tuple membership, iteration, cardinality and disjoint-union tags.",
+  "Independent finite-product oracle: compare generated tuples/tags with itertools.product and a tagged-sum reference implementation.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.sets", "catalogue.cat.enumerated_sets"], evidence = "The catalogue provides sets and enumerated sets; canonical tuple/tag representation and finite enumeration remain native obligations." }
+backends = []
+references = []
+
+[[capability]]
+id = "sets.set-theoretic-boolean-operations"
+title = "Set wrappers and Boolean set operations"
+statement = "Represent underlying sets and combine them by union, intersection, difference, symmetric difference, subset and superset operations with exact membership semantics."
+domain = "Arbitrary Sage objects that can be wrapped as sets, with finite enumeration when the input supports it."
+contract = "X -> Set(X), preserving the mathematical carrier and membership; Boolean operations produce sets whose membership is the corresponding logical combination and whose finite enumerations/cardinalities are retained when available."
+exactness = "exact"
+algorithms = [{ family = "Set wrapper and lazy Boolean-combination construction", sources = ["sage.sets.set:Set", "sage.sets.set:Set_base", "sage.sets.set:Set_object", "sage.sets.set:Set_object_union"] }]
+depends_on = []
+sage = ["sage.sets.set:*"]
+catalogue = ["cat.sets"]
+tests = [
+  "Sage doctests for wrapping finite and infinite parents, union/intersection/difference/symmetric difference, membership and subset relations.",
+  "Independent predicate oracle: evaluate membership in each Boolean combination from the corresponding Python logical expression.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.sets"], evidence = "The catalogue supplies the set carrier; Sage's finite-wrapper selection, lazy Boolean set nodes and coercion behavior require native implementation." }
+backends = []
+references = []
+
+[[capability]]
+id = "sets.real-interval-union"
+title = "Finite unions of real intervals"
+statement = "Construct normalized subsets of the real line as finite unions of open, closed and half-open intervals, points and unbounded rays."
+domain = "Real endpoints, infinities and endpoint-closure flags; symbolic inequalities are accepted when they reduce to real relations."
+contract = "Arguments -> normalized RealSet with disjoint ordered components, exact interval membership, Boolean operations, complement, endpoints, interior/closure and finite component enumeration."
+exactness = "exact"
+algorithms = [{ family = "Scan-line normalization and interval Boolean operations", sources = ["sage.sets.real_set:RealSet", "sage.sets.real_set:InternalRealInterval"] }]
+depends_on = ["sets.set-theoretic-boolean-operations"]
+sage = ["sage.sets.real_set:*"]
+catalogue = ["cat.sets"]
+tests = [
+  "Sage doctests for open/closed/half-open intervals, endpoint normalization, unions, complements and symbolic inequalities.",
+  "Independent interval-set oracle: compare normalized components and membership against a sorted endpoint sweep.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.sets"], evidence = "The catalogue supplies the set carrier; interval endpoint topology, normalization and scan-line operations require a native exact representation." }
+backends = []
+references = []
+
+[[capability]]
+id = "sets.indexed-families"
+title = "Indexed and lazy families"
+statement = "Construct associative families indexed by finite or infinite sets, optionally applying a function lazily and preserving visible and hidden keys."
+domain = "An index set I, an optional function f : I -> X, optional hidden keys/function and a laziness policy."
+contract = "(I,f) -> F with key lookup, iteration when available, cardinality, list, map-style access and exact finite/infinite category metadata; lazy families defer evaluation and may support infinite indices."
+exactness = "exact"
+algorithms = [{ family = "Finite dictionary and lazy indexed-family evaluation", sources = ["sage.sets.family:Family", "sage.sets.family:FiniteFamily", "sage.sets.family:LazyFamily"] }]
+depends_on = ["sets.finite-enumeration"]
+sage = ["sage.sets.family:*"]
+catalogue = ["cat.sets", "cat.enumerated_sets"]
+tests = [
+  "Sage doctests for list/dictionary/function families, lazy evaluation, infinite integer indices, hidden keys, iteration and cardinality.",
+  "Independent family oracle: compare finite key/value lookup and iteration with a dictionary or generated function.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.sets", "catalogue.cat.enumerated_sets"], evidence = "The catalogue supplies the underlying carrier categories; family evaluation, hidden keys and laziness are native data-structure obligations." }
+backends = []
+references = []
+
+[[capability]]
+id = "sets.disjoint-set-union-find"
+title = "Disjoint-set partition and union-find"
+statement = "Maintain a mutable partition of a finite set with representative lookup and near-constant amortized union operations."
+domain = "A nonnegative integer or iterable of hashable elements."
+contract = "X -> partition state supporting find(x), union(x,y), component enumeration, representatives and conversion to/from set partitions; union preserves equivalence-closure semantics."
+exactness = "exact"
+algorithms = [{ family = "Union-find with path compression and rank/size balancing", sources = ["sage.sets.disjoint_set:DisjointSet", "sage.sets.disjoint_set:DisjointSet_of_integers", "sage.sets.disjoint_set:DisjointSet_of_hashables"] }]
+depends_on = []
+sage = ["sage.sets.disjoint_set:*"]
+catalogue = ["cat.sets"]
+tests = [
+  "Sage doctests for integer and hashable domains, repeated unions, representatives and conversion through SetPartition.",
+  "Independent equivalence oracle: after generated union sequences, compare find-equivalence classes with a reference relation closure.",
+]
+reuse = { status = "missing", components = [], evidence = "No surveyed reusable Lean component was identified for the executable mutable union-find state; a native implementation or owner contribution is required." }
+backends = []
+references = ["Wikipedia: Disjoint-set data structure"]
+
+[[capability]]
+id = "sets.recursive-enumeration"
+title = "Recursively generated set enumeration"
+statement = "Enumerate a set from seeds and a successor function using breadth-first, depth-first, graded, forest or symmetric traversal policies."
+domain = "Seeds, a successor relation and optional structural assumptions (forest, graded or symmetric) that justify duplicate control and traversal."
+contract = "(seeds,successors,structure,enumeration) -> enumerated set with deterministic documented iterators, membership when decidable, rank/unrank or graded components where supported, and lazy traversal."
+exactness = "exact"
+algorithms = [{ family = "Graph traversal with structure-aware duplicate control", sources = ["sage.sets.recursively_enumerated_set:RecursivelyEnumeratedSet"] }]
+depends_on = ["sets.indexed-families"]
+sage = ["sage.sets.recursively_enumerated_set:*"]
+catalogue = ["cat.enumerated_sets"]
+tests = [
+  "Sage doctests for breadth/depth traversal, symmetric grids, graded permutations, forests and finite truncations.",
+  "Independent graph-traversal oracle: compare finite generated levels with BFS/DFS over the explicit successor graph.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.enumerated_sets"], evidence = "The catalogue supplies the enumerated-set carrier; structure-aware duplicate control and traversal policies require native implementation." }
+backends = []
+references = ["Wikipedia: Recursively enumerable set"]
+
+[[capability]]
+id = "sets.finite-function-spaces"
+title = "Finite function spaces and fibers"
+statement = "Construct and enumerate all maps between finite sets, compose endomaps, and compute fibers of finite functions."
+domain = "Finite domain and codomain sets, with optional left/right composition convention."
+contract = "(A,B) -> B^A as an enumerated set of maps with exact cardinality |B|^|A|, evaluation, dictionary/function construction, fibers and composition for endomaps."
+exactness = "exact"
+algorithms = [{ family = "Rank-coded finite map enumeration", sources = ["sage.sets.finite_set_maps:FiniteSetMaps", "sage.sets.finite_set_map_cy:FiniteSetMap_MN", "sage.sets.finite_set_map_cy:fibers"] }]
+depends_on = ["sets.finite-enumeration", "sets.integer-progressions"]
+sage = ["sage.sets.finite_set_maps:*", "sage.sets.finite_set_map_cy:*"]
+catalogue = ["cat.sets", "cat.enumerated_sets"]
+tests = [
+  "Sage doctests for map cardinality, evaluation, dictionary/function construction, composition and fibers.",
+  "Independent finite-function oracle: enumerate product tuples and compare evaluation, composition and fiber partitions.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.sets", "catalogue.cat.enumerated_sets"], evidence = "The catalogue supplies the set and enumerated carriers; rank-coded finite maps and executable composition/fibers are native obligations." }
+backends = []
+references = []
+
+[[capability]]
+id = "sets.prime-subsets"
+title = "Prime-number sets with congruence restrictions"
+statement = "Represent all primes or prime subsets defined by congruence classes and finite exceptions, with lazy enumeration, membership and complements."
+domain = "Integer modulus, selected residue classes and finite prime exceptions."
+contract = "(modulus,classes,exceptions) -> set of primes satisfying the normalized congruence predicate and exceptions, supporting exact membership, lazy increasing enumeration, slices, next-prime search and complement in the primes."
+exactness = "exact"
+algorithms = [{ family = "Congruence-filtered prime enumeration", sources = ["sage.sets.primes:Primes", "sage.sets.primes:PrimeNumbers"] }]
+depends_on = []
+sage = ["sage.sets.primes:*"]
+catalogue = ["cat.sets"]
+tests = [
+  "Sage doctests for congruence normalization, finite modulus-zero sets, exceptions, slices, next and complements.",
+  "Independent oracle: test generated candidates with primality and the normalized congruence/exception predicate.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.sets"], evidence = "The catalogue supplies the set carrier; primality filtering, congruence normalization and lazy enumeration require arithmetic reuse or a native owner implementation." }
+backends = []
+references = []
+
+[[capability]]
+id = "sets.predicate-defined-subsets"
+title = "Predicate-defined subsets"
+statement = "Construct a subset of a universe by one or more predicates, retaining variable names, category metadata and finite/infinite enumeration behavior when available."
+domain = "A universe and compatible callable or symbolic predicates."
+contract = "(U,p_1,...,p_n) -> {x in U | all p_i(x)} with exact membership, normalized predicate variables, inherited finiteness/enumeration metadata and Boolean set operations."
+exactness = "exact"
+algorithms = [{ family = "Predicate-backed subset membership and filtered enumeration", sources = ["sage.sets.condition_set:ConditionSet"] }]
+depends_on = ["sets.set-theoretic-boolean-operations"]
+sage = ["sage.sets.condition_set:*"]
+catalogue = ["cat.sets"]
+tests = [
+  "Sage doctests for numeric predicates, symbolic predicates, variable names, finite universes and iterator_range.",
+  "Independent predicate oracle: compare membership and finite filtered enumeration with direct predicate evaluation.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.sets"], evidence = "The catalogue supplies the set carrier; predicate storage, symbolic variable normalization and filtered enumeration require native representation." }
+backends = []
+references = []
+
+[[capability]]
+id = "sets.typed-python-carriers"
+title = "Sets of objects of a specified Python class"
+statement = "Represent the set of all objects of a given Python class with cached parent identity, membership and class-based construction."
+domain = "A Python class object."
+contract = "T -> set(T) with exact isinstance membership, constructor coercion through T, identity caching and finite/infinite category metadata."
+exactness = "exact"
+algorithms = [{ family = "Cached runtime-type carrier", sources = ["sage.sets.pythonclass:Set_PythonType", "sage.sets.pythonclass:Set_PythonType_class"] }]
+depends_on = []
+sage = ["sage.sets.pythonclass:*"]
+catalogue = ["cat.sets"]
+tests = [
+  "Sage doctests for type validation, membership, constructor coercion, caching, equality and pickling.",
+  "Independent Python-type oracle: compare membership with isinstance and construction with the target class.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.sets"], evidence = "The catalogue supplies the set carrier; runtime type predicates and cached parent construction are native interface obligations." }
+backends = []
+references = []
+
+[[capability]]
+id = "sets.ordered-finite-carriers"
+title = "Totally ordered finite set carriers"
+statement = "Construct finite enumerated sets whose order is the supplied total order and whose non-facade elements compare by rank."
+domain = "A finite sequence of distinct or repeated elements and an optional facade policy."
+contract = "X -> S with exact supplied enumeration, rank-based comparison for wrapped elements, membership, cardinality and first/last operations."
+exactness = "exact"
+algorithms = [{ family = "Rank-indexed finite enumeration", sources = ["sage.sets.totally_ordered_finite_set:TotallyOrderedFiniteSet", "sage.sets.totally_ordered_finite_set:TotallyOrderedFiniteSetElement"] }]
+depends_on = ["sets.finite-enumeration"]
+sage = ["sage.sets.totally_ordered_finite_set:*"]
+catalogue = ["cat.enumerated_sets"]
+tests = [
+  "Sage doctests for facade and non-facade construction, rank comparisons, equality and enumeration.",
+  "Independent rank oracle: compare wrapped ordering with the supplied sequence positions.",
+]
+reuse = { status = "adaptable", components = ["catalogue.cat.enumerated_sets"], evidence = "The catalogue supplies the enumerated carrier; rank-based wrapped comparison and facade policy require native implementation." }
+backends = []
+references = []

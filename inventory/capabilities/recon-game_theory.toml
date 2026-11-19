@@ -1,0 +1,18 @@
+domain = "game_theory"
+
+[[capability]]
+id = "recon-game-theory.documented-source-families"
+title = "Finite strategic, cooperative and matching games"
+statement = "Represent finite normal-form games and compute Nash equilibria, cooperative-game Shapley values and monotonicity/superadditivity, and stable matchings from preference profiles."
+domain = "Finite players, strategy/payoff tables, coalition characteristic functions, and complete preference lists."
+contract = "Game data -> equilibria/payoffs or cooperative invariants; preference profile -> bijective matching with no blocking pair."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and external-backend behavior follow each source family's documented contract."
+algorithms = [{ family = "Finite strategic, cooperative and matching games", sources = ["sage.game_theory.catalog_normal_form_games:*", "sage.game_theory.cooperative_game:*", "sage.game_theory.matching_game:*", "sage.game_theory.normal_form_game:*", "sage.game_theory.parser:*"] }]
+depends_on = []
+sage = ["sage.game_theory.catalog_normal_form_games:*", "sage.game_theory.cooperative_game:*", "sage.game_theory.matching_game:*", "sage.game_theory.normal_form_game:*", "sage.game_theory.parser:*"]
+catalogue = []
+tests = ["Computed Nash equilibria satisfy mutual best-response conditions.", "Shapley values satisfy efficiency and symmetry on canonical games; monotonicity and superadditivity predicates agree with definitions.", "Gale-Shapley output is a bijection and has no blocking pair."]
+reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic"], evidence = "Matrix and finite-set foundations are reusable; Sage's equilibrium, cooperative-game and matching algorithms require native adapters." }
+backends = ["gmp"]
+references = []

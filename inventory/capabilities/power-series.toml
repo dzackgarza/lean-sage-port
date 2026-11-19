@@ -1,0 +1,35 @@
+domain = "power_series"
+
+[[capability]]
+id = "power-series.formal-and-lazy"
+title = "Formal, lazy, Laurent, Puiseux and multivariate power series"
+statement = "Construct and compute with formal, lazy, Laurent, Puiseux, multivariate and Tate power series over supported coefficient rings."
+domain = "A coefficient ring, variables and precision/valuation data."
+contract = "Series parent and precision -> coefficient access, arithmetic, valuation/order, truncation, substitution, derivative/integral and unit/inversion operations respecting precision."
+exactness = "conditional"
+exactness_notes = "Formal exact series are exact to their stored precision; analytic/Tate and lazy operations inherit convergence and precision hypotheses."
+algorithms = [{ family = "Power, Laurent, Puiseux, lazy, multivariate and Tate series", sources = ["sage.rings.power_series_ring:*", "sage.rings.power_series_ring_element:*", "sage.rings.laurent_series_ring:*", "sage.rings.laurent_series_ring_element:*", "sage.rings.puiseux_series_ring:*", "sage.rings.puiseux_series_ring_element:*", "sage.rings.multi_power_series_ring:*", "sage.rings.multi_power_series_ring_element:*", "sage.rings.lazy_series_ring:*", "sage.rings.lazy_series:*", "sage.rings.tate_algebra:*", "sage.rings.tate_algebra_element:*"] }]
+depends_on = ["rings.core", "polynomials.univariate-arithmetic"]
+sage = ["sage.rings.power_series_ring:*", "sage.rings.power_series_ring_element:*", "sage.rings.laurent_series_ring:*", "sage.rings.laurent_series_ring_element:*", "sage.rings.puiseux_series_ring:*", "sage.rings.puiseux_series_ring_element:*", "sage.rings.multi_power_series_ring:*", "sage.rings.multi_power_series_ring_element:*", "sage.rings.lazy_series_ring:*", "sage.rings.lazy_series:*", "sage.rings.tate_algebra:*", "sage.rings.tate_algebra_element:*"]
+catalogue = []
+tests = ["Truncation-aware arithmetic, valuation and coefficient identities.", "Unit inversion and substitution identities at compatible precision.", "Derivative/integral and multivariate monomial support checks."]
+reuse = { status = "adaptable", components = ["mathlib.poly.power-series", "mathlib.poly.laurent", "series.power-series"], evidence = "Mathlib and Series provide formal-series foundations; Sage's precision parents, lazy evaluation, Puiseux/Tate semantics and multivariate coercion require native adapters." }
+backends = ["gmp"]
+references = []
+
+[[capability]]
+id = "power-series.specialized"
+title = "Polynomial-backed and PARI power series"
+statement = "Use polynomial-backed and PARI-backed power series for exact truncated arithmetic and accelerated coefficient operations."
+domain = "A compatible polynomial or PARI coefficient backend and truncation precision."
+contract = "Backend and precision -> series operations equivalent to formal-series semantics within the truncation bound."
+exactness = "conditional"
+exactness_notes = "Exact over exact coefficient backends; PARI behavior follows its documented precision contract."
+algorithms = [{ family = "Polynomial and PARI series backends", sources = ["sage.rings.power_series_poly:*", "sage.rings.power_series_pari:*"] }]
+depends_on = ["power-series.formal-and-lazy"]
+sage = ["sage.rings.power_series_poly:*", "sage.rings.power_series_pari:*"]
+catalogue = []
+tests = ["Agreement with formal truncation on arithmetic and inversion examples."]
+reuse = { status = "adaptable", components = ["mathlib.poly.power-series"], evidence = "Formal truncation is reusable; Sage's polynomial/PARI backend dispatch is native." }
+backends = ["gmp"]
+references = []

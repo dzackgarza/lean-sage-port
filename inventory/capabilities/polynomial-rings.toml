@@ -1,0 +1,40 @@
+domain = "polynomial_rings"
+
+[[capability]]
+id = "polynomial-rings.commutative-and-quotient"
+title = "Univariate, multivariate, Laurent, quotient and invariant polynomial rings"
+statement = "Construct and compute with dense, sparse, generic, finite-field, Laurent, multivariate and quotient polynomial rings, ideals, term orders, sequences and invariant-theoretic polynomial constructions."
+domain = "A coefficient ring/field, variables, term order and polynomial or ideal input."
+contract = "Ring and inputs -> canonical polynomial arithmetic, division/gcd/resultants, evaluation/interpolation, ideal membership/normal forms, quotient operations and invariant computations under documented hypotheses."
+exactness = "conditional"
+exactness_notes = "Exact over exact coefficient rings and certified algorithms; real-root and numerical routines inherit their precision/isolation assumptions."
+algorithms = [{ family = "Commutative polynomial and ideal algorithms", sources = ["sage.rings.polynomial.*:*", "sage.rings.fraction_field:*", "sage.rings.fraction_field_FpT:*", "sage.rings.fraction_field_element:*", "sage.rings.invariants.invariant_theory:*", "sage.rings.invariants.reconstruction:*", "sage.rings.monomials:*", "sage.rings.semirings.tropical_polynomial:*", "sage.rings.semirings.tropical_mpolynomial:*", "sage.rings.semirings.tropical_variety:*"] }]
+depends_on = ["rings.core", "matrices.smith-normal-form"]
+sage = ["sage.rings.polynomial.*:*", "sage.rings.fraction_field:*", "sage.rings.fraction_field_FpT:*", "sage.rings.fraction_field_element:*", "sage.rings.invariants.invariant_theory:*", "sage.rings.invariants.reconstruction:*", "sage.rings.monomials:*", "sage.rings.semirings.tropical_polynomial:*", "sage.rings.semirings.tropical_mpolynomial:*", "sage.rings.semirings.tropical_variety:*"]
+catalogue = []
+tests = [
+  "Polynomial arithmetic, division, gcd, resultant and factorization identities.",
+  "Multivariate term-order normal forms and Groebner ideal membership.",
+  "Quotient-ring relations and homomorphism checks.",
+  "Invariant-theory reconstruction and group-action invariance checks.",
+]
+reuse = { status = "adaptable", components = ["mathlib.poly.univariate-ring", "mathlib.poly.multivariate", "mathlib.poly.division", "mathlib.poly.gcd", "mathlib.poly.groebner-basis", "mathlib.data.finsupp"], evidence = "Mathlib supplies core commutative polynomial, monomial-order, Groebner and finitely-supported foundations; Sage's parent/coercion layer, FLINT/NTL/PBORI/Singular backends and invariant wrappers need native adapters." }
+backends = ["gmp"]
+references = []
+
+[[capability]]
+id = "polynomial-rings.real-roots"
+title = "Real-root isolation and polynomial root algorithms"
+statement = "Compute and certify real roots, intervals, signs and root-counting data for univariate polynomials."
+domain = "A univariate real polynomial over a supported exact or approximate coefficient domain."
+contract = "Polynomial -> isolating intervals, root counts, signs and approximations with disjointness and certification guarantees under the selected backend."
+exactness = "conditional"
+exactness_notes = "Exact isolation is certified over exact coefficient domains; approximate coefficients expose precision-dependent results."
+algorithms = [{ family = "Real-root isolation and root counting", sources = ["sage.rings.polynomial.real_roots:*"] }]
+depends_on = ["polynomial-rings.commutative-and-quotient"]
+sage = ["sage.rings.polynomial.real_roots:*"]
+catalogue = []
+tests = ["Sturm/root-counting consistency and isolating-interval disjointness.", "Sign evaluation at interval endpoints."]
+reuse = { status = "adaptable", components = ["mathlib.poly.roots", "mathlib.real.cauchy-reals"], evidence = "Mathlib has polynomial roots and real-number foundations; Sage's root isolation backends and interval APIs require native implementation." }
+backends = ["gmp"]
+references = []

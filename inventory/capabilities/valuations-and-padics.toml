@@ -1,0 +1,18 @@
+domain = "valuations"
+
+[[capability]]
+id = "valuations.nonarchimedean"
+title = "Valuations and p-adic arithmetic"
+statement = "Construct documented valuations, p-adic objects and nonarchimedean arithmetic with residue, precision, completion and local-field operations."
+domain = "A valued ring/field, prime or valuation specification and precision."
+contract = "Valuation data -> arithmetic object with valuation, residue, precision, completion and compatible coercion operations."
+exactness = "conditional"
+exactness_notes = "Arithmetic is exact at the declared precision and valuation; completion, residue and approximation operations retain the selected topology and precision hypotheses."
+algorithms = [{ family = "Valuations and p-adic arithmetic", sources = ["sage.rings.padics.*:*", "sage.rings.valuation.*:*", "sage.rings.function_field.valuation:*"] }]
+depends_on = ["rings.core", "number-fields.core-and-arithmetic"]
+sage = ["sage.rings.valuation.*:*", "sage.rings.function_field.valuation:*"]
+catalogue = []
+tests = ["Valuation laws, residue-map and precision consistency checks."]
+reuse = { status = "adaptable", components = ["mathlib.padic.numbers", "mathlib.int.padic-valuation"], evidence = "Mathlib supplies p-adic and valuation foundations; Sage's precision-parent and local-field implementations require native adapters." }
+backends = ["gmp"]
+references = []

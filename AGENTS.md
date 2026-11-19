@@ -29,8 +29,10 @@ object and operation. When the catalogue lacks one, the gap is reported to its o
 | `inventory/sage/release.toml` | Official release identity and the indexed fork content comparison. |
 | `inventory/sage/index/` | Generated index of that checkout: modules, entities, manual sections, packages, imports. |
 | `inventory/capabilities/` | Capability records: one intrinsic mathematical operation each, with the Sage entities it accounts for. `docs/capability-records.md` has the rules. |
-| `inventory/coverage.json` | Generated coverage report: public Sage entities by capability, by exclusion, and not yet accounted for, per manual section. |
+| `inventory/coverage.json` | Generated coverage report: public Sage entities by capability, by exclusion, by category record, and not yet accounted for, per manual section. |
+| `inventory/reconnaissance.json` | Generated exhaustive entity-level ledger: source, section disposition, current accounting status, algorithms, references, and backends. |
 | `inventory/categories/` | Sage's category classes and their methods at the baseline, each joined to its id in the `lean-categories` catalogue. The Sage-side judgments come from the research inventories below. |
+| `inventory/categories/reconciliation.json` | Open category reconciliation ledger joining every indexed category entity to an existing record, a research role, or an unmatched state. |
 | `inventory/reuse/` | Reuse maps: existing Lean components, with declarations, paths and a reuse status. |
 | `inventory/references/` | Non-Lean reference engines (FLINT, PARI, GAP, Singular and others) and their licences. |
 | `tools/inventory/` | The `sage-inventory` command: builds the index and measures coverage. |
@@ -102,4 +104,4 @@ time. A hard-coded special case is not evidence for a generic operation.
 | Rebuild the Sage index | `cd tools/inventory && uv run sage-inventory index ../../inventory/sage/baseline.yaml ../../inventory/sage/index` |
 | Print the record schema | `cd tools/inventory && uv run sage-inventory schema` |
 | Measure coverage | `cd tools/inventory && uv run sage-inventory coverage --help` |
-| List the entities of a section with no record | `cd tools/inventory && uv run sage-inventory unaccounted ../../inventory/sage/index ../../inventory/capabilities <section>` |
+| List the entities of a section with no record | `cd tools/inventory && uv run sage-inventory unaccounted ../../inventory/sage/index ../../inventory/capabilities <section> ../../inventory/categories/sage-categories.toml` |

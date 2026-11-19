@@ -1,0 +1,231 @@
+domain = "schemes"
+
+[[capability]]
+status = "source-reconciled"
+id = "schemes.generic-schemes"
+title = "Schemes, morphisms, points and divisors"
+statement = "Construct a scheme from a ring or by gluing affine pieces, and compute with its morphisms, points, hom-sets, divisors and ambient spaces."
+domain = "A commutative ring (for Spec) or affine patches with gluing data, over a base scheme."
+contract = "(X) -> the scheme with its base, structure sheaf on principal opens, affine covers, points with their residue fields, morphisms with their pullback on functions, hom-sets with their functoriality, divisor groups and divisors with linear equivalence, and ambient spaces with their subschemes."
+exactness = "exact"
+algorithms = [{ family = "Spec and gluing constructions", sources = ["sage.schemes.generic.algebraic_scheme:*", "sage.schemes.generic.ambient_space:*", "sage.schemes.generic.divisor:*", "sage.schemes.generic.divisor_group:*", "sage.schemes.generic.glue:*", "sage.schemes.generic.homset:*", "sage.schemes.generic.hypersurface:*", "sage.schemes.generic.morphism:*", "sage.schemes.generic.point:*", "sage.schemes.generic.scheme:*", "sage.schemes.generic.spec:*"] }, { family = "Morphisms, points and divisors", sources = ["sage.schemes.generic.algebraic_scheme:*", "sage.schemes.generic.ambient_space:*", "sage.schemes.generic.divisor:*", "sage.schemes.generic.divisor_group:*", "sage.schemes.generic.glue:*", "sage.schemes.generic.homset:*", "sage.schemes.generic.hypersurface:*", "sage.schemes.generic.morphism:*", "sage.schemes.generic.point:*", "sage.schemes.generic.scheme:*", "sage.schemes.generic.spec:*"] }]
+depends_on = []
+sage = [
+  "sage.schemes.generic.algebraic_scheme:*",
+  "sage.schemes.generic.ambient_space:*",
+  "sage.schemes.generic.divisor:*",
+  "sage.schemes.generic.divisor_group:*",
+  "sage.schemes.generic.glue:*",
+  "sage.schemes.generic.homset:*",
+  "sage.schemes.generic.hypersurface:*",
+  "sage.schemes.generic.morphism:*",
+  "sage.schemes.generic.point:*",
+  "sage.schemes.generic.scheme:*",
+  "sage.schemes.generic.spec:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for schemes.",
+  "A morphism of schemes pulls functions back compatibly with composition, and the fibre over a point has the expected residue field.",
+  "A principal divisor has degree zero on a complete curve, and linearly equivalent divisors differ by a principal divisor.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.ideals", "mathlib.alg.localization", "catalogue.cat.schemes"], evidence = "Mathlib supplies ideals, localisation and a scheme theory foundation; executable Spec, gluing and divisor arithmetic are not packaged there." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "schemes.affine-schemes"
+title = "Affine spaces, subschemes, points and morphisms"
+statement = "Construct affine n-space over a ring with its subschemes and rational points, and compute with affine morphisms and hom-sets."
+domain = "A commutative ring and a number of coordinates."
+contract = "(R,n) -> affine space with its coordinate ring, subschemes defined by ideals, points with coordinates in extensions, rational point enumeration over finite fields, and affine morphisms given by polynomials with their hom-sets."
+exactness = "exact"
+algorithms = [{ family = "Affine coordinate-ring computation", sources = ["sage.schemes.affine.affine_homset:*", "sage.schemes.affine.affine_morphism:*", "sage.schemes.affine.affine_point:*", "sage.schemes.affine.affine_rational_point:*", "sage.schemes.affine.affine_space:*", "sage.schemes.affine.affine_subscheme:*"] }, { family = "Point enumeration and morphisms", sources = ["sage.schemes.affine.affine_homset:*", "sage.schemes.affine.affine_morphism:*", "sage.schemes.affine.affine_point:*", "sage.schemes.affine.affine_rational_point:*", "sage.schemes.affine.affine_space:*", "sage.schemes.affine.affine_subscheme:*"] }]
+depends_on = []
+sage = [
+  "sage.schemes.affine.affine_homset:*",
+  "sage.schemes.affine.affine_morphism:*",
+  "sage.schemes.affine.affine_point:*",
+  "sage.schemes.affine.affine_rational_point:*",
+  "sage.schemes.affine.affine_space:*",
+  "sage.schemes.affine.affine_subscheme:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for affine schemes.",
+  "A point lies on a subscheme exactly when it annihilates the defining ideal, and the morphism's pullback is the polynomial substitution.",
+  "The number of rational points over a finite field agrees with the count of solutions of the defining equations.",
+]
+reuse = { status = "adaptable", components = ["mathlib.poly.multivariate", "mathlib.alg.ideals"], evidence = "Mathlib supplies multivariate polynomials and ideals; executable affine schemes with point enumeration are not packaged there." }
+backends = ["interface:singular"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "schemes.projective-schemes"
+title = "Projective spaces, subschemes, points and morphisms"
+statement = "Construct projective n-space over a ring with its subschemes, points and rational points, and compute with projective morphisms, their indeterminacy and their images."
+domain = "A commutative ring and a number of homogeneous coordinates."
+contract = "(R,n) -> projective space with its homogeneous coordinate ring, subschemes defined by homogeneous ideals, points with homogeneous coordinates, rational point enumeration over finite fields, and morphisms given by homogeneous polynomials with their indeterminacy locus, image and degree."
+exactness = "exact"
+algorithms = [{ family = "Homogeneous coordinate-ring computation", sources = ["sage.schemes.projective.proj_bdd_height:*", "sage.schemes.projective.projective_homset:*", "sage.schemes.projective.projective_morphism:*", "sage.schemes.projective.projective_point:*", "sage.schemes.projective.projective_rational_point:*", "sage.schemes.projective.projective_space:*", "sage.schemes.projective.projective_subscheme:*"] }, { family = "Rational points and morphism images", sources = ["sage.schemes.projective.proj_bdd_height:*", "sage.schemes.projective.projective_homset:*", "sage.schemes.projective.projective_morphism:*", "sage.schemes.projective.projective_point:*", "sage.schemes.projective.projective_rational_point:*", "sage.schemes.projective.projective_space:*", "sage.schemes.projective.projective_subscheme:*"] }]
+depends_on = []
+sage = [
+  "sage.schemes.projective.proj_bdd_height:*",
+  "sage.schemes.projective.projective_homset:*",
+  "sage.schemes.projective.projective_morphism:*",
+  "sage.schemes.projective.projective_point:*",
+  "sage.schemes.projective.projective_rational_point:*",
+  "sage.schemes.projective.projective_space:*",
+  "sage.schemes.projective.projective_subscheme:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for projective schemes.",
+  "A rational point satisfies all defining homogeneous equations and the count over a finite field matches the direct solution count.",
+  "The image of a morphism is closed and equals the subscheme defined by the elimination ideal of its graph.",
+]
+reuse = { status = "adaptable", components = ["mathlib.poly.multivariate", "mathlib.alg.ideals"], evidence = "Mathlib supplies homogeneous polynomials and ideals; projective schemes, rational points and morphism images are not executable there." }
+backends = ["interface:singular", "pari", "singular"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "schemes.product-projective-schemes"
+title = "Products of projective spaces"
+statement = "Construct a product of projective spaces with its Segre embedding, subschemes, points, rational points and polynomial morphisms."
+domain = "A commutative ring and a list of dimensions."
+contract = "(R;n1..nk) -> the product with its coordinate ring, the Segre embedding, subschemes defined by bihomogeneous ideals, points and their rational enumeration, and morphisms given by multihomogeneous polynomials."
+exactness = "exact"
+algorithms = [{ family = "Multihomogeneous coordinate computation", sources = ["sage.schemes.product_projective.homset:*", "sage.schemes.product_projective.morphism:*", "sage.schemes.product_projective.point:*", "sage.schemes.product_projective.rational_point:*", "sage.schemes.product_projective.space:*", "sage.schemes.product_projective.subscheme:*"] }]
+depends_on = []
+sage = [
+  "sage.schemes.product_projective.homset:*",
+  "sage.schemes.product_projective.morphism:*",
+  "sage.schemes.product_projective.point:*",
+  "sage.schemes.product_projective.rational_point:*",
+  "sage.schemes.product_projective.space:*",
+  "sage.schemes.product_projective.subscheme:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for product projective spaces.",
+  "The Segre embedding is a closed immersion and a bihomogeneous polynomial restricts correctly to each factor.",
+  "Rational point counts agree with the product of the factor counts when the defining ideal is trivial.",
+]
+reuse = { status = "adaptable", components = ["mathlib.poly.multivariate", "mathlib.alg.tensor-product"], evidence = "Mathlib supplies multivariate polynomials and tensor products; product projective schemes are not packaged executably." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "schemes.weighted-projective-schemes"
+title = "Weighted projective spaces and their points"
+statement = "Construct a weighted projective space with its weighted homogeneous coordinate ring, subschemes, points and rational point enumeration."
+domain = "A commutative ring, a list of positive weights and a number of coordinates."
+contract = "(R;w1..wn) -> the weighted projective space with its coordinate ring graded by the weights, subschemes defined by weighted homogeneous ideals, points with weighted coordinates and their rational enumeration."
+exactness = "exact"
+algorithms = [{ family = "Weighted grading and point enumeration", sources = ["sage.schemes.weighted_projective.weighted_projective_homset:*", "sage.schemes.weighted_projective.weighted_projective_point:*", "sage.schemes.weighted_projective.weighted_projective_space:*"] }]
+depends_on = []
+sage = [
+  "sage.schemes.weighted_projective.weighted_projective_homset:*",
+  "sage.schemes.weighted_projective.weighted_projective_point:*",
+  "sage.schemes.weighted_projective.weighted_projective_space:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for weighted projective spaces.",
+  "A weighted homogeneous polynomial of degree d is invariant under the weighted scaling action, and the rational point count matches the solution count of the defining equations in the weighted grading.",
+]
+reuse = { status = "adaptable", components = ["mathlib.poly.multivariate"], evidence = "Mathlib supplies multivariate polynomials and gradings; weighted projective spaces are not packaged executably." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "schemes.toric-varieties"
+title = "Toric varieties, their divisors, Chow groups and sheaves"
+statement = "Construct a toric variety from a fan or a lattice polytope and compute its divisors and divisor classes, Chow group, morphisms, subschemes, torus-invariant sheaves, Weierstrass models and the library of named varieties."
+domain = "A fan in a toric lattice, or a lattice polytope for the projective embedding."
+contract = "(Sigma) -> the toric variety with its fan, orbit closure stratification, torus-invariant divisors and their classes, the Chow group with its relations, morphisms to other toric varieties, subschemes, Klyachko and constructible sheaves with their cohomology, enumeration of points over finite fields, and Weierstrass forms of toric elliptic curves."
+exactness = "exact"
+algorithms = [{ family = "Fan-orbit correspondence and divisor classes", sources = ["sage.schemes.toric.chow_group:*", "sage.schemes.toric.divisor:*", "sage.schemes.toric.divisor_class:*", "sage.schemes.toric.fano_variety:*", "sage.schemes.toric.homset:*", "sage.schemes.toric.ideal:*", "sage.schemes.toric.library:*", "sage.schemes.toric.morphism:*", "sage.schemes.toric.points:*", "sage.schemes.toric.sheaf.constructor:*", "sage.schemes.toric.sheaf.klyachko:*", "sage.schemes.toric.toric_subscheme:*", "sage.schemes.toric.variety:*", "sage.schemes.toric.weierstrass:*", "sage.schemes.toric.weierstrass_covering:*", "sage.schemes.toric.weierstrass_higher:*"] }, { family = "Chow groups and sheaf cohomology", sources = ["sage.schemes.toric.chow_group:*", "sage.schemes.toric.divisor:*", "sage.schemes.toric.divisor_class:*", "sage.schemes.toric.fano_variety:*", "sage.schemes.toric.homset:*", "sage.schemes.toric.ideal:*", "sage.schemes.toric.library:*", "sage.schemes.toric.morphism:*", "sage.schemes.toric.points:*", "sage.schemes.toric.sheaf.constructor:*", "sage.schemes.toric.sheaf.klyachko:*", "sage.schemes.toric.toric_subscheme:*", "sage.schemes.toric.variety:*", "sage.schemes.toric.weierstrass:*", "sage.schemes.toric.weierstrass_covering:*", "sage.schemes.toric.weierstrass_higher:*"] }]
+depends_on = []
+sage = [
+  "sage.schemes.toric.chow_group:*",
+  "sage.schemes.toric.divisor:*",
+  "sage.schemes.toric.divisor_class:*",
+  "sage.schemes.toric.fano_variety:*",
+  "sage.schemes.toric.homset:*",
+  "sage.schemes.toric.ideal:*",
+  "sage.schemes.toric.library:*",
+  "sage.schemes.toric.morphism:*",
+  "sage.schemes.toric.points:*",
+  "sage.schemes.toric.sheaf.constructor:*",
+  "sage.schemes.toric.sheaf.klyachko:*",
+  "sage.schemes.toric.toric_subscheme:*",
+  "sage.schemes.toric.variety:*",
+  "sage.schemes.toric.weierstrass:*",
+  "sage.schemes.toric.weierstrass_covering:*",
+  "sage.schemes.toric.weierstrass_higher:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for toric varieties.",
+  "The orbit-cone correspondence holds: each cone gives an orbit closure of the expected dimension, and divisor classes are equivalent exactly when their difference is a character divisor.",
+  "The Chow group computed from the fan agrees with the fan's presentation, and sheaf cohomology of a line bundle matches the polytope's lattice-point counts.",
+]
+reuse = { status = "adaptable", components = ["mathlib.alg.ideals", "mathlib.poly.multivariate", "mathlib.comb.matroid"], evidence = "Mathlib supplies ideals, polynomials and matroids; toric varieties, their Chow groups and sheaf cohomology are not executable there." }
+backends = ["gmp"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "schemes.berkovich-spaces"
+title = "Berkovich spaces over C_p"
+statement = "Construct Berkovich projective and affine space over C_p, with their points of types I-IV, the path metric, and the reduction map to the residue curve."
+domain = "A p-adic field C_p and a point given by a ball or a nested sequence of balls."
+contract = "(x) -> the Berkovich point with its type, its defining ball or nested sequence, its distance to other points, the path to infinity and the reduction map to the special fibre; spaces expose the Gauss point and the Hsia kernel."
+exactness = "exact"
+algorithms = [{ family = "Berkovich point types and path metric", sources = ["sage.schemes.berkovich.berkovich_cp_element:*", "sage.schemes.berkovich.berkovich_space:*"] }]
+depends_on = []
+sage = [
+  "sage.schemes.berkovich.berkovich_cp_element:*",
+  "sage.schemes.berkovich.berkovich_space:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for Berkovich spaces.",
+  "The path metric satisfies the triangle inequality and the distance between a point and the Gauss point is the negative log of its radius.",
+  "Point types are correctly classified: a type II point is a ball whose radius lies in the value group.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for Berkovich spaces and p-adic analytic geometry; none exists." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "schemes.cyclic-covers"
+title = "Cyclic covers of the projective line"
+statement = "Construct a cyclic cover of P^1 from a polynomial and a degree d, and compute its zeta function and Frobenius characteristic polynomial over a finite field."
+domain = "A finite field and a polynomial whose roots give the branch points, with the covering degree."
+contract = "(f,d) -> the cyclic cover curve with its genus, its zeta function over the finite field and the characteristic polynomial of Frobenius computed by the charpoly_frobenius algorithm."
+exactness = "exact"
+algorithms = [{ family = "Frobenius charpoly for cyclic covers", sources = ["sage.schemes.cyclic_covers.charpoly_frobenius:*", "sage.schemes.cyclic_covers.constructor:*", "sage.schemes.cyclic_covers.cycliccover_finite_field:*", "sage.schemes.cyclic_covers.cycliccover_generic:*"] }]
+depends_on = []
+sage = [
+  "sage.schemes.cyclic_covers.charpoly_frobenius:*",
+  "sage.schemes.cyclic_covers.constructor:*",
+  "sage.schemes.cyclic_covers.cycliccover_finite_field:*",
+  "sage.schemes.cyclic_covers.cycliccover_generic:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for cyclic covers.",
+  "The genus computed from the ramification data agrees with the Riemann-Hurwitz formula, and the Frobenius characteristic polynomial has the expected degree 2g.",
+  "The zeta function computed from the charpoly agrees with point counts over small extension fields.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for cyclic covers and their zeta functions; none exists." }
+backends = []
+references = []

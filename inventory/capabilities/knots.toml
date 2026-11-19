@@ -1,0 +1,17 @@
+domain = "knots"
+
+[[capability]]
+id = "knots.invariants"
+title = "Knot and link invariants"
+statement = "Construct knots and links from Gauss codes, braid or table data, and compute crossing data, closures, Alexander and Jones-type polynomial invariants, signatures and table/database identifiers."
+domain = "A valid oriented or unoriented knot/link presentation, with the normalization convention required by each invariant."
+contract = "Knot or link presentation -> a canonicalized combinatorial object and invariant polynomial or integer; conversions preserve the represented isotopy class, while table lookups are explicitly data-backed."
+exactness = "exact"
+algorithms = [{ family = "Knot and link presentations and polynomial invariants", sources = ["sage.knots.knot:*", "sage.knots.link:*", "sage.knots.gauss_code:*", "sage.knots.knot_table:*", "sage.knots.knotinfo:*", "sage.knots.free_knotinfo_monoid:*"] }]
+depends_on = ["polynomial-rings.commutative-and-quotient"]
+sage = ["sage.knots.*:*"]
+catalogue = []
+tests = ["Reidemeister-equivalent presentations have equal invariants.", "The unknot has normalized Alexander and Jones polynomials equal to 1.", "Braid closure and Gauss-code round trips preserve crossings and link components."]
+reuse = { status = "missing", components = [], evidence = "The reuse inventory contains polynomial and group foundations but no executable knot/link invariant implementation." }
+backends = []
+references = []

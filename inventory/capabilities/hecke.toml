@@ -1,0 +1,17 @@
+domain = "hecke"
+
+[[capability]]
+id = "hecke.documented-algorithms"
+title = "Hecke algebras and modular-symbol arithmetic"
+statement = "Construct Hecke algebras and ambient modules, represent Hecke operators and elements, compute actions, degeneracy maps, homomorphisms, submodules and characteristic data on modular-symbol and related spaces."
+domain = "A modular-symbol or compatible ambient module with level, weight, character, coefficient ring and normalization data satisfying the selected Hecke construction."
+contract = "Ambient modular module and Hecke index -> an exact operator or algebra element with its action, composition, matrix/coordinate representation and induced submodule or morphism; normalization and coefficient-ring hypotheses are retained."
+exactness = "exact"
+algorithms = [{ family = "Hecke algebra, operators, modules and morphisms", sources = ["sage.modular.hecke.algebra:*", "sage.modular.hecke.ambient_module:*", "sage.modular.hecke.element:*", "sage.modular.hecke.hecke_operator:*", "sage.modular.hecke.module:*", "sage.modular.hecke.submodule:*", "sage.modular.hecke.morphism:*", "sage.modular.hecke.degenmap:*", "sage.modular.hecke.homspace:*"] }]
+depends_on = ["rings.core"]
+sage = ["sage.modular.hecke.*:*"]
+catalogue = []
+tests = ["Hecke operators preserve the declared modular-symbol subspace.", "T_m T_n = T_{mn} for coprime indices on sample spaces.", "Degeneracy maps commute with the corresponding Hecke action where the source hypotheses apply."]
+reuse = { status = "adaptable", components = ["mathlib.data.finsupp", "mathlib.nt.modular-forms"], evidence = "Mathlib supplies finite-support and modular-form foundations; executable Hecke operator matrices, degeneracy maps and modular-symbol modules require native algorithms." }
+backends = []
+references = []

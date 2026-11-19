@@ -1,0 +1,185 @@
+domain = "arithmetic_curves"
+
+[[capability]]
+status = "source-reconciled"
+id = "arithmetic-curves.elliptic-curve-arithmetic"
+title = "Elliptic curves, their group law and their isogenies"
+statement = "Construct an elliptic curve as a Weierstrass model y^2 + a1xy + a3y = x^3 + a2x^2 + a4x + a6 over a ring, compute its point group, and construct morphisms and isogenies between elliptic curves."
+domain = "A commutative ring or field in which the discriminant is inverted, and curve coefficients or a point set."
+contract = "(R,a1..a6) -> the projective curve with its group law, point group, j-invariant and discriminant; (E,E') -> the morphisms of Weierstrass models and the isogenies, with degree, kernel polynomial, dual, composition and the Velusqrt and small-degree constructions. Isogeny classes collect curves with the same isogeny invariants."
+exactness = "exact"
+algorithms = [{ family = "The curve and its group law", sources = ["sage.schemes.elliptic_curves.cardinality:*", "sage.schemes.elliptic_curves.constructor:*", "sage.schemes.elliptic_curves.ell_curve_isogeny:*", "sage.schemes.elliptic_curves.ell_edwards:*", "sage.schemes.elliptic_curves.ell_field:*", "sage.schemes.elliptic_curves.ell_finite_field:*", "sage.schemes.elliptic_curves.ell_generic:*", "sage.schemes.elliptic_curves.ell_point:*", "sage.schemes.elliptic_curves.ell_torsion:*", "sage.schemes.elliptic_curves.ell_wp:*", "sage.schemes.elliptic_curves.hom:*", "sage.schemes.elliptic_curves.hom_composite:*", "sage.schemes.elliptic_curves.hom_fractional:*", "sage.schemes.elliptic_curves.hom_frobenius:*", "sage.schemes.elliptic_curves.hom_scalar:*", "sage.schemes.elliptic_curves.hom_sum:*", "sage.schemes.elliptic_curves.hom_velusqrt:*", "sage.schemes.elliptic_curves.isogeny_class:*", "sage.schemes.elliptic_curves.isogeny_small_degree:*", "sage.schemes.elliptic_curves.jacobian:*", "sage.schemes.elliptic_curves.kodaira_symbol:*", "sage.schemes.elliptic_curves.saturation:*", "sage.schemes.elliptic_curves.weierstrass_morphism:*", "sage.schemes.elliptic_curves.weierstrass_transform:*"] }, { family = "Morphisms, isogenies and isogeny classes", sources = ["sage.schemes.elliptic_curves.cardinality:*", "sage.schemes.elliptic_curves.constructor:*", "sage.schemes.elliptic_curves.ell_curve_isogeny:*", "sage.schemes.elliptic_curves.ell_edwards:*", "sage.schemes.elliptic_curves.ell_field:*", "sage.schemes.elliptic_curves.ell_finite_field:*", "sage.schemes.elliptic_curves.ell_generic:*", "sage.schemes.elliptic_curves.ell_point:*", "sage.schemes.elliptic_curves.ell_torsion:*", "sage.schemes.elliptic_curves.ell_wp:*", "sage.schemes.elliptic_curves.hom:*", "sage.schemes.elliptic_curves.hom_composite:*", "sage.schemes.elliptic_curves.hom_fractional:*", "sage.schemes.elliptic_curves.hom_frobenius:*", "sage.schemes.elliptic_curves.hom_scalar:*", "sage.schemes.elliptic_curves.hom_sum:*", "sage.schemes.elliptic_curves.hom_velusqrt:*", "sage.schemes.elliptic_curves.isogeny_class:*", "sage.schemes.elliptic_curves.isogeny_small_degree:*", "sage.schemes.elliptic_curves.jacobian:*", "sage.schemes.elliptic_curves.kodaira_symbol:*", "sage.schemes.elliptic_curves.saturation:*", "sage.schemes.elliptic_curves.weierstrass_morphism:*", "sage.schemes.elliptic_curves.weierstrass_transform:*"] }]
+depends_on = []
+sage = [
+  "sage.schemes.elliptic_curves.cardinality:*",
+  "sage.schemes.elliptic_curves.constructor:*",
+  "sage.schemes.elliptic_curves.ell_curve_isogeny:*",
+  "sage.schemes.elliptic_curves.ell_edwards:*",
+  "sage.schemes.elliptic_curves.ell_field:*",
+  "sage.schemes.elliptic_curves.ell_finite_field:*",
+  "sage.schemes.elliptic_curves.ell_generic:*",
+  "sage.schemes.elliptic_curves.ell_point:*",
+  "sage.schemes.elliptic_curves.ell_torsion:*",
+  "sage.schemes.elliptic_curves.ell_wp:*",
+  "sage.schemes.elliptic_curves.hom:*",
+  "sage.schemes.elliptic_curves.hom_composite:*",
+  "sage.schemes.elliptic_curves.hom_fractional:*",
+  "sage.schemes.elliptic_curves.hom_frobenius:*",
+  "sage.schemes.elliptic_curves.hom_scalar:*",
+  "sage.schemes.elliptic_curves.hom_sum:*",
+  "sage.schemes.elliptic_curves.hom_velusqrt:*",
+  "sage.schemes.elliptic_curves.isogeny_class:*",
+  "sage.schemes.elliptic_curves.isogeny_small_degree:*",
+  "sage.schemes.elliptic_curves.jacobian:*",
+  "sage.schemes.elliptic_curves.kodaira_symbol:*",
+  "sage.schemes.elliptic_curves.saturation:*",
+  "sage.schemes.elliptic_curves.weierstrass_morphism:*",
+  "sage.schemes.elliptic_curves.weierstrass_transform:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for the Weierstrass model and the group law.",
+  "Points on the curve satisfy the defining equation; P + O = P and the group law is associative on sample points.",
+  "An isogeny composed with its dual is multiplication by the degree, checked on points.",
+]
+reuse = { status = "adaptable", components = ["mathlib.nt.elliptic-curves-advanced", "mathlib.nt.elliptic-point-addition", "mathlib.nt.weierstrass-invariants"], evidence = "Mathlib supplies Weierstrass curves, their invariants and point addition over fields; it has no executable isogeny, kernel-polynomial or isogeny-class computation." }
+backends = ["pari"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "arithmetic-curves.elliptic-curve-local-arithmetic"
+title = "Elliptic curves over local and global fields"
+statement = "Compute reduction types, minimal models, local Tamagawa data, the Mordell-Weil rank and generator data, complex multiplication, Galois representations and the Tate parametrisation of a p-adic curve."
+domain = "An elliptic curve over Q, a number field or a p-adic field."
+contract = "(E,p) -> the local reduction data at p, a global or semi-global minimal model, the conductor exponents and Tamagawa numbers; (E) -> the rank, the regulator, the torsion subgroup and, where implemented, generators; (E,l) -> the mod-l Galois representation with its image, and for a Tate curve the p-adic uniformisation."
+exactness = "exact"
+algorithms = [{ family = "Local and global invariant computation", sources = ["sage.schemes.elliptic_curves.cm:*", "sage.schemes.elliptic_curves.ell_local_data:*", "sage.schemes.elliptic_curves.ell_number_field:*", "sage.schemes.elliptic_curves.ell_padic_field:*", "sage.schemes.elliptic_curves.ell_rational_field:*", "sage.schemes.elliptic_curves.ell_tate_curve:*", "sage.schemes.elliptic_curves.formal_group:*", "sage.schemes.elliptic_curves.gal_reps:*", "sage.schemes.elliptic_curves.gal_reps_number_field:*", "sage.schemes.elliptic_curves.kraus:*"] }, { family = "Tate parametrisation and formal groups", sources = ["sage.schemes.elliptic_curves.cm:*", "sage.schemes.elliptic_curves.ell_local_data:*", "sage.schemes.elliptic_curves.ell_number_field:*", "sage.schemes.elliptic_curves.ell_padic_field:*", "sage.schemes.elliptic_curves.ell_rational_field:*", "sage.schemes.elliptic_curves.ell_tate_curve:*", "sage.schemes.elliptic_curves.formal_group:*", "sage.schemes.elliptic_curves.gal_reps:*", "sage.schemes.elliptic_curves.gal_reps_number_field:*", "sage.schemes.elliptic_curves.kraus:*"] }]
+depends_on = []
+sage = [
+  "sage.schemes.elliptic_curves.cm:*",
+  "sage.schemes.elliptic_curves.ell_local_data:*",
+  "sage.schemes.elliptic_curves.ell_number_field:*",
+  "sage.schemes.elliptic_curves.ell_padic_field:*",
+  "sage.schemes.elliptic_curves.ell_rational_field:*",
+  "sage.schemes.elliptic_curves.ell_tate_curve:*",
+  "sage.schemes.elliptic_curves.formal_group:*",
+  "sage.schemes.elliptic_curves.gal_reps:*",
+  "sage.schemes.elliptic_curves.gal_reps_number_field:*",
+  "sage.schemes.elliptic_curves.kraus:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for local data and minimal models.",
+  "A minimal model has discriminant valuation equal to the minimal one over the local ring; the conductor exponent computed from the reduction type agrees with the Tate algorithm.",
+  "The mod-l Galois representation is a continuous homomorphism and its determinant is the cyclotomic character.",
+]
+reuse = { status = "adaptable", components = ["mathlib.nt.elliptic-curves-advanced", "mathlib.nt.number-fields", "mathlib.padic.numbers"], evidence = "Mathlib supplies number fields, p-adic numbers and basic elliptic-curve theory; local reduction data, Tate's algorithm, ranks and Galois- representation images are not executable there." }
+backends = ["arb", "eclib", "interface:gp", "interface:magma", "interface:mwrank", "pari"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "arithmetic-curves.elliptic-curve-heights-and-lseries"
+title = "Heights, period lattices and L-series of elliptic curves"
+statement = "Compute canonical and local heights, the period lattice and its fundamental domain, the complex and p-adic L-series, the analytic order of vanishing and Heegner points."
+domain = "An elliptic curve over Q or a number field, and a prime for the p-adic constructions."
+contract = "(E[,p]) -> the canonical height of a point as a sum of local heights, the period lattice with its basis and elliptic-exponential map, the L-series truncated to a requested precision with its order of vanishing and leading coefficient, the p-adic L-series with its Iwasawa invariants, and Heegner points attached to a quadratic imaginary order."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and backend behaviour follow the documented contract of each source module."
+algorithms = [{ family = "Canonical heights and period lattices", sources = ["sage.schemes.elliptic_curves.heegner:*", "sage.schemes.elliptic_curves.height:*", "sage.schemes.elliptic_curves.lseries_ell:*", "sage.schemes.elliptic_curves.padic_lseries:*", "sage.schemes.elliptic_curves.period_lattice:*", "sage.schemes.elliptic_curves.period_lattice_region:*", "sage.schemes.elliptic_curves.sha_tate:*"] }, { family = "Complex and p-adic L-series", sources = ["sage.schemes.elliptic_curves.heegner:*", "sage.schemes.elliptic_curves.height:*", "sage.schemes.elliptic_curves.lseries_ell:*", "sage.schemes.elliptic_curves.padic_lseries:*", "sage.schemes.elliptic_curves.period_lattice:*", "sage.schemes.elliptic_curves.period_lattice_region:*", "sage.schemes.elliptic_curves.sha_tate:*"] }, { family = "Heegner points and Sha bounds", sources = ["sage.schemes.elliptic_curves.heegner:*", "sage.schemes.elliptic_curves.height:*", "sage.schemes.elliptic_curves.lseries_ell:*", "sage.schemes.elliptic_curves.padic_lseries:*", "sage.schemes.elliptic_curves.period_lattice:*", "sage.schemes.elliptic_curves.period_lattice_region:*", "sage.schemes.elliptic_curves.sha_tate:*"] }]
+depends_on = []
+sage = [
+  "sage.schemes.elliptic_curves.heegner:*",
+  "sage.schemes.elliptic_curves.height:*",
+  "sage.schemes.elliptic_curves.lseries_ell:*",
+  "sage.schemes.elliptic_curves.padic_lseries:*",
+  "sage.schemes.elliptic_curves.period_lattice:*",
+  "sage.schemes.elliptic_curves.period_lattice_region:*",
+  "sage.schemes.elliptic_curves.sha_tate:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for heights, periods and L-series.",
+  "The canonical height is a positive-definite quadratic form up to finite index, h(2P) = 4h(P) on sample points, and the regulator computed from it agrees with the period-lattice computation.",
+  "The order of vanishing of the L-series matches the rank when the rank is known independently, and the Gross-Zagier relation for a Heegner point holds numerically to the requested precision.",
+]
+reuse = { status = "adaptable", components = ["mathlib.nt.l-series", "mathlib.analysis.series-odes-optimization"], evidence = "Mathlib supplies the definition of an L-series and analytic series machinery, but no executable canonical height, period lattice, p-adic L-series or Heegner-point computation." }
+backends = ["interface:magma", "numpy", "pari"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "arithmetic-curves.elliptic-curve-descent-and-modular-data"
+title = "Descent, modular parametrisation and database data for elliptic curves"
+statement = "Compute two-isogeny and general descent bounds for the rank, Selmer-group data, the modular parametrisation and modular polynomials of an elliptic curve, BSD invariants, and look curves up in the elliptic-curve databases; reduce genus-2 curves to their minimal models."
+domain = "An elliptic curve over Q, possibly with a chosen descent or a modular degree bound."
+contract = "(E) -> the two-isogeny descent bound on the rank, the modular symbols and the modular parametrisation with its degree, modular polynomials whose roots give l-isogenous curves, the BSD invariants (regulator, Tamagawa numbers, Sha bound, real period), and database-derivation data; (C) for a genus-2 curve, its Igusa-Clebsch invariants and the minimal Weierstrass data."
+exactness = "exact"
+algorithms = [{ family = "Descent bound and Selmer data", sources = ["sage.interfaces.genus2reduction:*", "sage.schemes.elliptic_curves.BSD:*", "sage.schemes.elliptic_curves.Qcurves:*", "sage.schemes.elliptic_curves.descent_two_isogeny:*", "sage.schemes.elliptic_curves.ec_database:*", "sage.schemes.elliptic_curves.ell_egros:*", "sage.schemes.elliptic_curves.ell_modular_symbols:*", "sage.schemes.elliptic_curves.gp_simon:*", "sage.schemes.elliptic_curves.mod5family:*", "sage.schemes.elliptic_curves.mod_poly:*", "sage.schemes.elliptic_curves.mod_sym_num:*", "sage.schemes.elliptic_curves.modular_parametrization:*"] }, { family = "Modular parametrisation and modular polynomials", sources = ["sage.interfaces.genus2reduction:*", "sage.schemes.elliptic_curves.BSD:*", "sage.schemes.elliptic_curves.Qcurves:*", "sage.schemes.elliptic_curves.descent_two_isogeny:*", "sage.schemes.elliptic_curves.ec_database:*", "sage.schemes.elliptic_curves.ell_egros:*", "sage.schemes.elliptic_curves.ell_modular_symbols:*", "sage.schemes.elliptic_curves.gp_simon:*", "sage.schemes.elliptic_curves.mod5family:*", "sage.schemes.elliptic_curves.mod_poly:*", "sage.schemes.elliptic_curves.mod_sym_num:*", "sage.schemes.elliptic_curves.modular_parametrization:*"] }]
+depends_on = []
+sage = [
+  "sage.interfaces.genus2reduction:*",
+  "sage.schemes.elliptic_curves.BSD:*",
+  "sage.schemes.elliptic_curves.Qcurves:*",
+  "sage.schemes.elliptic_curves.descent_two_isogeny:*",
+  "sage.schemes.elliptic_curves.ec_database:*",
+  "sage.schemes.elliptic_curves.ell_egros:*",
+  "sage.schemes.elliptic_curves.ell_modular_symbols:*",
+  "sage.schemes.elliptic_curves.gp_simon:*",
+  "sage.schemes.elliptic_curves.mod5family:*",
+  "sage.schemes.elliptic_curves.mod_poly:*",
+  "sage.schemes.elliptic_curves.mod_sym_num:*",
+  "sage.schemes.elliptic_curves.modular_parametrization:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for descent and modular data.",
+  "The two-isogeny descent bound contains the actual rank, and the BSD invariants satisfy the BSD formula against independently computed L-series data.",
+  "A root of the l-th modular polynomial of E gives a curve l-isogenous to E.",
+]
+reuse = { status = "adaptable", components = ["mathlib.nt.modular-forms", "mathlib.nt.elliptic-curves-advanced"], evidence = "Mathlib supplies modular forms and elliptic-curve theory; executable descent, modular parametrisations and BSD invariants are not packaged there." }
+backends = ["eclib", "flint", "gmp", "ntl", "pari"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "arithmetic-curves.hyperelliptic-curves"
+title = "Hyperelliptic curves and their Jacobians"
+statement = "Construct a smooth hyperelliptic curve y^2 = f(x) over a field, compute its invariants, its Jacobian and the Frobenius matrix on Monsky-Washnitzer cohomology."
+domain = "A field of odd characteristic, or a p-adic field, and a squarefree polynomial of degree 2g+1 or 2g+2."
+contract = "(f[,p]) -> the curve with its genus, discriminant and Igusa-Clebsch invariants, its Jacobian with group law, rational point sets and endomorphisms, and the Frobenius matrix on the first Monsky-Washnitzer cohomology used to compute the zeta function."
+exactness = "exact"
+algorithms = [{ family = "Curve invariants and Jacobian arithmetic", sources = ["sage.schemes.hyperelliptic_curves.constructor:*", "sage.schemes.hyperelliptic_curves.hypellfrob:*", "sage.schemes.hyperelliptic_curves.hyperelliptic_finite_field:*", "sage.schemes.hyperelliptic_curves.hyperelliptic_g2:*", "sage.schemes.hyperelliptic_curves.hyperelliptic_generic:*", "sage.schemes.hyperelliptic_curves.hyperelliptic_padic_field:*", "sage.schemes.hyperelliptic_curves.hyperelliptic_rational_field:*", "sage.schemes.hyperelliptic_curves.invariants:*", "sage.schemes.hyperelliptic_curves.jacobian_g2_generic:*", "sage.schemes.hyperelliptic_curves.jacobian_g2_homset_inert:*", "sage.schemes.hyperelliptic_curves.jacobian_g2_homset_ramified:*", "sage.schemes.hyperelliptic_curves.jacobian_g2_homset_split:*", "sage.schemes.hyperelliptic_curves.jacobian_generic:*", "sage.schemes.hyperelliptic_curves.jacobian_homset_generic:*", "sage.schemes.hyperelliptic_curves.jacobian_homset_inert:*", "sage.schemes.hyperelliptic_curves.jacobian_homset_ramified:*", "sage.schemes.hyperelliptic_curves.jacobian_homset_split:*", "sage.schemes.hyperelliptic_curves.jacobian_morphism:*", "sage.schemes.hyperelliptic_curves.mestre:*", "sage.schemes.hyperelliptic_curves.monsky_washnitzer:*"] }, { family = "Monsky-Washnitzer Frobenius", sources = ["sage.schemes.hyperelliptic_curves.constructor:*", "sage.schemes.hyperelliptic_curves.hypellfrob:*", "sage.schemes.hyperelliptic_curves.hyperelliptic_finite_field:*", "sage.schemes.hyperelliptic_curves.hyperelliptic_g2:*", "sage.schemes.hyperelliptic_curves.hyperelliptic_generic:*", "sage.schemes.hyperelliptic_curves.hyperelliptic_padic_field:*", "sage.schemes.hyperelliptic_curves.hyperelliptic_rational_field:*", "sage.schemes.hyperelliptic_curves.invariants:*", "sage.schemes.hyperelliptic_curves.jacobian_g2_generic:*", "sage.schemes.hyperelliptic_curves.jacobian_g2_homset_inert:*", "sage.schemes.hyperelliptic_curves.jacobian_g2_homset_ramified:*", "sage.schemes.hyperelliptic_curves.jacobian_g2_homset_split:*", "sage.schemes.hyperelliptic_curves.jacobian_generic:*", "sage.schemes.hyperelliptic_curves.jacobian_homset_generic:*", "sage.schemes.hyperelliptic_curves.jacobian_homset_inert:*", "sage.schemes.hyperelliptic_curves.jacobian_homset_ramified:*", "sage.schemes.hyperelliptic_curves.jacobian_homset_split:*", "sage.schemes.hyperelliptic_curves.jacobian_morphism:*", "sage.schemes.hyperelliptic_curves.mestre:*", "sage.schemes.hyperelliptic_curves.monsky_washnitzer:*"] }]
+depends_on = []
+sage = [
+  "sage.schemes.hyperelliptic_curves.constructor:*",
+  "sage.schemes.hyperelliptic_curves.hypellfrob:*",
+  "sage.schemes.hyperelliptic_curves.hyperelliptic_finite_field:*",
+  "sage.schemes.hyperelliptic_curves.hyperelliptic_g2:*",
+  "sage.schemes.hyperelliptic_curves.hyperelliptic_generic:*",
+  "sage.schemes.hyperelliptic_curves.hyperelliptic_padic_field:*",
+  "sage.schemes.hyperelliptic_curves.hyperelliptic_rational_field:*",
+  "sage.schemes.hyperelliptic_curves.invariants:*",
+  "sage.schemes.hyperelliptic_curves.jacobian_g2_generic:*",
+  "sage.schemes.hyperelliptic_curves.jacobian_g2_homset_inert:*",
+  "sage.schemes.hyperelliptic_curves.jacobian_g2_homset_ramified:*",
+  "sage.schemes.hyperelliptic_curves.jacobian_g2_homset_split:*",
+  "sage.schemes.hyperelliptic_curves.jacobian_generic:*",
+  "sage.schemes.hyperelliptic_curves.jacobian_homset_generic:*",
+  "sage.schemes.hyperelliptic_curves.jacobian_homset_inert:*",
+  "sage.schemes.hyperelliptic_curves.jacobian_homset_ramified:*",
+  "sage.schemes.hyperelliptic_curves.jacobian_homset_split:*",
+  "sage.schemes.hyperelliptic_curves.jacobian_morphism:*",
+  "sage.schemes.hyperelliptic_curves.mestre:*",
+  "sage.schemes.hyperelliptic_curves.monsky_washnitzer:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for invariants and Jacobian arithmetic.",
+  "The Jacobian group law satisfies the group axioms on sample divisors and the principal-divisor relation.",
+  "The Frobenius matrix characteristic polynomial matches the numerator of the zeta function obtained by direct point counting over small finite fields.",
+]
+reuse = { status = "adaptable", components = ["mathlib.nt.elliptic-curves-advanced", "mathlib.padic.numbers"], evidence = "Mathlib supplies curve and p-adic foundations but no hyperelliptic Jacobian, invariant theory of binary forms, or Monsky-Washnitzer cohomology." }
+backends = ["interface:genus2reduction", "interface:magma", "ntl", "pari"]
+references = []

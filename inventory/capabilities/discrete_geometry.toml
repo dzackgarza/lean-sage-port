@@ -1,0 +1,226 @@
+domain = "discrete_geometry"
+
+[[capability]]
+status = "source-reconciled"
+id = "discrete-geometry.polyhedra"
+title = "Convex polyhedra in V- and H-representation"
+statement = "Construct a polyhedron from vertices, inequalities or both, and compute its faces, lattice points, volume, triangulation, polar dual and combinatorial type."
+domain = "A base ring (ZZ, QQ or RDF) and a set of vertices and/or facet inequalities."
+contract = "(V,H) -> the polyhedron with its V- and H-representation, the face lattice, the f-vector and combinatorial type, lattice points, integral points, volume, Ehrhart data, polar and Minkowski sums, and projections and intersections; convex sets, relative interiors and point collections expose the same operations."
+exactness = "exact"
+algorithms = [{ family = "Double description and face enumeration", sources = ["sage.geometry.abc:*", "sage.geometry.convex_set:*", "sage.geometry.hasse_diagram:*", "sage.geometry.linear_expression:*", "sage.geometry.newton_polygon:*", "sage.geometry.point_collection:*", "sage.geometry.polyhedron.backend_cdd:*", "sage.geometry.polyhedron.backend_cdd_rdf:*", "sage.geometry.polyhedron.backend_field:*", "sage.geometry.polyhedron.backend_normaliz:*", "sage.geometry.polyhedron.backend_number_field:*", "sage.geometry.polyhedron.backend_polymake:*", "sage.geometry.polyhedron.backend_ppl:*", "sage.geometry.polyhedron.base:*", "sage.geometry.polyhedron.base0:*", "sage.geometry.polyhedron.base1:*", "sage.geometry.polyhedron.base2:*", "sage.geometry.polyhedron.base3:*", "sage.geometry.polyhedron.base4:*", "sage.geometry.polyhedron.base5:*", "sage.geometry.polyhedron.base6:*", "sage.geometry.polyhedron.base7:*", "sage.geometry.polyhedron.base_QQ:*", "sage.geometry.polyhedron.base_RDF:*", "sage.geometry.polyhedron.base_ZZ:*", "sage.geometry.polyhedron.base_mutable:*", "sage.geometry.polyhedron.base_number_field:*", "sage.geometry.polyhedron.cdd_file_format:*", "sage.geometry.polyhedron.combinatorial_polyhedron.base:*", "sage.geometry.polyhedron.combinatorial_polyhedron.combinatorial_face:*", "sage.geometry.polyhedron.combinatorial_polyhedron.conversions:*", "sage.geometry.polyhedron.combinatorial_polyhedron.face_iterator:*", "sage.geometry.polyhedron.combinatorial_polyhedron.list_of_faces:*", "sage.geometry.polyhedron.combinatorial_polyhedron.polyhedron_face_lattice:*", "sage.geometry.polyhedron.constructor:*", "sage.geometry.polyhedron.double_description:*", "sage.geometry.polyhedron.double_description_inhomogeneous:*", "sage.geometry.polyhedron.face:*", "sage.geometry.polyhedron.generating_function:*", "sage.geometry.polyhedron.lattice_euclidean_group_element:*", "sage.geometry.polyhedron.library:*", "sage.geometry.polyhedron.modules.formal_polyhedra_module:*", "sage.geometry.polyhedron.palp_database:*", "sage.geometry.polyhedron.parent:*", "sage.geometry.polyhedron.plot:*", "sage.geometry.polyhedron.ppl_lattice_polygon:*", "sage.geometry.polyhedron.ppl_lattice_polytope:*", "sage.geometry.polyhedron.representation:*", "sage.geometry.relative_interior:*"] }, { family = "Lattice points and volume", sources = ["sage.geometry.abc:*", "sage.geometry.convex_set:*", "sage.geometry.hasse_diagram:*", "sage.geometry.linear_expression:*", "sage.geometry.newton_polygon:*", "sage.geometry.point_collection:*", "sage.geometry.polyhedron.backend_cdd:*", "sage.geometry.polyhedron.backend_cdd_rdf:*", "sage.geometry.polyhedron.backend_field:*", "sage.geometry.polyhedron.backend_normaliz:*", "sage.geometry.polyhedron.backend_number_field:*", "sage.geometry.polyhedron.backend_polymake:*", "sage.geometry.polyhedron.backend_ppl:*", "sage.geometry.polyhedron.base:*", "sage.geometry.polyhedron.base0:*", "sage.geometry.polyhedron.base1:*", "sage.geometry.polyhedron.base2:*", "sage.geometry.polyhedron.base3:*", "sage.geometry.polyhedron.base4:*", "sage.geometry.polyhedron.base5:*", "sage.geometry.polyhedron.base6:*", "sage.geometry.polyhedron.base7:*", "sage.geometry.polyhedron.base_QQ:*", "sage.geometry.polyhedron.base_RDF:*", "sage.geometry.polyhedron.base_ZZ:*", "sage.geometry.polyhedron.base_mutable:*", "sage.geometry.polyhedron.base_number_field:*", "sage.geometry.polyhedron.cdd_file_format:*", "sage.geometry.polyhedron.combinatorial_polyhedron.base:*", "sage.geometry.polyhedron.combinatorial_polyhedron.combinatorial_face:*", "sage.geometry.polyhedron.combinatorial_polyhedron.conversions:*", "sage.geometry.polyhedron.combinatorial_polyhedron.face_iterator:*", "sage.geometry.polyhedron.combinatorial_polyhedron.list_of_faces:*", "sage.geometry.polyhedron.combinatorial_polyhedron.polyhedron_face_lattice:*", "sage.geometry.polyhedron.constructor:*", "sage.geometry.polyhedron.double_description:*", "sage.geometry.polyhedron.double_description_inhomogeneous:*", "sage.geometry.polyhedron.face:*", "sage.geometry.polyhedron.generating_function:*", "sage.geometry.polyhedron.lattice_euclidean_group_element:*", "sage.geometry.polyhedron.library:*", "sage.geometry.polyhedron.modules.formal_polyhedra_module:*", "sage.geometry.polyhedron.palp_database:*", "sage.geometry.polyhedron.parent:*", "sage.geometry.polyhedron.plot:*", "sage.geometry.polyhedron.ppl_lattice_polygon:*", "sage.geometry.polyhedron.ppl_lattice_polytope:*", "sage.geometry.polyhedron.representation:*", "sage.geometry.relative_interior:*"] }]
+depends_on = []
+sage = [
+  "sage.geometry.abc:*",
+  "sage.geometry.convex_set:*",
+  "sage.geometry.hasse_diagram:*",
+  "sage.geometry.linear_expression:*",
+  "sage.geometry.newton_polygon:*",
+  "sage.geometry.point_collection:*",
+  "sage.geometry.polyhedron.backend_cdd:*",
+  "sage.geometry.polyhedron.backend_cdd_rdf:*",
+  "sage.geometry.polyhedron.backend_field:*",
+  "sage.geometry.polyhedron.backend_normaliz:*",
+  "sage.geometry.polyhedron.backend_number_field:*",
+  "sage.geometry.polyhedron.backend_polymake:*",
+  "sage.geometry.polyhedron.backend_ppl:*",
+  "sage.geometry.polyhedron.base:*",
+  "sage.geometry.polyhedron.base0:*",
+  "sage.geometry.polyhedron.base1:*",
+  "sage.geometry.polyhedron.base2:*",
+  "sage.geometry.polyhedron.base3:*",
+  "sage.geometry.polyhedron.base4:*",
+  "sage.geometry.polyhedron.base5:*",
+  "sage.geometry.polyhedron.base6:*",
+  "sage.geometry.polyhedron.base7:*",
+  "sage.geometry.polyhedron.base_QQ:*",
+  "sage.geometry.polyhedron.base_RDF:*",
+  "sage.geometry.polyhedron.base_ZZ:*",
+  "sage.geometry.polyhedron.base_mutable:*",
+  "sage.geometry.polyhedron.base_number_field:*",
+  "sage.geometry.polyhedron.cdd_file_format:*",
+  "sage.geometry.polyhedron.combinatorial_polyhedron.base:*",
+  "sage.geometry.polyhedron.combinatorial_polyhedron.combinatorial_face:*",
+  "sage.geometry.polyhedron.combinatorial_polyhedron.conversions:*",
+  "sage.geometry.polyhedron.combinatorial_polyhedron.face_iterator:*",
+  "sage.geometry.polyhedron.combinatorial_polyhedron.list_of_faces:*",
+  "sage.geometry.polyhedron.combinatorial_polyhedron.polyhedron_face_lattice:*",
+  "sage.geometry.polyhedron.constructor:*",
+  "sage.geometry.polyhedron.double_description:*",
+  "sage.geometry.polyhedron.double_description_inhomogeneous:*",
+  "sage.geometry.polyhedron.face:*",
+  "sage.geometry.polyhedron.generating_function:*",
+  "sage.geometry.polyhedron.lattice_euclidean_group_element:*",
+  "sage.geometry.polyhedron.library:*",
+  "sage.geometry.polyhedron.modules.formal_polyhedra_module:*",
+  "sage.geometry.polyhedron.palp_database:*",
+  "sage.geometry.polyhedron.parent:*",
+  "sage.geometry.polyhedron.plot:*",
+  "sage.geometry.polyhedron.ppl_lattice_polygon:*",
+  "sage.geometry.polyhedron.ppl_lattice_polytope:*",
+  "sage.geometry.polyhedron.representation:*",
+  "sage.geometry.relative_interior:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for polyhedra.",
+  "The V- and H-representations describe the same set: every vertex satisfies every inequality and every facet contains the points it should.",
+  "The f-vector agrees with the face lattice and Euler's relation on sample polytopes; the volume agrees with the determinant formula for simplices.",
+]
+reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "mathlib.order.lattices"], evidence = "Mathlib supplies finite-dimensional linear algebra and lattices of faces as order structures; polyhedral conversion, face enumeration and lattice-point counting are not executable there." }
+backends = ["interface:latte", "interface:polymake", "ppl"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "discrete-geometry.cones-fans-and-polyhedral-complexes"
+title = "Rational polyhedral cones, fans and polyhedral complexes"
+statement = "Construct convex rational polyhedral cones, their duals, the fans they generate, morphisms of fans and finite polyhedral complexes, and compute the affiliated toric data."
+domain = "A lattice N (toric or ZZ^n) and generating rays or facet normals."
+contract = "(rays) -> the cone with its dual, facets, rays, Hilbert basis, incidence and the fan it generates with its cones and rays; a fan morphism maps cones to cones and factors through a lattice homomorphism; polyhedral complexes glue polyhedra along common faces."
+exactness = "exact"
+algorithms = [{ family = "Cone duality and Hilbert bases", sources = ["sage.geometry.cone:*", "sage.geometry.cone_catalog:*", "sage.geometry.cone_critical_angles:*", "sage.geometry.fan:*", "sage.geometry.fan_isomorphism:*", "sage.geometry.fan_morphism:*", "sage.geometry.polyhedral_complex:*", "sage.geometry.toric_lattice:*", "sage.geometry.toric_lattice_element:*", "sage.geometry.toric_plotter:*"] }, { family = "Fan and complex construction", sources = ["sage.geometry.cone:*", "sage.geometry.cone_catalog:*", "sage.geometry.cone_critical_angles:*", "sage.geometry.fan:*", "sage.geometry.fan_isomorphism:*", "sage.geometry.fan_morphism:*", "sage.geometry.polyhedral_complex:*", "sage.geometry.toric_lattice:*", "sage.geometry.toric_lattice_element:*", "sage.geometry.toric_plotter:*"] }]
+depends_on = []
+sage = [
+  "sage.geometry.cone:*",
+  "sage.geometry.cone_catalog:*",
+  "sage.geometry.cone_critical_angles:*",
+  "sage.geometry.fan:*",
+  "sage.geometry.fan_isomorphism:*",
+  "sage.geometry.fan_morphism:*",
+  "sage.geometry.polyhedral_complex:*",
+  "sage.geometry.toric_lattice:*",
+  "sage.geometry.toric_lattice_element:*",
+  "sage.geometry.toric_plotter:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for cones and fans.",
+  "The dual cone pairing is non-negative on generators and the double dual recovers the cone for closed cones.",
+  "The Hilbert basis generates every lattice point of the cone, and a fan morphism maps every cone into a cone of the target fan.",
+]
+reuse = { status = "adaptable", components = ["mathlib.linalg.matrix-arithmetic", "mathlib.order.lattices"], evidence = "Mathlib supplies integer linear algebra and lattices; cone duality, Hilbert bases and fans are not executable there." }
+backends = ["gmp", "interface:macaulay2", "ppl"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "discrete-geometry.lattice-polytopes"
+title = "Lattice polytopes and reflexive polytopes"
+statement = "Construct a lattice polytope from points or a normal form, compute its polar, its Ehrhart data, its normal form and whether it is reflexive."
+domain = "A lattice (ZZ^n) and a finite point set or a known polytope."
+contract = "(P) -> the polytope with its vertices, points, facets, the dual polytope, the normal form under unimodular equivalence, the Ehrhart series, and a decision whether it is reflexive; faces expose their own polytopes."
+exactness = "exact"
+algorithms = [{ family = "Polar duality and normal forms", sources = ["sage.geometry.lattice_polytope:*"] }, { family = "Ehrhart and reflexive data", sources = ["sage.geometry.lattice_polytope:*"] }]
+depends_on = []
+sage = [
+  "sage.geometry.lattice_polytope:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for lattice polytopes.",
+  "The normal form is invariant under unimodular transformations of the input, and the polar of a reflexive polytope is again a reflexive lattice polytope.",
+  "The Ehrhart series has palindromic numerator exactly when the polytope is reflexive.",
+]
+reuse = { status = "adaptable", components = ["mathlib.nt.zlattice", "mathlib.linalg.matrix-arithmetic"], evidence = "Mathlib supplies integer lattices and matrices; lattice polytopes, normal forms and Ehrhart series are not executable there." }
+backends = ["interface:macaulay2", "ppl"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "discrete-geometry.hyperplane-arrangements"
+title = "Hyperplane arrangements"
+statement = "Construct an arrangement of affine hyperplanes, and compute its intersection poset, characteristic polynomial, regions, face data, restrictions, localizations and the associated matroid."
+domain = "A field or the integers and a list of affine hyperplanes given by equations."
+contract = "(A) -> the arrangement with its hyperplanes and their defining equations, the intersection poset, the characteristic and Poincare polynomials, the number of regions over R, the face structure, restrictions and localizations, deletion and restriction operations, and the matroid of the arrangement."
+exactness = "exact"
+algorithms = [{ family = "Intersection poset and characteristic polynomial", sources = ["sage.geometry.hyperplane_arrangement.affine_subspace:*", "sage.geometry.hyperplane_arrangement.arrangement:*", "sage.geometry.hyperplane_arrangement.check_freeness:*", "sage.geometry.hyperplane_arrangement.hyperplane:*", "sage.geometry.hyperplane_arrangement.library:*", "sage.geometry.hyperplane_arrangement.ordered_arrangement:*", "sage.geometry.hyperplane_arrangement.plot:*"] }, { family = "Region and face enumeration", sources = ["sage.geometry.hyperplane_arrangement.affine_subspace:*", "sage.geometry.hyperplane_arrangement.arrangement:*", "sage.geometry.hyperplane_arrangement.check_freeness:*", "sage.geometry.hyperplane_arrangement.hyperplane:*", "sage.geometry.hyperplane_arrangement.library:*", "sage.geometry.hyperplane_arrangement.ordered_arrangement:*", "sage.geometry.hyperplane_arrangement.plot:*"] }]
+depends_on = []
+sage = [
+  "sage.geometry.hyperplane_arrangement.affine_subspace:*",
+  "sage.geometry.hyperplane_arrangement.arrangement:*",
+  "sage.geometry.hyperplane_arrangement.check_freeness:*",
+  "sage.geometry.hyperplane_arrangement.hyperplane:*",
+  "sage.geometry.hyperplane_arrangement.library:*",
+  "sage.geometry.hyperplane_arrangement.ordered_arrangement:*",
+  "sage.geometry.hyperplane_arrangement.plot:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for arrangements.",
+  "The characteristic polynomial evaluates to the number of regions over the reals and to the beta invariant at the appropriate values.",
+  "Deletion and restriction satisfy the deletion-restriction recurrence for the characteristic polynomial.",
+]
+reuse = { status = "adaptable", components = ["mathlib.comb.matroid"], evidence = "Mathlib supplies matroids; arrangement intersection posets, region counts and face enumeration are not executable there." }
+backends = ["singular"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "discrete-geometry.triangulations"
+title = "Triangulations of point configurations"
+statement = "Compute a triangulation of a point configuration as a simplicial complex of marked points, using regularity and its secondary polytope data."
+domain = "A point configuration (lattice or real) with marked points."
+contract = "(P) -> a triangulation with its simplices, the set of simplices split by a wall, the restriction to a subset of points, the regular triangulation attached to a weight vector, and the secondary polytope data."
+exactness = "exact"
+algorithms = [{ family = "Regular triangulations and flips", sources = ["sage.geometry.pseudolines:*", "sage.geometry.triangulation.base:*", "sage.geometry.triangulation.element:*", "sage.geometry.triangulation.point_configuration:*", "sage.geometry.voronoi_diagram:*"] }]
+depends_on = []
+sage = [
+  "sage.geometry.pseudolines:*",
+  "sage.geometry.triangulation.base:*",
+  "sage.geometry.triangulation.element:*",
+  "sage.geometry.triangulation.point_configuration:*",
+  "sage.geometry.voronoi_diagram:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for triangulations.",
+  "The simplices of a triangulation cover the convex hull and intersect along common faces, and a regular triangulation with weights is the lower hull of the lifted configuration.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for triangulations and secondary polytopes; none exists." }
+backends = ["ppl"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "discrete-geometry.groebner-fans"
+title = "Groebner fans and Newton polytopes of polynomial ideals"
+statement = "Compute the Groebner fan of a polynomial ideal: its maximal Groebner cones, the reduced Groebner basis of a cone, the initial ideal and the Newton polytope of the ideal."
+domain = "An ideal in a multivariate polynomial ring over a field with a term order."
+contract = "(I) -> the Groebner fan with its cones and rays, the reduced Groebner basis and initial ideal of each cone, the Newton polytope, and the walk between cones for a changed weight vector."
+exactness = "exact"
+algorithms = [{ family = "Groebner cone computation and basis conversion", sources = ["sage.rings.polynomial.groebner_fan:*"] }]
+depends_on = []
+sage = [
+  "sage.rings.polynomial.groebner_fan:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for Groebner fans.",
+  "The basis of a cone is a Groebner basis for the corresponding weight order, and neighbouring cones' bases are related by the Groebner walk.",
+]
+reuse = { status = "adaptable", components = ["mathlib.poly.groebner-basis", "mathlib.poly.monomial-orders"], evidence = "Mathlib supplies Groebner bases and monomial orders; the Groebner fan as a polyhedral object and the Groebner walk are not executable there." }
+backends = ["interface:gfan"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "discrete-geometry.ribbon-graphs"
+title = "Ribbon graphs"
+statement = "Construct a ribbon graph from a fatgraph or a chord diagram and compute its genus, boundary components and the Teichmueller data."
+domain = "A fatgraph or chord diagram with darts and a cyclic order."
+contract = "(G) -> the ribbon graph with its darts, vertices, boundary components, genus, chord diagram, shadows and the associated Belyi data."
+exactness = "exact"
+algorithms = [{ family = "Fatgraph boundary and genus computation", sources = ["sage.geometry.ribbon_graph:*"] }]
+depends_on = []
+sage = [
+  "sage.geometry.ribbon_graph:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for ribbon graphs.",
+  "Euler's relation V - E + F = 2 - 2g holds for the computed data, and the boundary components are exactly the orbits of the face permutation.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for ribbon graphs and fatgraphs; none exists." }
+backends = []
+references = []

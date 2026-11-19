@@ -14,7 +14,7 @@ or capability records; it assembles their framework into one authoritative view.
 
 ## Technical Context
 
-**Language/Version**: Lean 4 (v4.35.0-rc3 pinned)
+**Language/Version**: Lean 4 (v4.36.0 pinned)
 **Primary Dependencies**: `inventory/domains.toml`, `docs/capability-records.md`,
   `docs/domain-specifications.md`, `inventory/reuse/*.toml`
 **Storage**: `specs/005-master-product-spec/product-spec.md` (the deliverable document)
@@ -24,7 +24,7 @@ or capability records; it assembles their framework into one authoritative view.
 **Performance Goals**: The scope table must be complete (zero missing sections)
 **Constraints**: Must not duplicate content owned by capability records or milestone roadmap;
   must reference rather than copy.
-**Scale/Scope**: One document, ~200–400 lines, covering 65 sections
+**Scale/Scope**: One document, ~200–400 lines, covering 80 indexed sections
 
 ## Constitution Check
 
@@ -65,7 +65,7 @@ specification referenced by the constitution, by domain specs, and by implementa
 Its sections are:
 
 1. **Product identity** — name, baseline version, scope statement
-2. **Scope table** — all 65 sections with disposition and milestone (view over `domains.toml`)
+2. **Scope table** — all 80 indexed sections with disposition and milestone (view over `domains.toml`)
 3. **Output-contract taxonomy** — the four categories, their definitions, and examples
 4. **Completion condition** — the two-tier machine-checkable criterion
 5. **Ownership boundaries** — component-type to owner table with examples
@@ -73,7 +73,7 @@ Its sections are:
 7. **Specification hierarchy** — pointer table to constitution, reconnaissance spec,
    milestone roadmap, domain specs, capability records
 
-## Scope table (all 65 sections)
+## Scope table (all 80 indexed sections)
 
 The scope table below is authoritative for FR-001. The `Disposition` and `Milestone` columns
 are assembled from `inventory/domains.toml` and `docs/domain-specifications.md` respectively.
@@ -86,7 +86,7 @@ are assembled from `inventory/domains.toml` and `docs/domain-specifications.md` 
 | `arithmetic_curves` | Elliptic and Hyperelliptic Curves | mathematical | M10 | in-scope |
 | `asymptotic` | Asymptotic Expansions | mathematical | M12 | in-scope |
 | `calculus` | Symbolic Calculus | mathematical | M12 | in-scope |
-| `categories` | Categories | mathematical | M14 | in-scope |
+| `categories` | Categories | mathematical | M0 | in-scope |
 | `coding` | Coding Theory | mathematical | M13 | in-scope |
 | `coercion` | Coercion | implementation-support | M14 | excluded (mathematical map obligations tracked in M14) |
 | `combinat` | Combinatorics | mathematical | M8 | in-scope |
@@ -163,7 +163,7 @@ are assembled from `inventory/domains.toml` and `docs/domain-specifications.md` 
 
 **Mathematical sections in scope**: 48 (some split)
 **Excluded (infrastructure/presentation/data)**: 17
-**Total**: 65
+**Total**: 80
 
 ## Output-contract taxonomy
 

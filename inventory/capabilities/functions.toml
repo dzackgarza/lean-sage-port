@@ -1,0 +1,18 @@
+domain = "functions"
+
+[[capability]]
+id = "functions.symbolic-and-special"
+title = "Symbolic functions and special-function operations"
+statement = "Construct and manipulate documented symbolic, piecewise, transcendental and special functions with evaluation, composition, differentiation and algebraic transformations."
+domain = "A symbolic expression, function definition or supported special-function parameter."
+contract = "Function input -> symbolic or evaluated output preserving documented domains, identities and precision semantics."
+exactness = "conditional"
+exactness_notes = "Exact symbolic transformations require the declared assumptions and branch conventions; numerical or unevaluated special-function results retain their precision and convergence conditions."
+algorithms = [{ family = "Symbolic and special-function operations", sources = ["sage.functions.*:*"] }]
+depends_on = ["calculus.documented-operations"]
+sage = ["sage.functions.*:*"]
+catalogue = []
+tests = ["Special-function identities, derivative rules and exact evaluation checks."]
+reuse = { status = "adaptable", components = ["mathlib.poly.derivative", "mathlib.real.cauchy-reals"], evidence = "Mathlib supplies derivative and real-number foundations; Sage's symbolic function registry and special-function backends require native adapters." }
+backends = ["gmp"]
+references = []

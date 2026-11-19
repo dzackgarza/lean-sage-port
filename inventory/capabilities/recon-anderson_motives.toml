@@ -1,0 +1,18 @@
+domain = "anderson_motives"
+
+[[capability]]
+id = "recon-anderson-motives.documented-source-families"
+title = "Anderson motives as Frobenius-twisted Ore modules"
+statement = "Construct Anderson motives over K[T] with Frobenius-twisted Ore action, tau operator matrices, canonical bases, duals and the motive attached to a Drinfeld module."
+domain = "Finite field/function-ring data, a coefficient field K with distinguished z, and a tau-operator matrix or Drinfeld module."
+contract = "Input motive data -> finite-rank K[T]-module with semilinear tau operator; attached Drinfeld module -> its Anderson motive, with localization at T-z and dual behavior explicit."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and external-backend behavior follow each source family's documented contract."
+algorithms = [{ family = "Anderson motives as Frobenius-twisted Ore modules", sources = ["sage.rings.function_field.drinfeld_modules.anderson_motive:*"] }]
+depends_on = []
+sage = ["sage.rings.function_field.drinfeld_modules.anderson_motive:*"]
+catalogue = []
+tests = ["Matrix and basis coordinates agree with the tau action.", "Attached motive rank equals Drinfeld-module rank.", "Dual motive matrices obey the documented localization and Frobenius-twist contract."]
+reuse = { status = "missing", components = [], evidence = "The reuse inventory provides polynomial and module foundations but no executable Anderson-motive or Frobenius-twisted Ore-module implementation." }
+backends = ["gmp"]
+references = []

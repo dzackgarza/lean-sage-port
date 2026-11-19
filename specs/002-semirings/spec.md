@@ -22,7 +22,7 @@ A user constructs the nonnegative integers and combines runtime elements with se
 
 ### User Story 2 — Compute in tropical semirings (Priority: P1)
 
-A user selects min-plus or max-plus over an ordered additive commutative group and computes with finite base values and the selected infinity. The convention and base remain attached to every result.
+A user selects min-plus or max-plus over a linearly ordered additive commutative group with decidable comparison and computes with finite base values and the selected infinity. The convention and base remain attached to every result.
 
 **Independent test**: Run the selected `TropicalSemiring` and `TropicalSemiringElement` source doctests for both conventions; compare operations on further runtime inputs with Sage and verify semiring identities.
 
@@ -56,18 +56,18 @@ A user forms a square tropical matrix and computes its weak or strong path closu
 
 1. Weak closure returns the tropical sum of positive powers; strong closure includes the identity. The result remains a matrix over the original tropical semiring.
 2. A cycle that makes a closure unbounded produces the documented cycle failure, including the convention and matrix context.
-3. For an exact ordered rational base, min-plus cycle mean returns the minimum cycle mean and max-plus returns the maximum cycle mean. An empty square matrix returns tropical infinity; nonsquare input fails.
+3. For an exact rational base, min-plus cycle mean returns the minimum cycle mean and max-plus returns the maximum cycle mean. An empty square matrix returns tropical infinity; nonsquare input fails. A matrix with no finite cycle returns the selected infinity under the mathematical empty-extremum convention; this additional case needs independent acceptance because the Sage source handles only its zero-matrix branch.
 
 ### Edge cases
 
-The source doctests cover zero and one, finite and infinite tropical elements, min/max orientation, empty matrices, nonsquare matrices, and unbounded cycles. Division by infinity and incompatible base maps are failures. A matrix algorithm must not claim exact output on an approximate base without a precision contract.
+The source doctests cover zero and one, finite and infinite tropical elements, min/max orientation, empty matrices, nonsquare matrices, and unbounded cycles. Division by infinity and incompatible base maps are failures. The nonzero acyclic cycle-mean case is a supplemental mathematical obligation; Sage's source raises an empty-extremum error for it. A matrix algorithm must not claim exact output on an approximate base without a precision contract.
 
 ## Requirements
 
 ### Functional requirements
 
 - **FR-001**: Expose `ℕ` with its existing mathematical semiring operations, executable Lean natural-number arithmetic, and the selected additive generator family documented by the source.
-- **FR-002**: Construct min-plus and max-plus semirings over ordered additive commutative groups with decidable comparison, using Mathlib's `MinTropical (WithTop R)` and `MaxTropical (WithBot R)` structures. Preserve base, orientation and selected infinity in runtime elements.
+- **FR-002**: Construct min-plus and max-plus semirings over linearly ordered additive commutative groups with decidable comparison, using Mathlib's `MinTropical (WithTop R)` and `MaxTropical (WithBot R)` structures. Preserve base, orientation and selected infinity in runtime elements.
 - **FR-003**: Compute tropical addition, multiplication, natural powers, finite multiplicative inverse, and the documented identity and failure cases on runtime inputs.
 - **FR-004**: Compute the multiplicative-order convention in `semirings.tropical-multiplicative-order`.
 - **FR-005**: Construct and compose transport induced by an order-preserving additive base map while preserving source, target and infinity.

@@ -1,0 +1,34 @@
+domain = "quivers"
+
+[[capability]]
+id = "quivers.representations-and-morphisms"
+title = "Quiver representations, paths and morphisms"
+statement = "Construct quivers and their path semigroups, representations, representation morphisms and homspaces."
+domain = "A finite quiver, vertex spaces and linear maps on arrows."
+contract = "Quiver representation data -> path composition, vertex-wise maps, morphism composition, kernels/images and homspace operations satisfying commutativity on arrows."
+exactness = "conditional"
+exactness_notes = "Exact over exact coefficient fields/rings; dimension and rank computations inherit coefficient assumptions."
+algorithms = [{ family = "Quiver paths, representations and morphisms", sources = ["sage.quivers.paths:*", "sage.quivers.path_semigroup:*", "sage.quivers.representation:*", "sage.quivers.morphism:*", "sage.quivers.homspace:*"] }]
+depends_on = ["modules.free-and-quotient", "modules.vector-backends"]
+sage = ["sage.quivers.paths:*", "sage.quivers.path_semigroup:*", "sage.quivers.representation:*", "sage.quivers.morphism:*", "sage.quivers.homspace:*"]
+catalogue = []
+tests = ["Path concatenation and identity checks.", "Representation arrow-commutativity and morphism composition.", "Homspace dimension and kernel/image checks."]
+reuse = { status = "adaptable", components = ["mathlib.data.finsupp", "mathlib.alg.module-quotients"], evidence = "Mathlib supplies finitely-supported coordinates and quotient foundations; Sage's concrete path semigroups and matrix-backed representation algorithms need native adapters." }
+backends = ["gmp"]
+references = []
+
+[[capability]]
+id = "quivers.ar-and-algebra"
+title = "Auslander-Reiten quivers and quiver algebras"
+statement = "Construct Auslander-Reiten quivers and path-based quiver algebras with explicit algebra elements."
+domain = "A finite quiver and path/algebra relation data."
+contract = "Quiver and relations -> AR combinatorics or algebra elements with path multiplication and relation reduction."
+exactness = "exact"
+algorithms = [{ family = "Auslander-Reiten and quiver algebra constructions", sources = ["sage.quivers.ar_quiver:*", "sage.quivers.algebra:*", "sage.quivers.algebra_elements:*"] }]
+depends_on = ["quivers.representations-and-morphisms", "algebras.free-associative-construction"]
+sage = ["sage.quivers.ar_quiver:*", "sage.quivers.algebra:*", "sage.quivers.algebra_elements:*"]
+catalogue = []
+tests = ["AR translation/mesh relation checks.", "Path-algebra multiplication and quotient-relation checks."]
+reuse = { status = "adaptable", components = ["mathlib.data.finsupp"], evidence = "Finitely-supported algebra coordinates are reusable; Sage's AR algorithms and concrete path-algebra parents need native implementation." }
+backends = ["gmp"]
+references = []

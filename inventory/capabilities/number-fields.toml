@@ -1,0 +1,34 @@
+domain = "number_fields"
+
+[[capability]]
+id = "number-fields.core-and-arithmetic"
+title = "Number fields, orders, ideals, units, embeddings and Galois data"
+statement = "Construct absolute, relative, quadratic and universal cyclotomic number fields and compute elements, orders, ideals, units, class groups, embeddings, morphisms, S-units and Galois groups."
+domain = "A defining polynomial and optional relative tower, order or arithmetic query."
+contract = "Defining data -> canonical number-field arithmetic, embeddings and morphisms, ideal/order operations, unit/class-group data and certified Galois or S-unit results under documented hypotheses."
+exactness = "conditional"
+exactness_notes = "Exact over exact defining data; numerical embeddings and algebraic-number approximations expose precision semantics."
+algorithms = [
+    { family = "Defining-polynomial constructions and relative towers", sources = ["sage.rings.number_field.number_field:NumberField", "sage.rings.number_field.number_field:NumberFieldTower", "sage.rings.number_field.number_field:QuadraticField", "sage.rings.number_field.number_field:CyclotomicField", "sage.rings.number_field.number_field_rel:NumberField_relative"] },
+    { family = "Exact element arithmetic, polynomial representations and embeddings", sources = ["sage.rings.number_field.number_field_element:*", "sage.rings.number_field.number_field_element_quadratic:*", "sage.rings.number_field.maps:*", "sage.rings.number_field.morphism:*", "sage.rings.number_field.homset:*"] },
+    { family = "Orders, ideals, factorization and local arithmetic", sources = ["sage.rings.number_field.order:*", "sage.rings.number_field.order_ideal:*", "sage.rings.number_field.number_field_ideal:*", "sage.rings.number_field.number_field_ideal_rel:*", "sage.rings.number_field.number_field:NumberField_generic.factor", "sage.rings.number_field.number_field:NumberField_generic.primes_above"] },
+    { family = "Class groups, units, S-units and Selmer groups", sources = ["sage.rings.number_field.class_group:*", "sage.rings.number_field.unit_group:*", "sage.rings.number_field.S_unit_solver:*", "sage.rings.number_field.selmer_group:*"] },
+    { family = "Galois, splitting, norm and discriminant computations", sources = ["sage.rings.number_field.galois_group:*", "sage.groups.galois_group:*", "sage.groups.galois_group_perm:*", "sage.rings.number_field.splitting_field:*", "sage.rings.number_field.number_field_element:NumberFieldElement.is_norm"] },
+    { family = "Heights, enumeration and totally real field search", sources = ["sage.rings.number_field.bdd_height:*", "sage.rings.number_field.totallyreal:*", "sage.rings.number_field.totallyreal_rel:*", "sage.rings.number_field.totallyreal_data:*", "sage.rings.number_field.totallyreal_phc:*", "sage.rings.number_field.small_primes_of_degree_one:*"] },
+    { family = "Exact algebraic and universal cyclotomic numbers", sources = ["sage.rings.qqbar:*", "sage.rings.universal_cyclotomic_field:*"] },
+]
+depends_on = ["rings.core", "polynomial-rings.commutative-and-quotient"]
+sage = ["sage.rings.number_field.*:*", "sage.rings.qqbar:*", "sage.rings.universal_cyclotomic_field:*", "sage.groups.galois_group:*", "sage.groups.galois_group_perm:*"]
+catalogue = []
+tests = [
+    "Defining-polynomial, tower, primitive-element and embedding reconstruction.",
+    "Element identities for addition, multiplication, inverse, trace, norm, characteristic/minimal polynomial and conjugates.",
+    "Order and ideal identities: integral basis, ideal products, factorization, norms, valuations and Chinese remaindering.",
+    "Unit, S-unit, class-group and Selmer identities, including the unit rank and the defining exact sequence.",
+    "Galois and splitting-field action checks, including decomposition/inertia data where the field is Galois.",
+    "QQbar interval separation proves exact algebraic equality and inequality; universal cyclotomic conjugates and norms agree with cyclotomic identities.",
+    "Totally-real enumeration and height routines satisfy the stated discriminant, embedding-box and bound contracts.",
+]
+reuse = { status = "adaptable", components = ["mathlib.poly.univariate-ring", "mathlib.int.factorization"], evidence = "Mathlib supplies polynomial and arithmetic foundations; Sage's number-field parents, PARI/Flint algorithms, ideal/unit/class-group data and approximate embeddings require native adapters." }
+backends = ["gmp"]
+references = []

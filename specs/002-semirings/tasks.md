@@ -32,7 +32,7 @@ Tasks below describe later implementation. This feature package is a specificati
 **Independent test**: Integer-to-rational source case and runtime identity/composition cases preserve infinity and map endpoints.
 
 - [ ] T008 [US3] Resolve the transport map contract and catalogue id with the mathematical owner, recording the result in `inventory/reuse/lean-categories.toml`.
-- [ ] T009 [US3] Implement finite-value mapping, infinity preservation and map composition in `LeanSagePort/Semirings/TropicalMap.lean`.
+- [ ] T009 [US3] Realize the induced semiring map in `LeanSagePort/Semirings/TropicalMap.lean`, using Mathlib `WithTop.map`/`WithBot.map` for finite values and infinity; retain its source, target and composition.
 - [ ] T010 [US3] Add source-selected transport cases and runtime map-law assertions through the public map in `Acceptance/Semirings.lean`.
 
 ## Phase 4: Tropical matrices (US4, P2)
@@ -41,11 +41,11 @@ Tasks below describe later implementation. This feature package is a specificati
 
 **Independent test**: Source-selected matrix cases pass, including unbounded-cycle, empty and nonsquare cases; small exact cycle means agree with independent cycle enumeration.
 
-- [ ] T011 [US4] Supply the `matrices.arithmetic` capability for semiring coefficients through the existing Mathlib/Hex representation contract in `LeanSagePort/Matrix/SemiringArithmetic.lean`.
+- [ ] T011 [US4] Consume the `matrices.arithmetic` capability owned by `inventory/capabilities/linear-algebra.toml` for tropical coefficients, retaining the matrix's semiring and indices through both public operations.
 - [ ] T012 [US4] Resolve closure and cycle-mean catalogue operations with their mathematical owner and record the owner result in `inventory/reuse/lean-categories.toml`.
 - [ ] T013 [US4] Implement weak and strong tropical matrix closure with the source's unbounded-cycle behavior in `LeanSagePort/Semirings/TropicalMatrix.lean`.
 - [ ] T014 [US4] Implement exact rational-base Karp extremal cycle mean and no-cycle behavior in `LeanSagePort/Semirings/TropicalMatrix.lean`.
-- [ ] T015 [US4] Add source-selected closure and mean cases plus independent cycle enumeration for small rational matrices through the public operations in `Acceptance/Semirings.lean`.
+- [ ] T015 [US4] Add source-selected closure and mean cases plus independent cycle enumeration for small rational matrices through the public operations in `Acceptance/Semirings.lean`. Add a supplemental nonzero acyclic case for the no-finite-cycle infinity contract, which Sage's source does not test or return.
 
 ## Dependencies and execution order
 

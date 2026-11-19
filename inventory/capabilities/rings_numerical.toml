@@ -1,0 +1,105 @@
+domain = "rings_numerical"
+
+[[capability]]
+status = "source-reconciled"
+id = "rings-numerical.real-numbers"
+title = "Real numbers at fixed and arbitrary precision"
+statement = "Compute in the real numbers with arbitrary-precision MPFR floats, double-precision floats, lazy exact reals and absolute-precision intervals, with rounding control and conversion to exact rationals."
+domain = "A precision in bits or a machine double, and a real value given by a decimal string, rational or expression."
+contract = "(x,prec) -> the real number with its precision, rounding mode, ulp, exact rational approximation, sign, floor and ceiling, and comparisons that account for the precision; transcendental functions are evaluated with directed rounding."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and backend behaviour follow the documented contract of each source module."
+algorithms = [{ family = "Arbitrary-precision floating-point arithmetic", sources = ["sage.rings.real_double:*", "sage.rings.real_interval_absolute:*", "sage.rings.real_lazy:*", "sage.rings.real_mpfr:*"] }, { family = "Lazy exact real evaluation", sources = ["sage.rings.real_double:*", "sage.rings.real_interval_absolute:*", "sage.rings.real_lazy:*", "sage.rings.real_mpfr:*"] }]
+depends_on = []
+sage = [
+  "sage.rings.real_double:*",
+  "sage.rings.real_interval_absolute:*",
+  "sage.rings.real_lazy:*",
+  "sage.rings.real_mpfr:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for real numbers.",
+  "Rounding is faithful: the computed value differs from the exact value by at most one ulp in the requested direction, checked against exact rational arithmetic on sample inputs.",
+  "Lazy reals compare correctly with rationals whenever a decision is possible.",
+]
+reuse = { status = "formalized-not-executable", components = ["mathlib.real.cauchy-reals", "lean-core.float.ieee754", "interval.floating"], evidence = "Mathlib defines the Cauchy reals and Lean has IEEE floats; directed MPFR rounding and the lazy-real decision procedure are executable only in the upstream libraries, not portably in Lean." }
+backends = ["gmp", "mpfr", "mpmath", "numpy", "pari", "sympy"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "rings-numerical.real-balls-and-intervals"
+title = "Real balls and real intervals"
+statement = "Compute with real balls (midpoint and radius) and MPFI intervals, supporting certified enclosures, exact midpoint arithmetic and comparisons that decide only when the enclosure permits it."
+domain = "A precision in bits and a real value, with an interval or a ball radius."
+contract = "(x) -> the ball or interval with its midpoint, radius, endpoints, precision and relative accuracy; arithmetic operations propagate enclosures and comparisons return true, false or unknown consistently with the enclosure."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and backend behaviour follow the documented contract of each source module."
+algorithms = [{ family = "Ball and interval arithmetic with enclosure propagation", sources = ["sage.rings.real_arb:*", "sage.rings.real_mpfi:*"] }]
+depends_on = []
+sage = [
+  "sage.rings.real_arb:*",
+  "sage.rings.real_mpfi:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for real balls and intervals.",
+  "Every computed ball contains the exact result: for sample inputs the exact rational value lies inside the returned enclosure.",
+  "Intersection of nested enclosures is non-increasing in radius, and a comparison is decided only when the enclosures are disjoint.",
+]
+reuse = { status = "formalized-not-executable", components = ["mathlib.interval.ball-arithmetic", "mathlib.interval.order-intervals", "leancert.dyadic-interval"], evidence = "Mathlib supplies interval and ball arithmetic as a theory and LeanCert supplies certified dyadic intervals; ARB's exact-midpoint semantics with relative accuracy is not portable." }
+backends = ["flint", "gmp", "mpfi", "mpfr"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "rings-numerical.complex-numbers"
+title = "Complex numbers at fixed and arbitrary precision"
+statement = "Compute in the complex numbers with MPFR-based, MPC-based and double-precision representations, including elementary and special functions, argument, absolute value and comparisons."
+domain = "A precision in bits or machine doubles, and a complex value."
+contract = "(z,prec) -> the complex number with real and imaginary parts at the requested precision, its absolute value, argument, conjugate and reciprocal, and its transcendental functions evaluated with directed rounding."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and backend behaviour follow the documented contract of each source module."
+algorithms = [{ family = "Arbitrary-precision complex arithmetic", sources = ["sage.rings.complex_double:*", "sage.rings.complex_mpc:*", "sage.rings.complex_mpfr:*"] }]
+depends_on = []
+sage = [
+  "sage.rings.complex_double:*",
+  "sage.rings.complex_mpc:*",
+  "sage.rings.complex_mpfr:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for complex numbers.",
+  "The computed value stays within the requested precision of the exact value, checked against exact arithmetic for algebraic inputs.",
+  "Elementary identities such as exp(log z) = z hold to the requested precision away from the branch cut.",
+]
+reuse = { status = "formalized-not-executable", components = ["mathlib.complex.numbers", "lean-core.float.ieee754"], evidence = "Mathlib defines the complex numbers; directed-rounding arbitrary-precision complex arithmetic is a library-level executable, not a Lean computation." }
+backends = ["gmp", "gsl", "mpc", "mpfr", "mpmath", "numpy", "pari", "sympy"]
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "rings-numerical.complex-balls-and-intervals"
+title = "Complex balls and complex intervals"
+statement = "Compute with complex balls and complex intervals: certified enclosures of complex values, elementary and special functions with enclosure propagation, and parent structures for interval complex numbers."
+domain = "A precision in bits and a complex value, with an enclosure radius for balls."
+contract = "(z) -> the complex ball or interval with midpoint, radius and endpoints, arithmetic and transcendental operations that propagate enclosures, and a decision procedure for comparisons of enclosures."
+exactness = "conditional"
+exactness_notes = "Exactness, approximation and backend behaviour follow the documented contract of each source module."
+algorithms = [{ family = "Complex enclosure arithmetic", sources = ["sage.rings.complex_arb:*", "sage.rings.complex_interval:*", "sage.rings.complex_interval_field:*"] }]
+depends_on = []
+sage = [
+  "sage.rings.complex_arb:*",
+  "sage.rings.complex_interval:*",
+  "sage.rings.complex_interval_field:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for complex balls.",
+  "Every computed enclosure contains the exact result of the corresponding complex operation on sample inputs.",
+  "The radius of an enclosure grows with the operation's conditioning: the enclosure of a near-singular reciprocal has a correspondingly large radius.",
+]
+reuse = { status = "formalized-not-executable", components = ["mathlib.interval.ball-arithmetic", "mathlib.complex.numbers"], evidence = "Mathlib supplies the theory of balls and the complex numbers; ARB-compatible complex enclosure arithmetic is an external executable." }
+backends = ["flint", "gmp", "gsl", "mpfi", "mpfr"]
+references = []

@@ -1,0 +1,46 @@
+domain = "riemannian_geometry"
+
+[[capability]]
+status = "source-reconciled"
+id = "riemannian-geometry.parametrized-surfaces"
+title = "Differential geometry of parametrized surfaces in R^3"
+statement = "Construct a parametrized surface in R^3 and compute its first and second fundamental forms, Gaussian, mean and principal curvatures, geodesics and the Gauss map."
+domain = "A parametrisation of a surface over an interval of parameters, with symbolic or numerical differentiation."
+contract = "(X(u,v)) -> the surface with its tangent vectors, unit normal, first and second fundamental forms, Gaussian, mean, principal and sectional curvatures, the geodesic equations and their numerical integration, and the Gauss map."
+exactness = "exact"
+algorithms = [{ family = "Fundamental forms and curvature from a parametrisation", sources = ["sage.geometry.riemannian_manifolds.parametrized_surface3d:*"] }, { family = "Geodesic equations", sources = ["sage.geometry.riemannian_manifolds.parametrized_surface3d:*"] }]
+depends_on = []
+sage = [
+  "sage.geometry.riemannian_manifolds.parametrized_surface3d:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for parametrized surfaces.",
+  "The Gaussian curvature computed from the fundamental forms equals the determinant of the shape operator, and the sphere of radius r has Gaussian curvature 1/r^2.",
+  "Geodesics on a surface of revolution satisfy Clairaut's relation numerically.",
+]
+reuse = { status = "adaptable", components = ["mathlib.analysis.derivative"], evidence = "Mathlib supplies derivatives and differential geometry foundations; symbolic fundamental forms and geodesic integration on a parametrised surface are not packaged there." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "riemannian-geometry.surface-library"
+title = "Library of parametrized surfaces in R^3"
+statement = "Construct the classical parametrized surfaces (sphere, torus, ellipsoid, hyperboloid, helicoid, catenoid, Enneper, cross-cap and others) with their parametrisations and default parameter ranges."
+domain = "A surface name and its shape parameters."
+contract = "(name,params) -> the parametrized surface object with its parametrisation and its plotting-oriented range data; the curvature and form computations are those of the parametrized-surface capability."
+exactness = "exact"
+algorithms = [{ family = "Classical surface parametrisations", sources = ["sage.geometry.riemannian_manifolds.surface3d_generators:*"] }]
+depends_on = []
+sage = [
+  "sage.geometry.riemannian_manifolds.surface3d_generators:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for the surface library.",
+  "Each returned parametrisation satisfies the defining implicit equation of the named surface (for example x^2 + y^2 + z^2 = r^2 for the sphere).",
+]
+reuse = { status = "adaptable", components = ["mathlib.analysis.derivative"], evidence = "Mathlib supplies the analytic foundations; the library of classical parametrisations does not exist there." }
+backends = []
+references = []

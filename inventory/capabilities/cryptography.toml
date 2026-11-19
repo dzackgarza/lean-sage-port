@@ -1,0 +1,135 @@
+domain = "cryptography"
+
+[[capability]]
+status = "source-reconciled"
+id = "cryptography.classical-and-stream-ciphers"
+title = "Classical, stream and LFSR ciphers"
+statement = "Encode, encrypt and decrypt with classical substitution, transposition, affine, Hill and Vigenere ciphers and with stream ciphers, and generate and analyse linear feedback shift register sequences."
+domain = "An alphabet or a ring Z/n, a key, and a plaintext or ciphertext; for LFSR a connection polynomial and an initial state."
+contract = "(cipher,key,text) -> the ciphertext or plaintext with its encoding, the key space and key validation; (LFSR) -> the generated sequence with its period, characteristic polynomial and Berlekamp-Massey linear complexity."
+exactness = "exact"
+algorithms = [{ family = "Cipher encryption and decryption", sources = ["sage.crypto.cipher:*", "sage.crypto.classical:*", "sage.crypto.classical_cipher:*", "sage.crypto.cryptosystem:*", "sage.crypto.lfsr:*", "sage.crypto.stream:*", "sage.crypto.stream_cipher:*", "sage.crypto.util:*"] }, { family = "LFSR sequence generation and complexity", sources = ["sage.crypto.cipher:*", "sage.crypto.classical:*", "sage.crypto.classical_cipher:*", "sage.crypto.cryptosystem:*", "sage.crypto.lfsr:*", "sage.crypto.stream:*", "sage.crypto.stream_cipher:*", "sage.crypto.util:*"] }]
+depends_on = []
+sage = [
+  "sage.crypto.cipher:*",
+  "sage.crypto.classical:*",
+  "sage.crypto.classical_cipher:*",
+  "sage.crypto.cryptosystem:*",
+  "sage.crypto.lfsr:*",
+  "sage.crypto.stream:*",
+  "sage.crypto.stream_cipher:*",
+  "sage.crypto.util:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for ciphers.",
+  "Decryption inverts encryption for every key in the key space on sample texts, and the Hill cipher's decryption matrix is the modular inverse of the key matrix.",
+  "An LFSR sequence satisfies its connection polynomial recurrence, and its linear complexity is at most the register length.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for classical and stream ciphers and LFSR sequences; none exists." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "cryptography.block-ciphers"
+title = "Block ciphers: AES, DES, PRESENT and their simplifications"
+statement = "Encrypt and decrypt with AES/Rijndael-GF, DES, PRESENT, Mini-AES and Simplified DES, and expose the round structure, S-boxes and key schedules as polynomial systems over finite fields."
+domain = "A block size and key size, a key, and a block of plaintext or ciphertext."
+contract = "(cipher,key,block) -> the ciphertext or plaintext, the round keys, the round transformations as polynomials over GF(2^n), and the polynomial system encoding the cipher."
+exactness = "exact"
+algorithms = [{ family = "Round-based block cipher encryption", sources = ["sage.crypto.block_cipher.des:*", "sage.crypto.block_cipher.miniaes:*", "sage.crypto.block_cipher.present:*", "sage.crypto.block_cipher.sdes:*", "sage.crypto.mq.rijndael_gf:*"] }, { family = "Polynomial-system encoding of rounds", sources = ["sage.crypto.block_cipher.des:*", "sage.crypto.block_cipher.miniaes:*", "sage.crypto.block_cipher.present:*", "sage.crypto.block_cipher.sdes:*", "sage.crypto.mq.rijndael_gf:*"] }]
+depends_on = []
+sage = [
+  "sage.crypto.block_cipher.des:*",
+  "sage.crypto.block_cipher.miniaes:*",
+  "sage.crypto.block_cipher.present:*",
+  "sage.crypto.block_cipher.sdes:*",
+  "sage.crypto.mq.rijndael_gf:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for block ciphers.",
+  "Decryption inverts encryption for all key sizes, and the published AES and DES test vectors are reproduced.",
+  "The polynomial system encoding a round evaluates to the same map as the procedural round on all inputs of small block size.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for block ciphers and their polynomial-system encodings; none exists." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "cryptography.sboxes-and-boolean-functions"
+title = "S-boxes and Boolean functions"
+statement = "Construct an S-box or Boolean function from a truth table, and compute its algebraic normal form, Walsh spectrum, nonlinearity, differential uniformity, linearity and algebraic degree."
+domain = "A truth table over GF(2)^n, or a named S-box."
+contract = "(S) -> the S-box with its truth table, inverse where bijective, algebraic normal form, Walsh and autocorrelation spectra, nonlinearity, differential uniformity, algebraic degree and (for Boolean functions) its truth-table properties and the Reed-Muller transform."
+exactness = "exact"
+algorithms = [{ family = "Walsh transform and cryptographic criteria", sources = ["sage.crypto.boolean_function:*", "sage.crypto.sbox:*", "sage.crypto.sboxes:*"] }]
+depends_on = []
+sage = [
+  "sage.crypto.boolean_function:*",
+  "sage.crypto.sbox:*",
+  "sage.crypto.sboxes:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for S-boxes and Boolean functions.",
+  "The Walsh spectrum is the Fourier transform of the sign function, and the nonlinearity equals (2^n - max|Walsh|)/2.",
+  "The differential uniformity equals the maximum entry of the difference distribution table, and for AES's S-box it is 4.",
+]
+reuse = { status = "adaptable", components = ["mathlib.analysis.fft-float-linalg"], evidence = "Mathlib supplies Fourier and transform theory but no executable Walsh transform or S-box criteria." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "cryptography.public-key-schemes"
+title = "Public-key encryption, key exchange and signatures"
+statement = "Implement Blum-Goldwasser probabilistic encryption, finite-field and supersingular-isogeny Diffie-Hellman, Ed25519 signatures, and generate (ring-)LWE oracles and hard lattice instances."
+domain = "A finite field or elliptic curve, a security parameter, and a message or key material."
+contract = "(params) -> the public and private keys, the ciphertext or signature with its verification predicate, the shared secret of a key exchange, and for LWE an oracle with its samples and secret; lattice instances expose their basis, dimension and hardness data."
+exactness = "exact"
+algorithms = [{ family = "Key generation, encryption and signature", sources = ["sage.crypto.ed25519:*", "sage.crypto.lattice:*", "sage.crypto.lwe:*", "sage.crypto.public_key.blum_goldwasser:*", "sage.crypto.public_key.key_exchange.finite_field_diffie_hellman:*", "sage.crypto.public_key.key_exchange.key_exchange_base:*", "sage.crypto.public_key.key_exchange.sidh:*"] }, { family = "LWE sampling and lattice instance generation", sources = ["sage.crypto.ed25519:*", "sage.crypto.lattice:*", "sage.crypto.lwe:*", "sage.crypto.public_key.blum_goldwasser:*", "sage.crypto.public_key.key_exchange.finite_field_diffie_hellman:*", "sage.crypto.public_key.key_exchange.key_exchange_base:*", "sage.crypto.public_key.key_exchange.sidh:*"] }]
+depends_on = []
+sage = [
+  "sage.crypto.ed25519:*",
+  "sage.crypto.lattice:*",
+  "sage.crypto.lwe:*",
+  "sage.crypto.public_key.blum_goldwasser:*",
+  "sage.crypto.public_key.key_exchange.finite_field_diffie_hellman:*",
+  "sage.crypto.public_key.key_exchange.key_exchange_base:*",
+  "sage.crypto.public_key.key_exchange.sidh:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for public-key schemes.",
+  "Decryption recovers the plaintext and every generated signature verifies against its public key.",
+  "The key exchange agrees on both sides, and an LWE sample satisfies its linear relation up to the specified error bound.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for public-key schemes, signatures and LWE oracles; Ed25519 and lattice hardness generation are not implemented there." }
+backends = []
+references = []
+
+[[capability]]
+status = "source-reconciled"
+id = "cryptography.multivariate-quadratic-systems"
+title = "Multivariate quadratic polynomial systems for cryptography"
+statement = "Generate the polynomial systems underlying the SR and Rijndael-GF cipher families, with their variables, monomial ordering and system-level operations."
+domain = "Block and key dimensions, a number of rounds, and a cipher name."
+contract = "(params) -> the polynomial system generator with its variable and monomial ordering, the system of quadratic equations over the base field, and the encoding of key recovery as a system of equations."
+exactness = "exact"
+algorithms = [{ family = "Cipher-to-polynomial-system generation", sources = ["sage.crypto.mq.mpolynomialsystemgenerator:*", "sage.crypto.mq.sr:*"] }]
+depends_on = []
+sage = [
+  "sage.crypto.mq.mpolynomialsystemgenerator:*",
+  "sage.crypto.mq.sr:*",
+]
+catalogue = []
+tests = [
+  "Sage doctests for polynomial system generators.",
+  "Substituting a key and plaintext into the system evaluates to the ciphertext, and the number of equations matches the block size.",
+]
+reuse = { status = "missing", components = [], evidence = "Searched every reuse map for cipher-derived polynomial systems; Groebner machinery exists but the SR/Rijndael system generators do not." }
+backends = []
+references = []
