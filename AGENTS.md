@@ -74,6 +74,29 @@ examination.
 | Warm | `just test` | seconds when the lock is unchanged | At each commit; the commit hook runs it. Incremental build, probe executables, sorry scan, inventory tests. |
 | Cold | `just test-ci` in CI | minutes, on a clean machine | Shows that the lock reproduces from nothing. |
 
+A loop is too long when any of these is true:
+
+- **You wait.** You start other work, poll a status or step away while the check runs. A hot check
+  ends before your attention moves. A warm check ends before you have written the commit message.
+- **The check costs more than the edit.** A one-line change that takes minutes to check is
+  paying for something other than the change.
+- **The cost follows the wrong size.** The time of a check grows with the change that it checks.
+  When it grows with the dependencies, the number of files or the size of the suite, the check
+  rebuilds or reruns work that the change did not touch.
+- **You batch edits to save checks.** Several edits per check means each error hides behind the
+  others, and you cannot tell which edit caused it.
+- **A wide loop finds what a narrow loop could find.** CI or the full gate reports a type error, a
+  wrong signature or a missing instance. The hot loop catches those; it was missing or not used.
+- **The same kind of failure comes back.** Each cycle fixes one instance and the next instance waits
+  a full cycle.
+- **There is little code and the check is slow.** Before real code exists, the time is setup:
+  downloads, dependency builds, cold caches. Fix it then, while it is the only cost.
+
+Loops grow slowly, one dependency or one test at a time, so no single step looks like the problem:
+the frog in slowly heated water never finds the moment to jump.
+Measure them: compare the time of each loop with the cost column above whenever a check feels slow,
+and after each change of the lock.
+
 Keep each loop tight:
 
 - Choose the smallest check that exercises the change: one file before the gate, one test

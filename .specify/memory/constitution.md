@@ -110,9 +110,10 @@ required computation.
 
 Keep the compatible toolchain and dependency resolution reproducible. Work in the tightest
 feedback loop that can show a change is wrong: one file after each edit, the incremental local
-gate at each commit, a clean-machine run to show that the lock reproduces. A loop that grows to
-minutes is a defect: measure where its time goes and fix that cause before more work depends
-on it.
+gate at each commit, a clean-machine run to show that the lock reproduces. A loop is a defect when its
+cost grows with the dependencies or the suite instead of with the change, or when a wide loop
+reports an error that a narrow loop could report: measure where its time goes and fix that cause
+before more work depends on it.
 
 Tier 1 tests exercise small public operations and meaningful branches with feedback in seconds.
 Higher tiers extend domain and input coverage through source tests and oracle runs.
@@ -146,4 +147,4 @@ Evidence or Governance sections that do not alter principles or scope are patch-
 Review each feature against the constitution before implementation and again before acceptance.
 Complexity violations MUST be justified in writing before the work begins.
 
-**Version**: 1.2.3 | **Ratified**: 2026-11-17 | **Last Amended**: 2026-11-20
+**Version**: 1.2.4 | **Ratified**: 2026-11-17 | **Last Amended**: 2026-11-20
