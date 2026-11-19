@@ -2,19 +2,19 @@ name: CI
 'on':
   push:
     branches:
-    - main
+      - main
     paths:
-    - '**.lean'
-    - lakefile.toml
-    - lake-manifest.json
-    - tools/inventory/pyproject.toml
-    - tools/inventory/uv.lock
-    - tools/inventory/src/**
-    - tools/inventory/tests/**
-    - inventory/**
-    - lean-toolchain
-    - justfile
-    - .github/workflows/ci.yml
+      - '**.lean'
+      - lakefile.toml
+      - lake-manifest.json
+      - tools/inventory/pyproject.toml
+      - tools/inventory/uv.lock
+      - tools/inventory/src/**
+      - tools/inventory/tests/**
+      - inventory/**
+      - lean-toolchain
+      - justfile
+      - .github/workflows/ci.yml
   workflow_dispatch: null
 concurrency:
   group: ci-${{ github.ref }}
@@ -26,27 +26,39 @@ jobs:
     name: Build and test the locked Lean and inventory environments
     runs-on: ubuntu-latest
     steps:
-    - name: Check out repository
-      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-    - name: Clone QC infrastructure
-      run: git clone --depth 1 https://github.com/dzackgarza/ai-review-ci.git "$HOME/ai-review-ci"
-    - name: Install ripgrep
-      run: sudo apt-get update && sudo apt-get install -y ripgrep
-    - name: Install elan
-      run: 'curl -sSfL https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain none
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Clone QC infrastructure
+        run: git clone --depth 1 https://github.com/dzackgarza/ai-review-ci.git "$HOME/ai-review-ci"
+      - name: Install ripgrep
+        run: sudo apt-get update && sudo apt-get install -y ripgrep
+      - name: Install elan
+        run: 'curl -sSfL https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain none
 
-        echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
 
-        '
-    - name: Install just
-      uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3
-    - name: Install uv
-      uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9
-    - name: Provide pinned Sage parser source
-      run: |
-        target="$HOME/gitclones/sage-dev-allopts-develop/src/sage/rings/integer.pyx"
-        mkdir -p "$(dirname "$target")"
-        curl -fsSL --output "$target" https://raw.githubusercontent.com/dzackgarza/sage/c00171e47d6e68d8148d7ee10c4dd77b71a97662/src/sage/rings/integer.pyx
-        printf "%s  %s\n" 3abf8e7483042eac57087879067131b5b5cd0458f8fd42c96c21cd3f8843b639 "$target" | sha256sum -c -
-    - name: Build and scan
-      run: just test-ci
+'
+      - name: Install just
+        uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3
+      - name: Install uv
+        uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9
+      - name: Provide pinned Sage parser source
+        run: |
+          target="$HOME/gitclones/sage-dev-allopts-develop/src/sage/rings/integer.pyx"
+          mkdir -p "$(dirname "$target")"
+          curl -fsSL --output "$target" https://raw.githubusercontent.com/dzackgarza/sage/c00171e47d6e68d8148d7ee10c4dd77b71a97662/src/sage/rings/integer.pyx
+          printf "%s  %s\n" 3abf8e7483042eac57087879067131b5b5cd0458f8fd42c96c21cd3f8843b639 "$target" | sha256sum -c -
+      - name: Restore Lake build
+        id: lake-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: .lake
+          key: lake-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}
+      - name: Build and scan
+        run: just test-ci
+      - name: Save Lake build
+        if: always() && steps.lake-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: .lake
+          key: lake-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}
