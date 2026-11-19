@@ -68,8 +68,7 @@ maps and chosen structure required by later operations; same-input oracle compar
 - [ ] T011 [US2] Exercise retained defining maps, selected generators and ordered composition
   through the public probe entry point; compare against the reference computations in
   `docs/oracles.md` and record the accepted mechanism in `docs/architecture.md`.
-- [ ] T012 [US2] Verify the pinned Lake build and runtime probe commands through `just test`,
-  locally and in CI, and
+- [ ] T012 [US2] Verify the pinned Lake build and runtime probe commands through `just test` and
   the separately pinned oracle environment; retain run provenance and timing evidence.
 
 ## User Story 3 — Prepare independently executable implementation contracts

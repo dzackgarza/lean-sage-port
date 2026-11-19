@@ -104,7 +104,7 @@ Sage's existing source cases determine the concrete examples for each operation.
 - **FR-009**: Domain and cross-domain specifications derive from the capability inventory.
   GitHub issues hold the dependency graph and work state; source documents hold the contracts.
 - **FR-010**: Builds and oracle environments record immutable dependency identities and run
-  through reproducible commands. CI validates the architectural probes and acceptance infrastructure.
+  through reproducible commands. `just test` validates the architectural probes and acceptance infrastructure.
 - **FR-011**: A capability may be accepted through source tests and independent oracle comparisons
   without a complete Lean correctness proof. Representation comparisons must still preserve the
   mathematical object, defining maps and selected structure named in the contract.
@@ -137,7 +137,8 @@ Sage's existing source cases determine the concrete examples for each operation.
 - **SC-004**: Every implementation issue has sufficient source, contract, dependency and acceptance
   information for an implementer to proceed without a fresh foundations investigation.
 - **SC-005**: The dependency graph is acyclic and each edge represents an actual consumed prerequisite.
-- **SC-006**: The pinned environment builds in CI and the independent acceptance path executes.
+- **SC-006**: The pinned environment builds from a clean checkout with `just lean-setup` and
+  `just test`, and the independent acceptance path executes.
 - **SC-007**: Independent review leaves no unresolved foundational decision hidden in implementation work.
 
 ## Assumptions

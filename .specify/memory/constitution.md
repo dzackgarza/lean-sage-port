@@ -110,8 +110,7 @@ required computation.
 
 Keep the compatible toolchain and dependency resolution reproducible. The feedback loop is local
 and incremental: elaborating a changed Lean file takes seconds, and the local gate rebuilds only
-changed modules. CI repeats the local gate on a clean machine; it is not the way to discover
-whether code elaborates. Fix a slow loop before more work depends on it.
+changed modules. CI repeats the local gate on a clean machine. Fix a slow loop before more work depends on it.
 
 Tier 1 tests exercise small public operations and meaningful branches with feedback in seconds.
 Higher tiers extend domain and input coverage through source tests and oracle runs.
@@ -145,4 +144,4 @@ Evidence or Governance sections that do not alter principles or scope are patch-
 Review each feature against the constitution before implementation and again before acceptance.
 Complexity violations MUST be justified in writing before the work begins.
 
-**Version**: 1.2.1 | **Ratified**: 2026-11-17 | **Last Amended**: 2026-11-20
+**Version**: 1.2.2 | **Ratified**: 2026-11-17 | **Last Amended**: 2026-11-20

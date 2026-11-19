@@ -58,14 +58,12 @@ at the baseline, because those tables read older Sage versions.
 | `references/lattice-engines/method-inventories/` | Method lists for lattices and quadratic forms in Sage, Oscar and Hecke, GAP, PARI/GP, NTL, FLINT, fpylll, g6k and flatter, with the convention that each method uses. `lattice_wrapper_capability_checklist.md` groups the methods of all engines into capabilities. `method_ground_truth_tracker.csv` gives the source and test of each method. | per file |
 | `references/lattice-engines/system-references/` | Reference notes for each engine, with the definiteness and discriminant conventions. | per file |
 
-The wiki of `research` is retired. Each wiki page names the file under `docs/` that replaced it.
-
 ## Rules
 
 ### The feedback loop is local and takes seconds
 
-A check that takes minutes is a defect to fix before more work lands on it. CI is a second run of
-the local gate on a clean machine, never the way to learn whether code elaborates.
+A check that takes minutes is a defect to fix before more work lands on it. CI runs the same gate
+on a clean machine.
 
 | Step | Command | When |
 | --- | --- | --- |
@@ -82,16 +80,14 @@ the local gate on a clean machine, never the way to learn whether code elaborate
   prebuilt cache.
 - Read an upstream signature in its source before you use it. An elaboration error from a guessed
   signature costs a check cycle.
-- Lean that has not passed `just test` is a draft. A commit is checked when its hook passes; do not wait
-  on CI for it. CI repeats the gate on a clean machine, so a CI failure that `just test` did not show
-  is a defect of the lock or of `just lean-setup`, fixed at that cause.
+- Lean that has not passed `just test` is a draft. A commit is checked when its hook passes.
 
 ### Reproducible dependency set
 
 `lean-toolchain` and `lakefile.toml` name the compatible Lean, Mathlib and Hex revisions.
 `lake-manifest.json` locks the full Lake dependency graph; `tools/inventory/uv.lock` locks the
-Python inventory environment. Commit both locks when dependencies change. CI builds this resolved
-set and runs the inventory tests. Change versions only after CI establishes a compatible set.
+Python inventory environment. Commit both locks when dependencies change. A new lock is accepted
+when `just lean-setup` and `just test` pass on it.
 
 In `lakefile.toml`, Mathlib is the last `[[require]]`. Lake gives the last requirement precedence
 for shared dependencies, and Mathlib's build cache is valid only for Mathlib's own versions of them.

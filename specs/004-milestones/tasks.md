@@ -116,7 +116,7 @@ acceptance tiers are explicitly distinguished.
 - [x] T017 Remove the redirect `docs/milestones.md` placeholder file content and replace it
   with a one-line pointer to `specs/004-milestones/plan.md` (matches FR-009).
 - [x] T018 [P] Update GitHub issues #2–#15 to reference `specs/004-milestones/plan.md` as the
-  authoritative milestone spec, replacing any references to the now-superseded `docs/milestones.md`.
+  authoritative milestone spec, replacing any references to the superseded `docs/milestones.md`.
 - [x] T019 Run the full quickstart scenario suite (scenarios 1–5) and confirm all pass or
   document the expected failing state with a known open task.
 - [x] T020 Run `sage-inventory capability-evidence` and require every source-reconciled capability

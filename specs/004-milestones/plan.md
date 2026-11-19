@@ -20,7 +20,7 @@ Python module layout.
 **Primary Dependencies**: Mathlib `9fdc1827`, Hex `f4b180cf`, lean-categories, lean-cas-dsl
 **Storage**: `inventory/capabilities/*.toml`, `inventory/reuse/*.toml`, `docs/domain-specifications.md`
 **Testing**: `sage-inventory remaining` (coverage gate); Sage docker oracle (implementation gate)
-**Target Platform**: Repository documentation + CI-enforced coverage invariants
+**Target Platform**: Repository documentation + coverage invariants enforced by `just test`
 **Project Type**: Specification and inventory structure
 **Performance Goals**: none beyond the tier 1 feedback limit of the constitution
 **Constraints**: No section may appear in two milestones without an explicit split predicate;

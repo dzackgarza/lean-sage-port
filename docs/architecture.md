@@ -120,8 +120,8 @@ result needs a dependent dimension witness.
 ## Discriminating executable probes
 
 `Probes/RuntimeGeneric.lean`, `Probes/RuntimeQuotient.lean` and `Probes/Main.lean`
-contain the current executable experiments and a CLI entry point. They are
-source-checked against the Hex and Mathlib APIs but have not yet passed CI. The
+contain the executable experiments and a CLI entry point. `just test` builds them
+and runs the CLI on three inputs. The
 CLI takes a prime characteristic, a monic defining polynomial and an input
 polynomial as ascending coefficient lists. It prints a canonical result and
 `maps=true` only when the defining polynomial maps to zero, coefficient-wise
@@ -147,7 +147,7 @@ establish representation independence.
 1. **Quotient and extension domains.** Construct `ZMod n` and a polynomial quotient
    from runtime input, retain the quotient map and selected generator, perform arithmetic,
    and feed the result into a second operation. Include two different moduli and two
-   different defining polynomials in one run. The catalogue currently names `ZMod n`
+   different defining polynomials in one run. The catalogue names `ZMod n`
    and a polynomial quotient object (`inventory/reuse/lean-categories.toml`); the probe
    must verify that its actual quotient map is available and that no operation silently
    crosses the two domains.

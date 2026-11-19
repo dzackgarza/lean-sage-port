@@ -111,7 +111,7 @@ Tier 2 completion is tracked per-capability in milestone acceptance.
 
 **What does not count as completion**:
 - Capability records existing without selectors
-- Probes passing CI (this is architecture acceptance, not product completion)
+- Probes passing `just test` (this is architecture acceptance, not product completion)
 - Formal proofs alone (a noncomputable theorem does not discharge an executable requirement)
 - Milestone tracking issues being closed (milestones are progress partitions, not the product definition)
 
@@ -149,7 +149,7 @@ issue may reference them.
 |---|---|---|---|
 | Hex FpPoly.Quotient ↔ Mathlib AdjoinRoot formal bridge | M3 quotient-ring implementation acceptance | This repository | Open — `Probes/RuntimeQuotient.lean` `interpret` map is `noncomputable` |
 | DSL `NativeCompute` port at `Realize.send` boundary | M1+ implementation integration with DSL kernel | `lean-cas-dsl` owner (issue 85) | Open — specified in `docs/architecture.md` |
-| HexSmith, HexHermite release status verification | M4 implementation | This repository (verify at import) | Open — unreleased at survey date 2026-11-17 |
+| HexSmith, HexHermite release status verification | M4 implementation | This repository (verify at import) | Open — check each release tag at import |
 | GPL licence review for cryptography/coding source translations | M13 implementation | This repository (legal review) | Open — Sage is GPL-2.0-or-later |
 
 ## Specification hierarchy
@@ -162,7 +162,7 @@ issue may reference them.
 | Milestone roadmap | Dependency-ordered milestones, section assignments, parallelism | `specs/004-milestones/plan.md` |
 | Domain spec (per section group) | Supported hypotheses, compositions, source references | `specs/00N-*/spec.md` (future) |
 | Capability records | Per-operation contract, selectors, reuse, acceptance | `inventory/capabilities/*.toml` |
-| Implementation issues | Per-operation Lean source, declarations, algorithms, CI | GitHub issues (future) |
+| Implementation issues | Per-operation Lean source, declarations, algorithms, tests | GitHub issues (future) |
 
 The hierarchy is a tree. A document at level N references but does not duplicate content from
 level N+1. Changes at level N+1 do not require amendments to level N unless the framework itself changes.

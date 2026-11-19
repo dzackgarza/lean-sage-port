@@ -65,7 +65,7 @@ the other.
    "level" (neither is a prerequisite of the other), **then** there is no capability-level
    `depends_on` edge between them.
 
-2. **Given** the M0 architecture probes passing CI, **when** M1 begins and M14 residual work
+2. **Given** the M0 architecture probes passing `just test`, **when** M1 begins and M14 residual work
    is scheduled, **then** M14 does not claim or defer the foundational `categories` ledger and
    its remaining work does not require computation delivered by M1.
 
@@ -152,7 +152,7 @@ implementation measure.
 - **Capability pointer**: A reference from a milestone to an existing capability record
   (not a copy of its content).
 - **Acceptance condition**: A machine-checkable criterion (`remaining` query, oracle run, or
-  CI gate) that closes the milestone.
+  `just test`) that closes the milestone.
 
 ## Success Criteria
 

@@ -116,7 +116,7 @@ counts alone never close a batch.
 Use the three experiments specified in `docs/architecture.md`: runtime quotient and extension
 construction, generic matrix/polynomial operations over contrasting coefficient domains, and
 composition retaining maps and selected data. Compare with Sage on the same input data.
-Publish passing CI evidence before marking any architecture decision accepted.
+An architecture decision is accepted when its probe passes `just test`.
 
 ## Readiness
 
