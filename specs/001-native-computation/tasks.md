@@ -63,16 +63,13 @@ maps and chosen structure required by later operations; same-input oracle compar
   sources and record its concrete owner and signatures in `docs/architecture.md`.
 - [ ] T009 [US2] Complete `Probes/RuntimeQuotient.lean` and its public executable entry point
   for runtime quotient/extension construction using existing Hex representations.
-  Against Hex `v0.10.0` (CI run 44479417319) the probe does not elaborate:
-  `ZMod64.ofNat p` takes a `ZMod64.Bounds p` instance after its `Nat` argument, so
-  `Array.map (ZMod64.ofNat p)` has the wrong type (line 20), and `DensePoly.Monic g` has no
-  `Decidable` instance for the `if hm :` test (line 50).
 - [ ] T010 [US2] Complete `Probes/RuntimeGeneric.lean` across integer, modular, polynomial
   and quotient coefficient domains using the same generic operations.
 - [ ] T011 [US2] Exercise retained defining maps, selected generators and ordered composition
   through the public probe entry point; compare against the reference computations in
   `docs/oracles.md` and record the accepted mechanism in `docs/architecture.md`.
-- [ ] T012 [US2] Verify the pinned Lake build and runtime probe commands through CI and
+- [ ] T012 [US2] Verify the pinned Lake build and runtime probe commands through `just test`,
+  locally and in CI, and
   the separately pinned oracle environment; retain run provenance and timing evidence.
 
 ## User Story 3 — Prepare independently executable implementation contracts
@@ -95,7 +92,7 @@ T001 fixes the source against which T002 and T003 complete accounting. T004 and 
 disjoint upstream sources in parallel, but their scope is bounded by T003. T006 uses the actual
 algorithms from T003–T005. T007 consumes those contracts. T008 records the native interface
 needed by the probes. T009 and T010 test runtime construction using that interface; T011 tests
-composition over their results. T012 validates the executable probes through CI. T013 then
+composition over their results. T012 validates the executable probes through `just test`. T013 then
 checks the complete artifact set. T014–T016 consume the completed specifications and accepted
 architecture.
 

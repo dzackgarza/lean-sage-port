@@ -61,20 +61,27 @@ The wiki of `research` is retired. Each wiki page names the file under `docs/` t
 
 ## Rules
 
-### Lean compiles in CI, not on this machine
+### The feedback loop is local and takes seconds
 
-Do not run `lake build`, `lake exe cache get` or `just test-ci` on the workstation. The Hex packages
-and their dependency TauCeti have no prebuilt cache: a build that imports them compiles thousands
-of modules from source. Mathlib alone adds about 7 GB of build products.
+A check that takes minutes is a defect to fix before more work lands on it. CI is a second run of
+the local gate on a clean machine, never the way to learn whether code elaborates.
 
-- To check Lean code, commit and push. The `CI` workflow runs `just test-ci`. Read the result with
-  `gh run watch` or `gh run view --log-failed`.
-- A red `CI` run on `main` is the next work. Before the next push, either fix it or record the
-  failing errors in the owning task. Lean that has never had a green run is not written; it is a
-  draft.
+| Step | Command | When |
+| --- | --- | --- |
+| Prepare the locked environment | `just lean-setup` | once per change of `lake-manifest.json` |
+| Elaborate one file | `just check-lean Probes/RuntimeQuotient.lean` | after each edit |
+| Run the gate | `just test` | before each commit |
+
+- `just lean-setup` keeps the packages in `~/.local/share/lean/mathlib-<rev>/packages`, shared by
+  every checkout of the same Mathlib revision, and links `.lake/packages` to it. It fetches the
+  Mathlib build cache. The first `just test` after it compiles the Hex libraries that the probes
+  import; later runs rebuild only changed modules.
 - Import the smallest Hex library that holds the declaration (`import HexDeterminant`), never the
-  aggregate `import Hex`. The aggregate pulls every `*Theory` library and TauCeti.
-- `just test` is the local gate. It compiles no Lean.
+  aggregate `import Hex`. The aggregate pulls every `*Theory` library and TauCeti, which have no
+  prebuilt cache.
+- Read an upstream signature in its source before you use it. An elaboration error from a guessed
+  signature costs a check cycle.
+- A red `CI` run on `main` is the next work. Lean that has not passed `just test` is a draft.
 
 ### Reproducible dependency set
 
@@ -101,7 +108,8 @@ reports unsolved goals and unknown Mathlib constants inside Hex source files.
 To relock, copy `lakefile.toml`, `lean-toolchain` and `lake-manifest.json` into a scratch directory
 and run `MATHLIB_NO_CACHE_ON_UPDATE=1 lake update` there. The variable stops the Mathlib post-update
 hook from downloading the build cache. Do not run `lake update` in the checkout: its
-`.lake/packages` can be a link to a package directory that other projects share.
+`.lake/packages` is a link to the shared package directory. Copy the new `lake-manifest.json` back,
+then run `just lean-setup`.
 
 ### The Sage release and local index
 
@@ -132,6 +140,8 @@ time. A hard-coded special case is not evidence for a generic operation.
 
 | Task | Command |
 | --- | --- |
+| Prepare the locked Lean environment | `just lean-setup` |
+| Elaborate a Lean file | `just check-lean <file>` |
 | Local gate | `just test` |
 | Rebuild the Sage index | `cd tools/inventory && uv run sage-inventory index ../../inventory/sage/baseline.yaml ../../inventory/sage/index` |
 | Print the record schema | `cd tools/inventory && uv run sage-inventory schema` |

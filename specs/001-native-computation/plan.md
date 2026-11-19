@@ -16,7 +16,8 @@ acceptance from the selected Sage doctests and same-input reference computations
   they do not by themselves establish package compatibility.
 - Mathematical owners: lean-categories semantics and lean-cas-dsl language/kernel.
 - Evidence storage: existing TOML capability/reuse files and generated JSON source indexes.
-- Validation: inventory schema/selector checks locally; Lean compilation and runtime probes in CI;
+- Validation: `just check-lean <file>` while editing and `just test` (incremental Lean build,
+  runtime probes, inventory checks) before each commit; CI repeats `just test`;
   baseline Sage/reference computations as independent oracles.
 - Platform: the existing Linux workstation and CI environment.
 - Scope: every indexed entity of every module under `src/sage` (66,424 entities in 3,041 modules

@@ -14,5 +14,6 @@ records, source tests and reuse evidence. [Capability record rules](docs/capabil
 define source accounting, the reconnaissance states and oracle comparisons. The [architecture contract](docs/architecture.md)
 identifies the runtime experiments needed before accepting the design.
 
-Run `just test` for the local inventory gate. Lean compilation runs in CI through `just test-ci`.
+Run `just lean-setup` once per dependency lock. Then `just check-lean <file>` elaborates a Lean file
+in seconds, and `just test` is the incremental local gate. CI runs the same gate on a clean machine.
 Current work is owned by [the reconnaissance issue](https://github.com/dzackgarza/lean-sage-port/issues/1).

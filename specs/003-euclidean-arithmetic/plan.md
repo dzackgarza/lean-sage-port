@@ -6,7 +6,7 @@
 
 ## Technical context
 
-- **Language/build**: Lean 4 and Lake at the repository's resolved versions; Lean compiles in CI.
+- **Language/build**: Lean 4 and Lake at the repository's resolved versions; the local gate is `just test`.
 - **Mathematical owner**: Mathlib `EuclideanDomain` supplies quotient/remainder, a well-founded relation and generic gcd/xgcd. `lean-categories` owns the mathematical object and operation catalogue; `lean-cas-dsl` owns stable language ids.
 - **Executable reuse**: Lean core integer division/gcd; Mathlib generic Euclidean algorithms when the instance is executable; Hex exact integer division and released dense polynomial divMod/gcd/xgcd. See `inventory/reuse/mathlib-core.toml` and `inventory/reuse/hex.toml` for declarations and revision status.
 - **Reference**: Official Sage 11.0.beta5 via `inventory/sage/release.toml`; capability selectors in `inventory/capabilities/integers-and-rationals.toml`; additional univariate polynomial source doctests at `sage.rings.polynomial.polynomial_element:Polynomial.quo_rem`, `Polynomial.gcd`, `Polynomial.lcm`, `Polynomial.xgcd`.

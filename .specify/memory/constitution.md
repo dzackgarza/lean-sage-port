@@ -108,11 +108,13 @@ before asking for a product decision. Independent review must challenge mathemat
 reuse claims, representation loss, dependency cycles and acceptance that can pass without the
 required computation.
 
-Keep the compatible toolchain and dependency resolution reproducible. Validate Lean in CI.
-The workstation gate checks the inventory and source constraints without compiling Lean.
+Keep the compatible toolchain and dependency resolution reproducible. The feedback loop is local
+and incremental: elaborating a changed Lean file takes seconds, and the local gate rebuilds only
+changed modules. CI repeats the local gate on a clean machine; it is not the way to discover
+whether code elaborates. Fix a slow loop before more work depends on it.
 
-Tier 1 tests exercise small public operations and meaningful branches with feedback in seconds
-or minutes. Higher tiers extend domain and input coverage through source tests and oracle runs.
+Tier 1 tests exercise small public operations and meaningful branches with feedback in seconds.
+Higher tiers extend domain and input coverage through source tests and oracle runs.
 A Tier 1 feedback loop exceeding five minutes requires repair. Preserve test and computation logs,
 including revision, environment, inputs, setup and nested timing costs. For optimization, first
 record measured costs and their actual multiplicative factors; retain the measured remaining cost.
@@ -143,4 +145,4 @@ Evidence or Governance sections that do not alter principles or scope are patch-
 Review each feature against the constitution before implementation and again before acceptance.
 Complexity violations MUST be justified in writing before the work begins.
 
-**Version**: 1.2.0 | **Ratified**: 2026-11-17 | **Last Amended**: 2026-11-19
+**Version**: 1.2.1 | **Ratified**: 2026-11-17 | **Last Amended**: 2026-11-20
