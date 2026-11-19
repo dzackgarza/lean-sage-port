@@ -17,7 +17,7 @@ open Hex
 
 /-- Construct coefficients at a selected prime characteristic. -/
 def polynomial (p : Nat) [ZMod64.Bounds p] (coeffs : Array Nat) : FpPoly p :=
-  FpPoly.ofCoeffs (coeffs.map (ZMod64.ofNat p))
+  FpPoly.ofCoeffs (coeffs.map fun n => ZMod64.ofNat p n)
 
 /-- The selected constant map into Hex's existing quotient representation. -/
 def constantMap {p : Nat} [ZMod64.Bounds p] [ZMod64.PrimeModulus p]
@@ -47,6 +47,10 @@ def run (p : Nat) (modulus input : Array Nat) : Option (Array Nat × Bool) :=
       letI : ZMod64.Bounds p := ⟨hb.1, hb.2⟩
       letI : ZMod64.PrimeModulus p := ⟨hp⟩
       let g := polynomial p modulus
+      -- `Monic g` is `leadingCoeff g = 1`. Hex states this instance as
+      -- `instDecidableMonic` in `HexBerlekampTheory/Irreducibility.lean` (v0.10.0).
+      letI : Decidable (DensePoly.Monic g) :=
+        inferInstanceAs (Decidable (DensePoly.leadingCoeff g = 1))
       if hm : DensePoly.Monic g then
         if hd : 0 < g.natDegree then
           let source := polynomial p input

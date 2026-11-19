@@ -69,6 +69,9 @@ of modules from source. Mathlib alone adds about 7 GB of build products.
 
 - To check Lean code, commit and push. The `CI` workflow runs `just test-ci`. Read the result with
   `gh run watch` or `gh run view --log-failed`.
+- A red `CI` run on `main` is the next work. Before the next push, either fix it or record the
+  failing errors in the owning task. Lean that has never had a green run is not written; it is a
+  draft.
 - Import the smallest Hex library that holds the declaration (`import HexDeterminant`), never the
   aggregate `import Hex`. The aggregate pulls every `*Theory` library and TauCeti.
 - `just test` is the local gate. It compiles no Lean.
@@ -88,13 +91,12 @@ the Mathlib requirement here overrides the one of Hex, Hex, Mathlib and Lean mov
 
 | File | Value |
 | --- | --- |
-| `lakefile.toml`, `hex` | a Hex release tag (`v0.10.0`) |
+| `lakefile.toml`, `hex` | a Hex release tag |
 | `lakefile.toml`, `mathlib` | the `mathlib` `rev` in `lake-manifest.json` of that Hex tag |
 | `lean-toolchain` | `lean-toolchain` of that Hex tag |
 
-A newer Mathlib breaks the Hex theory libraries. Hex `v0.10.0` with Mathlib `master` fails with
-unsolved goals in `HexPolyTheory/PolynomialEquivalence.lean` and an unknown `Matrix.ofArray` in
-`HexMatrixTheory/Literal.lean`.
+A Mathlib newer than the one of the Hex release breaks the Hex `*Theory` libraries: the build
+reports unsolved goals and unknown Mathlib constants inside Hex source files.
 
 To relock, copy `lakefile.toml`, `lean-toolchain` and `lake-manifest.json` into a scratch directory
 and run `MATHLIB_NO_CACHE_ON_UPDATE=1 lake update` there. The variable stops the Mathlib post-update
