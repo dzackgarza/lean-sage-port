@@ -83,6 +83,24 @@ set and runs the inventory tests. Change versions only after CI establishes a co
 In `lakefile.toml`, Mathlib is the last `[[require]]`. Lake gives the last requirement precedence
 for shared dependencies, and Mathlib's build cache is valid only for Mathlib's own versions of them.
 
+Hex compiles only against the Lean toolchain and the Mathlib revision of its own release. Because
+the Mathlib requirement here overrides the one of Hex, Hex, Mathlib and Lean move together:
+
+| File | Value |
+| --- | --- |
+| `lakefile.toml`, `hex` | a Hex release tag (`v0.10.0`) |
+| `lakefile.toml`, `mathlib` | the `mathlib` `rev` in `lake-manifest.json` of that Hex tag |
+| `lean-toolchain` | `lean-toolchain` of that Hex tag |
+
+A newer Mathlib breaks the Hex theory libraries. Hex `v0.10.0` with Mathlib `master` fails with
+unsolved goals in `HexPolyTheory/PolynomialEquivalence.lean` and an unknown `Matrix.ofArray` in
+`HexMatrixTheory/Literal.lean`.
+
+To relock, copy `lakefile.toml`, `lean-toolchain` and `lake-manifest.json` into a scratch directory
+and run `MATHLIB_NO_CACHE_ON_UPDATE=1 lake update` there. The variable stops the Mathlib post-update
+hook from downloading the build cache. Do not run `lake update` in the checkout: its
+`.lake/packages` can be a link to a package directory that other projects share.
+
 ### The Sage release and local index
 
 The target is official Sage `11.0.beta5`, identified in `inventory/sage/release.toml`.

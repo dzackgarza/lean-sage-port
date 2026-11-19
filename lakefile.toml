@@ -8,14 +8,15 @@ relaxedAutoImplicit = false
 [[require]]
 name = "hex"
 git = "https://github.com/leanprover/hex.git"
-rev = "main"
+rev = "v0.10.0"
 
 # Mathlib comes last: Lake gives the last requirement precedence for shared dependencies, and the
-# Mathlib build cache is valid only for Mathlib's own versions of them.
+# Mathlib build cache is valid only for Mathlib's own versions of them. The revision is the
+# `mathlib` revision of the Hex release above; AGENTS.md states the rule.
 [[require]]
 name = "mathlib"
 scope = "leanprover-community"
-rev = "master"
+rev = "6b7abb3c7686292736be2955bd3eb9ebf63b456a"
 
 [[lean_lib]]
 name = "Probes"

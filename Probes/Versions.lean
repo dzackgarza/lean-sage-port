@@ -2,7 +2,8 @@ import Mathlib
 import HexDeterminant
 import HexMatrix.Notation
 
-/-! The newest Lean, Mathlib and Hex in one environment: a Mathlib theorem and a Hex computation. -/
+/-! A Hex release with its own Lean and Mathlib in one environment: a Mathlib theorem and a Hex
+computation. -/
 
 example : (2 : ZMod 7) * 4 = 1 := by decide
 
