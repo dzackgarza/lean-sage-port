@@ -135,7 +135,8 @@ public category entities
 with zero unmatched records; 2,031 explicit ownership gaps remain assigned to the upstream
 catalogue owner. The 796 underscore entities of `categories` are open in the main ledger.
 Reconnaissance of the whole source is open (T003 of `001`); the live state is
-`inventory/coverage.json`. Probes are written; CI execution is outstanding (T009–T012 of `001`).
+`inventory/coverage.json`. Hex, Mathlib and Lean compile together in CI; `Probes/RuntimeQuotient.lean` does not elaborate
+against Hex `v0.10.0` (T009 of `001` states the errors; T009–T012 are open).
 
 ---
 

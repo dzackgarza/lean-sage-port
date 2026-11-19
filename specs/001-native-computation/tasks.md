@@ -63,6 +63,10 @@ maps and chosen structure required by later operations; same-input oracle compar
   sources and record its concrete owner and signatures in `docs/architecture.md`.
 - [ ] T009 [US2] Complete `Probes/RuntimeQuotient.lean` and its public executable entry point
   for runtime quotient/extension construction using existing Hex representations.
+  Against Hex `v0.10.0` (CI run 44479417319) the probe does not elaborate:
+  `ZMod64.ofNat p` takes a `ZMod64.Bounds p` instance after its `Nat` argument, so
+  `Array.map (ZMod64.ofNat p)` has the wrong type (line 20), and `DensePoly.Monic g` has no
+  `Decidable` instance for the `if hm :` test (line 50).
 - [ ] T010 [US2] Complete `Probes/RuntimeGeneric.lean` across integer, modular, polynomial
   and quotient coefficient domains using the same generic operations.
 - [ ] T011 [US2] Exercise retained defining maps, selected generators and ordered composition
