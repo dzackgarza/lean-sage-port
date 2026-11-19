@@ -39,41 +39,45 @@ def index(baseline: Path, output: Path) -> None:
     print(index_logic.build_index(index_logic.load_baseline(baseline), output).model_dump_json(indent=2))
 
 
+_STATES = ("unaccounted", "scoped", "reconciled", "excluded", "category_record")
+
+
+def _state_line(row: dict) -> str:
+    return "  ".join(f"{state.replace('_', '-')} {row[state]}" for state in _STATES)
+
+
 @app.command
 def coverage(
-    index: Path, capabilities: Path, reuse: Path, report: Path, categories: Path | None = None
+    index: Path, capabilities: Path, reuse: Path, categories: Path, worklog: Path, report: Path
 ) -> None:
-    """Validate the capability records and write the coverage report.
+    """Validate the records and the worklog, and write the coverage report over every indexed entity.
 
-    Fails when a record refers to an unknown capability, reuse component or catalogue id, or when a
-    selector matches nothing in the index.
+    Fails when a record refers to an unknown capability, reuse component or catalogue id, when a
+    selector matches nothing in the index, or when a worklog batch names no indexed module.
 
     Args:
         index: The index directory (`inventory/sage/index`).
         capabilities: Directory of capability records (`inventory/capabilities`).
         reuse: Directory of reuse surveys (`inventory/reuse`).
+        categories: The category inventory (`inventory/categories/sage-categories.toml`).
+        worklog: The source-reading worklog (`inventory/reconnaissance-worklog.toml`).
         report: The report file to write (`inventory/coverage.json`).
-        categories: The category inventory (`inventory/categories/sage-categories.toml`). Its
-            category and operation records account for the entities of the `categories` section.
     """
     _logging()
     try:
-        result = coverage_logic.measure(index, capabilities, reuse, categories)
+        result = coverage_logic.measure(index, capabilities, reuse, categories, worklog)
     except coverage_logic.InventoryError as error:
         sys.exit(f"capability inventory is inconsistent:\n{error}")
     report.write_text(result.model_dump_json(indent=2) + "\n")
-    print(f"Sage {result.revision.version} ({result.revision.commit[:12]}): {result.public_entities} documented public entities")
+    total = result.total
     print(
-        f"  by capability {result.by_capability}  excluded {result.excluded}  "
-        f"by category record {result.by_category_record}  unaccounted {result.unaccounted}"
+        f"Sage {result.revision.version} ({result.revision.commit[:12]}): {total.entities} indexed entities "
+        f"({total.public_entities} public) in {result.modules} modules, {result.credited_modules} credited"
     )
+    print("  " + _state_line(total.model_dump()))
     print(f"  capabilities {result.capabilities}  attached to the catalogue {result.attached_to_catalogue}")
-    for section in result.sections:
-        print(
-            f"  {section.section:34} {section.public_entities:6} "
-            f"cap {section.by_capability:6} excl {section.excluded:6} "
-            f"cat {section.by_category_record:6} open {section.unaccounted:6}"
-        )
+    for part in (*result.sections, *result.unlisted):
+        print(f"  {part.part:34} {part.entities:6}  " + _state_line(part.model_dump()))
 
 
 @app.command
@@ -124,42 +128,29 @@ def category_reconciliation(index: Path, categories: Path, research_roles: Path,
 
 
 @app.command
-def reconnaissance(index: Path, domains: Path, capabilities: Path, categories: Path, report: Path) -> None:
-    """Write the exhaustive entity-level reconnaissance ledger.
+def reconnaissance(
+    index: Path, capabilities: Path, categories: Path, worklog: Path, report: Path, entities: Path
+) -> None:
+    """Write the reconnaissance ledger: one row per indexed module and one row per indexed entity.
 
     Args:
         index: The indexed Sage checkout (`inventory/sage/index`).
-        domains: The manual section taxonomy (`inventory/domains.toml`).
-        capabilities: Curated capability records (`inventory/capabilities`).
+        capabilities: Capability and exclusion records (`inventory/capabilities`).
         categories: Category framework records (`inventory/categories/sage-categories.toml`).
-        report: The reconnaissance report (`inventory/reconnaissance.json`).
+        worklog: The source-reading worklog (`inventory/reconnaissance-worklog.toml`).
+        report: The module ledger (`inventory/reconnaissance.json`).
+        entities: The entity ledger (`inventory/reconnaissance-entities.jsonl.gz`).
     """
-    result = reconnaissance_logic.write(index, domains, capabilities, categories, report)
-    counts = {
-        accounting: sum(section.get(accounting, 0) for section in result["sections"])
-        for accounting in ("capability", "category-record", "exclusion", "unaccounted")
-    }
+    try:
+        result = reconnaissance_logic.write(index, capabilities, categories, worklog, report, entities)
+    except coverage_logic.InventoryError as error:
+        sys.exit(f"capability inventory is inconsistent:\n{error}")
     print(
         f"Sage {result['revision']['version']} ({result['revision']['commit'][:12]}): "
-        f"{result['public_entities']} public manual entities"
+        f"{result['total']['entities']} indexed entities in {result['modules']} modules, "
+        f"{result['credited_modules']} credited"
     )
-    print("  " + "  ".join(f"{key} {value}" for key, value in counts.items()))
-
-
-@app.command
-def reconnaissance_scope(index: Path, domains: Path, capabilities: Path, categories: Path, report: Path) -> None:
-    """Write the module-level scope and progress ledger without closing semantic work."""
-    from sage_inventory import scope as scope_logic
-
-    result = scope_logic.write(index, domains, capabilities, categories, report)
-    print(
-        f"Sage {result['revision']['version']} ({result['revision']['commit'][:12]}): "
-        f"{result['indexed_modules']} indexed public modules"
-    )
-    print(
-        f"  entities {result['public_entities']}  accounted {result['accounted_entities']}  "
-        f"open {result['open_entities']}  open modules {result['open_modules']}"
-    )
+    print("  " + _state_line(result["total"]))
 
 
 @app.command
@@ -168,7 +159,7 @@ def capability_evidence(index: Path, capabilities: Path, report: Path) -> None:
 
     The report makes broad selectors auditable: every selected entity has a source path and line,
     doctest count, references and module backends. A source-reconciled capability must also have
-    at least one selected public entity and one independent oracle-input/test obligation.
+    at least one selected entity and one independent oracle-input/test obligation.
     """
     result = evidence_logic.write(index, capabilities, report)
     if result["unresolved"]:
@@ -180,26 +171,28 @@ def capability_evidence(index: Path, capabilities: Path, report: Path) -> None:
 
 
 @app.command
-def unaccounted(index: Path, capabilities: Path, name: str, categories: Path | None = None) -> None:
-    """List the public entities of one section that no capability or exclusion selects.
+def remaining(index: Path, capabilities: Path, categories: Path, worklog: Path, name: str) -> None:
+    """List the open entities of one manual section or one package outside the manual.
 
-    Prints one line per entity: its id, its kind and the number of doctests in its docstring,
-    separated by tabs.
+    An entity is open when it is `unaccounted` (no record selects it) or `scoped` (a record selects
+    it, but no source-reconciled worklog batch names its module). Prints one line per entity: its
+    id, its state, its kind and the number of doctests in its docstring, separated by tabs. A part
+    is closed when the command prints nothing.
 
     Args:
         index: The index directory (`inventory/sage/index`).
         capabilities: Directory of capability records (`inventory/capabilities`).
+        categories: The category inventory (`inventory/categories/sage-categories.toml`).
+        worklog: The source-reading worklog (`inventory/reconnaissance-worklog.toml`).
         name: A manual section (`polynomial_rings`), or a package outside the manual as the coverage
             report names it (`sage.rings`).
-        categories: The category inventory (`inventory/categories/sage-categories.toml`), whose
-            records account for the entities of the `categories` section.
     """
     try:
-        entities = coverage_logic.unaccounted(index, capabilities, name, categories)
+        rows = coverage_logic.remaining(index, capabilities, categories, worklog, name)
     except coverage_logic.InventoryError as error:
         sys.exit(str(error))
-    for entity in entities:
-        print(f"{entity.id}\t{entity.kind.value}\t{entity.doctests}")
+    for entity, state in rows:
+        print(f"{entity.id}\t{state.value}\t{entity.kind.value}\t{entity.doctests}")
 
 
 @app.command

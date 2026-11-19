@@ -1,13 +1,19 @@
-# Append-only record of actual source-reading batches.
-# This is deliberately separate from inventory/sage/index (source facts) and
-# inventory/reconnaissance-scope.json (planned module scope).
+# Record of source-reading batches over the pinned Sage checkout. Schema: `Worklog` and `Batch`
+# in tools/inventory/src/sage_inventory/models.py.
 #
-# A batch may only move from not-started to in-progress after its Sage source
-# and manual pages are read. It may only move to source-reconciled after the
-# evidence, capability/exclusion records, reuse survey, and independent tests
-# are recorded and validated. This is an append-only historical worklog:
-# later completion batches supersede earlier partial batches, while capability
-# record closure is validated by the capability evidence and coverage ledgers.
+# A batch is the record that Sage source was read. Capability and exclusion records are claims
+# about that source; the coverage measure closes an entity only when a source-reconciled batch
+# names the entity's module exactly. So:
+#
+# - `source-reconciled`: every entry of `modules` is an indexed module name, and each module was
+#   read in full (public and underscore entities) and its records reconciled with that source.
+# - `in-progress` and `scope-only`: entries may be module patterns (`sage.combinat.*`); the batch
+#   credits no module.
+#
+# The phase of a batch is not stored: `specs/001-native-computation/plan.md` maps each manual
+# section to its phase. Counts are not stored: `sage-inventory coverage` and
+# `sage-inventory reconnaissance` compute them from the index, the records and this file.
+# Batches are appended; a status changes only when its evidence is corrected.
 
 version = 1
 baseline_version = "11.0.beta5"
@@ -15,7 +21,6 @@ baseline_commit = "c00171e47d6e68d8148d7ee10c4dd77b71a97662"
 
 [[batch]]
 id = "R2-algebras-free-and-group-algebras"
-phase = "R2"
 sections = ["algebras"]
 modules = [
     "sage.algebras.free_algebra",
@@ -39,7 +44,6 @@ open_questions = [
 
 [[batch]]
 id = "R1-sets-enumerated-carriers"
-phase = "R1"
 sections = ["sets"]
 modules = [
     "sage.sets.cartesian_product",
@@ -67,9 +71,6 @@ tests = [
     "Independent finite-list, progression and predicate oracles recorded but not yet executed.",
 ]
 evidence = "Read the source-level constructors and doctest contracts for finite enumerations, integer progressions, nonnegative/positive carriers, Cartesian products and iterator-backed enumerations. Selector validation and entity-ledger regeneration passed."
-accounted_entities = 45
-section_entities = 276
-remaining_open_entities = 231
 open_questions = [
     "Read and classify the remaining sets modules: set.py, real_set.py, family.pyx, disjoint_set.pyx, disjoint_union_enumerated_sets.py, finite_set_maps.py, finite_set_map_cy.pyx, condition_set.py, primes.py, recursively_enumerated_set.pyx, pythonclass.pyx, and totally_ordered_finite_set.py.",
     "Execute or explicitly block the independent mathematical tests before marking this batch source-reconciled.",
@@ -77,7 +78,6 @@ open_questions = [
 
 [[batch]]
 id = "R1-sets-completion"
-phase = "R1"
 sections = ["sets"]
 modules = [
     "sage.sets.condition_set",
@@ -117,18 +117,14 @@ tests = [
     "Independent interval, union-find, finite-function, prime-predicate and traversal oracles recorded in the capability records.",
 ]
 evidence = "Read the remaining sets source families and appended intrinsic capabilities for Boolean set operations, real interval unions, indexed families, union-find partitions, recursive enumeration, finite function spaces, prime subsets, predicate subsets, typed Python carriers and rank-ordered finite sets. Capability schema, selectors, reuse references and coverage validation passed."
-accounted_entities = 231
-section_entities = 276
-remaining_open_entities = 0
 open_questions = [
     "Execute the independent mathematical oracle tests when the corresponding Lean/Sage test harness is available; the ledger currently records the test contracts and source evidence.",
 ]
 
 [[batch]]
 id = "R0-complete-index-accounting"
-phase = "R0"
 sections = ["all remaining documented sections", "unlisted source modules"]
-modules = ["all indexed modules not previously covered"]
+modules = []
 status = "scope-only"
 started = "2026-11-19"
 source_files = ["inventory/sage/index/"]
@@ -140,9 +136,6 @@ tests = [
     "Capability selectors validate against the complete indexed entity set; scope-only selectors are not treated as source reconciliation.",
 ]
 evidence = "Generated namespace selectors establish the indexed scope and validate selector coverage, but they do not prove that the underlying Sage source families were read or that their mathematical operations were reconciled. The current ledgers therefore report open work for these scope-only records."
-accounted_entities = 0
-section_entities = 38782
-remaining_open_entities = 38782
 open_questions = [
     "Replace broad namespace records with finer source-family records during native implementation work where a section requires executable decomposition.",
     "Execute the independent mathematical tests recorded by capability records as implementations become available.",
@@ -150,7 +143,6 @@ open_questions = [
 
 [[batch]]
 id = "R3-arithgroup-and-coding"
-phase = "R3"
 sections = ["arithgroup", "coding"]
 modules = [
     "sage.modular.arithgroup.arithgroup_element",
@@ -201,9 +193,6 @@ tests = [
     "Code encoder round trips, generator/parity-check identities, decoder radius contracts and cyclic generator-polynomial/BCH assertions.",
 ]
 evidence = "Read the core arithmetic-subgroup and coding framework sources. The resulting records describe subgroup membership/congruence/coset algorithms and the code/encoder/decoder protocols, rather than merely naming namespaces."
-accounted_entities = 661
-section_entities = 661
-remaining_open_entities = 0
 open_questions = [
     "Read the remaining concrete coding-family modules and arithmetic-subgroup subclasses before claiming these records are a complete family-by-family reconciliation.",
     "Execute the independent mathematical tests when native implementations exist.",
@@ -211,7 +200,6 @@ open_questions = [
 
 [[batch]]
 id = "R3-logic-and-sat"
-phase = "R3"
 sections = ["logic", "sat"]
 modules = [
     "sage.logic.boolformula",
@@ -248,9 +236,6 @@ tests = [
     "SAT assignments substitute to zero in every Boolean polynomial and obey solution-count/projection contracts.",
 ]
 evidence = "Read the Boolean formula/parser/semantic modules and the Boolean-polynomial SAT entry point. The records distinguish syntax parsing and finite truth-table semantics from ANF-to-CNF conversion and backend-dependent SAT enumeration."
-accounted_entities = 114
-section_entities = 114
-remaining_open_entities = 0
 open_questions = [
     "Read each optional SAT backend source before making backend-specific claims.",
     "Execute the independent assertions against native implementations when available.",
@@ -258,7 +243,6 @@ open_questions = [
 
 [[batch]]
 id = "R3-game-theory-and-games"
-phase = "R3"
 sections = ["game_theory", "games"]
 modules = [
     "sage.game_theory.catalog_normal_form_games",
@@ -291,9 +275,6 @@ tests = [
     "Sudoku constraint preservation and Steiner-system hexad incidence assertions.",
 ]
 evidence = "Read the core strategic/cooperative/matching game sources and the Sudoku/hexad solver sources. The records state the mathematical invariants and solver contracts; they do not treat plotting or game presentation as mathematical coverage."
-accounted_entities = 68
-section_entities = 68
-remaining_open_entities = 0
 open_questions = [
     "Read Quantumino source before making stronger tile-packing claims.",
     "Execute the independent assertions against native implementations when available.",
@@ -301,7 +282,6 @@ open_questions = [
 
 [[batch]]
 id = "R3-drinfeld-anderson"
-phase = "R3"
 sections = ["anderson_motives", "drinfeld_modules"]
 modules = [
     "sage.rings.function_field.drinfeld_modules.anderson_motive",
@@ -332,9 +312,6 @@ tests = [
     "Drinfeld morphism intertwining/composition and finite Frobenius characteristic-polynomial identities.",
 ]
 evidence = "Read the Anderson-motive, Drinfeld-module, morphism, finite-module and action sources. The records capture the defining Ore algebra and semilinear module contracts, not only class names."
-accounted_entities = 75
-section_entities = 75
-remaining_open_entities = 0
 open_questions = [
     "Read all analytic characteristic-zero methods before making a complete char-zero claim.",
     "Execute the independent assertions against native implementations when available.",
@@ -342,7 +319,6 @@ open_questions = [
 
 [[batch]]
 id = "R3-lfunctions"
-phase = "R3"
 sections = ["lfunctions"]
 modules = [
     "sage.lfunctions.dokchitser",
@@ -367,9 +343,6 @@ tests = [
     "Zero interval/completeness and Taylor-expansion consistency checks.",
 ]
 evidence = "Read the PARI and Dokchitser analytic interfaces plus the lcalc and sympow external-calculator wrappers. The record distinguishes numerical/backend contracts from intrinsic mathematical assertions."
-accounted_entities = 64
-section_entities = 64
-remaining_open_entities = 0
 open_questions = [
     "Read the zero-sums implementation if restored in the source checkout before making implementation-specific claims.",
     "Execute numerical oracle tests when the required external backends are available.",
@@ -377,7 +350,6 @@ open_questions = [
 
 [[batch]]
 id = "R3-drinfeld-modular"
-phase = "R3"
 sections = ["drinfeld_modular"]
 modules = [
     "sage.modular.drinfeld_modform.congroup_gamma0",
@@ -399,16 +371,12 @@ tests = [
     "Gamma0 matrix invertibility and lower-left divisibility assertions.",
 ]
 evidence = "Read the Drinfeld modular-form ring and element implementations and the Gamma0 congruence subgroup implementation. The record distinguishes formal graded algebra from matrix subgroup membership."
-accounted_entities = 31
-section_entities = 31
-remaining_open_entities = 0
 open_questions = [
     "Execute the algebraic assertions against native implementations when available.",
 ]
 
 [[batch]]
 id = "R3-hyperbolic-geometry"
-phase = "R3"
 sections = ["hyperbolic_geometry"]
 modules = [
     "sage.geometry.hyperbolic_space.hyperbolic_interface",
@@ -433,16 +401,12 @@ tests = [
     "Cross-model validity, distance/geodesic-length, isometry-composition and coercion-preservation assertions.",
 ]
 evidence = "Read the hyperbolic interface, model, point, geodesic and isometry implementations. The record captures the four realizations and their metric/isometry invariants, excluding presentation-only plotting."
-accounted_entities = 123
-section_entities = 123
-remaining_open_entities = 0
 open_questions = [
     "Execute the geometric assertions against native implementations when available.",
 ]
 
 [[batch]]
 id = "R3-riemannian-surfaces"
-phase = "R3"
 sections = ["riemannian_geometry"]
 modules = [
     "sage.geometry.riemannian_manifolds.parametrized_surface3d",
@@ -461,16 +425,12 @@ tests = [
     "Symbolic frame/normal, fundamental-form/curvature and geodesic/parallel-transport identities.",
 ]
 evidence = "Read the parametrized-surface and standard-generator implementations. The record distinguishes differential-geometric calculations from visualization-only methods."
-accounted_entities = 44
-section_entities = 44
-remaining_open_entities = 0
 open_questions = [
     "Execute the symbolic identities against native implementations when available.",
 ]
 
 [[batch]]
 id = "R3-dynamics-and-sandpiles"
-phase = "R3"
 sections = ["dynamics"]
 modules = [
     "sage.dynamics.finite_dynamical_system",
@@ -500,16 +460,12 @@ tests = [
     "Sandpile stabilization, recurrent critical-group and reduced-Laplacian Smith-invariant assertions.",
 ]
 evidence = "Read the finite and arithmetic dynamical-system constructors and the sandpile implementation. The record states evolution and critical-group invariants rather than counting visualization or interface methods."
-accounted_entities = 292
-section_entities = 292
-remaining_open_entities = 0
 open_questions = [
     "Execute dynamical and sandpile assertions against native implementations when available.",
 ]
 
 [[batch]]
 id = "R3-function-fields"
-phase = "R3"
 sections = ["function_fields"]
 modules = [
     "sage.rings.function_field.constructor",
@@ -559,34 +515,30 @@ tests = [
     "Field-extension/vector-space, divisor/Riemann-Roch, morphism-composition and Jacobian-class identities.",
 ]
 evidence = "Read the core function-field, divisor, morphism and Jacobian sources. The record preserves the documented genus, place, divisor and base-divisor hypotheses."
-accounted_entities = 434
-section_entities = 434
-remaining_open_entities = 0
 open_questions = [
     "Execute function-field arithmetic and Riemann-Roch/Jacobian assertions against native implementations when available.",
 ]
 
 [[batch]]
 id = "R1-analysis-and-special-families"
-phase = "R1"
 sections = ["calculus", "functions", "probability", "numerical", "padics", "valuations", "asymptotic", "diophantine_approximation", "euclidean_spaces", "hecke", "knots", "matroids", "stats"]
 modules = [
-    "sage.calculus",
-    "sage.symbolic",
-    "sage.functions",
-    "sage.probability",
-    "sage.numerical",
-    "sage.rings.padics",
-    "sage.rings.valuation",
+    "sage.calculus.*",
+    "sage.symbolic.*",
+    "sage.functions.*",
+    "sage.probability.*",
+    "sage.numerical.*",
+    "sage.rings.padics.*",
+    "sage.rings.valuation.*",
     "sage.rings.function_field.valuation",
-    "sage.rings.asymptotic",
+    "sage.rings.asymptotic.*",
     "sage.rings.continued_fraction",
-    "sage.modular.hecke",
-    "sage.knots",
-    "sage.matroids",
-    "sage.stats",
+    "sage.modular.hecke.*",
+    "sage.knots.*",
+    "sage.matroids.*",
+    "sage.stats.*",
 ]
-status = "source-reconciled"
+status = "scope-only"
 started = "2026-11-18"
 source_files = ["src/sage/calculus/", "src/sage/symbolic/", "src/sage/functions/", "src/sage/probability/", "src/sage/numerical/", "src/sage/rings/padics/", "src/sage/rings/valuation/", "src/sage/rings/asymptotic/", "src/sage/rings/continued_fraction.py", "src/sage/modular/hecke/", "src/sage/knots/", "src/sage/matroids/", "src/sage/stats/"]
 manual_files = []
@@ -608,20 +560,21 @@ records = [
 reuse_records = ["inventory/reuse/mathlib-core.toml"]
 tests = ["Identity, convergence, normalization, valuation, combinatorial-invariant and backend-consistency checks recorded in each capability."]
 evidence = "Reconciled the listed symbolic, analytic, local-arithmetic and combinatorial source families; regeneration reports zero open entities in each listed section except the residual Ore-module entities outside the initial selector."
-accounted_entities = 3140
-section_entities = 3165
-remaining_open_entities = 25
 open_questions = [
     "Read and account for the remaining 25 oremodules entities.",
     "Execute independent mathematical tests when native implementations are available.",
+    "The batch names packages or no modules, so it records no module-level reading; each module must be read and named in a source-reconciled batch.",
 ]
 
 [[batch]]
 id = "R2-combinatorics-baseline"
-phase = "R2"
 sections = ["combinat"]
-modules = ["sage.combinat", "sage.rings.lazy_species", "sage.rings.cfinite_sequence"]
-status = "source-reconciled"
+modules = [
+    "sage.combinat.*",
+    "sage.rings.lazy_species",
+    "sage.rings.cfinite_sequence",
+]
+status = "scope-only"
 started = "2026-11-18"
 source_files = ["src/sage/combinat/", "src/sage/rings/lazy_species.py", "src/sage/rings/cfinite_sequence.py"]
 manual_files = []
@@ -632,28 +585,25 @@ tests = [
     "Poset, word, tableau, crystal, root-system, design and automaton relation checks.",
 ]
 evidence = "Read the combinatorics source families and reconciled all 8,177 documented combinatorial entities with the namespace selector plus the cfinite-sequence and lazy-species modules; regeneration reports zero open entities."
-accounted_entities = 8177
-section_entities = 8177
-remaining_open_entities = 0
 open_questions = [
     "Split the broad combinatorics record into source-family records during implementation planning.",
     "Execute independent combinatorial oracles when native implementations are available.",
+    "The batch names packages or no modules, so it records no module-level reading; each module must be read and named in a source-reconciled batch.",
 ]
 
 [[batch]]
 id = "R1-linear-arithmetic-and-graphs"
-phase = "R1"
 sections = ["matrices", "number_fields", "quadratic_forms", "graphs"]
 modules = [
-    "sage.matrix",
-    "sage.rings.number_field",
+    "sage.matrix.*",
+    "sage.rings.number_field.*",
     "sage.rings.qqbar",
     "sage.rings.universal_cyclotomic_field",
     "sage.groups.galois_group",
-    "sage.quadratic_forms",
-    "sage.graphs",
+    "sage.quadratic_forms.*",
+    "sage.graphs.*",
 ]
-status = "source-reconciled"
+status = "scope-only"
 started = "2026-11-18"
 source_files = [
     "src/sage/matrix/",
@@ -679,17 +629,14 @@ tests = [
     "Graph construction, generator, connectivity, matching, coloring and isomorphism certificates.",
 ]
 evidence = "Reconciled the matrix, number-field, quadratic-form and graph source families with broad selectors restricted to their indexed namespaces. Regeneration reports zero open entities in all four sections."
-accounted_entities = 3149
-section_entities = 3149
-remaining_open_entities = 0
 open_questions = [
     "Execute independent mathematical oracles against native implementations when available.",
     "Split broad backend selectors into finer capability records if implementation ownership requires it.",
+    "The batch names packages or no modules, so it records no module-level reading; each module must be read and named in a source-reconciled batch.",
 ]
 
 [[batch]]
 id = "R1-homology-and-resolutions"
-phase = "R1"
 sections = ["homology", "resolutions"]
 modules = [
     "sage.homology.chain_complex",
@@ -717,22 +664,18 @@ tests = [
     "Resolution exactness, augmentation and Betti/rank reconstruction.",
 ]
 evidence = "Read the chain-complex, homology, Hochschild/Koszul and free/graded-resolution source families; selectors account for all 120 documented entities across both sections and regeneration reports zero open entities."
-accounted_entities = 120
-section_entities = 120
-remaining_open_entities = 0
 open_questions = [
     "Execute the independent homology and resolution oracles when native implementations are available.",
 ]
 
 [[batch]]
 id = "R1-polynomial-and-series-families"
-phase = "R1"
 sections = ["polynomial_rings", "power_series", "noncommutative_polynomial_rings", "quivers"]
 modules = [
-    "sage.rings.polynomial",
-    "sage.rings.invariants",
+    "sage.rings.polynomial.*",
+    "sage.rings.invariants.*",
     "sage.rings.fraction_field",
-    "sage.rings.semirings",
+    "sage.rings.semirings.*",
     "sage.rings.power_series_ring",
     "sage.rings.laurent_series_ring",
     "sage.rings.puiseux_series_ring",
@@ -750,7 +693,7 @@ modules = [
     "sage.quivers.ar_quiver",
     "sage.quivers.algebra",
 ]
-status = "source-reconciled"
+status = "scope-only"
 started = "2026-11-18"
 source_files = [
     "src/sage/rings/polynomial/",
@@ -780,17 +723,14 @@ tests = [
     "Quiver path, representation morphism and path-algebra identities.",
 ]
 evidence = "Reconciled the documented polynomial, power-series, noncommutative-polynomial and quiver APIs with source-family capability records. Regeneration reports zero open entities in all four sections; selectors are validated by the inventory command."
-accounted_entities = 2491
-section_entities = 2491
-remaining_open_entities = 0
 open_questions = [
     "Execute independent mathematical oracles against native implementations when available.",
     "Replace broad polynomial-family selectors with finer records if backend-specific ownership is required.",
+    "The batch names packages or no modules, so it records no module-level reading; each module must be read and named in a source-reconciled batch.",
 ]
 
 [[batch]]
 id = "R1-modules-completion"
-phase = "R1"
 sections = ["modules"]
 modules = [
     "sage.modules.free_module",
@@ -916,9 +856,6 @@ tests = [
     "Exact and approximate vector-backend arithmetic checks.",
 ]
 evidence = "Read the core free-module, basis-indexed, PID, filtered/graded, quadratic, matrix/tensor and specialized vector backend sources. Added six source-backed capability records whose selectors account for all 719 documented module entities; regeneration reports zero open entities."
-accounted_entities = 719
-section_entities = 719
-remaining_open_entities = 0
 open_questions = [
     "Execute the independent mathematical oracles recorded per capability when native implementations are available.",
     "Attach module capabilities to catalogue ids as the catalogue grows beyond the currently surveyed ids.",
@@ -926,7 +863,6 @@ open_questions = [
 
 [[batch]]
 id = "R1-groups-foundational"
-phase = "R1"
 sections = ["groups"]
 modules = [
     "sage.groups.free_group",
@@ -956,9 +892,6 @@ tests = [
     "Generic group-law and homomorphism kernel/image oracle.",
 ]
 evidence = "Read the free-group, indexed-free-group, finitely generated abelian-group, abelian morphism and generic group implementations. Added source-backed capabilities for free/indexed groups, finitely generated abelian groups, generic group operations, and named permutation/cube constructors; selector and coverage validation passed."
-accounted_entities = 155
-section_entities = 908
-remaining_open_entities = 671
 open_questions = [
     "Read the named permutation and cube constructor sources before marking those selectors source-reconciled; they are scoped here but not yet independently inspected.",
     "Continue groups in dependency order through finitely presented, matrix, semidirect, Coxeter/Artin/braid, dual and wrapper families.",
@@ -967,7 +900,6 @@ open_questions = [
 
 [[batch]]
 id = "R1-groups-presentations-and-actions"
-phase = "R1"
 sections = ["groups"]
 modules = [
     "sage.groups.finitely_presented",
@@ -997,9 +929,6 @@ tests = [
     "Named permutation-group closure and Rubik cube action/order oracles.",
 ]
 evidence = "Read the finitely presented group, rewriting-system, semidirect-product, kernel-subgroup, named permutation-group, Rubik cube and permutation-constructor implementations. Added capabilities for presentation quotients/rewriting and semidirect products/kernels; validation and both ledgers regenerated successfully."
-accounted_entities = 29
-section_entities = 908
-remaining_open_entities = 642
 open_questions = [
     "Continue groups through matrix groups, Coxeter/Artin/braid/cactus/RAAG families, dual groups and GAP wrappers.",
     "Classify non-group plotting/display helpers in cubegroup explicitly rather than relying on broad module selectors.",
@@ -1008,7 +937,6 @@ open_questions = [
 
 [[batch]]
 id = "R1-groups-cube-helper-dispositions"
-phase = "R1"
 sections = ["groups"]
 modules = ["sage.groups.perm_gps.cubegroup"]
 status = "source-reconciled"
@@ -1019,9 +947,6 @@ records = ["inventory/capabilities/reconnaissance-exclusions.toml"]
 reuse_records = []
 tests = []
 evidence = "After enumerating every public cubegroup entity, classified the remaining rendering, color, facelet-formatting and cube-geometry helpers as presentation/framework exclusions; precise group selectors no longer claim them as mathematical capabilities."
-accounted_entities = 7
-section_entities = 908
-remaining_open_entities = 642
 open_questions = [
     "Continue groups through matrix groups, Coxeter/Artin/braid/cactus/RAAG families, dual groups and GAP wrappers.",
     "Execute or explicitly block the independent mathematical tests before marking the groups section complete.",
@@ -1029,7 +954,6 @@ open_questions = [
 
 [[batch]]
 id = "R1-groups-matrix-and-coxeter"
-phase = "R1"
 sections = ["groups"]
 modules = [
     "sage.groups.matrix_gps.binary_dihedral",
@@ -1079,9 +1003,6 @@ tests = [
     "Named classical-group determinant and form checks.",
 ]
 evidence = "Read the matrix-group base, generic and GAP-backed implementations, matrix elements, classical linear/orthogonal/symplectic/unitary families, Coxeter reflection representation, binary dihedral, Heisenberg and isometry constructors. Added four source-backed capabilities; coverage validation passed."
-accounted_entities = 93
-section_entities = 908
-remaining_open_entities = 549
 open_questions = [
     "Read and classify the remaining matrix-group helper entities and verify that broad selectors do not cover non-mathematical presentation helpers.",
     "Continue groups through affine, abelian-dual, Artin/braid/cactus/RAAG, class-function and GAP-wrapper families.",
@@ -1090,7 +1011,6 @@ open_questions = [
 
 [[batch]]
 id = "R1-groups-matrix-and-coxeter-completion"
-phase = "R1"
 sections = ["groups"]
 modules = [
     "sage.groups.matrix_gps.binary_dihedral",
@@ -1130,9 +1050,6 @@ tests = [
     "Named classical-group determinant and form checks.",
 ]
 evidence = "Read the remaining GAP adapter modules and confirmed they preserve the generic/classical matrix-group contracts while supplying finite-group invariant forms. Regenerated capability, entity and module-scope ledgers successfully."
-accounted_entities = 93
-section_entities = 908
-remaining_open_entities = 549
 open_questions = [
     "Continue groups through affine, abelian-dual, Artin/braid/cactus/RAAG, class-function and GAP-wrapper families.",
     "Execute or explicitly block the independent mathematical tests before marking the groups section complete.",
@@ -1140,7 +1057,6 @@ open_questions = [
 
 [[batch]]
 id = "R1-monoids-completion"
-phase = "R1"
 sections = ["monoids"]
 modules = [
     "sage.monoids.automatic_semigroup",
@@ -1184,16 +1100,12 @@ tests = [
     "Independent word, tableau, trace-normal-form, closure, finite-map and string-statistics oracles recorded in the capability records.",
 ]
 evidence = "Read all public monoid source families and appended intrinsic capabilities for free/indexed monoids, strings, automatic semigroup closure, plactic/hypoplactic quotients, trace monoids, 0-Hecke monoids and string utilities. Coverage validation found and then cleared the three shared Monoid_class entities."
-accounted_entities = 124
-section_entities = 124
-remaining_open_entities = 0
 open_questions = [
     "Execute the independent mathematical oracle tests when the corresponding Lean/Sage test harness is available; the ledger currently records the test contracts and source evidence.",
 ]
 
 [[batch]]
 id = "R1-groups-affine-abelian-wrappers"
-phase = "R1"
 sections = ["groups"]
 modules = [
     "sage.groups.abelian_gps.dual_abelian_group",
@@ -1226,9 +1138,6 @@ tests = [
     "Affine composition/inverse and Euclidean metric-preservation oracle.",
 ]
 evidence = "Read the dual finite-abelian-group, abelian-automorphism, additive-abelian, additive-wrapper, affine-group, Euclidean-group and affine-element implementations. Recorded exact quotient/module, character/automorphism, affine and metric-preserving contracts with source selectors, reuse dispositions and independent mathematical oracles; capability, entity and module-scope ledgers regenerated successfully."
-accounted_entities = 66
-section_entities = 908
-remaining_open_entities = 483
 open_questions = [
     "Continue groups through Artin, braid, cactus, cubic braid and right-angled Artin families, then class-function, conjugacy-class, LibGAP and remaining wrappers.",
     "Execute or explicitly block the independent mathematical tests before marking the groups section complete.",
@@ -1236,7 +1145,6 @@ open_questions = [
 
 [[batch]]
 id = "R1-groups-artin-braid-cactus-raag"
-phase = "R1"
 sections = ["groups"]
 modules = [
     "sage.groups.artin",
@@ -1265,9 +1173,6 @@ tests = [
     "RAAG graph-commutation, normal-form and cohomology checks.",
 ]
 evidence = "Read the Artin, braid, cactus-group and right-angled-Artin implementations. Recorded presentation, finite-type normal-form, representation, link-invariant, geometric-representation, graph-product and cohomology contracts; explicitly excluded braid plotting methods; regenerated capability, entity and module-scope ledgers successfully."
-accounted_entities = 106
-section_entities = 908
-remaining_open_entities = 392
 open_questions = [
     "Read and classify cubic braid, conjugacy/class-function and LibGAP wrapper families.",
     "Continue remaining group wrappers and helper modules after these families.",
@@ -1276,7 +1181,6 @@ open_questions = [
 
 [[batch]]
 id = "R1-groups-cubic-conjugacy-libgap"
-phase = "R1"
 sections = ["groups"]
 modules = [
     "sage.groups.cubic_braid",
@@ -1308,9 +1212,6 @@ tests = [
     "LibGAP order, subgroup, center, centralizer and morphism kernel/preimage checks, including explicit conversion failures.",
 ]
 evidence = "Read the cubic-braid, class-function, conjugacy-class, LibGAP group/mixin and LibGAP morphism implementations. Recorded realization, character, conjugacy and backend-boundary contracts with explicit failure semantics; regenerated capability, entity and module-scope ledgers successfully."
-accounted_entities = 87
-section_entities = 908
-remaining_open_entities = 288
 open_questions = [
     "Continue groups through any remaining group modules and classify helpers not covered by intrinsic capabilities.",
     "Execute or explicitly block the independent mathematical tests before marking the groups section complete.",
@@ -1318,7 +1219,6 @@ open_questions = [
 
 [[batch]]
 id = "R1-groups-permutation-and-abelian-backends"
-phase = "R1"
 sections = ["groups"]
 modules = [
     "sage.groups.perm_gps.permgroup",
@@ -1350,9 +1250,6 @@ tests = [
     "LibGAP abelian quotient/lift and value-embedding checks.",
 ]
 evidence = "Read the remaining permutation-group, permutation-element/morphism, named-presentation, LibGAP-backed abelian, value-realized abelian and LibGAP carrier/element implementations. Added source-backed capabilities for all entities in these families; the previously covered permutation constructors are intentionally overlapped, while the independent named-matrix GAP adapter remains open. Regenerated capability, entity and module-scope ledgers successfully."
-accounted_entities = 188
-section_entities = 908
-remaining_open_entities = 100
 open_questions = [
     "Read and classify sage.groups.matrix_gps.named_group_gap.NamedMatrixGroup_gap.",
     "Continue remaining group families: argument/imaginary groups, nilpotent Lie groups, PARI groups, semimonomial transformations and partition-refinement helpers.",
@@ -1361,7 +1258,6 @@ open_questions = [
 
 [[batch]]
 id = "R1-groups-final-families"
-phase = "R1"
 sections = ["groups"]
 modules = [
     "sage.groups.matrix_gps.named_group_gap",
@@ -1407,9 +1303,6 @@ tests = [
     "Semimonomial component, inverse, order and vector/matrix-action checks.",
 ]
 evidence = "Read the final open group source families: named matrix GAP adapters, argument/imaginary carriers, nilpotent Lie groups, PARI descriptors, partition-refinement algorithms, symmetric-group conjugacy classes and semimonomial transformations. Added source-backed capabilities, corrected exact submodule selectors for refinement implementations, regenerated capability/entity/module-scope ledgers, and reached zero unaccounted entities in the groups section."
-accounted_entities = 100
-section_entities = 908
-remaining_open_entities = 0
 open_questions = [
     "Execute or explicitly block the independent mathematical tests recorded across the groups capability records.",
     "Advance the full reconnaissance loop to the next R1/R2 section; the general ledger still has open entities outside groups.",
@@ -1417,7 +1310,6 @@ open_questions = [
 
 [[batch]]
 id = "R2-algebras-finite-clifford-quaternion"
-phase = "R2"
 sections = ["algebras"]
 modules = [
     "sage.algebras.finite_dimensional_algebras.finite_dimensional_algebra",
@@ -1451,9 +1343,6 @@ tests = [
     "Octonion conjugation, norm, alternativity and nonassociativity checks.",
 ]
 evidence = "Read the finite-dimensional algebra, element/ideal/morphism, Clifford/exterior, quaternion/order/fractional-ideal and octonion implementations. Added four source-backed algebra capabilities with exact/conditional contracts, valid reuse identifiers and independent mathematical oracles; 200 source entities were reconciled in these modules, with 68 newly moving from open to capability accounting after overlap with earlier algebra records. Capability, entity and module-scope ledgers regenerated successfully."
-accounted_entities = 68
-section_entities = 1942
-remaining_open_entities = 1642
 open_questions = [
     "Continue the algebra section through Lie, Hecke, quantum, fusion, cluster, diagram and combinatorial algebra families.",
     "Execute or explicitly block the independent mathematical tests recorded in algebra capability records.",
@@ -1461,7 +1350,6 @@ open_questions = [
 
 [[batch]]
 id = "R2-algebras-lie-families"
-phase = "R2"
 sections = ["algebras"]
 modules = [
     "sage.algebras.lie_algebras.abelian",
@@ -1525,9 +1413,6 @@ tests = [
     "Representation, highest-weight, BGG, Virasoro and Onsager defining-relation checks.",
 ]
 evidence = "Read the core Lie-algebra, element, structure-coefficient, subalgebra, quotient and morphism sources; named abelian/Heisenberg/free/nilpotent/classical/affine families; PBW and center; and representation/highest-weight/BGG/Virasoro/Onsager families. Added four source-backed capabilities with explicit exactness restrictions and independent mathematical oracles; 405 previously open entities moved to capability accounting. Capability, entity and module-scope ledgers regenerated successfully."
-accounted_entities = 405
-section_entities = 1942
-remaining_open_entities = 1237
 open_questions = [
     "Continue algebra reconnaissance through Hecke, quantum, fusion, cluster, diagram, quaternion-adjacent and combinatorial algebra modules.",
     "Execute or explicitly block the independent mathematical tests recorded in algebra capability records.",
@@ -1535,7 +1420,6 @@ open_questions = [
 
 [[batch]]
 id = "R2-algebras-hecke-cubic-quantum"
-phase = "R2"
 sections = ["algebras"]
 modules = [
     "sage.algebras.iwahori_hecke_algebra",
@@ -1580,9 +1464,6 @@ tests = [
     "Weyl, down-up, quantum-oscillator and q-commuting normal-form relation checks.",
 ]
 evidence = "Read the Iwahori-Hecke, cubic Hecke/base-ring/matrix-representation, Ariki-Koike/Specht, Yokonuma-Hecke, nil-Coxeter, affine nil-Temperley-Lieb, down-up, Weyl, quantum-oscillator and q-commuting polynomial sources. Added four source-backed capabilities with conditional exactness contracts, valid reuse identifiers and independent mathematical oracles; 253 previously open entities moved to capability accounting. Capability, entity and module-scope ledgers regenerated successfully."
-accounted_entities = 253
-section_entities = 1942
-remaining_open_entities = 984
 open_questions = [
     "Continue algebra reconnaissance through fusion, cluster, diagram, Steenrod and remaining combinatorial algebra modules.",
     "Execute or explicitly block the independent mathematical tests recorded in algebra capability records.",
@@ -1590,7 +1471,6 @@ open_questions = [
 
 [[batch]]
 id = "R2-algebras-fusion-cluster-steenrod"
-phase = "R2"
 sections = ["algebras"]
 modules = [
     "sage.algebras.fusion_rings.fusion_ring",
@@ -1631,9 +1511,6 @@ tests = [
     "Steenrod Adem/Milnor multiplication, coproduct/antipode Hopf identities and basis-conversion round trips.",
 ]
 evidence = "Read the fusion-ring, fusion-double, F-matrix and parallel solver/representation sources; the cluster-algebra seed/mutation and canonical-basis implementation; and the generic Steenrod algebra, basis, conversion, profile and multiplication sources. Added three source-backed capabilities with conditional exactness contracts, valid reuse identifiers and independent mathematical oracles; 266 previously open entities moved to capability accounting. Capability, entity and module-scope ledgers regenerated successfully."
-accounted_entities = 266
-section_entities = 1942
-remaining_open_entities = 718
 open_questions = [
     "Continue algebra reconnaissance through diagram/partition algebras, quantum groups, shuffle and remaining combinatorial algebra modules.",
     "Execute or explicitly block the independent mathematical tests recorded in algebra capability records.",
@@ -1641,7 +1518,6 @@ open_questions = [
 
 [[batch]]
 id = "R2-algebras-quantum-groups-noncommutative"
-phase = "R2"
 sections = ["algebras"]
 modules = [
     "sage.algebras.quantum_groups.quantum_group_gap",
@@ -1676,9 +1552,6 @@ tests = [
     "Quantum Clifford generic/root-of-unity relations, finite dimension and specialization checks.",
 ]
 evidence = "Read the QuaGroup-backed quantum-group, Fock-space, representation, quantum Onsager and q-number sources; the Yangian, quantum matrix-coordinate, shuffle/PBW and quantum Clifford sources. Added two source-backed capabilities with conditional exactness contracts, valid reuse identifiers and independent mathematical oracles; 207 previously open entities moved to capability accounting. Capability, entity and module-scope ledgers regenerated successfully."
-accounted_entities = 207
-section_entities = 1942
-remaining_open_entities = 511
 open_questions = [
     "Continue algebra reconnaissance through commutative differential graded, Jordan, Hall, q-system, Schur, rational Cherednik and remaining algebra modules.",
     "Execute or explicitly block the independent mathematical tests recorded in algebra capability records.",
@@ -1686,7 +1559,6 @@ open_questions = [
 
 [[batch]]
 id = "R2-algebras-dga-jordan-specialized"
-phase = "R2"
 sections = ["algebras"]
 modules = [
     "sage.algebras.commutative_dga",
@@ -1729,9 +1601,6 @@ tests = [
     "Orlik-Solomon/Terao circuit relations, invariant actions and Aomoto cohomology checks.",
 ]
 evidence = "Read the commutative-DGA, Jordan, Hall, Q-system, Schur, Askey-Wilson, rational Cherednik, finite graded, cellular, splitting, Orlik-Solomon and Orlik-Terao sources. Added five source-backed capabilities with conditional/exact contracts, valid reuse identifiers and independent mathematical oracles; 195 previously open entities moved to capability accounting. Capability, entity and module-scope ledgers regenerated successfully."
-accounted_entities = 195
-section_entities = 1942
-remaining_open_entities = 316
 open_questions = [
     "Finish the remaining algebra section modules, then advance to the unresolved combinat, rings, polynomial-rings and number-theory sections.",
     "Execute or explicitly block the independent mathematical tests recorded in algebra capability records.",
@@ -1739,7 +1608,6 @@ open_questions = [
 
 [[batch]]
 id = "R2-algebras-combinatorial-completions"
-phase = "R2"
 sections = ["algebras"]
 modules = [
     "sage.combinat.diagram_algebras",
@@ -1779,16 +1647,12 @@ tests = [
     "Letterplace normal forms and BCH coefficient/truncation checks.",
 ]
 evidence = "Read the diagram/partition/descent, incidence/Möbius, free pre-Lie/dendriform/Zinbiel, Grossman-Larson, letterplace and BCH sources. Added four source-backed capabilities with exact/conditional contracts, valid reuse identifiers and independent mathematical oracles; 316 previously open entities moved to capability accounting. The algebras section now has zero unaccounted entities; capability, entity and module-scope ledgers regenerated successfully."
-accounted_entities = 316
-section_entities = 1942
-remaining_open_entities = 0
 open_questions = [
     "Advance to the next dependency-ordered section; execute or explicitly block the independent mathematical tests recorded in algebra capability records.",
 ]
 
 [[batch]]
 id = "R1-finite-rings-completion"
-phase = "R1"
 sections = ["finite_rings"]
 modules = [
     "sage.rings.finite_rings.integer_mod",
@@ -1843,16 +1707,12 @@ tests = [
     "Residue reduction/lift, homomorphism, fixed-field, Conway and algebraic-closure checks.",
 ]
 evidence = "Read the modular-integer, finite-field factory/base/backend, residue-field, algebraic-closure, Conway-polynomial, homomorphism and homset sources. Added three source-backed finite-ring capabilities with exact/conditional contracts, valid reuse identifiers and independent mathematical oracles; all 308 previously open finite_rings entities moved to capability accounting. Capability, entity and module-scope ledgers regenerated successfully."
-accounted_entities = 308
-section_entities = 309
-remaining_open_entities = 0
 open_questions = [
     "Advance to the remaining R1 rings, modules and tensor_free_modules sections; execute or explicitly block the independent mathematical tests recorded in finite-ring capability records.",
 ]
 
 [[batch]]
 id = "R1-rings-completion"
-phase = "R1"
 sections = ["rings"]
 modules = [
     "sage.rings.abc",
@@ -1904,16 +1764,12 @@ tests = [
     "Leibniz/twisted-Leibniz, constants, brackets and fraction/quotient extension checks.",
 ]
 evidence = "Read the ring/ABC/generic/infinity/big-O foundations; ideal, quotient, noncommutative ideal and localization implementations; ring extension, element, morphism and homset code; and derivation module/wrapper families. Added four source-backed capabilities with conditional contracts, valid reuse identifiers and independent mathematical oracles; all 306 previously open rings entities moved to capability accounting. Capability, entity and module-scope ledgers regenerated successfully."
-accounted_entities = 306
-section_entities = 306
-remaining_open_entities = 0
 open_questions = [
     "Continue R1 through modules and tensor_free_modules; execute or explicitly block the independent mathematical tests recorded in ring capability records.",
 ]
 
 [[batch]]
 id = "R1-tensor-free-modules-completion"
-phase = "R1"
 sections = ["tensor_free_modules"]
 modules = [
     "sage.tensor.modules.alternating_contr_tensor",
@@ -1966,9 +1822,6 @@ tests = [
     "Exterior-power dimension, wedge, determinant and interior-product checks.",
 ]
 evidence = "Read the finite-rank free-module, reflexive/dual, basis, morphism, automorphism, tensor/component, indexed-expression, submodule, exterior-power, alternating-tensor and alternating-form sources. Added three source-backed capabilities with exact contracts, valid reuse identifiers and independent mathematical oracles; all 179 previously open tensor_free_modules entities moved to capability accounting. Capability, entity and module-scope ledgers regenerated successfully."
-accounted_entities = 179
-section_entities = 179
-remaining_open_entities = 0
 open_questions = [
     "Complete the remaining R1 modules section; execute or explicitly block the independent mathematical tests recorded in tensor capability records.",
 ]
@@ -1976,7 +1829,6 @@ open_questions = [
 
 [[batch]]
 id = "R2-algebras-tensor-exterior-free-elements"
-phase = "R2"
 sections = ["algebras"]
 modules = [
     "sage.algebras.tensor_algebra",
@@ -2012,9 +1864,6 @@ tests = [
     "Independent word, subset, shuffle, contraction, Hodge-dual, normal-form and filtration-degree oracles recorded in the capability records.",
 ]
 evidence = "Read the tensor, associated-graded, Clifford/exterior, exterior-Groebner, free-algebra element/quotient and letterplace element source families. Added six source-grounded capabilities (tensor algebra; Clifford algebra; exterior algebra; exterior Groebner bases and normal forms; boundary/coboundary differentials with homology; associated graded algebra), extended the free-associative-construction selectors to the element, quotient and letterplace families, and added the Mathlib tensor-algebra reuse component. Coverage, selector matching and reuse identifiers validated; all 119 entities of these modules are accounted."
-accounted_entities = 119
-section_entities = 1942
-remaining_open_entities = 984
 open_questions = [
     "Execute the independent mathematical oracle tests when a Lean/Sage harness is available; the records currently hold the test contracts and source evidence.",
     "Continue the remaining algebras families: commutative differential graded algebras, cluster algebras, quantum groups, Steenrod, Hall, Schur, shuffle and Jordan algebras.",
@@ -2022,7 +1871,6 @@ open_questions = [
 
 [[batch]]
 id = "R2-algebras-completion-families"
-phase = "R2"
 sections = ["algebras"]
 modules = [
     "sage.combinat.diagram_algebras",
@@ -2102,9 +1950,6 @@ tests = [
     "Independent oracles stated per record: Jacobi and Hopf axioms, zeta*mu = delta, q = 1 specialisation of q-binomials, d^2 = 0 and ker/im cohomology ranks, and Schur dimensions against weight multiplicities.",
 ]
 evidence = "Reconciled the remaining 32 algebras modules after reading their sources and recorded 36 capabilities with selectors partitioning all 718 open entities, plus two presentation-only exclusions for diagram ASCII/LaTeX rendering. Each record cites the module's Sage docstring reference keys, its reuse status was taken from the reuse maps, backends from the index, and the oracle checks are stated per operation. The algebras section now reports 0 unaccounted entities."
-accounted_entities = 718
-section_entities = 1942
-remaining_open_entities = 0
 open_questions = [
     "Execute the independent mathematical oracles recorded per capability when a Lean/Sage harness is available; no test has been run against a native implementation yet.",
     "Attach the algebra capabilities to lean-categories catalogue ids where the catalogue gains the corresponding objects and operations; every record currently reports an empty catalogue with its search evidence in the reuse note.",
@@ -2112,9 +1957,8 @@ open_questions = [
 
 [[batch]]
 id = "R3-remaining-mathematical-families"
-phase = "R3"
 sections = ["arithmetic_curves", "discrete_geometry", "manifolds", "modfrm", "schemes", "rings_numerical", "cryptography", "curves", "modabvar", "modsym"]
-status = "source-reconciled"
+status = "scope-only"
 source_files = [
     "src/sage/interfaces/genus2reduction.py",
     "src/sage/schemes/elliptic_curves/",
@@ -2142,17 +1986,15 @@ tests = [
     "Independent mathematical assertions and published examples for the documented constructions, operations and invariants.",
 ]
 evidence = "Read representative core source modules in every remaining family, then replaced the family-wide scope-only selectors with source-reconciled mathematical contracts. The records retain backend, precision, field, normalization, smoothness and proof-status hypotheses rather than asserting unconditional equivalence."
-accounted_entities = 7032
-section_entities = 7032
-remaining_open_entities = 0
 open_questions = [
     "Execute the independent mathematical assertions against native implementations when available.",
     "Deepen backend-specific and subclass-level source notes before implementing each capability; family accounting is complete but implementation readiness is not.",
+    "The batch names packages or no modules, so it records no module-level reading; each module must be read and named in a source-reconciled batch.",
 ]
+modules = []
 
 [[batch]]
 id = "R2-inventory-section-completion"
-phase = "R2"
 sections = [
     "arithmetic_curves",
     "cryptography",
@@ -2170,8 +2012,8 @@ sections = [
     "schemes",
     "drinfeld_modular",
 ]
-modules = ["See the per-section capability files; each record's selectors name its modules."]
-status = "source-reconciled"
+modules = []
+status = "scope-only"
 started = "2026-11-19"
 source_files = [
     "src/sage/schemes/elliptic_curves/",
@@ -2224,19 +2066,16 @@ tests = [
     "Each record states independent mathematical assertions beside its inherited doctests: group and field axioms for curve and function-field arithmetic, d^2 = 0 and the graded-commutative sign for exterior calculus, zeta-function agreement with point counts for covers and Jacobians, enclosure containment for ball and interval arithmetic, Walsh-spectrum identities for S-boxes, and Euler-characteristic and Hecke-trace checks for tree quotients and modular symbols.",
 ]
 evidence = "Partitioned each remaining manual section into its documented source families, read the corresponding Sage modules, and wrote 67 source-reconciled capability records with selectors that cover every public entity of the 15 sections. The superseded scope-only placeholders for these sections were removed, and docs/domain-specifications.md now links the owning capability file for every section. The inventory reports 0 unaccounted entities: 31,940 by capability, 4,124 by exclusion and 2,718 category entities by the category/operation records in inventory/categories."
-accounted_entities = 8035
-section_entities = 38782
-remaining_open_entities = 0
 open_questions = [
     "Execute the oracle assertions recorded per capability once a native Lean implementation exists; no record has been validated against a native computation yet.",
     "Attach these records to lean-categories catalogue ids as the catalogue gains the corresponding objects and operations; they currently report an empty catalogue with search evidence in the reuse note.",
+    "The batch names packages or no modules, so it records no module-level reading; each module must be read and named in a source-reconciled batch.",
 ]
 
 [[batch]]
 id = "R3-substantive-capability-audit"
-phase = "R3"
 sections = ["algebras", "asymptotic", "calculus", "diophantine_approximation", "euclidean_spaces", "hecke", "knots", "matroids", "numerical", "stats", "topology"]
-status = "source-reconciled"
+status = "scope-only"
 source_files = [
     "src/sage/rings/asymptotic/",
     "src/sage/rings/continued_fraction.py",
@@ -2264,18 +2103,16 @@ tests = [
     "Capability statements, hypotheses, exactness notes, algorithm families and independent mathematical checks were audited against representative source modules.",
 ]
 evidence = "Replaced generic family-accounting prose in seven records with mathematical contracts, source-level algorithm families and operation-specific oracle tests; also filled all conditional exactness notes identified by the audit."
-accounted_entities = 0
-section_entities = 0
-remaining_open_entities = 0
 open_questions = [
     "Run the listed mathematical oracle checks against native implementations when the corresponding Lean capabilities are implemented.",
+    "The batch names packages or no modules, so it records no module-level reading; each module must be read and named in a source-reconciled batch.",
 ]
+modules = []
 
 [[batch]]
 id = "R3-record-integrity-audit"
-phase = "R3"
 sections = ["all mathematical sections"]
-status = "source-reconciled"
+status = "scope-only"
 source_files = [
     "inventory/capabilities/*.toml",
     "docs/capability-records.md",
@@ -2288,19 +2125,17 @@ tests = [
     "Every conditional capability has explicit exactness notes; every reuse component resolves against the reuse inventory.",
 ]
 evidence = "Audited the 371 capability records for generic placeholder prose, unresolved reuse ids and missing conditional hypotheses. Replaced the remaining generic family records with operation-specific contracts and source families, corrected reuse claims that used boilerplate finite-support evidence, and filled the final conditional exactness note."
-accounted_entities = 31940
-section_entities = 31940
-remaining_open_entities = 0
 open_questions = [
     "Tier-2 native implementation and Sage-oracle execution remain separate from this reconnaissance ledger and must be completed capability by capability.",
+    "The batch names packages or no modules, so it records no module-level reading; each module must be read and named in a source-reconciled batch.",
 ]
+modules = []
 
 [[batch]]
 id = "R2-coverage-category-accounting"
-phase = "R2"
 sections = ["categories"]
-modules = ["src/sage/categories/"]
-status = "source-reconciled"
+modules = ["sage.categories.*"]
+status = "scope-only"
 started = "2026-11-19"
 source_files = ["src/sage/categories/"]
 manual_files = []
@@ -2308,16 +2143,13 @@ records = ["inventory/categories/sage-categories.toml"]
 reuse_records = ["inventory/reuse/lean-categories.toml"]
 tests = ["The category inventory's own reconciliations: each record names the indexed entity, its catalogue id or its explicit absent relation."]
 evidence = "The coverage measure now accepts the category inventory as an optional last argument and counts the entities that its category and operation records name as `by_category_record`, separate from capabilities and exclusions. The report therefore closes the whole manual denominator: 31,940 by capability, 4,124 by exclusion, 2,718 by category record, 0 unaccounted. `unaccounted` accepts the same argument so the per-section query is empty for `categories` as well. The category ledger keeps its own measure (`category-coverage`), which independently reports 2,718 represented, 0 unaccounted and 2,031 ownership gaps that still need their catalogue owner."
-accounted_entities = 2718
-section_entities = 38782
-remaining_open_entities = 0
 open_questions = [
     "The 2,031 category entities whose record reports an absent `lean-categories` relation are accounted for but not owned; that gap belongs to the catalogue, not to this inventory.",
+    "The batch names packages or no modules, so it records no module-level reading; each module must be read and named in a source-reconciled batch.",
 ]
 
 [[batch]]
 id = "R2-algebras-lie-conformal-source-reconciliation"
-phase = "R2"
 sections = ["algebras"]
 modules = [
     "sage.algebras.lie_conformal_algebras.abelian_lie_conformal_algebra",
@@ -2367,16 +2199,12 @@ tests = [
     "Independent checks: Virasoro, affine A1, free-boson/free-fermion Gram brackets, N=2 and Neveu-Schwarz super brackets.",
 ]
 evidence = "Read all 17 indexed source modules. The source defines the lambda-bracket representation, divided-power translation, skew-symmetry completion, H-gradings and parity, then specializes them to affine, ghost, free-boson, free-fermion, Virasoro, Neveu-Schwarz, N=2 and Weyl constructions. These are mathematical computations, not infrastructure."
-accounted_entities = 30
-section_entities = 1942
-remaining_open_entities = 0
 open_questions = [
     "Implement the native conformal-algebra representation and same-input oracle checks; source reconciliation does not satisfy Tier 2.",
 ]
 
 [[batch]]
 id = "R2-number-fields-source-reconciliation"
-phase = "R2"
 sections = ["number_fields"]
 modules = [
     "sage.groups.galois_group",
@@ -2458,9 +2286,6 @@ tests = [
     "Independent mathematical contracts cover field/tower and element identities, ideal and order arithmetic, class and unit groups, Galois actions, S-unit/Selmer exact sequences, algebraic-number interval separation, cyclotomic norms and totally-real discriminant/embedding bounds.",
 ]
 evidence = "Read the number-field reference index and all 31 indexed source modules. The source separates defining-polynomial and relative-tower construction, exact element arithmetic and maps, orders and ideals, class/unit/S-unit/Selmer computations, Galois and splitting fields, height and totally-real enumeration, and exact QQbar/universal-cyclotomic arithmetic. PARI, NTL, FLINT, GAP and numerical interval routines are explicit implementation backends; proof flags and approximate embeddings make exactness conditional rather than unconditional."
-accounted_entities = 876
-section_entities = 876
-remaining_open_entities = 0
 open_questions = [
     "Implement native number-field representations and execute same-input Sage-oracle checks; source reconciliation does not satisfy Tier 2.",
     "Resolve catalogue ownership for number-field parents, ideals, units, class groups, Galois groups and algebraic-number objects as the upstream catalogue grows.",
@@ -2468,7 +2293,6 @@ open_questions = [
 
 [[batch]]
 id = "R2-groups-generic-element-source-reconciliation"
-phase = "R2"
 sections = ["groups"]
 modules = [
     "sage.groups.generic",
@@ -2498,16 +2322,12 @@ tests = [
     "Independent mathematical contracts: repeated group operation agrees with powers or multiples, recovered orders divide the supplied bounds, GroupExp preserves the additive law, and finite abelian element orders agree with exponent coordinates.",
 ]
 evidence = "Read the groups reference index and all four previously unlisted modules. `generic.py` supplies operation parsing, powers/multiples, order-from-multiple and discrete-log/linear-relation helpers; `group_exp.py` implements the additive-to-multiplicative functor and wrapped element law; the abelian element modules normalize exponent vectors, compare and hash by coordinates, compute orders and expose GAP permutation/word representations. These are mathematical group operations rather than infrastructure."
-accounted_entities = 27
-section_entities = 908
-remaining_open_entities = 0
 open_questions = [
     "Execute the independent group identities against native implementations; source reconciliation does not satisfy Tier 2.",
 ]
 
 [[batch]]
 id = "R2-standard-rings-source-reconciliation"
-phase = "R2"
 sections = ["rings_standard"]
 modules = [
     "sage.arith.functions",
@@ -2556,16 +2376,12 @@ tests = [
     "Independent mathematical contracts cover integer/rational ring and field identities, Euclidean division and Bezout relations, gcd/lcm and normalization, factorization products, modular arithmetic, powering, Bernoulli and sum-of-squares identities.",
 ]
 evidence = "Read the standard-rings reference index and the integer, rational, ring-parent, arithmetic-helper and factorization implementations. The source uses GMP-backed arbitrary-precision integers and rationals, explicit normalization and coercion, Euclidean division/gcd/xgcd, modular and multi-modular arithmetic, binary powering, factorization backends (native, FLINT and PARI), Bernoulli routines and sum-of-squares algorithms. The capability records now connect those source families to their exact contracts rather than treating the section as a namespace-only closure."
-accounted_entities = 351
-section_entities = 351
-remaining_open_entities = 0
 open_questions = [
     "Execute the recorded arithmetic identities against native Lean implementations and Sage oracles; source reconciliation does not satisfy Tier 2.",
 ]
 
 [[batch]]
 id = "R2-topology-combinatorial-source-reconciliation"
-phase = "R2"
 sections = ["topology"]
 modules = [
     "sage.topology.cell_complex",
@@ -2610,16 +2426,12 @@ tests = [
     "Independent mathematical contracts cover face closure, incidence boundaries, d^2 = 0, Euler/Betti/homology invariants, induced maps, simplicial-set constructions, persistent intervals and moment-angle products.",
 ]
 evidence = "Read the topology reference index and all 13 indexed modules. The source implements finite abstract simplicial complexes, Delta/cubical/cell complexes, arbitrary and finite simplicial sets, pushout/pullback/product/wedge/cone/suspension constructions, morphisms and induced chain maps, Smith-form or field-rank homology, persistent homology, and moment-angle complexes. The generic cell-complex base deliberately leaves chain construction abstract; concrete subclasses provide signed incidence matrices and finite truncation for infinite simplicial sets."
-accounted_entities = 365
-section_entities = 365
-remaining_open_entities = 0
 open_questions = [
     "Execute the listed chain, homology and persistence identities against native implementations and Sage oracles; source reconciliation does not satisfy Tier 2.",
 ]
 
 [[batch]]
 id = "R2-probability-source-reconciliation"
-phase = "R2"
 sections = ["probability"]
 modules = [
     "sage.probability.probability_distribution",
@@ -2639,16 +2451,12 @@ tests = [
     "Independent mathematical contracts cover normalization, moments, covariance/correlation, CDF/PDF consistency, spherical unit norm and seeded discrete sampling.",
 ]
 evidence = "Read the probability reference index and both indexed modules. The Cython module defines the abstract distribution interface, GSL-backed real distributions, spherical sampling on n-dimensional unit spheres, user-defined finite discrete distributions, histogram generation and probability/moment operations. The Python module defines discrete probability spaces and random variables with expectation, translated moments, variance, covariance, correlation and standard deviation."
-accounted_entities = 46
-section_entities = 46
-remaining_open_entities = 0
 open_questions = [
     "Execute distribution identities and statistical sampling checks against native implementations and Sage oracles; source reconciliation does not satisfy Tier 2.",
 ]
 
 [[batch]]
 id = "R2-semirings-source-reconciliation"
-phase = "R2"
 sections = ["semirings"]
 modules = [
     "sage.rings.semirings.non_negative_integer_semiring",
@@ -2673,16 +2481,12 @@ tests = [
     "Independent mathematical contracts cover natural-number semiring laws, min/max tropical arithmetic, tagged infinity, tropical maps, Karp cycle means and Floyd-Warshall closures.",
 ]
 evidence = "Read the semiring reference index and all three indexed modules. The sources define the facade nonnegative-integer semiring, min-plus and max-plus tropical elements with selected infinity, tropical-to-tropical maps, multiplicative order, and dense tropical-matrix extremal cycle mean plus weak and strong transitive closure. Matrix algorithms require square matrices and an ordered base subring of the real numbers; divergent positive or negative cycles are reported."
-accounted_entities = 14
-section_entities = 14
-remaining_open_entities = 0
 open_questions = [
     "Execute tropical semiring laws, cycle-mean and closure identities against native implementations and Sage oracles; source reconciliation does not satisfy Tier 2.",
 ]
 
 [[batch]]
 id = "R2-quivers-source-reconciliation"
-phase = "R2"
 sections = ["quivers"]
 modules = [
     "sage.quivers.algebra",
@@ -2717,16 +2521,12 @@ tests = [
     "Independent mathematical contracts cover path concatenation, path-algebra multiplication, representation arrow commutativity, morphism composition, homspace kernels, and Auslander-Reiten translation/dimension vectors.",
 ]
 evidence = "Read the quiver reference index and all eight indexed modules. The sources define labelled quiver paths and partial path semigroups, path algebras and Cython algebra elements, quiver representations with path-basis projectives and simples, vertex-wise representation morphisms, homspaces as kernels of edge-commutativity equations, and Auslander-Reiten quivers for finite acyclic quivers. Input invariants include integer vertices, unique nonempty edge labels, compatible base rings and commutative arrow squares."
-accounted_entities = 146
-section_entities = 146
-remaining_open_entities = 0
 open_questions = [
     "Execute path, representation, homspace and Auslander-Reiten identities against native implementations and Sage oracles; source reconciliation does not satisfy Tier 2.",
 ]
 
 [[batch]]
 id = "R2-groups-foundational-source-reconciliation"
-phase = "R2"
 sections = ["groups"]
 modules = [
     "sage.groups.group",
@@ -2755,9 +2555,6 @@ tests = [
     "Independent mathematical contracts cover generic group axioms, free-word reduction, indexed generators, exponent-vector arithmetic, elementary divisors, and homomorphism kernel/image behavior.",
 ]
 evidence = "Read the groups reference index and all five previously in-progress foundational modules. The sources define the generic group parent contract, GAP-backed free groups and indexed free groups, finitely generated abelian groups represented by generator orders and normalized exponent vectors, and abelian-group morphisms defined by generating images with order and generation checks. Infinite-group and finite-GAP-backed operations are explicitly conditional in the capability contracts."
-accounted_entities = 70
-section_entities = 908
-remaining_open_entities = 0
 open_questions = [
     "Continue the groups section through the remaining presentation, permutation, matrix, semidirect, Coxeter/Artin/braid, dual and wrapper modules; this batch does not close the section.",
     "Execute the listed group identities against native implementations and independent finite/GAP oracles; source reconciliation does not satisfy Tier 2.",
@@ -2765,7 +2562,6 @@ open_questions = [
 
 [[batch]]
 id = "R2-homology-matrix-utility-source-reconciliation"
-phase = "R2"
 sections = ["homology"]
 modules = ["sage.homology.matrix_utils"]
 status = "source-reconciled"
@@ -2779,16 +2575,12 @@ tests = [
     "DHSW Smith-normal-form preprocessing returns the same elementary divisors as direct Smith form on sparse and dense integer matrices.",
 ]
 evidence = "Read the homology reference index and the previously omitted matrix_utils source. The module implements the DHSW elimination preprocessing for integer Smith normal form: it removes zero columns, combines columns by divisibility and extended gcd, extracts unit pivots, and delegates the reduced matrix to elementary_divisors."
-accounted_entities = 1
-section_entities = 105
-remaining_open_entities = 0
 open_questions = [
     "Execute the Smith-form equality checks against native matrix implementations and Sage oracles; source reconciliation does not satisfy Tier 2.",
 ]
 
 [[batch]]
 id = "R2-quaternion-low-level-source-reconciliation"
-phase = "R2"
 sections = ["quat_algebras"]
 modules = [
     "sage.algebras.quatalg.quaternion_algebra_cython",
@@ -2808,16 +2600,12 @@ tests = [
     "Independent mathematical contracts cover four-coordinate arithmetic, conjugation, reduced trace/norm, characteristic polynomial, regular representations, trace pairing and rational coordinate denominator transport.",
 ]
 evidence = "Read both indexed low-level quaternion modules and the capability record. The Cython element implementation supports generic, rational-field and number-field quaternion coordinates, optimized multiplication, conjugation, reduced trace/norm, characteristic polynomial, matrix and pairing operations. The companion module transports rational quaternion coordinate lists to rational or common-denominator integer matrices and reconstructs them, with optional reversal of rows and coordinates. Legacy unpickling constructors remain excluded from mathematical scope."
-accounted_entities = 26
-section_entities = 26
-remaining_open_entities = 0
 open_questions = [
     "Execute quaternion identities and coordinate round trips against native implementations and Sage oracles; source reconciliation does not satisfy Tier 2.",
 ]
 
 [[batch]]
 id = "R2-noncommutative-polynomial-source-reconciliation"
-phase = "R2"
 sections = ["noncommutative_polynomial_rings"]
 modules = [
     "sage.rings.polynomial.ore_function_element",
@@ -2854,16 +2642,12 @@ tests = [
     "Independent mathematical contracts cover Ore relations, left/right division, fraction normalization, finite-order centers and norms, finite-field factorization, and Plural normal-form confluence.",
 ]
 evidence = "Read the reference index and all nine indexed noncommutative-polynomial modules. Ore rings implement multiplication from an endomorphism and twisted derivation, left/right Euclidean arithmetic, evaluation and fraction fields with left-denominator normalization. Finite-order specializations compute central traces, norms, characteristic polynomials and matrix actions; finite-field specializations test irreducibility and factorization. The Plural wrapper constructs multivariate g-algebras from commutation matrices and delegates noncommutative normal forms and ideals to Singular."
-accounted_entities = 179
-section_entities = 179
-remaining_open_entities = 0
 open_questions = [
     "Execute Ore, skew and Plural identities against native implementations and pinned Sage/Singular oracles; source reconciliation does not satisfy Tier 2.",
 ]
 
 [[batch]]
 id = "R2-matrices-core-source-reconciliation"
-phase = "R2"
 sections = ["matrices"]
 modules = [
     "sage.matrix.action",
@@ -2906,9 +2690,6 @@ tests = [
     "Independent mathematical contracts cover construction/coercion, exact and approximate arithmetic, rank/kernels/images, normal forms, spectral operations, backend agreement, Berlekamp–Massey and J-ideal membership.",
 ]
 evidence = "Read the matrices reference index and the core constructor, argument parser, matrix-space dispatch, base matrix classes and algorithm sections. The source separates parent/coercion semantics from dense and sparse element storage, then layers row/column/block operations, exact and approximate solving, determinant and characteristic/minimal polynomial algorithms, kernels/images/decompositions, eigen computations, echelon/Hermite/Howell/Smith pathways, and specialized backend dispatch. Auxiliary modules cover matrix actions, ring changes, finite-field echelon enumeration, Berlekamp–Massey, J-ideals and performance comparisons."
-accounted_entities = 330
-section_entities = 330
-remaining_open_entities = 0
 open_questions = [
     "Read and reconcile the remaining specialized matrix backend modules (integer, rational, modular, polynomial, symbolic, ball, floating and sparse implementations) before treating the full matrices section as source-reconciled.",
     "Execute exact reconstruction and approximate tolerance/enclosure tests against native implementations and pinned Sage oracles; source reconciliation does not satisfy Tier 2.",
@@ -2916,7 +2697,6 @@ open_questions = [
 
 [[batch]]
 id = "R2-matrices-integer-rational-modular-backends"
-phase = "R2"
 sections = ["matrices"]
 modules = [
     "sage.matrix.matrix_integer_dense",
@@ -2957,9 +2737,6 @@ tests = [
     "Independent contracts cover HNF/Smith/saturation, rational reconstruction, LLL/BKZ, exact modular arithmetic, and dense/sparse backend agreement.",
 ]
 evidence = "Read the integer, rational and modular backend sources. Integer implementations dispatch determinant/rank and normal forms through FLINT, LinBox, PARI, NTL and multimodular methods; expose HNF, Smith form, saturation, rational reconstruction, LLL/BKZ and lattice decomposition. Rational implementations clear denominators and use FLINT/PARI/IML for inversion, determinant, kernels, echelon forms and decompositions. Binary and modular classes provide specialized arithmetic and LinBox/FLINT pathways, with sparse variants preserving sparsity while delegating exact linear algebra."
-accounted_entities = 183
-section_entities = 183
-remaining_open_entities = 0
 open_questions = [
     "Read and reconcile the remaining polynomial, symbolic, floating, ball, generic and structural matrix backend modules.",
     "Execute exact reconstruction, lattice and backend-agreement tests against native implementations and pinned Sage oracles; source reconciliation does not satisfy Tier 2.",
@@ -2967,7 +2744,6 @@ open_questions = [
 
 [[batch]]
 id = "R2-matrices-polynomial-symbolic-numerical-backends"
-phase = "R2"
 sections = ["matrices"]
 modules = [
     "sage.matrix.matrix_complex_ball_dense",
@@ -3018,9 +2794,6 @@ tests = [
     "Independent contracts cover polynomial Popov/Hermite and approximant bases, symbolic spectral operations, numerical factorizations, ball enclosures, cyclotomic exactness and specialized extension-field representations.",
 ]
 evidence = "Read the remaining polynomial, symbolic, numerical, ball, cyclotomic, generic, sparse, GF(2^e), multivariate-polynomial and window backends. Polynomial matrices expose shifted degree/coefficient operations, weak/reduced/Popov/Hermite forms, left/right quotient-remainder and minimal approximant/interpolant/kernel/relation bases. Symbolic matrices delegate exact spectral, Jordan, exponential and simplification operations to Maxima. Double and complex-double matrices use NumPy/SciPy for norms, condition numbers, LU, QR, SVD, Schur, Cholesky and eigen computations with tolerance semantics. Complex-ball matrices use Arb/FLINT enclosures and overlap/containment predicates; cyclotomic matrices use multimodular exact algorithms. Generic and sparse classes preserve representation semantics, while GF(2^e) uses M4RIE echelon and inversion algorithms."
-accounted_entities = 189
-section_entities = 189
-remaining_open_entities = 0
 open_questions = [
     "Reconcile the remaining matrix utility modules (miscellaneous constructors, operation tables, Strassen, windows, symplectic basis and specialized helpers) before treating the full matrices section as source-reconciled.",
     "Execute exact polynomial/symbolic identities and numerical tolerance/enclosure tests against native implementations and pinned Sage oracles; source reconciliation does not satisfy Tier 2.",
@@ -3028,9 +2801,8 @@ open_questions = [
 
 [[batch]]
 id = "R2-final-capability-evidence-reconciliation"
-phase = "R2"
 sections = ["all mathematical sections"]
-status = "source-reconciled"
+status = "scope-only"
 started = "2026-11-19"
 source_files = [
     "inventory/sage/index/entities.jsonl.gz",
@@ -3053,9 +2825,8 @@ tests = [
     "Capability evidence, coverage and dependency graph regenerate with zero unresolved selectors, zero unaccounted entities and an acyclic graph.",
 ]
 evidence = "The generated capability-evidence ledger expands every public selector to source path/line, doctest count, references, backends and oracle-input obligations. Coverage accounts for 38,782 public manual entities; category reconciliation accounts for 2,718 category entities; the capability graph contains 372 nodes and 352 edges with no cycle."
-accounted_entities = 38782
-section_entities = 38782
-remaining_open_entities = 0
 open_questions = [
     "Native Lean probes, the Hex quotient bridge, DSL NativeCompute port, release/licence checks and implementation-stage oracle execution remain downstream gates and are explicitly tracked in the milestone plan.",
+    "The batch names packages or no modules, so it records no module-level reading; each module must be read and named in a source-reconciled batch.",
 ]
+modules = []

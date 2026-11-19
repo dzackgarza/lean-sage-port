@@ -1,122 +1,75 @@
-"""Build the exhaustive, entity-level reconnaissance ledger."""
+"""Write the reconnaissance ledger: every indexed module and every indexed entity with its state.
+
+The ledger has two files. The module ledger (`inventory/reconnaissance.json`) has one row per
+module: its manual section or package, its entity counts by state, the source-reconciled batches
+that name it, and, for a module that the manual does not list, the manual sections of the modules
+that import it. The entity ledger (`inventory/reconnaissance-entities.jsonl.gz`) has one row per
+entity: its id, its state and the records that select it. The source facts of each entity
+(path, line, doctests, references) stay in the index; the ledger joins to it by id.
+"""
 
 from __future__ import annotations
 
+import gzip
 import json
-import tomllib
-from collections import Counter, defaultdict
+from collections import defaultdict
 from pathlib import Path
 
-from sage_inventory.categories import measure as measure_categories
-from sage_inventory.coverage import load_category_entities, load_records, partition, select
-from sage_inventory.index import read_entities, read_modules
-from sage_inventory.models import CapabilityStatus, IndexSummary
+from sage_inventory.coverage import counts, load, partition
 
 
-def build(
-    index: Path,
-    domains: Path,
-    capabilities: Path,
-    categories: Path,
-) -> dict:
-    """Return a reproducible disposition ledger for every indexed public manual entity."""
-    domain_rows = {
-        row["id"]: row
-        for row in tomllib.loads(domains.read_text())["section"]
-    }
-    entities = read_entities(index)
-    modules = {module.module: module for module in read_modules(index)}
-    capability_records, exclusion_records = load_records(capabilities)
-
-    selected_capabilities: dict[str, list[str]] = defaultdict(list)
-    selected_exclusions: dict[str, list[str]] = defaultdict(list)
-    for record in capability_records:
-        if record.status is not CapabilityStatus.SOURCE_RECONCILED:
+def build(index: Path, capabilities: Path, categories: Path, worklog: Path) -> tuple[dict, list[dict]]:
+    """Return the module ledger and the entity rows."""
+    inventory = load(index, capabilities, categories, worklog)
+    members: dict[str, list] = defaultdict(list)
+    for entity in inventory.entities:
+        members[entity.module].append(entity)
+    importers: dict[str, set[str]] = defaultdict(set)
+    for module in inventory.modules.values():
+        if module.manual is None:
             continue
-        for selector in record.sage:
-            for entity in select(selector, entities):
-                if entity.public:
-                    selected_capabilities[entity.id].append(record.id)
-    for record in exclusion_records:
-        for selector in record.sage:
-            for entity in select(selector, entities):
-                if entity.public:
-                    selected_exclusions[entity.id].append(record.id)
+        for imported in module.imports:
+            importers[imported].add(module.manual.section)
 
-    category_selectors = load_category_entities(categories)
-    summary = IndexSummary.model_validate_json((index / "summary.json").read_text())
-    rows: list[dict] = []
-    section_counts: dict[str, Counter] = defaultdict(Counter)
-
-    for entity in entities:
-        placement = modules[entity.module].manual
-        if not entity.public or placement is None:
-            continue
-        section = placement.section
-        domain = domain_rows[section]
-        if section == "categories":
-            accounting = "category-record" if entity.id in category_selectors else "unaccounted"
-            owners = ["lean-categories"]
-        elif selected_capabilities.get(entity.id):
-            accounting = "capability"
-            owners = selected_capabilities[entity.id]
-        elif selected_exclusions.get(entity.id):
-            accounting = "exclusion"
-            owners = selected_exclusions[entity.id]
-        else:
-            accounting = "unaccounted"
-            owners = []
-
-        row = {
-            "id": entity.id,
-            "section": section,
-            "section_title": placement.section_title,
-            "disposition": domain["disposition"],
-            "role": "mathematical-candidate" if domain["disposition"] == "mathematical" else domain["disposition"],
-            "accounting": accounting,
-            "owners": owners,
-            "module": entity.module,
-            "qualname": entity.qualname,
-            "kind": entity.kind.value,
-            "source_line": entity.line,
-            "doctests": entity.doctests,
-            "algorithm": entity.algorithm,
-            "references": list(entity.references),
-            "backends": list(modules[entity.module].backends),
-            "source_path": modules[entity.module].path,
-        }
-        rows.append(row)
-        section_counts[section][accounting] += 1
-
-    sections = [
+    rows = []
+    for name, module in sorted(inventory.modules.items()):
+        rows.append(
+            {
+                "module": name,
+                "source_path": module.path,
+                "part": partition(module),
+                "manual": module.manual is not None,
+                "batches": inventory.credit.get(name, []),
+                "imported_by_sections": [] if module.manual else sorted(importers.get(name, ())),
+                **counts(members[name], inventory.classes),
+            }
+        )
+    entities = [
         {
-            "section": section,
-            "title": domain_rows[section]["title"],
-            "disposition": domain_rows[section]["disposition"],
-            "entities": sum(counts.values()),
-            **dict(sorted(counts.items())),
+            "id": entity.id,
+            "public": entity.public,
+            "state": inventory.classes[entity.id].state.value,
+            "records": list(inventory.classes[entity.id].records),
         }
-        for section, counts in sorted(section_counts.items())
+        for entity in inventory.entities
     ]
-    category_report = measure_categories(index, categories)
-    return {
-        "revision": summary.revision.model_dump(),
-        "source": {
-            "domains": str(domains),
-            "capabilities": str(capabilities),
-            "categories": str(categories),
-        },
-        "public_entities": len(rows),
-        "indexed_sections": len(domain_rows),
-        "populated_sections": len(sections),
-        "sections": sections,
-        "category_coverage": category_report.model_dump(),
-        "entities": rows,
+    ledger = {
+        "revision": inventory.summary.revision.model_dump(),
+        "total": counts(inventory.entities, inventory.classes),
+        "modules": len(rows),
+        "credited_modules": len(inventory.credit),
+        "module_rows": rows,
     }
+    return ledger, entities
 
 
-def write(index: Path, domains: Path, capabilities: Path, categories: Path, report: Path) -> dict:
-    """Build and write the reconnaissance report."""
-    result = build(index, domains, capabilities, categories)
-    report.write_text(json.dumps(result, indent=2) + "\n")
-    return result
+def write(
+    index: Path, capabilities: Path, categories: Path, worklog: Path, report: Path, entity_report: Path
+) -> dict:
+    """Build and write both ledger files; return the module ledger."""
+    ledger, entities = build(index, capabilities, categories, worklog)
+    report.write_text(json.dumps(ledger, indent=1) + "\n")
+    with gzip.GzipFile(entity_report, "wb", mtime=0) as stream:
+        for row in entities:
+            stream.write(json.dumps(row, separators=(",", ":")).encode() + b"\n")
+    return ledger

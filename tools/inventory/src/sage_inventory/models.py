@@ -229,47 +229,99 @@ class CapabilityFile(Strict):
     exclusion: tuple[Exclusion, ...] = ()
 
 
+# --- reconnaissance worklog (inventory/reconnaissance-worklog.toml) ----------------------------
+
+
+class BatchStatus(StrEnum):
+    IN_PROGRESS = "in-progress"
+    """Source reading has started; the batch credits no module."""
+    SCOPE_ONLY = "scope-only"
+    """Records were written or edited without a recorded reading of named modules; no credit."""
+    SOURCE_RECONCILED = "source-reconciled"
+    """Every module in `modules` was read in full and its records were reconciled with the source."""
+
+
+class Batch(Strict):
+    """One batch of source reading. Only a source-reconciled batch credits modules, and only by exact name."""
+
+    id: str
+    sections: tuple[str, ...]
+    modules: tuple[str, ...] = ()
+    """Module names, or shell-style module patterns in a batch that is not source-reconciled."""
+    status: BatchStatus
+    started: str | None = None
+    source_files: tuple[str, ...]
+    manual_files: tuple[str, ...]
+    records: tuple[str, ...]
+    reuse_records: tuple[str, ...] = ()
+    tests: tuple[str, ...]
+    evidence: str
+    open_questions: tuple[str, ...]
+
+
+class Worklog(Strict):
+    version: int
+    baseline_version: str
+    baseline_commit: str = Field(pattern=r"^[0-9a-f]{40}$")
+    batch: tuple[Batch, ...]
+
+
 # --- coverage report (inventory/coverage.json) -------------------------------------------------
 
 
-class SectionCoverage(Strict):
-    section: str
-    group: str
+class State(StrEnum):
+    """Reconnaissance state of one indexed entity. The last three are closed; the first two are open."""
+
+    UNACCOUNTED = "unaccounted"
+    """No record selects the entity."""
+    SCOPED = "scoped"
+    """A record selects the entity, but no source-reconciled batch names its module, or the record is scope-only."""
+    RECONCILED = "reconciled"
+    """A source-reconciled capability selects it and a source-reconciled batch names its module."""
+    EXCLUDED = "excluded"
+    """An exclusion selects it and a source-reconciled batch names its module."""
+    CATEGORY_RECORD = "category-record"
+    """A category or operation record of `inventory/categories/` names it."""
+
+
+OPEN_STATES = frozenset({State.UNACCOUNTED, State.SCOPED})
+
+
+class StateCounts(Strict):
+    """Entities of one part of the source, by reconnaissance state."""
+
+    entities: int
     public_entities: int
-    by_capability: int
-    excluded: int
-    by_category_record: int = 0
-    """Entities that a category or operation record of `inventory/categories/` accounts for."""
     unaccounted: int
+    scoped: int
+    reconciled: int
+    excluded: int
+    category_record: int
     doctests: int
-    doctests_by_capability: int
 
 
-class PackageCoverage(Strict):
-    """Public entities of the modules of one package that the reference manual does not list."""
+class PartCoverage(StateCounts):
+    """One manual section, or one two-level package for the modules that the manual does not list."""
 
-    package: str
-    public_entities: int
-    by_capability: int
-    excluded: int
-    unaccounted: int
+    part: str
+    group: str
+    """Thematic group of the manual's front page; empty for a package outside the manual."""
 
 
 class CoverageReport(Strict):
-    """The totals count documented modules. `unlisted` counts the rest of the source, by package."""
+    """Counts over every indexed entity of the checkout: `sections` for manual modules, `unlisted` for the rest."""
 
     revision: Revision
     capabilities: int
     attached_to_catalogue: int
     """Capabilities that name at least one catalogue id."""
     exclusions: int
-    public_entities: int
-    by_capability: int
-    excluded: int
-    by_category_record: int = 0
-    unaccounted: int
-    sections: tuple[SectionCoverage, ...]
-    unlisted: tuple[PackageCoverage, ...]
+    credited_modules: int
+    """Modules that a source-reconciled worklog batch names."""
+    modules: int
+    total: StateCounts
+    sections: tuple[PartCoverage, ...]
+    unlisted: tuple[PartCoverage, ...]
 
 
 # --- dependency graph (inventory/dependency-graph.json) ----------------------------------------

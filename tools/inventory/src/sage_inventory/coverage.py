@@ -1,13 +1,20 @@
-"""Measure how much of the indexed Sage checkout the capability inventory accounts for.
+"""Classify every indexed entity of the Sage checkout by reconnaissance state, and count the states.
 
-The denominator is every public entity (class, function, method) of a module that the reference
-manual documents. An entity is accounted for when a capability record or an exclusion record
-selects it. Entities of the `categories` section are accounted for by the category and operation
-records of `inventory/categories/`, which name them one by one against the `lean-categories`
-catalogue rather than by selector; a measure that is given that file counts them as
-`by_category_record`. Modules that the manual does not list are counted separately, by package:
-Sage documents some of them through a listed class that imports their functions as methods. A
-selector is a shell-style pattern:
+The denominator is every class, function and method that the index records, public or not, in
+every module under `src/sage`. The reference manual is generated from that source and documents a
+subset of it, so manual placement is an attribute of a module, not a bound on the scope.
+
+A record is a claim about source; a source-reconciled worklog batch is the record that the source
+was read. An entity is therefore closed only when both exist (see `State`):
+
+- `reconciled`: a source-reconciled capability selects it and a source-reconciled batch names its
+  module;
+- `excluded`: an exclusion selects it and a source-reconciled batch names its module;
+- `category-record`: a category or operation record of `inventory/categories/` names it.
+
+An entity that only a record selects is `scoped`; an entity that no record selects is `unaccounted`.
+
+A selector is a shell-style pattern:
 
 - `sage.rings.finite_rings.*` selects every entity of the matching modules;
 - `sage.rings.integer:Integer.gcd` or `sage.matrix.*:*.determinant` selects entities by qualified name.
@@ -19,6 +26,7 @@ import json
 import re
 import tomllib
 from collections import defaultdict
+from dataclasses import dataclass
 from fnmatch import translate
 from pathlib import Path
 
@@ -26,21 +34,25 @@ from pydantic import validate_call
 
 from sage_inventory.index import read_entities, read_modules
 from sage_inventory.models import (
+    OPEN_STATES,
+    BatchStatus,
     Capability,
-    CapabilityStatus,
     CapabilityFile,
+    CapabilityStatus,
     CoverageReport,
     Entity,
     Exclusion,
     IndexSummary,
     Module,
-    PackageCoverage,
-    SectionCoverage,
+    PartCoverage,
+    State,
+    StateCounts,
+    Worklog,
 )
 
 
 class InventoryError(ValueError):
-    """The capability records are inconsistent with each other or with the index."""
+    """The records or the worklog are inconsistent with each other or with the index."""
 
 
 def load_records(directory: Path) -> tuple[list[Capability], list[Exclusion]]:
@@ -62,10 +74,8 @@ def load_components(directory: Path) -> set[str]:
     }
 
 
-def load_category_entities(categories: Path | None) -> set[str]:
-    """Entity ids that a category or operation record of the category inventory accounts for."""
-    if categories is None:
-        return set()
+def load_category_entities(categories: Path) -> set[str]:
+    """Entity ids that a category or operation record of the category inventory names."""
     inventory = tomllib.loads(categories.read_text())
     return {
         record["sage"]
@@ -73,55 +83,147 @@ def load_category_entities(categories: Path | None) -> set[str]:
     }
 
 
-def select(selector: str, entities: list[Entity]) -> list[Entity]:
+def load_worklog(path: Path) -> Worklog:
+    return Worklog.model_validate_json(json.dumps(tomllib.loads(path.read_text())))
+
+
+def by_module(entities: list[Entity]) -> dict[str, list[Entity]]:
+    grouped: dict[str, list[Entity]] = defaultdict(list)
+    for entity in entities:
+        grouped[entity.module].append(entity)
+    return grouped
+
+
+def select(selector: str, grouped: dict[str, list[Entity]]) -> list[Entity]:
+    """The entities that a selector matches; `grouped` is the index by module (`by_module`)."""
     module_pattern, _, name_pattern = selector.partition(":")
     module = re.compile(translate(module_pattern))
     name = re.compile(translate(name_pattern)) if name_pattern else None
     return [
         entity
-        for entity in entities
-        if module.match(entity.module) and (name is None or name.match(entity.qualname))
+        for module_name, members in grouped.items()
+        if module.match(module_name)
+        for entity in members
+        if name is None or name.match(entity.qualname)
     ]
 
 
-def partition(entity: Entity, modules: dict[str, Module]) -> str:
-    """The unit of the report that counts an entity: its manual section, or its package outside the manual."""
-    placement = modules[entity.module].manual
-    return ".".join(entity.module.split(".")[:2]) if placement is None else placement.section
+def credited_modules(worklog: Worklog, modules: dict[str, Module], revision_commit: str) -> dict[str, list[str]]:
+    """Map each module that a source-reconciled batch names to those batch ids.
+
+    Fails when the worklog describes another commit, when a module entry matches no indexed module,
+    or when a source-reconciled batch names anything other than exact module names.
+    """
+    problems: list[str] = []
+    if worklog.baseline_commit != revision_commit:
+        problems.append(f"worklog describes commit {worklog.baseline_commit}, the index {revision_commit}")
+    credit: dict[str, list[str]] = defaultdict(list)
+    for batch in worklog.batch:
+        for entry in batch.modules:
+            if batch.status is BatchStatus.SOURCE_RECONCILED:
+                if entry not in modules:
+                    problems.append(f"{batch.id}: source-reconciled batch names {entry!r}, which is no indexed module")
+                    continue
+                credit[entry].append(batch.id)
+            elif not any(re.match(translate(entry), name) for name in modules):
+                problems.append(f"{batch.id}: module entry {entry!r} matches no indexed module")
+    if problems:
+        raise InventoryError("\n".join(problems))
+    return credit
 
 
-@validate_call
-def unaccounted(
-    index: Path, capabilities_dir: Path, name: str, categories: Path | None = None
-) -> list[Entity]:
-    """The public entities of one manual section, or of one package outside the manual, that no record selects."""
-    entities = read_entities(index)
-    modules = {module.module: module for module in read_modules(index)}
-    members = [entity for entity in entities if entity.public and partition(entity, modules) == name]
-    if not members:
-        raise InventoryError(f"no manual section and no package outside the manual is named {name!r}")
-    capabilities, exclusions = load_records(capabilities_dir)
-    selected = {
-        entity.id
-        for record in (*capabilities, *exclusions)
-        for selector in record.sage
-        for entity in select(selector, members)
-    } | load_category_entities(categories)
-    return [entity for entity in members if entity.id not in selected]
+@dataclass(frozen=True)
+class Classification:
+    state: State
+    records: tuple[str, ...]
 
 
-@validate_call
-def measure(
-    index: Path, capabilities_dir: Path, reuse_dir: Path, categories: Path | None = None
-) -> CoverageReport:
-    """Validate the records against the index and each other, then count what they account for."""
+def classify(
+    grouped: dict[str, list[Entity]],
+    capabilities: list[Capability],
+    exclusions: list[Exclusion],
+    category_entities: set[str],
+    credit: dict[str, list[str]],
+) -> dict[str, Classification]:
+    """The reconnaissance state and the selecting record ids of every indexed entity."""
+    reconciling: dict[str, list[str]] = defaultdict(list)
+    excluding: dict[str, list[str]] = defaultdict(list)
+    scoping: dict[str, list[str]] = defaultdict(list)
+    for record in capabilities:
+        target = reconciling if record.status is CapabilityStatus.SOURCE_RECONCILED else scoping
+        for selector in record.sage:
+            for entity in select(selector, grouped):
+                target[entity.id].append(record.id)
+    for record in exclusions:
+        for selector in record.sage:
+            for entity in select(selector, grouped):
+                excluding[entity.id].append(record.id)
+
+    result: dict[str, Classification] = {}
+    for module_name, members in grouped.items():
+        read = module_name in credit
+        for entity in members:
+            records = tuple(dict.fromkeys((*reconciling[entity.id], *excluding[entity.id], *scoping[entity.id])))
+            if entity.id in category_entities:
+                state = State.CATEGORY_RECORD
+            elif read and reconciling[entity.id]:
+                state = State.RECONCILED
+            elif read and excluding[entity.id]:
+                state = State.EXCLUDED
+            elif records:
+                state = State.SCOPED
+            else:
+                state = State.UNACCOUNTED
+            result[entity.id] = Classification(state, records)
+    return result
+
+
+def partition(module: Module) -> str:
+    """The part of the report that counts a module: its manual section, or its two-level package outside the manual."""
+    return ".".join(module.module.split(".")[:2]) if module.manual is None else module.manual.section
+
+
+@dataclass(frozen=True)
+class Inventory:
+    """The index joined with the records and the worklog, classified."""
+
+    summary: IndexSummary
+    entities: list[Entity]
+    modules: dict[str, Module]
+    capabilities: list[Capability]
+    exclusions: list[Exclusion]
+    credit: dict[str, list[str]]
+    classes: dict[str, Classification]
+
+
+def load(index: Path, capabilities_dir: Path, categories: Path, worklog: Path) -> Inventory:
     entities = read_entities(index)
     modules = {module.module: module for module in read_modules(index)}
     summary = IndexSummary.model_validate_json((index / "summary.json").read_text())
     capabilities, exclusions = load_records(capabilities_dir)
-    components = load_components(reuse_dir)
-    category_entities = load_category_entities(categories)
+    credit = credited_modules(load_worklog(worklog), modules, summary.revision.commit)
+    classes = classify(by_module(entities), capabilities, exclusions, load_category_entities(categories), credit)
+    return Inventory(summary, entities, modules, capabilities, exclusions, credit, classes)
 
+
+@validate_call
+def remaining(
+    index: Path, capabilities_dir: Path, categories: Path, worklog: Path, name: str
+) -> list[tuple[Entity, State]]:
+    """The open entities of one manual section, or of one package outside the manual, with their states."""
+    inventory = load(index, capabilities_dir, categories, worklog)
+    members = [entity for entity in inventory.entities if partition(inventory.modules[entity.module]) == name]
+    if not members:
+        raise InventoryError(f"no manual section and no package outside the manual is named {name!r}")
+    return [
+        (entity, inventory.classes[entity.id].state)
+        for entity in members
+        if inventory.classes[entity.id].state in OPEN_STATES
+    ]
+
+
+def _problems(inventory: Inventory, components: set[str]) -> list[str]:
+    capabilities, exclusions = inventory.capabilities, inventory.exclusions
     problems: list[str] = []
     ids = [record.id for record in (*capabilities, *exclusions)]
     problems += [f"duplicate id {name}" for name in sorted({name for name in ids if ids.count(name) > 1})]
@@ -136,81 +238,58 @@ def measure(
         for entry in capability.catalogue:
             if f"catalogue.{entry}" not in components:
                 problems.append(f"{capability.id} refers to unknown catalogue id {entry}")
-
-    by_capability: set[str] = set()
-    excluded: set[str] = set()
-    for record, bucket in [
-        (c, by_capability)
-        for c in capabilities
-        if c.status is CapabilityStatus.SOURCE_RECONCILED
-    ] + [(e, excluded) for e in exclusions]:
+    grouped = by_module(inventory.entities)
+    for record in (*capabilities, *exclusions):
         for selector in record.sage:
-            matched = [entity for entity in select(selector, entities) if entity.public]
-            if not matched:
+            if not select(selector, grouped):
                 problems.append(
-                    f"{record.id}: selector {selector!r} matches no public entity of Sage "
-                    f"{summary.revision.version}"
+                    f"{record.id}: selector {selector!r} matches no entity of Sage {inventory.summary.revision.version}"
                 )
-            bucket.update(entity.id for entity in matched)
+    return problems
+
+
+def counts(members: list[Entity], classes: dict[str, Classification]) -> dict[str, int]:
+    """Entity, public-entity and doctest totals of `members`, and their number in each state."""
+    counts = {state.value.replace("-", "_"): 0 for state in State}
+    for entity in members:
+        counts[classes[entity.id].state.value.replace("-", "_")] += 1
+    return {
+        "entities": len(members),
+        "public_entities": sum(entity.public for entity in members),
+        "doctests": sum(entity.doctests for entity in members),
+        **counts,
+    }
+
+
+@validate_call
+def measure(
+    index: Path, capabilities_dir: Path, reuse_dir: Path, categories: Path, worklog: Path
+) -> CoverageReport:
+    """Validate the records against the index and each other, then count every entity by state."""
+    inventory = load(index, capabilities_dir, categories, worklog)
+    problems = _problems(inventory, load_components(reuse_dir))
     if problems:
         raise InventoryError("\n".join(problems))
 
-    counts: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+    parts: dict[str, list[Entity]] = defaultdict(list)
     groups: dict[str, str] = {}
-    unlisted: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
-    for entity in entities:
-        if not entity.public:
-            continue
-        placement = modules[entity.module].manual
-        if placement is None:
-            row = unlisted[partition(entity, modules)]
-        else:
-            groups[placement.section] = placement.group
-            row = counts[partition(entity, modules)]
-        row["public_entities"] += 1
-        row["doctests"] += entity.doctests
-        if entity.id in by_capability:
-            row["by_capability"] += 1
-            row["doctests_by_capability"] += entity.doctests
-        elif entity.id in excluded:
-            row["excluded"] += 1
-        elif entity.id in category_entities:
-            row["by_category_record"] += 1
-        else:
-            row["unaccounted"] += 1
-    sections = tuple(
-        SectionCoverage(
-            section=section,
-            group=groups[section],
-            public_entities=row["public_entities"],
-            by_capability=row["by_capability"],
-            excluded=row["excluded"],
-            by_category_record=row["by_category_record"],
-            unaccounted=row["unaccounted"],
-            doctests=row["doctests"],
-            doctests_by_capability=row["doctests_by_capability"],
-        )
-        for section, row in sorted(counts.items())
-    )
+    for entity in inventory.entities:
+        module = inventory.modules[entity.module]
+        parts[partition(module)].append(entity)
+        if module.manual is not None:
+            groups[module.manual.section] = module.manual.group
+    rows = [
+        PartCoverage(part=part, group=groups.get(part, ""), **counts(members, inventory.classes))
+        for part, members in sorted(parts.items())
+    ]
     return CoverageReport(
-        revision=summary.revision,
-        capabilities=len(capabilities),
-        attached_to_catalogue=sum(bool(capability.catalogue) for capability in capabilities),
-        exclusions=len(exclusions),
-        public_entities=sum(section.public_entities for section in sections),
-        by_capability=sum(section.by_capability for section in sections),
-        excluded=sum(section.excluded for section in sections),
-        by_category_record=sum(section.by_category_record for section in sections),
-        unaccounted=sum(section.unaccounted for section in sections),
-        sections=sections,
-        unlisted=tuple(
-            PackageCoverage(
-                package=package,
-                public_entities=row["public_entities"],
-                by_capability=row["by_capability"],
-                excluded=row["excluded"],
-                unaccounted=row["unaccounted"],
-            )
-            for package, row in sorted(unlisted.items())
-        ),
+        revision=inventory.summary.revision,
+        capabilities=len(inventory.capabilities),
+        attached_to_catalogue=sum(bool(capability.catalogue) for capability in inventory.capabilities),
+        exclusions=len(inventory.exclusions),
+        credited_modules=len(inventory.credit),
+        modules=len(inventory.modules),
+        total=StateCounts(**counts(inventory.entities, inventory.classes)),
+        sections=tuple(row for row in rows if row.part in groups),
+        unlisted=tuple(row for row in rows if row.part not in groups),
     )

@@ -17,7 +17,7 @@ import pytest
 import yaml
 
 from sage_inventory.cli import app
-from sage_inventory.coverage import InventoryError, measure, unaccounted
+from sage_inventory.coverage import InventoryError, measure, remaining
 from sage_inventory.evidence import build as build_evidence
 from sage_inventory.graph import GraphError, derive
 from sage_inventory.index import CheckoutError, build_index, load_baseline
@@ -181,76 +181,160 @@ def test_index_refuses_a_checkout_with_uncommitted_source_changes(baseline: Path
         build_index(load_baseline(baseline), tmp_path / "index")
 
 
-def test_coverage_counts_documented_public_entities_by_capability_exclusion_and_remainder(index: Path) -> None:
-    report = measure(index, FIXTURES / "capabilities", FIXTURES / "reuse")
-    # Documented and public: 5 in fast_integer, 5 in demo_ring. `stray` is outside the manual.
+def _worklog(tmp_path: Path, index: Path, *batches: tuple[str, str, list[str]]) -> Path:
+    """A worklog for the fixture index: one batch per `(id, status, modules)`."""
+    commit = json.loads((index / "summary.json").read_text())["revision"]["commit"]
+    text = f'version = 1\nbaseline_version = "11.0.beta5"\nbaseline_commit = "{commit}"\n'
+    for identifier, status, modules in batches:
+        text += (
+            f'\n[[batch]]\nid = "{identifier}"\nsections = ["rings_standard"]\nmodules = {json.dumps(modules)}\n'
+            f'status = "{status}"\nsource_files = []\nmanual_files = []\nrecords = []\ntests = []\n'
+            'evidence = "fixture"\nopen_questions = []\n'
+        )
+    path = tmp_path / "worklog.toml"
+    path.write_text(text)
+    return path
+
+
+def _categories(tmp_path: Path, *named: str) -> Path:
+    path = tmp_path / "categories.toml"
+    path.write_text("".join(f'[[operation]]\nid = "{name}"\nsage = "{name}"\n\n' for name in named))
+    return path
+
+
+@pytest.fixture
+def worklog(index: Path, tmp_path: Path) -> Path:
+    """`fast_integer` has been read in full; `demo_ring` is being read."""
+    return _worklog(
+        tmp_path,
+        index,
+        ("read-fast-integer", "source-reconciled", ["sage.rings.fast_integer"]),
+        ("read-demo-ring", "in-progress", ["sage.rings.demo_ring"]),
+    )
+
+
+def _states(index: Path, worklog: Path, categories: Path) -> dict[str, str]:
+    _, rows = build_reconnaissance(index, FIXTURES / "capabilities", categories, worklog)
+    return {row["id"]: row["state"] for row in rows}
+
+
+def test_a_record_closes_an_entity_only_in_a_module_that_a_source_reconciled_batch_names(
+    index: Path, worklog: Path, tmp_path: Path
+) -> None:
     # The capability selects xgcd, gcd_list and demo_gcd; the exclusion selects Element and Element.inverse.
-    assert (report.public_entities, report.by_capability, report.excluded, report.unaccounted) == (10, 3, 2, 5)
+    states = _states(index, worklog, _categories(tmp_path))
+    assert states == {
+        "sage.rings.fast_integer:FastInteger": "unaccounted",
+        "sage.rings.fast_integer:FastInteger.xgcd": "reconciled",
+        "sage.rings.fast_integer:FastInteger._add_": "unaccounted",
+        "sage.rings.fast_integer:FastInteger.double": "unaccounted",
+        "sage.rings.fast_integer:fast_valuation": "unaccounted",
+        "sage.rings.fast_integer:gcd_list": "reconciled",
+        # `demo_ring` is only in progress: its records scope entities and close none.
+        "sage.rings.demo_ring:DemoRing": "unaccounted",
+        "sage.rings.demo_ring:DemoRing.order": "unaccounted",
+        "sage.rings.demo_ring:DemoRing._repr_": "unaccounted",
+        "sage.rings.demo_ring:DemoRing.Element": "scoped",
+        "sage.rings.demo_ring:DemoRing.Element.inverse": "scoped",
+        "sage.rings.demo_ring:demo_gcd": "scoped",
+        "sage.rings.demo_ring:_private": "unaccounted",
+        # Outside the manual, and still in the denominator.
+        "sage.rings.unlisted:stray": "unaccounted",
+    }
+    read = _worklog(tmp_path, index, ("read-both", "source-reconciled", ["sage.rings.fast_integer", "sage.rings.demo_ring"]))
+    states = _states(index, read, _categories(tmp_path))
+    assert (
+        states["sage.rings.demo_ring:demo_gcd"],
+        states["sage.rings.demo_ring:DemoRing.Element"],
+        states["sage.rings.demo_ring:DemoRing.order"],
+    ) == ("reconciled", "excluded", "unaccounted")
+
+
+def test_category_records_close_the_entities_they_name(index: Path, worklog: Path, tmp_path: Path) -> None:
+    categories = _categories(tmp_path, "sage.rings.fast_integer:fast_valuation", "sage.rings.demo_ring:DemoRing.order")
+    states = _states(index, worklog, categories)
+    assert states["sage.rings.fast_integer:fast_valuation"] == "category-record"
+    assert states["sage.rings.demo_ring:DemoRing.order"] == "category-record"
+
+
+def test_coverage_counts_every_indexed_entity_by_state(index: Path, worklog: Path, tmp_path: Path) -> None:
+    report = measure(index, FIXTURES / "capabilities", FIXTURES / "reuse", _categories(tmp_path), worklog)
+    # 14 entities, 11 public, 7 doctests; the states are those of the test above.
+    total = report.total
+    assert (total.entities, total.public_entities, total.doctests) == (14, 11, 7)
+    assert (total.unaccounted, total.scoped, total.reconciled, total.excluded, total.category_record) == (9, 3, 2, 0, 0)
+    assert (report.modules, report.credited_modules) == (4, 1)
     assert (report.capabilities, report.attached_to_catalogue, report.exclusions) == (1, 1, 1)
     (section,) = report.sections
-    assert (section.section, section.doctests, section.doctests_by_capability) == ("rings_standard", 7, 3)
-    # `sage.rings.unlisted:stray` is public, outside the manual, and selected by no record.
-    (package,) = report.unlisted
-    assert (package.package, package.public_entities, package.unaccounted) == ("sage.rings", 1, 1)
-
-
-def test_coverage_counts_category_record_entities_separately_from_capabilities(
-    index: Path, tmp_path: Path
-) -> None:
-    categories = tmp_path / "categories.toml"
-    categories.write_text(
-        '[[category]]\n'
-        'id = "sage.rings.fast_integer:fast_valuation"\n'
-        'sage = "sage.rings.fast_integer:fast_valuation"\n'
-        '\n'
-        '[[operation]]\n'
-        'id = "sage.rings.demo_ring:DemoRing.order"\n'
-        'sage = "sage.rings.demo_ring:DemoRing.order"\n'
+    assert (section.part, section.entities, section.unaccounted, section.scoped, section.reconciled) == (
+        "rings_standard",
+        13,
+        8,
+        3,
+        2,
     )
-    report = measure(index, FIXTURES / "capabilities", FIXTURES / "reuse", categories)
-    # The two category-record entities leave the remainder; the capability and exclusion counts are unchanged.
-    assert (report.by_capability, report.excluded, report.by_category_record, report.unaccounted) == (3, 2, 2, 3)
-    (section,) = report.sections
-    assert (section.by_category_record, section.unaccounted) == (2, 3)
-    assert {entity.id for entity in unaccounted(index, FIXTURES / "capabilities", "rings_standard", categories)} == {
-        "sage.rings.fast_integer:FastInteger",
-        "sage.rings.fast_integer:FastInteger.double",
-        "sage.rings.demo_ring:DemoRing",
-    }
+    (package,) = report.unlisted
+    assert (package.part, package.entities, package.unaccounted) == ("sage.rings", 1, 1)
+
+
+def test_remaining_lists_the_open_entities_of_a_section_or_package(index: Path, worklog: Path, tmp_path: Path) -> None:
+    categories = _categories(tmp_path)
+    rows = remaining(index, FIXTURES / "capabilities", categories, worklog, "rings_standard")
+    listed = {entity.id: state.value for entity, state in rows}
+    assert len(listed) == 11
+    assert listed["sage.rings.demo_ring:demo_gcd"] == "scoped"
+    assert listed["sage.rings.fast_integer:FastInteger._add_"] == "unaccounted"
+    assert "sage.rings.fast_integer:FastInteger.xgcd" not in listed
+    ((stray, state),) = remaining(index, FIXTURES / "capabilities", categories, worklog, "sage.rings")
+    assert (stray.id, state.value) == ("sage.rings.unlisted:stray", "unaccounted")
+    with pytest.raises(InventoryError):
+        remaining(index, FIXTURES / "capabilities", categories, worklog, "no_such_section")
+
+
+def test_remaining_command_prints_one_line_per_open_entity(
+    index: Path, worklog: Path, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    arguments = [str(index), str(FIXTURES / "capabilities"), str(_categories(tmp_path)), str(worklog), "sage.rings"]
+    app(["remaining", *arguments], result_action="return_value")
+    assert capsys.readouterr().out == "sage.rings.unlisted:stray\tunaccounted\tfunction\t0\n"
+
+
+@pytest.mark.parametrize(
+    ("status", "modules"),
+    [
+        ("source-reconciled", ["sage.rings"]),
+        ("source-reconciled", ["sage.rings.*"]),
+        ("in-progress", ["sage.no_such_package.*"]),
+    ],
+    ids=["reconciled-package-name", "reconciled-pattern", "pattern-matches-nothing"],
+)
+def test_worklog_credits_only_exact_indexed_modules(
+    index: Path, tmp_path: Path, status: str, modules: list[str]
+) -> None:
+    worklog = _worklog(tmp_path, index, ("claim", status, modules))
+    with pytest.raises(InventoryError):
+        measure(index, FIXTURES / "capabilities", FIXTURES / "reuse", _categories(tmp_path), worklog)
+
+
+def test_worklog_must_describe_the_indexed_commit(index: Path, worklog: Path, tmp_path: Path) -> None:
+    other = tmp_path / "other.toml"
+    commit = json.loads((index / "summary.json").read_text())["revision"]["commit"]
+    other.write_text(worklog.read_text().replace(commit, "0" * 40))
+    with pytest.raises(InventoryError):
+        measure(index, FIXTURES / "capabilities", FIXTURES / "reuse", _categories(tmp_path), other)
 
 
 def test_capability_evidence_expands_selectors_to_source_and_oracle_rows(index: Path) -> None:
     report = build_evidence(index, FIXTURES / "capabilities")
     assert report["unresolved"] == []
     (record,) = [row for row in report["records"] if row["id"] == "euclidean.gcd"]
-    assert record["source_entities"][0]["source_path"].startswith("src/sage/")
-    assert record["source_entities"][0]["source_line"] > 0
-    assert record["oracle_inputs"]
-    assert record["oracle_input_status"] in {"source-doctest-backed", "contract-input-backed"}
-    assert report["broad_selector_count"] >= 0
-    assert all(row["public_entities"] > 0 for row in report["broad_selectors"])
-
-
-def test_unaccounted_lists_the_entities_of_a_section_that_no_record_selects(index: Path) -> None:
-    # The capability selects xgcd, gcd_list and demo_gcd; the exclusion selects Element and Element.inverse.
-    listed = {entity.id for entity in unaccounted(index, FIXTURES / "capabilities", "rings_standard")}
-    assert listed == {
-        "sage.rings.fast_integer:FastInteger",
-        "sage.rings.fast_integer:FastInteger.double",
-        "sage.rings.fast_integer:fast_valuation",
-        "sage.rings.demo_ring:DemoRing",
-        "sage.rings.demo_ring:DemoRing.order",
+    assert {entity["id"] for entity in record["source_entities"]} == {
+        "sage.rings.fast_integer:FastInteger.xgcd",
+        "sage.rings.fast_integer:gcd_list",
+        "sage.rings.demo_ring:demo_gcd",
     }
-    # A module outside the manual is addressed by its package.
-    (stray,) = unaccounted(index, FIXTURES / "capabilities", "sage.rings")
-    assert stray.id == "sage.rings.unlisted:stray"
-    with pytest.raises(InventoryError):
-        unaccounted(index, FIXTURES / "capabilities", "no_such_section")
-
-
-def test_unaccounted_command_prints_one_line_per_entity(index: Path, capsys: pytest.CaptureFixture[str]) -> None:
-    app(["unaccounted", str(index), str(FIXTURES / "capabilities"), "sage.rings"], result_action="return_value")
-    assert capsys.readouterr().out == "sage.rings.unlisted:stray\tfunction\t0\n"
+    assert all(entity["source_path"].startswith("src/sage/rings/") for entity in record["source_entities"])
+    assert record["oracle_input_status"] == "source-doctest-backed"
 
 
 def _records_with(tmp_path: Path, old: str, new: str) -> Path:
@@ -272,43 +356,40 @@ def _records_with(tmp_path: Path, old: str, new: str) -> Path:
     ],
     ids=["selector-matches-nothing", "unknown-dependency", "unknown-reuse-component", "unknown-catalogue-id"],
 )
-def test_coverage_rejects_records_that_refer_to_nothing(index: Path, tmp_path: Path, old: str, new: str) -> None:
+def test_coverage_rejects_records_that_refer_to_nothing(
+    index: Path, worklog: Path, tmp_path: Path, old: str, new: str
+) -> None:
     with pytest.raises(InventoryError):
-        measure(index, _records_with(tmp_path, old, new), FIXTURES / "reuse")
+        measure(index, _records_with(tmp_path, old, new), FIXTURES / "reuse", _categories(tmp_path), worklog)
 
 
-def test_coverage_command_writes_the_report_and_fails_on_inconsistent_records(index: Path, tmp_path: Path) -> None:
+def test_coverage_command_writes_the_report_and_fails_on_inconsistent_records(
+    index: Path, worklog: Path, tmp_path: Path
+) -> None:
     report = tmp_path / "coverage.json"
-    arguments = [str(FIXTURES / "reuse"), str(report)]
-    app(["coverage", str(index), str(FIXTURES / "capabilities"), *arguments], result_action="return_value")
-    assert json.loads(report.read_text())["unaccounted"] == 5
+    categories = str(_categories(tmp_path))
+    tail = [str(FIXTURES / "reuse"), categories, str(worklog), str(report)]
+    app(["coverage", str(index), str(FIXTURES / "capabilities"), *tail], result_action="return_value")
+    assert json.loads(report.read_text())["total"]["unaccounted"] == 9
 
     broken = _records_with(tmp_path, "depends_on = []", 'depends_on = ["euclidean.division"]')
     with pytest.raises(SystemExit) as stopped:
-        app(["coverage", str(index), str(broken), *arguments], result_action="return_value")
+        app(["coverage", str(index), str(broken), *tail], result_action="return_value")
     assert stopped.value.code not in (0, None)
 
 
-def test_reconnaissance_ledger_preserves_public_entity_dispositions(index: Path, tmp_path: Path) -> None:
-    domains = tmp_path / "domains.toml"
-    domains.write_text(
-        '[[section]]\n'
-        'id = "rings_standard"\n'
-        'title = "Integers"\n'
-        'disposition = "mathematical"\n'
-        '\n'
-        '[[section]]\n'
-        'id = "references"\n'
-        'title = "References"\n'
-        'disposition = "reference-data"\n'
-    )
-    categories = tmp_path / "categories.toml"
-    categories.write_text("")
-    report = build_reconnaissance(index, domains, FIXTURES / "capabilities", categories)
-    assert report["public_entities"] == 10
-    assert report["indexed_sections"] == 2
-    assert report["populated_sections"] == 1
-    assert {row["accounting"] for row in report["entities"]} == {"capability", "exclusion", "unaccounted"}
+def test_reconnaissance_ledger_rows_join_modules_to_batches_and_importing_sections(
+    index: Path, worklog: Path, tmp_path: Path
+) -> None:
+    ledger, rows = build_reconnaissance(index, FIXTURES / "capabilities", _categories(tmp_path), worklog)
+    modules = {row["module"]: row for row in ledger["module_rows"]}
+    assert modules["sage.rings.fast_integer"]["batches"] == ["read-fast-integer"]
+    assert modules["sage.rings.demo_ring"]["batches"] == []
+    # `stray` is outside the manual; both documented modules of `rings_standard` import it.
+    stray = modules["sage.rings.unlisted"]
+    assert (stray["manual"], stray["part"], stray["imported_by_sections"]) == (False, "sage.rings", ["rings_standard"])
+    assert (stray["entities"], stray["unaccounted"]) == (1, 1)
+    assert len(rows) == ledger["total"]["entities"] == 14
 
 
 def test_cython_parser_reads_sage_integer_source() -> None:

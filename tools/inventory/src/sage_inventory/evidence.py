@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from sage_inventory.coverage import load_records, select
+from sage_inventory.coverage import by_module, load_records, select
 from sage_inventory.index import read_entities, read_modules
 from sage_inventory.models import CapabilityStatus, IndexSummary
 
@@ -14,6 +14,7 @@ def build(index: Path, capabilities: Path) -> dict:
     """Return one source and oracle evidence row for every capability."""
     entities = read_entities(index)
     modules = {module.module: module for module in read_modules(index)}
+    grouped = by_module(entities)
     records, _ = load_records(capabilities)
     summary = IndexSummary.model_validate_json((index / "summary.json").read_text())
     rows = []
@@ -22,11 +23,7 @@ def build(index: Path, capabilities: Path) -> dict:
 
     for record in records:
         matched_by_selector = {
-            selector: sorted(
-                entity.id
-                for entity in select(selector, entities)
-                if entity.public
-            )
+            selector: sorted(entity.id for entity in select(selector, grouped))
             for selector in record.sage
         }
         selected_ids = sorted({entity_id for ids in matched_by_selector.values() for entity_id in ids})
@@ -54,7 +51,7 @@ def build(index: Path, capabilities: Path) -> dict:
             {
                 "capability": record.id,
                 "selector": selector,
-                "public_entities": len(ids),
+                "entities": len(ids),
             }
             for selector, ids in matched_by_selector.items()
             if "*" in selector
