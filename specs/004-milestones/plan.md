@@ -16,7 +16,7 @@ Python module layout.
 
 ## Technical Context
 
-**Language/Version**: Lean 4 (v4.36.0 pinned in `lean-toolchain`)
+**Language/Version**: Lean 4, the version in `lean-toolchain` (the toolchain of the pinned Hex release)
 **Primary Dependencies**: Mathlib `9fdc1827`, Hex `f4b180cf`, lean-categories, lean-cas-dsl
 **Storage**: `inventory/capabilities/*.toml`, `inventory/reuse/*.toml`, `docs/domain-specifications.md`
 **Testing**: `sage-inventory remaining` (coverage gate); Sage docker oracle (implementation gate)
