@@ -8,8 +8,10 @@ from __future__ import annotations
 
 import gzip
 import json
+import os
 import shutil
 import subprocess
+import sys
 import tomllib
 from pathlib import Path
 
@@ -297,6 +299,24 @@ def test_remaining_command_prints_one_line_per_open_entity(
     arguments = [str(index), str(FIXTURES / "capabilities"), str(_categories(tmp_path)), str(worklog), "sage.rings"]
     app(["remaining", *arguments], result_action="return_value")
     assert capsys.readouterr().out == "sage.rings.unlisted:stray\tunaccounted\tfunction\t0\n"
+
+
+def test_remaining_command_is_silent_when_the_reader_closes_the_pipe(
+    index: Path, worklog: Path, tmp_path: Path
+) -> None:
+    """`remaining ... | head` must not print a traceback when `head` exits first."""
+    arguments = [str(index), str(FIXTURES / "capabilities"), str(_categories(tmp_path)), str(worklog), "sage.rings"]
+    read_end, write_end = os.pipe()
+    os.close(read_end)
+    command = subprocess.run(
+        [str(Path(sys.executable).parent / "sage-inventory"), "remaining", *arguments],
+        stdout=write_end,
+        stderr=subprocess.PIPE,
+        text=True,
+        check=False,
+    )
+    os.close(write_end)
+    assert command.stderr == ""
 
 
 @pytest.mark.parametrize(
