@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import sys
 from pathlib import Path
 
@@ -191,8 +192,16 @@ def remaining(index: Path, capabilities: Path, categories: Path, worklog: Path, 
         rows = coverage_logic.remaining(index, capabilities, categories, worklog, name)
     except coverage_logic.InventoryError as error:
         sys.exit(str(error))
-    for entity, state in rows:
-        print(f"{entity.id}\t{state.value}\t{entity.kind.value}\t{entity.doctests}")
+    # A reader such as `head` may close the pipe first. This is the handling that the Python
+    # documentation gives in the `signal` module, "Note on SIGPIPE": point stdout at devnull, so that
+    # the flush at exit cannot fail again, and exit with 1.
+    try:
+        for entity, state in rows:
+            print(f"{entity.id}\t{state.value}\t{entity.kind.value}\t{entity.doctests}")
+        sys.stdout.flush()
+    except BrokenPipeError:
+        os.dup2(os.open(os.devnull, os.O_WRONLY), sys.stdout.fileno())
+        sys.exit(1)
 
 
 @app.command
