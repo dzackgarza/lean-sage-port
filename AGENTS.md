@@ -38,6 +38,7 @@ object and operation. When the catalogue lacks one, the gap is reported to its o
 | `inventory/reuse/` | Reuse maps: existing Lean components, with declarations, paths and a reuse status. |
 | `inventory/references/` | Non-Lean reference engines (FLINT, PARI, GAP, Singular and others) and their licences. |
 | `tools/inventory/` | The `sage-inventory` command: builds the index and measures coverage. |
+| `scripts/local-validate.py` | Runs `just test` from the shared commit hook. |
 | `Probes/` | Executable Lean probes that test architectural decisions. |
 | `specs/` | Spec Kit documents: reconnaissance master spec (`001`), and per-domain specs as milestones proceed. |
 | `specs/004-milestones/plan.md` | Authoritative dependency-ordered milestone roadmap (M0–M14). |
@@ -70,7 +71,7 @@ the local gate on a clean machine, never the way to learn whether code elaborate
 | --- | --- | --- |
 | Prepare the locked environment | `just lean-setup` | once per change of `lake-manifest.json` |
 | Elaborate one file | `just check-lean Probes/RuntimeQuotient.lean` | after each edit |
-| Run the gate | `just test` | before each commit |
+| Run the gate | `just test` | at each commit: the commit hook runs it through `scripts/local-validate.py` |
 
 - `just lean-setup` keeps the packages in `~/.local/share/lean/mathlib-<rev>/packages`, shared by
   every checkout of the same Mathlib revision, and links `.lake/packages` to it. It fetches the
@@ -81,7 +82,9 @@ the local gate on a clean machine, never the way to learn whether code elaborate
   prebuilt cache.
 - Read an upstream signature in its source before you use it. An elaboration error from a guessed
   signature costs a check cycle.
-- A red `CI` run on `main` is the next work. Lean that has not passed `just test` is a draft.
+- Lean that has not passed `just test` is a draft. A commit is checked when its hook passes; do not wait
+  on CI for it. CI repeats the gate on a clean machine, so a CI failure that `just test` did not show
+  is a defect of the lock or of `just lean-setup`, fixed at that cause.
 
 ### Reproducible dependency set
 

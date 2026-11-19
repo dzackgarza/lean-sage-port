@@ -18,6 +18,6 @@ Spec Kit specification and the relevant [capability records](docs/capability-rec
 | LOOP002 | Repair a slow loop at its cause. | Patch one failure and keep a ten-minute check => add the cache, shared environment or incremental target that makes every later check fast. |
 | SPEC001 | Finish specification and architecture decisions before deriving implementation issues. | An unresolved kernel-selection interface stays open in its contract rather than becoming an implementer's hidden design task. |
 
-Use `just check-lean <file>` while editing and `just test` before each commit. CI repeats `just test`.
+Use `just check-lean <file>` while editing. The commit hook runs `just test`; CI repeats it.
 Preserve the committed dependency locks and source provenance. Changes to mathematical behavior
 need the corresponding source-oracle acceptance; documentation changes need semantic and diff review.
