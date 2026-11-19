@@ -19,7 +19,8 @@ acceptance from the selected Sage doctests and same-input reference computations
 - Validation: inventory schema/selector checks locally; Lean compilation and runtime probes in CI;
   baseline Sage/reference computations as independent oracles.
 - Platform: the existing Linux workstation and CI environment.
-- Scope: all mathematical manual sections, with explicit dispositions for implementation-support sections.
+- Scope: every indexed entity of every module under `src/sage` (66,424 entities in 3,041 modules
+  at the baseline). The manual sections name the domains and order the reading; they do not bound it.
 - Performance: only bounds intrinsic to a capability; no general optimization phase during reconnaissance.
 
 ## Constitution Check
@@ -33,7 +34,9 @@ The master specification does not authorize implementation through unresolved fo
 
 | Owner | Contract or evidence |
 | --- | --- |
-| `inventory/domains.toml` | Complete manual taxonomy and routing |
+| `inventory/domains.toml` | Manual sections: domain names, dispositions and capability-file routing |
+| `inventory/reconnaissance-worklog.toml` | Source-reading batches; the modules that a source-reconciled batch names |
+| `inventory/reconnaissance.json`, `inventory/reconnaissance-entities.jsonl.gz` | Generated ledger: the state of every module and entity |
 | `inventory/capabilities/` | Intrinsic operations, domains, dependencies and oracle pointers |
 | `inventory/reuse/` | Lean declarations and executable reuse evidence |
 | `inventory/references/` | Algorithm engines and licences |
@@ -57,39 +60,55 @@ The graph must include the public operation and its composition path, not merely
 ## Reconnaissance loop and execution order
 
 The reconnaissance is executed as an append-only sequence of source batches, not as ad hoc
-module selection. A batch is one Sage manual section or one tightly coupled group of sections.
-For every batch, the agent must:
+module selection. A batch is a set of named modules from one Sage manual section, from one
+tightly coupled group of sections, or from the modules outside the manual that those sections
+import. For every batch, the agent must:
 
-1. Read the section entry in `inventory/domains.toml`, its `modules.jsonl` rows, the public
-   entity rows, the corresponding Sage source files, and the reference-manual pages.
-2. Partition the public entities into intrinsic mathematical capabilities, framework operations,
+1. Read the section entry in `inventory/domains.toml`, the `modules.jsonl` rows of the batch's
+   modules, all their entity rows (public and underscore), the Sage source files in full, and the
+   reference-manual pages.
+2. Partition the entities into intrinsic mathematical capabilities, framework operations,
    implementation support, presentation, reference data, or unresolved source questions.
 3. Append capability/exclusion records with exact Sage selectors; append unresolved questions to
    an explicit open-work record rather than inventing a capability or silently dropping an entity.
 4. For every capability, append its algorithm families, mathematical prerequisites, independent
    tests, reuse decisions, and ownership/catalogue relationship.
-5. Run the selector/schema checks and regenerate coverage before beginning the next batch.
+5. Append the batch to `inventory/reconnaissance-worklog.toml`, naming each module that was read.
+   Mark it `source-reconciled` only when every entity of each named module has its record.
+6. Run `sage-inventory coverage` and `sage-inventory reconnaissance`, and confirm with
+   `sage-inventory remaining` that the batch's modules have no open entity, before beginning the
+   next batch.
 
 The batch order follows computational prerequisites:
 
 | Phase | Batches | Gate before advancing |
 | --- | --- | --- |
-| R0 | Sage release/index, category framework, non-mathematical dispositions | Every indexed entity has a source disposition; category rows distinguish catalogue mappings from ownership gaps. |
+| R0 | Sage release/index; `categories`; the sections `coercion`, `cpython`, `data_structures`, `databases`, `doctest`, `documentation`, `history_and_license`, `interfaces`, `libs`, `misc`, `parallel`, `plot3d`, `plotting`, `references`, `repl`, `spkg`, `structure`; packages outside the manual that hold no manual module | Every entity of these parts has a reconciled, excluded or category-record state; category rows distinguish catalogue mappings from ownership gaps. |
 | R1 | `sets`, `monoids`, `groups` (carrier subset), `semirings`, `rings`, `finite_rings`, `rings_standard`, `modules`, `tensor_free_modules` | Core carriers, maps, constructors, and inherited operations have contracts and reuse owners. |
 | R2 | `polynomial_rings`, `power_series`, `noncommutative_polynomial_rings`, `algebras`, `quat_algebras`, `quivers`, `homology`, `resolutions` | Polynomial, quotient, module, algebra, quaternion and chain-complex constructions have source-backed contracts. |
-| R3 | `matrices`, `linear_algebra`, `polynomial_algorithms`, `number_fields`, `function_fields`, `padics`, `valuations`, `quadratic_forms`, `lattices` | Exact linear and arithmetic primitives have executable algorithms and independent acceptance sources. |
+| R3 | `matrices`, `number_fields`, `function_fields`, `padics`, `valuations`, `quadratic_forms` | Exact linear and arithmetic primitives have executable algorithms and independent acceptance sources. |
 | R4 | `groups` (higher operations), `combinat`, `graphs`, `matroids`, `coding`, `cryptography`, `logic`, `sat`, `game_theory`, `games`, `oremodules` | Discrete capabilities are grouped by intrinsic operation, not Sage class names; their graph prerequisites remain explicit even when implementation follows later. |
 | R5 | `curves`, `arithmetic_curves`, `schemes`, `manifolds`, `topology`, `riemannian_geometry`, `hyperbolic_geometry`, `euclidean_spaces`, `knots`, `discrete_geometry` | Geometric objects retain maps, charts, base fields, and defining data through computation. |
 | R6 | `calculus`, `functions`, `numerical`, `rings_numerical`, `stats`, `probability`, `asymptotic`, `dynamics`, `constants` | Approximate and symbolic contracts state precision, error, convergence, and exactness explicitly. |
 | R7 | `modfrm`, `modsym`, `modabvar`, `drinfeld_modules`, `drinfeld_modular`, `anderson_motives`, `hecke`, `lfunctions`, `arithgroup`, `diophantine_approximation` | Specialized arithmetic domains identify their mathematical owner, algorithmic source, and prerequisite path. |
+
+This table is the single owner of the phase of a section; the worklog does not store phases.
+`groups` is read in two phases: its carrier constructions in R1 and its higher operations in R4.
+A module outside the manual is read in the earliest phase of the manual sections whose modules
+import it; the module ledger `inventory/reconnaissance.json` names those sections in the field
+`imported_by_sections`. When that field is empty, the module is read in the earliest phase of the
+manual sections that hold modules of its package (the field `part`, such as `sage.rings`). A
+package with no manual module is read in R0.
 
 The R-phase table is a source-reading and reconciliation grouping, not a second dependency
 graph. A capability may therefore name a prerequisite whose source batch is in a later R phase;
 that edge remains an explicit implementation gate in `inventory/dependency-graph.json` and must
 be satisfied before the dependent computation is implemented. Within a phase, batches may run in
 parallel only when their source and ownership questions are independent. The live progress
-measure is the number of source entities with an accepted capability/exclusion record plus the
-number of explicitly open source questions; generated counts alone never close a batch.
+measure is the state count of `inventory/coverage.json`: an entity closes only as `reconciled`,
+`excluded` or `category-record`, and the first two require a source-reconciled batch that names
+its module. A selector that matches an unread module leaves its entities `scoped`; generated
+counts alone never close a batch.
 
 ## Architectural validation
 
@@ -101,6 +120,7 @@ Publish passing CI evidence before marking any architecture decision accepted.
 ## Readiness
 
 [Issue 1](https://github.com/dzackgarza/lean-sage-port/issues/1) owns the completion gate and current
-work state. The inventory's unaccounted output defines the remaining source survey. Specifications,
+work state. The open entities that `sage-inventory remaining` reports for each section and
+package define the remaining source survey. Specifications,
 probes and dependency issues must undergo independent review and correction before large-scale
 implementation. This plan states the derivation method; issue dependencies state the live order.

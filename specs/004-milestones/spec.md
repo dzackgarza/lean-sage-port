@@ -3,7 +3,7 @@
 **Feature Branch**: `004-milestones`
 **Created**: 2026-11-17
 **Status**: Draft
-**Scope**: Full Sage reference manual coverage, partitioned into independently acceptable milestones.
+**Scope**: All the functionality of the Sage source, partitioned into independently acceptable milestones.
 
 ## User Scenarios & Testing
 
@@ -38,8 +38,9 @@ capability inventory.
    a later milestone.
 
 3. **Given** a milestone's acceptance condition, **when** an implementer asks "is this milestone
-   done?", **then** the answer is deterministic: `sage-inventory unaccounted` returns nothing
-   for the milestone's sections AND every selected entity passes oracle comparison. No judgment
+   done?", **then** the answer is deterministic: `sage-inventory remaining` prints nothing
+   for the milestone's sections and its modules outside the manual have no open entity, AND every
+   selected entity passes oracle comparison. No judgment
    call required.
 
 ---
@@ -72,7 +73,7 @@ the other.
 
 ### User Story 3 — Track completion without ambiguity (Priority: P2)
 
-A project maintainer needs to know, at any point, exactly how much of the full Sage manual
+A project maintainer needs to know, at any point, exactly how much of the Sage source
 has been accounted for in the capability inventory versus actually implemented. These two
 measures are distinct and must not be conflated.
 
@@ -80,20 +81,21 @@ measures are distinct and must not be conflated.
 implemented" is the primary source of false completion claims. This story makes both measures
 machine-queryable and permanently distinct.
 
-**Independent Test**: Running `sage-inventory unaccounted <index> <capabilities> <section>`
-for every section in a milestone returns nothing if and only if every entity in that section
-has either a capability selector or a justified exclusion. This is a coverage measure, not an
+**Independent Test**: Running `sage-inventory remaining` (command form in `plan.md`,
+"Coverage gate") for every section in a milestone prints nothing if and only if every entity in
+that section is `reconciled`, `excluded` or `category-record`: a record selects it and a
+source-reconciled worklog batch names its module. This is a coverage measure, not an
 implementation measure.
 
 **Acceptance Scenarios**:
 
 1. **Given** a milestone whose sections are all accounted for in `inventory/capabilities/`,
-   **when** `sage-inventory unaccounted` is run for each of its sections, **then** it returns
+   **when** `sage-inventory remaining` is run for each of its sections, **then** it prints
    nothing — regardless of whether any native Lean computation has been written.
 
 2. **Given** a milestone whose acceptance conditions are met (all entities pass oracle
-   comparison), **when** the same `sage-inventory unaccounted` check is run, **then** it still
-   returns nothing — the two conditions are independent and both must hold.
+   comparison), **when** the same `sage-inventory remaining` check is run, **then** it still
+   prints nothing — the two conditions are independent and both must hold.
 
 ---
 
@@ -106,15 +108,19 @@ implementation measure.
   cycle and must be surfaced as a spec error rather than silently permitted.
 - A milestone's prerequisite is itself blocked (M0 not yet complete). The milestone may not
   begin, but its capability records and reuse decisions may be written in advance.
-- A Sage entity is claimed by two capability records. `sage-inventory coverage` will report
-  a duplicate selector; this must be resolved at the capability level, not the milestone level.
+- A Sage entity is claimed by two capability records. `sage-inventory capability-evidence`
+  lists it under `overlapping_entities`; a generic operation and its specialization may both
+  select it, and any other overlap must be resolved at the capability level, not the milestone level.
 
 ## Requirements
 
 ### Functional Requirements
 
-- **FR-001**: Every public mathematical entity in the Sage 11.0.beta5 reference manual MUST
-  be assigned to exactly one milestone via its manual section's section-to-milestone mapping.
+- **FR-001**: Every indexed entity of the Sage 11.0.beta5 source, public or underscore, MUST
+  be assigned to exactly one milestone. An entity of a manual module takes the milestone of its
+  section. An entity of a module outside the manual takes the earliest milestone of the sections
+  that import its module, or, when no manual module imports it, of the sections that hold modules
+  of its package; a package with no manual module belongs to M0.
 - **FR-002**: The section-to-milestone mapping MUST be derivable from the capability inventory
   without manual lookup: a section's milestone is determined by the mathematical prerequisites
   of its intrinsic operations, not by arbitrary assignment.
@@ -124,7 +130,7 @@ implementation measure.
 - **FR-004**: The prerequisite relation between milestones MUST be acyclic. A cycle is a spec
   error that blocks the milestone from being accepted.
 - **FR-005**: Each milestone's acceptance condition MUST be machine-checkable: either
-  `sage-inventory unaccounted` returning nothing (coverage), or oracle comparison passing
+  `sage-inventory remaining` printing nothing (coverage), or oracle comparison passing
   (implementation), or both — stated explicitly which is required.
 - **FR-006**: The milestone structure MUST reference but not duplicate capability records.
   The capability file is the contract; the milestone spec is the grouping and dependency.
@@ -145,15 +151,15 @@ implementation measure.
   begin implementation until A's acceptance conditions are met."
 - **Capability pointer**: A reference from a milestone to an existing capability record
   (not a copy of its content).
-- **Acceptance condition**: A machine-checkable criterion (unaccounted query, oracle run, or
+- **Acceptance condition**: A machine-checkable criterion (`remaining` query, oracle run, or
   CI gate) that closes the milestone.
 
 ## Success Criteria
 
 ### Measurable Outcomes
 
-- **SC-001**: For every milestone M1–M14, `sage-inventory unaccounted` run against each of
-  its sections returns a known, documented count — either zero (fully accounted) or a specific
+- **SC-001**: For every milestone M1–M14, `sage-inventory remaining` run against each of
+  its sections returns a known count, read from `inventory/coverage.json` — either zero (fully accounted) or a specific
   number with an open task to reach zero.
 - **SC-002**: The prerequisite graph is acyclic. Verified by topological sort over the
   milestone dependency edges; any cycle surfaces as a spec error before `tasks.md` is accepted.
@@ -166,14 +172,16 @@ implementation measure.
 
 ## Assumptions
 
-- Sage 11.0.beta5 is the fixed baseline. The section taxonomy and entity counts in
-  `inventory/coverage.json` are authoritative for assignment.
+- Sage 11.0.beta5 is the fixed baseline. The manual is generated from the source and
+  documents 2,400 of its 3,041 modules; the section taxonomy names the domains and does not bound
+  the scope. The section and package counts in `inventory/coverage.json` and the module ledger
+  `inventory/reconnaissance.json` are authoritative for assignment.
 - M0 (reconnaissance) is an ongoing prerequisite for all other milestones. Its SC-001–SC-007
   do not need to be fully satisfied before the milestone spec itself is written, but they must
   be satisfied before any M1+ implementation begins.
 - The `polynomial_rings` section is the only section that splits across milestones (univariate
   in M2, multivariate in M3). All other sections belong to exactly one milestone.
-- Section `categories` (2,718 entities) is foundational M0 reconnaissance work. It is
+- Section `categories` (3,514 entities, 2,718 public) is foundational M0 reconnaissance work. It is
   accounted for through category records, catalogue pointers, or justified exclusions before
   downstream implementation milestones begin. M14 does not own category accounting.
 - The milestone numbering (M0–M14) is stable. Adding a new milestone requires a spec amendment

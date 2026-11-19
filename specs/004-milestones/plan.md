@@ -6,9 +6,10 @@
 
 ## Summary
 
-Partition the full Sage 11.0.beta5 reference manual (38,782 public mathematical entities across
-80 indexed sections) into 15 dependency-ordered milestones (M0–M14). Each milestone groups Sage manual
-sections by shared mathematical prerequisites, names the capability records and reuse evidence
+Partition all the functionality of the Sage 11.0.beta5 source (66,424 indexed entities in 3,041
+modules) into 15 dependency-ordered milestones (M0–M14). The 80 reference-manual sections name the
+domains. Each milestone groups Sage manual sections by shared mathematical prerequisites and takes
+the modules outside the manual that its sections import (see "Coverage gate" below), names the capability records and reuse evidence
 already established, and states machine-checkable acceptance conditions. The prerequisite
 structure is derived from `depends_on` fields in the capability inventory, not from Sage's
 Python module layout.
@@ -18,17 +19,17 @@ Python module layout.
 **Language/Version**: Lean 4 (v4.36.0 pinned in `lean-toolchain`)
 **Primary Dependencies**: Mathlib `9fdc1827`, Hex `f4b180cf`, lean-categories, lean-cas-dsl
 **Storage**: `inventory/capabilities/*.toml`, `inventory/reuse/*.toml`, `docs/domain-specifications.md`
-**Testing**: `sage-inventory unaccounted` (coverage gate); Sage docker oracle (implementation gate)
+**Testing**: `sage-inventory remaining` (coverage gate); Sage docker oracle (implementation gate)
 **Target Platform**: Repository documentation + CI-enforced coverage invariants
 **Project Type**: Specification and inventory structure
-**Performance Goals**: `sage-inventory unaccounted` completes in under 60 seconds for any section
+**Performance Goals**: none beyond the tier 1 feedback limit of the constitution
 **Constraints**: No section may appear in two milestones without an explicit split predicate;
   the prerequisite DAG must be acyclic
-**Scale/Scope**: 15 milestones, 80 indexed sections, ~38,782 entities
+**Scale/Scope**: 15 milestones, 80 manual sections, 3,041 modules, 66,424 entities
 
 ## Constitution Check
 
-Checked against `.specify/memory/constitution.md` v1.1.0:
+Checked against `.specify/memory/constitution.md` v1.2.0:
 
 - **I. Native mathematical computation**: This spec describes grouping and ordering, not
   computation. No executable obligation is claimed here. ✓
@@ -39,7 +40,7 @@ Checked against `.specify/memory/constitution.md` v1.1.0:
 - **IV. Generality and composition**: Prerequisite edges are derived from `depends_on` fields
   which express mathematical prerequisites, not Sage class structure. ✓
 - **V. Acceptance from existing mathematics**: Acceptance conditions use `sage-inventory
-  unaccounted` and oracle comparison — both independently established. ✓
+  remaining` and oracle comparison — both independently established. ✓
 - **VI. Functional scope before optimization**: No optimization work is prescribed here. ✓
 - **VII. Growth by extension**: New milestones require a spec amendment; they cannot silently
   break existing milestone boundaries. ✓
@@ -73,13 +74,35 @@ docs/
 └── constitution.md            # becomes pointer to .specify/memory/constitution.md
 
 .specify/memory/
-└── constitution.md            # authoritative; updated to v1.1.0
+└── constitution.md            # authoritative; v1.2.0
 
 inventory/
 ├── capabilities/*.toml        # read-only from this spec's perspective
 ├── reuse/*.toml               # read-only
 └── coverage.json              # generated output; not edited directly
 ```
+
+## Coverage gate
+
+The coverage acceptance of a milestone uses one command form. `<name>` is a manual section or a
+package outside the manual (such as `sage.rings`):
+
+```bash
+cd tools/inventory && uv run sage-inventory remaining ../../inventory/sage/index \
+  ../../inventory/capabilities ../../inventory/categories/sage-categories.toml \
+  ../../inventory/reconnaissance-worklog.toml <name>
+```
+
+It prints each open entity (`unaccounted` or `scoped`, as defined in
+`docs/capability-records.md`). "`remaining` prints nothing for S" means that every entity of
+every module of S is `reconciled`, `excluded` or `category-record`, so a source-reconciled worklog
+batch names each module of S.
+
+A module outside the manual belongs to the earliest milestone that owns one of its
+`imported_by_sections` in `inventory/reconnaissance.json`. When that field is empty, it belongs to
+the earliest milestone that owns a manual section with modules in its package (`part`); a package
+with no manual module belongs to M0. A milestone's coverage gate also requires that its modules
+outside the manual have no open entity in `inventory/reconnaissance.json`.
 
 ## Milestone definitions
 
@@ -93,21 +116,26 @@ See `data-model.md` §"State transitions" for the coverage-complete vs. accepted
 
 **Authority**: The reconnaissance execution plan and task ledger are
 `specs/001-native-computation/`; this milestone entry is the roadmap gate and status view.
-**Sections**: No exclusive mathematical section assignment; the category framework ledger
-(`categories`) is the first foundational acceptance tranche.
+**Sections**: `categories`, and the reconnaissance of the sections with a non-mathematical
+disposition in `inventory/domains.toml` (`cpython`, `data_structures`, `databases`, `doctest`,
+`documentation`, `history_and_license`, `interfaces`, `libs`, `misc`, `parallel`, `plot3d`,
+`plotting`, `references`, `repl`, `spkg`). A mathematical operation found in those sections
+belongs to the milestone of its domain.
 **Prerequisites**: None
 **Capability files**: `inventory/categories/sage-categories.toml` and its coverage report;
 all existing capability files remain reconnaissance inputs
 **Reuse files**: All existing `inventory/reuse/*.toml`
-**Entity count**: 2,718 public `sage.categories` entities for the foundational category ledger
-**Acceptance — coverage**: `sage-inventory category-coverage` reports zero unaccounted category
-entities after every category class, operation, or justified framework exclusion is recorded
+**Entity count**: 3,514 `categories` entities (2,718 public)
+**Acceptance — coverage**: `remaining` prints nothing for `categories` and for each of the
+non-mathematical sections above; `sage-inventory category-coverage` reports zero unaccounted
+public category entities
 **Acceptance — reconnaissance**: SC-001 through SC-007 of
 `specs/001-native-computation/spec.md`, executed by its `tasks.md`
-**Current state**: Coverage and reconciliation are complete: 2,718 category entities are
-accounted for with zero unaccounted and zero unmatched records; 2,031 explicit ownership gaps
-remain assigned to the upstream catalogue owner. Probes are written; CI execution is outstanding
-(T008–T011 of `001`).
+**Current state**: Open. `category-coverage` accounts for the 2,718 public category entities
+with zero unmatched records; 2,031 explicit ownership gaps remain assigned to the upstream
+catalogue owner. The 796 underscore entities of `categories` are open in the main ledger.
+Reconnaissance of the whole source is open (T003 of `001`); the live state is
+`inventory/coverage.json`. Probes are written; CI execution is outstanding (T009–T012 of `001`).
 
 ---
 
@@ -120,19 +148,19 @@ remain assigned to the upstream catalogue owner. Probes are written; CI executio
 **Capability files**: `integers-and-rationals.toml`, `finite-rings.toml`
 **Reuse files**: `mathlib-core.toml` (lean-core.int.*, lean-core.rat.*, mathlib.int.*),
   `hex.toml` (hex.HexArith.*, hex.HexModular.*, hex.HexPrimality.*, hex.HexIntFactor)
-**Entity count**: ~550
-**Acceptance — coverage**: `sage-inventory unaccounted <index> <caps> rings_standard` and
-  `sage-inventory unaccounted <index> <caps> finite_rings` both return nothing
+**Entity count**: 1,165 indexed entities in its manual sections (660 public)
+**Acceptance — coverage**: `remaining` prints nothing for `rings_standard` and `finite_rings`
 **Acceptance — implementation**: All selected entities pass oracle comparison via Sage image
-**Current state**: Capability records complete; M0 SC-003 outstanding.
+**Current state**: `finite_rings` is fully reconciled; `rings_standard` has open entities. M0 SC-003 outstanding.
 
 ---
 
 ### M2 — Univariate polynomials, power series, and semiring arithmetic
 
-**Sections**: `polynomial_rings` (univariate only — entities under
-  `sage.rings.polynomial.polynomial_element`, `sage.rings.polynomial.polynomial_ring`,
-  `sage.rings.polynomial.polynomial_ring_constructor`),
+**Sections**: `polynomial_rings` (every module of the section that the M3 split predicate does
+  not match: univariate polynomial rings and their specialized implementations, univariate
+  Laurent polynomials, fraction fields, univariate quotient rings, real and complex roots,
+  p-adic polynomials and the other modules of the section),
   `power_series`, `semirings`
 **Prerequisites**: M1
 **Capability files**: `polynomials.toml`, `polynomial-algorithms.toml` (univariate portion),
@@ -140,29 +168,40 @@ remain assigned to the upstream catalogue owner. Probes are written; CI executio
 **Reuse files**: `hex.toml` (hex.HexPoly.*, hex.HexTruncatedSeries.*,
   hex.HexModArith.ntt, hex.HexModArith.multiprime-int-convolution,
   hex.HexBerlekamp.*, hex.HexBerlekampZassenhaus.*)
-**Entity count**: ~570
-**Acceptance — coverage**: `sage-inventory unaccounted` for `power_series` and `semirings`
-  returns nothing; `polynomial_rings` unaccounted count equals only multivariate entities
+**Entity count**: 2,285 indexed entities in its manual sections (1,287 public)
+**Acceptance — coverage**: `remaining` prints nothing for `power_series` and `semirings`;
+  every open entity that it prints for `polynomial_rings` is in a module of the M3 split
 **Acceptance — implementation**: All selected entities pass oracle comparison
 
 ---
 
 ### M3 — Multivariate polynomials, Gröbner bases, and commutative algebra
 
-**Sections**: `polynomial_rings` (multivariate — entities under `sage.rings.polynomial.multi_*`
-  and `sage.rings.polynomial.polynomial_ideal`),
+**Sections**: `polynomial_rings` (the modules that match the split predicate below),
   `rings`, `algebras`, `quat_algebras`
+**Split predicate**: a `polynomial_rings` module belongs to M3 when its name matches one of
+  `sage.rings.polynomial.multi_*`, `sage.rings.polynomial.pbori.*`,
+  `sage.rings.polynomial.polydict`, `sage.rings.polynomial.term_order`,
+  `sage.rings.polynomial.infinite_polynomial_*`, `sage.rings.polynomial.laurent_polynomial_mpair`,
+  `sage.rings.polynomial.laurent_polynomial_ideal`, `sage.rings.polynomial.ideal`,
+  `sage.rings.polynomial.msolve`, `sage.rings.polynomial.toy_*`,
+  `sage.rings.polynomial.symmetric_*`, `sage.rings.polynomial.hilbert`,
+  `sage.rings.polynomial.flatten`, `sage.rings.polynomial.omega`,
+  `sage.rings.polynomial.polynomial_singular_interface`, `sage.rings.invariants.*`,
+  `sage.rings.monomials`, `sage.rings.semirings.tropical_mpolynomial` or
+  `sage.rings.semirings.tropical_variety` (31 modules). Every other module of the section belongs
+  to M2 (37 modules), so the split is a partition of the section's 68 modules.
 **Prerequisites**: M2, M1
 **Capability files**: `polynomial-algorithms.toml` (multivariate portion), `quaternions.toml`;
   new files needed for `rings` (quotient, localization) and `algebras`
 **Reuse files**: `hex.toml` (hex.HexMvPoly.*, hex.HexGroebner.*),
   `lean-categories.toml` (catalogue.obj.rings.*, catalogue.cat.commutative_rings)
-**Entity count**: ~3,150
+**Entity count**: 5,481 indexed entities in its manual sections (3,167 public)
 **Open obligation**: Hex FpPoly.Quotient ↔ Mathlib AdjoinRoot formal bridge
   (`Probes/RuntimeQuotient.lean` `interpret` map). Must be resolved or explicitly deferred
   with a certificate before quotient-ring computations are accepted.
-**Acceptance — coverage**: `sage-inventory unaccounted` returns nothing for `rings`,
-  `algebras`, `quat_algebras`; `polynomial_rings` unaccounted count reaches zero
+**Acceptance — coverage**: `remaining` prints nothing for `rings`, `algebras`,
+  `quat_algebras` and `polynomial_rings`
 **Acceptance — implementation**: All selected entities pass oracle comparison
 
 ---
@@ -178,10 +217,10 @@ remain assigned to the upstream catalogue owner. Probes are written; CI executio
 **Reuse files**: `hex.toml` (hex.HexMatrix.*, hex.HexDeterminant.*, hex.HexSmith.*,
   hex.HexHermite.*, hex.HexRank.*, hex.HexRowReduce.*, hex.HexLattice.*);
   `references/` (lattice-engines research tables at `~/research/references/lattice-engines/`)
-**Entity count**: ~1,900
+**Entity count**: 3,194 indexed entities in its manual sections (1,835 public)
 **Note**: HexSmith and HexHermite are listed as unreleased at the survey date. Verify release
   status before importing; file a note in the capability record if still unreleased.
-**Acceptance — coverage**: `sage-inventory unaccounted` returns nothing for all four sections
+**Acceptance — coverage**: `remaining` prints nothing for all four sections
 **Acceptance — implementation**: All selected entities pass oracle comparison; SNF certificate
   verification passes for all test inputs
 
@@ -195,9 +234,8 @@ remain assigned to the upstream catalogue owner. Probes are written; CI executio
   new file needed for `resolutions`
 **Reuse files**: `hex.toml` (hex.HexSmith.*, hex.HexRowReduce.*, hex.HexHermite.*);
   Mathlib homological complex semantics (formalized-not-executable — bridge required)
-**Entity count**: ~120
-**Acceptance — coverage**: `sage-inventory unaccounted` returns nothing for `homology` and
-  `resolutions`
+**Entity count**: 211 indexed entities in its manual sections (120 public)
+**Acceptance — coverage**: `remaining` prints nothing for `homology` and `resolutions`
 **Acceptance — implementation**: Sage doctests in `homology/chain_complex.py` pass, including
   the Z × C3 and Klein-bottle examples with cycle representative verification
 
@@ -211,8 +249,8 @@ remain assigned to the upstream catalogue owner. Probes are written; CI executio
   new files needed for abstract groups, finitely presented groups, representations
 **Reuse files**: `hex.toml` (hex.HexPermGroup.*, hex.HexPermGroupTheory.*);
   GAP as oracle only
-**Entity count**: ~1,000
-**Acceptance — coverage**: `sage-inventory unaccounted` returns nothing for `groups`
+**Entity count**: 1,573 indexed entities in its manual sections (908 public)
+**Acceptance — coverage**: `remaining` prints nothing for `groups`
 **Acceptance — implementation**: All selected entities pass oracle comparison; character table
   comparisons use GAP as oracle
 
@@ -227,8 +265,8 @@ remain assigned to the upstream catalogue owner. Probes are written; CI executio
 **Reuse files**: Survey at capability-writing time. Mathlib has `NumberTheory.NumberField.*`
   (mostly noncomputable). No Hex number-field component at survey date.
   PARI/GP licence: LGPL-2.1-or-later — review before source translation.
-**Entity count**: ~2,100
-**Acceptance — coverage**: `sage-inventory unaccounted` returns nothing for all five sections
+**Entity count**: 3,780 indexed entities in its manual sections (2,165 public)
+**Acceptance — coverage**: `remaining` prints nothing for all five sections
 **Acceptance — implementation**: All selected entities pass oracle comparison; PARI as oracle
   for class group and unit group computations
 
@@ -242,10 +280,10 @@ remain assigned to the upstream catalogue owner. Probes are written; CI executio
   new files needed for `combinat`, `matroids`, `sat`, `quivers`, `dynamics`
 **Reuse files**: `hex.toml` (hex.Hex.bench-oracles for nauty FFI);
   Mathlib Finset, Finpartition, SimpleGraph (check executability per component)
-**Entity count**: ~10,350 (combinat alone is 8,177; 47,908 doctests)
+**Entity count**: 16,135 indexed entities in its manual sections (10,542 public); `combinat` alone is 12,903
 **Note**: Acceptance for combinat must be automated. The capability-writing phase requires
   extensive exclusion analysis — most combinat methods specialize generic constructions.
-**Acceptance — coverage**: `sage-inventory unaccounted <index> <caps>` returns nothing for all six sections
+**Acceptance — coverage**: `remaining` prints nothing for all six sections
 **Acceptance — implementation**: All selected entities pass oracle comparison. For `combinat`
   (47,908 doctests), acceptance runs must be automated: a batch oracle script reads selected
   entities from the capability files, queries the Sage image in `docs/oracles.md` for each,
@@ -258,13 +296,13 @@ remain assigned to the upstream catalogue owner. Probes are written; CI executio
 ### M9 — Discrete geometry, topology, and differential geometry
 
 **Sections**: `discrete_geometry`, `topology`, `hyperbolic_geometry`, `knots`, `manifolds`,
-  `riemannian_geometry`, `euclidean_spaces`
+  `riemannian_geometry`
 **Prerequisites**: M4, M5, M6
 **Capability files**: `topology.toml`;
   new files needed for all other sections
 **Reuse files**: Survey at capability-writing time
-**Entity count**: ~2,900
-**Acceptance — coverage**: `sage-inventory unaccounted` returns nothing for all seven sections
+**Entity count**: 4,188 indexed entities in its manual sections (2,753 public)
+**Acceptance — coverage**: `remaining` prints nothing for all six sections
 **Acceptance — implementation**: All selected entities pass oracle comparison; polytope volume
   and knot invariant comparisons use independent sources as oracles
 
@@ -278,8 +316,8 @@ remain assigned to the upstream catalogue owner. Probes are written; CI executio
   new files needed for `curves` and `schemes`
 **Reuse files**: `lean-categories.toml` (via Mathlib EllipticCurve.Affine);
   PARI as oracle for point counts and conductor
-**Entity count**: ~2,176
-**Acceptance — coverage**: `sage-inventory unaccounted` returns nothing for all three sections
+**Entity count**: 3,245 indexed entities in its manual sections (2,176 public)
+**Acceptance — coverage**: `remaining` prints nothing for all three sections
 **Acceptance — implementation**: All selected entities pass oracle comparison; Mordell-Weil
   rank comparisons use PARI as oracle
 
@@ -293,10 +331,10 @@ remain assigned to the upstream catalogue owner. Probes are written; CI executio
 **Capability files**: All new
 **Reuse files**: Survey at capability-writing time. PARI, eclib, FLINT are primary
   reference backends.
-**Entity count**: ~3,250
+**Entity count**: 3,387 indexed entities in its manual sections (2,139 public)
 **Note**: Most algorithms in this area have no existing Lean implementation. Domain expert
   input required for capability record content.
-**Acceptance — coverage**: `sage-inventory unaccounted` returns nothing for all nine sections
+**Acceptance — coverage**: `remaining` prints nothing for all nine sections
 **Acceptance — implementation**: All selected entities pass oracle comparison; PARI and eclib
   as oracles for L-function computations
 
@@ -310,10 +348,10 @@ remain assigned to the upstream catalogue owner. Probes are written; CI executio
 **Capability files**: `numerical-analysis.toml`;
   new files needed for symbolic calculus, special functions, and statistics
 **Reuse files**: Survey at capability-writing time
-**Entity count**: ~2,330
+**Entity count**: 4,435 indexed entities in its manual sections (2,614 public)
 **Note**: Every capability record must distinguish exact from approximate computations and
   state the error bound or precision contract explicitly.
-**Acceptance — coverage**: `sage-inventory unaccounted` returns nothing for all nine sections
+**Acceptance — coverage**: `remaining` prints nothing for all nine sections
 **Acceptance — implementation**: Exact computations compared against symbolic expected values;
   approximate computations compared within stated error bounds
 
@@ -326,11 +364,11 @@ remain assigned to the upstream catalogue owner. Probes are written; CI executio
 **Prerequisites**: M1, M2, M4, M6
 **Capability files**: All new
 **Reuse files**: Survey at capability-writing time
-**Entity count**: ~1,200
+**Entity count**: 2,018 indexed entities in its manual sections (1,224 public)
 **Licence constraint**: Explicit licence review required before any implementation translates
   Sage's existing cryptography or coding code (Sage is GPL-2.0-or-later). Native Lean
   implementations of the mathematical operations are licensed independently.
-**Acceptance — coverage**: `sage-inventory unaccounted` returns nothing for all seven sections
+**Acceptance — coverage**: `remaining` prints nothing for all seven sections
 **Acceptance — implementation**: All selected entities pass oracle comparison
 
 ---
@@ -344,13 +382,13 @@ remain assigned to the upstream catalogue owner. Probes are written; CI executio
   discovered while accounting for `sets` or `monoids` belongs in the relevant earlier domain
   capability file, not in M14.
 **Reuse files**: `lean-categories.toml` (all 500+ catalogue components)
-**Entity count**: ~3,100
+**Entity count**: 1,616 indexed entities in its manual sections (760 public)
 **Note**: This milestone does not own the `categories` section. Category-framework accounting
 is M0 reconnaissance work. M14 handles residual `sets`, `monoids`, and infrastructure entities
 whose mathematical disposition is not already assigned to an earlier domain milestone. Per
 Constitution Principle III, mathematical content cannot be silently excluded.
-**Acceptance — coverage**: `sage-inventory unaccounted <index> <capabilities>` returns nothing
-for `sets`, `monoids`, `structure`, `coercion`
+**Acceptance — coverage**: `remaining` prints nothing for `sets`, `monoids`, `structure`,
+`coercion`
 **Acceptance — implementation**: N/A for entities with justified `exclusion` entries. For any
   entity with a capability selector (owned by a domain milestone), oracle comparison applies
   in that milestone, not in M14.
@@ -393,14 +431,15 @@ M0 (foundation)
 ## Verification snapshot
 
 The following checks were run against Sage `11.0.beta5` at the indexed revision
-`c00171e47d6e68d8148d7ee10c4dd77b71a97662` on 2026-11-19:
+`c00171e47d6e68d8148d7ee10c4dd77b71a97662` on 2026-11-19. The snapshot records provenance; the
+live state is the generated reports.
 
 | Invariant | Evidence | Result |
 |---|---|---|
 | Capability dependency graph | `sage-inventory graph ../../inventory/capabilities ../../inventory/dependency-graph.json` | 372 capabilities, 352 edges, 11 topological levels; no cycle |
-| Full source accounting | `sage-inventory coverage ... ../../inventory/categories/sage-categories.toml` | 38,782 public entities; 0 unaccounted |
-| Capability source and oracle evidence | `sage-inventory capability-evidence ../../inventory/sage/index ../../inventory/capabilities ../../inventory/capability-evidence.json` | 372 capabilities; 2,380 selectors expanded to 32,844 distinct source entities (34,349 capability/entity associations); wildcard selectors and overlaps are enumerated; 371 source-doctest-backed and 1 explicit contract-input-backed record; 0 empty selectors or unresolved records |
-| Category reconciliation | `sage-inventory category-coverage ...` and `category-reconciliation ... /home/dzack/research/writing/data/sage-source-audit-10.9/sagemath-10.9-categories.csv ...` | 2,718 entities; 0 unaccounted and 0 unmatched; 2,031 ownership gaps are explicit upstream-owner items |
+| Full source accounting | `sage-inventory coverage ... ../../inventory/reconnaissance-worklog.toml ../../inventory/coverage.json` | 66,424 entities in 3,041 modules; 564 modules credited; 6,414 unaccounted, 41,759 scoped, 15,483 reconciled, 50 excluded, 2,718 category-record. Reconnaissance is open. |
+| Capability source and oracle evidence | `sage-inventory capability-evidence ../../inventory/sage/index ../../inventory/capabilities ../../inventory/capability-evidence.json` | 372 capabilities; 2,379 selectors expanded to 53,168 distinct source entities, public and underscore (55,089 capability/entity associations); wildcard selectors and overlaps are enumerated; 371 source-doctest-backed and 1 explicit contract-input-backed record; 0 empty selectors or unresolved records |
+| Category reconciliation | `sage-inventory category-coverage ...` and `category-reconciliation ... /home/dzack/research/writing/data/sage-source-audit-10.9/sagemath-10.9-categories.csv ...` | 2,718 public entities; 0 unaccounted and 0 unmatched; 2,031 ownership gaps are explicit upstream-owner items |
 | Declared parallel pairs | Capability-level `depends_on` query over all records | 0 cross-edges for M2 ∥ M4, M5 ∥ M6, M8 ∥ M9, M12 ∥ M6, M12 ∥ M8, and M13 against M5/M7/M8/M9/M10 |
 
 The milestone prerequisites are implementation gates, while the capability graph is the

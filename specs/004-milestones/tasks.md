@@ -53,10 +53,9 @@ only files in this spec and `inventory/`. All three must be findable without fur
 - [x] T008 [P] [US1] For each milestone whose `**Reuse files**` says "survey at capability-
   writing time", confirm that the relevant component ids are not already present in an existing
   `inventory/reuse/*.toml` file. If found, update `plan.md` to name them explicitly.
-- [x] T009 [US1] For the `polynomial_rings` split between M2 and M3, run
-  `sage-inventory unaccounted <index> <capabilities> polynomial_rings` and confirm that the
-  unaccounted entities match the split predicate in `plan.md` (multivariate selectors only).
-  Adjust the predicate in `plan.md` if the boundary does not hold.
+- [x] T009 [US1] Define the `polynomial_rings` split between M2 and M3 as a partition of the
+  section's modules: M3 is the module-name pattern list in `plan.md` (31 modules, each pattern
+  matching at least one module of the section), M2 every other module (37 modules).
 - [x] T010 [US1] For the M3 open obligation (Hex FpPoly.Quotient ↔ AdjoinRoot bridge), confirm
   that the obligation is recorded in `Probes/RuntimeQuotient.lean` and in the M3 tracking issue
   (#4), with explicit deferred-status or resolution target. Update `plan.md` if either is missing.
@@ -90,26 +89,25 @@ for `depends_on` entries that cross from M2 to M4 or M4 to M2. Confirm zero cros
 
 ## Phase 5: User Story 3 — Track completion without ambiguity (P2)
 
-**Goal**: Running `sage-inventory unaccounted` for every section of a given milestone is a
+**Goal**: Running `sage-inventory remaining` for every section of a given milestone is a
 single, deterministic operation whose output unambiguously reports coverage state.
 
 **Independent test**: Run the quickstart scenario 1 check for M1 sections. Confirm it returns
-the expected current unaccounted count (not zero — M1 is not yet fully accounted), and that
+the open-entity count of `inventory/coverage.json` (not zero — M1 is not yet fully accounted), and that
 running it a second time returns the same count (deterministic).
 
-- [x] T014 [US3] For each milestone in `plan.md`, record the current unaccounted entity count
-  (from `inventory/coverage.json`) in the milestone's acceptance-coverage field alongside the
-  command, so the starting gap is documented. Format:
-  `[command] — current gap: N entities`.
-- [x] T015 [P] [US3] Verify that `inventory/coverage.json` is up to date by re-running
-  `sage-inventory coverage` and confirming its output matches the entity counts in `plan.md`.
-  Update `plan.md` if counts have drifted.
+- [x] T014 [US3] Give each milestone in `plan.md` one coverage command form ("Coverage gate")
+  and its fixed entity count at the baseline. The live open-entity count stays in
+  `inventory/coverage.json`; `plan.md` does not copy it.
+- [x] T015 [P] [US3] Regenerate `inventory/coverage.json` with `sage-inventory coverage` and
+  confirm that the milestone entity counts in `plan.md` equal the sums of the module rows of
+  `inventory/reconnaissance.json` over each milestone's sections and split.
 - [x] T016 [US3] Add a note to `plan.md` §"Milestone definitions" header that explicitly
   distinguishes coverage-complete (accounting gate) from accepted (implementation gate), so
   no reader can conflate them.
 
-**Checkpoint**: Every milestone has a documented current gap count and both acceptance tiers
-are explicitly distinguished.
+**Checkpoint**: Every milestone has one coverage command and a fixed entity count, and both
+acceptance tiers are explicitly distinguished.
 
 ---
 

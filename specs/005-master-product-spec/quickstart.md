@@ -59,11 +59,13 @@ uv run sage-inventory coverage \
   ../../inventory/sage/index \
   ../../inventory/capabilities \
   ../../inventory/reuse \
+  ../../inventory/categories/sage-categories.toml \
+  ../../inventory/reconnaissance-worklog.toml \
   ../../inventory/coverage.json
 echo "Coverage report updated: inventory/coverage.json"
 ```
 
-**Expected**: Exit 0. The `coverage.json` unaccounted count is the distance to completion tier 1.
+**Expected**: Exit 0. The sum of the `unaccounted` and `scoped` counts of `coverage.json` is the distance to completion tier 1.
 
 ## Scenario 4 — Verify no capability record introduces a new mathematical object
 

@@ -5,7 +5,7 @@
 **Decision**: 15 milestones (M0–M14).
 
 **Rationale**: The dependency structure of mathematical prerequisites naturally partitions the
-38,782 Sage entities into these groups. Finer granularity (e.g., splitting M8 combinatorics
+66,424 indexed Sage entities into these groups. Finer granularity (e.g., splitting M8 combinatorics
 from graphs) would create milestones whose prerequisites are identical and whose parallelism
 is already permitted within the coarser grouping. Coarser granularity (e.g., merging M5
 homological algebra into M4 linear algebra) would prevent starting homology work until all of
@@ -100,9 +100,10 @@ catalogue evidence, but they do not postpone the foundational category ledger.
 ## Decision: Acceptance condition types
 
 **Decision**: Two distinct acceptance tiers, both required for a milestone to close:
-1. **Coverage**: `sage-inventory unaccounted` returns nothing for every section in the milestone.
-   This measures that every entity has a capability record or justified exclusion. It does NOT
-   measure that any native computation exists.
+1. **Coverage**: `sage-inventory remaining` prints nothing for every section in the milestone.
+   This measures that every entity has a capability record, justified exclusion or category
+   record, and that a source-reconciled worklog batch names its module. It does NOT measure that
+   any native computation exists.
 2. **Implementation**: Every selected entity (those with capability selectors) passes same-input
    oracle comparison against the Sage image in `docs/oracles.md`. This measures that the native
    computation exists and is correct.

@@ -3,7 +3,7 @@
 **Feature Branch**: `main`
 **Created**: 2026-11-17
 **Status**: Draft; architecture acceptance requires the executable probes.
-**Scope**: Mathematical computation across the baseline Sage reference manual.
+**Scope**: All the functionality of the baseline Sage source; the reference manual names its domains.
 
 ## Current assignment boundary
 
@@ -78,13 +78,18 @@ Sage's existing source cases determine the concrete examples for each operation.
 
 ### Functional Requirements
 
-- **FR-001**: The target includes every mathematical domain of the baseline reference manual:
-  algebra, number theory, groups, modules, matrices, combinatorics, graphs, geometry, topology,
+- **FR-001**: The target includes all the functionality of the baseline Sage source: algebra,
+  number theory, groups, modules, matrices, combinatorics, graphs, geometry, topology,
   homological algebra, symbolic and numerical analysis, probability, optimization, coding,
-  cryptography, arithmetic geometry and specialized domains. The manual index is authoritative
-  for the complete taxonomy, including domains not named in this summary.
-- **FR-002**: Every documented entity has a capability mapping or a justified nonmathematical
-  exclusion. A generic operation may account for multiple specializations with explicit hypotheses.
+  cryptography, arithmetic geometry and specialized domains. The reference manual sections name
+  these domains. The manual is generated from the source and documents a subset of it (2,400 of
+  3,041 modules), so modules outside the manual are in scope and are read with the manual
+  sections whose modules import them.
+- **FR-002**: Every indexed entity (class, module-level function, `def` or `cpdef` method, public
+  or underscore, of a `.py` or `.pyx` module under `src/sage`) has a capability mapping, a
+  justified nonmathematical exclusion, or a category record, and a source-reconciled worklog batch
+  records the reading of its module. A generic operation may account for multiple specializations
+  with explicit hypotheses.
 - **FR-003**: Each operation records mathematical inputs and outputs, retained structure,
   exactness, algorithms, prerequisites, source references, reuse decisions and acceptance sources.
 - **FR-004**: Native computations consume the semantics and language contracts at their upstream
@@ -110,7 +115,11 @@ Sage's existing source cases determine the concrete examples for each operation.
 ### Key Entities
 
 - A **capability** is an intrinsic operation with domain hypotheses and mathematical output.
-- A **source entity** is an indexed Sage declaration at the baseline revision.
+- A **source entity** is an indexed Sage class, function or method at the baseline revision,
+  public or underscore. Its reconnaissance state is `unaccounted`, `scoped`, `reconciled`,
+  `excluded` or `category-record` (`docs/capability-records.md`).
+- A **reading batch** is a worklog entry that names the modules read; only a source-reconciled
+  batch lets a record close the entities of a module.
 - A **reuse component** identifies upstream declarations and their supported semantics or computation.
 - A **realization** relates a computational representation to an upstream mathematical object.
 - An **acceptance source** is an existing test or oracle operation and its comparison rule.
@@ -120,7 +129,9 @@ Sage's existing source cases determine the concrete examples for each operation.
 
 ### Measurable Outcomes
 
-- **SC-001**: Every baseline manual section and public entity has a reviewed scope disposition.
+- **SC-001**: Every indexed entity of the baseline source is `reconciled`, `excluded` or
+  `category-record`: `sage-inventory remaining` prints nothing for every manual section and every
+  package outside the manual.
 - **SC-002**: Every foundational obligation has a source-backed reuse decision and licence disposition.
 - **SC-003**: All required runtime-construction and composition probes pass on runtime inputs.
 - **SC-004**: Every implementation issue has sufficient source, contract, dependency and acceptance

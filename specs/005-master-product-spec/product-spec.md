@@ -5,15 +5,23 @@
 **Lean Sage Port** targets native, executable Lean 4 computations for the mathematical
 objects and operations admitted by the `lean-categories` and `lean-cas-dsl` catalogues. The
 baseline is SageMath **11.0.beta5**, indexed at commit
-`c00171e47d6e68d8148d7ee10c4dd77b71a97662`. The product scope is the complete pinned Sage
-manual taxonomy below; source accounting is recorded in the reconnaissance and capability
+`c00171e47d6e68d8148d7ee10c4dd77b71a97662`. The product scope is all the functionality of
+that source: every indexed entity (66,424 classes, module-level functions and methods, public and
+underscore) of its 3,041 modules. The reference manual is generated from the source and
+documents 2,400 of those modules; its sections, listed below, name the domains and do not bound
+the scope. Source accounting is recorded in the reconnaissance ledger and capability
 inventories, while executable acceptance is established separately by same-input comparison
 with the pinned Sage oracle.
 
 ## Scope table
 
 The source of truth for section disposition is [`inventory/domains.toml`](../../inventory/domains.toml);
-this table is a readable assembled view, not a second authority.
+this table is a readable assembled view, not a second authority. Every section is in scope. A
+section with a non-mathematical disposition is read in M0; the mathematical content of
+`structure` and `coercion` belongs to M14, and a mathematical operation found in any other such
+section belongs to the milestone of its domain. The 641 modules outside the manual are in scope
+too; each takes the milestone of the sections that import it ("Coverage gate" in
+[`specs/004-milestones/plan.md`](../004-milestones/plan.md)).
 
 | section_id | title | disposition | milestone | status |
 | --- | --- | --- | --- | --- |
@@ -25,18 +33,18 @@ this table is a readable assembled view, not a second authority.
 | `calculus` | Symbolic Calculus | mathematical | M12 | in-scope |
 | `categories` | Categories | mathematical | M0 | in-scope |
 | `coding` | Coding Theory | mathematical | M13 | in-scope |
-| `coercion` | Coercion | implementation-support | — | excluded |
+| `coercion` | Coercion | implementation-support | M0, M14 | in-scope |
 | `combinat` | Combinatorics | mathematical | M8 | in-scope |
 | `constants` | Mathematical Constants | mathematical | M12 | in-scope |
-| `cpython` | Python Technicalities | implementation-support | — | excluded |
+| `cpython` | Python Technicalities | implementation-support | M0 | in-scope |
 | `cryptography` | Cryptography | mathematical | M13 | in-scope |
 | `curves` | Plane and Space Curves | mathematical | M10 | in-scope |
-| `data_structures` | Data Structures | implementation-support | — | excluded |
-| `databases` | Databases | reference-data | — | excluded |
+| `data_structures` | Data Structures | implementation-support | M0 | in-scope |
+| `databases` | Databases | reference-data | M0 | in-scope |
 | `diophantine_approximation` | Diophantine Approximation | mathematical | M7 | in-scope |
 | `discrete_geometry` | Combinatorial and Discrete Geometry | mathematical | M9 | in-scope |
-| `doctest` | Test Framework | implementation-support | — | excluded |
-| `documentation` | Documentation System | implementation-support | — | excluded |
+| `doctest` | Test Framework | implementation-support | M0 | in-scope |
+| `documentation` | Documentation System | implementation-support | M0 | in-scope |
 | `drinfeld_modular` | Drinfeld Modular Forms | mathematical | M11 | in-scope |
 | `drinfeld_modules` | Drinfeld Modules | mathematical | M11 | in-scope |
 | `dynamics` | Discrete Dynamics | mathematical | M8 | in-scope |
@@ -49,18 +57,18 @@ this table is a readable assembled view, not a second authority.
 | `graphs` | Graph Theory | mathematical | M8 | in-scope |
 | `groups` | Groups | mathematical | M6 | in-scope |
 | `hecke` | General Hecke Algebras and Hecke Modules | mathematical | M11 | in-scope |
-| `history_and_license` | History and License | implementation-support | — | excluded |
+| `history_and_license` | History and License | implementation-support | M0 | in-scope |
 | `homology` | Chain Complexes and their Homology | mathematical | M5 | in-scope |
 | `hyperbolic_geometry` | Hyperbolic Geometry | mathematical | M9 | in-scope |
-| `interfaces` | Interpreter Interfaces | implementation-support | — | excluded |
+| `interfaces` | Interpreter Interfaces | implementation-support | M0 | in-scope |
 | `knots` | Knot Theory | mathematical | M9 | in-scope |
 | `lfunctions` | L-Functions | mathematical | M11 | in-scope |
-| `libs` | C/C++ Library Interfaces | implementation-support | — | excluded |
+| `libs` | C/C++ Library Interfaces | implementation-support | M0 | in-scope |
 | `logic` | Symbolic Logic | mathematical | M13 | in-scope |
 | `manifolds` | Manifolds and Differential Geometry | mathematical | M9 | in-scope |
 | `matrices` | Matrices and Spaces of Matrices | mathematical | M4 | in-scope |
 | `matroids` | Matroid Theory | mathematical | M8 | in-scope |
-| `misc` | Utilities | implementation-support | — | excluded |
+| `misc` | Utilities | implementation-support | M0 | in-scope |
 | `modabvar` | Modular Abelian Varieties | mathematical | M11 | in-scope |
 | `modfrm` | Modular Forms | mathematical | M11 | in-scope |
 | `modsym` | Modular Symbols | mathematical | M11 | in-scope |
@@ -71,17 +79,17 @@ this table is a readable assembled view, not a second authority.
 | `numerical` | Numerical Optimization | mathematical | M12 | in-scope |
 | `oremodules` | Modules over Ore rings | mathematical | M13 | in-scope |
 | `padics` | p-adic Numbers | mathematical | M7 | in-scope |
-| `parallel` | Parallel Computing | implementation-support | — | excluded |
-| `plot3d` | 3D Graphics | presentation | — | excluded |
-| `plotting` | 2D Graphics | presentation | — | excluded |
+| `parallel` | Parallel Computing | implementation-support | M0 | in-scope |
+| `plot3d` | 3D Graphics | presentation | M0 | in-scope |
+| `plotting` | 2D Graphics | presentation | M0 | in-scope |
 | `polynomial_rings` | Commutative Polynomials | mathematical | M2–M3 | in-scope |
 | `power_series` | Power Series and Laurent Series | mathematical | M2 | in-scope |
 | `probability` | Probability | mathematical | M12 | in-scope |
 | `quadratic_forms` | Quadratic Forms | mathematical | M4 | in-scope |
 | `quat_algebras` | Quaternion Algebras | mathematical | M3 | in-scope |
 | `quivers` | Quivers | mathematical | M8 | in-scope |
-| `references` | Bibliographic References | implementation-support | — | excluded |
-| `repl` | Command Line Interface | implementation-support | — | excluded |
+| `references` | Bibliographic References | implementation-support | M0 | in-scope |
+| `repl` | Command Line Interface | implementation-support | M0 | in-scope |
 | `resolutions` | Resolutions | mathematical | M5 | in-scope |
 | `riemannian_geometry` | Parametrized Surfaces | mathematical | M9 | in-scope |
 | `rings` | Rings | mathematical | M3 | in-scope |
@@ -91,9 +99,9 @@ this table is a readable assembled view, not a second authority.
 | `schemes` | Schemes | mathematical | M10 | in-scope |
 | `semirings` | Semirings | mathematical | M2 | in-scope |
 | `sets` | Sets | mathematical | M14 | in-scope |
-| `spkg` | External Packages | implementation-support | — | excluded |
+| `spkg` | External Packages | implementation-support | M0 | in-scope |
 | `stats` | Statistics | mathematical | M12 | in-scope |
-| `structure` | Parents and Elements | implementation-support | — | excluded |
+| `structure` | Parents and Elements | implementation-support | M0, M14 | in-scope |
 | `tensor_free_modules` | Tensors on Free Modules of Finite Rank | mathematical | M4 | in-scope |
 | `topology` | Cell Complexes, Simplicial Complexes, and Simplicial Sets | mathematical | M9 | in-scope |
 | `valuations` | Discrete Valuations | mathematical | M7 | in-scope |
@@ -116,24 +124,33 @@ The product is complete only when both independent tiers pass.
 
 ### Tier 1 — source and capability coverage
 
-The following command is runnable from the repository root and checks every section declared
-in `inventory/domains.toml`:
+The following commands are runnable from the repository root. The first regenerates the
+coverage report over every indexed entity; the second succeeds exactly when no entity of any
+manual section or of any package outside the manual is open:
 
 ```sh
-for section in $(python3 -c 'import tomllib; print(" ".join(s["id"] for s in tomllib.load(open("inventory/domains.toml","rb"))["section"] if s["disposition"] == "mathematical"))'); do
-  (cd tools/inventory && uv run sage-inventory unaccounted ../../inventory/sage/index ../../inventory/capabilities "$section" --categories ../../inventory/categories/sage-categories.toml) || exit 1
-done
+(cd tools/inventory && uv run sage-inventory coverage ../../inventory/sage/index \
+  ../../inventory/capabilities ../../inventory/reuse \
+  ../../inventory/categories/sage-categories.toml \
+  ../../inventory/reconnaissance-worklog.toml ../../inventory/coverage.json)
+jq -e '.total.unaccounted + .total.scoped == 0' inventory/coverage.json
 ```
 
-The generated reports are [`inventory/coverage.json`](../../inventory/coverage.json),
-[`inventory/reconnaissance.json`](../../inventory/reconnaissance.json), and
-[`inventory/reconnaissance-scope.json`](../../inventory/reconnaissance-scope.json). Tier 1
-accounts for source entities; it does not imply that native Lean code exists.
+`sage-inventory remaining <section-or-package>` lists the open entities of one part; its full
+invocation is in [`AGENTS.md`](../../AGENTS.md).
 
-An entity is **accounted for** exactly when a capability record has a selector matching that
-entity or a justified `[[exclusion]]` records why it is outside executable mathematical scope.
-Category records account for the `categories` section under the same rule; they do not turn
-source accounting into implementation acceptance.
+The generated reports are [`inventory/coverage.json`](../../inventory/coverage.json),
+the module ledger [`inventory/reconnaissance.json`](../../inventory/reconnaissance.json), and
+the entity ledger [`inventory/reconnaissance-entities.jsonl.gz`](../../inventory/reconnaissance-entities.jsonl.gz).
+Tier 1 accounts for source entities; it does not imply that native Lean code exists.
+
+An entity is **accounted for** exactly when its state is `reconciled`, `excluded` or
+`category-record` ([`docs/capability-records.md`](../../docs/capability-records.md)): a
+source-reconciled capability selector or a justified `[[exclusion]]` matches it and a
+source-reconciled batch of [`inventory/reconnaissance-worklog.toml`](../../inventory/reconnaissance-worklog.toml)
+names its module, or the category inventory names it. A selector that matches an unread module
+leaves its entities `scoped`, which is open. Category records do not turn source accounting into
+implementation acceptance.
 
 ### Tier 2 — native implementation acceptance
 

@@ -39,9 +39,9 @@ is still `exact`; certification is an attribute of the reuse status, not the out
 ## Decision: Completion condition
 
 **Decision**: The product is complete when:
-1. `sage-inventory unaccounted <index> <capabilities> <section>` returns nothing for every
-   mathematical section in `inventory/domains.toml`, AND
-2. Every public entity that has a capability selector passes same-input oracle comparison
+1. `sage-inventory remaining` prints nothing for every manual section in
+   `inventory/domains.toml` and every package outside the manual, AND
+2. Every entity that has a capability selector passes same-input oracle comparison
    against the Sage image in `docs/oracles.md`.
 
 These are the same two tiers defined in `specs/004-milestones/plan.md`. The master spec
@@ -78,7 +78,7 @@ goes to Mathlib, its algorithm goes to Hex or here, and its language contract go
 - `section_id` — the Sage section identifier
 - `disposition` — from `inventory/domains.toml`
 - `milestone` — from `docs/domain-specifications.md`
-- `status` — `in-scope`, `excluded`, or `deferred`
+- `status` — `in-scope` for every section
 
 This is derivable from existing files; the master spec does not introduce new data, it
 assembles existing data into a single readable location. The source of truth remains

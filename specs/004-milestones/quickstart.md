@@ -7,27 +7,41 @@
 
 ## Scenario 1 — Verify a milestone's section coverage
 
-Checks that every public entity in the sections of a given milestone has a capability record
-or justified exclusion. This is the coverage acceptance condition.
+Checks that every entity, public and underscore, in the sections of a given milestone is
+`reconciled`, `excluded` or `category-record`. This is the coverage acceptance condition.
 
 ```sh
 # Example: check M1 sections
 cd tools/inventory
 
-uv run sage-inventory unaccounted \
+uv run sage-inventory remaining \
   ../../inventory/sage/index \
   ../../inventory/capabilities \
+  ../../inventory/categories/sage-categories.toml \
+  ../../inventory/reconnaissance-worklog.toml \
   rings_standard
 
-uv run sage-inventory unaccounted \
+uv run sage-inventory remaining \
   ../../inventory/sage/index \
   ../../inventory/capabilities \
+  ../../inventory/categories/sage-categories.toml \
+  ../../inventory/reconnaissance-worklog.toml \
   finite_rings
 ```
 
 **Expected output**: Empty (no lines printed) when the milestone's coverage acceptance
-condition is met. Any printed lines are entity qualified names that still need a capability
-selector or exclusion entry.
+condition is met. Each printed line is `id<TAB>state<TAB>kind<TAB>doctests` for an entity
+that is still `unaccounted` (no record selects it) or `scoped` (no source-reconciled worklog
+batch names its module).
+
+The modules outside the manual that belong to the milestone ("Coverage gate" in `plan.md`)
+are checked in the module ledger:
+
+```sh
+jq -r '.module_rows[] | select(.manual == false and (.unaccounted + .scoped) > 0)
+  | select(.imported_by_sections | index("rings_standard") or index("finite_rings"))
+  | .module' ../../inventory/reconnaissance.json
+```
 
 ## Scenario 2 — Verify the full coverage report
 
@@ -37,12 +51,16 @@ uv run sage-inventory coverage \
   ../../inventory/sage/index \
   ../../inventory/capabilities \
   ../../inventory/reuse \
+  ../../inventory/categories/sage-categories.toml \
+  ../../inventory/reconnaissance-worklog.toml \
   ../../inventory/coverage.json
 ```
 
-**Expected output**: Exit 0. Reports entity counts per section. Fails on duplicate capability
-ids, unknown `depends_on` or `generalizes` ids, unknown reuse component ids, unknown catalogue
-ids, or selectors that match no entity.
+**Expected output**: Exit 0. Reports state counts per manual section and per package outside
+the manual. Fails on duplicate capability ids, unknown `depends_on` or `generalizes` ids,
+unknown reuse component ids, unknown catalogue ids, selectors that match no entity, and a worklog
+whose commit differs from the index or whose source-reconciled batch names anything other than
+an indexed module.
 
 ## Scenario 3 — Verify the prerequisite DAG is acyclic
 
@@ -97,14 +115,16 @@ else:
 ```sh
 cd tools/inventory
 
-# The capability evidence ledger must show that every polynomial selector resolves
-# to public source entities and that the M2/M3 selectors do not rely on an
-# unaccounted wildcard remainder.
-uv run sage-inventory unaccounted \
+# List the modules of polynomial_rings that still hold open entities. Assign each to M2 or M3
+# with the split predicate in plan.md (M3 entry); the predicate partitions the section.
+uv run sage-inventory remaining \
   ../../inventory/sage/index \
   ../../inventory/capabilities \
+  ../../inventory/categories/sage-categories.toml \
+  ../../inventory/reconnaissance-worklog.toml \
   polynomial_rings \
-  | grep "multi_polynomial\|polynomial_ideal\|polynomial_ring_homo" || true
-# The command is empty after coverage is complete; the evidence ledger is the
-# entity-level audit for the M2/M3 split.
+  | cut -f1 | cut -d: -f1 | sort -u
 ```
+
+**Expected output**: M2 coverage holds when every listed module matches the M3 predicate. M3
+coverage holds when the list is empty.

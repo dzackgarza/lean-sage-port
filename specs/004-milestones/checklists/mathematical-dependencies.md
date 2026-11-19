@@ -25,8 +25,8 @@ satisfied. `[x]` does not mean implementation work is complete.
   review) each linked to a specific blocking milestone and an owner? Or are any stated without
   an owner? [Completeness, Spec §FR-003]
 - [ ] CHK005 Is the `polynomial_rings` split predicate stated precisely enough that an implementer
-  can determine which entities belong to M2 versus M3 by running `sage-inventory unaccounted`
-  alone, without reading the Python source? [Completeness, Spec §FR-005, Assumptions]
+  can determine which entities belong to M2 versus M3 from the module name of each entity
+  that `sage-inventory remaining` prints, without reading the Python source? [Completeness, Spec §FR-005, Assumptions]
 
 ## Requirement Clarity
 
@@ -61,8 +61,8 @@ satisfied. `[x]` does not mean implementation work is complete.
 ## Acceptance Criteria Quality
 
 - [ ] CHK015 Is every acceptance-coverage condition in `plan.md` an exact shell command that can
-  be run without further interpretation? Or do any entries say "run unaccounted" without the
-  full invocation? [Measurability, Spec §FR-005, SC-001]
+  be run without further interpretation? Or does any entry name a command other than the one
+  `remaining` form of "Coverage gate"? [Measurability, Spec §FR-005, SC-001]
 - [ ] CHK016 Is the acceptance-implementation condition for each milestone specific enough to be
   machine-checkable (e.g., names the oracle, states "all selected entities pass"), or does any
   entry use vague language ("oracle comparisons pass" without specifying which oracle)? [Measurability, Spec §FR-005]
@@ -79,7 +79,7 @@ satisfied. `[x]` does not mean implementation work is complete.
 - [ ] CHK019 Is the state transition model in `data-model.md` referenced from `tasks.md` or
   `spec.md`? Or does it exist only in the data model with no connection to acceptance or task
   completion? [Coverage, Spec §US3]
-- [ ] CHK020 Are requirements specified for what happens when `sage-inventory unaccounted` returns
+- [ ] CHK020 Are requirements specified for what happens when `sage-inventory remaining` prints
   entities that have no clear capability or exclusion home — entities that are genuinely ambiguous?
   [Coverage, Edge Case, Gap]
 
@@ -100,7 +100,7 @@ satisfied. `[x]` does not mean implementation work is complete.
   assumptions? [Dependency, Spec §Assumptions]
 - [ ] CHK025 Is the assumption that `polynomial_rings` is the *only* section split across
   milestones documented as an assumption that requires verification (via `sage-inventory
-  unaccounted` on other large sections)? [Assumption, Spec §Assumptions]
+  remaining` on other large sections)? [Assumption, Spec §Assumptions]
 - [ ] CHK026 Is the dependency on the DSL owner adding a `NativeCompute` port (cross-milestone
   obligation) reflected as a blocking prerequisite for any specific milestone's
   *implementation* acceptance (not just coverage)? Or is it only mentioned in a general table?

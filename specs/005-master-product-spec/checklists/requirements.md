@@ -36,6 +36,6 @@ All items pass. Ready for `/speckit-plan`.
 ## Implementation validation
 
 - Scope, exactness, ownership, schema, and link checks pass.
-- The Tier 1 command reports no unaccounted entities for every mathematical section.
-- `inventory/coverage.json` reports `unaccounted = 0`, including category records.
+- The Tier 1 command reports no open entity in any manual section or package outside the manual.
+- `inventory/coverage.json` reports `unaccounted = 0` and `scoped = 0`.
 - `speckit-analyze` found no unresolved contradiction among `spec.md`, `plan.md`, and `tasks.md`.

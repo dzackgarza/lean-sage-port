@@ -24,11 +24,11 @@ or capability records; it assembles their framework into one authoritative view.
 **Performance Goals**: The scope table must be complete (zero missing sections)
 **Constraints**: Must not duplicate content owned by capability records or milestone roadmap;
   must reference rather than copy.
-**Scale/Scope**: One document, ~200–400 lines, covering 80 indexed sections
+**Scale/Scope**: One document covering the whole indexed source: 80 manual sections and 641 modules outside the manual
 
 ## Constitution Check
 
-Checked against `.specify/memory/constitution.md` v1.1.0:
+Checked against `.specify/memory/constitution.md` v1.2.0:
 
 - **II. Existing mathematical authority**: The master spec references `lean-categories` and
   `lean-cas-dsl` ownership; it does not introduce new mathematical objects. ✓
@@ -73,97 +73,13 @@ Its sections are:
 7. **Specification hierarchy** — pointer table to constitution, reconnaissance spec,
    milestone roadmap, domain specs, capability records
 
-## Scope table (all 80 indexed sections)
+## Scope table
 
-The scope table below is authoritative for FR-001. The `Disposition` and `Milestone` columns
-are assembled from `inventory/domains.toml` and `docs/domain-specifications.md` respectively.
-
-| Section | Title | Disposition | Milestone | Status |
-|---|---|---|---|---|
-| `algebras` | Algebras | mathematical | M3 | in-scope |
-| `anderson_motives` | Anderson Motives | mathematical | M11 | in-scope |
-| `arithgroup` | Arithmetic Subgroups of SL_2(Z) | mathematical | M11 | in-scope |
-| `arithmetic_curves` | Elliptic and Hyperelliptic Curves | mathematical | M10 | in-scope |
-| `asymptotic` | Asymptotic Expansions | mathematical | M12 | in-scope |
-| `calculus` | Symbolic Calculus | mathematical | M12 | in-scope |
-| `categories` | Categories | mathematical | M0 | in-scope |
-| `coding` | Coding Theory | mathematical | M13 | in-scope |
-| `coercion` | Coercion | implementation-support | M14 | excluded (mathematical map obligations tracked in M14) |
-| `combinat` | Combinatorics | mathematical | M8 | in-scope |
-| `constants` | Mathematical Constants | mathematical | M12 | in-scope |
-| `cpython` | Python Technicalities | implementation-support | — | excluded |
-| `cryptography` | Cryptography | mathematical | M13 | in-scope |
-| `curves` | Plane and Space Curves | mathematical | M10 | in-scope |
-| `data_structures` | Data Structures | implementation-support | — | excluded |
-| `databases` | Databases | reference-data | — | excluded |
-| `diophantine_approximation` | Diophantine Approximation | mathematical | M7 | in-scope |
-| `discrete_geometry` | Combinatorial and Discrete Geometry | mathematical | M9 | in-scope |
-| `doctest` | Test Framework | implementation-support | — | excluded |
-| `documentation` | Documentation System | implementation-support | — | excluded |
-| `drinfeld_modular` | Drinfeld Modular Forms | mathematical | M11 | in-scope |
-| `drinfeld_modules` | Drinfeld Modules | mathematical | M11 | in-scope |
-| `dynamics` | Discrete Dynamics | mathematical | M8 | in-scope |
-| `euclidean_spaces` | Euclidean Spaces and Vector Calculus | mathematical | M12 | in-scope |
-| `finite_rings` | Finite Rings and Fields | mathematical | M1 | in-scope |
-| `function_fields` | Function Fields | mathematical | M7 | in-scope |
-| `functions` | Elementary and Special Functions | mathematical | M12 | in-scope |
-| `game_theory` | Game Theory | mathematical | M13 | in-scope |
-| `games` | Games | mathematical | M13 | in-scope |
-| `graphs` | Graph Theory | mathematical | M8 | in-scope |
-| `groups` | Groups | mathematical | M6 | in-scope |
-| `hecke` | General Hecke Algebras and Hecke Modules | mathematical | M11 | in-scope |
-| `history_and_license` | History and License | implementation-support | — | excluded |
-| `homology` | Chain Complexes and their Homology | mathematical | M5 | in-scope |
-| `hyperbolic_geometry` | Hyperbolic Geometry | mathematical | M9 | in-scope |
-| `interfaces` | Interpreter Interfaces | implementation-support | — | excluded |
-| `knots` | Knot Theory | mathematical | M9 | in-scope |
-| `lfunctions` | L-Functions | mathematical | M11 | in-scope |
-| `libs` | C/C++ Library Interfaces | implementation-support | — | excluded |
-| `logic` | Symbolic Logic | mathematical | M13 | in-scope |
-| `manifolds` | Manifolds and Differential Geometry | mathematical | M9 | in-scope |
-| `matrices` | Matrices and Spaces of Matrices | mathematical | M4 | in-scope |
-| `matroids` | Matroid Theory | mathematical | M8 | in-scope |
-| `misc` | Utilities | implementation-support | — | excluded |
-| `modabvar` | Modular Abelian Varieties | mathematical | M11 | in-scope |
-| `modfrm` | Modular Forms | mathematical | M11 | in-scope |
-| `modsym` | Modular Symbols | mathematical | M11 | in-scope |
-| `modules` | Vectors and Modules | mathematical | M4 | in-scope |
-| `monoids` | Monoids | mathematical | M14 | in-scope |
-| `noncommutative_polynomial_rings` | Noncommutative Polynomials | mathematical | M13 | in-scope |
-| `number_fields` | Number Fields | mathematical | M7 | in-scope |
-| `numerical` | Numerical Optimization | mathematical | M12 | in-scope |
-| `oremodules` | Modules over Ore rings | mathematical | M13 | in-scope |
-| `padics` | p-adic Numbers | mathematical | M7 | in-scope |
-| `parallel` | Parallel Computing | implementation-support | — | excluded |
-| `plot3d` | 3D Graphics | presentation | — | excluded |
-| `plotting` | 2D Graphics | presentation | — | excluded |
-| `polynomial_rings` | Commutative Polynomials | mathematical | M2 (univariate), M3 (multivariate) | in-scope (split) |
-| `power_series` | Power Series and Laurent Series | mathematical | M2 | in-scope |
-| `probability` | Probability | mathematical | M12 | in-scope |
-| `quadratic_forms` | Quadratic Forms | mathematical | M4 | in-scope |
-| `quat_algebras` | Quaternion Algebras | mathematical | M3 | in-scope |
-| `quivers` | Quivers | mathematical | M8 | in-scope |
-| `references` | Bibliographic References | implementation-support | — | excluded |
-| `repl` | Command Line Interface | implementation-support | — | excluded |
-| `resolutions` | Resolutions | mathematical | M5 | in-scope |
-| `riemannian_geometry` | Parametrized Surfaces | mathematical | M9 | in-scope |
-| `rings` | Rings | mathematical | M3 | in-scope |
-| `rings_numerical` | Real and Complex Numbers | mathematical | M12 | in-scope |
-| `rings_standard` | Integers and Rational Numbers | mathematical | M1 | in-scope |
-| `sat` | SAT solvers | mathematical | M13 | in-scope |
-| `schemes` | Schemes | mathematical | M10 | in-scope |
-| `semirings` | Semirings | mathematical | M2 | in-scope |
-| `sets` | Sets | mathematical | M14 | in-scope |
-| `spkg` | External Packages | implementation-support | — | excluded |
-| `stats` | Statistics | mathematical | M12 | in-scope |
-| `structure` | Parents and Elements | implementation-support | M14 (mathematical content only) | excluded (framework) / in-scope (mathematical map obligations) |
-| `tensor_free_modules` | Tensors on Free Modules of Finite Rank | mathematical | M4 | in-scope |
-| `topology` | Cell Complexes, Simplicial Complexes, and Simplicial Sets | mathematical | M9 | in-scope |
-| `valuations` | Discrete Valuations | mathematical | M7 | in-scope |
-
-**Mathematical sections in scope**: 48 (some split)
-**Excluded (infrastructure/presentation/data)**: 17
-**Total**: 80
+The scope table of [product-spec.md](product-spec.md) lists the 80 manual sections with their
+disposition and milestone; [`inventory/domains.toml`](../../inventory/domains.toml) is its source
+of truth. Every section is in scope, and so are the 641 modules outside the manual. A section with
+a non-mathematical disposition is read in M0; its disposition states what the reading is
+expected to find, not an exclusion.
 
 ## Output-contract taxonomy
 
@@ -179,18 +95,14 @@ A capability record that uses any other `exactness` value is malformed.
 
 ## Completion condition
 
-The product is complete when both tiers are satisfied for every mathematical section:
+The product is complete when both tiers are satisfied for the whole indexed source:
 
-**Tier 1 — Coverage** (necessary, not sufficient):
-```sh
-# For every section s with disposition=mathematical in inventory/domains.toml:
-cd tools/inventory && uv run sage-inventory unaccounted \
-  ../../inventory/sage/index ../../inventory/capabilities <s>
-# Must return empty output for every s.
-```
+**Tier 1 — Coverage** (necessary, not sufficient): every indexed entity is `reconciled`,
+`excluded` or `category-record`. The commands are in the Completion condition of
+[product-spec.md](product-spec.md).
 
 **Tier 2 — Implementation** (necessary and sufficient with Tier 1):
-Every public entity selected by a capability record's `sage` selectors passes same-input
+Every entity selected by a capability record's `sage` selectors passes same-input
 oracle comparison against the Sage image pinned in `docs/oracles.md`. The oracle image
 is `ghcr.io/dzackgarza/sage@sha256:dadfded3a44fb8314266afb3225855b5ba531b49a53ac70ed844b457435fcfc0`.
 

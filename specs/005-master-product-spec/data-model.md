@@ -10,8 +10,8 @@ The assignment of a Sage manual section to a treatment category.
 |---|---|---|
 | `section_id` | string | Key from `inventory/domains.toml` |
 | `disposition` | enum | `mathematical`, `implementation-support`, `presentation`, `reference-data` |
-| `status` | enum | `in-scope` (has milestone), `excluded` (disposition not `mathematical`), `deferred` (mathematical, no milestone yet) |
-| `milestone_id` | string | Reference to Milestone.id; null for `excluded` and `deferred` |
+| `status` | enum | `in-scope`; every section of the source is in scope |
+| `milestone_id` | string | Reference to Milestone.id; `M0` for the reconnaissance of a non-mathematical section |
 
 **Source of truth**: `inventory/domains.toml` (disposition) and `docs/domain-specifications.md` (milestone). The master spec assembles these; it does not own them.
 
@@ -51,15 +51,15 @@ The machine-checkable criterion for the full product being done.
 
 ```
 complete ⟺
-  (∀ mathematical section s:
-    sage-inventory unaccounted <index> <capabilities> s = ∅)
+  (∀ manual section or package s outside the manual:
+    sage-inventory remaining <index> <capabilities> <categories> <worklog> s = ∅)
   ∧
   (∀ capability c with selectors:
     ∀ entity e selected by c:
       native-result(e) = oracle-result(e))
 ```
 
-**Coverage tier** (necessary but not sufficient): `sage-inventory unaccounted` returns nothing
+**Coverage tier** (necessary but not sufficient): `sage-inventory remaining` prints nothing
 for every section. Measured by `inventory/coverage.json`. Updated by `sage-inventory coverage`.
 
 **Implementation tier** (necessary and sufficient with coverage): Every selected entity passes

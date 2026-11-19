@@ -3,7 +3,7 @@
 **Created**: 2026-11-17
 **Feature**: [spec.md](../spec.md)
 
-- [x] Product scope is tied to the complete baseline manual taxonomy.
+- [x] Product scope is the whole baseline source; the manual taxonomy names its domains.
 - [x] Computation, composition and extension user scenarios have acceptance conditions.
 - [x] Exact, approximate, conditional and heuristic outputs retain distinct meanings.
 - [x] Mathematical and language ownership are identified.
