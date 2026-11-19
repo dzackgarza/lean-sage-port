@@ -14,10 +14,10 @@ Spec Kit specification and the relevant [capability records](docs/capability-rec
 | TEST001 | Reuse Sage source tests and compare same-input oracle computations. | Link the selected doctests and compare subgroup membership, rather than require identical printed generators. |
 | TEST002 | Test the entire mathematical output through public operations. | Compare a computed integer kernel as a lattice, not merely verify that each returned vector is killed. |
 | EVID001 | Record the environment that actually ran. | Sage 10.10.beta8 oracle output is evidence from that version, not from the indexed 11.0.beta5 source. |
-| LOOP001 | Get feedback locally in seconds. | Push a probe and wait ten minutes for CI to report a wrong argument order => read the upstream signature, run `just check-lean <file>`, then `just test`, and push code that already passed. |
+| LOOP001 | Use the tightest loop that can show the change is wrong. | Push a probe and wait for CI to learn whether it elaborates => elaborate the file with `just check-lean <file>` after each edit and commit through the `just test` hook. |
 | LOOP002 | Repair a slow loop at its cause. | Patch one failure and keep a ten-minute check => add the cache, shared environment or incremental target that makes every later check fast. |
 | SPEC001 | Finish specification and architecture decisions before deriving implementation issues. | An unresolved kernel-selection interface stays open in its contract rather than becoming an implementer's hidden design task. |
 
-Use `just check-lean <file>` while editing. The commit hook runs `just test`; CI repeats it.
+The feedback loops are in [AGENTS.md](AGENTS.md#feedback-loops).
 Preserve the committed dependency locks and source provenance. Changes to mathematical behavior
 need the corresponding source-oracle acceptance; documentation changes need semantic and diff review.

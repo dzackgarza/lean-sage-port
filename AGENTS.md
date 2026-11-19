@@ -60,34 +60,42 @@ at the baseline, because those tables read older Sage versions.
 
 ## Rules
 
-### The feedback loop is local and takes seconds
+### Feedback loops
 
-A check that takes minutes is a defect to fix before more work lands on it. CI runs the same gate
-on a clean machine.
+A feedback loop is the time from an edit to evidence about that edit. Work in the tightest loop that
+can show the change is wrong. In a tight loop, an error appears while its cause is still the last
+thing you changed. In a long loop, errors arrive in batches, each one hides the next, and each fix
+waits a full cycle. Use the Lean elaborator the way a REPL is used, after every edit, not as a final
+examination.
 
-| Step | Command | When |
-| --- | --- | --- |
-| Prepare the locked environment | `just lean-setup` | once per change of `lake-manifest.json` |
-| Elaborate one file | `just check-lean Probes/RuntimeQuotient.lean` | after each edit |
-| Run the gate | `just test` | at each commit: the commit hook runs it through `scripts/local-validate.py` |
+| Loop | Command | Cost | Use |
+| --- | --- | --- | --- |
+| Hot | `just check-lean <file>` | seconds | After each edit. Elaborates the file and rebuilds the changed modules that it imports. |
+| Warm | `just test` | seconds when the lock is unchanged | At each commit; the commit hook runs it. Incremental build, probe executables, sorry scan, inventory tests. |
+| Cold | `just test-ci` in CI | minutes, on a clean machine | Shows that the lock reproduces from nothing. |
 
-- `just lean-setup` keeps the packages in `~/.local/share/lean/mathlib-<rev>/packages`, shared by
-  every checkout of the same Mathlib revision, and links `.lake/packages` to it. It fetches the
-  Mathlib build cache. The first `just test` after it compiles the Hex libraries that the probes
-  import; later runs rebuild only changed modules.
-- Import the smallest Hex library that holds the declaration (`import HexDeterminant`), never the
-  aggregate `import Hex`. The aggregate pulls every `*Theory` library and TauCeti, which have no
-  prebuilt cache.
-- Read an upstream signature in its source before you use it. An elaboration error from a guessed
-  signature costs a check cycle.
-- Lean that has not passed `just test` is a draft. A commit is checked when its hook passes.
+Keep each loop tight:
+
+- Choose the smallest check that exercises the change: one file before the gate, one test
+  (`uv run pytest -k <name>`) before the suite. Widen the check as the change grows.
+- Keep what a check must build small. Import the smallest Hex library that holds the declaration
+  (`import HexDeterminant`). The aggregate `import Hex` pulls every `*Theory` library and TauCeti,
+  which have no prebuilt cache.
+- Pay setup once. `just lean-setup` keeps the packages in
+  `~/.local/share/lean/mathlib-<rev>/packages`, shared by every checkout of the same Mathlib
+  revision, links `.lake/packages` to it and fetches the Mathlib build cache. The first build after
+  a new lock compiles the Hex libraries; later builds rebuild only changed modules.
+- Answer a question in the fastest loop that can answer it. The signature of an upstream declaration
+  is in its source; whether a file elaborates is in the hot loop.
+- A loop that grows to minutes is a defect. Measure where the time goes, then fix that cause (a
+  cache, a shared environment, a smaller import, an incremental target), so that every later check
+  is fast. A fix to one failure leaves the next failure as slow as the last.
 
 ### Reproducible dependency set
 
 `lean-toolchain` and `lakefile.toml` name the compatible Lean, Mathlib and Hex revisions.
 `lake-manifest.json` locks the full Lake dependency graph; `tools/inventory/uv.lock` locks the
-Python inventory environment. Commit both locks when dependencies change. A new lock is accepted
-when `just lean-setup` and `just test` pass on it.
+Python inventory environment. Commit both locks when dependencies change.
 
 In `lakefile.toml`, Mathlib is the last `[[require]]`. Lake gives the last requirement precedence
 for shared dependencies, and Mathlib's build cache is valid only for Mathlib's own versions of them.
@@ -108,7 +116,7 @@ To relock, copy `lakefile.toml`, `lean-toolchain` and `lake-manifest.json` into 
 and run `MATHLIB_NO_CACHE_ON_UPDATE=1 lake update` there. The variable stops the Mathlib post-update
 hook from downloading the build cache. Do not run `lake update` in the checkout: its
 `.lake/packages` is a link to the shared package directory. Copy the new `lake-manifest.json` back,
-then run `just lean-setup`.
+then run `just lean-setup` and `just test`.
 
 ### The Sage release and local index
 
