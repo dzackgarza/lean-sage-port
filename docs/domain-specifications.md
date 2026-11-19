@@ -1,6 +1,6 @@
 # Domain specifications
 
-The pinned Sage manual taxonomy is indexed in [`inventory/domains.toml`](../inventory/domains.toml). Each linked capability file states intrinsic operations, exact domains, reuse evidence, source selectors, and acceptance comparisons. A blank contract cell means that the section has no capability record yet; it remains in scope when its disposition is mathematical. This index is a route to contracts, not a completion claim.
+The sections of the pinned Sage reference manual, which name the domains, are listed in [`inventory/domains.toml`](../inventory/domains.toml). Each linked capability file states intrinsic operations, exact domains, reuse evidence, source selectors, and acceptance comparisons. A blank contract cell means that the section has no capability record yet; it remains in scope, as every section does. This index is a route to contracts, not a completion claim.
 
 The dependency-ordered milestone that owns each section is recorded in [`specs/004-milestones/plan.md`](../specs/004-milestones/plan.md). The milestone assignment determines which section's capabilities are prerequisites for which others. It does not determine completion order within a section.
 
@@ -82,24 +82,24 @@ These sections stay in the denominator like every other part of the source. Thei
 
 A module outside the manual takes the milestone of the sections that import it, as stated in "Coverage gate" of [`specs/004-milestones/plan.md`](../specs/004-milestones/plan.md).
 
-| Sage manual section | Routing |
-| --- | --- |
-| Coercion (`coercion`) | implementation-support |
-| Python Technicalities (`cpython`) | implementation-support |
-| Data Structures (`data_structures`) | implementation-support |
-| Databases (`databases`) | reference-data |
-| Test Framework (`doctest`) | implementation-support |
-| Documentation System (`documentation`) | implementation-support |
-| History and License (`history_and_license`) | implementation-support |
-| Interpreter Interfaces (`interfaces`) | implementation-support |
-| C/C++ Library Interfaces (`libs`) | implementation-support |
-| Utilities (`misc`) | implementation-support |
-| Parallel Computing (`parallel`) | implementation-support |
-| 3D Graphics (`plot3d`) | presentation |
-| 2D Graphics (`plotting`) | presentation |
-| Bibliographic References (`references`) | implementation-support |
-| Command Line Interface (`repl`) | implementation-support |
-| External Packages (`spkg`) | implementation-support |
-| Parents and Elements (`structure`) | implementation-support |
+| Sage manual section | Disposition | Milestone |
+| --- | --- | --- |
+| Coercion (`coercion`) | implementation-support | M0, M14 |
+| Python Technicalities (`cpython`) | implementation-support | M0 |
+| Data Structures (`data_structures`) | implementation-support | M0 |
+| Databases (`databases`) | reference-data | M0 |
+| Test Framework (`doctest`) | implementation-support | M0 |
+| Documentation System (`documentation`) | implementation-support | M0 |
+| History and License (`history_and_license`) | implementation-support | M0 |
+| Interpreter Interfaces (`interfaces`) | implementation-support | M0 |
+| C/C++ Library Interfaces (`libs`) | implementation-support | M0 |
+| Utilities (`misc`) | implementation-support | M0 |
+| Parallel Computing (`parallel`) | implementation-support | M0 |
+| 3D Graphics (`plot3d`) | presentation | M0 |
+| 2D Graphics (`plotting`) | presentation | M0 |
+| Bibliographic References (`references`) | implementation-support | M0 |
+| Command Line Interface (`repl`) | implementation-support | M0 |
+| External Packages (`spkg`) | implementation-support | M0 |
+| Parents and Elements (`structure`) | implementation-support | M0, M14 |
 
 For a domain feature, the implementation specification must name the owning catalogue object or operation, source declarations and algorithms, required computations, true mathematical comparisons, and dependencies. The capability file is the contract for each current operation; this index does not add a parallel task ledger.

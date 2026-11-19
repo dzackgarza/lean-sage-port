@@ -8,9 +8,9 @@
 
 Partition all the functionality of the Sage 11.0.beta5 source (66,424 indexed entities in 3,041
 modules) into 15 dependency-ordered milestones (M0–M14). The 80 reference-manual sections name the
-domains. Each milestone groups Sage manual sections by shared mathematical prerequisites and takes
-the modules outside the manual that its sections import (see "Coverage gate" below), names the capability records and reuse evidence
-already established, and states machine-checkable acceptance conditions. The prerequisite
+domains. Each milestone groups Sage manual sections by shared mathematical prerequisites, takes
+the modules outside the manual that its sections import (see "Coverage gate" below), names
+the capability records and reuse evidence already established, and states machine-checkable acceptance conditions. The prerequisite
 structure is derived from `depends_on` fields in the capability inventory, not from Sage's
 Python module layout.
 
@@ -405,7 +405,7 @@ M0 (foundation)
 │   │   │                                                                  │
 │   │   └── M12 (calculus, functions, numerical)                          │
 │   │                                                                      │
-│   ├── M4 (matrices, modules, lattices) ◄── M2 (char poly, rat NF)       │
+│   ├── M4 (matrices, modules, quadratic_forms) ◄── M2 (char poly, rat NF)│
 │   │   ├── M5 (homology, resolutions)                                     │
 │   │   │   └── M9 (discrete_geometry, topology, ...) ◄── M6              │
 │   │   └── M6 (groups) ──────────────────────────────────────────────────┤
