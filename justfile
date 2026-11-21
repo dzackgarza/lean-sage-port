@@ -60,6 +60,7 @@ test-ci:
 [private]
 test-commit:
     @just -f {{ai_review_ci}}/justfiles/lean.just -d . test-commit
+    @just test
 
 # Scan Lean source before a push; the push hook runs this
 [private]
